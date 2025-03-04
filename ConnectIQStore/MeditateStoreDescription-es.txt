@@ -1,0 +1,43 @@
+Meditación y respiración son prácticas poderosas que apuntan a mejorar el bienestar mental y físico. Sus objetivos comunes incluyen reducir el estrés, aumentar el equilibrio emocional, mejorar el enfoque y promover la conciencia personal. Mientras la meditación enfatiza la claridad mental y la tranquilidad, la respiración activa involucra el sistema nervioso a través de técnicas controladas de respiración para lograr relajación, aumentar la energía o liberar emociones.
+
+¿Por qué Rastrear Métricas Fisiológicas?
+Medir niveles de estrés, variabilidad del ritmo cardíaco (HRV), y ritmo cardíaco durante la meditación y respiración proporciona información valiosa sobre su efectividad.
+
+* Niveles de Estrés: El rastreo en tiempo real del estrés puede ayudar a evaluar cómo la meditación y la respiración reducen la tensión fisiológica con el tiempo.
+* Variabilidad del Ritmo Cardíaco (HRV): Un HRV más alto está vinculado a un mejor equilibrio del sistema nervioso autónomo, significando resistencia mejorada al estrés. La práctica lenta e intencional de la respiración y meditación puede aumentar el HRV, reflejando mejor relajación y recuperación.
+* Ritmo Cardíaco: La meditación típicamente reduce el ritmo cardíaco con el tiempo, mientras que la respiración puede causar fluctuaciones temporales dependiendo de la técnica usada. Rastrear el ritmo cardíaco puede revelar patrones en cómo el cuerpo responde a diferentes prácticas.
+
+Esta aplicación de meditación/yoga rastrea todas estas métricas para usted. Esto le permite correlacionar datos biométricos con prácticas específicas, ayudando a afinar su enfoque y seguir el progreso a largo plazo.
+
+!!! Toque y mantenga presionada la pantalla (dispositivos táctiles) o mantenga presionado el botón central izquierdo para editar las sesiones de meditación, propiedades y configuraciones globales. !!!!!!
+*** Por favor, lea toda la guía abajo para evitar problemas con la aplicación en su dispositivo ***
+*** Si enfrenta algún problema, por favor revise la guía de solución de problemas abajo antes de reportar ***
+Por favor, ingrese un email válido al hacer clic en "Contactar Desarrollador" en esta página para que pueda responder a preguntas y solicitudes.
+Agradezco si escribe en inglés.
+
+Aplicación totalmente gratuita desarrollada por vtrifonov y compilada/mejorada para nuevos modelos de relojes Garmin por dliedke y floriangeigl.
+
+Guía del usuario completa (explica las métricas HRV y cómo usar aplicación en detalle):
+https://github.com/floriangeigl/Meditate/blob/main/UserGuide.md
+
+Evite mover su muñeca durante la sesión para capturar métricas de HRV y tasa de respiración. Si no se está detectando HRV, por favor reinicie su reloj presionando el botón de luz por 15s, enciéndalo de nuevo y reintente la aplicación.
+
+Nota: Connect IQ API usada para desarrollo de aplicación solo retorna el promedio de 5min para la métrica de estrés. Es por eso que los números no coinciden exactamente con Garmin Connect, porque en GC muestra la métrica de estrés en tiempo real cuando la actividad comenzó y terminó.
+
+Guía de solución de problemas:
+
+Mensaje de IQ Connect en el reloj:
+-----------------------
+Por favor use Garmin Express en PC con reloj conectado a USB para cambiar nombre de actividad. Si la aplicación ya no está abierta, por favor reinstálela. Desafortunadamente debido a un error con Connect IQ móvil, no es posible cambiar el nombre de la actividad usando el botón de configuración.
+ 
+HRV no está siendo detectado:
+-------------------------
+A veces HRV tarda más en ser detectado si se estaba moviendo antes de iniciar la aplicación. Por favor manténgase quieto por un tiempo, no mueva la muñeca con el reloj, luego abra la aplicación y espere a que el HRV esté listo. antes de comenzar su sesión de meditación. Si no funciona trate de mantener presionado el botón de luz por 15s para luego volver a intentarlo y verificar si el HRV está siendo detectado.
+
+Sin vibración o sonido durante las sesiones:
+---------------------------------------------
+Asegúrese de habilitar vibración en Sistema - Sonido y Vibe - Vibración (Encendida). También asegúrese de habilitar sonido en Sistema - Sonido y Vibe - Alert Tones (Encendidas). 
+
+Por favor reporte otros problemas en "Contactar Desarrollador" enlace en esta página o https://github.com/floriangeigl/Meditate/issues y no en la reseña de la app.
+
+Reduzca su estrés, relájese y ¡Medite!
