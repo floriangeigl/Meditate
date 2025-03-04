@@ -1,49 +1,46 @@
-*** Leia todo o guia abaixo para evitar problemas com o aplicativo em seu dispositivo ***
-*** Se você enfrentar algum problema, consulte o guia de solução de problemas abaixo antes de relatar ***
-Insira um e-mail válido ao clicar em "Contato com o desenvolvedor" nesta página para que eu possa responder a perguntas e solicitações.
+Meditação e respiração são práticas poderosas que visam melhorar o bem-estar mental e físico. Seus objetivos comuns incluem reduzir o estresse, aumentar o equilíbrio emocional, melhorar o foco e promover a autoconsciência. Enquanto a meditação enfatiza a plenitude e a clareza mental, a respiração ativa envolve o sistema nervoso através de técnicas controladas de respiração para alcançar relaxamento, aumentar a energia ou liberar emoções.
 
-Aplicativo totalmente gratuito desenvolvido por vtrifonov e compilado/aprimorado para modelos de relógios Garmin mais recentes por dliedke.
+Por que Rastrear Métricas Fisiológicas
+Medir níveis de estresse, variabilidade da frequência cardíaca (HRV) e taxa cardíaca durante meditação e respiração proporcionam insights valiosos em sua eficácia.
 
-Um aplicativo de meditação/Yoga que rastreia atividade com frequência cardíaca, estresse, frequência respiratória, variabilidade da frequência cardíaca (VFC), fornece alertas de vibração ou som, gráfico da frequência cardíaca e gráfico da frequência respiratória.
+* Níveis de Estresse: O rastreamento do estresse em tempo real pode ajudar a avaliar como meditação e respiração reduzem a tensão física ao longo do tempo.
+* Variabilidade da Frequência Cardíaca (HRV): Uma HRV mais alta está ligada a um melhor equilíbrio do sistema nervoso autônomo, significando resiliência melhorada ao estresse. Práticas de respiração profunda e atenção plena podem aumentar a HRV, refletindo melhor relaxamento e recuperação.
+* Frequência Cardíaca: A meditação normalmente abaixa a frequência cardíaca ao longo do tempo, enquanto a respiração pode causar flutuações temporárias dependendo da técnica usada. Rastrear padrões de frequência cardíaca pode revelar como o corpo responde a diferentes práticas.!
 
-Guia detalhado do usuário (em inglês) (explica os detalhes das métricas de VFC/HRV e como usar o aplicativo):
-https://github.com/dliedke/Meditate/blob/main/UserGuide.md
+Este aplicativo de meditação/yoga rastreia todas essas métricas para você. Isso permite que você correlacione dados biométricos com práticas específicas, ajudando a ajustar sua abordagem e acompanhar o progresso a longo prazo.
 
-Toque e segure a tela (dispositivos com touch screen) ou segure o botão do meio esquerdo para editar as sessões de meditação, propriedades e configurações globais.
+!!! Toque e segure a tela (Dispositivos de Toque) ou segure o botão do meio esquerdo para editar as sessões de meditação, propriedades e configurações globais. !!!
 
-Toque na tela ou clique no botão Iniciar para iniciar a sessão de meditação. Use o botão de lap/voltar para pausar/retomar. Use o botão Iniciar para encerrar a sessão de meditação.
+***** Por favor, leia todas as instruções abaixo para evitar problemas com o aplicativo em seu dispositivo *****
 
-Certifique-se de ativar vibração em Sistema - Som e vibração - Vibração (Ligado).
+** Se você enfrentar algum problema, por favor, verifique o guia de solução de problemas abaixo antes de relatar ** 
 
-Se o seu dispositivo for compatível e quiser usar notificações sonoras, certifique-se de ativar o som em Sistema - Som e vibração - Toques de alerta (Ligado).
+Por favor, entre um e-mail válido ao clicar em "Contactar Desenvolvedor" nesta página para que eu possa responder a perguntas e solicitações.
+Aprecio se você escrever em inglês.
 
-Defina o nome da atividade como "Local e nome da atividade do dispositivo" nas configurações do Garmin Connect (https://connect.garmin.com/modern/settings) para que o nome da atividade gerada seja salvo corretamente.
+Aplicativo totalmente gratuito desenvolvido por vtrifonov e compilado/enhanced para modelos de relógio Garmin mais novos por dliedke e florianeigel.
 
-Defina o nome da atividade personalizada usando o relógio conectado ao PC via USB com Garmin Express, consulte o guia em https://support.garmin.com/en-US/?faq=6Vl7EbW3qA42l63ZIhJet5 para obter ajuda. Não use o Garmin Connect IQ mobile porque ele estragará o aplicativo devido a bugs na infraestrutura da Garmin.
+Guia Completo do Usuário (explica métricas HRV e como usar o aplicativo em detalhe):
+https://github.com/florianeigel/Meditate/blob/main/UserGuide.md
 
-Utilize a atividade do tipo "Meditação" ou "Ioga" para capturar corretamente as métricas da taxa respiratória devido a um bug na atividade "Respiração" em alguns dispositivos.
+Evite mover seu pulso durante a sessão para capturar métricas de frequência cardíaca e respiração precisas. Se a HRV não estiver sendo detectada, por favor, reinicie o processamento da luz do seu relógio pressionando o botão de iluminação por 15s, ligue-o novamente e reinicie o aplicativo.
 
-Evite mover o pulso durante a sessão para capturar as métricas de VFC e frequência respiratória. Se o VFC não estiver sendo detectado, reinicie o relógio pressionando o botão de iluminação por 15 segundos, ligue-o e tente novamente o aplicativo.
-
-Observação: a API Connect IQ usada para desenvolvimento de aplicativos retorna apenas a média de 5 minutos para a métrica de estresse. É por isso que os números não correspondem exatamente ao Garmin Connect, porque no GC ele mostra a métrica de estresse em tempo real quando a atividade é iniciada e interrompida.
+Nota: A Connect IQ API usada para desenvolvimento de aplicativos apenas retorna a média de 5 min para a métrica de estresse. É por isso que os números não coincidem exatamente com Garmin Connect, porque no GC ele mostra a métrica de estresse em tempo real quando a atividade iniciada e parou.
 
 Guia de solução de problemas:
------------------------------
 
-Connect IQ! no relógio:
+Mensagem Connect IQ no relógio:
+-------------------------------
+Por favor, use o Garmin Express no PC com o relógio conectado ao USB para mudar o nome da atividade. Se o aplicativo não estiver mais em funcionamento, por favor, reinstale-o. Infelizmente, devido a um bug com o Connect IQ móvel não é possível mudar o nome da atividade usando o botão de configuração.  
 
-Use o Garmin Express no PC com o relógio conectado ao USB para alterar o nome da atividade. Se o aplicativo não estiver mais abrindo, reinstale-o. Infelizmente, devido a um bug no Connect IQ mobile, não é possível alterar o nome da atividade usando o botão de configuração.
+HRV não sendo detectado:
+-----------------------
+Às vezes, o HRV leva mais tempo para ser detectado se você estava se movendo antes de iniciar o aplicativo. Por favor, fique quieto por algum tempo, não se movendo o pulso com o relógio, então abra o aplicativo e espere até que a HRV esteja pronta antes de iniciar sua sessão de meditação. Se não funcionar, tente segurar o botão de iluminação por 15s, então ligue o relógio novamente e reinicie o aplicativo para verificar se a HRV está sendo detectada. 
 
-VFC não sendo detectado:
+Sem vibração ou som durante sessões:
+-------------------------------------
+Certifique-se de habilitar vibração no Sistema - Som e Vibração - Vibração (Ativado). Também certifique-se de habilitar som no Sistema - Som e Vibração - Alert Tones (Ativado). 
 
-Às vezes, o VFC demora mais para ser detectado se você estiver se movendo antes de iniciar o aplicativo. Por favor, fique quieto por algum tempo, sem mover o pulso com o relógio, então abra o aplicativo e espere o VFC estar pronto antes de iniciar sua sessão de meditação.
+Por favor, relate outros problemas em "Contactar Desenvolvedor" link nesta página ou https://github.com/florianeigel/Meditate/issues e não na review do aplicativo.
 
-Nenhuma vibração ou som:
-
-Certifique-se de habilitar a vibração em Sistema - Som e Vibração - Vibração (Ligado). Certifique-se também de ativar o som em Sistema - Som e Vibração - Tons de Alerta 
-
-Relate problemas no link "Entre em contato com o desenvolvedor" ou https://github.com/dliedke/Meditate/issues
-
-Música https://open.spotify.com/playlist/37i9dQZF1DWZYo1v54bwkI?si=85adff2dd75e4e85
-
-Reduza o estresse, relaxe e faça Meditação!
+Reduza seu estresse, relaxe e Meditate!

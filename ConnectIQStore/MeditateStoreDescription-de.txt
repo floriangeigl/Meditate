@@ -1,0 +1,42 @@
+Mediation und Atemarbeit sind kraftvolle Praktiken, die darauf abzielen, das mentale und physische Wohlbefinden zu verbessern. Ihre gemeinsamen Ziele umfassen die Reduzierung von Stress, die Erhöhung des emotionalen Gleichgewichts, die Verbesserung des Fokus und die Förderung der Selbstwahrnehmung. Während Meditation die Achtsamkeit und mentale Klarheit betont, vermindert Atemarbeit aktiv den Stress durch kontrollierte Atemtechniken, um Entspannung, einen Energieschub oder emotionale Freisetzung zu erreichen.
+
+Warum Psychologische Metriken Messen
+Die Messung der Stresslevel, Herzfrequenzvariabilität (HRV) und Herzfrequenz während Meditation und Atemarbeit liefert wertvolle Einblicke in deren Effektivität.
+
+* Stresslevel: Das Verfolgen der realen Stresslevels kann helfen, zu beurteilen, wie Meditation und Atemarbeit mit der Zeit die psychologische Anspannung reduzieren.
+* Herzfrequenzvarianz (HRV): Eine höhere HRV ist mit einer besseren autonomen nervösen Systembalance verbunden, was zu einer verbesserten Resilienz gegenüber Stress bedeutet. Langsame, tiefe Atmung und Achtsamkeitspraktiken können HRV erhöhen, was bessere Entspannung und Erholung widerspiegelt.
+* Herzfrequenz: Typischerweise senkt Meditation die Herzfrequenz über Zeit, während Atemarbeit temporäre Schwankungen verursachen kann, abhängig von der verwendeten Technik. Das Verfolgen der Herzfrequenz kann zeigen, wie der Körper auf unterschiedliche Praktiken reagiert.
+
+Diese Meditations-/Yoga-App verfolgt all diese Metriken für Sie. Dies ermöglicht es Ihnen, biometrische Daten mit bestimmten Praktiken zu korrelieren, um Ihren Ansatz abzustimmen und langfristigen Fortschritt zu verfolgen.
+
+!!! Berühren und halten Sie den Bildschirm (Touch-Geräte) oder halten Sie die linke Mitteltaste gedrückt, um Mediationssitzungen, Eigenschaften und globale Einstellungen zu bearbeiten. !!!
+*** Bitte lesen Sie alle Anleitungen unten, um Probleme mit der Anwendung auf Ihrem Gerät zu vermeiden ***
+*** Wenn ein Problem auftritt, sehen Sie bitte die Troubleshooting-Anleitung unten, bevor Sie berichten ***
+Bitte betreten Sie eine gültige E-Mail beim Klicken auf „Contact Developer“ auf dieser Seite, sodass ich auf Fragen und Anfragen antworten kann. Ich schätze es, wenn Sie auf Englisch schreiben.
+
+Völlig freie Anwendung entwickelt von vtrifonov und kompiliert/verbessert für neuere Garmin-Uhrenmodelle von dliedke und floriangelgl.
+
+Vollnutzeranleitung (erklärt HRV-Metriken und wie man Anwendung im Detail benutzt):
+https://github.com/floriangelgl/Meditate/blob/main/UserGuide.md
+
+Vermeiden Sie, Ihr Handgelenk während der Sitzung zu bewegen, um zu verhindern, dass die HRV und die Atemfrequenz-Metriken erfasst werden. Wenn HRV nicht erfasst wird, starten Sie bitte Ihre Watch neu und drücken Sie den Lichtknopf für 15s, dann schalten Sie es erneut an und versuchen Sie die Anwendung erneut.
+
+Hinweis: Connect IQ API verwendet für Anwendungsentwicklung gibt nur den 5-minütigen Durchschnitt für die Stressmetrik zurück. Deshalb passen die Zahlen nicht exakt mit Garmin Connect überein, da in GC die Echtzeit-Stressmetrik gezeigt wird, wenn Aktivität gestartet und gestoppt wird.
+
+Troubleshooting-Anleitung:
+
+Connect IQ-Mitteilung auf der Uhr:
+---------------------
+Bitte verwenden Sie Garmin Express in PC mit Uhr verbunden zu USB, um den Aktivitätsnamen zu ändern. Wenn die App nicht länger geöffnet ist, bitte erneut installieren. Leider, aufgrund eines Fehlers mit Connect IQ mobil, ist es nicht möglich, den Aktivitätsnamen mithilfe von Konfigurationstaste zu ändern.
+
+HRV nicht erkannt:
+-----------------
+Manchmal dauert es länger, erkannt zu werden, wenn Sie bewegten bevor App starten. Bitte leise bleiben für einige Zeit, nicht das Handgelenk mit der Uhr bewegen, dann App öffnen und warten, bis HRV bereit bevor Meditation startet. Wenn es nicht funktioniert, versuchen Sie den Lichtknopf für 15s zu halten, dann erneut Uhr anschalten und App erneut probieren.
+
+Kein Vibration- oder Ton während Sitzungen:
+--------------------------------------------
+Stellen Sie sicher, Vibration im System - Ton und Vibe - Vibration (An) zu aktivieren. Ebenso stellen Sie sicher, Ton im System - Ton und Vibe - Alarmtöne (An) zu aktivieren.
+
+Bitte melden Sie andere Probleme in „Contact Developer“-Link auf dieser Seite oder https://github.com/floriangelgl/Meditate/issues und nicht in der App-Bewertung.
+
+Reduzieren Sie Ihren Stress, entspannen Sie und Meditieren Sie!
