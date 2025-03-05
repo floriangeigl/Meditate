@@ -1,43 +1,44 @@
-A mediação e a respiração são práticas poderosas que buscam aprimorar o bem-estar mental e físico. Seus objetivos comuns incluem a redução do estresse, o aumento do equilíbrio emocional, a melhoria do foco e a promoção do autoconhecimento. Enquanto a meditação enfatiza a atenção plena e a clareza mental, a respiração ativa envolve o sistema nervoso através de técnicas de controle da respiração para alcançar relaxamento, aumentar a energia ou liberar emoções.
+A mediação e o trabalho de respiração são práticas poderosas que visam melhorar o bem-estar mental e físico. Seus objetivos comuns incluem reduzir o estresse, aumentar o equilíbrio emocional, melhorar o foco e promover a autoconsciência. Enquanto a mediação enfatiza a atenção plena e a clareza mental, o trabalho de respiração envolve ativamente o sistema nervoso através de técnicas controladas para alcançar relaxamento, aumentar os níveis de energia ou liberar emoções.
 
-Por que monitorar métricas fisiológicas?
-Medir níveis de estresse, variabilidade da frequência cardíaca (HRV) e frequência cardíaca durante a meditação e respiração proporciona insights valiosos sobre sua eficácia.
+Por que medir métricas fisiológicas?
+Medir níveis de estresse, variabilidade da frequência cardíaca (HRV), e frequência cardíaca durante a mediação e o trabalho de respiração oferece insights valiosos sobre sua efetividade.
 
-* Níveis de Estresse: A medição de estresse em tempo real pode ajudar a avaliar como a meditação e respiração reduzem a tensão física ao longo do tempo.
-* Variabilidade da Frequência Cardíaca (HRV): Um HRV mais alto está ligado a um sistema nervoso autônomo mais equilibrado, o que significa maior resiliência ao estresse. Práticas de respiração e atenção plena podem melhorar o HRV, refletindo melhor relaxamento e recuperação.
-* Frequência Cardíaca: Meditar geralmente baixa a frequência cardíaca ao longo do tempo, enquanto a respiração pode causar flutuações temporárias dependendo da técnica utilizada. Monitorar a frequência cardíaca pode revelar padrões em como o corpo responde a diferentes práticas.
+- Níveis de Estresse: O acompanhamento em tempo real do estresse pode ajudar a avaliar como a mediação e o trabalho de respiração reduzem a tensão fisiológica ao longo do tempo.
+- Variabilidade da Frequência Cardíaca (HRV): Uma HRV mais alta está associada a um balanço automático do sistema nervoso melhorado, significando resiliência aumentada ao estresse. Práticas de respiração lentas, profundas e atentas podem aumentar a HRV, refletindo melhor relaxamento e recuperação.
+- Frequência Cardíaca: A mediação geralmente diminui a frequência cardíaca ao longo do tempo, enquanto o trabalho de respiração pode causar flutuações temporárias dependendo da técnica usada. Acompanhar a frequência cardíaca pode revelar padrões em como o corpo responde a diferentes práticas.
 
-Este aplicativo de meditação/respiração rastreia todas essas métricas para você. Isso lhe permite correlacionar dados biométricos com práticas específicas, ajudando a ajustar sua abordagem e acompanhar o progresso a longo prazo.
+Este aplicativo de mediação/ioga rastreia todas essas métricas para você. Isso permite que você correlacione dados biométricos com práticas específicas, ajudando a aperfeiçoar sua abordagem e acompanhar o progresso a longo prazo.
 
-!!! Toque e mantenha a tela (dispositivos Touch) ou mantenha pressionado o botão do meio esquerdo para editar as sessões de meditação, propriedades e configurações globais. !!! 
-*** Por favor, leia todo o guia abaixo para evitar problemas com o aplicativo em seu dispositivo **
-*** Se você enfrentar qualquer problema, por favor, consulte o guia de solução de problemas abaixo antes de reportar ***
+!!! Toque e segure a tela (em dispositivos de toque) ou pressione o botão do meio esquerdo para editar as sessões de mediação, propriedades e configurações globais!!!
+*** Leia todas as orientações abaixo para evitar problemas com o aplicativo no seu dispositivo ***
+*** Se você enfrentar qualquer problema, por favor, verifique o guia de solução de problemas abaixo antes de relatar ***
 
-Por favor, entre um email válido ao clicar em "Contact Developer" nesta página para que eu possa responder a perguntas e solicitações. Eu aprecio se você escreve em inglês.
+Por favor, entre em contato com "Contact Developer" nesta página para que eu possa responder a perguntas e solicitações.
+Apreciamos se você escrever em inglês.
 
-Aplicação totalmente gratuita desenvolvida por vtrifonov e compilada/enhanced para novos modelos de relógios Garmin por dliedke e florianeigel.
+Aplicação totalmente gratuita desenvolvida por vtvrifonov e compilada/enriquecida para novos modelos de relógios Garmin por dliedke e floriangeigl.
 
-Guia completo do usuário (explica métricas HRV e como usar o aplicativo em detalhes):
-https://github.com/florianeigel/Meditate/blob/main/UserGuide.md
+Guia do usuário completo (explica métricas HRV e como usar aplicativo em detalhe):
+https://github.com/floriangeigl/Mediate/blob/main/UserGuide.md
 
-Evite mover seus pulsos durante a sessão para capturar métricas de HRV e inspirar métricas de respiração. Se o HRV não for detectado, por favor reinicie seu relógio pressionando o botão de luz por 15 segundos, ligue-o novamente e tente o aplicativo novamente.
+Evite mover seu pulso durante a sessão para capturar métricas de frequência cardíaca e de variabilidade corretamente. Se a HRV não estiver sendo detectada, por favor, reinicie seu relógio pressionando o botão de luz por 15s, ligue novamente e tente o aplicativo.
 
-Nota: A API Garmin ConnectIQ usada para desenvolvimento de aplicativos apenas retorna a média de 5 minutos para métricas de estresse. É por isso que os números não correspondem exatamente ao Garmin Connect, porque no GC ele mostra a métrica de estresse em tempo real quando a atividade é iniciada e parada. 
+Nota: API Connect IQ usada para desenvolvimento de aplicativos apenas retorna a média de 5 minutos para a métrica de estresse. Por isso, os números não correspondem exatamente com o Garmin Connect, pois em GC mostra a métrica de estresse em tempo real quando a atividade foi iniciada e parada.
 
 Guia de solução de problemas:
 
-Mensagem Connect IQ no relógio:
-------------------------------
-Por favor, use Garmin Express no PC com relógio conectado ao USB para alterar o nome da atividade. Se o aplicativo não abrir mais, por favor reinstale-o. Infelizmente, devido a um bug com o iQ mobile, não é possível mudar o nome da atividade usando o botão de configuração.  
- 
-HRV não sendo detectado:
-------------------------
-Às vezes, HRV demora mais para ser detectado se você estava se movendo antes de iniciar o aplicativo. Por favor, fique quieto por algum tempo, não mova o pulso com o relógio, depois abra o aplicativo e aguarde o HRV estar pronto antes de iniciar sua sessão de meditação. Se ainda não funcionar, tente segurar o botão de luz por 15s, depois ligue o relógio novamente e tente o aplicativo para verificar se HRV está sendo detectado. 
+Connect IQ mensagem no relógio:
+-----------------
+Por favor, use Garmin Express no PC com relógio conectado ao USB para mudar o nome da atividade. Se o aplicativo não estiver mais abrindo, por favor, reinstale-o. Infelizmente devido a um bug com o Connect IQ móvel não é possível mudar o nome da atividade usando o botão de configuração.
 
-Sem vibração ou som durante sessões:
-------------------------------------
-Garanta ativar vibração no Sistema - Som e Vibração - Vibração (On). Também garanta ativar som no Sistema - Som e Vibração - Alertas de Toque (On). 
+HRV não sendo detectada:
+----------------
+Às vezes HRV leva mais tempo para ser detectada se você estava se movendo antes de iniciar o aplicativo. Por favor, fique quieto por algum tempo, não mova o pulso com o relógio, então abra o app e espere pela leitura da HRV antes de iniciar sua sessão de mediação. Se não funcionar, tente segurar o botão de luz por 15s e então religue o relógio e tente o app novamente para checar se a HRV está sendo detectada.
 
-Por favor, reporte outros problemas no link "Contact Developer" nesta página ou https://github.com/florianeigel/Meditate/issues e não na revisão do aplicativo.
+Nenhuma vibração ou som durante as sessões:
+--------------------------------------------
+Certifique-se de habilitar vibração no Sistema - Som e Vibração - Vibração (Ligado). Também certifique-se de habilitar som no Sistema - Som e Vibração - Alert Tones (Ligado).
+
+Por favor, reporte outros problemas em "Contact Developer" no link desta página ou https://github.com/floriangeigl/Mediate/issues e não na revisão do app.
 
 Reduza seu estresse, relaxe e medite!
