@@ -17,8 +17,8 @@ module ScreenPicker {
 			ScreenPickerBaseView.initialize(multiPage);
 			me.mDetailsModel = detailsModel;
 			me.multiPage = multiPage;
-			if (me.mDetailsModel.color != null) {
-				me.foregroundColor = me.mDetailsModel.color;
+			if (me.mDetailsModel.foregroundColor != null) {
+				me.foregroundColor = me.mDetailsModel.foregroundColor;
 			}
 			if (me.mDetailsModel.titleColor != null) {
 				me.titleColor = me.mDetailsModel.titleColor;
