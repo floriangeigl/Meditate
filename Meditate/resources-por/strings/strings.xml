@@ -158,7 +158,7 @@
     <string id="meditateActivityFinalize">Finalizando\nmeditação\nem</string>
 
     <string id="meditateActivityName">Meditação [time] 🧘</string>
-    <string id="yogaActivityName">Yoga [time]</string>
+    <string id="yogaActivityName">Yoga [time] 🧘</string>
     <string id="breathingActivityName">Respiração [time] 🌬️</string>
     <string id="activityName">Nome da atividade (use [time] para substituir pelo tempo da sessão e mantenha pequeno o nome):</string>
     <string id="pickMMSS">Escolha MM:SS</string>
