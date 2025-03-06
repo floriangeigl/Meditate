@@ -26,6 +26,7 @@ jobs:
           jpegProgressive: true
           pngQuality: "100"
           webpQuality: "100"
+          ref: ${{ github.head_ref }}
       - name: debug
         run: git status && git diff && git branch
       - name: git commit && push
