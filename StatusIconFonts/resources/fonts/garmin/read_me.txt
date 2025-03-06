@@ -1,1 +1,0 @@
-open garmin-connect-icons.bmfc with https://www.angelcode.com/products/bmfont/ (use the newest beta/alpha version)

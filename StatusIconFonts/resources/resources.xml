@@ -3,9 +3,8 @@
 		<!--
 			update: download font awesome for web from here: https://fontawesome.com/download
 			use https://libgdx.com/wiki/tools/hiero to convert /webfonts/*.ttf to .fnt format
+			<font id="garmin" filename="fonts/garmin/garmin-connect-icons.fnt" />
 		-->
-   	    <font id="fontAwesomeFreeSolid" filename="fonts/fontAwesome/fontAwesomeFreeSolid.fnt" />
-   	    <font id="fontMeditateIcons" filename="fonts/meditateIcons/meditateIcons.fnt" />
-		<font id="garmin" filename="fonts/garmin/garmin-connect-icons.fnt" />
+   	    <font id="fontAwesomeFreeSolid" filename="fonts/fontAwesome/fontAwesomeFreeSolid.fnt" />		
     </fonts>
 </resources>
