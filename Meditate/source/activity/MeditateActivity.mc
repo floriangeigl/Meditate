@@ -16,37 +16,24 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 		var sessionTime = meditateModel.getSessionTime();
 
 		// Retrieve activity name property from Garmin Express/Connect IQ
-		var activityNameProperty = readKeyString(Application.getApp(), "activityName");
+		var activityName = null;
 
 		if (meditateModel.getActivityType() == ActivityType.Yoga) {
-			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createYoga(
-				createSessionName(sessionTime, activityNameProperty)
-			); // Due to bug in Connect IQ API for breath activity to get respiration rate, we will use Yoga as default meditate activity
+			activityName = Ui.loadResource(Rez.Strings.yogaActivityName);
+			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createYoga(createSessionName(sessionTime, activityName)); // Due to bug in Connect IQ API for breath activity to get respiration rate, we will use Yoga as default meditate activity
 		} else if (meditateModel.getActivityType() == ActivityType.Breathing) {
-			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createBreathing(
-				createSessionName(sessionTime, activityNameProperty)
-			);
+			activityName = Ui.loadResource(Rez.Strings.breathingActivityName);
+			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createBreathing(createSessionName(sessionTime, activityName));
 		} else {
+			activityName = Ui.loadResource(Rez.Strings.meditateActivityName);
 			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createMeditation(
-				createSessionName(sessionTime, activityNameProperty)
+				createSessionName(sessionTime, activityName)
 			);
 		}
 
 		me.mMeditateModel = meditateModel;
 		me.mMeditateDelegate = meditateDelegate;
 		HrvAlgorithms.HrvActivity.initialize(fitSessionSpec, meditateModel.getHrvTracking(), heartbeatIntervalsSensor);
-	}
-
-	function readKeyString(myApp, key) {
-		var value = myApp.getProperty(key);
-
-		if (value == null || !(value instanceof String) || value.length() == 0) {
-			// If it is empty or invalid, use default name
-			value = Ui.loadResource(Rez.Strings.mediateActivityName);
-		} else {
-			value = value.toString();
-		}
-		return value;
 	}
 
 	protected function createSessionName(sessionTime, activityName) {
@@ -56,7 +43,7 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 		var sessionTimeString;
 
 		// Create the Connect activity name showing the number of hours/minutes for the meditate session
-		if (sessionTimeHours == 0) {
+		if (sessionTimeHours < 1) {
 			sessionTimeString = Lang.format("$1$min", [sessionTimeMinutes]);
 		} else {
 			sessionTimeMinutes = sessionTimeMinutes % 60;
@@ -68,14 +55,14 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 		}
 
 		// Replace "[time]" string with the activity time
-		var finalActivityName = stringReplace(activityName, "[time]", sessionTimeString);
+		activityName = stringReplace(activityName, "[time]", sessionTimeString);
 
-		// If the generated name is too big, use only default name
-		if (finalActivityName.length() > 21) {
-			finalActivityName = Ui.loadResource(Rez.Strings.meditateActivityName);
+		// If the generated name is too big, cut if off
+		if (activityName.length() > 21) {
+			activityName = activityName.substring(0, 21);
 		}
 
-		return finalActivityName;
+		return activityName;
 	}
 
 	function stringReplace(str, oldString, newString) {
