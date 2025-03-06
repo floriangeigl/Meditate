@@ -227,12 +227,12 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 
 		var activityTypeText;
 		if (session.activityType == ActivityType.Yoga) {
-			activityTypeText = Ui.loadResource(Rez.Strings.yogaActivityName); // Due to bug in Connect IQ API for breath activity to get respiration rate, we will use Yoga as default meditate activity
+			activityTypeText = Ui.loadResource(Rez.Strings.activityNameYoga); // Due to bug in Connect IQ API for breath activity to get respiration rate, we will use Yoga as default meditate activity
 		} else if (session.activityType == ActivityType.Breathing) {
-			activityTypeText = Ui.loadResource(Rez.Strings.meditateBreathActivityName);
+			activityTypeText = Ui.loadResource(Rez.Strings.activityNameBreathing);
 		} else {
 			// Meditation
-			activityTypeText = Ui.loadResource(Rez.Strings.meditateActivityName);
+			activityTypeText = Ui.loadResource(Rez.Strings.activityNameMeditate);
 		}
 		details.title = activityTypeText + " " + (me.mSelectedPageIndex + 1);
 		details.titleColor = session.color;

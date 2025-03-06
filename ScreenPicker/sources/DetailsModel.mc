@@ -7,39 +7,37 @@ module ScreenPicker {
 		function initialize(highlightsCount) {
 			if (highlightsCount > 0) {
 				me.highlights = new [MaxHighlightsCount];
-			}
-			else {
+			} else {
 				me.highlights = [];
 			}
 			me.latestAddedIndex = -1;
 			me.backgroundColor = Gfx.COLOR_WHITE;
 		}
-		
+
 		private const MaxHighlightsCount = 50;
 		private var highlights;
 		private var latestAddedIndex;
-		
-		var backgroundColor;	
+
+		var backgroundColor;
 		var startPosX;
 		var yOffset;
-						
+
 		function addHighlight(color, progressPercentage) {
 			if (latestAddedIndex + 1 < MaxHighlightsCount) {
 				me.latestAddedIndex++;
 				me.highlights[me.latestAddedIndex] = new LineHighlight(color, progressPercentage);
 			}
 		}
-			
+
 		function getHighlights() {
 			if (me.highlights.size() == 0) {
 				return [];
-			}
-			else {
+			} else {
 				return me.highlights.slice(0, me.latestAddedIndex + 1);
 			}
 		}
 	}
-	
+
 	class LineHighlight {
 		function initialize(color, progressPercentage) {
 			me.color = color;
@@ -48,7 +46,7 @@ module ScreenPicker {
 		var color;
 		var progressPercentage;
 	}
-	
+
 	class TextValue {
 		function initialize() {
 			me.text = "";
@@ -56,35 +54,35 @@ module ScreenPicker {
 			me.color = null;
 			me.xPos = 0;
 		}
-	
+
 		var text;
 		var font;
 		var color;
 		var xPos;
 	}
-			
+
 	class DetailsLine {
 		function initialize() {
-			me.icon = null;		
+			me.icon = null;
 			me.value = new TextValue();
 		}
-	
-		var icon;	
-		var value;	
+
+		var icon;
+		var value;
 	}
-	
-	class DetailsModel{
+
+	class DetailsModel {
 		var linesCount;
 		var title;
 		var titleColor;
 		var detailLines;
-		var color;
+		var foregroundColor;
 
 		function initialize() {
 			me.title = "";
 			me.titleColor = null;
 			me.detailLines = [];
-			me.color = null;
+			me.foregroundColor = null;
 			me.linesCount = 0;
 		}
 
@@ -96,7 +94,7 @@ module ScreenPicker {
 		}
 
 		function getLine(lineNum) {
-			while(lineNum >= linesCount){
+			while (lineNum >= linesCount) {
 				me.detailLines.add(new DetailsLine());
 				linesCount++;
 			}

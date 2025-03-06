@@ -3,12 +3,12 @@ run-name: Host user guide on geigl.online by @${{ github.actor }}
 on:
   push:
     branches:
-      - 'main'
+      - "main"
     paths:
-    - '**.md'
-    - '**.jpg'
-    - '**.jpeg'
-    - '**.png'
+      - "**.md"
+      - "**.jpg"
+      - "**.jpeg"
+      - "**.png"
   workflow_dispatch:
 jobs:
   build:
@@ -16,22 +16,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/checkout@v4
         with:
-          repository: 'floriangeigl/floriangeigl.github.io'
+          repository: "floriangeigl/floriangeigl.github.io"
           path: ./geigl.online/
           ref: master
           token: ${{ secrets.FLORIANGEIGL_GITHUB_IO_TOKEN }}
       - name: create user guide page
-        run: | 
+        run: |
           echo -e '---\nlayout: page\ntitle: Meditation & Breathwork\nsubtitle: User Guide\n---' > ./geigl.online/meditate_app_user_guide.md
           cat UserGuide.md >> ./geigl.online/meditate_app_user_guide.md
           mkdir -p ./geigl.online/userGuideScreenshots
           cp -r ./userGuideScreenshots ./geigl.online/meditate_app_user_guide/
       - name: create advertisment page
-        run: | 
-            echo -e '---\nlayout: page\ntitle: Meditation & Breathwork\nsubtitle: Breathe in. Let go.\n---' > ./geigl.online/meditate_app.md
-            cat Advertisement.md >> ./geigl.online/meditate_app.md
+        run: |
+          echo -e '---\nlayout: page\ntitle: Meditation & Breathwork\nsubtitle: Breathe in. Let go.\n---' > ./geigl.online/meditate_app.md
+          cat Advertisement.md >> ./geigl.online/meditate_app.md
       - name: git add
         run: ls -lah && cd ./geigl.online/ && git add .
       - name: debug

@@ -3,12 +3,12 @@ run-name: Compress images on push to main @${{ github.actor }}
 on:
   pull_request:
     branches:
-      - 'main'
+      - "main"
     paths:
-      - '**.jpg'
-      - '**.jpeg'
-      - '**.png'
-      - '**.webp'
+      - "**.jpg"
+      - "**.jpeg"
+      - "**.png"
+      - "**.webp"
 jobs:
   build:
     name: calibreapp/image-actions
@@ -16,20 +16,24 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
       - name: Compress Images
         id: calibre
         uses: calibreapp/image-actions@main
         with:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           compressOnly: true
-          jpegQuality: '100'
+          jpegQuality: "100"
           jpegProgressive: true
-          pngQuality: '100'
-          webpQuality: '100'
+          pngQuality: "100"
+          webpQuality: "100"
       - name: debug
         run: git status && git diff && git branch
       - name: git commit && push
         run: |
+          git config --global user.name "${GITHUB_ACTOR}[bot]"
+          git config --global user.email "${GITHUB_ACTOR}[bot]@users.noreply.github.com"
           git add .
           git commit -am"
           ${{ steps.calibre.outputs.markdown }}

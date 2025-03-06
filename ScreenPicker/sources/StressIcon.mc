@@ -3,8 +3,8 @@ using Toybox.Graphics as Gfx;
 module ScreenPicker {
 	class StressIcon extends Icon {
 		function initialize(icon) {
-			icon[:font] = StatusIconFonts.fontMeditateIcons;
-			icon[:symbol] = StatusIconFonts.Rez.Strings.meditateFontStress;
+			icon[:font] = StatusIconFonts.fontAwesomeFreeSolid;
+			icon[:symbol] = StatusIconFonts.Rez.Strings.IconStress;
 			if (icon[:color] == null) {
 				icon[:color] = Gfx.COLOR_DK_GREEN;
 			}

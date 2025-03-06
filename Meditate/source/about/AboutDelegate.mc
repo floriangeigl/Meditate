@@ -29,8 +29,8 @@ class AboutDelegate extends ScreenPicker.ScreenPickerDelegate {
 		var line = details.getLine(0);
 		line.value.text = Ui.loadResource(Rez.Strings.about_AppVersion);
 		line.icon = new ScreenPicker.Icon({
-			:font => StatusIconFonts.fontMeditateIcons,
-			:symbol => StatusIconFonts.Rez.Strings.meditateFontYoga,
+			:font => StatusIconFonts.fontAwesomeFreeSolid,
+			:symbol => StatusIconFonts.Rez.Strings.IconVihara,
 			:color => Gfx.COLOR_GREEN,
 		});
 		line = details.getLine(1);

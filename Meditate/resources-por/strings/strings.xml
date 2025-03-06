@@ -157,11 +157,14 @@
     <string id="meditateActivityPrepare">Relaxe para\niniciar meditação\nem</string>
     <string id="meditateActivityFinalize">Finalizando\nmeditação\nem</string>
 
-    <string id="meditateActivityName">Meditação</string>
-    <string id="yogaActivityName">Yoga</string>
-    <string id="meditateBreathActivityName">Respiração</string>
+    <string id="activityNameMeditate">Meditação</string>
+    <string id="activityNameYoga">Yoga</string>
+    <string id="activityNameBreathing">Respiração</string>
+    <string id="sessionTitleMeditate">Meditação [time] 🧘</string>
+    <string id="sessionTitleYoga">Yoga [time] 🧘</string>
+    <string id="sessionTitleBreathing">Respiração [time] 🌬️</string>
+
     <string id="activityName">Nome da atividade (use [time] para substituir pelo tempo da sessão e mantenha pequeno o nome):</string>
-    <string id="mediateActivityName">Meditação [time] 🙏</string>
     <string id="pickMMSS">Escolha MM:SS</string>
     <string id="pickHMM">Escolha H:MM</string>
     <string id="HRVwaiting">VFC aguardando</string>

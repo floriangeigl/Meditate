@@ -3,8 +3,8 @@ using Toybox.Graphics as Gfx;
 module ScreenPicker {
 	class BreathIcon extends Icon {
 		function initialize(icon) {
-			icon[:font] = StatusIconFonts.fontMeditateIcons;
-			icon[:symbol] = StatusIconFonts.Rez.Strings.meditateFontBreath;
+			icon[:font] = StatusIconFonts.fontAwesomeFreeSolid;
+			icon[:symbol] = StatusIconFonts.Rez.Strings.IconBreath;
 			if (icon[:color] == null) {
 				icon[:color] = me.BreathIconLightBlueColor;
 			}
