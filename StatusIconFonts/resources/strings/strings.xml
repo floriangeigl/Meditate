@@ -46,8 +46,8 @@
 		paste the char id in the decimal field
 		https://r12a.github.io/app-conversion/
 	-->
-	<string id="IconStopWatch"></string>
-	<string id="IconHeartGarmin"></string>
-	<string id="IconStress"></string>
+	<string id="IconStopWatch">Ð</string>
+	<string id="IconHeartGarmin">m</string>
+	<string id="IconStress">È</string>
 	
 </strings>
