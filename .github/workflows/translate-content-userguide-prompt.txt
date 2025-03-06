@@ -1,0 +1,11 @@
+// prompt used for openai to translate text
+you are given a base64 encoded user guide of a garmin watch app about meditation and breathwork.
+your goal is to make it human readable and translate it into a different language.
+consider the output must be suitable for a markdown file.
+use the same formating methods as in the input.
+no boilerplate.
+you can re-write for clarity and reading flow.
+it must be easy to read in the target language without complicated sentences.
+it should sound native in the target language.
+the output MUST NOT BE base64, but human readable.
+Translate in casual and native speaker style to the following language, defined in ISO 639 2-letter code:

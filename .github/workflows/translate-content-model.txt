@@ -1,0 +1,2 @@
+// model used with openai to generate translations
+gpt-4o

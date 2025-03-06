@@ -1,11 +1,9 @@
 name: Compress Images on Push to main branch
 run-name: Compress images on push to main @${{ github.actor }}
 on:
-  workflow_dispatch:
-  push:
+  pull_request:
     branches:
-      - main
-      - master
+      - 'main'
     paths:
       - '**.jpg'
       - '**.jpeg'
@@ -18,10 +16,6 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
-      - name: cleanup auto-compress-images branch
-        run: |
-          git push -d origin auto-compress-images || echo "no remote branch to cleanup"
-          git branch -d auto-compress-images || echo "no local branch to cleanup"
       - name: Compress Images
         id: calibre
         uses: calibreapp/image-actions@main
@@ -32,16 +26,12 @@ jobs:
           jpegProgressive: true
           pngQuality: '100'
           webpQuality: '100'
-          # ignorePaths: '**/fonts/**'
       - name: debug
         run: git status && git diff && git branch
-      - name: Create New Pull Request If Needed
-        if: steps.calibre.outputs.markdown != ''
-        uses: peter-evans/create-pull-request@v7
-        with:
-          title: Compressed Images
-          branch: auto-compress-images
-          branch-suffix: timestamp
-          delete-branch: true
-          commit-message: Compressed Images
-          body: ${{ steps.calibre.outputs.markdown }}
+      - name: git commit && push
+        run: |
+          git add .
+          git commit -am"
+          ${{ steps.calibre.outputs.markdown }}
+          "
+          git push
