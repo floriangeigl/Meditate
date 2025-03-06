@@ -156,9 +156,13 @@
 	<string id="meditateActivityPrepare">편안하게\n명상 시작합니다.\n남은시간:</string>
 	<string id="meditateActivityFinalize">명상을\n마칩니다.\n남은시간:</string>
 
-	<string id="meditateActivityName">명상 [time] 🧘</string>
-    <string id="yogaActivityName">요가 [time] 🧘</string>
-	<string id="breathingActivityName">호흡 [time] 🌬️</string>
+	<string id="activityNameMeditate">명상</string>
+    <string id="activityNameYoga">요가</string>
+    <string id="activityNameBreathing">호흡</string>
+    <string id="sessionTitleMeditate">명상 [time] 🧘</string>
+    <string id="sessionTitleYoga">요가 [time] 🧘</string>
+    <string id="sessionTitleBreathing">호흡 [time] 🌬️</string>
+
 	<string id="activityName">활동 이름 (세션 시간으로 대체하려면 [time] 을 사용하시고, 이름을 짧게 유지하세요):</string>
 	<string id="pickMMSS">MM:SS (분:초) 지정</string>
 	<string id="pickHMM">H:MM (시간:분) 지정</string>

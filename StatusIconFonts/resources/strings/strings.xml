@@ -26,6 +26,9 @@
 	<string id="IconRight"></string>
 	<string id="IconSettings"></string>
 	<string id="IconBell"></string>
+	<!--
+		custom set of icons
+	-->
 	
 	<string id="meditateFontStress">1</string>
 	<string id="meditateFontIntervalAlertsTime">3</string>
@@ -36,4 +39,15 @@
 	<string id="meditateFontHrMax">7</string>
 	<string id="meditateFontYoga">8</string>
 	<string id="meditateFontBreath">9</string>
+
+	<!--
+		garmin icons
+		use the following page to convert char-id to symbol;
+		paste the char id in the decimal field
+		https://r12a.github.io/app-conversion/
+	-->
+	<string id="IconStopWatch"></string>
+	<string id="IconHeartGarmin"></string>
+	<string id="IconStress"></string>
+	
 </strings>

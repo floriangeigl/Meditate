@@ -6,5 +6,6 @@
 		-->
    	    <font id="fontAwesomeFreeSolid" filename="fonts/fontAwesome/fontAwesomeFreeSolid.fnt" />
    	    <font id="fontMeditateIcons" filename="fonts/meditateIcons/meditateIcons.fnt" />
+		<font id="garmin" filename="fonts/garmin/garmin-connect-icons.fnt" />
     </fonts>
 </resources>

@@ -156,9 +156,13 @@
     <string id="meditateActivityPrepare">Relax to start\nmeditate session\nin</string>
     <string id="meditateActivityFinalize">Finishing\nmeditate session\nin</string>
 
-    <string id="meditateActivityName">Meditating [time] 🧘</string>
-    <string id="yogaActivityName">Yoga [time] 🧘</string>
-    <string id="breathingActivityName">Breathing [time] 🌬️</string>
+    <string id="activityNameMeditate">Meditating</string>
+    <string id="activityNameYoga">Yoga</string>
+    <string id="activityNameBreathing">Breathing</string>
+    <string id="sessionTitleMeditate">Meditating [time] 🧘</string>
+    <string id="sessionTitleYoga">Yoga [time] 🧘</string>
+    <string id="sessionTitleBreathing">Breathing [time] 🌬️</string>
+
     <string id="activityName">Activity Name (use [time] to be replaced by session time and also keep name short):</string>
     <string id="pickMMSS">Pick MM:SS</string>
     <string id="pickHMM">Pick H:MM</string>
