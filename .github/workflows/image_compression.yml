@@ -16,6 +16,8 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
       - name: Compress Images
         id: calibre
         uses: calibreapp/image-actions@main
@@ -26,13 +28,12 @@ jobs:
           jpegProgressive: true
           pngQuality: "100"
           webpQuality: "100"
-          ref: ${{ github.head_ref }}
       - name: debug
         run: git status && git diff && git branch
       - name: git commit && push
         run: |
-          git config --global user.name "${GITHUB_ACTOR}"
-          git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git config --global user.name "${GITHUB_ACTOR}[bot]"
+          git config --global user.email "${GITHUB_ACTOR}[bot]@users.noreply.github.com"
           git add .
           git commit -am"
           ${{ steps.calibre.outputs.markdown }}
