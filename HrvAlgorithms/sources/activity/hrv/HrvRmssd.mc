@@ -14,8 +14,10 @@ module HrvAlgorithms {
 			if (me.mPreviousBeatToBeatInterval != null && beatToBeatInterval != null) {
 				me.mBeatToBeatIntervalsCount++;
 				me.mSquareOfSuccessiveBtbDifferences += Math.pow(beatToBeatInterval - me.mPreviousBeatToBeatInterval, 2);	
-			}		
-			me.mPreviousBeatToBeatInterval = beatToBeatInterval;
+			}
+			if (beatToBeatInterval != null) {
+				me.mPreviousBeatToBeatInterval = beatToBeatInterval;
+			}
 		}
 		
 		function calculate() {

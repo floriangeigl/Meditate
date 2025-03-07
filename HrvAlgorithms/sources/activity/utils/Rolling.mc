@@ -32,8 +32,8 @@ module HrvAlgorithms {
 			if (value != null) {
 				me.count++;
 				me.aggregate(value);
+				me.previousValue = value;
 			}
-			me.previousValue = value;
 		}
 
 		function aggregate(value) {
