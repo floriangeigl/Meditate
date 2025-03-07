@@ -2,7 +2,7 @@ using Toybox.Application as App;
 using HrvAlgorithms.HrvTracking;
 
 class GlobalSettings {
-	private static const HrvTrackingKey = "globalSettings_hrvTracking2"; //version 2 due to change of behaviour
+	private static const HrvTrackingKey = "globalSettings_hrvTracking";
 
 	static function loadHrvTracking() {
 		var hrvTracking = App.Storage.getValue(HrvTrackingKey);
