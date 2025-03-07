@@ -211,7 +211,7 @@ class GraphView extends ScreenPicker.ScreenPickerBaseView {
 				}
 				// draw buckets: skip first, draw last, else every full bucket
 				if ((i > 0 || bucketSize == 1) && (i + 1 == me.data.size() || i % bucketSize == 0)) {
-					// draw bucket, skip first (bucketCount > 0)
+					// draw bucket, 
 					if (bucketCount > 0) {
 						// calc average of bucket
 						val = bucketVal / bucketCount;
@@ -223,24 +223,21 @@ class GraphView extends ScreenPicker.ScreenPickerBaseView {
 						if (maxCutSet && me.maxCut < val) {
 							val = me.maxCut;
 						}
-
-						// draw line
-						if (val != null) {
-							lineHeight = Math.round((val - yMin) * heightFact).toNumber();
-						}
-
-						while (currentStep < nextStep) {
-							if (val != null) {
-								dc.drawLine(xPos, me.positionY - lineHeight, xPos, me.positionY);
-							}
-							xPos++;
-							currentStep += step;
-						}
-						nextStep++;
-						// reset bucket
-						bucketVal = 0;
-						bucketCount = 0;
+						lineHeight = Math.round((val - yMin) * heightFact).toNumber();
+					} else {
+						val = null;
 					}
+					while (currentStep < nextStep) {
+						if (val != null) {
+							dc.drawLine(xPos, me.positionY - lineHeight, xPos, me.positionY);
+						}
+						xPos++;
+						currentStep += step;
+					}
+					nextStep++;
+					// reset bucket
+					bucketVal = 0;
+					bucketCount = 0;
 				}
 			}
 		}

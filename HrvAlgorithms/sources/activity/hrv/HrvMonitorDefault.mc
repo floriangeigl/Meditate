@@ -44,9 +44,7 @@ module HrvAlgorithms {
 		function addOneSecBeatToBeatIntervals(beatToBeatIntervals) {
 			for (var i = 0; i < beatToBeatIntervals.size(); i++) {
 				var beatToBeatInterval = beatToBeatIntervals[i];				
-				if (beatToBeatInterval != null) {		
-	    			me.addValidBeatToBeatInterval(beatToBeatInterval);	
-	    		}
+				me.addValidBeatToBeatInterval(beatToBeatInterval);	
 	    	}		    	
 		}
 			

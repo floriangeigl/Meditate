@@ -9,17 +9,15 @@ module HrvAlgorithms {
 		private var mCurrentBeatToBeatInterval;
 
 		function addBeatToBeatInterval(beatToBeatInterval) {
-			if(beatToBeatInterval != null) {
-				me.mPreviousBeatToBeatInterval = me.mCurrentBeatToBeatInterval;
-				me.mCurrentBeatToBeatInterval = beatToBeatInterval;
-			}
+			me.mPreviousBeatToBeatInterval = me.mCurrentBeatToBeatInterval;
+			me.mCurrentBeatToBeatInterval = beatToBeatInterval;
 		}
 
 		function calculate() {
-			if (me.mPreviousBeatToBeatInterval == null || me.mCurrentBeatToBeatInterval == null) {
-				return null;
+			if (me.mPreviousBeatToBeatInterval != null && me.mCurrentBeatToBeatInterval != null) {
+				return (me.mCurrentBeatToBeatInterval - me.mPreviousBeatToBeatInterval).abs();
 			}
-			return (me.mCurrentBeatToBeatInterval - me.mPreviousBeatToBeatInterval).abs();
+			return null;
 		}
 	}
 }

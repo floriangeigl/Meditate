@@ -96,8 +96,6 @@ module HrvAlgorithms {
 
 		function getSummary() {
 			var summary = SensorActivityTumbling.getSummary();
-			// summary.maxHr = activityInfo.maxHeartRate;
-			// summary.averageHr = activityInfo.averageHeartRate;
 			var activityInfo = Activity.getActivityInfo();
 			summary.elapsedTimeSeconds = activityInfo.timerTime / 1000;
 			return summary;

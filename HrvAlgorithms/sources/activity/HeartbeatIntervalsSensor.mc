@@ -33,13 +33,16 @@ module HrvAlgorithms {
 		private var mSensorListener;
 		
 		function onSessionSensorData(sensorData) {
-			if (!(sensorData has :heartRateData) || sensorData.heartRateData == null || mSensorListener == null) {
+			if (!(sensorData has :heartRateData) || mSensorListener == null) {
 				return;			
-			}		
+			}
+			var heartBeatIntervals = null;
+			if (sensorData.heartRateData != null){
+				heartBeatIntervals = sensorData.heartRateData.heartBeatIntervals;
+			}
 			
-			var heartBeatIntervals = sensorData.heartRateData.heartBeatIntervals;
 			me.mSensorListener.invoke(heartBeatIntervals);		
-		}		
+		}
 		
 		function stop() {
 			Sensor.unregisterSensorDataListener();

@@ -153,8 +153,8 @@
 	<string id="editIntervalAlertsMenu_title">Edit Interval Alerts</string>		
 	<string id="activityDelayedFinishingText">Finishing...</string>
     <string id="meditateActivityPaused">[Paused]</string>
-    <string id="meditateActivityPrepare">Relax to start\nmeditate session\nin</string>
-    <string id="meditateActivityFinalize">Finishing\nmeditate session\nin</string>
+    <string id="meditateActivityPrepare">Relax to start\n session\nin</string>
+    <string id="meditateActivityFinalize">Finishing\n session\nin</string>
 
     <string id="activityNameMeditate">Meditating</string>
     <string id="activityNameYoga">Yoga</string>

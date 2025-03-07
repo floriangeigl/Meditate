@@ -33,7 +33,7 @@ module HrvAlgorithms {
 		protected function onRefreshHrvActivityStats(activityInfo, minHr, hrvSuccessive) {}
 
 		function calculateSummaryFields() {
-			var hrSummary = HrActivity.calculateSummaryFields();
+			var hrSummary = HrActivity.getSummary();
 			var activitySummary = new ActivitySummary();
 			activitySummary.hrSummary = hrSummary;
 			activitySummary.hrvSummary = me.mHrvMonitor.calculateHrvSummary();
