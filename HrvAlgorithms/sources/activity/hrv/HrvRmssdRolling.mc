@@ -11,11 +11,13 @@ module HrvAlgorithms {
 		
 		function calculate() {
 			var result = null;
-			if (me.secondsCount >= me.rollingIntervalSeconds && me.count > 0) {
-				result = Math.sqrt(me.aggregatedValue / me.count.toFloat());
+			if (me.secondsCount >= me.rollingIntervalSeconds) {
+				if (me.count > 0) {
+					result = Math.sqrt(me.aggregatedValue / me.count.toFloat());
+				}
+				me.data.add(result);
+				me.reset();				
 			}
-			me.reset();
-			me.data.add(result);
 			return result;
 		}
 	}

@@ -120,7 +120,6 @@ module HrvAlgorithms {
 		
 		function addOneSecBeatToBeatIntervals(beatToBeatIntervals) {
 			HrvMonitorDefault.addOneSecBeatToBeatIntervals(beatToBeatIntervals);
-
 	    	var rmssd30Sec = me.mHrvRmssd30Sec.addOneSec(beatToBeatIntervals); 	
 	    	if (rmssd30Sec != null) {
 	    		me.mHrvRmssd30SecDataField.setData(rmssd30Sec);

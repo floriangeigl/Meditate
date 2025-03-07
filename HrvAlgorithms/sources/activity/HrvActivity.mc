@@ -20,7 +20,7 @@ module HrvAlgorithms {
 		}
 		
 		protected function onBeforeStart(fitSession) {
-			if (me.isHrvOn()) {					
+			if (me.isHrvOn()) {				
 				me.mHeartbeatIntervalsSensor.setOneSecBeatToBeatIntervalsSensorListener(method(:onOneSecBeatToBeatIntervals));
 				if (me.isHrvDetailOn()) {
 					me.mHrvMonitor = new HrvMonitorDetailed(fitSession, true);					
