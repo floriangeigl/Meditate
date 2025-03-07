@@ -168,12 +168,16 @@ class SessionPresets {
 		iAlert = new IntervalAlerts();
 		iAlert.addNew();
 		iAlert.get(0).time = 19;
+		iAlert.get(0).offset = 4;
+		iAlert.get(0).color = Gfx.COLOR_BLUE;
 		iAlert.addNew();
 		iAlert.get(1).time = 19;
-		iAlert.get(1).offset = 7;
+		iAlert.get(1).offset = 4 + 7;
+		iAlert.get(1).color = Gfx.COLOR_RED;
 		iAlert.addNew();
 		iAlert.get(2).time = 19;
-		iAlert.get(2).offset = 8;
+		iAlert.get(2).offset = 4 + 7 + 8;
+		iAlert.get(2).color = Gfx.COLOR_WHITE;
 		settings = {
 			"time" => 5 * 60,
 			"color" => Gfx.COLOR_GREEN,

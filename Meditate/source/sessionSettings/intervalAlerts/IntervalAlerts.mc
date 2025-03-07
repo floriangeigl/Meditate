@@ -99,11 +99,12 @@ class Alert {
 			return [];
 		}
 		var percentageTime = me.time.toDouble() / sessionTime.toDouble();
+		var percentageOffset = me.offset.toDouble() / sessionTime.toDouble();
 		if (me.type == IntervalAlertType.OneOff) {
-			return [percentageTime];
+			return [percentageOffset + percentageTime];
 		}
 		else {			
-			var executionsCount = (sessionTime / me.time);
+			var executionsCount = ((sessionTime - me.offset) / me.time) + 1;
 			if (executionsCount > maxRepeatExecutionsCount) {
 				executionsCount = maxRepeatExecutionsCount;
 			}		
@@ -112,7 +113,11 @@ class Alert {
 			}
 			var result = new [executionsCount];
 			for (var i = 0; i < executionsCount; i++) {
-				result[i] = percentageTime * (i + 1);
+				if (me.offset > 0) {
+					result[i] = percentageOffset + percentageTime * i;	
+				} else {
+					result[i] = percentageOffset + percentageTime * (i+1);	
+				}
 				if (result[i] > 1.0) {
 					result[i] = 1.0;
 				}
