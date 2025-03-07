@@ -12,7 +12,7 @@ class SessionSettingsMenuDelegate extends Ui.MenuInputDelegate {
 		
     function onMenuItem(item) {
         if (item == :addNew) {
-        	var newSession = me.mSessionStorage.addSession(false);	
+        	var newSession = me.mSessionStorage.newSession();	
         	var addEditSessionMenuMenuDelegate = new AddEditSessionMenuDelegate(newSession.intervalAlerts ,method(:onChangeSession));        	
         	me.mSessionPickerDelegate.setPagesCount(me.mSessionStorage.getSessionsCount());
         	me.mSessionPickerDelegate.select(me.mSessionStorage.getSelectedSessionIndex());
@@ -59,7 +59,7 @@ class SessionSettingsMenuDelegate extends Ui.MenuInputDelegate {
     function onChangeSession(changedSessionModel) {
     	var existingSession = me.mSessionStorage.loadSelectedSession();
 		existingSession.copyNonNullFieldsFromSession(changedSessionModel);
-		me.mSessionStorage.saveSelectedSession(existingSession);
+		me.mSessionStorage.saveSession(existingSession);
 		me.mSessionPickerDelegate.updateSelectedSessionDetails(existingSession);
     }
 }

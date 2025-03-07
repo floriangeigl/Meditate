@@ -29,14 +29,16 @@ class IntervalAlerts {
 		me.mAlerts = [];
 	}
 	
-	function fromDictionary(serializedAlerts) {		
-		me.mAlerts = new [serializedAlerts.size()];
-		for (var i = 0; i < serializedAlerts.size(); i++) {
-			me.mAlerts[i] = Alert.fromDictionary(serializedAlerts[i]);
+	function fromArray(serializedAlerts) {		
+		if (serializedAlerts != null) {
+			me.mAlerts = new [serializedAlerts.size()];
+			for (var i = 0; i < serializedAlerts.size(); i++) {
+				me.mAlerts[i] = Alert.fromDictionary(serializedAlerts[i]);
+			}
 		}
 	}
 	
-	function toDictionary() {
+	function toArray() {
 		var serializedAlerts = new [me.mAlerts.size()];
 		for (var i = 0; i < me.mAlerts.size(); i++) {
 			serializedAlerts[i] = me.mAlerts[i].toDictionary();
@@ -65,6 +67,7 @@ class Alert {
 		var alert = new Alert();
 		alert.type = loadedSessionDictionary["type"];
 		alert.time = loadedSessionDictionary["time"];
+		alert.offset = loadedSessionDictionary["offset"];
 		alert.color = loadedSessionDictionary["color"];
 		alert.vibePattern = loadedSessionDictionary["vibePattern"];
 		return alert;
@@ -74,6 +77,7 @@ class Alert {
 		return {
 			"type" => me.type,
 			"time" => me.time,
+			"offset" => me.offset,
 			"color" => me.color,
 			"vibePattern" => me.vibePattern
 		};
@@ -82,6 +86,7 @@ class Alert {
 	function reset() {
 		me.type = IntervalAlertType.Repeat;
 		me.time = 60 * 5;
+		me.offset = 0;
 		me.color = Gfx.COLOR_RED;
 		me.vibePattern = VibePattern.Blip;
 	}		
@@ -127,7 +132,8 @@ class Alert {
 	private const ArcMinRepeatPercentageTime = 0.0072;
 		
 	var type;
-	var time;//in seconds
+	var time; // in seconds
+	var offset; // in seconds
 	var color;
 	var vibePattern;
 }

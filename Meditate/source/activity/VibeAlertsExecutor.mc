@@ -35,7 +35,7 @@ class VibeAlertsExecutor {
 	    var i = 0;
 	    while (me.mOneOffIntervalAlerts.size() > 0 && i < me.mOneOffIntervalAlerts.size()) {
 	    	var alertKey = me.mOneOffIntervalAlerts.keys()[i];
-	    	if (me.mMeditateModel.elapsedTime >= me.mOneOffIntervalAlerts[alertKey].time) {
+	    	if (me.mMeditateModel.elapsedTime >= me.mOneOffIntervalAlerts[alertKey].time + me.mOneOffIntervalAlerts[alertKey].offset) {
 	    		Vibe.vibrate(me.mOneOffIntervalAlerts[alertKey].vibePattern);
 	    		me.mOneOffIntervalAlerts.remove(alertKey);
 	    	}	
@@ -47,8 +47,10 @@ class VibeAlertsExecutor {
 	
 	private function fireIfRequiredRepeatIntervalAlerts() {
 		for (var i = 0; i < me.mRepeatIntervalAlerts.size(); i++) {
-			if (me.mRepeatIntervalAlerts[i].time > 0 && me.mMeditateModel.elapsedTime % me.mRepeatIntervalAlerts[i].time == 0) {
-	    		Vibe.vibrate(me.mRepeatIntervalAlerts[i].vibePattern);	    		
+			if (me.mRepeatIntervalAlerts[i].time > 0 && 
+			(me.mMeditateModel.elapsedTime - me.mRepeatIntervalAlerts[i].offset) >= 0 &&
+			(me.mMeditateModel.elapsedTime - me.mRepeatIntervalAlerts[i].offset) % me.mRepeatIntervalAlerts[i].time == 0) {
+	    		Vibe.vibrate(me.mRepeatIntervalAlerts[i].vibePattern);
 	    	}	
 		}
 	}

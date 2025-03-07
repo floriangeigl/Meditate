@@ -207,7 +207,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 
 	private function setInitialHrvStatus(hrvStatusLine, session) {
 		hrvStatusLine.icon = new ScreenPicker.HrvIcon({});
-		if (session.hrvTracking == HrvTracking.Off) {
+		if (session.getHrvTracking() == HrvTracking.Off) {
 			hrvStatusLine.icon.setStatusOff();
 			hrvStatusLine.value.text = Ui.loadResource(Rez.Strings.HRVoff);
 		} else {
@@ -221,20 +221,24 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 	}
 
 	function updateSelectedSessionDetails(session) {
-		me.setTestModeHeartbeatIntervalsSensor(session.hrvTracking);
+		me.setTestModeHeartbeatIntervalsSensor(session.getHrvTracking());
 
 		var details = me.mSelectedSessionDetails;
 
 		var activityTypeText;
-		if (session.activityType == ActivityType.Yoga) {
+		if (session.getActivityType() == ActivityType.Yoga) {
 			activityTypeText = Ui.loadResource(Rez.Strings.activityNameYoga); // Due to bug in Connect IQ API for breath activity to get respiration rate, we will use Yoga as default meditate activity
-		} else if (session.activityType == ActivityType.Breathing) {
+		} else if (session.getActivityType() == ActivityType.Breathing) {
 			activityTypeText = Ui.loadResource(Rez.Strings.activityNameBreathing);
 		} else {
 			// Meditation
 			activityTypeText = Ui.loadResource(Rez.Strings.activityNameMeditate);
 		}
-		details.title = activityTypeText + " " + (me.mSelectedPageIndex + 1);
+		if(session.name != null){
+			details.title = session.name;
+		}else {
+			details.title = activityTypeText + " " + (me.mSelectedPageIndex + 1);
+		}
 		details.titleColor = session.color;
 		var lineNum = 0;
 		var line = details.getLine(lineNum);
