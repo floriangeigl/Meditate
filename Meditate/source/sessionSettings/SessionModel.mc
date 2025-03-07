@@ -73,15 +73,7 @@ class SessionModel {
 		
 	function reset(index, addingNew) {
 		
-		// Set 5,10,15,20,25,30min,45min and 1h default sessions
-
-		//DEBUG 10s
-		/*
-		if (index == 0) {
-			me.time = 10;
-			me.color = Gfx.COLOR_GREEN;
-		}
-		*/
+		// Set 5,10,15,20,25,30min,45min and 1h default meditation sessions
 
 		// 5min
 		if (index == 0) {
