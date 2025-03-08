@@ -97,6 +97,7 @@ class SessionPresets {
 		iAlert.addNew();
 		// change interval alert to every 15min
 		iAlert.get(0).time = 15 * 60;
+		iAlert.get(0).vibePattern = VibePattern.ShortAscending;
 		settings = {
 			"time" => 45 * 60,
 			"color" => Gfx.COLOR_GREEN,
@@ -115,8 +116,9 @@ class SessionPresets {
 		iAlert.addNew();
 		// change interval alert to every 15min
 		iAlert.get(0).time = 15 * 60;
+		iAlert.get(0).vibePattern = VibePattern.ShortAscending;
 		settings = {
-			"time" => 45 * 60,
+			"time" => 60 * 60,
 			"color" => Gfx.COLOR_GREEN,
 			"vibePattern" => VibePattern.LongContinuous,
 			"intervalAlerts" => iAlert.toArray(),
@@ -163,21 +165,26 @@ class SessionPresets {
 		sessions.add(session);
 		sessionKey++;
 
-		// 5min Breathwork Coherence
+		// 5min 4-7-8 breathing
 		session = new SessionModel();
 		iAlert = new IntervalAlerts();
 		iAlert.addNew();
 		iAlert.get(0).time = 19;
 		iAlert.get(0).offset = 4;
 		iAlert.get(0).color = Gfx.COLOR_BLUE;
+		iAlert.get(0).vibePattern = VibePattern.ShortAscending;
+
 		iAlert.addNew();
 		iAlert.get(1).time = 19;
 		iAlert.get(1).offset = 4 + 7;
 		iAlert.get(1).color = Gfx.COLOR_RED;
+		iAlert.get(1).vibePattern = VibePattern.ShortPulsating;
+
 		iAlert.addNew();
 		iAlert.get(2).time = 19;
 		iAlert.get(2).offset = 4 + 7 + 8;
 		iAlert.get(2).color = Gfx.COLOR_WHITE;
+		iAlert.get(2).vibePattern = VibePattern.MediumContinuous;
 		settings = {
 			"time" => 5 * 60,
 			"color" => Gfx.COLOR_GREEN,
