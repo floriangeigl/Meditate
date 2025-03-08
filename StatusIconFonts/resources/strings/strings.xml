@@ -2,7 +2,7 @@
 	<!--
       Find icon here: https://fontawesome.com/icons
 	  Copy name and "Glyph" (top right corner of winow) down below
-	  all icons to generate png: 
+	  all icons to generate png: 
 	  make sure also generate the *.png with snowb or Hiero (is generated when save bmf file)
 	  	use rendering java and size 22, no padding, sharp 100%, color white, bg black
 	  use online: https://snowb.org/ || offline: https://libgdx.com/wiki/tools/hiero
@@ -31,6 +31,8 @@
 	<string id="IconBreath"></string>
 	<string id="IconStress"></string>
 	<string id="IconInfo"></string>
+	<string id="IconGrowth"></string>
+	<string id="IconSpa"></string>
 	<!--
 		custom set of icons
 	-->
