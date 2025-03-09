@@ -18,7 +18,7 @@ class SessionSettingsMenuDelegate extends Ui.MenuInputDelegate {
 				method(:onChangeSession)
 			);
 			me.mSessionPickerDelegate.setPagesCount(me.mSessionStorage.getSessionsCount());
-			me.mSessionPickerDelegate.select(me.mSessionStorage.getSelectedSessionIndex());
+			me.mSessionPickerDelegate.select(me.mSessionStorage.getSessionsCount() - 1);
 			Ui.popView(Ui.SLIDE_IMMEDIATE);
 			Ui.pushView(
 				me.createAddEditSessionMenu(me.mSessionStorage.getSelectedSessionIndex()),
@@ -63,7 +63,7 @@ class SessionSettingsMenuDelegate extends Ui.MenuInputDelegate {
 	function onConfirmedDeleteSession() {
 		me.mSessionStorage.deleteSelectedSession();
 		me.mSessionPickerDelegate.setPagesCount(me.mSessionStorage.getSessionsCount());
-		me.mSessionPickerDelegate.select(me.mSessionStorage.getSelectedSessionIndex());
+		me.mSessionPickerDelegate.select(me.mSessionStorage.getSelectedSessionIndex() - 1);
 	}
 
 	function onChangeSession(changedSessionModel) {

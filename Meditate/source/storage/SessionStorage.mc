@@ -9,16 +9,12 @@ class SessionStorage {
 	private static var mStorageKeySessionsKeys = "sessionsKeys";
 
 	function initialize() {
-		// restore last selected session
-		me.mSelectedSessionIndex = App.Storage.getValue(me.mStorageKeySelectedSessionIndex);
-		if (me.mSelectedSessionIndex == null) {
-			me.mSelectedSessionIndex = 0;
-		}
-		
 		me.mSessionKeys = App.Storage.getValue(me.mStorageKeySessionsKeys);
 		if (me.mSessionKeys == null) {
 			me.mSessionKeys = [];
 		}
+		// restore last selected session
+		me.setSelectedSessionIndex(App.Storage.getValue(me.mStorageKeySelectedSessionIndex));		
 
 		if (me.mSessionKeys.size() == 0){
 			me.restorePresets();
@@ -37,7 +33,7 @@ class SessionStorage {
 	}
 
 	function selectSession(index) {
-		me.mSelectedSessionIndex = index;
+		me.setSelectedSessionIndex(index);
 		App.Storage.setValue(mStorageKeySelectedSessionIndex, me.mSelectedSessionIndex);
 	}
 
@@ -66,7 +62,7 @@ class SessionStorage {
 			session.fromDictionary(loadedSessionDictionary);
 			return session;
 		} catch (ex) {
-			me.mSelectedSessionIndex = 0;
+			me.setSelectedSessionIndex(0);
 			me.mSessionKeys = [];
 			me.restorePresets();
 			
@@ -116,6 +112,10 @@ class SessionStorage {
 	function newSession() {
 		var session = new SessionModel();
 		session.key = me.generateSessionKey();
+		session.time = 5 * 60;
+		session.color = Gfx.COLOR_BLUE;
+		session.vibePattern = VibePattern.LongContinuous;
+		me.addSession(session);
 		return session;
 	}
 
@@ -126,7 +126,9 @@ class SessionStorage {
 		if (session.key == null){
 			session.key = me.generateSessionKey();
 		}
-		me.mSessionKeys.add(session.key);
+		if (me.mSessionKeys.indexOf(session.key) == -1 ) {
+			me.mSessionKeys.add(session.key);
+		}
 		me.saveSession(session);
 		return session;
 	}
@@ -134,12 +136,21 @@ class SessionStorage {
 	function deleteSelectedSession() {
 		App.Storage.deleteValue(me.getSelectedSessionStorageKey());
 		me.mSessionKeys.removeAll(me.getSelectedSessionKey());
-		if (me.mSelectedSessionIndex > 0) {
-			me.mSelectedSessionIndex--;
-		} else if (me.mSessionKeys.size() == 0) {
+		if (me.mSessionKeys.size() == 0) {
 			// if all deleted, automatically restore presets
 			me.restorePresets();
 		}
+		me.setSelectedSessionIndex(me.mSelectedSessionIndex - 1);
 		me.updateSessionStats();
+	}
+
+	function setSelectedSessionIndex(index) {
+		me.mSelectedSessionIndex = index == null ? 0 : index;
+		var nKeys = me.mSessionKeys.size();
+		if (me.mSelectedSessionIndex < 0 || nKeys == 0) {
+			me.mSelectedSessionIndex = nKeys == 0 ? 0 : nKeys - 1;
+		} else {
+			me.mSelectedSessionIndex = me.mSelectedSessionIndex % nKeys;
+		}
 	}
 }

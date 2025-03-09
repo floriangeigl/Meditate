@@ -74,7 +74,7 @@ class SessionModel {
 	}
 	
 	function toDictionary() {	
-		var serializedAlerts = me.intervalAlerts.toArray();
+		var serializedAlerts = me.intervalAlerts != null ? me.intervalAlerts.toArray() : null;
 		return {
 			"time" => me.time,
 			"color" => me.color,

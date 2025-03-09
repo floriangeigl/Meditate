@@ -4,45 +4,49 @@ module ScreenPicker {
 	class ScreenPickerDelegate extends Ui.BehaviorDelegate {
 		protected var mSelectedPageIndex;
 		protected var mPagesCount;
-		
+
 		function initialize(selectedPageIndex, pagesCount) {
 			BehaviorDelegate.initialize();
 			me.mSelectedPageIndex = selectedPageIndex;
 			me.mPagesCount = pagesCount;
 		}
-				
-		function createScreenPickerView() {
-		}
-			
+
+		function createScreenPickerView() {}
+
 		function setPagesCount(pagesCount) {
 			me.mPagesCount = pagesCount;
+			me.setPageIndex(me.mSelectedPageIndex);
 		}
-		
+
 		function select(pageIndex) {
-			me.mSelectedPageIndex = pageIndex;
+			me.setPageIndex(pageIndex);
 			Ui.switchToView(me.createScreenPickerView(), me, Ui.SLIDE_IMMEDIATE);
 		}
-		
-		function onNextPage() {		
-			if (me.mPagesCount == 1) {
-				me.mSelectedPageIndex = 0;
-			}			
-			else {
-				me.mSelectedPageIndex = (me.mSelectedPageIndex + 1) % me.mPagesCount;
+
+		function onNextPage() {
+			me.changePage(+1);
+		}
+
+		function onPreviousPage() {
+			me.changePage(-1);
+		}
+
+		private function changePage(change) {
+			if (me.mPagesCount == 0) {
+				me.mSelectedPageIndex = null;
+			} else {
+				me.setPageIndex(me.mSelectedPageIndex + change);
 			}
-			Ui.switchToView(me.createScreenPickerView(), me, Ui.SLIDE_UP);		
+			var slide = change > 0 ? Ui.SLIDE_DOWN : Ui.SLIDE_UP;
+			Ui.switchToView(me.createScreenPickerView(), me, slide);
 			return true;
 		}
-		
-		function onPreviousPage() {		
-			if (me.mSelectedPageIndex == 0) {
+
+		function setPageIndex(index) {
+			me.mSelectedPageIndex = index % me.mPagesCount;
+			if (me.mSelectedPageIndex < 0) {
 				me.mSelectedPageIndex = me.mPagesCount - 1;
 			}
-			else {
-				me.mSelectedPageIndex -= 1;
-			}		
-			Ui.switchToView(me.createScreenPickerView(), me, Ui.SLIDE_DOWN);		
-			return true;
 		}
 	}
 }

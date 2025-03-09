@@ -149,6 +149,9 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 	}
 
 	private static function getVibePatternText(vibePattern) {
+		if (vibePattern == null) {
+			vibePattern = VibePattern.NoNotification;
+		}
 		switch (vibePattern) {
 			case VibePattern.LongPulsating:
 				return Ui.loadResource(Rez.Strings.vibePatternMenu_longPulsating);
