@@ -158,18 +158,24 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 				return Ui.loadResource(Rez.Strings.vibePatternMenu_longAscending);
 			case VibePattern.LongContinuous:
 				return Ui.loadResource(Rez.Strings.vibePatternMenu_longContinuous);
+			case VibePattern.LongDescending:
+				return Ui.loadResource(Rez.Strings.vibePatternMenu_longDescending);
 			case VibePattern.MediumAscending:
 				return Ui.loadResource(Rez.Strings.vibePatternMenu_mediumAscending);
 			case VibePattern.MediumContinuous:
 				return Ui.loadResource(Rez.Strings.vibePatternMenu_mediumContinuous);
 			case VibePattern.MediumPulsating:
 				return Ui.loadResource(Rez.Strings.vibePatternMenu_mediumPulsating);
+			case VibePattern.MediumDescending:
+				return Ui.loadResource(Rez.Strings.vibePatternMenu_mediumDescending);
 			case VibePattern.ShortAscending:
 				return Ui.loadResource(Rez.Strings.vibePatternMenu_shortAscending);
 			case VibePattern.ShortContinuous:
 				return Ui.loadResource(Rez.Strings.vibePatternMenu_shortContinuous);
 			case VibePattern.ShortPulsating:
 				return Ui.loadResource(Rez.Strings.vibePatternMenu_shortPulsating);
+			case VibePattern.ShortDescending:
+				return Ui.loadResource(Rez.Strings.vibePatternMenu_shortDescending);
 			default:
 				return Ui.loadResource(Rez.Strings.vibePatternMenu_noNotification);
 		}
@@ -222,7 +228,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 
 	function updateSelectedSessionDetails(session) {
 		me.setTestModeHeartbeatIntervalsSensor(session.getHrvTracking());
-
+ 		me.mSelectedSessionDetails = new ScreenPicker.DetailsModel();
 		var details = me.mSelectedSessionDetails;
 
 		var activityTypeText;

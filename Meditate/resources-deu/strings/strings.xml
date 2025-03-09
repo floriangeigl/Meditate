@@ -138,6 +138,9 @@
 	<string id="vibePatternMenu_shortPulsating">Kurz pulsierend</string>
 	<string id="vibePatternMenu_shortContinuous">Kurz anhaltend</string>
 	<string id="vibePatternMenu_shortAscending">Kurz ansteigend</string>
+    <string id="vibePatternMenu_shortDescending">Kurz absteigend</string>
+    <string id="vibePatternMenu_mediumDescending">Mittel absteigend</string>
+    <string id="vibePatternMenu_longDescending">Lang absteigend</string>
 	
 	<string id="intervalVibePatternMenu_title">Vibra/Ton</string>
     <string id="intervalVibePatternMenu_noNotification">Keine Benach.</string>

@@ -4,20 +4,23 @@ using HrvAlgorithms.HrvTracking;
 module VibePattern {
 	enum {
 		NoNotification = 0,
-		LongPulsating = 1,
-		LongContinuous = 2,
-		LongAscending = 3,		
-		ShortPulsating = 4,
-		ShortContinuous = 5,
-		ShortAscending = 6,
-		MediumPulsating = 7,
-		MediumContinuous = 8,
+		Blip = 1,
+		ShorterAscending = 2,
+		ShorterContinuous = 3,
+		ShortAscending = 4,
+		ShortDescending = 5,
+		ShortContinuous = 6,	
+		ShortPulsating = 7,
+		ShortSound = 8,
 		MediumAscending = 9,
-		ShorterAscending = 10,
-		ShorterContinuous = 11,
-		Blip = 12,
-		ShortSound = 13,
-		LongSound = 14
+		MediumDescending = 10,
+		MediumContinuous = 11,
+		MediumPulsating = 12,
+		LongAscending = 13,
+		LongDescending = 14,
+		LongContinuous = 15,
+		LongPulsating = 16,	
+		LongSound = 17
 	}
 }
 

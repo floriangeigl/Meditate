@@ -10,4 +10,7 @@
     <menu-item id="shortContinuous" label="@Strings.vibePatternMenu_shortContinuous" />
     <menu-item id="shortPulsating" label="@Strings.vibePatternMenu_shortPulsating" />
     <menu-item id="shortAscending" label="@Strings.vibePatternMenu_shortAscending" />
+    <menu-item id="shortDescending" label="@Strings.vibePatternMenu_shortDescending" />
+    <menu-item id="mediumDescending" label="@Strings.vibePatternMenu_mediumDescending" />
+    <menu-item id="longDescending" label="@Strings.vibePatternMenu_longDescending" />
 </menu>

@@ -138,6 +138,9 @@
 	<string id="vibePatternMenu_shortPulsating">짧은 진동</string>
 	<string id="vibePatternMenu_shortContinuous">짧게 연속적</string>
 	<string id="vibePatternMenu_shortAscending">짧게 점점 커짐</string>
+	<string id="vibePatternMenu_shortDescending">짧게 내림차순</string>
+    <string id="vibePatternMenu_mediumDescending">중간 내림차순</string>
+    <string id="vibePatternMenu_longDescending">길게 내림차순</string>
 	
 	<string id="intervalVibePatternMenu_title">진동 / 소리</string>
 	<string id="intervalVibePatternMenu_noNotification">알림 없음</string>

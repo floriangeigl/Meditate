@@ -65,7 +65,7 @@ class SessionPresets {
 			"time" => 20 * 60,
 			"color" => Gfx.COLOR_GREEN,
 			"vibePattern" => VibePattern.LongContinuous,
-			"intervalAlerts" => iAlert.toArray(), 
+			"intervalAlerts" => iAlert.toArray(),
 			"activityType" => ActivityType.Meditating,
 			"key" => sessionKey,
 		};
@@ -172,19 +172,19 @@ class SessionPresets {
 		iAlert.get(0).time = 19;
 		iAlert.get(0).offset = 4;
 		iAlert.get(0).color = Gfx.COLOR_BLUE;
-		iAlert.get(0).vibePattern = VibePattern.ShortAscending;
+		iAlert.get(0).vibePattern = VibePattern.ShortContinuous;
 
 		iAlert.addNew();
 		iAlert.get(1).time = 19;
 		iAlert.get(1).offset = 4 + 7;
 		iAlert.get(1).color = Gfx.COLOR_RED;
-		iAlert.get(1).vibePattern = VibePattern.ShortPulsating;
+		iAlert.get(1).vibePattern = VibePattern.MediumDescending;
 
 		iAlert.addNew();
 		iAlert.get(2).time = 19;
 		iAlert.get(2).offset = 4 + 7 + 8;
 		iAlert.get(2).color = Gfx.COLOR_WHITE;
-		iAlert.get(2).vibePattern = VibePattern.MediumContinuous;
+		iAlert.get(2).vibePattern = VibePattern.ShortAscending;
 		settings = {
 			"time" => 5 * 60,
 			"color" => Gfx.COLOR_GREEN,
@@ -197,7 +197,7 @@ class SessionPresets {
 		session.fromDictionary(settings);
 		sessions.add(session);
 		sessionKey++;
-		
+
 		return sessions;
 	}
 }
