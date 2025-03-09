@@ -29,13 +29,11 @@ module HrvAlgorithms {
 		}
 		
 		function addValue(value) {
-			if (me.previousValue != null && value != null) {
+			if (value != null) {
 				me.count++;
 				me.aggregate(value);
 			}
-			if ( value != null) {
-				me.previousValue = value;
-			}
+			me.previousValue = value;
 		}
 
 		function aggregate(value) {
@@ -52,13 +50,14 @@ module HrvAlgorithms {
 		}
 	
 		function calculate() {
-			if (me.secondsCount < me.rollingIntervalSeconds || me.count < 1) {
-				return null;
-			}
-			
-			var result = me.aggregatedValue / me.count.toFloat();
-			me.reset();
-			me.data.add(result);
+			var result = null;
+			if (me.secondsCount >= me.rollingIntervalSeconds) {
+				if (me.count > 0) {
+					result = me.aggregatedValue / me.count.toFloat();
+				}
+				me.reset();
+				me.data.add(result);
+			}			
 			return result;
 		}
 

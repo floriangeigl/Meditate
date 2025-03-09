@@ -48,9 +48,9 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 		} else {
 			sessionTimeMinutes = sessionTimeMinutes % 60;
 			if (sessionTimeMinutes == 0) {
-				sessionTimeString = Lang.format("$1$h 🙏", [sessionTimeHours]);
+				sessionTimeString = Lang.format("$1$h", [sessionTimeHours]);
 			} else {
-				sessionTimeString = Lang.format("$1$h $2$min 🙏", [sessionTimeHours, sessionTimeMinutes]);
+				sessionTimeString = Lang.format("$1$h $2$min", [sessionTimeHours, sessionTimeMinutes]);
 			}
 		}
 

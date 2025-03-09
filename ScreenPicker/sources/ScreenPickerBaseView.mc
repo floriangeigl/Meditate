@@ -47,7 +47,7 @@ module ScreenPicker {
 
 		protected function setArrowsColor(color) {
 			if (me.multiPage) {
-				if(color == null) {
+				if (color == null) {
 					color = foregroundColor;
 				}
 				me.mUpArrow.setColor(color);
@@ -56,7 +56,7 @@ module ScreenPicker {
 		}
 
 		static function formatValue(val) {
-			if (val == null || val < 1) {
+			if (val == null) {
 				return ScreenPickerBaseView.InvalidValueString;
 			} else {
 				return Math.round(val).format("%3.0f");

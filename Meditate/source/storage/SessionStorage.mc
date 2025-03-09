@@ -2,54 +2,80 @@ using Toybox.Application as App;
 using Toybox.Graphics as Gfx;
 
 class SessionStorage {
+	private var mSelectedSessionIndex;
+	private var mSessionKeys;
+	private static var mStorageKeySessionPrefix = "sesssion_";
+	private static var mStorageKeySelectedSessionIndex = "selectedSessionIndex";
+	private static var mStorageKeySessionsKeys = "sessionsKeys";
+
 	function initialize() {
-		me.mSelectedSessionIndex = App.Storage.getValue("selectedSessionIndex");
-		if (me.mSelectedSessionIndex == null) {
-			me.mSelectedSessionIndex = 0;
+		me.mSessionKeys = App.Storage.getValue(me.mStorageKeySessionsKeys);
+		if (me.mSessionKeys == null) {
+			me.mSessionKeys = [];
 		}
+		// restore last selected session
+		me.setSelectedSessionIndex(App.Storage.getValue(me.mStorageKeySelectedSessionIndex));		
 
-		me.mSessionKeysStorage = new SessionKeysStorage();
-
-		me.mSessionsCount = App.Storage.getValue("sessionsCount");
-		if (me.mSessionsCount == null) {
-			me.loadSelectedSession();
+		if (me.mSessionKeys.size() == 0){
+			me.restorePresets();
 		}
 	}
 
-	private var mSelectedSessionIndex;
-	private var mSessionsCount;
-	private var mSessionKeysStorage;
+	function generateSessionKey() {
+		var key = 100; // 100: offset for presets
+		// find smallest not used session key
+		for (var i = 0; i < mSessionKeys.size(); i++){
+			if (key == mSessionKeys[i]){
+				key++;
+			}
+		}
+		return key;
+	}
 
 	function selectSession(index) {
-		me.mSelectedSessionIndex = index;
-		App.Storage.setValue("selectedSessionIndex", me.mSelectedSessionIndex);
+		me.setSelectedSessionIndex(index);
+		App.Storage.setValue(mStorageKeySelectedSessionIndex, me.mSelectedSessionIndex);
 	}
 
 	private function getSelectedSessionKey() {
-		return me.mSessionKeysStorage.getKey(me.mSelectedSessionIndex);
+		if (me.mSelectedSessionIndex < mSessionKeys.size()){
+			return me.mSessionKeys[me.mSelectedSessionIndex];
+		}
+		else {
+			return null;
+		}
+	}
+
+	function getSessionStorageKey(session) {
+		return me.mStorageKeySessionPrefix + session.key.toString();
+	}
+
+	function getSelectedSessionStorageKey(){
+		return me.mStorageKeySessionPrefix + me.getSelectedSessionKey().toString();
 	}
 
 	function loadSelectedSession() {
-		var loadedSessionDictionary = App.Storage.getValue(me.getSelectedSessionKey());
+		try {
+			var loadedSessionDictionary = App.Storage.getValue(me.getSelectedSessionStorageKey());
 
-		var session = new SessionModel();
-		if (loadedSessionDictionary == null) {
-			me.mSessionsCount = 0;
-			me.mSelectedSessionIndex = 0;
-			session = me.addSession(true);
-		} else {
+			var session = new SessionModel();
 			session.fromDictionary(loadedSessionDictionary);
+			return session;
+		} catch (ex) {
+			me.setSelectedSessionIndex(0);
+			me.mSessionKeys = [];
+			me.restorePresets();
+			
+			throw ex;
 		}
-		return session;
 	}
 
-	function saveSelectedSession(session) {
-		var storageValue = session.toDictionary();
-		App.Storage.setValue(me.getSelectedSessionKey(), storageValue);
+	function saveSession(session) {
+		App.Storage.setValue(me.getSessionStorageKey(session), session.toDictionary());
 	}
 
 	function getSessionsCount() {
-		return me.mSessionsCount;
+		return me.mSessionKeys.size();
 	}
 
 	function getSelectedSessionIndex() {
@@ -57,53 +83,74 @@ class SessionStorage {
 	}
 
 	private function updateSessionStats() {
-		App.Storage.setValue("selectedSessionIndex", me.mSelectedSessionIndex);
-		App.Storage.setValue("sessionsCount", me.mSessionsCount);
+		App.Storage.setValue(me.mStorageKeySelectedSessionIndex, me.mSelectedSessionIndex);
+		App.Storage.setValue(me.mStorageKeySessionsKeys, me.mSessionKeys);
 	}
 
-	function addSession(initialization) {
-		var finalIndex = 0;
-		var firstSession = null;
-
-		// If initializing data first time, add the 6 initial mediation sessions
-		if (initialization) {
-			finalIndex = 7;
+	function restorePresets() {
+		var sessions = SessionPresets.getPresets();
+		var presetDict = {};
+		var session = null;
+		for (var i=0; i < sessions.size(); i++){
+			session = sessions[i];
+			presetDict[session.key] = session;
 		}
-
-		for (var index = 0; index <= finalIndex; index++) {
-			var session = new SessionModel();
-			session.reset(index, !initialization);
-			me.mSessionsCount++;
-			me.mSelectedSessionIndex = me.mSessionsCount - 1;
-			if (me.mSelectedSessionIndex > 0) {
-				me.mSessionKeysStorage.addAfterInitialKey();
-			}
-			me.saveSelectedSession(session);
-			me.updateSessionStats();
-
-			if (index == 0) {
-				firstSession = session;
+		var key = null;
+		for (var i = 0; i < me.mSessionKeys.size(); i++) {
+			key = me.mSessionKeys[i];
+			if (presetDict.hasKey(key)) {
+				// preset exists in storage - consider not touching or reseting
+				presetDict.remove(key);
 			}
 		}
-
-		if (initialization) {
-			me.mSelectedSessionIndex = 0;
-			me.updateSessionStats();
+		for (var i = 0; i < presetDict.keys().size(); i++) {
+			session = presetDict[presetDict.keys()[i]];
+			me.addSession(session);
 		}
+	}
 
-		return firstSession;
+	function newSession() {
+		var session = new SessionModel();
+		session.key = me.generateSessionKey();
+		session.time = 5 * 60;
+		session.color = Gfx.COLOR_BLUE;
+		session.vibePattern = VibePattern.LongContinuous;
+		me.addSession(session);
+		return session;
+	}
+
+	function addSession(session) {
+		if (session == null){
+			session = me.newSession();
+		}
+		if (session.key == null){
+			session.key = me.generateSessionKey();
+		}
+		if (me.mSessionKeys.indexOf(session.key) == -1 ) {
+			me.mSessionKeys.add(session.key);
+		}
+		me.saveSession(session);
+		return session;
 	}
 
 	function deleteSelectedSession() {
-		App.Storage.deleteValue(me.getSelectedSessionKey());
-		me.mSessionKeysStorage.deleteKey(me.mSelectedSessionIndex);
-		if (me.mSelectedSessionIndex > 0) {
-			me.mSelectedSessionIndex--;
+		App.Storage.deleteValue(me.getSelectedSessionStorageKey());
+		me.mSessionKeys.removeAll(me.getSelectedSessionKey());
+		if (me.mSessionKeys.size() == 0) {
+			// if all deleted, automatically restore presets
+			me.restorePresets();
 		}
-		if (me.mSessionsCount > 1) {
-			me.mSessionsCount--;
-		}
-
+		me.setSelectedSessionIndex(me.mSelectedSessionIndex - 1);
 		me.updateSessionStats();
+	}
+
+	function setSelectedSessionIndex(index) {
+		me.mSelectedSessionIndex = index == null ? 0 : index;
+		var nKeys = me.mSessionKeys.size();
+		if (me.mSelectedSessionIndex < 0 || nKeys == 0) {
+			me.mSelectedSessionIndex = nKeys == 0 ? 0 : nKeys - 1;
+		} else {
+			me.mSelectedSessionIndex = me.mSelectedSessionIndex % nKeys;
+		}
 	}
 }

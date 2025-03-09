@@ -4,20 +4,23 @@ using HrvAlgorithms.HrvTracking;
 module VibePattern {
 	enum {
 		NoNotification = 0,
-		LongPulsating = 1,
-		LongContinuous = 2,
-		LongAscending = 3,		
-		ShortPulsating = 4,
-		ShortContinuous = 5,
-		ShortAscending = 6,
-		MediumPulsating = 7,
-		MediumContinuous = 8,
+		Blip = 1,
+		ShorterAscending = 2,
+		ShorterContinuous = 3,
+		ShortAscending = 4,
+		ShortDescending = 5,
+		ShortContinuous = 6,	
+		ShortPulsating = 7,
+		ShortSound = 8,
 		MediumAscending = 9,
-		ShorterAscending = 10,
-		ShorterContinuous = 11,
-		Blip = 12,
-		ShortSound = 13,
-		LongSound = 14
+		MediumDescending = 10,
+		MediumContinuous = 11,
+		MediumPulsating = 12,
+		LongAscending = 13,
+		LongDescending = 14,
+		LongContinuous = 15,
+		LongPulsating = 16,	
+		LongSound = 17
 	}
 }
 
@@ -30,123 +33,58 @@ module ActivityType {
 }
 
 class SessionModel {
-	function initialize() {	
+	var time;
+	var color;
+	var name;
+	var vibePattern;
+	var intervalAlerts;
+	var key;
+	private var activityType;
+	private var hrvTracking;
+	
+	function initialize() {
+		me.key = null;
+		me.name = null;
+		me.time = null;
+		me.color = null;
+		me.vibePattern = null;
+		me.intervalAlerts = null;
+		me.activityType = null;
+		me.hrvTracking = null;
 	}
 		
 	function fromDictionary(loadedSessionDictionary) {	
 		me.time = loadedSessionDictionary["time"];
 		me.color = loadedSessionDictionary["color"];
+		me.name = loadedSessionDictionary["name"];
 		me.vibePattern = loadedSessionDictionary["vibePattern"];
-		me.activityType = loadedSessionDictionary["activityType"];		
-		me.ensureActivityTypeExists();
+		me.activityType = loadedSessionDictionary["activityType"];
+		me.key = loadedSessionDictionary["key"];
 		me.hrvTracking = loadedSessionDictionary["hrvTracking"];
-		me.ensureHrvTrackingExists();	
-		var serializedAlerts = loadedSessionDictionary["intervalAlerts"];		
+		var serializedAlerts = loadedSessionDictionary["intervalAlerts"];
 		me.intervalAlerts = new IntervalAlerts();
-		me.intervalAlerts.fromDictionary(serializedAlerts);
+		me.intervalAlerts.fromArray(serializedAlerts);
 	}
-	
-	private function ensureHrvTrackingExists() {
-		if (me.hrvTracking == null) {
-			me.hrvTracking = GlobalSettings.loadHrvTracking();
-		}	
+
+	function getActivityType() {
+		return me.activityType == null ? GlobalSettings.loadActivityType() : me.activityType;
 	}
-	
-	private function ensureActivityTypeExists() {
-		if (me.activityType == null) {
-			me.activityType = GlobalSettings.loadActivityType();
-		}	
+	function getHrvTracking() {
+		return me.hrvTracking == null ? GlobalSettings.loadHrvTracking() : me.hrvTracking;
 	}
 	
 	function toDictionary() {	
-		var serializedAlerts = me.intervalAlerts.toDictionary();
-		me.ensureActivityTypeExists();
+		var serializedAlerts = me.intervalAlerts != null ? me.intervalAlerts.toArray() : null;
 		return {
 			"time" => me.time,
 			"color" => me.color,
+			"name" => me.name,
+			"key" => me.key,
 			"vibePattern" => me.vibePattern,
 			"intervalAlerts" => serializedAlerts,
 			"activityType" => me.activityType,
-			"hrvTracking" => me.hrvTracking
+			"hrvTracking" => me.hrvTracking,
 		};
-	}
-		
-	function reset(index, addingNew) {
-		
-		// Set 5,10,15,20,25,30min,45min and 1h default sessions
-
-		//DEBUG 10s
-		/*
-		if (index == 0) {
-			me.time = 10;
-			me.color = Gfx.COLOR_GREEN;
-		}
-		*/
-
-		// 5min
-		if (index == 0) {
-			me.time = 5 * 60;
-			me.color = Gfx.COLOR_GREEN;
-		}
-
-		// 10min
-		if (index == 1) {
-			me.time = 10 * 60;
-			me.color = Gfx.COLOR_YELLOW;
-		}
-
-		// 15min
-		if (index == 2) {
-			me.time = 15 * 60;
-			me.color = Gfx.COLOR_BLUE;
-		}
-
-		// 20min
-		if (index == 3) {
-			me.time = 20 * 60;
-			me.color = Gfx.COLOR_GREEN;
-		}
-
-		// 25min
-		if (index == 4) {
-			me.time = 25 * 60;
-			me.color = Gfx.COLOR_YELLOW;
-		}
-
-		// 30min
-		if (index == 5) {
-			me.time = 30 * 60;
-			me.color = Gfx.COLOR_BLUE;
-		}
-
-		// 45min
-		if (index == 6) {
-			me.time = 45 * 60;
-			me.color = Gfx.COLOR_GREEN;
-		}
-
-		// 1h
-		if (index == 7) {
-			me.time = 60 * 60;
-			me.color = Gfx.COLOR_YELLOW;
-		}
-
-		me.vibePattern = VibePattern.LongContinuous;		
-		me.activityType = GlobalSettings.loadActivityType();
-		me.hrvTracking = GlobalSettings.loadHrvTracking();
-		me.intervalAlerts = new IntervalAlerts();
-		me.intervalAlerts.reset();
-
-		// Add 5min blips interval alerts for sessions with 10min to 30min
-		if (index>0 && index<=5 && !addingNew) {
-			me.intervalAlerts.addNew();
-		}
-
-		// Add 15min blips interval alerts for sessions with 45min or 1h
-		if ((index==6 || index==7) && !addingNew) {
-			me.intervalAlerts.addNew();
-			me.intervalAlerts.get(0).time = 60 * 15;
-		}
 	}
 	
 	function copyNonNullFieldsFromSession(otherSession) {
@@ -156,24 +94,23 @@ class SessionModel {
     	if (otherSession.color != null) {
     		me.color = otherSession.color;
     	}
+		if (otherSession.name != null) {
+    		me.name = otherSession.name;
+    	}
+		if (otherSession.key != null) {
+    		me.key = otherSession.key;
+    	}
     	if (otherSession.vibePattern != null) {
     		me.vibePattern = otherSession.vibePattern;
     	}
     	if (otherSession.intervalAlerts != null) {
     		me.intervalAlerts = otherSession.intervalAlerts;
     	}
-    	if (otherSession.activityType != null) {
-    		me.activityType = otherSession.activityType;
+    	if (otherSession.getActivityType() != null) {
+    		me.activityType = otherSession.getActivityType();
     	}
-    	if (otherSession.hrvTracking != null) {
-    		me.hrvTracking = otherSession.hrvTracking;
+    	if (otherSession.getHrvTracking() != null) {
+    		me.hrvTracking = otherSession.getHrvTracking();
     	}
 	}
-		
-	var time;
-	var color;
-	var vibePattern;
-	var intervalAlerts;
-	var activityType;
-	var hrvTracking;
 }

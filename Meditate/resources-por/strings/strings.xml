@@ -138,6 +138,9 @@
 	<string id="vibePatternMenu_shortPulsating">Curto pulsante</string>
 	<string id="vibePatternMenu_shortContinuous">Curto contínuo</string>
 	<string id="vibePatternMenu_shortAscending">Curto ascendente</string>
+    <string id="vibePatternMenu_shortDescending">Curto descendente</string>
+    <string id="vibePatternMenu_mediumDescending">Médio descendente</string>
+    <string id="vibePatternMenu_longDescending">Longo descendente</string>
 	
 	<string id="intervalVibePatternMenu_title">Vibração / Som</string>
     <string id="intervalVibePatternMenu_noNotification">Sem Notif.</string>
@@ -173,7 +176,7 @@
 
     <string id="optionsMenuHelp">Segurar menu</string>
 
-    <string id="about_AppVersion">v9.1.10</string>
+    <string id="about_AppVersion">v10.0.1</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>
     <string id="about_falsetru">falsetru</string>

@@ -149,6 +149,9 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 	}
 
 	private static function getVibePatternText(vibePattern) {
+		if (vibePattern == null) {
+			vibePattern = VibePattern.NoNotification;
+		}
 		switch (vibePattern) {
 			case VibePattern.LongPulsating:
 				return Ui.loadResource(Rez.Strings.vibePatternMenu_longPulsating);
@@ -158,18 +161,24 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 				return Ui.loadResource(Rez.Strings.vibePatternMenu_longAscending);
 			case VibePattern.LongContinuous:
 				return Ui.loadResource(Rez.Strings.vibePatternMenu_longContinuous);
+			case VibePattern.LongDescending:
+				return Ui.loadResource(Rez.Strings.vibePatternMenu_longDescending);
 			case VibePattern.MediumAscending:
 				return Ui.loadResource(Rez.Strings.vibePatternMenu_mediumAscending);
 			case VibePattern.MediumContinuous:
 				return Ui.loadResource(Rez.Strings.vibePatternMenu_mediumContinuous);
 			case VibePattern.MediumPulsating:
 				return Ui.loadResource(Rez.Strings.vibePatternMenu_mediumPulsating);
+			case VibePattern.MediumDescending:
+				return Ui.loadResource(Rez.Strings.vibePatternMenu_mediumDescending);
 			case VibePattern.ShortAscending:
 				return Ui.loadResource(Rez.Strings.vibePatternMenu_shortAscending);
 			case VibePattern.ShortContinuous:
 				return Ui.loadResource(Rez.Strings.vibePatternMenu_shortContinuous);
 			case VibePattern.ShortPulsating:
 				return Ui.loadResource(Rez.Strings.vibePatternMenu_shortPulsating);
+			case VibePattern.ShortDescending:
+				return Ui.loadResource(Rez.Strings.vibePatternMenu_shortDescending);
 			default:
 				return Ui.loadResource(Rez.Strings.vibePatternMenu_noNotification);
 		}
@@ -207,7 +216,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 
 	private function setInitialHrvStatus(hrvStatusLine, session) {
 		hrvStatusLine.icon = new ScreenPicker.HrvIcon({});
-		if (session.hrvTracking == HrvTracking.Off) {
+		if (session.getHrvTracking() == HrvTracking.Off) {
 			hrvStatusLine.icon.setStatusOff();
 			hrvStatusLine.value.text = Ui.loadResource(Rez.Strings.HRVoff);
 		} else {
@@ -221,20 +230,24 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 	}
 
 	function updateSelectedSessionDetails(session) {
-		me.setTestModeHeartbeatIntervalsSensor(session.hrvTracking);
-
+		me.setTestModeHeartbeatIntervalsSensor(session.getHrvTracking());
+ 		me.mSelectedSessionDetails = new ScreenPicker.DetailsModel();
 		var details = me.mSelectedSessionDetails;
 
 		var activityTypeText;
-		if (session.activityType == ActivityType.Yoga) {
+		if (session.getActivityType() == ActivityType.Yoga) {
 			activityTypeText = Ui.loadResource(Rez.Strings.activityNameYoga); // Due to bug in Connect IQ API for breath activity to get respiration rate, we will use Yoga as default meditate activity
-		} else if (session.activityType == ActivityType.Breathing) {
+		} else if (session.getActivityType() == ActivityType.Breathing) {
 			activityTypeText = Ui.loadResource(Rez.Strings.activityNameBreathing);
 		} else {
 			// Meditation
 			activityTypeText = Ui.loadResource(Rez.Strings.activityNameMeditate);
 		}
-		details.title = activityTypeText + " " + (me.mSelectedPageIndex + 1);
+		if(session.name != null){
+			details.title = session.name;
+		}else {
+			details.title = activityTypeText + " " + (me.mSelectedPageIndex + 1);
+		}
 		details.titleColor = session.color;
 		var lineNum = 0;
 		var line = details.getLine(lineNum);

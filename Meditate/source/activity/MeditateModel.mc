@@ -28,11 +28,11 @@ class MeditateModel extends ScreenPicker.DetailsModel{
 	var isTimerRunning;
 
 	function isHrvOn() {
-		return me.mSession.hrvTracking != HrvTracking.Off;
+		return me.getHrvTracking() != HrvTracking.Off;
 	}
 	
 	function getHrvTracking() {
-		return me.mSession.hrvTracking;
+		return me.mSession.getHrvTracking();
 	}
 		
 	function getSessionTime() {
@@ -71,7 +71,7 @@ class MeditateModel extends ScreenPicker.DetailsModel{
 	}
 	
 	function getActivityType() {
-		return me.mSession.activityType;
+		return me.mSession.getActivityType();
 	}
 
 	function isRespirationRateOn() {

@@ -11,10 +11,10 @@ module HrvAlgorithms {
 		private var mBeatToBeatIntervalsCount;
 		
 		function addBeatToBeatInterval(beatToBeatInterval) {
-			if (me.mPreviousBeatToBeatInterval != null) {
-				me.mBeatToBeatIntervalsCount++;					
+			if (me.mPreviousBeatToBeatInterval != null && beatToBeatInterval != null) {
+				me.mBeatToBeatIntervalsCount++;
 				me.mSquareOfSuccessiveBtbDifferences += Math.pow(beatToBeatInterval - me.mPreviousBeatToBeatInterval, 2);	
-			}		
+			}
 			me.mPreviousBeatToBeatInterval = beatToBeatInterval;
 		}
 		

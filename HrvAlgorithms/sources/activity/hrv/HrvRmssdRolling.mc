@@ -4,16 +4,20 @@ module HrvAlgorithms {
 			Rolling.initialize(rollingIntervalSeconds);
 		}
 		function aggregate(value) {
-			me.aggregatedValue += Math.pow(value - me.previousValue, 2);
+			if (value != null && me.previousValue != null) {
+				me.aggregatedValue += Math.pow(value - me.previousValue, 2);
+			}
 		}
 		
 		function calculate() {
-			if (me.secondsCount < me.rollingIntervalSeconds || me.count < 1) {
-				return null;
+			var result = null;
+			if (me.secondsCount >= me.rollingIntervalSeconds) {
+				if (me.count > 0) {
+					result = Math.sqrt(me.aggregatedValue / me.count.toFloat());
+				}
+				me.data.add(result);
+				me.reset();				
 			}
-			var result = Math.sqrt(me.aggregatedValue / me.count.toFloat());
-			me.reset();
-			me.data.add(result);
 			return result;
 		}
 	}
