@@ -97,7 +97,9 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 		if (continueAfterFinishingSession == MultiSession.Yes) {
 			showSessionPickerView(me.mSummaryModel);
 		} else {
-			me.mHeartbeatIntervalsSensor.stop();
+			if (me.mHeartbeatIntervalsSensor != null) {
+				me.mHeartbeatIntervalsSensor.stop();
+			}
 			me.mHeartbeatIntervalsSensor = null;
 
 			showSummaryView(me.mSummaryModel);
