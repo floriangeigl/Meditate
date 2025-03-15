@@ -33,6 +33,7 @@ class SummaryModel {
 		if (activitySummary.hrvSummary != null) {
 			me.hrvRmssd = activitySummary.hrvSummary.rmssd;
 			me.hrvRmssdHistory = activitySummary.hrvSummary.rmssdHistory;
+			me.hrvNRmssdHistory = activitySummary.hrvSummary.nRmssdHistory;
 			me.hrvFirst5Min = activitySummary.hrvSummary.first5MinSdrr;
 			me.hrvLast5Min = activitySummary.hrvSummary.last5MinSdrr;
 			me.hrvPnn50 = activitySummary.hrvSummary.pnn50;
@@ -62,6 +63,7 @@ class SummaryModel {
 
 	var hrvRmssd;
 	var hrvRmssdHistory;
+	var hrvNRmssdHistory;
 	var hrvFirst5Min;
 	var hrvLast5Min;
 	var hrvPnn50;

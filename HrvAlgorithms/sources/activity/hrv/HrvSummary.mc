@@ -6,5 +6,6 @@ module HrvAlgorithms {
 		var first5MinSdrr;
 		var last5MinSdrr;
 		var rmssdHistory;
+		var nRmssdHistory;
 	}
 }
