@@ -69,6 +69,9 @@ class SessionModel {
 	function getActivityType() {
 		return me.activityType == null ? GlobalSettings.loadActivityType() : me.activityType;
 	}
+	function setActivityType(activityType) {
+		me.activityType = activityType;
+	}
 	function getHrvTracking() {
 		return me.hrvTracking == null ? GlobalSettings.loadHrvTracking() : me.hrvTracking;
 	}
