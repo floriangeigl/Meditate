@@ -77,14 +77,14 @@ class AddEditSessionMenuDelegate extends Ui.MenuInputDelegate {
     
     function onActivityTypePicked(item) {
     	var sessionModel = new SessionModel();
-    	if (item == :meditating) {    		
-    		sessionModel.activityType = ActivityType.Meditating;
+    	if (item == :meditating) {    
+			sessionModel.setActivityType(ActivityType.Meditating);
     	}
     	else if (item == :yoga) {
-    		sessionModel.activityType = ActivityType.Yoga;
+			sessionModel.setActivityType(ActivityType.Yoga);
     	}
 		else if (item == :breathing) {
-    		sessionModel.activityType = ActivityType.Breathing;
+			sessionModel.setActivityType(ActivityType.Breathing);
     	}        	
 		me.mOnChangeSession.invoke(sessionModel);	
     }
