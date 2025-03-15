@@ -6,12 +6,12 @@
 	</projects>
 	<buildSpec>
 		<buildCommand>
-			<name>connectiq.barrelBuilder</name>
+			<name>connectiq.builder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
 	</buildSpec>
 	<natures>
-		<nature>connectiq.barrelProjectNature</nature>
+		<nature>connectiq.projectNature</nature>
 	</natures>
 </projectDescription>

@@ -1,4 +1,5 @@
 using Toybox.Graphics as Gfx;
+using StatusIconFonts;
 
 module ScreenPicker {
 	class HrvIcon extends Icon {

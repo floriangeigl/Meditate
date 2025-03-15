@@ -3,6 +3,7 @@ using Toybox.Lang;
 using Toybox.Graphics as Gfx;
 using Toybox.Application as App;
 using Toybox.Timer;
+using StatusIconFonts;
 
 class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 	private var mMeditateModel;
@@ -51,8 +52,8 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 		}
 		me.mStressStatusLine = me.mMeditateModel.getLine(lineNum);
 		lineNum++;
-		
-		if (me.mMeditateModel.isRespirationRateOn()){
+
+		if (me.mMeditateModel.isRespirationRateOn()) {
 			me.mRrStatusLine = me.mMeditateModel.getLine(lineNum);
 		}
 
@@ -130,7 +131,7 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 					:color => iconColor,
 				});
 			}
-			if (me.mMeditateModel.isRespirationRateOn()){
+			if (me.mMeditateModel.isRespirationRateOn()) {
 				me.mRrStatusLine.value.text = me.formatValue(currentRr);
 				me.mRrStatusLine.icon = new ScreenPicker.BreathIcon({});
 				if (currentRr != null) {

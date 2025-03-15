@@ -3,7 +3,7 @@ using Toybox.Graphics as Gfx;
 
 class SessionPresets {
 	static function getPresets() {
-		var sessions = [];
+		var sessions = new SessionModel [0];
 		var session = null;
 		var iAlert = null;
 		var settings = null;
