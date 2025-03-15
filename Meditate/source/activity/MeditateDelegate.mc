@@ -99,9 +99,8 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 		} else {
 			if (me.mHeartbeatIntervalsSensor != null) {
 				me.mHeartbeatIntervalsSensor.stop();
+				me.mHeartbeatIntervalsSensor = null;
 			}
-			me.mHeartbeatIntervalsSensor = null;
-
 			showSummaryView(me.mSummaryModel);
 		}
 	}
