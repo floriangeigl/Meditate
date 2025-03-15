@@ -21,7 +21,7 @@ module HrvAlgorithms {
 
 		function getCurrentValueClean() {
 			var val = me.getCurrentValueRaw();
-			if (val > 0 && val < 100) {
+			if (val != null && val > 0 && val < 100) {
 				return val;
 			} else {
 				return null;

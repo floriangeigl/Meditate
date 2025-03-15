@@ -5,8 +5,8 @@ using Toybox.Sensor;
 
 module HrvAlgorithms {
 	class HrActivity extends SensorActivityTumbling {
-		private var mFitSession;		
-		private const RefreshActivityInterval = 1000;	
+		private var mFitSession;
+		private const RefreshActivityInterval = 1000;
 		private var mRefreshActivityTimer;
 		private const MinHrFieldId = 0;
 		private var mMinHrField;
@@ -18,62 +18,56 @@ module HrvAlgorithms {
 			me.createMinHrDataField();
 			me.onBeforeStart(me.mFitSession);
 			me.mFitSession.start();
-			me.mRefreshActivityTimer = new Timer.Timer();		
+			me.mRefreshActivityTimer = new Timer.Timer();
 			me.mRefreshActivityTimer.start(method(:refreshActivityStats), RefreshActivityInterval, true);
 			me.minHr = null;
 		}
 
-		protected function onBeforeStart(fitSession) {
-		}
-		
-		function stop() {	
+		protected function onBeforeStart(fitSession) {}
+
+		function stop() {
 			if (me.mFitSession.isRecording() == false) {
 				return;
-		    }
+			}
 			me.onBeforeStop();
-			me.mFitSession.stop();		
+			me.mFitSession.stop();
 			me.mRefreshActivityTimer.stop();
 			me.mRefreshActivityTimer = null;
 		}
 
-		protected function onBeforeStop() {
-		}
+		protected function onBeforeStop() {}
 
 		// Pause/Resume session, returns true is session is now running
 		function pauseResume() {
-			// Check if session is running	
+			// Check if session is running
 			if (me.mFitSession.isRecording()) {
-
-				// Stop the timer and refresh the screen 
+				// Stop the timer and refresh the screen
 				// to show the pause text
-				me.mFitSession.stop();		
+				me.mFitSession.stop();
 				me.mRefreshActivityTimer.stop();
 				me.mRefreshActivityTimer = null;
 				refreshActivityStats();
 				return false;
-
-		    } else {
+			} else {
 				// Restart the timer for the session
-				me.mFitSession.start();		
-				me.mRefreshActivityTimer = new Timer.Timer();		
+				me.mFitSession.start();
+				me.mRefreshActivityTimer = new Timer.Timer();
 				me.mRefreshActivityTimer.start(method(:refreshActivityStats), RefreshActivityInterval, true);
 				return true;
 			}
 		}
 
-		function isTimerRunning() {	
+		function isTimerRunning() {
 			return me.mFitSession.isRecording();
 		}
 
 		private function createMinHrDataField() {
-			me.mMinHrField = me.mFitSession.createField(
-	            "min_hr",
-	            me.MinHrFieldId,
-	            FitContributor.DATA_TYPE_UINT16,
-	            {:mesgType=>FitContributor.MESG_TYPE_SESSION, :units=>"bpm"}
-	        );
+			me.mMinHrField = me.mFitSession.createField("min_hr", me.MinHrFieldId, FitContributor.DATA_TYPE_UINT16, {
+				:mesgType => FitContributor.MESG_TYPE_SESSION,
+				:units => "bpm",
+			});
 		}
-		
+
 		function refreshActivityStats() {
 			var activityInfo = Activity.getActivityInfo();
 			if (activityInfo == null) {
@@ -90,9 +84,8 @@ module HrvAlgorithms {
 			}
 			me.onRefreshHrActivityStats(activityInfo, me.minHr);
 		}
-		
-		protected function onRefreshHrActivityStats(activityInfo, minHr) {
-		}
+
+		protected function onRefreshHrActivityStats(activityInfo, minHr) {}
 
 		function getSummary() {
 			var summary = SensorActivityTumbling.getSummary();
@@ -101,21 +94,21 @@ module HrvAlgorithms {
 			return summary;
 		}
 
-		function finish() {		
+		function finish() {
 			me.mFitSession.save();
 			me.mFitSession = null;
 		}
-			
-		function discard() {		
+
+		function discard() {
 			me.mFitSession.discard();
 			me.mFitSession = null;
 		}
-		
+
 		function discardDanglingActivity() {
 			var isDangling = me.mFitSession != null && !me.mFitSession.isRecording();
 			if (isDangling) {
 				me.discard();
 			}
 		}
-	}	
+	}
 }
