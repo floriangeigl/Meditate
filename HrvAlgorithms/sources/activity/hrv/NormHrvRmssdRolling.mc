@@ -16,7 +16,7 @@ module HrvAlgorithms {
 			if (me.secondsCount >= me.rollingIntervalSeconds) {
 				if (me.count > 0 && me.avgAggValue > 0) {
 					result = Math.sqrt(me.aggregatedValue / me.count.toFloat());
-					result /= me.avgAggValue.toFloat();
+					result /= me.avgAggValue.toFloat() * 100.0;
 				}
 				me.data.add(result);
 				me.reset();
