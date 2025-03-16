@@ -2,6 +2,7 @@ using Toybox.WatchUi as Ui;
 using Toybox.Graphics as Gfx;
 using Toybox.Application as App;
 using Toybox.Math as Math;
+using StatusIconFonts;
 
 module ScreenPicker {
 	class ScreenPickerBaseView extends Ui.View {

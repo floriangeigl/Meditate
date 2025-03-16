@@ -2,6 +2,7 @@ using Toybox.WatchUi as Ui;
 using Toybox.Application as App;
 using Toybox.Graphics as Gfx;
 using HrvAlgorithms.HrvTracking;
+using StatusIconFonts;
 
 class GlobalSettingsDelegate extends ScreenPicker.ScreenPickerDelegate {
 	protected var mColors;

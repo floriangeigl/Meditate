@@ -2,6 +2,7 @@ using Toybox.WatchUi as Ui;
 using Toybox.Graphics as Gfx;
 using Toybox.Application as App;
 using HrvAlgorithms.HrvTracking;
+using StatusIconFonts;
 
 class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 	private var mSessionStorage;
@@ -231,7 +232,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 
 	function updateSelectedSessionDetails(session) {
 		me.setTestModeHeartbeatIntervalsSensor(session.getHrvTracking());
- 		me.mSelectedSessionDetails = new ScreenPicker.DetailsModel();
+		me.mSelectedSessionDetails = new ScreenPicker.DetailsModel();
 		var details = me.mSelectedSessionDetails;
 
 		var activityTypeText;
@@ -243,9 +244,9 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 			// Meditation
 			activityTypeText = Ui.loadResource(Rez.Strings.activityNameMeditate);
 		}
-		if(session.name != null){
+		if (session.name != null) {
 			details.title = session.name;
-		}else {
+		} else {
 			details.title = activityTypeText + " " + (me.mSelectedPageIndex + 1);
 		}
 		details.titleColor = session.color;
