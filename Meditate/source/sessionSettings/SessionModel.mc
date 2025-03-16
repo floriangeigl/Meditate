@@ -48,7 +48,7 @@ class SessionModel {
 		me.time = null;
 		me.color = null;
 		me.vibePattern = null;
-		me.intervalAlerts = null;
+		me.intervalAlerts = new IntervalAlerts();
 		me.activityType = null;
 		me.hrvTracking = null;
 	}
@@ -69,13 +69,19 @@ class SessionModel {
 	function getActivityType() {
 		return me.activityType == null ? GlobalSettings.loadActivityType() : me.activityType;
 	}
+	
 	function setActivityType(activityType) {
 		me.activityType = activityType;
 	}
+	
 	function getHrvTracking() {
 		return me.hrvTracking == null ? GlobalSettings.loadHrvTracking() : me.hrvTracking;
 	}
 	
+	function setHrvTracking(hrvTracking) {
+		me.hrvTracking = hrvTracking;
+	}
+
 	function toDictionary() {	
 		var serializedAlerts = me.intervalAlerts != null ? me.intervalAlerts.toArray() : null;
 		return {
