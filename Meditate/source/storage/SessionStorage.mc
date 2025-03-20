@@ -18,6 +18,7 @@ class SessionStorage {
 
 		if (me.mSessionKeys.size() == 0){
 			me.restorePresets();
+			me.updateSessionStats();
 		}
 	}
 
@@ -72,6 +73,7 @@ class SessionStorage {
 
 	function saveSession(session) {
 		App.Storage.setValue(me.getSessionStorageKey(session), session.toDictionary());
+		me.updateSessionStats();
 	}
 
 	function getSessionsCount() {
