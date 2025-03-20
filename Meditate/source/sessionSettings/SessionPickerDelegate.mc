@@ -55,7 +55,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 	}
 
 	function onHold(param) {
-		return me.showSessionSettingsMenu();
+		return me.onMenu();
 	}
 
 	private const RollupExitOption = :exitApp;
