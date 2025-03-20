@@ -1,4 +1,5 @@
 using Toybox.ActivityRecording;
+using Toybox.Activity;
 
 module HrvAlgorithms {
 	class FitSessionSpec {
@@ -8,23 +9,21 @@ module HrvAlgorithms {
 		
 		static function createYoga(sessionName) {
 			return {
-                 :name => sessionName,                              
-                 :sport => ActivityRecording.SPORT_TRAINING,      
+                 :name => sessionName,
                  :subSport => SUB_SPORT_YOGA
                 };
 		}
 		
 		static function createMeditation(sessionName) {
 			return {
-                 :name => sessionName,                              
+                 :name => sessionName,
                  :sport => SPORT_MEDITATION
                 };
 		}
 
 		static function createBreathing(sessionName) {
 			return {
-                 :name => sessionName,                              
-                 :sport => ActivityRecording.SPORT_TRAINING,      
+                 :name => sessionName,
                  :subSport => SUB_SPORT_BREATHWORKS
                 };
 		}
