@@ -24,6 +24,7 @@ module ScreenPicker {
 				me.titleColor = me.mDetailsModel.titleColor;
 			}
 		}
+
 		function onLayout(dc) {
 			ScreenPickerBaseView.onLayout(dc);
 			lineHeight = dc.getHeight() * 0.11;

@@ -13,6 +13,7 @@ module ScreenPicker {
 		var colorTheme;
 		var backgroundColor, foregroundColor;
 		var spaceXSmall, spaceYSmall, spaceXMed, spaceYMed;
+		private static const TextFont = App.getApp().getProperty("largeFont");
 		private static const InvalidValueString = "--";
 		private static const colorThemeKey = "globalSettings_colorTheme";
 		function initialize(multiPage) {
@@ -86,7 +87,7 @@ module ScreenPicker {
 			dc.drawText(
 				dc.getWidth() / 2,
 				dc.getHeight() * 0.1,
-				App.getApp().getProperty("largeFont"),
+				me.TextFont,
 				title,
 				Graphics.TEXT_JUSTIFY_CENTER
 			);
