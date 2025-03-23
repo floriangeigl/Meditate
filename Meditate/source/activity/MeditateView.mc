@@ -21,7 +21,6 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 	private var mStressText;
 	private var mBreathIcon;
 	private var mBreathText;
-	private var mMeditateIcon;
 	private var mRespirationRateYPosOffset;
 
 	function initialize(meditateModel) {
@@ -34,7 +33,6 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 		me.mHrvStatusLine = null;
 		me.mStressStatusLine = null;
 		me.mRrStatusLine = null;
-		me.mMeditateIcon = null;
 
 		me.mHrIcon = new ScreenPicker.Icon({
 			:font => StatusIconFonts.fontAwesomeFreeSolid,
@@ -106,9 +104,6 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 			var currentStress = null;
 			var currentElapsedTime = null;
 			if (me.mMeditateModel.isTimerRunning) {
-				if (me.mMeditateIcon != null) {
-					mMeditateIcon.draw(dc);
-				}
 
 				var timeText = TimeFormatter.format(elapsedTime);
 				currentElapsedTime = timeText.substring(0, timeText.length() - 3);
@@ -156,7 +151,6 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 			me.mStressStatusLine.value.text = me.formatValue(currentStress);
 			me.mStressIcon.setStress(currentStress);
 
-			ScreenPicker.ScreenPickerDetailsCenterView.onUpdate(dc);
 			var alarmTime = me.mMeditateModel.getSessionTime();
 
 			// Fix issues with OLED screens for prepare time 45 seconds

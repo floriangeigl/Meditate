@@ -42,7 +42,7 @@ module ScreenPicker {
 				dc.setColor(foregroundColor, Graphics.COLOR_TRANSPARENT);
 				line = me.mDetailsModel.detailLines[lineNumber];
 				yPos = me.yOffset + me.lineHeight * lineNumber;
-				if (line.icon != null) {
+				if (line.icon instanceof Icon) {
 					me.displayFontIcon(dc, line.icon, me.xIconOffset, yPos);
 				}
 				if (line.value instanceof TextValue) {
