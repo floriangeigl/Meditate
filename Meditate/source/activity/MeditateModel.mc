@@ -14,11 +14,15 @@ class MeditateModel extends ScreenPicker.DetailsModel{
 		me.isTimerRunning = false;
 		me.rrActivity = new HrvAlgorithms.RrActivity();
 		me.stressActivity = new HrvAlgorithms.StressActivity();
+		me.mHrvTracking = me.mSession.getHrvTracking();
+		me.mIsHrvOn = me.mHrvTracking != HrvTracking.Off;
 	}
 	
 	private var mSession;
 	private var rrActivity;
 	private var stressActivity;
+	private var mIsHrvOn, mHrvTracking;
+	private static const mRespirationRateSetting = GlobalSettings.loadRespirationRate();
 
 	var currentHr;
 	var minHr;
@@ -28,11 +32,11 @@ class MeditateModel extends ScreenPicker.DetailsModel{
 	var isTimerRunning;
 
 	function isHrvOn() {
-		return me.getHrvTracking() != HrvTracking.Off;
+		return me.mIsHrvOn;
 	}
 	
 	function getHrvTracking() {
-		return me.mSession.getHrvTracking();
+		return me.mHrvTracking;
 	}
 		
 	function getSessionTime() {
@@ -74,23 +78,10 @@ class MeditateModel extends ScreenPicker.DetailsModel{
 		return me.mSession.getActivityType();
 	}
 
-	function isRespirationRateOn() {
-		return isRespirationRateOnStatic(me.rrActivity);
-	}
-
-	static function isRespirationRateOnStatic(rrActivity) {
-
-		// Check if watch supports respiration rate
-		if (rrActivity.isSupported()) {
-
-			// Check if global option is enabled
-			var respirationRateSetting = GlobalSettings.loadRespirationRate();
-			if (respirationRateSetting == RespirationRate.On) {
-				return true;
-			} else {
-				return false;
-			}
-			
+	static function isRespirationRateOn() {
+		// Check if watch supports respiration rate & Check if global option is enabled
+		if (HrvAlgorithms.RrActivity.isSensorSupported() && mRespirationRateSetting == RespirationRate.On) {
+			return true;
 		} else {
 			return false;
 		}
