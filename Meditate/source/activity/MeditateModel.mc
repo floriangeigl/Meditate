@@ -78,9 +78,9 @@ class MeditateModel extends ScreenPicker.DetailsModel{
 		return me.mSession.getActivityType();
 	}
 
-	static function isRespirationRateOn() {
+	function isRespirationRateOn() {
 		// Check if watch supports respiration rate & Check if global option is enabled
-		if (HrvAlgorithms.RrActivity.isSensorSupported() && mRespirationRateSetting == RespirationRate.On) {
+		if (me.rrActivity != null && me.rrActivity.isSupported() && mRespirationRateSetting == RespirationRate.On) {
 			return true;
 		} else {
 			return false;

@@ -87,6 +87,7 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 				intervalAlertsArcRadius,
 				intervalAlertsArcWidth
 			);
+			me.mIntervalAlertsRenderer.layoutIntervalAlerts(dc);
 		}
 	}
 
@@ -174,8 +175,7 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 			}
 			me.mMainDurationRenderer.drawOverallElapsedTime(dc, elapsedTime, me.mMeditateModel.getSessionTime());
 			if (me.mIntervalAlertsRenderer != null) {
-				me.mIntervalAlertsRenderer.drawRepeatIntervalAlerts(dc);
-				me.mIntervalAlertsRenderer.drawOneOffIntervalAlerts(dc);
+				me.mIntervalAlertsRenderer.drawAllIntervalAlerts(dc);
 			}
 		}
 		lastElapsedTime = elapsedTime;

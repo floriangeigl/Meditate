@@ -8,11 +8,7 @@ module HrvAlgorithms {
 
 		// Method to be used without class instance
 		static function isSensorSupported() {
-			if (ActivityMonitor.getInfo() has :respirationRate) {
-				return true;
-			} else {
-				return false;
-			}
+			return ActivityMonitor.getInfo() has :respirationRate ? true : false;
 		}
 
 		function getCurrentValueRaw() {
