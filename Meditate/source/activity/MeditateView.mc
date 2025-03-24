@@ -95,7 +95,6 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 
 	// Update the view
 	function onUpdate(dc) {
-		ScreenPicker.ScreenPickerDetailsCenterView.onUpdate(dc);
 		var elapsedTime = me.mMeditateModel.elapsedTime;
 		// Only update every second
 		if (elapsedTime != lastElapsedTime || !me.mMeditateModel.isTimerRunning) {
@@ -151,9 +150,15 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 			me.mStressStatusLine.value.text = me.formatValue(currentStress);
 			me.mStressIcon.setStress(currentStress);
 
+			ScreenPicker.ScreenPickerDetailsCenterView.onUpdate(dc);
+			me.mMainDurationRenderer.drawOverallElapsedTime(dc, elapsedTime, me.mMeditateModel.getSessionTime());
+			if (me.mIntervalAlertsRenderer != null) {
+				me.mIntervalAlertsRenderer.drawAllIntervalAlerts(dc);
+			}
+
 			// Fix issues with OLED screens for prepare time 45 seconds
 			try {
-				if (Attention has :backlight) {
+				if (elapsedTime < 10 && Attention has :backlight) {
 					if (elapsedTime <= 1) {
 						Attention.backlight(false);
 					}
@@ -172,10 +177,6 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 				if (Attention has :backlight) {
 					Attention.backlight(false);
 				}
-			}
-			me.mMainDurationRenderer.drawOverallElapsedTime(dc, elapsedTime, me.mMeditateModel.getSessionTime());
-			if (me.mIntervalAlertsRenderer != null) {
-				me.mIntervalAlertsRenderer.drawAllIntervalAlerts(dc);
 			}
 		}
 		lastElapsedTime = elapsedTime;
