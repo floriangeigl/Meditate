@@ -87,6 +87,7 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 				intervalAlertsArcRadius,
 				intervalAlertsArcWidth
 			);
+			me.mIntervalAlertsRenderer.layoutIntervalAlerts(dc);
 		}
 	}
 
@@ -94,7 +95,6 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 
 	// Update the view
 	function onUpdate(dc) {
-		ScreenPicker.ScreenPickerDetailsCenterView.onUpdate(dc);
 		var elapsedTime = me.mMeditateModel.elapsedTime;
 		// Only update every second
 		if (elapsedTime != lastElapsedTime || !me.mMeditateModel.isTimerRunning) {
@@ -104,7 +104,6 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 			var currentStress = null;
 			var currentElapsedTime = null;
 			if (me.mMeditateModel.isTimerRunning) {
-
 				var timeText = TimeFormatter.format(elapsedTime);
 				currentElapsedTime = timeText.substring(0, timeText.length() - 3);
 
@@ -130,7 +129,7 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 			} else {
 				me.mHrIcon.setColor(Graphics.COLOR_LT_GRAY);
 			}
-			
+
 			if (me.mMeditateModel.isHrvOn()) {
 				me.mHrvStatusLine.value.text = me.formatValue(currentHrv);
 				if (me.mMeditateModel.isHrvOn() == true && currentHr != null) {
@@ -151,11 +150,15 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 			me.mStressStatusLine.value.text = me.formatValue(currentStress);
 			me.mStressIcon.setStress(currentStress);
 
-			var alarmTime = me.mMeditateModel.getSessionTime();
+			ScreenPicker.ScreenPickerDetailsCenterView.onUpdate(dc);
+			me.mMainDurationRenderer.drawOverallElapsedTime(dc, elapsedTime, me.mMeditateModel.getSessionTime());
+			if (me.mIntervalAlertsRenderer != null) {
+				me.mIntervalAlertsRenderer.drawAllIntervalAlerts(dc);
+			}
 
 			// Fix issues with OLED screens for prepare time 45 seconds
 			try {
-				if (Attention has :backlight) {
+				if (elapsedTime < 10 && Attention has :backlight) {
 					if (elapsedTime <= 1) {
 						Attention.backlight(false);
 					}
@@ -174,11 +177,6 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 				if (Attention has :backlight) {
 					Attention.backlight(false);
 				}
-			}
-			me.mMainDurationRenderer.drawOverallElapsedTime(dc, elapsedTime, alarmTime);
-			if (me.mIntervalAlertsRenderer != null) {
-				me.mIntervalAlertsRenderer.drawRepeatIntervalAlerts(dc);
-				me.mIntervalAlertsRenderer.drawOneOffIntervalAlerts(dc);
 			}
 		}
 		lastElapsedTime = elapsedTime;

@@ -37,7 +37,7 @@ module HrvAlgorithms {
 
 		// Check if device supports respiration rate
 		function isSupported() {
-			return sensorSupported;
+			return me.sensorSupported;
 		}
 
 		protected function getCurrentValueRaw() {
