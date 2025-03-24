@@ -35,16 +35,6 @@ module ScreenPicker {
 			me.progressBarWidth = Math.ceil(me.width * 0.6);
 			me.progressBarHeight = Math.ceil(me.lineHeight * 0.6); // line height
 			me.highlightWidth = Math.ceil(0.02 * me.progressBarWidth);
-
-			var line = null;
-			var yPos = null;
-			for (var lineNumber = 0; lineNumber < me.mDetailsModel.detailLines.size(); lineNumber++) {
-				line = me.mDetailsModel.detailLines[lineNumber];
-				yPos = me.yOffset + me.lineHeight * lineNumber;
-				if (line.icon instanceof Icon) {
-					me.layoutFontIcon(line.icon, me.xIconOffset, yPos);
-				}
-			}
 		}
 
 		function onUpdate(dc) {
@@ -56,7 +46,7 @@ module ScreenPicker {
 				line = me.mDetailsModel.detailLines[lineNumber];
 				yPos = me.yOffset + me.lineHeight * lineNumber;
 				if (line.icon instanceof Icon) {
-					me.displayFontIcon(dc, line.icon);
+					me.displayFontIcon(dc, line.icon, me.xIconOffset, yPos);
 				}
 				if (line.value instanceof TextValue) {
 					me.displayText(dc, line.value, me.xTextOffset, yPos);
@@ -76,16 +66,13 @@ module ScreenPicker {
 			ScreenPickerBaseView.drawTitle(dc, title, me.mDetailsModel.titleColor);
 		}
 
-		private function displayFontIcon(dc, icon) {
+		private function displayFontIcon(dc, icon, xPos, yPos) {
 			if (icon.color == null) {
 				icon.setColor(foregroundColor);
 			}
-			icon.draw(dc);
-		}
-
-		private function layoutFontIcon(icon, xPos, yPos) {
 			icon.setYPos(yPos);
 			icon.setXPos(xPos);
+			icon.draw(dc);
 		}
 
 		private function displayText(dc, value, xPos, yPos) {
