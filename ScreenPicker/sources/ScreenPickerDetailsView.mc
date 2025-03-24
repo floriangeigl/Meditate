@@ -12,6 +12,7 @@ module ScreenPicker {
 		var yOffset;
 		var xIconOffset;
 		var xTextOffset;
+		private var progressBarWidth, progressBarHeight, highlightWidth;
 
 		function initialize(detailsModel, multiPage) {
 			ScreenPickerBaseView.initialize(multiPage);
@@ -27,10 +28,23 @@ module ScreenPicker {
 
 		function onLayout(dc) {
 			ScreenPickerBaseView.onLayout(dc);
-			lineHeight = dc.getHeight() * 0.11;
-			yOffset = dc.getHeight() * 0.25;
-			xIconOffset = Math.ceil(dc.getWidth() * 0.2);
-			xTextOffset = Math.ceil(xIconOffset + dc.getWidth() * 0.07);
+			lineHeight = height * 0.11;
+			yOffset = height * 0.25;
+			xIconOffset = Math.ceil(me.width * 0.2);
+			xTextOffset = Math.ceil(xIconOffset + me.width * 0.07);
+			me.progressBarWidth = Math.ceil(me.width * 0.6);
+			me.progressBarHeight = Math.ceil(me.lineHeight * 0.6); // line height
+			me.highlightWidth = Math.ceil(0.02 * me.progressBarWidth);
+
+			var line = null;
+			var yPos = null;
+			for (var lineNumber = 0; lineNumber < me.mDetailsModel.detailLines.size(); lineNumber++) {
+				line = me.mDetailsModel.detailLines[lineNumber];
+				yPos = me.yOffset + me.lineHeight * lineNumber;
+				if (line.icon instanceof Icon) {
+					me.layoutFontIcon(line.icon, me.xIconOffset, yPos);
+				}
+			}
 		}
 
 		function onUpdate(dc) {
@@ -39,11 +53,10 @@ module ScreenPicker {
 			var line = null;
 			var yPos = null;
 			for (var lineNumber = 0; lineNumber < me.mDetailsModel.detailLines.size(); lineNumber++) {
-				dc.setColor(foregroundColor, Graphics.COLOR_TRANSPARENT);
 				line = me.mDetailsModel.detailLines[lineNumber];
 				yPos = me.yOffset + me.lineHeight * lineNumber;
 				if (line.icon instanceof Icon) {
-					me.displayFontIcon(dc, line.icon, me.xIconOffset, yPos);
+					me.displayFontIcon(dc, line.icon);
 				}
 				if (line.value instanceof TextValue) {
 					me.displayText(dc, line.value, me.xTextOffset, yPos);
@@ -63,13 +76,16 @@ module ScreenPicker {
 			ScreenPickerBaseView.drawTitle(dc, title, me.mDetailsModel.titleColor);
 		}
 
-		private function displayFontIcon(dc, icon, xPos, yPos) {
+		private function displayFontIcon(dc, icon) {
 			if (icon.color == null) {
 				icon.setColor(foregroundColor);
 			}
+			icon.draw(dc);
+		}
+
+		private function layoutFontIcon(icon, xPos, yPos) {
 			icon.setYPos(yPos);
 			icon.setXPos(xPos);
-			icon.draw(dc);
 		}
 
 		private function displayText(dc, value, xPos, yPos) {
@@ -82,17 +98,15 @@ module ScreenPicker {
 		}
 
 		private function drawPercentageHighlightLine(dc, highlights, backgroundColor, startPosX, posY) {
-			var progressBarWidth = Math.ceil(dc.getWidth() * 0.6);
-			var progressBarHeight = Math.ceil(me.lineHeight * 0.6); // line height
 			dc.setColor(backgroundColor, Gfx.COLOR_TRANSPARENT);
 			dc.fillRectangle(startPosX, posY, progressBarWidth, progressBarHeight);
-
-			var highlightWidth = Math.ceil(0.02 * progressBarWidth);
+			var highlight = null;
+			var valuePosX = null;
 			for (var i = 0; i < highlights.size(); i++) {
-				var highlight = highlights[i];
-				var valuePosX = startPosX + highlight.progressPercentage * progressBarWidth;
+				highlight = highlights[i];
+				valuePosX = startPosX + highlight.progressPercentage * me.progressBarWidth;
 				dc.setColor(highlight.color, Gfx.COLOR_TRANSPARENT);
-				dc.fillRectangle(valuePosX, posY, highlightWidth, progressBarHeight);
+				dc.fillRectangle(valuePosX, posY, me.highlightWidth, me.progressBarHeight);
 			}
 		}
 	}

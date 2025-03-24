@@ -104,7 +104,6 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 			var currentStress = null;
 			var currentElapsedTime = null;
 			if (me.mMeditateModel.isTimerRunning) {
-
 				var timeText = TimeFormatter.format(elapsedTime);
 				currentElapsedTime = timeText.substring(0, timeText.length() - 3);
 
@@ -130,7 +129,7 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 			} else {
 				me.mHrIcon.setColor(Graphics.COLOR_LT_GRAY);
 			}
-			
+
 			if (me.mMeditateModel.isHrvOn()) {
 				me.mHrvStatusLine.value.text = me.formatValue(currentHrv);
 				if (me.mMeditateModel.isHrvOn() == true && currentHr != null) {
@@ -150,8 +149,6 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 
 			me.mStressStatusLine.value.text = me.formatValue(currentStress);
 			me.mStressIcon.setStress(currentStress);
-
-			var alarmTime = me.mMeditateModel.getSessionTime();
 
 			// Fix issues with OLED screens for prepare time 45 seconds
 			try {
@@ -175,7 +172,7 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 					Attention.backlight(false);
 				}
 			}
-			me.mMainDurationRenderer.drawOverallElapsedTime(dc, elapsedTime, alarmTime);
+			me.mMainDurationRenderer.drawOverallElapsedTime(dc, elapsedTime, me.mMeditateModel.getSessionTime());
 			if (me.mIntervalAlertsRenderer != null) {
 				me.mIntervalAlertsRenderer.drawRepeatIntervalAlerts(dc);
 				me.mIntervalAlertsRenderer.drawOneOffIntervalAlerts(dc);
