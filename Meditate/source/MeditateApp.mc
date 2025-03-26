@@ -31,9 +31,7 @@ class MeditateApp extends App.AppBase {
 	// Return the initial view of your application here
 	function getInitialView() {
 		var sessionStorage = new SessionStorage();
-
 		var sessionPickerDelegate = new SessionPickerDelegate(sessionStorage, heartbeatIntervalsSensor);
-
 		return [sessionPickerDelegate.createScreenPickerView(), sessionPickerDelegate];
 	}
 }
