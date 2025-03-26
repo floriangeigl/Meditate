@@ -75,7 +75,7 @@ module HrvAlgorithms {
 			}
 
 			var currentHr = null;
-			if (me.mFitSession.isRecording()) {
+			if (me.mFitSession != null && me.mFitSession.isRecording()) {
 				currentHr = activityInfo.currentHeartRate;
 				me.updateData(currentHr);
 			}

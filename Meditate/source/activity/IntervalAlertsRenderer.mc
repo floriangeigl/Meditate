@@ -19,14 +19,13 @@ class IntervalAlertsRenderer {
 	private var mWidth;	
     private var mOneOffPercentageTimes;
     private var mRepeatPercentageTimes;
+	private var width, height, xCenter, yCenter;
 	
-    function drawOneOffIntervalAlerts(dc) {
+    function drawAllIntervalAlerts(dc) {
+		dc.setPenWidth(me.mWidth);
 		me.drawIntervalAlerts(dc, me.mOneOffIntervalAlerts, me.mOneOffPercentageTimes);
-    }    
-    
-    function drawRepeatIntervalAlerts(dc) {    
 		me.drawIntervalAlerts(dc, me.mRepeatIntervalAlerts, me.mRepeatPercentageTimes);
-    }
+    }    
     
     private function createPercentageTimes(intervalAlerts) {
     	if (intervalAlerts.size() == 0) {
@@ -39,6 +38,13 @@ class IntervalAlertsRenderer {
     	}
     	return resultPercentageTimes;
     }
+
+	function layoutIntervalAlerts(dc) {
+		me.height = dc.getHeight();
+		me.width = dc.getWidth();
+		me.xCenter = me.width / 2;
+		me.yCenter = me.height / 2;
+	}
     
     private function drawIntervalAlerts(dc, intervalAlerts, percentageTimes) {
 		for (var i = 0; i < intervalAlerts.size(); i++) {
@@ -64,10 +70,8 @@ class IntervalAlertsRenderer {
     private function drawIntervalAlert(dc, intervalAlertTime, color) {
     	var progressPercentage = me.getAlertProgressPercentage(intervalAlertTime);
         dc.setColor(color, Gfx.COLOR_TRANSPARENT);
-        dc.setPenWidth(me.mWidth);
         var startDegree = percentageToArcDegree(progressPercentage);
-        var endDegree = startDegree - 1.2;
-        dc.drawArc(dc.getWidth() / 2, dc.getHeight() / 2,  me.mRadius , Gfx.ARC_CLOCKWISE, startDegree, endDegree);
+        dc.drawArc(me.xCenter, me.yCenter,  me.mRadius , Gfx.ARC_CLOCKWISE, startDegree, startDegree - 1.2);
     }
         
     private static function percentageToArcDegree(percentage) {

@@ -10,6 +10,7 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 	private var mMeditateModel;
 	private var mVibeAlertsExecutor;
 	private var mMeditateDelegate;
+	private var mAutoStopEnabled;
 
 	function initialize(meditateModel, heartbeatIntervalsSensor, meditateDelegate) {
 		var fitSessionSpec;
@@ -34,6 +35,7 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 		me.mMeditateModel = meditateModel;
 		me.mMeditateDelegate = meditateDelegate;
 		HrvAlgorithms.HrvActivity.initialize(fitSessionSpec, meditateModel.getHrvTracking(), heartbeatIntervalsSensor);
+	 	me.mAutoStopEnabled = GlobalSettings.loadAutoStop();
 	}
 
 	protected function createSessionName(sessionTime, activityName) {
@@ -93,16 +95,16 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 		}
 		me.mMeditateModel.currentHr = activityInfo.currentHeartRate;
 		me.mMeditateModel.minHr = minHr;
-		me.mVibeAlertsExecutor.firePendingAlerts();
+		if (me.mVibeAlertsExecutor != null) {
+			me.mVibeAlertsExecutor.firePendingAlerts();
+		}
 		me.mMeditateModel.hrvValue = hrvValue;
 
 		// Check if we need to stop activity automatically when time ended
-		var autoStopEnabled = GlobalSettings.loadAutoStop();
-		if (autoStopEnabled && me.mMeditateModel.elapsedTime >= me.mMeditateModel.getSessionTime()) {
+		if (me.mAutoStopEnabled && me.mMeditateModel.elapsedTime >= me.mMeditateModel.getSessionTime()) {
 			mMeditateDelegate.stopActivity();
 			return;
 		}
-
 		Ui.requestUpdate();
 	}
 

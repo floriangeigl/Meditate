@@ -14,13 +14,13 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 	private var mHrvStatusLine;
 	private var mRrStatusLine;
 	private var mStressStatusLine;
+	private var mHrIcon;
 	private var mHrvIcon;
 	private var mHrvText;
 	private var mStressIcon;
 	private var mStressText;
 	private var mBreathIcon;
 	private var mBreathText;
-	private var mMeditateIcon;
 	private var mRespirationRateYPosOffset;
 
 	function initialize(meditateModel) {
@@ -33,7 +33,21 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 		me.mHrvStatusLine = null;
 		me.mStressStatusLine = null;
 		me.mRrStatusLine = null;
-		me.mMeditateIcon = null;
+
+		me.mHrIcon = new ScreenPicker.Icon({
+			:font => StatusIconFonts.fontAwesomeFreeSolid,
+			:symbol => StatusIconFonts.Rez.Strings.IconHeart,
+			:color => Graphics.COLOR_LT_GRAY,
+		});
+
+		me.mHrvIcon = new ScreenPicker.HrvIcon({});
+		me.mHrvIcon.setStatusOff();
+
+		me.mBreathIcon = new ScreenPicker.BreathIcon({});
+		me.mBreathIcon.setInactive();
+
+		me.mStressIcon = new ScreenPicker.StressIcon({});
+		me.mStressIcon.setStressInvalid();
 	}
 
 	private static const TextFont = App.getApp().getProperty("largeFont");
@@ -44,17 +58,21 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 
 		var lineNum = 0;
 		me.mHrStatusLine = me.mMeditateModel.getLine(lineNum);
+		me.mHrStatusLine.icon = me.mHrIcon;
 		lineNum++;
 
 		if (me.mMeditateModel.isHrvOn()) {
 			me.mHrvStatusLine = me.mMeditateModel.getLine(lineNum);
+			me.mHrvStatusLine.icon = me.mHrvIcon;
 			lineNum++;
 		}
 		me.mStressStatusLine = me.mMeditateModel.getLine(lineNum);
+		me.mStressStatusLine.icon = me.mStressIcon;
 		lineNum++;
 
 		if (me.mMeditateModel.isRespirationRateOn()) {
 			me.mRrStatusLine = me.mMeditateModel.getLine(lineNum);
+			me.mRrStatusLine.icon = me.mBreathIcon;
 		}
 
 		me.mMainDurationRenderer = new ElapsedDurationRenderer(me.mMeditateModel.getColor(), null, null);
@@ -69,6 +87,7 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 				intervalAlertsArcRadius,
 				intervalAlertsArcWidth
 			);
+			me.mIntervalAlertsRenderer.layoutIntervalAlerts(dc);
 		}
 	}
 
@@ -76,7 +95,6 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 
 	// Update the view
 	function onUpdate(dc) {
-		ScreenPicker.ScreenPickerDetailsCenterView.onUpdate(dc);
 		var elapsedTime = me.mMeditateModel.elapsedTime;
 		// Only update every second
 		if (elapsedTime != lastElapsedTime || !me.mMeditateModel.isTimerRunning) {
@@ -86,10 +104,6 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 			var currentStress = null;
 			var currentElapsedTime = null;
 			if (me.mMeditateModel.isTimerRunning) {
-				if (me.mMeditateIcon != null) {
-					mMeditateIcon.draw(dc);
-				}
-
 				var timeText = TimeFormatter.format(elapsedTime);
 				currentElapsedTime = timeText.substring(0, timeText.length() - 3);
 
@@ -107,50 +121,44 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 				// if activity is paused, render the [Paused] text
 				currentElapsedTime = Ui.loadResource(Rez.Strings.meditateActivityPaused);
 			}
-			var iconColor = null;
+
 			me.mMeditateModel.title = currentElapsedTime;
 			me.mHrStatusLine.value.text = me.formatValue(currentHr);
 			if (currentHr != null) {
-				iconColor = Graphics.COLOR_RED;
+				me.mHrIcon.setColor(Graphics.COLOR_RED);
 			} else {
-				iconColor = Graphics.COLOR_LT_GRAY;
+				me.mHrIcon.setColor(Graphics.COLOR_LT_GRAY);
 			}
-			me.mHrStatusLine.icon = new ScreenPicker.Icon({
-				:font => StatusIconFonts.fontAwesomeFreeSolid,
-				:symbol => StatusIconFonts.Rez.Strings.IconHeart,
-				:color => iconColor,
-			});
+
 			if (me.mMeditateModel.isHrvOn()) {
 				me.mHrvStatusLine.value.text = me.formatValue(currentHrv);
 				if (me.mMeditateModel.isHrvOn() == true && currentHr != null) {
-					iconColor = Graphics.COLOR_RED;
+					me.mHrvIcon.setColor(Graphics.COLOR_RED);
 				} else {
-					iconColor = Graphics.COLOR_LT_GRAY;
+					me.mHrvIcon.setColor(Graphics.COLOR_LT_GRAY);
 				}
-				me.mHrvStatusLine.icon = new ScreenPicker.HrvIcon({
-					:color => iconColor,
-				});
 			}
 			if (me.mMeditateModel.isRespirationRateOn()) {
 				me.mRrStatusLine.value.text = me.formatValue(currentRr);
-				me.mRrStatusLine.icon = new ScreenPicker.BreathIcon({});
 				if (currentRr != null) {
-					me.mRrStatusLine.icon.setActive();
+					me.mBreathIcon.setActive();
 				} else {
-					me.mRrStatusLine.icon.setInactive();
+					me.mBreathIcon.setInactive();
 				}
 			}
 
 			me.mStressStatusLine.value.text = me.formatValue(currentStress);
-			me.mStressStatusLine.icon = new ScreenPicker.StressIcon({});
-			me.mStressStatusLine.icon.setStress(currentStress);
+			me.mStressIcon.setStress(currentStress);
 
 			ScreenPicker.ScreenPickerDetailsCenterView.onUpdate(dc);
-			var alarmTime = me.mMeditateModel.getSessionTime();
+			me.mMainDurationRenderer.drawOverallElapsedTime(dc, elapsedTime, me.mMeditateModel.getSessionTime());
+			if (me.mIntervalAlertsRenderer != null) {
+				me.mIntervalAlertsRenderer.drawAllIntervalAlerts(dc);
+			}
 
 			// Fix issues with OLED screens for prepare time 45 seconds
 			try {
-				if (Attention has :backlight) {
+				if (elapsedTime < 10 && Attention has :backlight) {
 					if (elapsedTime <= 1) {
 						Attention.backlight(false);
 					}
@@ -169,11 +177,6 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 				if (Attention has :backlight) {
 					Attention.backlight(false);
 				}
-			}
-			me.mMainDurationRenderer.drawOverallElapsedTime(dc, elapsedTime, alarmTime);
-			if (me.mIntervalAlertsRenderer != null) {
-				me.mIntervalAlertsRenderer.drawRepeatIntervalAlerts(dc);
-				me.mIntervalAlertsRenderer.drawOneOffIntervalAlerts(dc);
 			}
 		}
 		lastElapsedTime = elapsedTime;
