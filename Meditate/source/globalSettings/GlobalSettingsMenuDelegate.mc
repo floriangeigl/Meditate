@@ -24,7 +24,7 @@ class GlobalSettingsMenuDelegate extends Ui.MenuInputDelegate {
 			Ui.pushView(new Rez.Menus.multiSessionOptionsMenu(), multiSessionDelegate, Ui.SLIDE_LEFT);
 		} else if (item == :respirationRate) {
 			// Respiration rate settings if supported
-			if (HrvAlgorithms.RrActivity.isSupported()) {
+			if (HrvAlgorithms.RrActivity.isSensorSupported()) {
 				var respirationRateDelegate = new MenuOptionsDelegate(method(:onRespirationRatePicked));
 				Ui.pushView(new Rez.Menus.respirationRateOptionsMenu(), respirationRateDelegate, Ui.SLIDE_LEFT);
 			} else {
