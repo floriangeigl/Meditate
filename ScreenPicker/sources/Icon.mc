@@ -29,7 +29,7 @@ module ScreenPicker {
 			if (icon[:yPos] != null) {
 				iconDrawableParams[:locY] = icon[:yPos];
 			}
-			iconDrawableParams[:justification] = Gfx.TEXT_JUSTIFY_CENTER;		
+			iconDrawableParams[:justification] = Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER;
 			me.mIconDrawable = new Ui.Text(iconDrawableParams);
 		}	
 		
