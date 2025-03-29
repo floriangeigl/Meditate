@@ -28,10 +28,10 @@ module ScreenPicker {
 
 		function onLayout(dc) {
 			ScreenPickerBaseView.onLayout(dc);
-			lineHeight = height * 0.11;
-			yOffset = height * 0.3;
-			xIconOffset = Math.ceil(me.width * 0.2);
-			xTextOffset = Math.ceil(xIconOffset + me.width * 0.07);
+			me.lineHeight = height * 0.11;
+			me.yOffset = height * 0.3;
+			me.xIconOffset = Math.ceil(me.width * 0.2);
+			me.xTextOffset = Math.ceil(me.xIconOffset + me.width * 0.07);
 			me.progressBarWidth = Math.ceil(me.width * 0.6);
 			me.progressBarHeight = Math.ceil(me.lineHeight * 0.6); // line height
 			me.highlightWidth = Math.ceil(0.02 * me.progressBarWidth);
