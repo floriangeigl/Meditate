@@ -68,10 +68,11 @@ module ScreenPicker {
 		}
 
 		function layoutArrows(dc) {
+			var fontHeightHalf = dc.getFontHeight(StatusIconFonts.fontAwesomeFreeSolid) / 2;
 			me.mUpArrow.setXPos(centerXPos);
-			me.mUpArrow.setYPos(0);
+			me.mUpArrow.setYPos(fontHeightHalf);
 			me.mDownArrow.setXPos(centerXPos);
-			me.mDownArrow.setYPos(me.height - dc.getFontHeight(StatusIconFonts.fontAwesomeFreeSolid));
+			me.mDownArrow.setYPos(me.height - fontHeightHalf);
 		}
 
 		function drawArrows(dc) {
