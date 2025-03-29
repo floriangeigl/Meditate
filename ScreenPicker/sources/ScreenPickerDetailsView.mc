@@ -29,7 +29,7 @@ module ScreenPicker {
 		function onLayout(dc) {
 			ScreenPickerBaseView.onLayout(dc);
 			lineHeight = height * 0.11;
-			yOffset = height * 0.25;
+			yOffset = height * 0.3;
 			xIconOffset = Math.ceil(me.width * 0.2);
 			xTextOffset = Math.ceil(xIconOffset + me.width * 0.07);
 			me.progressBarWidth = Math.ceil(me.width * 0.6);
@@ -56,7 +56,7 @@ module ScreenPicker {
 						line.value.getHighlights(),
 						line.value.backgroundColor,
 						me.xTextOffset,
-						yPos + me.spaceYSmall
+						yPos
 					);
 				}
 			}
@@ -81,12 +81,13 @@ module ScreenPicker {
 			} else {
 				dc.setColor(foregroundColor, Graphics.COLOR_TRANSPARENT);
 			}
-			dc.drawText(xPos, yPos, value.font, value.text, Gfx.TEXT_JUSTIFY_LEFT);
+			dc.drawText(xPos, yPos, value.font, value.text, Gfx.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
 		}
 
 		private function drawPercentageHighlightLine(dc, highlights, backgroundColor, startPosX, posY) {
 			dc.setColor(backgroundColor, Gfx.COLOR_TRANSPARENT);
-			dc.fillRectangle(startPosX, posY, progressBarWidth, progressBarHeight);
+			posY = posY - (me.progressBarHeight / 2);
+			dc.fillRectangle(startPosX, posY, me.progressBarWidth, me.progressBarHeight);
 			var highlight = null;
 			var valuePosX = null;
 			for (var i = 0; i < highlights.size(); i++) {
