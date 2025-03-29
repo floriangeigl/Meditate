@@ -19,6 +19,10 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 		me.mSummaryModel = null;
 	}
 
+	public function startActivity() {
+		me.mMeditateActivity.start();
+	}
+
 	public function stopActivity() {
 		me.mMeditateActivity.stop();
 

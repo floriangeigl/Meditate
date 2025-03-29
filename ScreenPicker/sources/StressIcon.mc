@@ -28,7 +28,7 @@ module ScreenPicker {
 		}
 
 		function setStressInvalid() {
-			me.setColor(Gfx.COLOR_LT_GRAY);
+			me.setColorInactive();
 		}
 
 		function setStressRest() {

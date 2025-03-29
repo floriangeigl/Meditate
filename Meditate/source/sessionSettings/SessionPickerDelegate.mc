@@ -126,6 +126,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 			me.mHeartbeatIntervalsSensor,
 			me
 		);
+		mediateDelegate.startActivity();
 		Ui.switchToView(meditateView, mediateDelegate, Ui.SLIDE_LEFT);
 	}
 

@@ -7,7 +7,7 @@ module HrvAlgorithms {
 	class StressActivity extends SensorActivityTumbling {
 		static var apiV5Plus;
 		function initialize() {
-			SensorActivityTumbling.initialize(new SensorSummary(), false, null);
+			SensorActivityTumbling.initialize(new SensorSummary(), false, 30);
 		}
 
 		static function isSensorSupported() {

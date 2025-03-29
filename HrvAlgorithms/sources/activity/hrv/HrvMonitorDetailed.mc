@@ -142,7 +142,7 @@ module HrvAlgorithms {
 			me.mHrvPnn20.addBeatToBeatInterval(beatToBeatInterval);
 		}
 
-		public function getRmssdRolling() {
+		public function getHrv() {
 			return mHrvRmssd30Sec.getLastCalcValue();
 		}
 

@@ -95,9 +95,17 @@ class MeditateModel extends ScreenPicker.DetailsModel{
 		}
 	}
 
+	function isStressSupported() {
+		if(me.stressActivity != null) {
+			return stressActivity.isSupported();
+		} else {
+			return null;
+		}
+	}
+
 	function getStress() {
-		if (isTimerRunning) {
-			return stressActivity.getCurrentValue();
+		if (me.isTimerRunning) {
+			return me.stressActivity.getCurrentValue();
 		} else {
 			return null;
 		}

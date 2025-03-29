@@ -38,7 +38,7 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 	 	me.mAutoStopEnabled = GlobalSettings.loadAutoStop();
 	}
 
-	protected function createSessionName(sessionTime, activityName) {
+	private function createSessionName(sessionTime, activityName) {
 		// Calculate session minutes and hours
 		var sessionTimeMinutes = Math.round(sessionTime / 60);
 		var sessionTimeHours = Math.round(sessionTimeMinutes / 60);
@@ -63,11 +63,10 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 		if (activityName.length() > 21) {
 			activityName = activityName.substring(0, 21);
 		}
-
 		return activityName;
 	}
 
-	function stringReplace(str, oldString, newString) {
+	private function stringReplace(str, oldString, newString) {
 		var result = str;
 
 		while (true) {
@@ -79,26 +78,30 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 				return result;
 			}
 		}
-
 		return null;
 	}
 
-	protected function onBeforeStart(fitSession) {
-		mMeditateModel.isTimerRunning = true;
-		HrvAlgorithms.HrvActivity.onBeforeStart(fitSession);
+	function start() {
+		HrvAlgorithms.HrvActivity.start();
+		me.mMeditateModel.isTimerRunning = true;
 		me.mVibeAlertsExecutor = new VibeAlertsExecutor(me.mMeditateModel);
 	}
 
-	protected function onRefreshHrvActivityStats(activityInfo, minHr, hrvValue) {
-		if (activityInfo.elapsedTime != null) {
-			me.mMeditateModel.elapsedTime = activityInfo.timerTime / 1000;
+	function refreshActivityStats() {
+		HrvAlgorithms.HrvActivity.refreshActivityStats();
+		if (me.activityInfo.elapsedTime != null) {
+			me.mMeditateModel.elapsedTime = me.activityInfo.timerTime / 1000;
 		}
-		me.mMeditateModel.currentHr = activityInfo.currentHeartRate;
-		me.mMeditateModel.minHr = minHr;
+		me.mMeditateModel.currentHr = me.getLastValue();
+		if (me.mMeditateModel.currentHr == null) {
+			// use live heart rate before the first tumbling window is done
+			me.mMeditateModel.currentHr = me.activityInfo.currentHeartRate;
+		}
+		me.mMeditateModel.minHr = me.minHr;
 		if (me.mVibeAlertsExecutor != null) {
 			me.mVibeAlertsExecutor.firePendingAlerts();
 		}
-		me.mMeditateModel.hrvValue = hrvValue;
+		me.mMeditateModel.hrvValue = me.getHrv();
 
 		// Check if we need to stop activity automatically when time ended
 		if (me.mAutoStopEnabled && me.mMeditateModel.elapsedTime >= me.mMeditateModel.getSessionTime()) {
@@ -108,8 +111,8 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 		Ui.requestUpdate();
 	}
 
-	protected function onBeforeStop() {
-		HrvAlgorithms.HrvActivity.onBeforeStop();
+	function stop() {
+		HrvAlgorithms.HrvActivity.stop();
 		me.mVibeAlertsExecutor = null;
 	}
 
