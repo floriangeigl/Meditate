@@ -25,7 +25,7 @@ module HrvAlgorithms {
 
 		private static function createHrvSuccessiveDataField(activitySession) {
 			return activitySession.createField(
-				"hrv_s",
+				"hrv_successive",
 				HrvMonitorDefault.HrvSuccessiveFieldId,
 				FitContributor.DATA_TYPE_FLOAT,
 				{ :mesgType => FitContributor.MESG_TYPE_RECORD, :units => "ms" }
@@ -68,6 +68,10 @@ module HrvAlgorithms {
 				me.mHrvRmssdDataField.setData(hrvSummary.rmssd);
 			}
 			return hrvSummary;
+		}
+
+		static function getLoadTime() {
+			return 1;
 		}
 	}
 }

@@ -5,6 +5,8 @@ using Toybox.Application as App;
 module ScreenPicker {
 	class Icon {
 		var color;
+		private var mIconDrawable;
+
 		function initialize(icon) {
 			me.color = icon[:color];
 			var iconDrawableParams = {};
@@ -31,8 +33,6 @@ module ScreenPicker {
 			me.mIconDrawable = new Ui.Text(iconDrawableParams);
 		}
 
-		private var mIconDrawable;
-
 		function setXPos(xPos) {
 			me.mIconDrawable.locX = xPos;
 		}
@@ -51,6 +51,10 @@ module ScreenPicker {
 
 		function setColorInactive() {
 			me.setColor(Gfx.COLOR_LT_GRAY);
+		}
+
+		protected function setSymbol(symbol) {
+			me.mIconDrawable.setText(symbol);
 		}
 
 		function draw(dc) {

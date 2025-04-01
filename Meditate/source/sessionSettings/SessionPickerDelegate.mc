@@ -8,6 +8,11 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 	private var mSessionStorage;
 	private var mSelectedSessionDetails;
 	private var mSummaryRollupModel;
+	private var mHeartbeatIntervalsSensor;
+	private var mLastHrvTracking;
+	private var mSuccessiveEmptyHeartbeatIntervalsCount;
+	private var mNoHrvSeconds;
+	private const MinSecondsNoHrvDetected = 5;
 
 	function initialize(sessionStorage, heartbeatIntervalsSensor) {
 		ScreenPickerDelegate.initialize(sessionStorage.getSelectedSessionIndex(), sessionStorage.getSessionsCount());
@@ -46,9 +51,6 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		}
 		me.mLastHrvTracking = hrvTracking;
 	}
-
-	private var mHeartbeatIntervalsSensor;
-	private var mLastHrvTracking;
 
 	function onMenu() {
 		return me.showSessionSettingsMenu();
@@ -186,14 +188,16 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		}
 	}
 
-	private var mSuccessiveEmptyHeartbeatIntervalsCount;
-
-	private var mNoHrvSeconds;
-	private const MinSecondsNoHrvDetected = 3;
-
 	function onHeartbeatIntervalsListener(heartBeatIntervals) {
 		if (heartBeatIntervals.size() == 0) {
 			me.mNoHrvSeconds++;
+			if (me.mNoHrvSeconds >= 10 && me.mHeartbeatIntervalsSensor) {
+				System.println("Restart HR sensor");
+				me.mHeartbeatIntervalsSensor.stop();
+				me.mHeartbeatIntervalsSensor.disableHrSensor();
+				me.mHeartbeatIntervalsSensor.enableHrSensor();
+				me.mHeartbeatIntervalsSensor.start();
+			}
 		} else {
 			me.mNoHrvSeconds = 0;
 		}

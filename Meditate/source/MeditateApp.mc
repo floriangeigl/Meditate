@@ -7,6 +7,7 @@ class MeditateApp extends App.AppBase {
 	var heartbeatIntervalsSensor;
 
 	function initialize() {
+		heartbeatIntervalsSensor = null;
 		AppBase.initialize();
 	}
 

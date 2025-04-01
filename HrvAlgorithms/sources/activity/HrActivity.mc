@@ -13,9 +13,10 @@ module HrvAlgorithms {
 		protected var activityInfo;
 		protected var minHr;
 		protected var currentHr;
+		private static const windowSize = 10;
 
 		function initialize(fitSessionSpec) {
-			SensorActivityTumbling.initialize(new HrSummary(), null, 10);
+			SensorActivityTumbling.initialize(new HrSummary(), null, HrActivity.windowSize);
 			me.mFitSession = ActivityRecording.createSession(fitSessionSpec);
 			me.createMinHrDataField();
 		}
@@ -108,6 +109,10 @@ module HrvAlgorithms {
 			if (isDangling) {
 				me.discard();
 			}
+		}
+
+		static function getLoadTime() {
+			return HrActivity.windowSize;
 		}
 	}
 }

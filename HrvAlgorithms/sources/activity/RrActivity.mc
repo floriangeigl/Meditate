@@ -2,8 +2,9 @@ using Toybox.ActivityMonitor;
 
 module HrvAlgorithms {
 	class RrActivity extends SensorActivityTumbling {
+		private static const windowSize = 30;
 		function initialize() {
-			SensorActivityTumbling.initialize(new SensorSummary(), true, 30);
+			SensorActivityTumbling.initialize(new SensorSummary(), true, RrActivity.windowSize);
 		}
 
 		// Method to be used without class instance
@@ -22,6 +23,10 @@ module HrvAlgorithms {
 			} else {
 				return null;
 			}
+		}
+
+		static function getLoadTime() {
+			return RrActivity.windowSize;
 		}
 	}
 }
