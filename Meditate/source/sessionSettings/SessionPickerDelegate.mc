@@ -11,8 +11,9 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 	private var mHeartbeatIntervalsSensor;
 	private var mLastHrvTracking;
 	private var mSuccessiveEmptyHeartbeatIntervalsCount;
-	private var mNoHrvSeconds;
-	private const MinSecondsNoHrvDetected = 5;
+	private var timer;
+	private var heartBeatIntervalsSize;
+	private var heartBeatIntervalsLastValid;
 
 	function initialize(sessionStorage, heartbeatIntervalsSensor) {
 		ScreenPickerDelegate.initialize(sessionStorage.getSelectedSessionIndex(), sessionStorage.getSessionsCount());
@@ -22,11 +23,15 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		me.mLastHrvTracking = null;
 		me.initializeHeartbeatIntervalsSensor(heartbeatIntervalsSensor);
 		me.setSelectedSessionDetails();
+
+		me.timer = new Timer.Timer();
+		me.timer.start(method(:updateHrvStatus), 1000, true);
+		me.heartBeatIntervalsSize = 0;
+		me.heartBeatIntervalsLastValid = Time.now().subtract(new Time.Duration(10));
 	}
 
 	private function initializeHeartbeatIntervalsSensor(heartbeatIntervalsSensor) {
 		me.mHeartbeatIntervalsSensor = heartbeatIntervalsSensor;
-		me.mNoHrvSeconds = MinSecondsNoHrvDetected;
 	}
 
 	function setTestModeHeartbeatIntervalsSensor(hrvTracking) {
@@ -105,6 +110,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 	}
 
 	private function startActivity() {
+		me.timer.stop();
 		// If there is no preparation time, start the meditate activity
 		if (GlobalSettings.loadPrepareTime() == 0) {
 			startMeditationSession();
@@ -189,35 +195,42 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 	}
 
 	function onHeartbeatIntervalsListener(heartBeatIntervals) {
-		if (heartBeatIntervals.size() == 0) {
-			me.mNoHrvSeconds++;
-			if (me.mNoHrvSeconds >= 10 && me.mHeartbeatIntervalsSensor) {
-				System.println("Restart HR sensor");
-				me.mHeartbeatIntervalsSensor.stop();
-				me.mHeartbeatIntervalsSensor.disableHrSensor();
-				me.mHeartbeatIntervalsSensor.enableHrSensor();
-				me.mHeartbeatIntervalsSensor.start();
-			}
-		} else {
-			me.mNoHrvSeconds = 0;
+		me.heartBeatIntervalsSize = heartBeatIntervals.size();
+		if (me.heartBeatIntervalsSize > 0) 
+		{
+			me.heartBeatIntervalsLastValid = Time.now();
 		}
-		me.setHrvReadyStatus();
 	}
 
-	private function setHrvReadyStatus() {
+	function updateHrvStatus() {
+		var timeSinceLastValid = Time.now().value() - me.heartBeatIntervalsLastValid.value();
 		var hrvStatusLine = me.mSelectedSessionDetails.getLine(3);
-		if (me.mNoHrvSeconds >= MinSecondsNoHrvDetected) {
-			hrvStatusLine.icon.setStatusWarning();
-			hrvStatusLine.value.text = Ui.loadResource(Rez.Strings.HRVwaiting);
-		} else {
+		if (timeSinceLastValid <= 5) {
 			if (me.mLastHrvTracking == HrvTracking.On) {
 				hrvStatusLine.icon.setStatusOn();
 			} else {
 				hrvStatusLine.icon.setStatusOnDetailed();
 			}
 			hrvStatusLine.value.text = Ui.loadResource(Rez.Strings.HRVready);
+		} else {
+			hrvStatusLine.icon.setStatusWarning();
+			hrvStatusLine.value.text = Ui.loadResource(Rez.Strings.HRVwaiting);
 		}
 		Ui.requestUpdate();
+
+		if (timeSinceLastValid >= 30 && timeSinceLastValid % 30 == 0) {
+			System.println("Restart HR sensor");
+			if (me.mHeartbeatIntervalsSensor != null) {
+				me.mHeartbeatIntervalsSensor.stop();
+				me.mHeartbeatIntervalsSensor.setOneSecBeatToBeatIntervalsSensorListener(null);
+			}
+			me.mHeartbeatIntervalsSensor = new HrvAlgorithms.HeartbeatIntervalsSensor();
+			me.mHeartbeatIntervalsSensor.enableHrSensor();
+			me.mHeartbeatIntervalsSensor.start();
+			me.mHeartbeatIntervalsSensor.setOneSecBeatToBeatIntervalsSensorListener(
+					method(:onHeartbeatIntervalsListener)
+				);
+		}
 	}
 
 	private function setInitialHrvStatus(hrvStatusLine, session) {

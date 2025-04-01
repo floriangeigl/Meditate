@@ -16,13 +16,14 @@ class MeditateModel extends ScreenPicker.DetailsModel{
 		me.stressActivity = new HrvAlgorithms.StressActivity();
 		me.mHrvTracking = me.mSession.getHrvTracking();
 		me.mIsHrvOn = me.mHrvTracking != HrvTracking.Off;
+		me.mRespirationRateSetting = GlobalSettings.loadRespirationRate();
 	}
 	
 	private var mSession;
 	private var rrActivity;
 	private var stressActivity;
 	private var mIsHrvOn, mHrvTracking;
-	private static const mRespirationRateSetting = GlobalSettings.loadRespirationRate();
+	private var mRespirationRateSetting;
 
 	var currentHr;
 	var minHr;
@@ -80,7 +81,7 @@ class MeditateModel extends ScreenPicker.DetailsModel{
 
 	function isRespirationRateOn() {
 		// Check if watch supports respiration rate & Check if global option is enabled
-		if (me.rrActivity != null && me.rrActivity.isSupported() && mRespirationRateSetting == RespirationRate.On) {
+		if (me.rrActivity != null && me.rrActivity.isSupported() && me.mRespirationRateSetting == RespirationRate.On) {
 			return true;
 		} else {
 			return false;
