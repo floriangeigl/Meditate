@@ -130,8 +130,8 @@ module HrvAlgorithms {
 			}
 		}
 
-		protected function addValidBeatToBeatInterval(beatToBeatInterval) {
-			HrvMonitorDefault.addValidBeatToBeatInterval(beatToBeatInterval);
+		protected function addBeatToBeatInterval(beatToBeatInterval) {
+			HrvMonitorDefault.addBeatToBeatInterval(beatToBeatInterval);
 			if (beatToBeatInterval != null && beatToBeatInterval > 0) {
 				me.mHrvBeatToBeatIntervalsDataField.setData(beatToBeatInterval.toNumber());
 				var hrFromHeartbeat = Math.round(60000 / beatToBeatInterval.toFloat()).toNumber();

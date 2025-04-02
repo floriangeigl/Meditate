@@ -4,14 +4,6 @@ using Toybox.Application as App;
 
 module HrvAlgorithms {
 	class HrvMonitorDefault {
-		function initialize(activitySession) {
-			me.mHrvSuccessiveDataField = HrvMonitorDefault.createHrvSuccessiveDataField(activitySession);
-			me.mHrvRmssdDataField = HrvMonitorDefault.createHrvRmssdDataField(activitySession);
-
-			me.mHrvRmssd = new HrvRmssd();
-			me.mHrvSuccessive = new HrvSuccessive();
-		}
-
 		private const HrvRmssd30Sec = 30;
 
 		private var mHrvRmssd;
@@ -22,6 +14,14 @@ module HrvAlgorithms {
 
 		private static const HrvSuccessiveFieldId = 6;
 		private static const HrvRmssdFieldId = 7;
+
+		function initialize(activitySession) {
+			me.mHrvSuccessiveDataField = HrvMonitorDefault.createHrvSuccessiveDataField(activitySession);
+			me.mHrvRmssdDataField = HrvMonitorDefault.createHrvRmssdDataField(activitySession);
+
+			me.mHrvRmssd = new HrvRmssd();
+			me.mHrvSuccessive = new HrvSuccessive();
+		}
 
 		private static function createHrvSuccessiveDataField(activitySession) {
 			return activitySession.createField(
@@ -43,12 +43,11 @@ module HrvAlgorithms {
 
 		function addOneSecBeatToBeatIntervals(beatToBeatIntervals) {
 			for (var i = 0; i < beatToBeatIntervals.size(); i++) {
-				var beatToBeatInterval = beatToBeatIntervals[i];
-				me.addValidBeatToBeatInterval(beatToBeatInterval);
+				me.addBeatToBeatInterval(beatToBeatIntervals[i]);
 			}
 		}
 
-		protected function addValidBeatToBeatInterval(beatToBeatInterval) {
+		protected function addBeatToBeatInterval(beatToBeatInterval) {
 			me.mHrvSuccessive.addBeatToBeatInterval(beatToBeatInterval);
 			me.mHrvRmssd.addBeatToBeatInterval(beatToBeatInterval);
 		}

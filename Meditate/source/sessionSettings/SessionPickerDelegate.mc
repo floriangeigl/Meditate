@@ -10,10 +10,6 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 	private var mSummaryRollupModel;
 	private var mHeartbeatIntervalsSensor;
 	private var mLastHrvTracking;
-	private var mSuccessiveEmptyHeartbeatIntervalsCount;
-	private var timer;
-	private var heartBeatIntervalsSize;
-	private var heartBeatIntervalsLastValid;
 
 	function initialize(sessionStorage, heartbeatIntervalsSensor) {
 		ScreenPickerDelegate.initialize(sessionStorage.getSelectedSessionIndex(), sessionStorage.getSessionsCount());
@@ -23,11 +19,6 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		me.mLastHrvTracking = null;
 		me.initializeHeartbeatIntervalsSensor(heartbeatIntervalsSensor);
 		me.setSelectedSessionDetails();
-
-		me.timer = new Timer.Timer();
-		me.timer.start(method(:updateHrvStatus), 1000, true);
-		me.heartBeatIntervalsSize = 0;
-		me.heartBeatIntervalsLastValid = Time.now().subtract(new Time.Duration(10));
 	}
 
 	private function initializeHeartbeatIntervalsSensor(heartbeatIntervalsSensor) {
@@ -38,7 +29,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		if (hrvTracking == me.mLastHrvTracking) {
 			if (hrvTracking != HrvTracking.Off) {
 				me.mHeartbeatIntervalsSensor.setOneSecBeatToBeatIntervalsSensorListener(
-					method(:onHeartbeatIntervalsListener)
+					method(:updateHrvStatus)
 				);
 			} else {
 				me.mHeartbeatIntervalsSensor.setOneSecBeatToBeatIntervalsSensorListener(null);
@@ -47,7 +38,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 			if (hrvTracking != HrvTracking.Off) {
 				me.mHeartbeatIntervalsSensor.start();
 				me.mHeartbeatIntervalsSensor.setOneSecBeatToBeatIntervalsSensorListener(
-					method(:onHeartbeatIntervalsListener)
+					method(:updateHrvStatus)
 				);
 			} else {
 				me.mHeartbeatIntervalsSensor.stop();
@@ -110,7 +101,6 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 	}
 
 	private function startActivity() {
-		me.timer.stop();
 		// If there is no preparation time, start the meditate activity
 		if (GlobalSettings.loadPrepareTime() == 0) {
 			startMeditationSession();
@@ -194,18 +184,9 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		}
 	}
 
-	function onHeartbeatIntervalsListener(heartBeatIntervals) {
-		me.heartBeatIntervalsSize = heartBeatIntervals.size();
-		if (me.heartBeatIntervalsSize > 0) 
-		{
-			me.heartBeatIntervalsLastValid = Time.now();
-		}
-	}
-
-	function updateHrvStatus() {
-		var timeSinceLastValid = Time.now().value() - me.heartBeatIntervalsLastValid.value();
+	function updateHrvStatus(data) {
 		var hrvStatusLine = me.mSelectedSessionDetails.getLine(3);
-		if (timeSinceLastValid <= 5) {
+		if (me.mHeartbeatIntervalsSensor.getStatus() != HeartbeatIntervalsSensorStatus.Error) {
 			if (me.mLastHrvTracking == HrvTracking.On) {
 				hrvStatusLine.icon.setStatusOn();
 			} else {
@@ -217,20 +198,6 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 			hrvStatusLine.value.text = Ui.loadResource(Rez.Strings.HRVwaiting);
 		}
 		Ui.requestUpdate();
-
-		if (timeSinceLastValid >= 30 && timeSinceLastValid % 30 == 0) {
-			System.println("Restart HR sensor");
-			if (me.mHeartbeatIntervalsSensor != null) {
-				me.mHeartbeatIntervalsSensor.stop();
-				me.mHeartbeatIntervalsSensor.setOneSecBeatToBeatIntervalsSensorListener(null);
-			}
-			me.mHeartbeatIntervalsSensor = new HrvAlgorithms.HeartbeatIntervalsSensor();
-			me.mHeartbeatIntervalsSensor.enableHrSensor();
-			me.mHeartbeatIntervalsSensor.start();
-			me.mHeartbeatIntervalsSensor.setOneSecBeatToBeatIntervalsSensorListener(
-					method(:onHeartbeatIntervalsListener)
-				);
-		}
 	}
 
 	private function setInitialHrvStatus(hrvStatusLine, session) {

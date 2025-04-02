@@ -138,6 +138,7 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 				me.hrLoaded = true;
 				me.mHrStatusLine.icon = me.mHrIcon;
 				me.mHrIcon.setColor(Graphics.COLOR_RED);
+				me.mHrStatusLine.value.color = null;
 			} else if (me.hrLoaded) {
 				me.mHrIcon.setColorInactive();
 			} else if (me.mHrStatusLine.icon instanceof ScreenPicker.LoadingIcon) {
@@ -164,6 +165,7 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 					me.rrLoaded = true;
 					me.mRrStatusLine.icon = me.mBreathIcon;
 					me.mBreathIcon.setActive();
+					me.mRrStatusLine.value.color = null;
 				} else if (me.rrLoaded) {
 					me.mBreathIcon.setColorInactive();
 				} else if (me.mRrStatusLine.icon instanceof ScreenPicker.LoadingIcon) {
@@ -177,6 +179,7 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 					me.stressLoaded = true;
 					me.mStressStatusLine.icon = me.mStressIcon;
 					me.mStressIcon.setStress(currentStress);
+					me.mStressStatusLine.value.color = null;
 				} else if (me.stressLoaded) {
 					me.mStressIcon.setColorInactive();
 				}  else if (me.mStressStatusLine.icon instanceof ScreenPicker.LoadingIcon) {
@@ -218,7 +221,7 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 	}
 
 	function setLoadTimeText(line, total, elapsed) {
-		var remain_time = (total - elapsed).toNumber() + 5; // + some buffer time
+		var remain_time = (total - elapsed).toNumber();
 		line.value.text = remain_time > 0 ? remain_time.toString() : "0";
 		line.value.color = Graphics.COLOR_LT_GRAY;
 	}
