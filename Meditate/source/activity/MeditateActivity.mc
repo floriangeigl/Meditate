@@ -15,10 +15,14 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 	function initialize(meditateModel, heartbeatIntervalsSensor, meditateDelegate) {
 		var fitSessionSpec;
 		var sessionTime = meditateModel.getSessionTime();
+		var mySettings = System.getDeviceSettings();
+		var version = mySettings.monkeyVersion;
+		// current hypthesis: mediation/yoga/breathwork only supported with api >= 3.4
+		var supportsActivityTypes = (version[0] == 3 and version[1] >= 4) or version[0] > 3 ? true : false;
 
 		// Retrieve activity name property from Garmin Express/Connect IQ
 		var activityName = null;
-
+		
 		if (meditateModel.getActivityType() == ActivityType.Yoga) {
 			activityName = Ui.loadResource(Rez.Strings.sessionTitleYoga);
 			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createYoga(createSessionName(sessionTime, activityName));
@@ -30,6 +34,10 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createMeditation(
 				createSessionName(sessionTime, activityName)
 			);
+		}
+		if (!supportsActivityTypes) {
+			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createGeneric(createSessionName(sessionTime, activityName));
+			System.println("create generic activity as others are not supported");
 		}
 
 		me.mMeditateModel = meditateModel;
