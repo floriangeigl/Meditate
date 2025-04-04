@@ -19,17 +19,25 @@ module HrvAlgorithms {
 			return me.mHrvTracking == HrvTracking.OnDetailed;
 		}
 
-		protected function onBeforeStart(fitSession) {
-			HrActivity.onBeforeStart(fitSession);
+		function start() {
 			if (me.isHrvOn()) {
 				me.mHeartbeatIntervalsSensor.setOneSecBeatToBeatIntervalsSensorListener(
 					method(:onOneSecBeatToBeatIntervals)
 				);
 				if (me.isHrvDetailOn()) {
-					me.mHrvMonitor = new HrvMonitorDetailed(fitSession, true);
+					me.mHrvMonitor = new HrvMonitorDetailed(me.mFitSession, true);
 				} else {
-					me.mHrvMonitor = new HrvMonitorDefault(fitSession);
+					me.mHrvMonitor = new HrvMonitorDefault(me.mFitSession);
 				}
+			}
+			HrActivity.start();
+		}
+
+		function getHrv() {
+			if (me.mHrvMonitor != null) {
+				return me.mHrvMonitor.getHrv();
+			} else {
+				return null;
 			}
 		}
 
@@ -39,7 +47,8 @@ module HrvAlgorithms {
 			}
 		}
 
-		protected function onBeforeStop() {
+		function stop() {
+			HrActivity.stop();
 			if (me.isHrvOn()) {
 				me.mHeartbeatIntervalsSensor.setOneSecBeatToBeatIntervalsSensorListener(null);
 			}
@@ -47,18 +56,12 @@ module HrvAlgorithms {
 
 		private var mHrvValue;
 
-		protected function onRefreshHrActivityStats(activityInfo, minHr) {
+		function refreshActivityStats() {
+			HrActivity.refreshActivityStats();
 			if (me.isHrvOn()) {
-				if (me.isHrvDetailOn()) {
-					me.mHrvValue = me.mHrvMonitor.getRmssdRolling();
-				} else {
-					me.mHrvValue = me.mHrvMonitor.calculateHrvSuccessive();
-				}
+				me.mHrvValue = me.mHrvMonitor.getHrv();
 			}
-			me.onRefreshHrvActivityStats(activityInfo, minHr, me.mHrvValue);
 		}
-
-		protected function onRefreshHrvActivityStats(activityInfo, minHr, hrvValue) {}
 
 		function calculateSummaryFields() {
 			var hrSummary = HrActivity.getSummary();

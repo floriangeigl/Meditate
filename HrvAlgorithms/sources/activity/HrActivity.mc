@@ -5,37 +5,39 @@ using Toybox.Sensor;
 
 module HrvAlgorithms {
 	class HrActivity extends SensorActivityTumbling {
-		private var mFitSession;
+		protected var mFitSession;
 		private const RefreshActivityInterval = 1000;
 		private var mRefreshActivityTimer;
 		private const MinHrFieldId = 0;
 		private var mMinHrField;
-		var minHr;
+		protected var activityInfo;
+		protected var minHr;
+		protected var currentHr;
+		private static const windowSize = 10;
 
 		function initialize(fitSessionSpec) {
-			SensorActivityTumbling.initialize(new HrSummary(), null, null);
+			SensorActivityTumbling.initialize(new HrSummary(), null, HrActivity.windowSize);
 			me.mFitSession = ActivityRecording.createSession(fitSessionSpec);
 			me.createMinHrDataField();
-			me.onBeforeStart(me.mFitSession);
+		}
+
+		function start() {
 			me.mFitSession.start();
 			me.mRefreshActivityTimer = new Timer.Timer();
 			me.mRefreshActivityTimer.start(method(:refreshActivityStats), RefreshActivityInterval, true);
 			me.minHr = null;
+			me.activityInfo = null;
+			me.currentHr = null;
 		}
-
-		protected function onBeforeStart(fitSession) {}
 
 		function stop() {
 			if (me.mFitSession.isRecording() == false) {
 				return;
 			}
-			me.onBeforeStop();
 			me.mFitSession.stop();
 			me.mRefreshActivityTimer.stop();
 			me.mRefreshActivityTimer = null;
 		}
-
-		protected function onBeforeStop() {}
 
 		// Pause/Resume session, returns true is session is now running
 		function pauseResume() {
@@ -46,7 +48,7 @@ module HrvAlgorithms {
 				me.mFitSession.stop();
 				me.mRefreshActivityTimer.stop();
 				me.mRefreshActivityTimer = null;
-				refreshActivityStats();
+				me.refreshActivityStats();
 				return false;
 			} else {
 				// Restart the timer for the session
@@ -69,23 +71,21 @@ module HrvAlgorithms {
 		}
 
 		function refreshActivityStats() {
-			var activityInfo = Activity.getActivityInfo();
-			if (activityInfo == null) {
+			me.activityInfo = Activity.getActivityInfo();
+			if (me.activityInfo == null) {
 				me.updateData(null);
 			}
 
-			var currentHr = null;
 			if (me.mFitSession != null && me.mFitSession.isRecording()) {
-				currentHr = activityInfo.currentHeartRate;
-				me.updateData(currentHr);
+				me.updateData(activityInfo.currentHeartRate);
+				me.currentHr = me.getLastValue();
+			} else {
+				me.currentHr = null;
 			}
-			if (currentHr != null && (me.minHr == null || currentHr < me.minHr)) {
-				me.minHr = currentHr;
+			if (me.currentHr != null && (me.minHr == null || me.currentHr < me.minHr)) {
+				me.minHr = me.currentHr;
 			}
-			me.onRefreshHrActivityStats(activityInfo, me.minHr);
 		}
-
-		protected function onRefreshHrActivityStats(activityInfo, minHr) {}
 
 		function getSummary() {
 			var summary = SensorActivityTumbling.getSummary();
@@ -109,6 +109,10 @@ module HrvAlgorithms {
 			if (isDangling) {
 				me.discard();
 			}
+		}
+
+		static function getLoadTime() {
+			return HrActivity.windowSize;
 		}
 	}
 }

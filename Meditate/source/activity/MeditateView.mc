@@ -22,6 +22,7 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 	private var mBreathIcon;
 	private var mBreathText;
 	private var mRespirationRateYPosOffset;
+	private var rrLoaded, stressLoaded, hrvLoaded, hrLoaded;
 
 	function initialize(meditateModel) {
 		ScreenPicker.ScreenPickerDetailsCenterView.initialize(meditateModel, false);
@@ -33,6 +34,10 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 		me.mHrvStatusLine = null;
 		me.mStressStatusLine = null;
 		me.mRrStatusLine = null;
+		me.rrLoaded = false;
+		me.stressLoaded = false;
+		me.hrvLoaded = false;
+		me.hrLoaded = false;
 
 		me.mHrIcon = new ScreenPicker.Icon({
 			:font => StatusIconFonts.fontAwesomeFreeSolid,
@@ -58,21 +63,27 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 
 		var lineNum = 0;
 		me.mHrStatusLine = me.mMeditateModel.getLine(lineNum);
-		me.mHrStatusLine.icon = me.mHrIcon;
+		me.mHrStatusLine.icon = new ScreenPicker.LoadingIcon({});
+		me.mHrIcon.setColorLoading();
 		lineNum++;
 
 		if (me.mMeditateModel.isHrvOn()) {
 			me.mHrvStatusLine = me.mMeditateModel.getLine(lineNum);
-			me.mHrvStatusLine.icon = me.mHrvIcon;
+			me.mHrvStatusLine.icon = new ScreenPicker.LoadingIcon({});
+			me.mHrvIcon.setColorLoading();
 			lineNum++;
 		}
-		me.mStressStatusLine = me.mMeditateModel.getLine(lineNum);
-		me.mStressStatusLine.icon = me.mStressIcon;
-		lineNum++;
+		if (me.mMeditateModel.isStressSupported()) {
+			me.mStressStatusLine = me.mMeditateModel.getLine(lineNum);
+			me.mStressStatusLine.icon = new ScreenPicker.LoadingIcon({});
+			me.mStressIcon.setColorLoading();
+			lineNum++;
+		}
 
 		if (me.mMeditateModel.isRespirationRateOn()) {
 			me.mRrStatusLine = me.mMeditateModel.getLine(lineNum);
-			me.mRrStatusLine.icon = me.mBreathIcon;
+			me.mRrStatusLine.icon = new ScreenPicker.LoadingIcon({});
+			me.mBreathIcon.setColorLoading();
 		}
 
 		me.mMainDurationRenderer = new ElapsedDurationRenderer(me.mMeditateModel.getColor(), null, null);
@@ -104,8 +115,7 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 			var currentStress = null;
 			var currentElapsedTime = null;
 			if (me.mMeditateModel.isTimerRunning) {
-				var timeText = TimeFormatter.format(elapsedTime);
-				currentElapsedTime = timeText.substring(0, timeText.length() - 3);
+				currentElapsedTime = TimeFormatter.format(elapsedTime);
 
 				currentHr = me.mMeditateModel.currentHr;
 
@@ -125,30 +135,58 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 			me.mMeditateModel.title = currentElapsedTime;
 			me.mHrStatusLine.value.text = me.formatValue(currentHr);
 			if (currentHr != null) {
+				me.hrLoaded = true;
+				me.mHrStatusLine.icon = me.mHrIcon;
 				me.mHrIcon.setColor(Graphics.COLOR_RED);
-			} else {
-				me.mHrIcon.setColor(Graphics.COLOR_LT_GRAY);
+				me.mHrStatusLine.value.color = null;
+			} else if (me.hrLoaded) {
+				me.mHrIcon.setColorInactive();
+			} else if (me.mHrStatusLine.icon instanceof ScreenPicker.LoadingIcon) {
+				me.mHrStatusLine.icon.tick();
 			}
 
 			if (me.mMeditateModel.isHrvOn()) {
 				me.mHrvStatusLine.value.text = me.formatValue(currentHrv);
-				if (me.mMeditateModel.isHrvOn() == true && currentHr != null) {
+				if (me.mMeditateModel.isHrvOn() == true && currentHrv != null) {
+					me.hrvLoaded = true;
+					me.mHrvStatusLine.icon = me.mHrvIcon;
 					me.mHrvIcon.setColor(Graphics.COLOR_RED);
-				} else {
-					me.mHrvIcon.setColor(Graphics.COLOR_LT_GRAY);
+					me.mHrvStatusLine.value.color = null;
+				} else if (me.hrvLoaded) {
+					me.mHrvIcon.setColorInactive();
+				} else if (me.mHrvStatusLine.icon instanceof ScreenPicker.LoadingIcon) {
+					me.mHrvStatusLine.icon.tick();
+					me.setLoadTimeText(me.mHrvStatusLine, HrvAlgorithms.HrvMonitorDetailed.getLoadTime(), elapsedTime);
 				}
 			}
 			if (me.mMeditateModel.isRespirationRateOn()) {
 				me.mRrStatusLine.value.text = me.formatValue(currentRr);
 				if (currentRr != null) {
+					me.rrLoaded = true;
+					me.mRrStatusLine.icon = me.mBreathIcon;
 					me.mBreathIcon.setActive();
-				} else {
-					me.mBreathIcon.setInactive();
+					me.mRrStatusLine.value.color = null;
+				} else if (me.rrLoaded) {
+					me.mBreathIcon.setColorInactive();
+				} else if (me.mRrStatusLine.icon instanceof ScreenPicker.LoadingIcon) {
+					me.mRrStatusLine.icon.tick();
+					me.setLoadTimeText(me.mRrStatusLine, HrvAlgorithms.RrActivity.getLoadTime(), elapsedTime);
 				}
 			}
-
-			me.mStressStatusLine.value.text = me.formatValue(currentStress);
-			me.mStressIcon.setStress(currentStress);
+			if (me.mMeditateModel.isStressSupported()) {
+				me.mStressStatusLine.value.text = me.formatValue(currentStress);
+				if (currentStress != null) {
+					me.stressLoaded = true;
+					me.mStressStatusLine.icon = me.mStressIcon;
+					me.mStressIcon.setStress(currentStress);
+					me.mStressStatusLine.value.color = null;
+				} else if (me.stressLoaded) {
+					me.mStressIcon.setColorInactive();
+				}  else if (me.mStressStatusLine.icon instanceof ScreenPicker.LoadingIcon) {
+					me.mStressStatusLine.icon.tick();
+					me.setLoadTimeText(me.mStressStatusLine, HrvAlgorithms.StressActivity.getLoadTime(), elapsedTime);
+				}
+			}
 
 			ScreenPicker.ScreenPickerDetailsCenterView.onUpdate(dc);
 			me.mMainDurationRenderer.drawOverallElapsedTime(dc, elapsedTime, me.mMeditateModel.getSessionTime());
@@ -180,5 +218,11 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 			}
 		}
 		lastElapsedTime = elapsedTime;
+	}
+
+	function setLoadTimeText(line, total, elapsed) {
+		var remain_time = (total - elapsed).toNumber();
+		line.value.text = remain_time > 0 ? remain_time.toString() : "0";
+		line.value.color = Graphics.COLOR_LT_GRAY;
 	}
 }

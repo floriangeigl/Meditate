@@ -129,6 +129,7 @@ class GraphView extends ScreenPicker.ScreenPickerBaseView {
 		);
 
 		if (me.data != null && me.data.size() > 1 && me.min != null && me.max != null) {
+			System.println("Chart " + me.data.size() + " datapoints");
 			// Calculate different between min and max
 			me.minMaxDiff = me.max - me.min;
 

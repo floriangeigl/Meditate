@@ -6,8 +6,10 @@ using Toybox.ActivityMonitor;
 module HrvAlgorithms {
 	class StressActivity extends SensorActivityTumbling {
 		static var apiV5Plus;
+		private static const windowSize = 30;
+
 		function initialize() {
-			SensorActivityTumbling.initialize(new SensorSummary(), false, null);
+			SensorActivityTumbling.initialize(new SensorSummary(), false, StressActivity.windowSize);
 		}
 
 		static function isSensorSupported() {
@@ -55,6 +57,10 @@ module HrvAlgorithms {
 			} else {
 				return null;
 			}
+		}
+
+		static function getLoadTime() {
+			return StressActivity.windowSize;
 		}
 	}
 }
