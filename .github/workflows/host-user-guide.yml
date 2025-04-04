@@ -15,14 +15,16 @@ jobs:
     name: Host user guide
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+        with:
+          ref: main
       - uses: actions/checkout@v4
         with:
           repository: "floriangeigl/floriangeigl.github.io"
           path: ./geigl.online/
           ref: master
           token: ${{ secrets.FLORIANGEIGL_GITHUB_IO_TOKEN }}
-      - name: cd dir
-        run: cd ./geigl.online/
       - name: create user guide page
         run: |
           echo -e '---\nlayout: page\ntitle: Meditation & Breathwork\nsubtitle: User Guide\n---' > ./geigl.online/meditate_app_user_guide.md
