@@ -21,6 +21,8 @@ jobs:
           path: ./geigl.online/
           ref: master
           token: ${{ secrets.FLORIANGEIGL_GITHUB_IO_TOKEN }}
+      - name: cd dir
+        run: cd ./geigl.online/
       - name: create user guide page
         run: |
           echo -e '---\nlayout: page\ntitle: Meditation & Breathwork\nsubtitle: User Guide\n---' > ./geigl.online/meditate_app_user_guide.md
