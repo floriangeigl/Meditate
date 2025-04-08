@@ -23,15 +23,15 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 
 		// Retrieve activity name property from Garmin Express/Connect IQ
 		var activityName = App.Storage.getApp().getProperty("activityName");
-		activityName = activityName != null ? activityName.toString() : "";
+		activityName = activityName.length() > 0 ? activityName.toString() : "";
 		if (meditateModel.getActivityType() == ActivityType.Yoga) {
-			activityName = activityName != "" ? activityName : Ui.loadResource(Rez.Strings.sessionTitleYoga);
+			activityName = activityName.length() > 0 ? activityName : Ui.loadResource(Rez.Strings.sessionTitleYoga);
 			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createYoga(createSessionName(sessionTime, activityName));
 		} else if (meditateModel.getActivityType() == ActivityType.Breathing) {
-			activityName = activityName != "" ? activityName : Ui.loadResource(Rez.Strings.sessionTitleBreathing);
+			activityName = activityName.length() > 0 ? activityName : Ui.loadResource(Rez.Strings.sessionTitleBreathing);
 			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createBreathing(createSessionName(sessionTime, activityName));
 		} else {
-			activityName = activityName != "" ? activityName : Ui.loadResource(Rez.Strings.sessionTitleMeditate);
+			activityName = activityName.length() > 0 ? activityName : Ui.loadResource(Rez.Strings.sessionTitleMeditate);
 			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createMeditation(
 				createSessionName(sessionTime, activityName)
 			);
