@@ -22,7 +22,7 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 		var supportsActivityTypes = version[0] == 3 and version[1] >= 4 or version[0] > 3 ? true : false;
 
 		// Retrieve activity name property from Garmin Express/Connect IQ
-		var activityName = App.Storage.getValue("activityName");
+		var activityName = App.Storage.getApp().getProperty("activityName");
 		activityName = activityName != null ? activityName.toString() : "";
 
 		if (meditateModel.getActivityType() == ActivityType.Yoga) {
