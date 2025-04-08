@@ -16,13 +16,13 @@ class IntervalAlertsMenuDelegate extends Ui.MenuInputDelegate {
 			me.editIntervalAlert(me.mIntervalAlerts.addNew());		
         }
         else if (item == :edit) {
-        	if (me.mIntervalAlerts.count() == 0) {
+        	if (me.mIntervalAlerts.size() == 0) {
 		    	return;
         	}
         	var editIntervalAlertsMenu = new Ui.Menu();
 			editIntervalAlertsMenu.setTitle(Ui.loadResource(Rez.Strings.editIntervalAlertsMenu_title));
 			
-			for (var i = 0; i < me.mIntervalAlerts.count(); i++) {
+			for (var i = 0; i < me.mIntervalAlerts.size(); i++) {
 				var intervalAlert = me.mIntervalAlerts.get(i);			
 				var type;
 				if (intervalAlert.type == IntervalAlertType.OneOff) {
@@ -38,7 +38,7 @@ class IntervalAlertsMenuDelegate extends Ui.MenuInputDelegate {
 			Ui.pushView(editIntervalAlertsMenu, editIntervalAlertsMenuDelegate, Ui.SLIDE_LEFT);	
         }
         else if (item == :deleteAll) {
-        	if (me.mIntervalAlerts.count() == 0) {
+        	if (me.mIntervalAlerts.size() == 0) {
 		    	return;
         	}
         	var confirmDeleteAllIntervalAlertsHeader = Ui.loadResource(Rez.Strings.confirmDeleteAllIntervalAlertsHeader);

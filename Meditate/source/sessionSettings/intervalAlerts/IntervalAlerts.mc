@@ -54,7 +54,7 @@ class IntervalAlerts {
 		me.mAlerts[index] = alert;
 	}
 	
-	function count() {
+	function size() {
 		return me.mAlerts.size();
 	}
 }

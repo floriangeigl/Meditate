@@ -33,8 +33,8 @@ class VibeAlertsExecutor {
 		var rm = [];
 		var elapsedTime = me.mMeditateModel.elapsedTime;
 		for (var i = 0; i < me.mIntervalAlerts.size(); i++) {
-			alert = me.mIntervalAlerts[i];
-			if (elapsedTime >= alert.time + alert.offset) {
+			alert = me.mIntervalAlerts.get(i);
+			if (alert.time > 0 && elapsedTime - alert.offset >= 0 && (elapsedTime - alert.offset) % alert.time == 0) {
 				Vibe.vibrate(alert.vibePattern);
 				if (alert.type == IntervalAlertType.OneOff) {
 					rm.add(alert);

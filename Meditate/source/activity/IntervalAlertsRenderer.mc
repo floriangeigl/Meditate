@@ -28,7 +28,7 @@ class IntervalAlertsRenderer {
 		}
 		var resultPercentageTimes = new [intervalAlerts.size()];
 		for (var i = 0; i < intervalAlerts.size(); i++) {
-			var intervalAlert = intervalAlerts[i];
+			var intervalAlert = intervalAlerts.get(i);
 			resultPercentageTimes[i] = intervalAlert.getAlertArcPercentageTimes(me.mSessionTime);
 		}
 		return resultPercentageTimes;
@@ -44,7 +44,7 @@ class IntervalAlertsRenderer {
 	private function drawIntervalAlerts(dc, intervalAlerts, percentageTimes) {
 		for (var i = 0; i < intervalAlerts.size(); i++) {
 			for (var pIndex = 0; pIndex < percentageTimes[i].size(); pIndex++) {
-				me.drawIntervalAlert(dc, percentageTimes[i][pIndex], intervalAlerts[i].color);
+				me.drawIntervalAlert(dc, percentageTimes[i][pIndex], intervalAlerts.get(i).color);
 			}
 		}
 	}
