@@ -8,11 +8,11 @@ module HrvAlgorithms {
 		private static var subSportBreathing = Activity has :SUB_SPORT_BREATHING ? Activity.SUB_SPORT_BREATHING : 62;
 		private static var sportMeditation = Activity has :SPORT_MEDITATION ? Activity.SPORT_MEDITATION : 67;
 		private static var sportGeneric = Activity has :SPORT_GENERIC ? Activity.SPORT_GENERIC : 0;
-
+		private static var sportTraining = Activity has :SPORT_TRAINING ? Activity.SPORT_TRAINING : 10;
 		static function createYoga(sessionName) {
 			return {
 				:name => sessionName,
-				:sport => sportGeneric,
+				:sport => sportTraining,
 				:subSport => subSportYoga,
 			};
 		}
@@ -27,7 +27,7 @@ module HrvAlgorithms {
 		static function createBreathing(sessionName) {
 			return {
 				:name => sessionName,
-				:sport => sportGeneric,
+				:sport => sportTraining,
 				:subSport => subSportBreathing,
 			};
 		}
