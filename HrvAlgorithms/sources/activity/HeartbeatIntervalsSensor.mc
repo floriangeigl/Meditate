@@ -4,7 +4,7 @@ using Toybox.Timer;
 
 module HrvAlgorithms {
 	class HeartbeatIntervalsSensor {
-		private const SessionSamplePeriodSeconds = 1;
+		private var SessionSamplePeriodSeconds = 1;
 		private var buffer;
 		private var timer;
 		private var bufferWriteIndex;

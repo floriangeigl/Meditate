@@ -5,6 +5,7 @@ using Toybox.Timer;
 using Toybox.Math;
 using Toybox.Sensor;
 using HrvAlgorithms.HrvTracking;
+using Toybox.Application as App;
 
 class MediteActivity extends HrvAlgorithms.HrvActivity {
 	private var mMeditateModel;
@@ -21,16 +22,16 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 		var supportsActivityTypes = (version[0] == 3 and version[1] >= 4) or version[0] > 3 ? true : false;
 
 		// Retrieve activity name property from Garmin Express/Connect IQ
-		var activityName = null;
-		
+		var activityName = App.Storage.getApp().getProperty("activityName");
+		activityName = activityName.length() > 0 ? activityName.toString() : "";
 		if (meditateModel.getActivityType() == ActivityType.Yoga) {
-			activityName = Ui.loadResource(Rez.Strings.sessionTitleYoga);
+			activityName = activityName.length() > 0 ? activityName : Ui.loadResource(Rez.Strings.sessionTitleYoga);
 			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createYoga(createSessionName(sessionTime, activityName));
 		} else if (meditateModel.getActivityType() == ActivityType.Breathing) {
-			activityName = Ui.loadResource(Rez.Strings.sessionTitleBreathing);
+			activityName = activityName.length() > 0 ? activityName : Ui.loadResource(Rez.Strings.sessionTitleBreathing);
 			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createBreathing(createSessionName(sessionTime, activityName));
 		} else {
-			activityName = Ui.loadResource(Rez.Strings.sessionTitleMeditate);
+			activityName = activityName.length() > 0 ? activityName : Ui.loadResource(Rez.Strings.sessionTitleMeditate);
 			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createMeditation(
 				createSessionName(sessionTime, activityName)
 			);
@@ -43,7 +44,7 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 		me.mMeditateModel = meditateModel;
 		me.mMeditateDelegate = meditateDelegate;
 		HrvAlgorithms.HrvActivity.initialize(fitSessionSpec, meditateModel.getHrvTracking(), heartbeatIntervalsSensor);
-	 	me.mAutoStopEnabled = GlobalSettings.loadAutoStop();
+		me.mAutoStopEnabled = GlobalSettings.loadAutoStop();
 	}
 
 	private function createSessionName(sessionTime, activityName) {

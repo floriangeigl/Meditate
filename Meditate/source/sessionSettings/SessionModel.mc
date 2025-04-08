@@ -116,7 +116,7 @@ class SessionModel {
     	if (otherSession.vibePattern != null) {
     		me.vibePattern = otherSession.vibePattern;
     	}
-    	if (otherSession.intervalAlerts != null && otherSession.intervalAlerts.count() > 0) {
+    	if (otherSession.intervalAlerts != null && otherSession.intervalAlerts.size() > 0) {
     		me.intervalAlerts = otherSession.intervalAlerts;
     	}
     	if (otherSession.activityType != null) {

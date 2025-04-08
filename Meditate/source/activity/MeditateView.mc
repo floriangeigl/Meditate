@@ -93,8 +93,7 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 			var intervalAlertsArcWidth = dc.getWidth() / 16;
 			me.mIntervalAlertsRenderer = new IntervalAlertsRenderer(
 				me.mMeditateModel.getSessionTime(),
-				me.mMeditateModel.getOneOffIntervalAlerts(),
-				me.mMeditateModel.getRepeatIntervalAlerts(),
+				me.mMeditateModel.getIntervalAlerts(),
 				intervalAlertsArcRadius,
 				intervalAlertsArcWidth
 			);
@@ -182,7 +181,7 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 					me.mStressStatusLine.value.color = null;
 				} else if (me.stressLoaded) {
 					me.mStressIcon.setColorInactive();
-				}  else if (me.mStressStatusLine.icon instanceof ScreenPicker.LoadingIcon) {
+				} else if (me.mStressStatusLine.icon instanceof ScreenPicker.LoadingIcon) {
 					me.mStressStatusLine.icon.tick();
 					me.setLoadTimeText(me.mStressStatusLine, HrvAlgorithms.StressActivity.getLoadTime(), elapsedTime);
 				}

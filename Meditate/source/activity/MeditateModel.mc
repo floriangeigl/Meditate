@@ -1,7 +1,7 @@
 using Toybox.Application as App;
 using HrvAlgorithms.HrvTracking;
 
-class MeditateModel extends ScreenPicker.DetailsModel{
+class MeditateModel extends ScreenPicker.DetailsModel {
 	function initialize(sessionModel) {
 		ScreenPicker.DetailsModel.initialize();
 		me.mSession = sessionModel;
@@ -18,7 +18,7 @@ class MeditateModel extends ScreenPicker.DetailsModel{
 		me.mIsHrvOn = me.mHrvTracking != HrvTracking.Off;
 		me.mRespirationRateSetting = GlobalSettings.loadRespirationRate();
 	}
-	
+
 	private var mSession;
 	private var rrActivity;
 	private var stressActivity;
@@ -35,46 +35,31 @@ class MeditateModel extends ScreenPicker.DetailsModel{
 	function isHrvOn() {
 		return me.mIsHrvOn;
 	}
-	
+
 	function getHrvTracking() {
 		return me.mHrvTracking;
 	}
-		
+
 	function getSessionTime() {
 		return me.mSession.time;
 	}
-	
-	function getOneOffIntervalAlerts() {
-		return me.getIntervalAlerts(IntervalAlertType.OneOff);
-	}	
-	
+
 	function hasIntervalAlerts() {
-		return me.mSession.intervalAlerts.count() > 0;
+		return me.mSession.intervalAlerts.size() > 0;
 	}
-	
-	private function getIntervalAlerts(alertType) {
-		var result = {};
-		for (var i = 0; i < me.mSession.intervalAlerts.count(); i++) {
-			var alert = me.mSession.intervalAlerts.get(i);
-			if (alert.type == alertType) {
-				result.put(result.size(), alert);
-			}
-		}
-		return result;
+
+	function getIntervalAlerts() {
+		return me.mSession.intervalAlerts;
 	}
-	
-	function getRepeatIntervalAlerts() {		
-		return me.getIntervalAlerts(IntervalAlertType.Repeat);
-	}
-		
+
 	function getColor() {
 		return me.mSession.color;
 	}
-	
+
 	function getVibePattern() {
 		return me.mSession.vibePattern;
 	}
-	
+
 	function getActivityType() {
 		return me.mSession.getActivityType();
 	}
@@ -97,7 +82,7 @@ class MeditateModel extends ScreenPicker.DetailsModel{
 	}
 
 	function isStressSupported() {
-		if(me.stressActivity != null) {
+		if (me.stressActivity != null) {
 			return stressActivity.isSupported();
 		} else {
 			return null;

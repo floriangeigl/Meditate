@@ -4,52 +4,38 @@ using Toybox.Activity;
 module HrvAlgorithms {
 	class FitSessionSpec {
 		// https://developer.garmin.com/connect-iq/api-docs/Toybox/Activity.html
-		static const subSportYoga = 43;
-		static const subSportBreathing = 62;
-		static const sportMeditation = 67;
+		private static var subSportYoga = Activity has :SUB_SPORT_YOGA ? Activity.SUB_SPORT_YOGA : 43;
+		private static var subSportBreathing = Activity has :SUB_SPORT_BREATHING ? Activity.SUB_SPORT_BREATHING : 62;
+		private static var sportMeditation = Activity has :SPORT_MEDITATION ? Activity.SPORT_MEDITATION : 67;
+		private static var sportGeneric = Activity has :SPORT_GENERIC ? Activity.SPORT_GENERIC : 0;
+		private static var sportTraining = Activity has :SPORT_TRAINING ? Activity.SPORT_TRAINING : 10;
 		static function createYoga(sessionName) {
-			var subsport = null;
-			if (Activity has :SUB_SPORT_YOGA) {
-				subsport = Activity.SUB_SPORT_YOGA;
-			} else {
-				subsport = subSportYoga;
-			}
 			return {
 				:name => sessionName,
-				:subSport => subsport,
+				:sport => sportTraining,
+				:subSport => subSportYoga,
 			};
 		}
 
 		static function createMeditation(sessionName) {
-			var sport = null;
-			if (Activity has :SPORT_MEDITATION) {
-				sport = Activity.SPORT_MEDITATION;
-			} else {
-				sport = sportMeditation;
-			}
 			return {
 				:name => sessionName,
-				:sport => sport,
+				:sport => sportMeditation,
 			};
 		}
 
 		static function createBreathing(sessionName) {
-			var subsport = null;
-			if (Activity has :SUB_SPORT_BREATHING) {
-				subsport = Activity.SUB_SPORT_BREATHING;
-			} else {
-				subsport = subSportBreathing;
-			}
 			return {
 				:name => sessionName,
-				:subSport => subsport,
+				:sport => sportTraining,
+				:subSport => subSportBreathing,
 			};
 		}
 
 		static function createGeneric(sessionName) {
 			return {
 				:name => sessionName,
-				:Sport => Activity.SPORT_GENERIC,
+				:Sport => sportGeneric,
 			};
 		}
 	}
