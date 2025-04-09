@@ -2,6 +2,7 @@ using Toybox.WatchUi as Ui;
 using Toybox.Graphics as Gfx;
 using Toybox.Application as App;
 using Toybox.Math as Math;
+using StatusIconFonts;
 
 module ScreenPicker {
 	class ScreenPickerBaseView extends Ui.View {
@@ -12,8 +13,11 @@ module ScreenPicker {
 		var colorTheme;
 		var backgroundColor, foregroundColor;
 		var spaceXSmall, spaceYSmall, spaceXMed, spaceYMed;
-		private static const InvalidValueString = "--";
+		private static const TextFont = App.getApp().getProperty("largeFont");
+		private static const InvalidValueString = " --";
 		private static const colorThemeKey = "globalSettings_colorTheme";
+		protected var height, width;
+
 		function initialize(multiPage) {
 			View.initialize();
 			if (multiPage != null && multiPage) {
@@ -64,10 +68,11 @@ module ScreenPicker {
 		}
 
 		function layoutArrows(dc) {
+			var fontHeightHalf = dc.getFontHeight(StatusIconFonts.fontAwesomeFreeSolid) / 2;
 			me.mUpArrow.setXPos(centerXPos);
-			me.mUpArrow.setYPos(0);
+			me.mUpArrow.setYPos(fontHeightHalf);
 			me.mDownArrow.setXPos(centerXPos);
-			me.mDownArrow.setYPos(dc.getHeight() - dc.getFontHeight(StatusIconFonts.fontAwesomeFreeSolid));
+			me.mDownArrow.setYPos(me.height - fontHeightHalf);
 		}
 
 		function drawArrows(dc) {
@@ -82,21 +87,17 @@ module ScreenPicker {
 				color = foregroundColor;
 			}
 			dc.setColor(color, Graphics.COLOR_TRANSPARENT);
-			dc.drawText(
-				dc.getWidth() / 2,
-				dc.getHeight() * 0.1,
-				App.getApp().getProperty("largeFont"),
-				title,
-				Graphics.TEXT_JUSTIFY_CENTER
-			);
+			dc.drawText(me.width / 2, me.height * 0.1, me.TextFont, title, Graphics.TEXT_JUSTIFY_CENTER);
 		}
 
 		function onLayout(dc) {
 			View.onLayout(dc);
-			centerXPos = dc.getWidth() / 2;
-			centerYPos = dc.getHeight() / 2;
-			spaceXSmall = Math.ceil(dc.getWidth() * 0.01);
-			spaceYSmall = Math.ceil(dc.getHeight() * 0.01);
+			me.height = dc.getHeight();
+			me.width = dc.getWidth();
+			centerXPos = me.width / 2;
+			centerYPos = me.height / 2;
+			spaceXSmall = Math.ceil(me.width * 0.01);
+			spaceYSmall = Math.ceil(me.height * 0.01);
 			spaceXMed = spaceXSmall * 5;
 			spaceYMed = spaceYSmall * 5;
 			if (me.multiPage) {

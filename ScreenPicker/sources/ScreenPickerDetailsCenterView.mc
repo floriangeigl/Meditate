@@ -9,8 +9,6 @@ module ScreenPicker {
 		}
 		function onLayout(dc) {
 			ScreenPickerDetailsView.onLayout(dc);
-			lineHeight = dc.getHeight() * 0.11;
-			yOffset = dc.getHeight() * 0.25;
 			xIconOffset = Math.ceil(centerXPos - spaceXMed);
 			xTextOffset = Math.ceil(centerXPos + spaceXSmall);
 		}

@@ -39,8 +39,10 @@ class SessionModel {
 	var vibePattern;
 	var intervalAlerts;
 	var key;
-	private var activityType;
-	private var hrvTracking;
+	protected var activityType;
+	protected var hrvTracking;
+	private var defaultActivityType;
+	private var defaultHrvTracking;
 	
 	function initialize() {
 		me.key = null;
@@ -48,9 +50,11 @@ class SessionModel {
 		me.time = null;
 		me.color = null;
 		me.vibePattern = null;
-		me.intervalAlerts = null;
+		me.intervalAlerts = new IntervalAlerts();
 		me.activityType = null;
 		me.hrvTracking = null;
+		me.defaultActivityType = GlobalSettings.loadActivityType();
+		me.defaultHrvTracking = GlobalSettings.loadHrvTracking();
 	}
 		
 	function fromDictionary(loadedSessionDictionary) {	
@@ -67,15 +71,21 @@ class SessionModel {
 	}
 
 	function getActivityType() {
-		return me.activityType == null ? GlobalSettings.loadActivityType() : me.activityType;
+		return me.activityType == null ? me.defaultActivityType : me.activityType;
 	}
+	
 	function setActivityType(activityType) {
 		me.activityType = activityType;
 	}
+	
 	function getHrvTracking() {
-		return me.hrvTracking == null ? GlobalSettings.loadHrvTracking() : me.hrvTracking;
+		return me.hrvTracking == null ? me.defaultHrvTracking : me.hrvTracking;
 	}
 	
+	function setHrvTracking(hrvTracking) {
+		me.hrvTracking = hrvTracking;
+	}
+
 	function toDictionary() {	
 		var serializedAlerts = me.intervalAlerts != null ? me.intervalAlerts.toArray() : null;
 		return {
@@ -106,14 +116,14 @@ class SessionModel {
     	if (otherSession.vibePattern != null) {
     		me.vibePattern = otherSession.vibePattern;
     	}
-    	if (otherSession.intervalAlerts != null) {
+    	if (otherSession.intervalAlerts != null && otherSession.intervalAlerts.size() > 0) {
     		me.intervalAlerts = otherSession.intervalAlerts;
     	}
-    	if (otherSession.getActivityType() != null) {
-    		me.activityType = otherSession.getActivityType();
+    	if (otherSession.activityType != null) {
+    		me.activityType = otherSession.activityType;
     	}
-    	if (otherSession.getHrvTracking() != null) {
-    		me.hrvTracking = otherSession.getHrvTracking();
+    	if (otherSession.hrvTracking != null) {
+    		me.hrvTracking = otherSession.hrvTracking;
     	}
 	}
 }

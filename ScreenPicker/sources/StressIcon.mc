@@ -1,4 +1,5 @@
 using Toybox.Graphics as Gfx;
+using StatusIconFonts;
 
 module ScreenPicker {
 	class StressIcon extends Icon {
@@ -8,7 +9,6 @@ module ScreenPicker {
 			if (icon[:color] == null) {
 				icon[:color] = Gfx.COLOR_DK_GREEN;
 			}
-
 			Icon.initialize(icon);
 		}
 
@@ -28,7 +28,7 @@ module ScreenPicker {
 		}
 
 		function setStressInvalid() {
-			me.setColor(Gfx.COLOR_LT_GRAY);
+			me.setColorInactive();
 		}
 
 		function setStressRest() {

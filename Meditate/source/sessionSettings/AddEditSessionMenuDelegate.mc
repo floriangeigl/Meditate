@@ -43,7 +43,7 @@ class AddEditSessionMenuDelegate extends Ui.MenuInputDelegate {
         else if (item == :intervalAlerts) {
         	var intervalAlertsMenuDelegate = new IntervalAlertsMenuDelegate(me.mIntervalAlerts, method(:onIntervalAlertsChanged));
         	var intervalAlertSettingsMenu = new Rez.Menus.intervalAlertSettingsMenu();
-        	if (me.mIntervalAlerts.count() > 0) {
+        	if (me.mIntervalAlerts != null && me.mIntervalAlerts.size() > 0) {
 	        	var editName = Ui.loadResource(Rez.Strings.menuIntervalAlertSettings_edit);
 	        	intervalAlertSettingsMenu.addItem(editName, :edit);
 	        	var deleteAllName = Ui.loadResource(Rez.Strings.menuIntervalAlertSettings_deleteAll);
@@ -63,14 +63,14 @@ class AddEditSessionMenuDelegate extends Ui.MenuInputDelegate {
     
     function onHrvTrackingPicked(item) {
     	var sessionModel = new SessionModel();
-    	if (item == :on) {    		
-    		sessionModel.hrvTracking = HrvTracking.On;
+    	if (item == :on) {
+			sessionModel.setHrvTracking(HrvTracking.On);
     	}
-    	else if (item == :onDetailed) {    		
-    		sessionModel.hrvTracking = HrvTracking.OnDetailed;
+    	else if (item == :onDetailed) {  
+			sessionModel.setHrvTracking(HrvTracking.OnDetailed);
     	}
-    	else if (item == :off) {    		
-    		sessionModel.hrvTracking = HrvTracking.Off;
+    	else if (item == :off) {
+			sessionModel.setHrvTracking(HrvTracking.Off);
     	}    		
 		me.mOnChangeSession.invoke(sessionModel);	
     }

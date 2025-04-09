@@ -9,7 +9,7 @@ module HrvAlgorithms {
 			} else {
 				me.sensorSupported = false;
 			}
-			if(summary == null) {
+			if (summary == null) {
 				summary = new SensorSummary();
 			}
 			me.summary = summary;
@@ -19,6 +19,8 @@ module HrvAlgorithms {
 			me.max = null;
 			me.first = null;
 			me.last = null;
+			me.skipeFirstMeasure = skipeFirstMeasure;
+			me.skipeFirstMeasure = me.skipeFirstMeasure == null ? false : me.skipeFirstMeasure;
 		}
 
 		var sensorSupported;
@@ -28,16 +30,15 @@ module HrvAlgorithms {
 		var min, max;
 		var first, last;
 		var data = [];
-		var skipeFirstMeasure = skipeFirstMeasure;
+		var skipeFirstMeasure;
 
 		// Method to be used without class instance
 		static function isSensorSupported() {
 			return false;
 		}
 
-		// Check if device supports respiration rate
 		function isSupported() {
-			return sensorSupported;
+			return me.sensorSupported;
 		}
 
 		protected function getCurrentValueRaw() {
@@ -65,7 +66,7 @@ module HrvAlgorithms {
 
 				// Update summary metrics
 				updateData(val);
-				return val;
+				return me.getLastValue();
 			} else {
 				return null;
 			}
@@ -97,6 +98,14 @@ module HrvAlgorithms {
 		function getAvg() {
 			if (me.count > 0) {
 				return me.sum / me.count.toFloat();
+			} else {
+				return null;
+			}
+		}
+
+		function getLastValue() {
+			if (me.data != null and me.data.size() > 0) {
+				return me.data[me.data.size() - 1];
 			} else {
 				return null;
 			}

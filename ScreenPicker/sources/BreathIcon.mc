@@ -1,4 +1,5 @@
 using Toybox.Graphics as Gfx;
+using StatusIconFonts;
 
 module ScreenPicker {
 	class BreathIcon extends Icon {
@@ -6,14 +7,13 @@ module ScreenPicker {
 			icon[:font] = StatusIconFonts.fontAwesomeFreeSolid;
 			icon[:symbol] = StatusIconFonts.Rez.Strings.IconBreath;
 			if (icon[:color] == null) {
-				icon[:color] = me.BreathIconLightBlueColor;
+				icon[:color] = Gfx.COLOR_BLUE;
 			}
 			Icon.initialize(icon);
 		}
 
-		const BreathIconLightBlueColor = 0x6060ff;
 		function setActive() {
-			me.setColor(BreathIconLightBlueColor);
+			me.setColor(Gfx.COLOR_BLUE);
 		}
 		function setInactive() {
 			me.setColor(Gfx.COLOR_LT_GRAY);

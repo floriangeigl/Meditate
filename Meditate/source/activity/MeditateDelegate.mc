@@ -19,6 +19,10 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 		me.mSummaryModel = null;
 	}
 
+	public function startActivity() {
+		me.mMeditateActivity.start();
+	}
+
 	public function stopActivity() {
 		me.mMeditateActivity.stop();
 
@@ -97,9 +101,10 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 		if (continueAfterFinishingSession == MultiSession.Yes) {
 			showSessionPickerView(me.mSummaryModel);
 		} else {
-			me.mHeartbeatIntervalsSensor.stop();
-			me.mHeartbeatIntervalsSensor = null;
-
+			if (me.mHeartbeatIntervalsSensor != null) {
+				me.mHeartbeatIntervalsSensor.stop();
+				me.mHeartbeatIntervalsSensor = null;
+			}
 			showSummaryView(me.mSummaryModel);
 		}
 	}

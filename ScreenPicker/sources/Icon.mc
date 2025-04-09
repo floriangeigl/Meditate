@@ -5,13 +5,14 @@ using Toybox.Application as App;
 module ScreenPicker {
 	class Icon {
 		var color;
+		private var mIconDrawable;
+
 		function initialize(icon) {
 			me.color = icon[:color];
 			var iconDrawableParams = {};
 			if (icon[:symbol] != null) {
 				iconDrawableParams[:text] = Ui.loadResource(icon[:symbol]);
-			}
-			else {
+			} else {
 				iconDrawableParams[:text] = "";
 			}
 			if (icon[:color] != null) {
@@ -22,33 +23,42 @@ module ScreenPicker {
 			}
 			if (icon[:xPos] != null) {
 				iconDrawableParams[:locX] = icon[:xPos];
-			}
-			else {
+			} else {
 				iconDrawableParams[:locX] = 0;
 			}
 			if (icon[:yPos] != null) {
 				iconDrawableParams[:locY] = icon[:yPos];
 			}
-			iconDrawableParams[:justification] = Gfx.TEXT_JUSTIFY_CENTER;		
+			iconDrawableParams[:justification] = Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER;
 			me.mIconDrawable = new Ui.Text(iconDrawableParams);
-		}	
-		
-		private var mIconDrawable;
-	
+		}
+
 		function setXPos(xPos) {
 			me.mIconDrawable.locX = xPos;
 		}
-		
+
 		function setYPos(yPos) {
 			me.mIconDrawable.locY = yPos;
 		}
-		
+
 		function setColor(color) {
 			me.mIconDrawable.setColor(color);
 		}
-		
+
+		function setColorLoading() {
+			me.mIconDrawable.setColor(0xa2adfa);
+		}
+
+		function setColorInactive() {
+			me.setColor(Gfx.COLOR_LT_GRAY);
+		}
+
+		protected function setSymbol(symbol) {
+			me.mIconDrawable.setText(symbol);
+		}
+
 		function draw(dc) {
 			me.mIconDrawable.draw(dc);
-		}	
+		}
 	}
 }

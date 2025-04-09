@@ -2,11 +2,14 @@ using Toybox.WatchUi as Ui;
 using Toybox.Graphics as Gfx;
 using Toybox.Application as App;
 using HrvAlgorithms.HrvTracking;
+using StatusIconFonts;
 
 class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 	private var mSessionStorage;
 	private var mSelectedSessionDetails;
 	private var mSummaryRollupModel;
+	private var mHeartbeatIntervalsSensor;
+	private var mLastHrvTracking;
 
 	function initialize(sessionStorage, heartbeatIntervalsSensor) {
 		ScreenPickerDelegate.initialize(sessionStorage.getSelectedSessionIndex(), sessionStorage.getSessionsCount());
@@ -20,14 +23,13 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 
 	private function initializeHeartbeatIntervalsSensor(heartbeatIntervalsSensor) {
 		me.mHeartbeatIntervalsSensor = heartbeatIntervalsSensor;
-		me.mNoHrvSeconds = MinSecondsNoHrvDetected;
 	}
 
 	function setTestModeHeartbeatIntervalsSensor(hrvTracking) {
 		if (hrvTracking == me.mLastHrvTracking) {
 			if (hrvTracking != HrvTracking.Off) {
 				me.mHeartbeatIntervalsSensor.setOneSecBeatToBeatIntervalsSensorListener(
-					method(:onHeartbeatIntervalsListener)
+					method(:updateHrvStatus)
 				);
 			} else {
 				me.mHeartbeatIntervalsSensor.setOneSecBeatToBeatIntervalsSensorListener(null);
@@ -36,7 +38,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 			if (hrvTracking != HrvTracking.Off) {
 				me.mHeartbeatIntervalsSensor.start();
 				me.mHeartbeatIntervalsSensor.setOneSecBeatToBeatIntervalsSensorListener(
-					method(:onHeartbeatIntervalsListener)
+					method(:updateHrvStatus)
 				);
 			} else {
 				me.mHeartbeatIntervalsSensor.stop();
@@ -46,15 +48,12 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		me.mLastHrvTracking = hrvTracking;
 	}
 
-	private var mHeartbeatIntervalsSensor;
-	private var mLastHrvTracking;
-
 	function onMenu() {
 		return me.showSessionSettingsMenu();
 	}
 
 	function onHold(param) {
-		return me.showSessionSettingsMenu();
+		return me.onMenu();
 	}
 
 	private const RollupExitOption = :exitApp;
@@ -88,7 +87,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 			var summaryModel = me.mSummaryRollupModel.getSummary(summaryIndex);
 			var summaryViewDelegate = new SummaryViewDelegate(
 				summaryModel,
-				MeditateModel.isRespirationRateOnStatic(new HrvAlgorithms.RrActivity()),
+				MeditateModel.isRespirationRateOn(),
 				null
 			);
 			Ui.pushView(summaryViewDelegate.createScreenPickerView(), summaryViewDelegate, Ui.SLIDE_LEFT);
@@ -125,6 +124,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 			me.mHeartbeatIntervalsSensor,
 			me
 		);
+		mediateDelegate.startActivity();
 		Ui.switchToView(meditateView, mediateDelegate, Ui.SLIDE_LEFT);
 	}
 
@@ -184,32 +184,18 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		}
 	}
 
-	private var mSuccessiveEmptyHeartbeatIntervalsCount;
-
-	private var mNoHrvSeconds;
-	private const MinSecondsNoHrvDetected = 3;
-
-	function onHeartbeatIntervalsListener(heartBeatIntervals) {
-		if (heartBeatIntervals.size() == 0) {
-			me.mNoHrvSeconds++;
-		} else {
-			me.mNoHrvSeconds = 0;
-		}
-		me.setHrvReadyStatus();
-	}
-
-	private function setHrvReadyStatus() {
+	function updateHrvStatus(data) {
 		var hrvStatusLine = me.mSelectedSessionDetails.getLine(3);
-		if (me.mNoHrvSeconds >= MinSecondsNoHrvDetected) {
-			hrvStatusLine.icon.setStatusWarning();
-			hrvStatusLine.value.text = Ui.loadResource(Rez.Strings.HRVwaiting);
-		} else {
+		if (me.mHeartbeatIntervalsSensor.getStatus() != HeartbeatIntervalsSensorStatus.Error) {
 			if (me.mLastHrvTracking == HrvTracking.On) {
 				hrvStatusLine.icon.setStatusOn();
 			} else {
 				hrvStatusLine.icon.setStatusOnDetailed();
 			}
 			hrvStatusLine.value.text = Ui.loadResource(Rez.Strings.HRVready);
+		} else {
+			hrvStatusLine.icon.setStatusWarning();
+			hrvStatusLine.value.text = Ui.loadResource(Rez.Strings.HRVwaiting);
 		}
 		Ui.requestUpdate();
 	}
@@ -231,7 +217,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 
 	function updateSelectedSessionDetails(session) {
 		me.setTestModeHeartbeatIntervalsSensor(session.getHrvTracking());
- 		me.mSelectedSessionDetails = new ScreenPicker.DetailsModel();
+		me.mSelectedSessionDetails = new ScreenPicker.DetailsModel();
 		var details = me.mSelectedSessionDetails;
 
 		var activityTypeText;
@@ -243,9 +229,9 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 			// Meditation
 			activityTypeText = Ui.loadResource(Rez.Strings.activityNameMeditate);
 		}
-		if(session.name != null){
+		if (session.name != null) {
 			details.title = session.name;
-		}else {
+		} else {
 			details.title = activityTypeText + " " + (me.mSelectedPageIndex + 1);
 		}
 		details.titleColor = session.color;
@@ -305,7 +291,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		private var mSession;
 
 		function getAlertsLine() {
-			var alertsLine = new ScreenPicker.PercentageHighlightLine(me.mSession.intervalAlerts.count());
+			var alertsLine = new ScreenPicker.PercentageHighlightLine(me.mSession.intervalAlerts.size());
 
 			alertsLine.backgroundColor = me.mSession.color;
 
@@ -318,7 +304,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		private function AddHighlights(alertsLine, alertsType) {
 			var intervalAlerts = me.mSession.intervalAlerts;
 
-			for (var i = 0; i < intervalAlerts.count(); i++) {
+			for (var i = 0; i < intervalAlerts.size(); i++) {
 				var alert = intervalAlerts.get(i);
 				if (alert.type == alertsType) {
 					var percentageTimes = alert.getAlertProgressBarPercentageTimes(me.mSession.time);

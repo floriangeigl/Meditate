@@ -5,38 +5,49 @@ using Toybox.Timer;
 using Toybox.Math;
 using Toybox.Sensor;
 using HrvAlgorithms.HrvTracking;
+using Toybox.Application as App;
 
 class MediteActivity extends HrvAlgorithms.HrvActivity {
 	private var mMeditateModel;
 	private var mVibeAlertsExecutor;
 	private var mMeditateDelegate;
+	private var mAutoStopEnabled;
 
 	function initialize(meditateModel, heartbeatIntervalsSensor, meditateDelegate) {
 		var fitSessionSpec;
 		var sessionTime = meditateModel.getSessionTime();
+		var mySettings = System.getDeviceSettings();
+		var version = mySettings.monkeyVersion;
+		// current hypthesis: mediation/yoga/breathwork only supported with api >= 3.4
+		var supportsActivityTypes = (version[0] == 3 and version[1] >= 4) or version[0] > 3 ? true : false;
 
 		// Retrieve activity name property from Garmin Express/Connect IQ
-		var activityName = null;
-
+		var activityName = App.Storage.getApp().getProperty("activityName");
+		activityName = activityName.length() > 0 ? activityName.toString() : "";
 		if (meditateModel.getActivityType() == ActivityType.Yoga) {
-			activityName = Ui.loadResource(Rez.Strings.sessionTitleYoga);
-			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createYoga(createSessionName(sessionTime, activityName)); // Due to bug in Connect IQ API for breath activity to get respiration rate, we will use Yoga as default meditate activity
+			activityName = activityName.length() > 0 ? activityName : Ui.loadResource(Rez.Strings.sessionTitleYoga);
+			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createYoga(createSessionName(sessionTime, activityName));
 		} else if (meditateModel.getActivityType() == ActivityType.Breathing) {
-			activityName = Ui.loadResource(Rez.Strings.sessionTitleBreathing);
+			activityName = activityName.length() > 0 ? activityName : Ui.loadResource(Rez.Strings.sessionTitleBreathing);
 			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createBreathing(createSessionName(sessionTime, activityName));
 		} else {
-			activityName = Ui.loadResource(Rez.Strings.sessionTitleMeditate);
+			activityName = activityName.length() > 0 ? activityName : Ui.loadResource(Rez.Strings.sessionTitleMeditate);
 			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createMeditation(
 				createSessionName(sessionTime, activityName)
 			);
+		}
+		if (!supportsActivityTypes) {
+			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createGeneric(createSessionName(sessionTime, activityName));
+			System.println("create generic activity as others are not supported");
 		}
 
 		me.mMeditateModel = meditateModel;
 		me.mMeditateDelegate = meditateDelegate;
 		HrvAlgorithms.HrvActivity.initialize(fitSessionSpec, meditateModel.getHrvTracking(), heartbeatIntervalsSensor);
+		me.mAutoStopEnabled = GlobalSettings.loadAutoStop();
 	}
 
-	protected function createSessionName(sessionTime, activityName) {
+	private function createSessionName(sessionTime, activityName) {
 		// Calculate session minutes and hours
 		var sessionTimeMinutes = Math.round(sessionTime / 60);
 		var sessionTimeHours = Math.round(sessionTimeMinutes / 60);
@@ -61,11 +72,10 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 		if (activityName.length() > 21) {
 			activityName = activityName.substring(0, 21);
 		}
-
 		return activityName;
 	}
 
-	function stringReplace(str, oldString, newString) {
+	private function stringReplace(str, oldString, newString) {
 		var result = str;
 
 		while (true) {
@@ -77,37 +87,41 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 				return result;
 			}
 		}
-
 		return null;
 	}
 
-	protected function onBeforeStart(fitSession) {
-		mMeditateModel.isTimerRunning = true;
-		HrvAlgorithms.HrvActivity.onBeforeStart(fitSession);
+	function start() {
+		HrvAlgorithms.HrvActivity.start();
+		me.mMeditateModel.isTimerRunning = true;
 		me.mVibeAlertsExecutor = new VibeAlertsExecutor(me.mMeditateModel);
 	}
 
-	protected function onRefreshHrvActivityStats(activityInfo, minHr, hrvValue) {
-		if (activityInfo.elapsedTime != null) {
-			me.mMeditateModel.elapsedTime = activityInfo.timerTime / 1000;
+	function refreshActivityStats() {
+		HrvAlgorithms.HrvActivity.refreshActivityStats();
+		if (me.activityInfo.elapsedTime != null) {
+			me.mMeditateModel.elapsedTime = me.activityInfo.timerTime / 1000;
 		}
-		me.mMeditateModel.currentHr = activityInfo.currentHeartRate;
-		me.mMeditateModel.minHr = minHr;
-		me.mVibeAlertsExecutor.firePendingAlerts();
-		me.mMeditateModel.hrvValue = hrvValue;
+		me.mMeditateModel.currentHr = me.getLastValue();
+		if (me.mMeditateModel.currentHr == null) {
+			// use live heart rate before the first tumbling window is done
+			me.mMeditateModel.currentHr = me.activityInfo.currentHeartRate;
+		}
+		me.mMeditateModel.minHr = me.minHr;
+		if (me.mVibeAlertsExecutor != null) {
+			me.mVibeAlertsExecutor.firePendingAlerts();
+		}
+		me.mMeditateModel.hrvValue = me.getHrv();
 
 		// Check if we need to stop activity automatically when time ended
-		var autoStopEnabled = GlobalSettings.loadAutoStop();
-		if (autoStopEnabled && me.mMeditateModel.elapsedTime >= me.mMeditateModel.getSessionTime()) {
+		if (me.mAutoStopEnabled && me.mMeditateModel.elapsedTime >= me.mMeditateModel.getSessionTime()) {
 			mMeditateDelegate.stopActivity();
 			return;
 		}
-
 		Ui.requestUpdate();
 	}
 
-	protected function onBeforeStop() {
-		HrvAlgorithms.HrvActivity.onBeforeStop();
+	function stop() {
+		HrvAlgorithms.HrvActivity.stop();
 		me.mVibeAlertsExecutor = null;
 	}
 

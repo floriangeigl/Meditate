@@ -2,6 +2,7 @@ using Toybox.WatchUi as Ui;
 using Toybox.Application as App;
 using Toybox.Graphics as Gfx;
 using HrvAlgorithms.HrvTracking;
+using StatusIconFonts;
 
 class AboutDelegate extends ScreenPicker.ScreenPickerDelegate {
 	private var mSessionPickerDelegate;
@@ -30,8 +31,8 @@ class AboutDelegate extends ScreenPicker.ScreenPickerDelegate {
 		line.value.text = Ui.loadResource(Rez.Strings.about_AppVersion);
 		line.icon = new ScreenPicker.Icon({
 			:font => StatusIconFonts.fontAwesomeFreeSolid,
-			:symbol => StatusIconFonts.Rez.Strings.IconVihara,
-			:color => Gfx.COLOR_GREEN,
+			:symbol => StatusIconFonts.Rez.Strings.IconSpa,
+			:color => Gfx.COLOR_BLUE,
 		});
 		line = details.getLine(1);
 		line.value.text = Ui.loadResource(Rez.Strings.about_floriangeigl);

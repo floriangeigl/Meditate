@@ -1,57 +1,48 @@
 class VibeAlertsExecutor {
 	function initialize(meditateModel) {
 		me.mMeditateModel = meditateModel;
-		me.mOneOffIntervalAlerts = me.mMeditateModel.getOneOffIntervalAlerts();
-		me.mRepeatIntervalAlerts = me.mMeditateModel.getRepeatIntervalAlerts();	
+		me.mIntervalAlerts = me.mMeditateModel.getIntervalAlerts();
 		me.mIsFinalAlertPending = true;
 	}
-	
+
 	private var mIsFinalAlertPending;
 	private var mMeditateModel;
-	private var mOneOffIntervalAlerts;
-	private var mRepeatIntervalAlerts;
-	
+	private var mIntervalAlerts;
+
 	function firePendingAlerts() {
 		if (me.mIsFinalAlertPending == true) {
-			me.fireIfRequiredRepeatIntervalAlerts();
-			me.fireIfRequiredOneOffIntervalAlerts();
+			me.fireIfRequiredIntervalAlerts();
 			me.fireIfRequiredFinalAlert();
 		}
 
 		// Continue firing alert for repeated invervals even after regular session time is over
-		if (me.mMeditateModel.elapsedTime >= me.mMeditateModel.getSessionTime()+10) {	    	
-			me.fireIfRequiredRepeatIntervalAlerts();
+		if (me.mMeditateModel.elapsedTime >= me.mMeditateModel.getSessionTime() + 10) {
+			me.fireIfRequiredIntervalAlerts();
 		}
 	}
-	
+
 	private function fireIfRequiredFinalAlert() {
-	    if (me.mMeditateModel.elapsedTime >= me.mMeditateModel.getSessionTime()) {	    	
+		if (me.mMeditateModel.elapsedTime >= me.mMeditateModel.getSessionTime()) {
 			Vibe.vibrate(me.mMeditateModel.getVibePattern());
 			me.mIsFinalAlertPending = false;
-	    }
+		}
 	}
-	
-	private function fireIfRequiredOneOffIntervalAlerts() {
-	    var i = 0;
-	    while (me.mOneOffIntervalAlerts.size() > 0 && i < me.mOneOffIntervalAlerts.size()) {
-	    	var alertKey = me.mOneOffIntervalAlerts.keys()[i];
-	    	if (me.mMeditateModel.elapsedTime >= me.mOneOffIntervalAlerts[alertKey].time + me.mOneOffIntervalAlerts[alertKey].offset) {
-	    		Vibe.vibrate(me.mOneOffIntervalAlerts[alertKey].vibePattern);
-	    		me.mOneOffIntervalAlerts.remove(alertKey);
-	    	}	
-	    	else {
-	    		i++;  
-	    	}  		
-	    }
-	}
-	
-	private function fireIfRequiredRepeatIntervalAlerts() {
-		for (var i = 0; i < me.mRepeatIntervalAlerts.size(); i++) {
-			if (me.mRepeatIntervalAlerts[i].time > 0 && 
-			(me.mMeditateModel.elapsedTime - me.mRepeatIntervalAlerts[i].offset) >= 0 &&
-			(me.mMeditateModel.elapsedTime - me.mRepeatIntervalAlerts[i].offset) % me.mRepeatIntervalAlerts[i].time == 0) {
-	    		Vibe.vibrate(me.mRepeatIntervalAlerts[i].vibePattern);
-	    	}	
+
+	private function fireIfRequiredIntervalAlerts() {
+		var alert = null;
+		var rm = [];
+		var elapsedTime = me.mMeditateModel.elapsedTime;
+		for (var i = 0; i < me.mIntervalAlerts.size(); i++) {
+			alert = me.mIntervalAlerts.get(i);
+			if (alert.time > 0 && elapsedTime - alert.offset >= 0 && (elapsedTime - alert.offset) % alert.time == 0) {
+				Vibe.vibrate(alert.vibePattern);
+				if (alert.type == IntervalAlertType.OneOff) {
+					rm.add(alert);
+				}
+			}
+		}
+		for (var i = 0; i < rm.size(); i++) {
+			me.mIntervalAlerts.remove(rm[i]);
 		}
 	}
 }

@@ -2,17 +2,14 @@ using Toybox.ActivityMonitor;
 
 module HrvAlgorithms {
 	class RrActivity extends SensorActivityTumbling {
+		private static const windowSize = 30;
 		function initialize() {
-			SensorActivityTumbling.initialize(new SensorSummary(), true, null);
+			SensorActivityTumbling.initialize(new SensorSummary(), true, RrActivity.windowSize);
 		}
 
 		// Method to be used without class instance
 		static function isSensorSupported() {
-			if (ActivityMonitor.getInfo() has :respirationRate) {
-				return true;
-			} else {
-				return false;
-			}
+			return ActivityMonitor.getInfo() has :respirationRate ? true : false;
 		}
 
 		function getCurrentValueRaw() {
@@ -26,6 +23,10 @@ module HrvAlgorithms {
 			} else {
 				return null;
 			}
+		}
+
+		static function getLoadTime() {
+			return RrActivity.windowSize;
 		}
 	}
 }

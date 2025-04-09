@@ -4,6 +4,34 @@ using Toybox.Application as App;
 
 module HrvAlgorithms {
 	class HrvMonitorDetailed extends HrvMonitorDefault {
+		private static const HrvRmssdWindowSize = 60;
+		private static const Buffer5MinLength = 300;
+
+		private var mHrvSdrrFirst5Min;
+		private var mHrvSdrrLast5Min;
+		private var mHrvRmssdRolling;
+		private var mHrvPnn50;
+		private var mHrvPnn20;
+
+		private var mHrvBeatToBeatIntervalsDataField;
+		private var mHrvSdrrFirst5MinDataField;
+		private var mHrvSdrrLast5MinDataField;
+		private var mHrvRmssdRollingDataField;
+		private var mHrvPnn50DataField;
+		private var mHrvPnn20DataField;
+		private var mHrFromHeartbeatDataField;
+
+		private var mHrvRmssdRollingDataFieldLastVal;
+
+		private static const HrvBeatToBeatIntervalsFieldId = 8;
+		private static const HrvSdrrFieldId = 1;
+		private static const HrvSdrrFirst5MinFieldId = 9;
+		private static const HrvSdrrLast5MinFieldId = 10;
+		private static const HrvPnn50FieldId = 11;
+		private static const HrvPnn20FieldId = 12;
+		private static const HrvRmssdRollingFieldId = 13;
+		private static const HrFromHeartbeatField = 16;
+
 		function initialize(activitySession, isSessionTimeLongerThan5min) {
 			HrvMonitorDefault.initialize(activitySession);
 
@@ -18,41 +46,14 @@ module HrvAlgorithms {
 			me.mHrvRmssdRollingDataField = HrvMonitorDetailed.createHrvRmssdRollingDataField(activitySession);
 			me.mHrvPnn50DataField = HrvMonitorDetailed.createHrvPnn50DataField(activitySession);
 			me.mHrvPnn20DataField = HrvMonitorDetailed.createHrvPnn20DataField(activitySession);
-			me.mHrvSdrrFirst5Min = new HrvSdrrFirstNSec(HrvSdrrNSec);
-			me.mHrvSdrrLast5Min = new HrvSdrrLastNSec(HrvSdrrNSec);
+			me.mHrvSdrrFirst5Min = new HrvSdrrFirstNSec(Buffer5MinLength);
+			me.mHrvSdrrLast5Min = new HrvSdrrLastNSec(Buffer5MinLength);
 
 			me.mHrvPnn50 = new HrvPnnx(50);
 			me.mHrvPnn20 = new HrvPnnx(20);
-			me.mHrvRmssdRolling = new HrvRmssdRolling(HrvRmssdIntervalSec);
-			me.mNormHrvRmssdRolling = new NormHrvRmssdRolling(HrvRmssdIntervalSec);
+			me.mHrvRmssdRolling = new HrvRmssdRolling(HrvRmssdWindowSize);
+			me.mHrvRmssdRollingDataFieldLastVal = null;
 		}
-
-		private const HrvRmssdIntervalSec = 60;
-		private const HrvSdrrNSec = 300;
-
-		private var mHrvSdrrFirst5Min;
-		private var mHrvSdrrLast5Min;
-		private var mHrvRmssdRolling;
-		private var mNormHrvRmssdRolling;
-		private var mHrvPnn50;
-		private var mHrvPnn20;
-
-		private var mHrvBeatToBeatIntervalsDataField;
-		private var mHrvSdrrFirst5MinDataField;
-		private var mHrvSdrrLast5MinDataField;
-		private var mHrvRmssdRollingDataField;
-		private var mHrvPnn50DataField;
-		private var mHrvPnn20DataField;
-		private var mHrFromHeartbeatDataField;
-
-		private static const HrvBeatToBeatIntervalsFieldId = 8;
-		private static const HrvSdrrFieldId = 1;
-		private static const HrvSdrrFirst5MinFieldId = 9;
-		private static const HrvSdrrLast5MinFieldId = 10;
-		private static const HrvPnn50FieldId = 11;
-		private static const HrvPnn20FieldId = 12;
-		private static const HrvRmssdRollingFieldId = 13;
-		private static const HrFromHeartbeatField = 16;
 
 		private static function createHrvSdrrFirst5MinDataField(activitySession, isSessionTimeLongerThan5min) {
 			var fieldId;
@@ -61,7 +62,7 @@ module HrvAlgorithms {
 			} else {
 				fieldId = HrvMonitorDetailed.HrvSdrrFieldId;
 			}
-			return activitySession.createField("hrv_sdrr_f", fieldId, FitContributor.DATA_TYPE_FLOAT, {
+			return activitySession.createField("hrv_sdrr_first5min", fieldId, FitContributor.DATA_TYPE_FLOAT, {
 				:mesgType => FitContributor.MESG_TYPE_SESSION,
 				:units => "ms",
 			});
@@ -69,7 +70,7 @@ module HrvAlgorithms {
 
 		private static function createHrvSdrrLast5MinDataField(activitySession) {
 			return activitySession.createField(
-				"hrv_sdrr_l",
+				"hrv_sdrr_last5min",
 				HrvMonitorDetailed.HrvSdrrLast5MinFieldId,
 				FitContributor.DATA_TYPE_FLOAT,
 				{ :mesgType => FitContributor.MESG_TYPE_SESSION, :units => "ms" }
@@ -78,7 +79,7 @@ module HrvAlgorithms {
 
 		private static function createHrvBeatToBeatIntervalsDataField(activitySession) {
 			return activitySession.createField(
-				"hrv_btb",
+				"hrv_beat2beat_int",
 				HrvMonitorDetailed.HrvBeatToBeatIntervalsFieldId,
 				FitContributor.DATA_TYPE_UINT16,
 				{ :mesgType => FitContributor.MESG_TYPE_RECORD, :units => "ms" }
@@ -123,15 +124,15 @@ module HrvAlgorithms {
 
 		function addOneSecBeatToBeatIntervals(beatToBeatIntervals) {
 			HrvMonitorDefault.addOneSecBeatToBeatIntervals(beatToBeatIntervals);
-			var rmssd30Sec = me.mHrvRmssdRolling.addOneSec(beatToBeatIntervals);
-			if (rmssd30Sec != null) {
-				me.mHrvRmssdRollingDataField.setData(rmssd30Sec);
+			var rmssdRolling = me.mHrvRmssdRolling.addOneSec(beatToBeatIntervals);
+			if (rmssdRolling != null && mHrvRmssdRollingDataFieldLastVal != rmssdRolling) {
+				me.mHrvRmssdRollingDataField.setData(rmssdRolling);
 			}
 		}
 
-		protected function addValidBeatToBeatInterval(beatToBeatInterval) {
-			HrvMonitorDefault.addValidBeatToBeatInterval(beatToBeatInterval);
-			if (beatToBeatInterval != null) {
+		protected function addBeatToBeatInterval(beatToBeatInterval) {
+			HrvMonitorDefault.addBeatToBeatInterval(beatToBeatInterval);
+			if (beatToBeatInterval != null && beatToBeatInterval > 0) {
 				me.mHrvBeatToBeatIntervalsDataField.setData(beatToBeatInterval.toNumber());
 				var hrFromHeartbeat = Math.round(60000 / beatToBeatInterval.toFloat()).toNumber();
 				me.mHrFromHeartbeatDataField.setData(hrFromHeartbeat);
@@ -144,7 +145,7 @@ module HrvAlgorithms {
 			me.mHrvPnn20.addBeatToBeatInterval(beatToBeatInterval);
 		}
 
-		public function getRmssdRolling() {
+		public function getHrv() {
 			return mHrvRmssdRolling.getLastCalcValue();
 		}
 
@@ -168,8 +169,11 @@ module HrvAlgorithms {
 				me.mHrvSdrrLast5MinDataField.setData(hrvSummary.last5MinSdrr);
 			}
 			hrvSummary.rmssdHistory = me.mHrvRmssdRolling.getHistory();
-			hrvSummary.nRmssdHistory = me.mNormHrvRmssdRolling.getHistory();
 			return hrvSummary;
+		}
+
+		static function getLoadTime() {
+			return HrvMonitorDetailed.HrvRmssdWindowSize;
 		}
 	}
 }

@@ -7,6 +7,7 @@ class MeditateApp extends App.AppBase {
 	var heartbeatIntervalsSensor;
 
 	function initialize() {
+		heartbeatIntervalsSensor = null;
 		AppBase.initialize();
 	}
 
@@ -30,10 +31,12 @@ class MeditateApp extends App.AppBase {
 
 	// Return the initial view of your application here
 	function getInitialView() {
+		var mySettings = System.getDeviceSettings();
+		var version = mySettings.monkeyVersion;
+		var versionString = Lang.format("API version: $1$.$2$.$3$", version);
+		System.println(versionString);
 		var sessionStorage = new SessionStorage();
-
 		var sessionPickerDelegate = new SessionPickerDelegate(sessionStorage, heartbeatIntervalsSensor);
-
 		return [sessionPickerDelegate.createScreenPickerView(), sessionPickerDelegate];
 	}
 }
