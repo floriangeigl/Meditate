@@ -31,21 +31,23 @@ module HrvAlgorithms {
 		function getCurrentValueRaw() {
 			var val = null;
 			if (me.sensorSupported) {
-				if (me.apiV5Plus) {
-					val = Toybox.ActivityMonitor.Info.stressScore;
-				} else {
-					var iter = Toybox.SensorHistory.getStressHistory({
-						:period => null,
-						:order => Toybox.SensorHistory.ORDER_NEWEST_FIRST,
-					});
-					var sample = iter.next();
-					while (sample != null) {
-						val = sample.data;
-						if (val != null) {
-							break;
-						}
+				// Info.stressScore seems not working
+				//if (false && me.apiV5Plus) {
+				//	val = Toybox.ActivityMonitor.Info.stressScore;
+				//} else {
+				var iter = Toybox.SensorHistory.getStressHistory({
+					:period => null,
+					:order => Toybox.SensorHistory.ORDER_NEWEST_FIRST,
+				});
+				var sample = iter.next();
+				while (sample != null) {
+					val = sample.data;
+					if (val != null) {
+						break;
 					}
+					sample = iter.next();
 				}
+				//}
 			}
 			return val;
 		}
