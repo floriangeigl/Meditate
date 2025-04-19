@@ -37,12 +37,12 @@ class VibeAlertsExecutor {
 			if (alert.time > 0 && elapsedTime - alert.offset >= 0 && (elapsedTime - alert.offset) % alert.time == 0) {
 				Vibe.vibrate(alert.vibePattern);
 				if (alert.type == IntervalAlertType.OneOff) {
-					rm.add(alert);
+					rm.add(i);
 				}
 			}
 		}
 		for (var i = 0; i < rm.size(); i++) {
-			me.mIntervalAlerts.remove(rm[i]);
+			me.mIntervalAlerts.delete(rm[i]);
 		}
 	}
 }
