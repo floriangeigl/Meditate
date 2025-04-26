@@ -113,6 +113,7 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 			me.mVibeAlertsExecutor.firePendingAlerts();
 		}
 		me.mMeditateModel.hrvValue = me.getHrv();
+		me.mMeditateModel.externalSensorConnected = me.mExternalSensorConnected;
 
 		// Check if we need to stop activity automatically when time ended
 		if (me.mAutoStopEnabled && me.mMeditateModel.elapsedTime >= me.mMeditateModel.getSessionTime()) {

@@ -10,21 +10,26 @@ module HrvAlgorithms {
 		private var bufferWriteIndex;
 		private var mSensorListener;
 		private var numFails;
+		private var enabledHrSensors;
+		var externalSensorConnected;
 
 		function initialize() {
 			me.buffer = new [10];
 			me.timer = new Timer.Timer();
 			me.bufferWriteIndex = 0;
 			me.numFails = 10;
+			me.enabledHrSensors = [];
 			me.enableHrSensor();
 		}
 
 		function enableHrSensor() {
-			Sensor.setEnabledSensors([Sensor.SENSOR_HEARTRATE]);
+			me.enabledHrSensors = Sensor.setEnabledSensors([Sensor.SENSOR_HEARTRATE]);
+			me.externalSensorConnected = me.anyExternalHrSensorConnected();
 		}
 
 		function disableHrSensor() {
-			Sensor.setEnabledSensors([]);
+			me.enabledHrSensors = Sensor.setEnabledSensors([]);
+			me.externalSensorConnected = me.anyExternalHrSensorConnected();
 		}
 
 		function start() {
@@ -36,12 +41,14 @@ module HrvAlgorithms {
 				},
 			});
 			me.timer.start(method(:update), 1000, true);
+			me.externalSensorConnected = me.anyExternalHrSensorConnected();
 		}
 
 		function stop() {
 			me.timer.stop();
 			me.bufferWriteIndex = 0;
 			Sensor.unregisterSensorDataListener();
+			me.externalSensorConnected = me.anyExternalHrSensorConnected();
 		}
 
 		function addToBuffer(sensorData) {
@@ -73,6 +80,22 @@ module HrvAlgorithms {
 					return HeartbeatIntervalsSensorStatus.Error;
 				}
 			}
+		}
+
+		private function anyExternalHrSensorConnected() {
+			for (var i = 0; i < me.enabledHrSensors.size(); i++) {
+				System.println("Sensor: " + me.enabledHrSensors[i]);
+				if (me.enabledHrSensors[i] == Sensor.SENSOR_HEARTRATE) {
+					if (
+						Sensor has :SENSOR_ONBOARD_HEARTRATE &&
+						me.enabledHrSensors[i] != Sensor.SENSOR_ONBOARD_HEARTRATE
+					) {
+						return true;
+					}
+					return true;
+				}
+			}
+			return false;
 		}
 
 		function ensureSensorHealth() {

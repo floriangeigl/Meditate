@@ -193,19 +193,20 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 				}
 			}
 
-			if (elapsedTime % 60 == 0){
-				if(isExternalSensorConnected()){
-					me.mExtSensorLine.value.text = "external sensor";
-					me.mExtSensorLine.icon = new ScreenPicker.Icon({
-						:font => StatusIconFonts.fontAwesomeFreeSolid,
-						:symbol => StatusIconFonts.Rez.Strings.IconInfo,
-						:color => Gfx.COLOR_BLUE,
-					});
-				} else {
-					me.mExtSensorLine.icon = null;
-					me.mExtSensorLine.value.text = "";
-				}
-			}
+			// if (elapsedTime < 10 || elapsedTime % 60 == 0){
+			// 	var externalSensorConnected = me.mMeditateModel.externalSensorConnected;
+			// 	if(externalSensorConnected){
+			// 		me.mExtSensorLine.value.text = "ext. sensor";
+			// 		me.mExtSensorLine.icon = new ScreenPicker.Icon({
+			// 			:font => StatusIconFonts.fontAwesomeFreeSolid,
+			// 			:symbol => StatusIconFonts.Rez.Strings.IconInfo,
+			// 			:color => Gfx.COLOR_BLUE,
+			// 		});
+			// 	} else {
+			// 		me.mExtSensorLine.icon = null;
+			// 		me.mExtSensorLine.value.text = "";
+			// 	}
+			// }
 
 			ScreenPicker.ScreenPickerDetailsCenterView.onUpdate(dc);
 			me.mMainDurationRenderer.drawOverallElapsedTime(dc, elapsedTime, me.mMeditateModel.getSessionTime());
@@ -251,11 +252,11 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 			var sensor = iter.next();
 			while (sensor != null) {
 				if(sensor.enabled) {
-					return true;
+					return sensor.name;
 				}
 				sensor = iter.next();
 			}
     	}
-		return false;
+		return null;
 	}
 }
