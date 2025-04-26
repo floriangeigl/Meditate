@@ -2,7 +2,7 @@ using Toybox.FitContributor;
 
 module HrvAlgorithms {
 	class HrvSdrrFirstNSec extends WindowAvg {
-		protected static const DataFieldId = 9;
+		protected var DataFieldId = 9;
 		protected var dataField;
 
 		function initialize(activitySession, maxIntervalsCount) {

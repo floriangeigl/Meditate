@@ -28,7 +28,10 @@ module HrvAlgorithms {
 					result = Math.sqrt(me.aggregatedValue / me.count.toFloat());
 				}
 				me.data.add(result);
-				me.dataField.setData(result);
+				if (result != null) {
+					me.dataField.setData(result);
+				}
+
 				me.reset();
 			}
 			return result;

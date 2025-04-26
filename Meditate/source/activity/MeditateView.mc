@@ -3,6 +3,7 @@ using Toybox.Lang;
 using Toybox.Graphics as Gfx;
 using Toybox.Application as App;
 using Toybox.Timer;
+using Toybox.Sensor;
 using StatusIconFonts;
 
 class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
@@ -14,6 +15,7 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 	private var mHrvStatusLine;
 	private var mRrStatusLine;
 	private var mStressStatusLine;
+	private var mExtSensorLine;
 	private var mHrIcon;
 	private var mHrvIcon;
 	private var mHrvText;
@@ -34,6 +36,7 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 		me.mHrvStatusLine = null;
 		me.mStressStatusLine = null;
 		me.mRrStatusLine = null;
+		me.mExtSensorLine = null;
 		me.rrLoaded = false;
 		me.stressLoaded = false;
 		me.hrvLoaded = false;
@@ -84,7 +87,10 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 			me.mRrStatusLine = me.mMeditateModel.getLine(lineNum);
 			me.mRrStatusLine.icon = new ScreenPicker.LoadingIcon({});
 			me.mBreathIcon.setColorLoading();
+			lineNum++;
 		}
+		me.mExtSensorLine = me.mMeditateModel.getLine(lineNum);
+		lineNum++;
 
 		me.mMainDurationRenderer = new ElapsedDurationRenderer(me.mMeditateModel.getColor(), null, null);
 
@@ -187,6 +193,20 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 				}
 			}
 
+			if (elapsedTime % 60 == 0){
+				if(isExternalSensorConnected()){
+					me.mExtSensorLine.value.text = "external sensor";
+					me.mExtSensorLine.icon = new ScreenPicker.Icon({
+						:font => StatusIconFonts.fontAwesomeFreeSolid,
+						:symbol => StatusIconFonts.Rez.Strings.IconInfo,
+						:color => Gfx.COLOR_BLUE,
+					});
+				} else {
+					me.mExtSensorLine.icon = null;
+					me.mExtSensorLine.value.text = "";
+				}
+			}
+
 			ScreenPicker.ScreenPickerDetailsCenterView.onUpdate(dc);
 			me.mMainDurationRenderer.drawOverallElapsedTime(dc, elapsedTime, me.mMeditateModel.getSessionTime());
 			if (me.mIntervalAlertsRenderer != null) {
@@ -223,5 +243,19 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 		var remain_time = (total - elapsed).toNumber();
 		line.value.text = remain_time > 0 ? remain_time.toString() : "0";
 		line.value.color = Graphics.COLOR_LT_GRAY;
+	}
+
+	function isExternalSensorConnected() {
+		if (Sensor has :getRegisteredSensors) {
+        	var iter = Sensor.getRegisteredSensors(Sensor.SENSOR_HEARTRATE);
+			var sensor = iter.next();
+			while (sensor != null) {
+				if(sensor.enabled) {
+					return true;
+				}
+				sensor = iter.next();
+			}
+    	}
+		return false;
 	}
 }
