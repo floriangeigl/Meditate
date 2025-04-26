@@ -1,29 +1,44 @@
+using Toybox.FitContributor;
+
 module HrvAlgorithms {
 	class HrvRmssd {
-		function initialize() {		
-			me.mSquareOfSuccessiveBtbDifferences = 0.0;
-			me.mPreviousBeatToBeatInterval = null;
-			me.mBeatToBeatIntervalsCount = 0;
+		function initialize(activitySession) {
+			me.mSquareDiffs = 0.0;
+			me.mPreviousInterval = null;
+			me.mIntervalsCount = 0;
+			me.mHrvRmssdDataField = me.createDataField(activitySession);
 		}
-			
-		private var mSquareOfSuccessiveBtbDifferences;	
-		private var mPreviousBeatToBeatInterval;
-		private var mBeatToBeatIntervalsCount;
-		
+
+		private var mSquareDiffs;
+		private var mPreviousInterval;
+		private var mIntervalsCount;
+		private static const DataFieldId = 7;
+		private var mHrvRmssdDataField;
+
+		private function createDataField(activitySession) {
+			return activitySession.createField("hrv_rmssd", me.DataFieldId, FitContributor.DATA_TYPE_FLOAT, {
+				:mesgType => FitContributor.MESG_TYPE_SESSION,
+				:units => "ms",
+			});
+		}
+
 		function addBeatToBeatInterval(beatToBeatInterval) {
-			if (me.mPreviousBeatToBeatInterval != null && beatToBeatInterval != null) {
-				me.mBeatToBeatIntervalsCount++;
-				me.mSquareOfSuccessiveBtbDifferences += Math.pow(beatToBeatInterval - me.mPreviousBeatToBeatInterval, 2);	
+			if (me.mPreviousInterval != null && beatToBeatInterval != null) {
+				me.mIntervalsCount++;
+				me.mSquareDiffs += Math.pow(beatToBeatInterval - me.mPreviousInterval, 2);
 			}
-			me.mPreviousBeatToBeatInterval = beatToBeatInterval;
+			me.mPreviousInterval = beatToBeatInterval;
 		}
-		
+
 		function calculate() {
-			if (me.mBeatToBeatIntervalsCount < 1) {
+			if (me.mIntervalsCount < 1) {
 				return null;
 			}
-			var rootMeanSquareOfSuccessiveBtbDifferences = Math.sqrt(me.mSquareOfSuccessiveBtbDifferences / me.mBeatToBeatIntervalsCount);		
-			return rootMeanSquareOfSuccessiveBtbDifferences;
+			var rmssd = Math.sqrt(me.mSquareDiffs / me.mIntervalsCount);
+			if (rmssd != null) {
+				me.mHrvRmssdDataField.setData(rmssd);
+			}
+			return rmssd;
 		}
 	}
 }

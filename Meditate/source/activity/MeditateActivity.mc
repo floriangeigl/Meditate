@@ -18,8 +18,10 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 		var sessionTime = meditateModel.getSessionTime();
 		var mySettings = System.getDeviceSettings();
 		var version = mySettings.monkeyVersion;
-		// current hypthesis: mediation/yoga/breathwork only supported with api >= 3.4
-		var supportsActivityTypes = (version[0] == 3 and version[1] >= 4) or version[0] > 3 ? true : false;
+		// current hypothesis: mediation/yoga/breathwork only supported with api >= 3.3.6
+		version = version[0] * 10000 + version[1] * 100 + version[2];
+		var supportsActivityTypes = version >= 30306 ? true : false;
+		System.println(version + " " + supportsActivityTypes);
 
 		// Retrieve activity name property from Garmin Express/Connect IQ
 		var activityName = App.Storage.getApp().getProperty("activityName");
@@ -111,6 +113,7 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 			me.mVibeAlertsExecutor.firePendingAlerts();
 		}
 		me.mMeditateModel.hrvValue = me.getHrv();
+		me.mMeditateModel.externalSensorConnected = me.mExternalSensorConnected;
 
 		// Check if we need to stop activity automatically when time ended
 		if (me.mAutoStopEnabled && me.mMeditateModel.elapsedTime >= me.mMeditateModel.getSessionTime()) {

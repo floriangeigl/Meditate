@@ -17,6 +17,7 @@ class MeditateModel extends ScreenPicker.DetailsModel {
 		me.mHrvTracking = me.mSession.getHrvTracking();
 		me.mIsHrvOn = me.mHrvTracking != HrvTracking.Off;
 		me.mRespirationRateSetting = GlobalSettings.loadRespirationRate();
+		me.externalSensorConnected = false;
 	}
 
 	private var mSession;
@@ -24,13 +25,14 @@ class MeditateModel extends ScreenPicker.DetailsModel {
 	private var stressActivity;
 	private var mIsHrvOn, mHrvTracking;
 	private var mRespirationRateSetting;
-
+	
 	var currentHr;
 	var minHr;
 	var elapsedTime;
 	var hrvValue;
 	var respirationRate;
 	var isTimerRunning;
+	var externalSensorConnected;
 
 	function isHrvOn() {
 		return me.mIsHrvOn;
