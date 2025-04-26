@@ -1,18 +1,10 @@
 module HrvAlgorithms {
-	class HrvSdrrLastNSec extends WindowAvg{
-		function initialize(maxIntervalsCount) {
+	class HrvSdrrLastNSec extends HrvSdrrFirstNSec {
+		protected static const DataFieldId = 10;
+
+		function initialize(activitySession, maxIntervalsCount) {
 			WindowAvg.initialize(maxIntervalsCount, false);
-		}		
-		function calculate() {
-			var avg = WindowAvg.calculate();
-			if (avg == null) {
-				return null;
-			}
-			var sumSquaredDeviations = 0.0;
-			for (var i = 0; i < me.count; i++) {
-				sumSquaredDeviations += Math.pow(me.data[i] - avg, 2);	
-			}
-			return Math.sqrt(sumSquaredDeviations / me.count.toFloat());
+			me.dataField = me.createDataField(activitySession, "hrv_sdrr_last5min");
 		}
 	}
 }

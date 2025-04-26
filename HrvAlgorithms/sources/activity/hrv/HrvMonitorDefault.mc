@@ -4,41 +4,12 @@ using Toybox.Application as App;
 
 module HrvAlgorithms {
 	class HrvMonitorDefault {
-		private const HrvRmssd30Sec = 30;
-
 		private var mHrvRmssd;
 		private var mHrvSuccessive;
 
-		private var mHrvSuccessiveDataField;
-		private var mHrvRmssdDataField;
-
-		private static const HrvSuccessiveFieldId = 6;
-		private static const HrvRmssdFieldId = 7;
-
 		function initialize(activitySession) {
-			me.mHrvSuccessiveDataField = HrvMonitorDefault.createHrvSuccessiveDataField(activitySession);
-			me.mHrvRmssdDataField = HrvMonitorDefault.createHrvRmssdDataField(activitySession);
-
-			me.mHrvRmssd = new HrvRmssd();
-			me.mHrvSuccessive = new HrvSuccessive();
-		}
-
-		private static function createHrvSuccessiveDataField(activitySession) {
-			return activitySession.createField(
-				"hrv_successive",
-				HrvMonitorDefault.HrvSuccessiveFieldId,
-				FitContributor.DATA_TYPE_FLOAT,
-				{ :mesgType => FitContributor.MESG_TYPE_RECORD, :units => "ms" }
-			);
-		}
-
-		private static function createHrvRmssdDataField(activitySession) {
-			return activitySession.createField(
-				"hrv_rmssd",
-				HrvMonitorDefault.HrvRmssdFieldId,
-				FitContributor.DATA_TYPE_FLOAT,
-				{ :mesgType => FitContributor.MESG_TYPE_SESSION, :units => "ms" }
-			);
+			me.mHrvRmssd = new HrvRmssd(activitySession);
+			me.mHrvSuccessive = new HrvSuccessive(activitySession);
 		}
 
 		function addOneSecBeatToBeatIntervals(beatToBeatIntervals) {
@@ -53,19 +24,12 @@ module HrvAlgorithms {
 		}
 
 		public function getHrv() {
-			var hrvSuccessive = me.mHrvSuccessive.calculate();
-			if (hrvSuccessive != null) {
-				me.mHrvSuccessiveDataField.setData(hrvSuccessive);
-			}
-			return hrvSuccessive;
+			return me.mHrvSuccessive.calculate();
 		}
 
 		public function calculateHrvSummary() {
 			var hrvSummary = new HrvSummary();
 			hrvSummary.rmssd = me.mHrvRmssd.calculate();
-			if (hrvSummary.rmssd != null) {
-				me.mHrvRmssdDataField.setData(hrvSummary.rmssd);
-			}
 			return hrvSummary;
 		}
 

@@ -25,7 +25,7 @@ module HrvAlgorithms {
 					method(:onOneSecBeatToBeatIntervals)
 				);
 				if (me.isHrvDetailOn()) {
-					me.mHrvMonitor = new HrvMonitorDetailed(me.mFitSession, true);
+					me.mHrvMonitor = new HrvMonitorDetailed(me.mFitSession);
 				} else {
 					me.mHrvMonitor = new HrvMonitorDefault(me.mFitSession);
 				}
