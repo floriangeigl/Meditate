@@ -3,7 +3,7 @@
     <string id="ConfirmSaveHeader">¿Guardar sesión?</string>
     <string id="confirmDeleteSessionHeader">¿Eliminar sesión?</string>
     <string id="confirmDeleteAllIntervalAlertsHeader">¿Eliminar todas las alertas?</string>
-    
+
     <string id="SummaryTitle">Resumen</string>
     <string id="SummaryHR">Frec. Cardíaca</string>
     <string id="SummaryStress">Estrés</string>
@@ -18,15 +18,15 @@
     <string id="SummaryHRVSDRR">HRV SDRR</string>
     <string id="SummaryHRVRMSSDFirst5min">Primeros 5 min</string>
     <string id="SummaryHRVRMSSDLast5min">Últimos 5 min</string>
-                      
+
     <string id="menuSessionSettings_Title">Config</string>
     <string id="menuSessionSettings_addNew">Agregar Nuevo</string>
     <string id="menuSessionSettings_edit">Editar</string>
     <string id="menuSessionSettings_delete">Eliminar</string>
     <string id="menuSessionSettings_globalSettings">Config Global</string>
     <string id="menuSessionSettings_about">Acerca de</string>
-    
-    <string id="menuGlobalSettings_title">Config</string>    
+
+    <string id="menuGlobalSettings_title">Config</string>
     <string id="menuGlobalSettings_newHrvTracking">Seguimiento HRV</string>
     <string id="menuGlobalSettings_newActivityType">Nuevo Tipo Actividad</string>
     <string id="menuGlobalSettings_confirmSaveActivity">Confirmar Guardado</string>
@@ -39,35 +39,35 @@
     <string id="menuGlobalSettings_finalizeTime">Tiempo Finalización</string>
     <string id="menuGlobalSettings_respiration">Respiración: </string>
     <string id="menuGlobalSettings_save">Guardar: </string>
-    
-    <string id="menuNewActivityTypeOptions_title">Actividad</string>    
+
+    <string id="menuNewActivityTypeOptions_title">Actividad</string>
     <string id="menuNewActivityTypeOptions_yoga">Yoga</string>
     <string id="menuNewActivityTypeOptions_meditating">Meditando</string>
     <string id="menuNewActivityTypeOptions_breathing">Respiración</string>
-        
-    <string id="activityTypeMenu_title">Tipo Actividad</string>    
+
+    <string id="activityTypeMenu_title">Tipo Actividad</string>
     <string id="activityTypeMenu_yoga">Yoga</string>
     <string id="activityTypeMenu_meditating">Meditando</string>
     <string id="activityTypeMenu_breathing">Respiración</string>
-      
-    <string id="menuNewHrvTrackingOptions_title">Seguimiento HRV</string>    
+
+    <string id="menuNewHrvTrackingOptions_title">Seguimiento HRV</string>
     <string id="menuNewHrvTrackingOptions_onDetailed">En Detalle (Predet.)</string>
     <string id="menuNewHrvTrackingOptions_on">Activado</string>
     <string id="menuNewHrvTrackingOptions_off">Desactivado</string>
     <string id="menuNewHrvTrackingOptions_onDetailedSimple">En Detalle</string>
-        
-    <string id="menuHrvTrackingOptions_title">Seguimiento HRV</string>    
+
+    <string id="menuHrvTrackingOptions_title">Seguimiento HRV</string>
     <string id="menuHrvTrackingOptions_onDetailed">En Detalle (Predet.)</string>
     <string id="menuHrvTrackingOptions_on">Act.</string>
     <string id="menuHrvTrackingOptions_off">Desac.</string>
-    
-    <string id="menuConfirmSaveActivityOptions_title">Confirmar Guardado</string>    
+
+    <string id="menuConfirmSaveActivityOptions_title">Confirmar Guardado</string>
     <string id="menuConfirmSaveActivityOptions_ask">Preguntar (Predet.)</string>
     <string id="menuConfirmSaveActivityOptions_autoYes">Sí Auto</string>
     <string id="menuConfirmSaveActivityOptions_autoNo">No Auto</string>
     <string id="menuConfirmSaveActivityOptions_askSimple">Preguntar</string>
     <string id="menuConfirmSaveActivityOptions_autoYesExit">Auto Sí &amp; Salir</string>
- 
+
     <string id="menuMultiSessionOptions_title">Multi-Sesión</string>
     <string id="menuMultiSessionOptions_yes">Sí</string>
     <string id="menuMultiSessionOptions_no">No (Predet.)</string>
@@ -80,7 +80,7 @@
     <string id="menuAutoStopOptions_on">Activ. (Predet.)</string>
     <string id="menuAutoStopOptions_off">Des.</string>
 
-    <string id="menuColorThemeOptions_title">Tema</string>    
+    <string id="menuColorThemeOptions_title">Tema</string>
     <string id="menuColorThemeOptions_light">Claro</string>
     <string id="menuColorThemeOptions_dark">Oscuro (Predet.)</string>
 
@@ -165,17 +165,18 @@
     <string id="sessionTitleMeditate">Meditando [time] 🧘</string>
     <string id="sessionTitleYoga">Yoga [time] 🧘</string>
     <string id="sessionTitleBreathing">Respiración [time] 🌬️</string>
-    
+
     <string id="activityName">Nombre de la Actividad (usa [time] para reemplazarlo por el tiempo de la sesión y mantén el nombre corto):</string>
     <string id="pickMMSS">Elige MM:SS</string>
     <string id="pickHMM">Elige H:MM</string>
     <string id="HRVwaiting">HRV esperando</string>
     <string id="HRVready">HRV listo</string>
+    <string id="HRVweak">HRV débil</string>
     <string id="HRVoff">HRV apagado</string>
 
     <string id="optionsMenuHelp">Mantén menú</string>
 
-    <string id="about_AppVersion">v10.1.12</string>
+    <string id="about_AppVersion">v10.1.13</string>
     <string id="about_floriangeigl">floriangeigl</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>

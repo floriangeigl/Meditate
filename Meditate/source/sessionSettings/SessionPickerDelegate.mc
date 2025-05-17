@@ -87,7 +87,6 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 			var summaryModel = me.mSummaryRollupModel.getSummary(summaryIndex);
 			var summaryViewDelegate = new SummaryViewDelegate(
 				summaryModel,
-				MeditateModel.isRespirationRateOn(),
 				null
 			);
 			Ui.pushView(summaryViewDelegate.createScreenPickerView(), summaryViewDelegate, Ui.SLIDE_LEFT);
@@ -186,13 +185,19 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 
 	function updateHrvStatus(data) {
 		var hrvStatusLine = me.mSelectedSessionDetails.getLine(3);
-		if (me.mHeartbeatIntervalsSensor.getStatus() != HeartbeatIntervalsSensorStatus.Error) {
+		var sensorStatus = me.mHeartbeatIntervalsSensor.getStatus();
+		if (sensorStatus != HeartbeatIntervalsSensorStatus.Error) {
 			if (me.mLastHrvTracking == HrvTracking.On) {
 				hrvStatusLine.icon.setStatusOn();
 			} else {
 				hrvStatusLine.icon.setStatusOnDetailed();
 			}
-			hrvStatusLine.value.text = Ui.loadResource(Rez.Strings.HRVready);
+			if (sensorStatus == HeartbeatIntervalsSensorStatus.Good) {
+				hrvStatusLine.value.text = Ui.loadResource(Rez.Strings.HRVready);
+			} else {
+				hrvStatusLine.value.text = Ui.loadResource(Rez.Strings.HRVweak);
+			}
+			
 		} else {
 			hrvStatusLine.icon.setStatusWarning();
 			hrvStatusLine.value.text = Ui.loadResource(Rez.Strings.HRVwaiting);

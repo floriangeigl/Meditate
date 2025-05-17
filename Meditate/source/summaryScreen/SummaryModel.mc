@@ -5,7 +5,7 @@ using Toybox.ActivityMonitor;
 using Toybox.Time.Gregorian;
 
 class SummaryModel {
-	function initialize(activitySummary, rrActivity, stressActivity, hrvTracking) {
+	function initialize(activitySummary, rrActivity, stressActivity, hrvTracking, rrOn) {
 		me.elapsedTime = activitySummary.hrSummary.elapsedTimeSeconds;
 		me.maxHr = activitySummary.hrSummary.max;
 		me.avgHr = activitySummary.hrSummary.avg;
@@ -40,6 +40,7 @@ class SummaryModel {
 		}
 
 		me.hrvTracking = hrvTracking;
+		me.rrOn = rrOn;
 	}
 
 	var elapsedTime;
@@ -51,6 +52,7 @@ class SummaryModel {
 	var maxRr;
 	var avgRr;
 	var minRr;
+	var rrOn;
 	var rrHistory;
 
 	var firstSt;

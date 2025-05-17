@@ -51,6 +51,7 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 		me.mSummaryModel = me.mMeditateActivity.calculateSummaryFields();
 
 		var confirmSaveActivity = GlobalSettings.loadConfirmSaveActivity();
+		var nextView = null;
 
 		if (
 			confirmSaveActivity == ConfirmSaveActivity.AutoYes ||
@@ -59,23 +60,20 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 			//Made sure reading/writing session settings for the next session in multi-session mode happens before saving the FIT file.
 			//If both happen at the same time FIT file gets corrupted
 			me.mMeditateActivity.finish();
-			var saveActivityView = new DelayedFinishingView(me.method(:onShowNextView), me.mShouldAutoExit);
-			Ui.switchToView(saveActivityView, me, Ui.SLIDE_IMMEDIATE);
+			nextView = new DelayedFinishingView(me.method(:onShowNextView), me.mShouldAutoExit);
 		} else if (confirmSaveActivity == ConfirmSaveActivity.AutoNo) {
 			me.mMeditateActivity.discard();
-			var nextView = new DelayedFinishingView(method(:onShowNextView), me.mShouldAutoExit);
-			Ui.switchToView(nextView, me, Ui.SLIDE_IMMEDIATE);
+			nextView = new DelayedFinishingView(method(:onShowNextView), me.mShouldAutoExit);
 		} else {
-			var nextView = new DelayedFinishingView(method(:onShowNextViewConfirmDialog), me.mShouldAutoExit);
-			Ui.switchToView(nextView, me, Ui.SLIDE_IMMEDIATE);
+			nextView = new DelayedFinishingView(method(:onShowNextViewConfirmDialog), me.mShouldAutoExit);
 		}
+		Ui.switchToView(nextView, me, Ui.SLIDE_IMMEDIATE);
 	}
 
 	//this reads/writes session settings and needs to happen before saving session to avoid FIT file corruption
 	private function showSummaryView(summaryModel) {
 		var summaryViewDelegate = new SummaryViewDelegate(
 			summaryModel,
-			mMeditateModel.isRespirationRateOn(),
 			me.mMeditateActivity.method(:discardDanglingActivity)
 		);
 		var view = summaryViewDelegate.createScreenPickerView();
@@ -132,27 +130,6 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 			return true;
 		}
 		return false;
-	}
-
-	var backlightOn = false;
-
-	function onTap(clickEvent) {
-		try {
-			// Touch screen to disable/enable backlight during activity
-			// This will still respect the backlight timeout configured in the device
-			if (Attention has :backlight) {
-				backlightOn = !backlightOn;
-				Attention.backlight(backlightOn);
-			}
-		} catch (ex) {
-			// Just in case we get a BacklightOnTooLongException for OLED display devices (ex: Venu 2),
-			// disable backlight
-			if (Attention has :backlight) {
-				backlightOn = false;
-				Attention.backlight(backlightOn);
-			}
-		}
-		return true;
 	}
 
 	function toggleColorTheme() {

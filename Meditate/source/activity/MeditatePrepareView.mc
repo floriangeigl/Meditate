@@ -45,20 +45,6 @@ class MeditatePrepareView extends Ui.View {
 
 			return;
 		}
-
-		// Try to keep backlight on during preparation time
-		try {
-			if (Attention has :backlight) {
-				if (mSeconds == 1 || mSeconds % 8 == 0) {
-					Attention.backlight(true);
-				}
-			}
-		} catch (ex) {
-			// Just in case we get a BacklightOnTooLongException for OLED display devices (ex: Venu2)
-			if (Attention has :backlight) {
-				Attention.backlight(false);
-			}
-		}
 	}
 
 	function onLayout(dc) {

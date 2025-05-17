@@ -29,13 +29,16 @@ module HrvAlgorithms {
 
 		function addBeatToBeatInterval(beatToBeatInterval) {
 			me.mTotalIntervalsCount++;
-			if (me.mPreviousBeatToBeatInterval != null && beatToBeatInterval != null) {
-				var intervalsDifference = (beatToBeatInterval - me.mPreviousBeatToBeatInterval).abs();
-				if (intervalsDifference > me.mDifferenceThreshold) {
-					me.mOverThresholdIntervalsCount++;
+			if (beatToBeatInterval != null) {
+				if (me.mPreviousBeatToBeatInterval != null) {
+					var intervalsDifference = (beatToBeatInterval - me.mPreviousBeatToBeatInterval).abs();
+					if (intervalsDifference > me.mDifferenceThreshold) {
+						me.mOverThresholdIntervalsCount++;
+					}
 				}
+				// only update if beatToBeatInterval not null; null could happen if no interval found in one sec;
+				me.mPreviousBeatToBeatInterval = beatToBeatInterval;
 			}
-			me.mPreviousBeatToBeatInterval = beatToBeatInterval;
 		}
 
 		function calculate() {

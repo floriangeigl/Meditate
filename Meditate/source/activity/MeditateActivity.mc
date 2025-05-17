@@ -19,6 +19,7 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 		var mySettings = System.getDeviceSettings();
 		var version = mySettings.monkeyVersion;
 		// current hypothesis: mediation/yoga/breathwork only supported with api >= 3.3.6
+		// device to version: https://github.com/flocsy/garmin-dev-tools/blob/main/csv/device2all-versions.csv
 		version = version[0] * 10000 + version[1] * 100 + version[2];
 		var supportsActivityTypes = version >= 30306 ? true : false;
 		System.println(version + " " + supportsActivityTypes);
@@ -134,7 +135,8 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 			activitySummary,
 			me.mMeditateModel.getRespirationActivity(),
 			me.mMeditateModel.getStressActivity(),
-			me.mMeditateModel.getHrvTracking()
+			me.mMeditateModel.getHrvTracking(),
+			me.mMeditateModel.isRespirationRateOn()
 		);
 		return summaryModel;
 	}

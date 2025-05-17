@@ -213,29 +213,6 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 			if (me.mIntervalAlertsRenderer != null) {
 				me.mIntervalAlertsRenderer.drawAllIntervalAlerts(dc);
 			}
-
-			// Fix issues with OLED screens for prepare time 45 seconds
-			try {
-				if (elapsedTime < 10 && Attention has :backlight) {
-					if (elapsedTime <= 1) {
-						Attention.backlight(false);
-					}
-
-					// Enable backlight in the first 8 seconds then turn off to save battery
-					if (elapsedTime > 0 && elapsedTime <= 8) {
-						Attention.backlight(true);
-					}
-
-					if (elapsedTime == 9) {
-						Attention.backlight(false);
-					}
-				}
-			} catch (ex) {
-				// Just in case we get a BacklightOnTooLongException for OLED display devices (ex: Venu2)
-				if (Attention has :backlight) {
-					Attention.backlight(false);
-				}
-			}
 		}
 		lastElapsedTime = elapsedTime;
 	}
@@ -248,15 +225,15 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 
 	function isExternalSensorConnected() {
 		if (Sensor has :getRegisteredSensors) {
-        	var iter = Sensor.getRegisteredSensors(Sensor.SENSOR_HEARTRATE);
+			var iter = Sensor.getRegisteredSensors(Sensor.SENSOR_HEARTRATE);
 			var sensor = iter.next();
 			while (sensor != null) {
-				if(sensor.enabled) {
+				if (sensor.enabled) {
 					return sensor.name;
 				}
 				sensor = iter.next();
 			}
-    	}
+		}
 		return null;
 	}
 }
