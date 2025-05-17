@@ -21,13 +21,14 @@ module HrvAlgorithms {
 		}
 
 		function addBeatToBeatInterval(beatToBeatInterval) {
-			if (me.mPreviousBeatToBeatInterval != null && beatToBeatInterval != null) {
-				me.mLastSuccessive = beatToBeatInterval - me.mPreviousBeatToBeatInterval;
-				if (mLastSuccessive != null) {
-					me.mHrvSuccessiveDataField.setData(mLastSuccessive);
-				}
-			}
 			if (beatToBeatInterval != null) {
+				if (me.mPreviousBeatToBeatInterval != null) {
+					me.mLastSuccessive = beatToBeatInterval - me.mPreviousBeatToBeatInterval;
+					if (mLastSuccessive != null) {
+						me.mHrvSuccessiveDataField.setData(mLastSuccessive);
+					}
+				}
+				// only update if beatToBeatInterval not null; null could happen if no interval found in one sec;
 				me.mPreviousBeatToBeatInterval = beatToBeatInterval;
 			}
 		}
