@@ -132,27 +132,6 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 		return false;
 	}
 
-	var backlightOn = false;
-
-	function onTap(clickEvent) {
-		try {
-			// Touch screen to disable/enable backlight during activity
-			// This will still respect the backlight timeout configured in the device
-			if (Attention has :backlight) {
-				backlightOn = !backlightOn;
-				Attention.backlight(backlightOn);
-			}
-		} catch (ex) {
-			// Just in case we get a BacklightOnTooLongException for OLED display devices (ex: Venu 2),
-			// disable backlight
-			if (Attention has :backlight) {
-				backlightOn = false;
-				Attention.backlight(backlightOn);
-			}
-		}
-		return true;
-	}
-
 	function toggleColorTheme() {
 		// var currentColorTheme = me.mMeditateModel;
 		// Dark results theme
