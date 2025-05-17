@@ -75,7 +75,6 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 	private function showSummaryView(summaryModel) {
 		var summaryViewDelegate = new SummaryViewDelegate(
 			summaryModel,
-			mMeditateModel.isRespirationRateOn(),
 			me.mMeditateActivity.method(:discardDanglingActivity)
 		);
 		var view = summaryViewDelegate.createScreenPickerView();

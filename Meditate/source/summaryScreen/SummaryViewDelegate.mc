@@ -18,17 +18,13 @@ class SummaryViewDelegate extends ScreenPicker.ScreenPickerDelegate {
 	private static const pageHrvSdrr = "HrvSdrr";
 	private static const pageHrvRmssdGraph = "HrvRmssdGraph";
 
-	function initialize(summaryModel, isRespirationRateOn, discardDanglingActivity) {
-		me.setPageIndexes(summaryModel.hrvTracking, isRespirationRateOn);
+	function initialize(summaryModel, discardDanglingActivity) {
+		me.setPageIndexes(summaryModel.hrvTracking, summaryModel.rrOn);
 		me.mPagesCount = me.pages.size();
 
 		ScreenPickerDelegate.initialize(0, me.mPagesCount);
 		me.mSummaryModel = summaryModel;
 		me.mDiscardDanglingActivity = discardDanglingActivity;
-	}
-
-	private function getPagesCount(hrvTracking, isRespirationRateOn) {
-		return me.mPagesCount;
 	}
 
 	private function setPageIndexes(hrvTracking, isRespirationRateOn) {

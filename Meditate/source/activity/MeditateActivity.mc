@@ -135,7 +135,8 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 			activitySummary,
 			me.mMeditateModel.getRespirationActivity(),
 			me.mMeditateModel.getStressActivity(),
-			me.mMeditateModel.getHrvTracking()
+			me.mMeditateModel.getHrvTracking(),
+			me.mMeditateModel.isRespirationRateOn()
 		);
 		return summaryModel;
 	}

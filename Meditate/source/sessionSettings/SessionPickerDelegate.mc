@@ -87,7 +87,6 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 			var summaryModel = me.mSummaryRollupModel.getSummary(summaryIndex);
 			var summaryViewDelegate = new SummaryViewDelegate(
 				summaryModel,
-				MeditateModel.isRespirationRateOn(),
 				null
 			);
 			Ui.pushView(summaryViewDelegate.createScreenPickerView(), summaryViewDelegate, Ui.SLIDE_LEFT);
