@@ -119,7 +119,9 @@ module HrvAlgorithms {
 						if (data == null) {
 							me.numFails++;
 						} else {
-							me.numFails = 0;
+							me.numFails = me.numFails > 5 ? 5 : me.numFails;
+							me.numFails--;
+							me.numFails = me.numFails < 0 ? 0 : me.numFails;
 						}
 					}
 				} else {

@@ -3,7 +3,7 @@
     <string id="ConfirmSaveHeader">Save Session?</string>
     <string id="confirmDeleteSessionHeader">Delete Session?</string>
     <string id="confirmDeleteAllIntervalAlertsHeader">Delete All Alerts?</string>
-    
+
     <string id="SummaryTitle">Summary</string>
     <string id="SummaryHR">Heart Rate</string>
     <string id="SummaryStress">Stress</string>
@@ -18,15 +18,15 @@
     <string id="SummaryHRVSDRR">HRV SDRR</string>
     <string id="SummaryHRVRMSSDFirst5min">First 5 min</string>
     <string id="SummaryHRVRMSSDLast5min">Last 5 min</string>
-                      
+
     <string id="menuSessionSettings_Title">Settings</string>
     <string id="menuSessionSettings_addNew">Add New</string>
     <string id="menuSessionSettings_edit">Edit</string>
     <string id="menuSessionSettings_delete">Delete</string>
     <string id="menuSessionSettings_globalSettings">Global Settings</string>
     <string id="menuSessionSettings_about">About</string>
-    
-    <string id="menuGlobalSettings_title">Settings</string>    
+
+    <string id="menuGlobalSettings_title">Settings</string>
     <string id="menuGlobalSettings_newHrvTracking">HRV Tracking</string>
     <string id="menuGlobalSettings_newActivityType">New Activity Type</string>
     <string id="menuGlobalSettings_confirmSaveActivity">Confirm Save</string>
@@ -39,53 +39,53 @@
     <string id="menuGlobalSettings_finalizeTime">Finalize Time</string>
     <string id="menuGlobalSettings_respiration">Respiration: </string>
     <string id="menuGlobalSettings_save">Save: </string>
-    
+
     <string id="menuNewActivityTypeOptions_title">Activity</string>
     <string id="menuNewActivityTypeOptions_meditating">Meditating</string>
     <string id="menuNewActivityTypeOptions_yoga">Yoga</string>
     <string id="menuNewActivityTypeOptions_breathing">Breathing</string>
-        
-    <string id="activityTypeMenu_title">Activity Type</string>    
+
+    <string id="activityTypeMenu_title">Activity Type</string>
     <string id="activityTypeMenu_yoga">Yoga</string>
     <string id="activityTypeMenu_meditating">Meditating</string>
     <string id="activityTypeMenu_breathing">Breathing</string>
-      
-    <string id="menuNewHrvTrackingOptions_title">Hrv Tracking</string>    
+
+    <string id="menuNewHrvTrackingOptions_title">Hrv Tracking</string>
     <string id="menuNewHrvTrackingOptions_onDetailed">On Detailed (Default)</string>
     <string id="menuNewHrvTrackingOptions_on">On</string>
     <string id="menuNewHrvTrackingOptions_off">Off</string>
     <string id="menuNewHrvTrackingOptions_onDetailedSimple">On Detailed</string>
-        
-    <string id="menuHrvTrackingOptions_title">Hrv Tracking</string>    
+
+    <string id="menuHrvTrackingOptions_title">Hrv Tracking</string>
     <string id="menuHrvTrackingOptions_onDetailed">On Detailed (Default)</string>
     <string id="menuHrvTrackingOptions_on">On</string>
     <string id="menuHrvTrackingOptions_off">Off</string>
-    
-    <string id="menuConfirmSaveActivityOptions_title">Confirm Save</string>    
+
+    <string id="menuConfirmSaveActivityOptions_title">Confirm Save</string>
     <string id="menuConfirmSaveActivityOptions_ask">Ask (Default)</string>
     <string id="menuConfirmSaveActivityOptions_autoYes">Auto Yes</string>
     <string id="menuConfirmSaveActivityOptions_autoNo">Auto No</string>
     <string id="menuConfirmSaveActivityOptions_askSimple">Ask</string>
     <string id="menuConfirmSaveActivityOptions_autoYesExit">Auto Yes &amp; Exit</string>
-    
-    <string id="menuMultiSessionOptions_title">Multi-Session</string>    
+
+    <string id="menuMultiSessionOptions_title">Multi-Session</string>
     <string id="menuMultiSessionOptions_yes">Yes</string>
     <string id="menuMultiSessionOptions_no">No (Default)</string>
-    
-    <string id="menuRespirationRateOptions_title">Respiration</string>    
+
+    <string id="menuRespirationRateOptions_title">Respiration</string>
     <string id="menuRespirationRateOptions_on">On (Default)</string>
     <string id="menuRespirationRateOptions_off">Off</string>
 
-    <string id="menuAutoStopOptions_title">Auto Stop</string>    
+    <string id="menuAutoStopOptions_title">Auto Stop</string>
     <string id="menuAutoStopOptions_on">On (Default)</string>
     <string id="menuAutoStopOptions_off">Off</string>
 
-    <string id="menuColorThemeOptions_title">Color Theme</string>    
+    <string id="menuColorThemeOptions_title">Color Theme</string>
     <string id="menuColorThemeOptions_light">Light</string>
     <string id="menuColorThemeOptions_dark">Dark (Default)</string>
 
-    <string id="menuPrepareTimeOptions_title">Preparation</string>    
-    <string id="menuFinalizeTimeOptions_title">Finalization</string>    
+    <string id="menuPrepareTimeOptions_title">Preparation</string>
+    <string id="menuFinalizeTimeOptions_title">Finalization</string>
     <string id="menuPrepareTimeOptions_0s">0 secs</string>
     <string id="menuPrepareTimeOptions_15s">15 secs</string>
     <string id="menuPrepareTimeOptions_30s">30 secs</string>
@@ -104,57 +104,57 @@
     <string id="menuIntervalAlertSettings_addNew">Add New</string>
     <string id="menuIntervalAlertSettings_edit">Edit</string>
     <string id="menuIntervalAlertSettings_deleteAll">Delete All</string>
-    
+
     <string id="summaryRollupMenu_title">Sessions Summary</string>
     <string id="summaryRollupMenuOption_exit">Exit</string>
-    
+
     <string id="confirmDeleteIntervalAlertHeader">Delete Alert?</string>
-    
-    <string id="addEditIntervalAlertMenu_title">Alert</string>    
+
+    <string id="addEditIntervalAlertMenu_title">Alert</string>
     <string id="addEditIntervalAlertMenu_time">Time</string>
     <string id="addEditIntervalAlertMenu_color">Color</string>
     <string id="addEditIntervalAlertMenu_vibeSound">Vibe / Sound</string>
     <string id="addEditIntervalAlertMenu_delete">Delete</string>
-    
+
     <string id="addEditSessionMenu_title">Session</string>
     <string id="addEditSessionMenu_time">Time</string>
     <string id="addEditSessionMenu_color">Color</string>
     <string id="addEditSessionMenu_vibeSound">Vibe / Sound</string>
-	<string id="addEditSessionMenu_intervalAlerts">Interval Alerts</string>
-	<string id="addEditSessionMenu_activityType">Activity Type</string>
-	<string id="addEditSessionMenu_hrvTracking">HRV Tracking</string>
-	
-	<string id="intervalAlertTransparentColorText">Transparent</string>
-	
-	<string id="vibePatternMenu_title">Vibe / Sound</string>
+    <string id="addEditSessionMenu_intervalAlerts">Interval Alerts</string>
+    <string id="addEditSessionMenu_activityType">Activity Type</string>
+    <string id="addEditSessionMenu_hrvTracking">HRV Tracking</string>
+
+    <string id="intervalAlertTransparentColorText">Transparent</string>
+
+    <string id="vibePatternMenu_title">Vibe / Sound</string>
     <string id="vibePatternMenu_noNotification">No Notification</string>
-	<string id="vibePatternMenu_longPulsating">Long pulsating</string>
+    <string id="vibePatternMenu_longPulsating">Long pulsating</string>
     <string id="vibePatternMenu_longSound">Long Sound</string>
-	<string id="vibePatternMenu_longContinuous">Long continuous</string>
-	<string id="vibePatternMenu_longAscending">Long ascending</string>
-	<string id="vibePatternMenu_mediumPulsating">Medium pulsating</string>
-	<string id="vibePatternMenu_mediumContinuous">Medium continuous</string>
-	<string id="vibePatternMenu_mediumAscending">Medium ascending</string>
-	<string id="vibePatternMenu_shortPulsating">Short pulsating</string>
-	<string id="vibePatternMenu_shortContinuous">Short continuous</string>
-	<string id="vibePatternMenu_shortAscending">Short ascending</string>
+    <string id="vibePatternMenu_longContinuous">Long continuous</string>
+    <string id="vibePatternMenu_longAscending">Long ascending</string>
+    <string id="vibePatternMenu_mediumPulsating">Medium pulsating</string>
+    <string id="vibePatternMenu_mediumContinuous">Medium continuous</string>
+    <string id="vibePatternMenu_mediumAscending">Medium ascending</string>
+    <string id="vibePatternMenu_shortPulsating">Short pulsating</string>
+    <string id="vibePatternMenu_shortContinuous">Short continuous</string>
+    <string id="vibePatternMenu_shortAscending">Short ascending</string>
     <string id="vibePatternMenu_shortDescending">Short descending</string>
     <string id="vibePatternMenu_mediumDescending">Medium descending</string>
     <string id="vibePatternMenu_longDescending">Long descending</string>
-	
-	<string id="intervalVibePatternMenu_title">Vibe / Sound</string>
+
+    <string id="intervalVibePatternMenu_title">Vibe / Sound</string>
     <string id="intervalVibePatternMenu_noNotification">No Notification</string>
-	<string id="intervalVibePatternMenu_shorterContinuous">Shorter continuous</string>
-	<string id="intervalVibePatternMenu_shorterAscending">Shorter ascending</string>
-	<string id="intervalVibePatternMenu_blip">Blip</string>
+    <string id="intervalVibePatternMenu_shorterContinuous">Shorter continuous</string>
+    <string id="intervalVibePatternMenu_shorterAscending">Shorter ascending</string>
+    <string id="intervalVibePatternMenu_blip">Blip</string>
     <string id="intervalVibePatternMenu_shortSound">Short Sound</string>
-    	
-	<string id="intervalTypeMenu_title">Interval Alert Type</string>
-	<string id="intervalTypeMenu_oneOff">One-off H:MM</string>
-	<string id="intervalTypeMenu_repeat">Every MM:SS</string>		
-	
-	<string id="editIntervalAlertsMenu_title">Edit Interval Alerts</string>		
-	<string id="activityDelayedFinishingText">Finishing...</string>
+
+    <string id="intervalTypeMenu_title">Interval Alert Type</string>
+    <string id="intervalTypeMenu_oneOff">One-off H:MM</string>
+    <string id="intervalTypeMenu_repeat">Every MM:SS</string>
+
+    <string id="editIntervalAlertsMenu_title">Edit Interval Alerts</string>
+    <string id="activityDelayedFinishingText">Finishing...</string>
     <string id="meditateActivityPaused">[Paused]</string>
     <string id="meditateActivityPrepare">Relax to start\n session\nin</string>
     <string id="meditateActivityFinalize">Finishing\n session\nin</string>
@@ -171,6 +171,7 @@
     <string id="pickHMM">Pick H:MM</string>
     <string id="HRVwaiting">HRV waiting</string>
     <string id="HRVready">HRV ready</string>
+    <string id="HRVweak">HRV weak</string>
     <string id="HRVoff">HRV off</string>
 
     <string id="optionsMenuHelp">Hold menu</string>
@@ -180,5 +181,5 @@
     <string id="about_dliedke">dliedke</string>
     <string id="about_falsetru">falsetru</string>
     <string id="about_floriangeigl">floriangeigl</string>
-    
+
 </strings>
