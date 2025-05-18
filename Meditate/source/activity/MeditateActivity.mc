@@ -31,7 +31,8 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 			activityName = activityName.length() > 0 ? activityName : Ui.loadResource(Rez.Strings.sessionTitleYoga);
 			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createYoga(createSessionName(sessionTime, activityName));
 		} else if (meditateModel.getActivityType() == ActivityType.Breathing) {
-			activityName = activityName.length() > 0 ? activityName : Ui.loadResource(Rez.Strings.sessionTitleBreathing);
+			activityName =
+				activityName.length() > 0 ? activityName : Ui.loadResource(Rez.Strings.sessionTitleBreathing);
 			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createBreathing(createSessionName(sessionTime, activityName));
 		} else {
 			activityName = activityName.length() > 0 ? activityName : Ui.loadResource(Rez.Strings.sessionTitleMeditate);
@@ -39,7 +40,7 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 				createSessionName(sessionTime, activityName)
 			);
 		}
-		if (!supportsActivityTypes) {
+		if (!supportsActivityTypes || meditateModel.getActivityType() == ActivityType.Generic) {
 			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createGeneric(createSessionName(sessionTime, activityName));
 			System.println("create generic activity as others are not supported");
 		}

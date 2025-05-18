@@ -44,11 +44,14 @@
     <string id="menuNewActivityTypeOptions_meditating">Meditating</string>
     <string id="menuNewActivityTypeOptions_yoga">Yoga</string>
     <string id="menuNewActivityTypeOptions_breathing">Breathing</string>
+    <string id="menuNewActivityTypeOptions_generic">Generic</string>
 
     <string id="activityTypeMenu_title">Activity Type</string>
     <string id="activityTypeMenu_yoga">Yoga</string>
     <string id="activityTypeMenu_meditating">Meditating</string>
     <string id="activityTypeMenu_breathing">Breathing</string>
+    <string id="activityTypeMenu_generic">Generic</string>
+
 
     <string id="menuNewHrvTrackingOptions_title">Hrv Tracking</string>
     <string id="menuNewHrvTrackingOptions_onDetailed">On Detailed (Default)</string>

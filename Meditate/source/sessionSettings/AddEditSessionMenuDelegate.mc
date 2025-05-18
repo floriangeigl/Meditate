@@ -101,6 +101,8 @@ class AddEditSessionMenuDelegate extends Ui.MenuInputDelegate {
 			sessionModel.setActivityType(ActivityType.Yoga);
 		} else if (item == :breathing) {
 			sessionModel.setActivityType(ActivityType.Breathing);
+		} else if (item == :generic) {
+			sessionModel.setActivityType(ActivityType.Generic);
 		}
 		me.mOnChangeSession.invoke(sessionModel);
 	}

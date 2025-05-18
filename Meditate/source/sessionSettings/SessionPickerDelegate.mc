@@ -28,18 +28,14 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 	function setTestModeHeartbeatIntervalsSensor(hrvTracking) {
 		if (hrvTracking == me.mLastHrvTracking) {
 			if (hrvTracking != HrvTracking.Off) {
-				me.mHeartbeatIntervalsSensor.setOneSecBeatToBeatIntervalsSensorListener(
-					method(:updateHrvStatus)
-				);
+				me.mHeartbeatIntervalsSensor.setOneSecBeatToBeatIntervalsSensorListener(method(:updateHrvStatus));
 			} else {
 				me.mHeartbeatIntervalsSensor.setOneSecBeatToBeatIntervalsSensorListener(null);
 			}
 		} else {
 			if (hrvTracking != HrvTracking.Off) {
 				me.mHeartbeatIntervalsSensor.start();
-				me.mHeartbeatIntervalsSensor.setOneSecBeatToBeatIntervalsSensorListener(
-					method(:updateHrvStatus)
-				);
+				me.mHeartbeatIntervalsSensor.setOneSecBeatToBeatIntervalsSensorListener(method(:updateHrvStatus));
 			} else {
 				me.mHeartbeatIntervalsSensor.stop();
 				me.mHeartbeatIntervalsSensor.setOneSecBeatToBeatIntervalsSensorListener(null);
@@ -85,10 +81,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		} else {
 			var summaryIndex = option;
 			var summaryModel = me.mSummaryRollupModel.getSummary(summaryIndex);
-			var summaryViewDelegate = new SummaryViewDelegate(
-				summaryModel,
-				null
-			);
+			var summaryViewDelegate = new SummaryViewDelegate(summaryModel, null);
 			Ui.pushView(summaryViewDelegate.createScreenPickerView(), summaryViewDelegate, Ui.SLIDE_LEFT);
 		}
 	}
@@ -197,7 +190,6 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 			} else {
 				hrvStatusLine.value.text = Ui.loadResource(Rez.Strings.HRVweak);
 			}
-			
 		} else {
 			hrvStatusLine.icon.setStatusWarning();
 			hrvStatusLine.value.text = Ui.loadResource(Rez.Strings.HRVwaiting);
@@ -227,7 +219,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 
 		var activityTypeText;
 		if (session.getActivityType() == ActivityType.Yoga) {
-			activityTypeText = Ui.loadResource(Rez.Strings.activityNameYoga); // Due to bug in Connect IQ API for breath activity to get respiration rate, we will use Yoga as default meditate activity
+			activityTypeText = Ui.loadResource(Rez.Strings.activityNameYoga);
 		} else if (session.getActivityType() == ActivityType.Breathing) {
 			activityTypeText = Ui.loadResource(Rez.Strings.activityNameBreathing);
 		} else {

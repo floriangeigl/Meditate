@@ -9,7 +9,7 @@ module VibePattern {
 		ShorterContinuous = 3,
 		ShortAscending = 4,
 		ShortDescending = 5,
-		ShortContinuous = 6,	
+		ShortContinuous = 6,
 		ShortPulsating = 7,
 		ShortSound = 8,
 		MediumAscending = 9,
@@ -19,8 +19,8 @@ module VibePattern {
 		LongAscending = 13,
 		LongDescending = 14,
 		LongContinuous = 15,
-		LongPulsating = 16,	
-		LongSound = 17
+		LongPulsating = 16,
+		LongSound = 17,
 	}
 }
 
@@ -28,7 +28,8 @@ module ActivityType {
 	enum {
 		Meditating = 0,
 		Yoga = 1,
-		Breathing = 2
+		Breathing = 2,
+		Generic = 3,
 	}
 }
 
@@ -43,7 +44,7 @@ class SessionModel {
 	protected var hrvTracking;
 	private var defaultActivityType;
 	private var defaultHrvTracking;
-	
+
 	function initialize() {
 		me.key = null;
 		me.name = null;
@@ -56,8 +57,8 @@ class SessionModel {
 		me.defaultActivityType = GlobalSettings.loadActivityType();
 		me.defaultHrvTracking = GlobalSettings.loadHrvTracking();
 	}
-		
-	function fromDictionary(loadedSessionDictionary) {	
+
+	function fromDictionary(loadedSessionDictionary) {
 		me.time = loadedSessionDictionary["time"];
 		me.color = loadedSessionDictionary["color"];
 		me.name = loadedSessionDictionary["name"];
@@ -73,20 +74,20 @@ class SessionModel {
 	function getActivityType() {
 		return me.activityType == null ? me.defaultActivityType : me.activityType;
 	}
-	
+
 	function setActivityType(activityType) {
 		me.activityType = activityType;
 	}
-	
+
 	function getHrvTracking() {
 		return me.hrvTracking == null ? me.defaultHrvTracking : me.hrvTracking;
 	}
-	
+
 	function setHrvTracking(hrvTracking) {
 		me.hrvTracking = hrvTracking;
 	}
 
-	function toDictionary() {	
+	function toDictionary() {
 		var serializedAlerts = me.intervalAlerts != null ? me.intervalAlerts.toArray() : null;
 		return {
 			"time" => me.time,
@@ -99,31 +100,31 @@ class SessionModel {
 			"hrvTracking" => me.hrvTracking,
 		};
 	}
-	
+
 	function copyNonNullFieldsFromSession(otherSession) {
-    	if (otherSession.time != null) {
-    		me.time = otherSession.time;
-    	}
-    	if (otherSession.color != null) {
-    		me.color = otherSession.color;
-    	}
+		if (otherSession.time != null) {
+			me.time = otherSession.time;
+		}
+		if (otherSession.color != null) {
+			me.color = otherSession.color;
+		}
 		if (otherSession.name != null) {
-    		me.name = otherSession.name;
-    	}
+			me.name = otherSession.name;
+		}
 		if (otherSession.key != null) {
-    		me.key = otherSession.key;
-    	}
-    	if (otherSession.vibePattern != null) {
-    		me.vibePattern = otherSession.vibePattern;
-    	}
-    	if (otherSession.intervalAlerts != null && otherSession.intervalAlerts.size() > 0) {
-    		me.intervalAlerts = otherSession.intervalAlerts;
-    	}
-    	if (otherSession.activityType != null) {
-    		me.activityType = otherSession.activityType;
-    	}
-    	if (otherSession.hrvTracking != null) {
-    		me.hrvTracking = otherSession.hrvTracking;
-    	}
+			me.key = otherSession.key;
+		}
+		if (otherSession.vibePattern != null) {
+			me.vibePattern = otherSession.vibePattern;
+		}
+		if (otherSession.intervalAlerts != null && otherSession.intervalAlerts.size() > 0) {
+			me.intervalAlerts = otherSession.intervalAlerts;
+		}
+		if (otherSession.activityType != null) {
+			me.activityType = otherSession.activityType;
+		}
+		if (otherSession.hrvTracking != null) {
+			me.hrvTracking = otherSession.hrvTracking;
+		}
 	}
 }

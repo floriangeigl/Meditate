@@ -44,11 +44,13 @@
     <string id="menuNewActivityTypeOptions_meditating">Meditieren</string>
     <string id="menuNewActivityTypeOptions_yoga">Yoga</string>
     <string id="menuNewActivityTypeOptions_breathing">Atmen</string>
+    <string id="menuNewActivityTypeOptions_generic">Allgemein</string>
 
     <string id="activityTypeMenu_title">Aktivitätstyp</string>
     <string id="activityTypeMenu_yoga">Yoga</string>
     <string id="activityTypeMenu_meditating">Meditieren</string>
     <string id="activityTypeMenu_breathing">Atmen</string>
+    <string id="activityTypeMenu_generic">Allgemein</string>
 
     <string id="menuNewHrvTrackingOptions_title">HRV-Überw.</string>
     <string id="menuNewHrvTrackingOptions_onDetailed">Detail. Ein (Std.)</string>
