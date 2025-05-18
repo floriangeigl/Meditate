@@ -2,5 +2,5 @@
     <menu-item id="yoga" label="@Strings.activityTypeMenu_yoga" />
     <menu-item id="meditating" label="@Strings.activityTypeMenu_meditating" />
     <menu-item id="breathing" label="@Strings.activityTypeMenu_breathing" />
-    <menu-item id="genric" label="@Strings.activityTypeMenu_generic" />
+    <menu-item id="generic" label="@Strings.activityTypeMenu_generic" />
 </menu>
