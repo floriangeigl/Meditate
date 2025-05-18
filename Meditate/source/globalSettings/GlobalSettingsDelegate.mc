@@ -110,19 +110,10 @@ class GlobalSettingsDelegate extends ScreenPicker.ScreenPickerDelegate {
 			:symbol => StatusIconFonts.Rez.Strings.IconClock,
 		});
 
-		// Calculate minutes and seconds from the loaded prepare time
+		// prepare time
 		var prepareTimeSeconds = GlobalSettings.loadPrepareTime();
-		var minutes = prepareTimeSeconds / 60;
-		var seconds = prepareTimeSeconds % 60;
-
-		// Set the text with the remaining time in the format M:SS
 		line.value.text =
-			Ui.loadResource(Rez.Strings.menuPrepareTimeOptions_title) +
-			": " +
-			minutes +
-			":" +
-			(seconds < 10 ? "0" : "") +
-			seconds;
+			Ui.loadResource(Rez.Strings.menuPrepareTimeOptions_title) + TimeFormatter.formatMinSec(prepareTimeSeconds);
 
 		// Finalize time settings
 		line = details.getLine(3);
@@ -131,19 +122,11 @@ class GlobalSettingsDelegate extends ScreenPicker.ScreenPickerDelegate {
 			:symbol => StatusIconFonts.Rez.Strings.IconClock,
 		});
 
-		// Calculate minutes and seconds from the loaded prepare time
+		// finalize time
 		var finalizeTimeSeconds = GlobalSettings.loadFinalizeTime();
-		minutes = finalizeTimeSeconds / 60;
-		seconds = finalizeTimeSeconds % 60;
-
-		// Set the text with the remaining time in the format M:SS
 		line.value.text =
 			Ui.loadResource(Rez.Strings.menuFinalizeTimeOptions_title) +
-			": " +
-			minutes +
-			":" +
-			(seconds < 10 ? "0" : "") +
-			seconds;
+			TimeFormatter.formatMinSec(finalizeTimeSeconds);
 
 		// New Activity type settings
 		line = details.getLine(4);
@@ -157,6 +140,8 @@ class GlobalSettingsDelegate extends ScreenPicker.ScreenPickerDelegate {
 			line.value.text = Ui.loadResource(Rez.Strings.menuNewActivityTypeOptions_meditating);
 		} else if (newActivityType == ActivityType.Yoga) {
 			line.value.text = Ui.loadResource(Rez.Strings.menuNewActivityTypeOptions_yoga);
+		} else if (newActivityType == ActivityType.Generic) {
+			line.value.text = Ui.loadResource(Rez.Strings.menuNewActivityTypeOptions_generic);
 		} else {
 			// ActivityType.Breathing
 			line.value.text = Ui.loadResource(Rez.Strings.menuNewActivityTypeOptions_breathing);

@@ -44,11 +44,13 @@
 	<string id="menuNewActivityTypeOptions_meditating">명상</string>
 	<string id="menuNewActivityTypeOptions_yoga">요가</string>
 	<string id="menuNewActivityTypeOptions_breathing">호흡 운동</string>
+	<string id="menuNewActivityTypeOptions_generic">일반</string>
 
 	<string id="activityTypeMenu_title">활동 유형</string>
 	<string id="activityTypeMenu_yoga">요가</string>
 	<string id="activityTypeMenu_meditating">명상</string>
 	<string id="activityTypeMenu_breathing">호흡 운동</string>
+	<string id="activityTypeMenu_generic">일반</string>
 
 	<string id="menuNewHrvTrackingOptions_title">Hrv 추적</string>
 	<string id="menuNewHrvTrackingOptions_onDetailed">상세하게 (기본값)</string>
@@ -176,7 +178,7 @@
 
 	<string id="optionsMenuHelp">메뉴 길게</string>
 
-	<string id="about_AppVersion">v10.1.13</string>
+	<string id="about_AppVersion">v10.1.14</string>
 	<string id="about_vtrifonov">vtrifonov</string>
 	<string id="about_dliedke">dliedke</string>
 	<string id="about_falsetru">falsetru</string>
