@@ -25,7 +25,7 @@ class MeditateModel extends ScreenPicker.DetailsModel {
 	private var stressActivity;
 	private var mIsHrvOn, mHrvTracking;
 	private var mRespirationRateSetting;
-	
+
 	var currentHr;
 	var minHr;
 	var elapsedTime;
@@ -47,11 +47,11 @@ class MeditateModel extends ScreenPicker.DetailsModel {
 	}
 
 	function hasIntervalAlerts() {
-		return me.mSession.intervalAlerts.size() > 0;
+		return me.mSession.getIntervalAlerts().size() > 0;
 	}
 
 	function getIntervalAlerts() {
-		return me.mSession.intervalAlerts;
+		return me.mSession.getIntervalAlerts();
 	}
 
 	function getColor() {

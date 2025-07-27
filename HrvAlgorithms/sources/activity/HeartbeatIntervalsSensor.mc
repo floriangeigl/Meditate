@@ -11,28 +11,38 @@ module HrvAlgorithms {
 		private var mSensorListener;
 		private var numFails;
 		private var enabledHrSensors;
+		private var totalTime;
+		private var totalIntervals;
 		var externalSensorConnected;
 
 		function initialize() {
+			System.println("HR sensor: Init");
 			me.buffer = new [10];
 			me.timer = new Timer.Timer();
 			me.bufferWriteIndex = 0;
 			me.numFails = 10;
 			me.enabledHrSensors = [];
+			me.totalTime = 0;
+			me.totalIntervals = 0.0;
 			me.enableHrSensor();
 		}
 
 		function enableHrSensor() {
+			System.println("HR sensor: Enable");
 			me.enabledHrSensors = Sensor.setEnabledSensors([Sensor.SENSOR_HEARTRATE]);
 			me.externalSensorConnected = me.anyExternalHrSensorConnected();
 		}
 
 		function disableHrSensor() {
+			System.println("HR sensor: Disable");
 			me.enabledHrSensors = Sensor.setEnabledSensors([]);
 			me.externalSensorConnected = me.anyExternalHrSensorConnected();
 		}
 
 		function start() {
+			System.println("HR sensor: Start");
+			me.totalTime = 0;
+			me.totalIntervals = 0.0;
 			Sensor.unregisterSensorDataListener();
 			Sensor.registerSensorDataListener(method(:addToBuffer), {
 				:period => SessionSamplePeriodSeconds,
@@ -45,6 +55,7 @@ module HrvAlgorithms {
 		}
 
 		function stop() {
+			System.println("HR sensor: Stop");
 			me.timer.stop();
 			me.bufferWriteIndex = 0;
 			Sensor.unregisterSensorDataListener();
@@ -62,6 +73,7 @@ module HrvAlgorithms {
 
 			if (sensorData.heartRateData != null) {
 				me.buffer[me.bufferWriteIndex] = sensorData.heartRateData.heartBeatIntervals;
+				System.println("HR sensor: added data to buffer: " + me.buffer[me.bufferWriteIndex]);
 				me.bufferWriteIndex++;
 			}
 		}
@@ -100,7 +112,7 @@ module HrvAlgorithms {
 
 		function ensureSensorHealth() {
 			if (me.numFails >= 30 && me.numFails % 30 == 0) {
-				System.println("Restart HR sensor");
+				System.println("HR sensor: Restart");
 				var tmpListener = me.mSensorListener;
 				me.stop();
 				me.setOneSecBeatToBeatIntervalsSensorListener(null);
@@ -111,17 +123,22 @@ module HrvAlgorithms {
 
 		function update() {
 			if (me.mSensorListener != null) {
+				me.totalTime += 1;
 				var data = [null];
 				if (me.bufferWriteIndex > 0) {
 					for (var i = 0; i < me.bufferWriteIndex; i++) {
 						data = me.buffer[i];
+						System.println("HR sensor: Invoke index " + i + " with data: " + data);
 						me.mSensorListener.invoke(data);
-						if (data == null) {
+						if (data == null || data.size() == 0) {
 							me.numFails++;
 						} else {
 							me.numFails = me.numFails > 5 ? 5 : me.numFails;
 							me.numFails--;
 							me.numFails = me.numFails < 0 ? 0 : me.numFails;
+							for (var j = 0; j < data.size(); j++) {
+								me.totalIntervals = me.totalIntervals + data[j] / 1000.0;
+							}
 						}
 					}
 				} else {
@@ -129,6 +146,11 @@ module HrvAlgorithms {
 					me.numFails++;
 				}
 				me.bufferWriteIndex = 0;
+				if (me.totalTime > 60) {
+					System.println("HR sensor: 60sec quality: " + me.totalIntervals / me.totalTime);
+					me.totalTime = 0;
+					me.totalIntervals = 0.0;
+				}
 				me.ensureSensorHealth();
 			}
 		}

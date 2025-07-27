@@ -95,6 +95,7 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 	}
 
 	function start() {
+		System.println("MeditateActivity: start");
 		HrvAlgorithms.HrvActivity.start();
 		me.mMeditateModel.isTimerRunning = true;
 		me.mVibeAlertsExecutor = new VibeAlertsExecutor(me.mMeditateModel);

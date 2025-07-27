@@ -4,7 +4,7 @@ using Toybox.Lang;
 class IntervalAlertsRenderer {
 	function initialize(sessionTime, intervalAlerts, radius, width) {
 		me.mSessionTime = sessionTime;
-		me.mIntervalAlerts = intervalAlerts;
+		me.mIntervalAlerts = intervalAlerts == null ? [] : intervalAlerts;
 		me.mRadius = radius;
 		me.mWidth = width;
 		me.mPercentageTimes = me.createPercentageTimes(mIntervalAlerts);

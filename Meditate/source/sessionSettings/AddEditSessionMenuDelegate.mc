@@ -109,7 +109,7 @@ class AddEditSessionMenuDelegate extends Ui.MenuInputDelegate {
 
 	function onIntervalAlertsChanged(intervalAlerts) {
 		var sessionModel = new SessionModel();
-		sessionModel.intervalAlerts = intervalAlerts;
+		sessionModel.setIntervalAlerts(intervalAlerts);
 		me.mOnChangeSession.invoke(sessionModel);
 	}
 

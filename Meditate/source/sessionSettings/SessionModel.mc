@@ -38,7 +38,7 @@ class SessionModel {
 	var color;
 	var name;
 	var vibePattern;
-	var intervalAlerts;
+	protected var intervalAlerts;
 	var key;
 	protected var activityType;
 	protected var hrvTracking;
@@ -51,11 +51,19 @@ class SessionModel {
 		me.time = null;
 		me.color = null;
 		me.vibePattern = null;
-		me.intervalAlerts = new IntervalAlerts();
+		me.intervalAlerts = null;
 		me.activityType = null;
 		me.hrvTracking = null;
 		me.defaultActivityType = GlobalSettings.loadActivityType();
 		me.defaultHrvTracking = GlobalSettings.loadHrvTracking();
+	}
+
+	function getIntervalAlerts() {
+		return me.intervalAlerts == null ? new IntervalAlerts() : me.intervalAlerts;
+	}
+
+	function setIntervalAlerts(intervalAlerts) {
+		me.intervalAlerts = intervalAlerts;
 	}
 
 	function fromDictionary(loadedSessionDictionary) {
@@ -67,8 +75,10 @@ class SessionModel {
 		me.key = loadedSessionDictionary["key"];
 		me.hrvTracking = loadedSessionDictionary["hrvTracking"];
 		var serializedAlerts = loadedSessionDictionary["intervalAlerts"];
-		me.intervalAlerts = new IntervalAlerts();
-		me.intervalAlerts.fromArray(serializedAlerts);
+		if (serializedAlerts != null) {
+			me.intervalAlerts = new IntervalAlerts();
+			me.intervalAlerts.fromArray(serializedAlerts);
+		}
 	}
 
 	function getActivityType() {
@@ -117,7 +127,7 @@ class SessionModel {
 		if (otherSession.vibePattern != null) {
 			me.vibePattern = otherSession.vibePattern;
 		}
-		if (otherSession.intervalAlerts != null && otherSession.intervalAlerts.size() > 0) {
+		if (otherSession.intervalAlerts != null) {
 			me.intervalAlerts = otherSession.intervalAlerts;
 		}
 		if (otherSession.activityType != null) {

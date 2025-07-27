@@ -14,7 +14,7 @@ class SessionSettingsMenuDelegate extends Ui.MenuInputDelegate {
 		if (item == :addNew) {
 			var newSession = me.mSessionStorage.newSession();
 			var addEditSessionMenuMenuDelegate = new AddEditSessionMenuDelegate(
-				newSession.intervalAlerts,
+				newSession.getIntervalAlerts(),
 				method(:onChangeSession)
 			);
 			me.mSessionPickerDelegate.setPagesCount(me.mSessionStorage.getSessionsCount());
@@ -28,7 +28,7 @@ class SessionSettingsMenuDelegate extends Ui.MenuInputDelegate {
 		} else if (item == :edit) {
 			var existingSession = me.mSessionStorage.loadSelectedSession();
 			var addEditSessionMenuMenuDelegate = new AddEditSessionMenuDelegate(
-				existingSession.intervalAlerts,
+				existingSession.getIntervalAlerts(),
 				method(:onChangeSession)
 			);
 			Ui.popView(Ui.SLIDE_IMMEDIATE);
