@@ -288,7 +288,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		private var mSession;
 
 		function getAlertsLine() {
-			var alertsLine = new ScreenPicker.PercentageHighlightLine(me.mSession.intervalAlerts.size());
+			var alertsLine = new ScreenPicker.PercentageHighlightLine(me.mSession.getIntervalAlerts().size());
 
 			alertsLine.backgroundColor = me.mSession.color;
 
@@ -299,7 +299,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		}
 
 		private function AddHighlights(alertsLine, alertsType) {
-			var intervalAlerts = me.mSession.intervalAlerts;
+			var intervalAlerts = me.mSession.getIntervalAlerts();
 
 			for (var i = 0; i < intervalAlerts.size(); i++) {
 				var alert = intervalAlerts.get(i);
