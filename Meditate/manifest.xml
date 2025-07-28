@@ -89,6 +89,7 @@
             <iq:product id="vivoactive6"/>
         </iq:products>
         <iq:permissions>
+            <iq:uses-permission id="Communications"/>
             <iq:uses-permission id="Fit"/>
             <iq:uses-permission id="FitContributor"/>
             <iq:uses-permission id="Sensor"/>

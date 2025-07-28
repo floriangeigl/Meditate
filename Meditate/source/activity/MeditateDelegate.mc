@@ -60,6 +60,7 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 			//Made sure reading/writing session settings for the next session in multi-session mode happens before saving the FIT file.
 			//If both happen at the same time FIT file gets corrupted
 			me.mMeditateActivity.finish();
+
 			nextView = new DelayedFinishingView(me.method(:onShowNextView), me.mShouldAutoExit);
 		} else if (confirmSaveActivity == ConfirmSaveActivity.AutoNo) {
 			me.mMeditateActivity.discard();
@@ -67,6 +68,8 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 		} else {
 			nextView = new DelayedFinishingView(method(:onShowNextViewConfirmDialog), me.mShouldAutoExit);
 		}
+		var usageStats = new UsageStats(me.mMeditateModel.elapsedTime);
+		usageStats.sendUsageStats();
 		Ui.switchToView(nextView, me, Ui.SLIDE_IMMEDIATE);
 	}
 
