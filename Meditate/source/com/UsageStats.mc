@@ -1,7 +1,10 @@
 using Toybox.Application as App;
 using Toybox.System;
 using Toybox.WatchUi as Ui;
-import Toybox.Communications;
+using Toybox.Cryptography;
+using Toybox.Communications;
+using Toybox.StringUtil;
+
 
 class UsageStats {
 	private var deviceId;
@@ -14,6 +17,8 @@ class UsageStats {
 	private var gApiSecret;
 	private var events;
 	private var device;
+	private var sessionId;
+	private var userProperties;
 
 	function initialize(sessionTime) {
         var devSettings = System.getDeviceSettings();
@@ -25,6 +30,12 @@ class UsageStats {
 		me.sessionTime = sessionTime;
 		me.gMeasurmentID = App.getApp().getProperty("gMeasurmentID");
 		me.gApiSecret = App.getApp().getProperty("gApiSecret");
+		me.sessionId = Cryptography.randomBytes(16);
+		var options = { 
+				:fromRepresentation => StringUtil.REPRESENTATION_BYTE_ARRAY, 
+				:toRepresentation => StringUtil.REPRESENTATION_STRING_BASE64
+			};
+		me.sessionId = StringUtil.convertEncodedString(me.sessionId, options);
 		me.events = [
 			{
 				"name" => "finished_meditation",
@@ -33,18 +44,23 @@ class UsageStats {
 					"app_version" => me.appVersion,
 					"resolution" => me.resolution,
 					"api_version" => me.apiVersion,
-					"system_language" => me.systemLanguage,
+					"session_id" => me.sessionId
 				},
 			},
 		];
 		me.device = {
-			"language" => me.systemLanguage,
 			"operating_system" => "MonkeyC",
 			"operating_system_version" => me.apiVersion,
 			"screen_resolution" => me.resolution,
-			"app_version" => me.appVersion,
+			"browser_version" => me.appVersion,
 			"brand" => "Garmin",
             "category" => "watch"
+		};
+		me.userProperties = {
+			// add any custom properties here
+			"systemLanguage" => {
+				"value" => me.systemLanguage
+			}
 		};
 	}
 
@@ -53,6 +69,7 @@ class UsageStats {
 			"client_id" => me.deviceId,
 			"events" => me.events,
 			"device" => me.device,
+			"user_properties" => me.userProperties
 		};
 		var options = {
 			:method => Communications.HTTP_REQUEST_METHOD_POST,
