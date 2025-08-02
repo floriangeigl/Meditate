@@ -16,6 +16,7 @@ class MeditatePrepareView extends Ui.View {
 		View.initialize();
 		me.mOnShow = onShow;
 		me.mPrepare = prepare;
+		me.mviewDrawnTimer = null;
 		mSeconds = 0;
 
 		if (prepare == 1) {
@@ -68,8 +69,8 @@ class MeditatePrepareView extends Ui.View {
 	}
 
 	function onShow() {
-		mviewDrawnTimer = new Timer.Timer();
-		mviewDrawnTimer.start(method(:onViewDrawn), 1000, true);
+		me.mviewDrawnTimer = new Timer.Timer();
+		me.mviewDrawnTimer.start(method(:onViewDrawn), 1000, true);
 	}
 
 	function onUpdate(dc) {
@@ -108,8 +109,8 @@ class MeditatePrepareView extends Ui.View {
 
 	function onHide() {
 		// Abort the timer when view is closed
-		mviewDrawnTimer.stop();
-		mviewDrawnTimer = null;
+		me.mviewDrawnTimer.stop();
+		me.mviewDrawnTimer = null;
 	}
 
 	function continueToNextStep() {

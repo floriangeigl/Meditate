@@ -18,48 +18,59 @@ module HrvAlgorithms {
 		function initialize() {
 			System.println("HR sensor: Init");
 			me.buffer = new [10];
-			me.timer = new Timer.Timer();
+			me.timer = null;
 			me.bufferWriteIndex = 0;
 			me.numFails = 10;
 			me.enabledHrSensors = [];
 			me.totalTime = 0;
 			me.totalIntervals = 0.0;
-			me.enableHrSensor();
 		}
 
-		function enableHrSensor() {
+		private function enableHrSensor() {
 			System.println("HR sensor: Enable");
 			me.enabledHrSensors = Sensor.setEnabledSensors([Sensor.SENSOR_HEARTRATE]);
 			me.externalSensorConnected = me.anyExternalHrSensorConnected();
 		}
 
-		function disableHrSensor() {
+		private function disableHrSensor() {
 			System.println("HR sensor: Disable");
 			me.enabledHrSensors = Sensor.setEnabledSensors([]);
 			me.externalSensorConnected = me.anyExternalHrSensorConnected();
 		}
 
 		function start() {
-			System.println("HR sensor: Start");
-			me.totalTime = 0;
-			me.totalIntervals = 0.0;
-			Sensor.unregisterSensorDataListener();
-			Sensor.registerSensorDataListener(method(:addToBuffer), {
-				:period => SessionSamplePeriodSeconds,
-				:heartBeatIntervals => {
-					:enabled => true,
-				},
-			});
-			me.timer.start(method(:update), 1000, true);
-			me.externalSensorConnected = me.anyExternalHrSensorConnected();
+			if (me.timer == null) {
+				System.println("HR sensor: Start");
+				me.enableHrSensor();
+				me.totalTime = 0;
+				me.totalIntervals = 0.0;
+				Sensor.unregisterSensorDataListener();
+				Sensor.registerSensorDataListener(method(:addToBuffer), {
+					:period => SessionSamplePeriodSeconds,
+					:heartBeatIntervals => {
+						:enabled => true,
+					},
+				});
+				me.timer = new Timer.Timer();
+				me.timer.start(method(:update), 1000, true);
+				me.externalSensorConnected = me.anyExternalHrSensorConnected();
+			} else {
+				System.println("HR sensor: Can't start - already running");
+			}
 		}
 
 		function stop() {
-			System.println("HR sensor: Stop");
-			me.timer.stop();
-			me.bufferWriteIndex = 0;
-			Sensor.unregisterSensorDataListener();
-			me.externalSensorConnected = me.anyExternalHrSensorConnected();
+			if (me.timer != null) {
+				System.println("HR sensor: Stop");
+				me.timer.stop();
+				me.timer = null;
+				me.bufferWriteIndex = 0;
+				Sensor.unregisterSensorDataListener();
+				me.disableHrSensor();
+				me.externalSensorConnected = me.anyExternalHrSensorConnected();
+			} else {
+				System.println("HR sensor: Can't stop - already stopped");
+			}
 		}
 
 		function addToBuffer(sensorData) {

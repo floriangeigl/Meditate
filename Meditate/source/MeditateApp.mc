@@ -7,27 +7,23 @@ class MeditateApp extends App.AppBase {
 	var heartbeatIntervalsSensor;
 
 	function initialize() {
-		heartbeatIntervalsSensor = null;
+		me.heartbeatIntervalsSensor = null;
 		AppBase.initialize();
 	}
 
 	// onStart() is called on application start up
 	function onStart(state) {
-		if (heartbeatIntervalsSensor == null) {
-			heartbeatIntervalsSensor = new HrvAlgorithms.HeartbeatIntervalsSensor();
-			// Ensure the heartbeat sensor is enabled and listening when app starts
-			heartbeatIntervalsSensor.enableHrSensor();
-			heartbeatIntervalsSensor.start();
+		if (me.heartbeatIntervalsSensor == null) {
+			me.heartbeatIntervalsSensor = new HrvAlgorithms.HeartbeatIntervalsSensor();
 		}
 	}
 	// onStop() is called when your application is exiting
 	function onStop(state) {
 		// Disable and remove listeners for heatbeat sensor
-		if (heartbeatIntervalsSensor != null) {
-			heartbeatIntervalsSensor.stop();
-			heartbeatIntervalsSensor.disableHrSensor();
+		if (me.heartbeatIntervalsSensor != null) {
+			me.heartbeatIntervalsSensor.stop();
+			me.heartbeatIntervalsSensor = null;
 		}
-		// TipMe.openTipMe(60);
 	}
 
 	// Return the initial view of your application here
