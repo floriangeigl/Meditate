@@ -42,3 +42,5 @@ Make sure to enable vibration in System - Sound and Vibe - Vibration (On). Also 
 Please report other issues in "Contact Developer" link at this page or https://github.com/floriangeigl/Meditate/issues and not in the app review.
 
 Reduce your stress, relax and Meditate!
+
+This app uses Google Analytics to collect anonymous usage statistics. No personally identifiable information is collected or stored. For more information read the Privacy Policy.
