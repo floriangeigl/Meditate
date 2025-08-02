@@ -37,8 +37,10 @@ class UsageStats {
 		var apiVersion = Lang.format("$1$.$2$.$3$", devSettings.monkeyVersion);
 		var systemLanguage = devSettings.systemLanguage;
 		var deviceId = devSettings.uniqueIdentifier;
+		var firmwareVersion = Lang.format("$1$.$2$", devSettings.firmwareVersion);
 		var appVersion = Ui.loadResource(Rez.Strings.about_AppVersion);
 		var sessionId = Cryptography.randomBytes(16);
+		var model = devSettings.partNumber;
 		var options = {
 			:fromRepresentation => StringUtil.REPRESENTATION_BYTE_ARRAY,
 			:toRepresentation => StringUtil.REPRESENTATION_STRING_BASE64,
@@ -64,11 +66,15 @@ class UsageStats {
 			"browser_version" => appVersion,
 			"brand" => "Garmin",
 			"category" => "watch",
+			"model" => model,
 		};
 		var userProperties = {
 			// add any custom properties here
 			"systemLanguage" => {
 				"value" => systemLanguage,
+			},
+			"firmwareVersion" => {
+				"value" => firmwareVersion,
 			},
 		};
 		var statsParams = {
