@@ -68,8 +68,6 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 		} else {
 			nextView = new DelayedFinishingView(method(:onShowNextViewConfirmDialog), me.mShouldAutoExit);
 		}
-		var usageStats = new UsageStats(me.mMeditateModel.elapsedTime);
-		usageStats.sendUsageStats();
 		Ui.switchToView(nextView, me, Ui.SLIDE_IMMEDIATE);
 	}
 

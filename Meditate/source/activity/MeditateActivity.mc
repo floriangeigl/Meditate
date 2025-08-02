@@ -126,6 +126,13 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 		Ui.requestUpdate();
 	}
 
+	function finish() {
+		HrvAlgorithms.HrvActivity.finish();
+		var usageStats = new UsageStats();
+		usageStats.sendCached();
+		usageStats.sendCurrent(me.mMeditateModel.elapsedTime);
+	}
+
 	function stop() {
 		HrvAlgorithms.HrvActivity.stop();
 		me.mVibeAlertsExecutor = null;
