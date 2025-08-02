@@ -27,6 +27,7 @@ class MeditateApp extends App.AppBase {
 			heartbeatIntervalsSensor.stop();
 			heartbeatIntervalsSensor.disableHrSensor();
 		}
+		// TipMe.openTipMe(60);
 	}
 
 	// Return the initial view of your application here

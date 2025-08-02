@@ -14,6 +14,7 @@ module HrvAlgorithms {
 		protected var minHr;
 		protected var currentHr;
 		private static const windowSize = 10;
+		var sessionSaved = false;
 
 		function initialize(fitSessionSpec) {
 			SensorActivityTumbling.initialize(new HrSummary(), null, HrActivity.windowSize);
@@ -97,6 +98,7 @@ module HrvAlgorithms {
 		function finish() {
 			me.mFitSession.save();
 			me.mFitSession = null;
+			me.sessionSaved = true;
 		}
 
 		function discard() {

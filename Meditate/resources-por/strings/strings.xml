@@ -165,9 +165,9 @@
     <string id="activityNameMeditate">Meditação</string>
     <string id="activityNameYoga">Yoga</string>
     <string id="activityNameBreathing">Respiração</string>
-    <string id="sessionTitleMeditate">Meditação [time] 🧘</string>
-    <string id="sessionTitleYoga">Yoga [time] 🧘</string>
-    <string id="sessionTitleBreathing">Respiração [time] 🌬️</string>
+    <string id="sessionTitleMeditate">Meditação 🧘</string>
+    <string id="sessionTitleYoga">Yoga 🧘</string>
+    <string id="sessionTitleBreathing">Respiração 🌬️</string>
 
     <string id="activityName">Nome da atividade (use [time] para substituir pelo tempo da sessão e mantenha pequeno o nome):</string>
     <string id="pickMMSS">Escolha MM:SS</string>
@@ -179,7 +179,7 @@
 
     <string id="optionsMenuHelp">Segurar menu</string>
 
-    <string id="about_AppVersion">v10.1.17</string>
+    <string id="about_AppVersion">v10.2.0</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>
     <string id="about_falsetru">falsetru</string>

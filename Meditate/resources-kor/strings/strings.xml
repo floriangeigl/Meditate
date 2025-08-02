@@ -164,9 +164,9 @@
 	<string id="activityNameMeditate">명상</string>
 	<string id="activityNameYoga">요가</string>
 	<string id="activityNameBreathing">호흡</string>
-	<string id="sessionTitleMeditate">명상 [time] 🧘</string>
-	<string id="sessionTitleYoga">요가 [time] 🧘</string>
-	<string id="sessionTitleBreathing">호흡 [time] 🌬️</string>
+	<string id="sessionTitleMeditate">명상 🧘</string>
+	<string id="sessionTitleYoga">요가 🧘</string>
+	<string id="sessionTitleBreathing">호흡 🌬️</string>
 
 	<string id="activityName">활동 이름 (세션 시간으로 대체하려면 [time] 을 사용하시고, 이름을 짧게 유지하세요):</string>
 	<string id="pickMMSS">MM:SS (분:초) 지정</string>
@@ -178,7 +178,7 @@
 
 	<string id="optionsMenuHelp">메뉴 길게</string>
 
-	<string id="about_AppVersion">v10.1.17</string>
+	<string id="about_AppVersion">v10.2.0</string>
 	<string id="about_vtrifonov">vtrifonov</string>
 	<string id="about_dliedke">dliedke</string>
 	<string id="about_falsetru">falsetru</string>
