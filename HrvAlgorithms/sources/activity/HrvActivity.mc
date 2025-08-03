@@ -4,13 +4,10 @@ module HrvAlgorithms {
 			me.mHrvTracking = hrvTracking;
 			me.mHeartbeatIntervalsSensor = heartbeatIntervalsSensor;
 			HrActivity.initialize(fitSession);
-			me.mExternalSensorConnected = me.mHeartbeatIntervalsSensor.externalSensorConnected;
 		}
 
 		private var mHrvTracking;
 		private var mHeartbeatIntervalsSensor;
-		var mExternalSensorConnected;
-
 		private var mHrvMonitor;
 
 		private function isHrvOn() {
@@ -26,6 +23,7 @@ module HrvAlgorithms {
 				me.mHeartbeatIntervalsSensor.setOneSecBeatToBeatIntervalsSensorListener(
 					method(:onOneSecBeatToBeatIntervals)
 				);
+				me.mHeartbeatIntervalsSensor.resetSensorQuality();
 				if (me.isHrvDetailOn()) {
 					me.mHrvMonitor = new HrvMonitorDetailed(me.mFitSession);
 				} else {
@@ -33,7 +31,6 @@ module HrvAlgorithms {
 				}
 			}
 			HrActivity.start();
-			me.mExternalSensorConnected = me.mHeartbeatIntervalsSensor.externalSensorConnected;
 		}
 
 		function getHrv() {
@@ -64,7 +61,6 @@ module HrvAlgorithms {
 			if (me.isHrvOn()) {
 				me.mHrvValue = me.mHrvMonitor.getHrv();
 			}
-			me.mExternalSensorConnected = me.mHeartbeatIntervalsSensor.externalSensorConnected;
 		}
 
 		function calculateSummaryFields() {

@@ -183,12 +183,14 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 	}
 
 	private function setInitialHrvStatus(hrvStatusLine, session) {
-		hrvStatusLine.icon = new ScreenPicker.HrvIcon({});
+		if (hrvStatusLine.icon == null) {
+			hrvStatusLine.icon = new ScreenPicker.HrvIcon({});
+			hrvStatusLine.icon.setStatusWarning();
+		}
 		if (session.getHrvTracking() == HrvTracking.Off) {
 			hrvStatusLine.icon.setStatusOff();
 			hrvStatusLine.value.text = Ui.loadResource(Rez.Strings.HRVoff);
 		} else {
-			hrvStatusLine.icon.setStatusWarning();
 			hrvStatusLine.value.text = Ui.loadResource(Rez.Strings.HRVwaiting);
 		}
 	}

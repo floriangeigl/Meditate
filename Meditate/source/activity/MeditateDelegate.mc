@@ -132,26 +132,4 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 		}
 		return false;
 	}
-
-	function toggleColorTheme() {
-		// var currentColorTheme = me.mMeditateModel;
-		// Dark results theme
-		//if (currentColorTheme == ColorTheme.Dark) {
-		//	me.mMeditateModel.
-		//	me.mMeditateModel.backgroundColor = Gfx.COLOR_BLACK;
-		//	me.mMeditateModel.foregroundColor = Gfx.COLOR_WHITE;
-		//} else {
-		//	// Light results theme
-		//	me.mMeditateModel.backgroundColor = Gfx.COLOR_WHITE;
-		//	me.mMeditateModel.foregroundColor = Gfx.COLOR_BLACK;
-		//}
-	}
-
-	function onMenu() {
-		toggleColorTheme();
-	}
-
-	function onHold(param) {
-		toggleColorTheme();
-	}
 }

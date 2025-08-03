@@ -101,13 +101,13 @@ class UsageStats {
 		var params = App.Storage.getValue(usageStatsCacheKey);
 		if (params != null) {
 			me.send(params);
-			System.println("Send cached stats");
+			// System.println("Send cached stats");
 			App.Storage.setValue(usageStatsCacheKey, null);
 		}
 	}
 
 	function requestCallback(responseCode, data) {
-		System.println("UsageStats request completed with response code: " + responseCode);
+		// System.println("UsageStats request completed with response code: " + responseCode);
 		if (me.lastParams.size() > 0) {
 			var params = me.lastParams[0];
 			me.lastParams.remove(params);
@@ -120,7 +120,7 @@ class UsageStats {
 			me.askTip = false;
 			var mins = Math.round(me.lastMonthStats / 60);
 			TipMe.openTipMe(mins);
-			System.println("Asked for tip. (" + mins + "min)");
+			// System.println("Asked for tip. (" + mins + "min)");
 		}
 	}
 
@@ -146,6 +146,6 @@ class UsageStats {
 		current += sessionTime;
 		monthlyStats = [month_today, current];
 		App.Storage.setValue(usageStatsMonthlyKey, monthlyStats);
-		System.println("Set monthly stats: " + monthlyStats);
+		// System.println("Set monthly stats: " + monthlyStats);
 	}
 }
