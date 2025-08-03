@@ -4,7 +4,6 @@
 			"name": "Main",
 			"path": "./"
 		},
-
 		{
 			"path": "HrvAlgorithms"
 		},
@@ -27,6 +26,7 @@
 			"ScreenPicker/**": true,
 			"StatusIconFonts/**": true
 		},
-		"explorer.excludeGitIgnore": true
+		"explorer.excludeGitIgnore": true,
+		"files.eol": "\n"
 	}
 }

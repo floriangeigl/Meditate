@@ -50,7 +50,7 @@ class UsageStats {
 					"resolution" => resolution,
 					"api_version" => apiVersion,
 					"session_id" => sessionId,
-					"timestamp_micros" => Time.now().value() * 1000,
+					"timestamp_micros" => Time.now().value() * 1000000,
 				},
 			},
 		];
