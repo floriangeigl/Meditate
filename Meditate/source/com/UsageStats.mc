@@ -39,13 +39,8 @@ class UsageStats {
 		var deviceId = devSettings.uniqueIdentifier;
 		var firmwareVersion = Lang.format("$1$.$2$", devSettings.firmwareVersion);
 		var appVersion = Ui.loadResource(Rez.Strings.about_AppVersion);
-		var sessionId = Cryptography.randomBytes(16);
 		var model = devSettings.partNumber;
-		var options = {
-			:fromRepresentation => StringUtil.REPRESENTATION_BYTE_ARRAY,
-			:toRepresentation => StringUtil.REPRESENTATION_STRING_BASE64,
-		};
-		sessionId = StringUtil.convertEncodedString(sessionId, options);
+		var sessionId = System.getTimer(); // returns ms since boot; overflows every 50d
 		var events = [
 			{
 				"name" => "finished_meditation",
@@ -55,7 +50,7 @@ class UsageStats {
 					"resolution" => resolution,
 					"api_version" => apiVersion,
 					"session_id" => sessionId,
-					"timestamp_micros" => Time.now().value() * 1000,
+					"timestamp_micros" => Time.now().value() * 1000000,
 				},
 			},
 		];
@@ -63,6 +58,7 @@ class UsageStats {
 			"operating_system" => "MonkeyC",
 			"operating_system_version" => apiVersion,
 			"screen_resolution" => resolution,
+			"browser" => "Meditate",
 			"browser_version" => appVersion,
 			"brand" => "Garmin",
 			"category" => "watch",
