@@ -22,7 +22,7 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 		// device to version: https://github.com/flocsy/garmin-dev-tools/blob/main/csv/device2all-versions.csv
 		version = version[0] * 10000 + version[1] * 100 + version[2];
 		var supportsActivityTypes = version >= 30306 ? true : false;
-		System.println(version + " " + supportsActivityTypes);
+		// System.println(version + " " + supportsActivityTypes);
 
 		// Retrieve activity name property from Garmin Express/Connect IQ
 		var activityName = App.Storage.getApp().getProperty("activityName");
@@ -42,7 +42,7 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 		}
 		if (!supportsActivityTypes || meditateModel.getActivityType() == ActivityType.Generic) {
 			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createGeneric(createSessionName(sessionTime, activityName));
-			System.println("create generic activity as others are not supported");
+			// System.println("create generic activity as others are not supported");
 		}
 
 		me.mMeditateModel = meditateModel;
@@ -95,7 +95,7 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 	}
 
 	function start() {
-		System.println("MeditateActivity: start");
+		// System.println("MeditateActivity: start");
 		HrvAlgorithms.HrvActivity.start();
 		me.mMeditateModel.isTimerRunning = true;
 		me.mVibeAlertsExecutor = new VibeAlertsExecutor(me.mMeditateModel);
@@ -116,7 +116,6 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 			me.mVibeAlertsExecutor.firePendingAlerts();
 		}
 		me.mMeditateModel.hrvValue = me.getHrv();
-		me.mMeditateModel.externalSensorConnected = me.mExternalSensorConnected;
 
 		// Check if we need to stop activity automatically when time ended
 		if (me.mAutoStopEnabled && me.mMeditateModel.elapsedTime >= me.mMeditateModel.getSessionTime()) {

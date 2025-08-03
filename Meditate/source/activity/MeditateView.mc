@@ -193,21 +193,6 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 				}
 			}
 
-			// if (elapsedTime < 10 || elapsedTime % 60 == 0){
-			// 	var externalSensorConnected = me.mMeditateModel.externalSensorConnected;
-			// 	if(externalSensorConnected){
-			// 		me.mExtSensorLine.value.text = "ext. sensor";
-			// 		me.mExtSensorLine.icon = new ScreenPicker.Icon({
-			// 			:font => StatusIconFonts.fontAwesomeFreeSolid,
-			// 			:symbol => StatusIconFonts.Rez.Strings.IconInfo,
-			// 			:color => Gfx.COLOR_BLUE,
-			// 		});
-			// 	} else {
-			// 		me.mExtSensorLine.icon = null;
-			// 		me.mExtSensorLine.value.text = "";
-			// 	}
-			// }
-
 			ScreenPicker.ScreenPickerDetailsCenterView.onUpdate(dc);
 			me.mMainDurationRenderer.drawOverallElapsedTime(dc, elapsedTime, me.mMeditateModel.getSessionTime());
 			if (me.mIntervalAlertsRenderer != null) {
@@ -221,19 +206,5 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 		var remain_time = (total - elapsed).toNumber();
 		line.value.text = remain_time > 0 ? remain_time.toString() : "0";
 		line.value.color = Graphics.COLOR_LT_GRAY;
-	}
-
-	function isExternalSensorConnected() {
-		if (Sensor has :getRegisteredSensors) {
-			var iter = Sensor.getRegisteredSensors(Sensor.SENSOR_HEARTRATE);
-			var sensor = iter.next();
-			while (sensor != null) {
-				if (sensor.enabled) {
-					return sensor.name;
-				}
-				sensor = iter.next();
-			}
-		}
-		return null;
 	}
 }

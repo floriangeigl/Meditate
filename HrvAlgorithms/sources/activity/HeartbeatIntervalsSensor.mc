@@ -4,8 +4,9 @@ using Toybox.Timer;
 
 module HrvAlgorithms {
 	class HeartbeatIntervalsSensor {
-		private var SessionSamplePeriodSeconds = 1;
+		private const SessionSamplePeriodSeconds = 1;
 		private var buffer;
+		private const bufferMaxSize = 3;
 		private var timer;
 		private var bufferWriteIndex;
 		private var mSensorListener;
@@ -13,38 +14,36 @@ module HrvAlgorithms {
 		private var enabledHrSensors;
 		private var totalTime;
 		private var totalIntervals;
-		var externalSensorConnected;
+		private var sensorRestarts;
 
 		function initialize() {
-			System.println("HR sensor: Init");
-			me.buffer = new [10];
+			// System.println("HR sensor: Init");
+			me.buffer = new [me.bufferMaxSize];
 			me.timer = null;
 			me.bufferWriteIndex = 0;
 			me.numFails = 10;
 			me.enabledHrSensors = [];
 			me.totalTime = 0;
 			me.totalIntervals = 0.0;
+			me.sensorRestarts = 0;
 		}
 
 		private function enableHrSensor() {
-			System.println("HR sensor: Enable");
+			// System.println("HR sensor: Enable");
 			me.enabledHrSensors = Sensor.setEnabledSensors([Sensor.SENSOR_HEARTRATE]);
-			me.externalSensorConnected = me.anyExternalHrSensorConnected();
 		}
 
 		private function disableHrSensor() {
-			System.println("HR sensor: Disable");
+			// System.println("HR sensor: Disable");
 			me.enabledHrSensors = Sensor.setEnabledSensors([]);
-			me.externalSensorConnected = me.anyExternalHrSensorConnected();
 		}
 
 		function start() {
 			if (me.timer == null) {
-				System.println("HR sensor: Start");
+				// System.println("HR sensor: Start");
 				me.enableHrSensor();
 				me.totalTime = 0;
 				me.totalIntervals = 0.0;
-				Sensor.unregisterSensorDataListener();
 				Sensor.registerSensorDataListener(method(:addToBuffer), {
 					:period => SessionSamplePeriodSeconds,
 					:heartBeatIntervals => {
@@ -53,40 +52,35 @@ module HrvAlgorithms {
 				});
 				me.timer = new Timer.Timer();
 				me.timer.start(method(:update), 1000, true);
-				me.externalSensorConnected = me.anyExternalHrSensorConnected();
 			} else {
-				System.println("HR sensor: Can't start - already running");
+				// System.println("HR sensor: Can't start - already running");
 			}
 		}
 
 		function stop() {
 			if (me.timer != null) {
-				System.println("HR sensor: Stop");
+				// System.println("HR sensor: Stop");
 				me.timer.stop();
 				me.timer = null;
 				me.bufferWriteIndex = 0;
 				Sensor.unregisterSensorDataListener();
 				me.disableHrSensor();
-				me.externalSensorConnected = me.anyExternalHrSensorConnected();
 			} else {
-				System.println("HR sensor: Can't stop - already stopped");
+				// System.println("HR sensor: Can't stop - already stopped");
 			}
 		}
 
 		function addToBuffer(sensorData) {
-			if (!(sensorData has :heartRateData) || mSensorListener == null) {
-				return;
-			}
-
-			if (me.bufferWriteIndex >= me.buffer.size()) {
-				me.bufferWriteIndex = 0;
-			}
-
-			if (sensorData.heartRateData != null) {
-				me.buffer[me.bufferWriteIndex] = sensorData.heartRateData.heartBeatIntervals;
-				System.println("HR sensor: added data to buffer: " + me.buffer[me.bufferWriteIndex]);
-				me.bufferWriteIndex++;
-			}
+			me.bufferWriteIndex = me.bufferWriteIndex < me.bufferMaxSize ? me.bufferWriteIndex : 0;
+			me.buffer[me.bufferWriteIndex] =
+				sensorData has :heartRateData &&
+				sensorData.heartRateData != null &&
+				sensorData.heartRateData has :heartBeatIntervals &&
+				sensorData.heartRateData.heartBeatIntervals != null
+					? sensorData.heartRateData.heartBeatIntervals
+					: [];
+			// System.println("HR sensor: buffer add [" + me.bufferWriteIndex + "]: " + me.buffer[me.bufferWriteIndex]);
+			me.bufferWriteIndex = mSensorListener != null ? me.bufferWriteIndex + 1 : me.bufferWriteIndex;
 		}
 
 		function setOneSecBeatToBeatIntervalsSensorListener(listener) {
@@ -94,42 +88,29 @@ module HrvAlgorithms {
 		}
 
 		function getStatus() {
-			if (me.mSensorListener != null) {
-				if (me.numFails < 2) {
-					return HeartbeatIntervalsSensorStatus.Good;
-				} else if (me.numFails < 5) {
-					return HeartbeatIntervalsSensorStatus.Weak;
-				} else {
-					return HeartbeatIntervalsSensorStatus.Error;
-				}
-			}
-		}
-
-		private function anyExternalHrSensorConnected() {
-			for (var i = 0; i < me.enabledHrSensors.size(); i++) {
-				System.println("Sensor: " + me.enabledHrSensors[i]);
-				if (me.enabledHrSensors[i] == Sensor.SENSOR_HEARTRATE) {
-					if (
-						Sensor has :SENSOR_ONBOARD_HEARTRATE &&
-						me.enabledHrSensors[i] != Sensor.SENSOR_ONBOARD_HEARTRATE
-					) {
-						return true;
-					}
-					return true;
-				}
-			}
-			return false;
+			return me.numFails < 2
+				? HeartbeatIntervalsSensorStatus.Good
+				: me.numFails < 5
+				? HeartbeatIntervalsSensorStatus.Weak
+				: HeartbeatIntervalsSensorStatus.Error;
 		}
 
 		function ensureSensorHealth() {
 			if (me.numFails >= 30 && me.numFails % 30 == 0) {
-				System.println("HR sensor: Restart");
+				// System.println("HR sensor: Restart");
 				var tmpListener = me.mSensorListener;
-				me.stop();
 				me.setOneSecBeatToBeatIntervalsSensorListener(null);
+				me.stop();
 				me.start();
 				me.setOneSecBeatToBeatIntervalsSensorListener(tmpListener);
+				me.sensorRestarts += 1;
 			}
+		}
+
+		function resetSensorQuality() {
+			me.totalTime = 0;
+			me.totalIntervals = 0.0;
+			me.sensorRestarts = 0;
 		}
 
 		function update() {
@@ -139,7 +120,7 @@ module HrvAlgorithms {
 				if (me.bufferWriteIndex > 0) {
 					for (var i = 0; i < me.bufferWriteIndex; i++) {
 						data = me.buffer[i];
-						System.println("HR sensor: Invoke index " + i + " with data: " + data);
+						// System.println("HR sensor: Invoke index " + i + " with data: " + data);
 						me.mSensorListener.invoke(data);
 						if (data == null || data.size() == 0) {
 							me.numFails++;
@@ -153,16 +134,19 @@ module HrvAlgorithms {
 						}
 					}
 				} else {
+					// System.println("HR sensor: No data in buffer, invoking with: " + data);
 					me.mSensorListener.invoke(data);
 					me.numFails++;
 				}
 				me.bufferWriteIndex = 0;
 				if (me.totalTime > 60) {
-					System.println("HR sensor: 60sec quality: " + me.totalIntervals / me.totalTime);
-					me.totalTime = 0;
-					me.totalIntervals = 0.0;
+					// System.println(
+					// 	"HR sensor: Quality: " + me.totalIntervals / me.totalTime + " | restarts: " + me.sensorRestarts
+					// );
 				}
 				me.ensureSensorHealth();
+			} else {
+				// System.println("HR sensor: No listener set, skipping update");
 			}
 		}
 	}
