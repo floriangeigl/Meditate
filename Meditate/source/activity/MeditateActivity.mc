@@ -127,9 +127,9 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 
 	function finish() {
 		HrvAlgorithms.HrvActivity.finish();
-		var usageStats = new UsageStats();
+		var usageStats = new UsageStats(me.mMeditateModel.elapsedTime);
 		usageStats.sendCached();
-		usageStats.sendCurrent(me.mMeditateModel.elapsedTime);
+		usageStats.sendCurrent();
 	}
 
 	function stop() {
