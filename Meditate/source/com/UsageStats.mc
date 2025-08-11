@@ -14,21 +14,58 @@ class UsageStats {
 	private static const usageStatsCacheKey = "usageStats_cache";
 	private static const usageStatsMonthlyKey = "usageStats_monthly";
 	private var lastParams;
+	private var currentParams;
 	private var askTip;
 	private var lastMonthStats;
 
-	function initialize() {
+	function initialize(sessionTime) {
 		me.gMeasurmentID = App.getApp().getProperty("gMeasurmentID");
 		me.gApiSecret = App.getApp().getProperty("gApiSecret");
 		me.lastParams = [];
 		me.askTip = false;
 		me.lastMonthStats = 0;
+		me.currentParams = me.createParams(sessionTime);
+		me.addToMonthly(sessionTime);
 	}
 
-	function sendCurrent(sessionTime) {
-		var params = me.createParams(sessionTime);
-		me.addToMonthly(sessionTime);
-		me.send(params);
+	function sendCurrentWithLocation(responseCode, data) {
+		if (responseCode == 200 && data != null) {
+			me.currentParams["user_location"] = {
+				"city" => data["city"],
+				"country_id" => data["country_code"],
+				"region_id" => data["country_code"] + "-" + data["region_code"],
+			};
+			me.currentParams["ip_override"] = truncateIP(data["ip"]);
+		}
+		me.send(me.currentParams);
+	}
+
+	function truncateIP(ip) {
+		ip = ip.toCharArray();
+		var truncatedIP = "";
+		var numSep = 0;
+		for (var i = 0; i < ip.size(); i++) {
+			if (ip[i] == '.') {
+				numSep++;
+				truncatedIP += ".";
+			} else {
+				if (numSep >= 3) {
+					truncatedIP += "0";
+					break;
+				} else {
+					truncatedIP += ip[i];
+				}
+			}
+		}
+		return truncatedIP;
+	}
+
+	function sendCurrent() {
+		var options = {
+			:method => Communications.HTTP_REQUEST_METHOD_GET,
+		};
+		var url = "https://ipapi.co/json/";
+		Communications.makeWebRequest(url, null, options, method(:sendCurrentWithLocation));
 	}
 
 	function createParams(sessionTime) {
