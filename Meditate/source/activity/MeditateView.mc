@@ -95,15 +95,11 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 		me.mMainDurationRenderer = new ElapsedDurationRenderer(me.mMeditateModel.getColor(), null, null);
 
 		if (me.mMeditateModel.hasIntervalAlerts()) {
-			var intervalAlertsArcRadius = dc.getWidth() / 2;
-			var intervalAlertsArcWidth = dc.getWidth() / 16;
 			me.mIntervalAlertsRenderer = new IntervalAlertsRenderer(
+				dc,
 				me.mMeditateModel.getSessionTime(),
-				me.mMeditateModel.getIntervalAlerts(),
-				intervalAlertsArcRadius,
-				intervalAlertsArcWidth
+				me.mMeditateModel.getIntervalAlerts()
 			);
-			me.mIntervalAlertsRenderer.layoutIntervalAlerts(dc);
 		}
 	}
 
