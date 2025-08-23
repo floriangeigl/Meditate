@@ -2,11 +2,19 @@ using Toybox.Graphics as Gfx;
 using Toybox.Lang;
 
 class IntervalAlertsRenderer {
-	function initialize(sessionTime, intervalAlerts, radius, width) {
+	function initialize(dc, sessionTime, intervalAlerts) {
 		me.mSessionTime = sessionTime;
 		me.mIntervalAlerts = intervalAlerts == null ? [] : intervalAlerts;
-		me.mRadius = radius;
-		me.mWidth = width;
+		var mDcWidth = dc.getWidth();
+		var mDcHeight = dc.getHeight();
+		me.xCenter = mDcWidth / 2;
+		me.yCenter = mDcHeight / 2;
+		var minDim = mDcWidth < mDcHeight ? mDcWidth : mDcHeight;
+		me.mWidth = Math.floor(minDim / 32.0).toNumber();
+		me.mWidth -= 1; // Make sure the arc fits within the bounds
+		me.mRadius = minDim / 2;
+		me.mRadius -= Math.ceil(me.mWidth / 2);
+		me.mRadius = me.mRadius.toNumber();
 		me.mPercentageTimes = me.createPercentageTimes(mIntervalAlerts);
 	}
 
@@ -32,13 +40,6 @@ class IntervalAlertsRenderer {
 			resultPercentageTimes[i] = intervalAlert.getAlertArcPercentageTimes(me.mSessionTime);
 		}
 		return resultPercentageTimes;
-	}
-
-	function layoutIntervalAlerts(dc) {
-		me.height = dc.getHeight();
-		me.width = dc.getWidth();
-		me.xCenter = me.width / 2;
-		me.yCenter = me.height / 2;
 	}
 
 	private function drawIntervalAlerts(dc, intervalAlerts, percentageTimes) {
