@@ -4,7 +4,7 @@ using Toybox.Application as App;
 
 module HrvAlgorithms {
 	class HrvMonitorDetailed extends HrvMonitorDefault {
-		private static const HrvRmssdWindowSize = 60;
+		private static var HrvRmssdWindowSize = 60;
 		private static const Buffer5MinLength = 300;
 
 		private var mHrvSdrrFirst5Min;
@@ -19,7 +19,8 @@ module HrvAlgorithms {
 		private static const HrvBeatToBeatIntervalsFieldId = 8;
 		private static const HrFromHeartbeatField = 16;
 
-		function initialize(activitySession) {
+		function initialize(activitySession, HrvWindowSize) {
+			HrvMonitorDetailed.HrvRmssdWindowSize = HrvWindowSize;
 			HrvMonitorDefault.initialize(activitySession);
 
 			me.mHrvBeatToBeatIntervalsDataField =

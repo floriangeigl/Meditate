@@ -46,6 +46,9 @@ class GlobalSettingsMenuDelegate extends Ui.MenuInputDelegate {
 		} else if (item == :colorTheme) {
 			var colorThemeDelegate = new MenuOptionsDelegate(method(:onColorThemePicked));
 			Ui.pushView(new Rez.Menus.colorThemeOptionsMenu(), colorThemeDelegate, Ui.SLIDE_LEFT);
+		} else if (item == :hrvWindow) {
+			var hrvWindowSizeDelegate = new MenuOptionsDelegate(method(:onHrvWindowSizePicked));
+			Ui.pushView(new Rez.Menus.hrvWindowSizeOptionsMenu(), hrvWindowSizeDelegate, Ui.SLIDE_LEFT);
 		}
 	}
 
@@ -177,6 +180,23 @@ class GlobalSettingsMenuDelegate extends Ui.MenuInputDelegate {
 			GlobalSettings.saveHrvTracking(HrvTracking.OnDetailed);
 		} else if (item == :off) {
 			GlobalSettings.saveHrvTracking(HrvTracking.Off);
+		}
+		mOnGlobalSettingsChanged.invoke();
+	}
+
+	function onHrvWindowSizePicked(item) {
+		if (item == :time_30s) {
+			GlobalSettings.saveHrvWindowTime(30);
+		} else if (item == :time_1m) {
+			GlobalSettings.saveHrvWindowTime(60);
+		} else if (item == :time_2m) {
+			GlobalSettings.saveHrvWindowTime(60*2);
+		} else if (item == :time_3m) {
+			GlobalSettings.saveHrvWindowTime(60*3);
+		} else if (item == :time_5m) {
+			GlobalSettings.saveHrvWindowTime(60*5);
+		} else if (item == :time_10m) {
+			GlobalSettings.saveHrvWindowTime(60*10);
 		}
 		mOnGlobalSettingsChanged.invoke();
 	}

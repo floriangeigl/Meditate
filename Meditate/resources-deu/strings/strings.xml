@@ -97,6 +97,9 @@
     <string id="menuPrepareTimeOptions_3m">3 Min</string>
     <string id="menuPrepareTimeOptions_4m">4 Min</string>
     <string id="menuPrepareTimeOptions_5m">5 Min</string>
+    <string id="menuPrepareTimeOptions_10m">10 min</string>
+
+    <string id="menuHrvWindowSizeOptions_title">HRV Fenster</string>
 
     <string id="menuNotificationOptions_title">Benachrichtigungen</string>
     <string id="menuNotificationOptions_on">Ein (Standard)</string>
@@ -178,7 +181,7 @@
 
     <string id="optionsMenuHelp">Menü halten</string>
 
-    <string id="about_AppVersion">v10.2.6</string>
+    <string id="about_AppVersion">v10.3.0</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>
     <string id="about_falsetru">falsetru</string>

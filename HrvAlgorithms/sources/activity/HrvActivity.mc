@@ -1,12 +1,14 @@
 module HrvAlgorithms {
 	class HrvActivity extends HrActivity {
-		function initialize(fitSession, hrvTracking, heartbeatIntervalsSensor) {
+		function initialize(fitSession, hrvTracking, heartbeatIntervalsSensor, hrvWindowSize) {
 			me.mHrvTracking = hrvTracking;
+			me.mHrvWindowSize = hrvWindowSize;
 			me.mHeartbeatIntervalsSensor = heartbeatIntervalsSensor;
 			HrActivity.initialize(fitSession);
 		}
 
 		private var mHrvTracking;
+		private var mHrvWindowSize;
 		private var mHeartbeatIntervalsSensor;
 		private var mHrvMonitor;
 
@@ -25,7 +27,7 @@ module HrvAlgorithms {
 				);
 				me.mHeartbeatIntervalsSensor.resetSensorQuality();
 				if (me.isHrvDetailOn()) {
-					me.mHrvMonitor = new HrvMonitorDetailed(me.mFitSession);
+					me.mHrvMonitor = new HrvMonitorDetailed(me.mFitSession, me.mHrvWindowSize);
 				} else {
 					me.mHrvMonitor = new HrvMonitorDefault(me.mFitSession);
 				}
