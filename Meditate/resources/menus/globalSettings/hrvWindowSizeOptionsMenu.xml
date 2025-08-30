@@ -1,0 +1,8 @@
+<menu id="hrvWindowSizeOptionsMenu" title="@Strings.menuHrvWindowSizeOptions_title">
+    <menu-item id="time_30s" label="@Strings.menuPrepareTimeOptions_30s" />
+    <menu-item id="time_1m" label="@Strings.menuPrepareTimeOptions_1m" />
+    <menu-item id="time_2m" label="@Strings.menuPrepareTimeOptions_2m" />
+    <menu-item id="time_3m" label="@Strings.menuPrepareTimeOptions_3m" />
+    <menu-item id="time_5m" label="@Strings.menuPrepareTimeOptions_5m" />
+    <menu-item id="time_10m" label="@Strings.menuPrepareTimeOptions_10m" />
+</menu>
