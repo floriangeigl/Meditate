@@ -3,13 +3,14 @@
 ## Features
 
 - ability to save the meditation session as Garmin Connect activity
-  - activity type **Meditation** or **Yoga**
-- ability to configure multiple meditation/yoga sessions
+  - activity type **Meditation** or **Yoga** or **Breathwork**
+- ability to configure multiple meditation/yoga/breathwork sessions
   - e.g. a 20 min session with 1 min recurring alerts, triggering a different alert on the 10th minute
   - each session supports interval vibration alerts
   - interval alerts can trigger from a few seconds up to few hours
 - pre-configured default meditation sessions with 5/10/15/20/25/30min and also short vibration every 5min
 - also advanced default meditation sessions for 45min and 1h with short vibration every 15min
+- pre-configured deafult breathwork sessions
 - [HRV](https://en.wikipedia.org/wiki/Heart_rate_variability) (Heart Rate Variability)
   - RMSSD - Root Mean Square of Successive Differences (beat-to-beat intervals)
   - pNN20 - % of successive beat-to-beat intervals that differ by more than 20 ms
@@ -18,7 +19,7 @@
   - HRV Successive Differences - difference between the current and previous beat-to-beat intervals
   - SDRR - [Standard Deviation](https://en.wikipedia.org/wiki/Standard_deviation) of beat-to-beat intervals
     - calculated from the first and last 5 min of the session
-  - HRV RMSSD 30 Sec Window - RMSSD calculated for consecutive 30 second intervals
+  - HRV RMSSD 60 Sec Window - RMSSD calculated for consecutive 60 second intervals
   - HR from heartbeat - beat-to-beat interval converted to HR
 - stress tracking
   - Stress - summary of the the average stress during the session
@@ -121,6 +122,7 @@ Enable/disable screen light during the session using light button or touch the s
     - RMSSD
     - HRV Successive Differences
   - On Detailed (Default) - tracks extra stress and HRV metrics in addition to the **On** option
+
     - RMSSD
     - HRV Successive Differences
     - pNN20
@@ -132,9 +134,9 @@ Enable/disable screen light during the session using light button or touch the s
     - HR from heartbeat
     - HR Peaks 10 Sec Window
 
-  2.3 Delete - deletes a session after asking for confirmation
+      2.3 Delete - deletes a session after asking for confirmation
 
-  2.4 Global Settings - [see section 4](#4-global-settings)
+      2.4 Global Settings - [see section 4](#4-global-settings)
 
 ### 3. Picking a session
 
@@ -221,5 +223,20 @@ You can set the default activity type for new sessions.
 
 - Yoga
 - Meditation
+- Breathwork
+
+#### 4.6 HRV Window
+
+You can change over which time-window the HRV is calculated. For reliable measurements I recommend going for at least 3min, as everything below is considered ultra-short-term HRV measurement. Personally, I use 5min for my sessions. The default is 60sec, because beginners tend to do session around 5min and still want to see some trend of their HRV within this window.
+
+## FAQs
+
+### HRV does not work / shows "waiting"
+
+Please make sure your sensor is correctly positioned on your wrist. If you adapt the position, please give it 10-20seconds until the readings become stable and the status changes. If you don't get reliable readings, you might want to try to position the sensor on the inside of your wrist, or use an external heart rate sensor that supports heart beat intervals. Please also note, that the watch automatically connects to nearby heart rate sensors, sometimes even if they are charging or in standby mode - this might also end up being the root cause of your unrealiable HRV measurements. Putting your watch in flight mode is one approach to see if this might be the issue.
+
+### Can I change the name of the session on the watch
+
+Currently not, however I'm planning to introduce this feature at some point.
 
 [Data Privacy Policy](/meditate_app_data_privacy)

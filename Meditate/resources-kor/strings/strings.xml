@@ -97,6 +97,9 @@
 	<string id="menuPrepareTimeOptions_3m">3 분</string>
 	<string id="menuPrepareTimeOptions_4m">4 분</string>
 	<string id="menuPrepareTimeOptions_5m">5 분</string>
+	<string id="menuPrepareTimeOptions_10m">10 min</string>
+
+	<string id="menuHrvWindowSizeOptions_title">HRV Window</string>
 
 	<string id="menuNotificationOptions_title">알림</string>
 	<string id="menuNotificationOptions_on">켜기 (기본값)</string>

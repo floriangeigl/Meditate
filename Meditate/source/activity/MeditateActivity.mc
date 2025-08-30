@@ -44,10 +44,10 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createGeneric(createSessionName(sessionTime, activityName));
 			// System.println("create generic activity as others are not supported");
 		}
-
+		var hrvWindowSize = GlobalSettings.loadHrvWindowTime();
 		me.mMeditateModel = meditateModel;
 		me.mMeditateDelegate = meditateDelegate;
-		HrvAlgorithms.HrvActivity.initialize(fitSessionSpec, meditateModel.getHrvTracking(), heartbeatIntervalsSensor);
+		HrvAlgorithms.HrvActivity.initialize(fitSessionSpec, meditateModel.getHrvTracking(), heartbeatIntervalsSensor, hrvWindowSize);
 		me.mAutoStopEnabled = GlobalSettings.loadAutoStop();
 	}
 

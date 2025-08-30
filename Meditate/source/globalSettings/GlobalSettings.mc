@@ -152,6 +152,19 @@ class GlobalSettings {
 	static function saveFinalizeTime(finalizeTime) {
 		App.Storage.setValue(FinalizeTimeKey, finalizeTime);
 	}
+
+	private static const HrvWindowTimeKey = "globalSettings_hrvWindowTime";
+	static function loadHrvWindowTime() {
+		var hrvWindowTime = App.Storage.getValue(HrvWindowTimeKey);
+		if (hrvWindowTime == null) {
+			return 60;
+		} else {
+			return hrvWindowTime;
+		}
+	}
+	static function saveHrvWindowTime(hrvWindowTime) {
+		App.Storage.setValue(HrvWindowTimeKey, hrvWindowTime);
+	}
 }
 
 module ConfirmSaveActivity {

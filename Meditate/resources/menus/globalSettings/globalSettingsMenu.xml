@@ -7,6 +7,7 @@
     <menu-item id="notification" label="@Strings.menuNotificationOptions_title" />
     <menu-item id="newActivityType" label="@Strings.menuGlobalSettings_newActivityType" />
     <menu-item id="hrvTracking" label="@Strings.menuGlobalSettings_newHrvTracking" />
+    <menu-item id="hrvWindow" label="@Strings.menuHrvWindowSizeOptions_title" />
     <menu-item id="respirationRate" label="@Strings.menuGlobalSettings_respirationRate" />
     <menu-item id="multiSession" label="@Strings.menuGlobalSettings_multiSession" />
 </menu>
