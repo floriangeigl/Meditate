@@ -13,7 +13,7 @@
     <string id="hrvPnn20FieldLabel">HRV pNN20</string>
     <string id="hrvPnn50FieldLabel">HRV pNN50</string>
 
-    <string id="hrvRmssd30SecField">HRV RMSSD Vent. 30 Seg (ms)</string>
+    <string id="hrvRmssdWindowField">HRV RMSSD Vent. (ms)</string>
 
     <string id="percentUnits">%</string>
     <string id="stressUnits">%</string>

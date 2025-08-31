@@ -117,6 +117,7 @@
 
     <string id="addEditIntervalAlertMenu_title">Alert</string>
     <string id="addEditIntervalAlertMenu_time">Zeit</string>
+    <string id="addEditIntervalAlertMenu_offset">Offset</string>
     <string id="addEditIntervalAlertMenu_color">Farbe</string>
     <string id="addEditIntervalAlertMenu_vibeSound">Vibration / Ton</string>
     <string id="addEditIntervalAlertMenu_delete">Löschen</string>
