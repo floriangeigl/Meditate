@@ -26,6 +26,15 @@ class AddEditIntervalAlertMenuDelegate extends Ui.MenuInputDelegate {
 		} else if (item == :time) {
 			var intervalTypeMenuDelegate = new IntervalTypeMenuDelegate(method(:onTypeChanged));
 			Ui.pushView(new Rez.Menus.intervalTypeMenu(), intervalTypeMenuDelegate, Ui.SLIDE_LEFT);
+		} else if (item == :offset) {
+			me.notifyIntervalAlertChanged();
+
+			var durationPickerModel = new DurationPickerModel(4);
+			var timeLayoutBuilder = me.createTimeLayoutMmSsBuilder();
+			var durationPickerDelgate = new DurationPickerDelegate(durationPickerModel, method(:onOffsetPicked));
+			var view = new DurationPickerView(durationPickerModel, timeLayoutBuilder);
+			Ui.popView(Ui.SLIDE_IMMEDIATE);
+			Ui.pushView(view, durationPickerDelgate, Ui.SLIDE_IMMEDIATE);
 		} else if (item == :color) {
 			var colors = [
 				Gfx.COLOR_RED,
@@ -92,6 +101,12 @@ class AddEditIntervalAlertMenuDelegate extends Ui.MenuInputDelegate {
 		me.mIntervalAlert.vibePattern = vibePattern;
 		me.notifyIntervalAlertChanged();
 		Vibe.vibrate(vibePattern);
+	}
+
+	function onOffsetPicked(digits) {
+		var offsetInSeconds = digits[0] * 600 + digits[1] * 60 + digits[2] * 10 + digits[3];
+		me.mIntervalAlert.offset = offsetInSeconds;
+		me.notifyIntervalAlertChanged();
 	}
 
 	function onTypeChanged(type) {

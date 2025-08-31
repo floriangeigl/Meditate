@@ -117,6 +117,7 @@
 
 	<string id="addEditIntervalAlertMenu_title">알림</string>
 	<string id="addEditIntervalAlertMenu_time">시간</string>
+	<string id="addEditIntervalAlertMenu_offset">Offset</string>
 	<string id="addEditIntervalAlertMenu_color">색상</string>
 	<string id="addEditIntervalAlertMenu_vibeSound">진동 / 소리</string>
 	<string id="addEditIntervalAlertMenu_delete">삭제</string>
@@ -181,7 +182,7 @@
 
 	<string id="optionsMenuHelp">메뉴 길게</string>
 
-	<string id="about_AppVersion">v10.3.0</string>
+	<string id="about_AppVersion">v10.4.0</string>
 	<string id="about_vtrifonov">vtrifonov</string>
 	<string id="about_dliedke">dliedke</string>
 	<string id="about_falsetru">falsetru</string>

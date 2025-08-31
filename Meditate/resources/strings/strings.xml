@@ -118,6 +118,8 @@
 
     <string id="addEditIntervalAlertMenu_title">Alert</string>
     <string id="addEditIntervalAlertMenu_time">Time</string>
+    <string id="addEditIntervalAlertMenu_offset">Offset</string>
+
     <string id="addEditIntervalAlertMenu_color">Color</string>
     <string id="addEditIntervalAlertMenu_vibeSound">Vibe / Sound</string>
     <string id="addEditIntervalAlertMenu_delete">Delete</string>
@@ -182,7 +184,7 @@
 
     <string id="optionsMenuHelp">Hold menu</string>
 
-    <string id="about_AppVersion">v10.3.0</string>
+    <string id="about_AppVersion">v10.4.0</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>
     <string id="about_falsetru">falsetru</string>

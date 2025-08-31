@@ -1,26 +1,26 @@
-<strings>			
+<strings>
 	<string id="minHrField">최소 심박수</string>
 	<string id="hrUnits">bpm</string>
-	
-	<string id="hrvSdrrFieldLabel">HRV SDRR</string>	
-	<string id="hrvSdrrFirst5MinFieldLabel">HRV SDRR 최초 5분</string>	
+
+	<string id="hrvSdrrFieldLabel">HRV SDRR</string>
+	<string id="hrvSdrrFirst5MinFieldLabel">HRV SDRR 최초 5분</string>
 	<string id="hrvSdrrLast5MinFieldLabel">HRV SDRR 마지막 5분</string>
-	
+
 	<string id="hrvFieldUnits">ms</string>
-	
-	<string id="hrvSuccessiveField">HRV 연속적인 차이(ms)</string>
+
+	<string id="hrvSuccessiveField">HRV 연속적인 차이 (ms)</string>
 	<string id="hrvRmssdFieldLabel">HRV RMSSD</string>
 	<string id="hrvPnn20FieldLabel">HRV pNN20</string>
 	<string id="hrvPnn50FieldLabel">HRV pNN50</string>
-	
-	<string id="hrvRmssd30SecField">30 초 간격 HRV RMSSD(ms)</string>
-		
+
+	<string id="hrvRmssdWindowField">초 간격 HRV RMSSD (ms)</string>
+
 	<string id="percentUnits">%</string>
-	<string id="stressUnits">%</string>	
-	
-	<string id="hrvRrIntervalsField">HRV 박동 간격(ms)</string>
-	
-	<string id="hrPeaksWindow10Field">10 초간격 최고심박(bpm)</string>
+	<string id="stressUnits">%</string>
+
+	<string id="hrvRrIntervalsField">HRV 박동 간격 (ms)</string>
+
+	<string id="hrPeaksWindow10Field">10 초간격 최고심박 (bpm)</string>
 	<string id="stressField">스트레스</string>
-	<string id="hrFromHeartbeatField">박동간격으로 계산된 HR(bpm)</string>
+	<string id="hrFromHeartbeatField">박동간격으로 계산된 HR (bpm)</string>
 </strings>
