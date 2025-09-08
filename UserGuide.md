@@ -127,7 +127,7 @@ This is a typical technique to calm your self down and prepare for sleep. You st
 - The pre-configured sessions are great, but sometimes also stressful - it's just hard to get it exactly right. If this is overhelming for you, I recommend to just do a normal session without intervals and follow the rule of thumb above.
 - To extend your exhale, it is helpful if you don't open up your mouth too much. Think of slightly pressing the air through your lips - the air opens the lips, not the muscle around your mouth or of your jaw - keep your facial muscles relaxed. This natural resistance to your exhale makes it easier to have long and calm exhales.
 
-2.2 Interpreting the stats of your session
+  2.2 Interpreting the stats of your session
 
 - HRV: heart rate variability refers to how inconsistent the time between your heart beats is. Yes, this sound scary at first, but is very natural and actually a high variability (low consistency in time between heartbeats) signals a calm body and mind. You can think of this the following way: If you are stressed, your heart goes like "I need to beat now! now! now! now!" - super stressful! If you are calm, your heart goes like "Maybe I should beat now, aah that was good, I think it might do another beat soon."
 - Stress: naturally lower stress is great. Anything below 20 is already a great start - I'm sometimes able to reach 0 if I lay myself flat on the ground on a yoga mat and put my hands above my hand on the ground (I've noticed this position opens up my breast, which allows for more space for my heart to unfold and relax. This also spikes HRV far above 100 for me.)
@@ -175,11 +175,11 @@ This is a typical technique to calm your self down and prepare for sleep. You st
     - RMSSD Window
     - HR from heartbeat
 
-3.3 Delete - deletes a session after asking for confirmation
+  3.3 Delete - deletes a session after asking for confirmation
 
-3.4 Global Settings - [see section 4](#4-global-settings)
+  3.4 Global Settings - [see section 4](#4-global-settings)
 
-3.5 Configure custom breathwork session
+  3.5 Configure custom breathwork session
 
 Breathwork sessions typically follow some pattern of Inhale, Hold, Exhale, Hold. As all the configured interval alerts run in parallel, you need to use the offset to create such a pattern. For example, to configure 4 Inhale, 7 Hold, 8 Exhale you'd need to do the following:
 
@@ -262,5 +262,9 @@ Please make sure your sensor is correctly positioned on your wrist. If you adapt
 ### Can I change the name of the session on the watch
 
 Currently not, however I'm planning to introduce this feature at some point.
+
+### The app crashes the moment I start a session - what can I do?
+
+If the app opens up, but crashes the moment you start a session, it is very likely that your model does not support the selected activity type. Please edit the session and try to use a different activity type. "Generic" should work on all models.
 
 [Data Privacy Policy](/meditate_app_data_privacy)
