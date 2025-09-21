@@ -11,8 +11,8 @@ module HrvAlgorithms {
 		private var totalIntervals;
 		private var sensorRestarts;
 		private var running;
-		private const softResetSeconds = 30;
-		private const hardResetSeconds = 120;
+		private const softResetSeconds = 15;
+		private const hardResetSeconds = 60;
 
 		function initialize() {
 			// System.println("HR sensor: Init");
@@ -49,6 +49,7 @@ module HrvAlgorithms {
 		}
 
 		function registerListener() {
+			Sensor.unregisterSensorDataListener();
 			Sensor.registerSensorDataListener(method(:update), {
 				:period => SessionSamplePeriodSeconds,
 				:heartBeatIntervals => {
@@ -86,9 +87,9 @@ module HrvAlgorithms {
 				(me.numFails % softResetSeconds == 0 || me.numFails % hardResetSeconds == 0)
 			) {
 				me.registerListener();
-				// System.println("HR sensor: Restart");
+				// System.println("HR sensor: Soft reset");
 				if (me.numFails >= hardResetSeconds && me.numFails % hardResetSeconds == 0) {
-					// System.println("HR sensor: Hard restart");
+					// System.println("HR sensor: Hard reset");
 					me.stop();
 					me.start();
 				}
