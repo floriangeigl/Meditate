@@ -63,6 +63,9 @@
             <iq:product id="fr970"/>
             <iq:product id="instinct3amoled45mm"/>
             <iq:product id="instinct3amoled50mm"/>
+            <iq:product id="instinct3solar45mm"/>
+            <iq:product id="instinctcrossover"/>
+            <iq:product id="instinctcrossoveramoled"/>
             <iq:product id="legacyherocaptainmarvel"/>
             <iq:product id="legacyherofirstavenger"/>
             <iq:product id="legacysagadarthvader"/>
@@ -82,6 +85,8 @@
             <iq:product id="venu2s"/>
             <iq:product id="venu3"/>
             <iq:product id="venu3s"/>
+            <iq:product id="venu441mm"/>
+            <iq:product id="venu445mm"/>
             <iq:product id="venud"/>
             <iq:product id="venusq2"/>
             <iq:product id="venusq2m"/>
