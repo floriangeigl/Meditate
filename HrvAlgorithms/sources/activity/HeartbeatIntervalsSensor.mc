@@ -7,17 +7,16 @@ module HrvAlgorithms {
 		private const SessionSamplePeriodSeconds = 1;
 		private var mSensorListener;
 		private var numFails;
-		private var enabledHrSensors;
 		private var totalTime;
 		private var totalIntervals;
 		private var sensorRestarts;
 		private var running;
+		private const softResetSeconds = 30;
+		private const hardResetSeconds = 120;
 
 		function initialize() {
 			// System.println("HR sensor: Init");
-
 			me.numFails = 10;
-			me.enabledHrSensors = [];
 			me.totalTime = 0;
 			me.totalIntervals = 0.0;
 			me.sensorRestarts = 0;
@@ -26,30 +25,36 @@ module HrvAlgorithms {
 
 		private function enableHrSensor() {
 			// System.println("HR sensor: Enable");
-			me.enabledHrSensors = Sensor.setEnabledSensors([Sensor.SENSOR_HEARTRATE]);
+			Sensor.enableSensorType(Sensor.SENSOR_ONBOARD_HEARTRATE);
+			Sensor.enableSensorType(Sensor.SENSOR_HEARTRATE);
 		}
 
 		private function disableHrSensor() {
 			// System.println("HR sensor: Disable");
-			me.enabledHrSensors = Sensor.setEnabledSensors([]);
+			Sensor.disableSensorType(Sensor.SENSOR_ONBOARD_HEARTRATE);
+			Sensor.disableSensorType(Sensor.SENSOR_HEARTRATE);
 		}
 
 		function start() {
 			if (!me.running) {
 				// System.println("HR sensor: Start");
-				me.enableHrSensor();
 				me.totalTime = 0;
 				me.totalIntervals = 0.0;
-				Sensor.registerSensorDataListener(method(:update), {
-					:period => SessionSamplePeriodSeconds,
-					:heartBeatIntervals => {
-						:enabled => true,
-					},
-				});
+				me.enableHrSensor();
+				me.registerListener();
 				me.running = true;
 			} else {
 				// System.println("HR sensor: Can't start - already running");
 			}
+		}
+
+		function registerListener() {
+			Sensor.registerSensorDataListener(method(:update), {
+				:period => SessionSamplePeriodSeconds,
+				:heartBeatIntervals => {
+					:enabled => true,
+				},
+			});
 		}
 
 		function stop() {
@@ -76,13 +81,18 @@ module HrvAlgorithms {
 		}
 
 		function ensureSensorHealth() {
-			if (me.numFails >= 30 && me.numFails % 30 == 0) {
+			if (
+				me.numFails >= softResetSeconds &&
+				(me.numFails % softResetSeconds == 0 || me.numFails % hardResetSeconds == 0)
+			) {
+				me.registerListener();
 				// System.println("HR sensor: Restart");
-				var tmpListener = me.mSensorListener;
-				me.setOneSecBeatToBeatIntervalsSensorListener(null);
-				me.stop();
-				me.start();
-				me.setOneSecBeatToBeatIntervalsSensorListener(tmpListener);
+				if (me.numFails >= hardResetSeconds && me.numFails % hardResetSeconds == 0) {
+					// System.println("HR sensor: Hard restart");
+					me.stop();
+					me.start();
+				}
+
 				me.sensorRestarts += 1;
 			}
 		}
@@ -94,36 +104,35 @@ module HrvAlgorithms {
 		}
 
 		function update(sensorData) {
+			var data =
+				sensorData has :heartRateData &&
+				sensorData.heartRateData != null &&
+				sensorData.heartRateData has :heartBeatIntervals &&
+				sensorData.heartRateData.heartBeatIntervals != null
+					? sensorData.heartRateData.heartBeatIntervals
+					: [];
+			// System.println("HR sensor: Invoke index " + i + " with data: " + data);
 			if (me.mSensorListener != null) {
-				var data =
-					sensorData has :heartRateData &&
-					sensorData.heartRateData != null &&
-					sensorData.heartRateData has :heartBeatIntervals &&
-					sensorData.heartRateData.heartBeatIntervals != null
-						? sensorData.heartRateData.heartBeatIntervals
-						: [];
-				// System.println("HR sensor: Invoke index " + i + " with data: " + data);
+				//TODO: cleanup data? <250ms & >2000ms
 				me.mSensorListener.invoke(data);
-				if (data == null || data.size() == 0) {
-					me.numFails++;
-				} else {
-					me.numFails = me.numFails > 5 ? 5 : me.numFails;
-					me.numFails--;
-					me.numFails = me.numFails < 0 ? 0 : me.numFails;
-					for (var j = 0; j < data.size(); j++) {
-						me.totalIntervals = me.totalIntervals + data[j] / 1000.0;
-					}
-				}
-
-				//if (me.totalTime > 60) {
-				// System.println(
-				// 	"HR sensor: Quality: " + me.totalIntervals / me.totalTime + " | restarts: " + me.sensorRestarts
-				// );
-				//}
-				me.ensureSensorHealth();
-			} else {
-				// System.println("HR sensor: No listener set, skipping update");
 			}
+			if (data == null || data.size() == 0) {
+				me.numFails++;
+			} else {
+				me.numFails = me.numFails > 5 ? 5 : me.numFails;
+				me.numFails--;
+				me.numFails = me.numFails < 0 ? 0 : me.numFails;
+				for (var j = 0; j < data.size(); j++) {
+					me.totalIntervals = me.totalIntervals + data[j] / 1000.0;
+				}
+			}
+
+			//if (me.totalTime > 60) {
+			// System.println(
+			// 	"HR sensor: Quality: " + me.totalIntervals / me.totalTime + " | restarts: " + me.sensorRestarts
+			// );
+			//}
+			me.ensureSensorHealth();
 		}
 	}
 }
