@@ -13,6 +13,7 @@ module HrvAlgorithms {
 		private var running;
 		private const softResetSeconds = 15;
 		private const hardResetSeconds = 60;
+		private var sensorTypes;
 
 		function initialize() {
 			// System.println("HR sensor: Init");
@@ -21,18 +22,33 @@ module HrvAlgorithms {
 			me.totalIntervals = 0.0;
 			me.sensorRestarts = 0;
 			me.running = false;
+			me.sensorTypes = [Sensor.SENSOR_HEARTRATE];
+			if (Sensor has :SENSOR_ONBOARD_HEARTRATE) {
+				System.println("onboard sensor avail");
+				sensorTypes.add(Sensor.SENSOR_ONBOARD_HEARTRATE);
+			}
 		}
 
 		private function enableHrSensor() {
 			// System.println("HR sensor: Enable");
-			Sensor.enableSensorType(Sensor.SENSOR_ONBOARD_HEARTRATE);
-			Sensor.enableSensorType(Sensor.SENSOR_HEARTRATE);
+			if (Sensor has :enableSensorType) {
+				for (var i = 0; i < me.sensorTypes.size(); i++) {
+					Sensor.enableSensorType(me.sensorTypes[i]);
+				}
+			} else {
+				Sensor.setEnabledSensors(me.sensorTypes);
+			}
 		}
 
 		private function disableHrSensor() {
 			// System.println("HR sensor: Disable");
-			Sensor.disableSensorType(Sensor.SENSOR_ONBOARD_HEARTRATE);
-			Sensor.disableSensorType(Sensor.SENSOR_HEARTRATE);
+			if (Sensor has :disableSensorType) {
+				for (var i = 0; i < me.sensorTypes.size(); i++) {
+					Sensor.disableSensorType(me.sensorTypes[i]);
+				}
+			} else {
+				Sensor.setEnabledSensors([]);
+			}
 		}
 
 		function start() {
