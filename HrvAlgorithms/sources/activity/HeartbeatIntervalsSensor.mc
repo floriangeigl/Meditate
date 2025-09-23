@@ -24,7 +24,6 @@ module HrvAlgorithms {
 			me.running = false;
 			me.sensorTypes = [Sensor.SENSOR_HEARTRATE];
 			if (Sensor has :SENSOR_ONBOARD_HEARTRATE) {
-				System.println("onboard sensor avail");
 				sensorTypes.add(Sensor.SENSOR_ONBOARD_HEARTRATE);
 			}
 		}
