@@ -175,11 +175,11 @@ This is a typical technique to calm your self down and prepare for sleep. You st
     - RMSSD Window
     - HR from heartbeat
 
-  3.3 Delete - deletes a session after asking for confirmation
+    3.3 Delete - deletes a session after asking for confirmation
 
-  3.4 Global Settings - [see section 4](#4-global-settings)
+    3.4 Global Settings - [see section 4](#4-global-settings)
 
-  3.5 Configure custom breathwork session
+    3.5 Configure custom breathwork session
 
 Breathwork sessions typically follow some pattern of Inhale, Hold, Exhale, Hold. As all the configured interval alerts run in parallel, you need to use the offset to create such a pattern. For example, to configure 4 Inhale, 7 Hold, 8 Exhale you'd need to do the following:
 
@@ -266,5 +266,12 @@ Currently not, however I'm planning to introduce this feature at some point.
 ### The app crashes the moment I start a session - what can I do?
 
 If the app opens up, but crashes the moment you start a session, it is very likely that your model does not support the selected activity type. Please edit the session and try to use a different activity type. "Generic" should work on all models.
+
+### The app stopped working / I need support
+
+Please be respectful of my time and try these steps before you reach out for support:
+
+- Reinstall the app
+- Reboot your watch
 
 [Data Privacy Policy](/meditate_app_data_privacy)

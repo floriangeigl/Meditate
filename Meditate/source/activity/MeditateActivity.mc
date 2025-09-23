@@ -16,12 +16,9 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 	function initialize(meditateModel, heartbeatIntervalsSensor, meditateDelegate) {
 		var fitSessionSpec;
 		var sessionTime = meditateModel.getSessionTime();
-		var mySettings = System.getDeviceSettings();
-		var version = mySettings.monkeyVersion;
 		// current hypothesis: mediation/yoga/breathwork only supported with api >= 3.3.6
 		// device to version: https://github.com/flocsy/garmin-dev-tools/blob/main/csv/device2all-versions.csv
-		version = version[0] * 10000 + version[1] * 100 + version[2];
-		var supportsActivityTypes = version >= 30306 ? true : false;
+		var supportsActivityTypes = Utils.MonkeyVersionAtLeast([3, 3, 6]);
 		// System.println(version + " " + supportsActivityTypes);
 
 		// Retrieve activity name property from Garmin Express/Connect IQ
@@ -47,7 +44,12 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 		var hrvWindowSize = GlobalSettings.loadHrvWindowTime();
 		me.mMeditateModel = meditateModel;
 		me.mMeditateDelegate = meditateDelegate;
-		HrvAlgorithms.HrvActivity.initialize(fitSessionSpec, meditateModel.getHrvTracking(), heartbeatIntervalsSensor, hrvWindowSize);
+		HrvAlgorithms.HrvActivity.initialize(
+			fitSessionSpec,
+			meditateModel.getHrvTracking(),
+			heartbeatIntervalsSensor,
+			hrvWindowSize
+		);
 		me.mAutoStopEnabled = GlobalSettings.loadAutoStop();
 	}
 
