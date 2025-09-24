@@ -159,6 +159,7 @@ class GraphView extends ScreenPicker.ScreenPickerBaseView {
 			me.minMaxDiff = me.yMax - me.yMin;
 			if (me.minMaxDiff < 1) {
 				var tmpOffset = Math.ceil(me.yMax * 0.1);
+				tmpOffset = tmpOffset < 1 ? 1.0 : tmpOffset;
 				if (me.maxCutSet && me.yMax + tmpOffset < me.maxCut) {
 					me.yMax += tmpOffset;
 				}
