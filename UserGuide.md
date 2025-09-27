@@ -175,11 +175,11 @@ This is a typical technique to calm your self down and prepare for sleep. You st
     - RMSSD Window
     - HR from heartbeat
 
-    3.3 Delete - deletes a session after asking for confirmation
+      3.3 Delete - deletes a session after asking for confirmation
 
-    3.4 Global Settings - [see section 4](#4-global-settings)
+      3.4 Global Settings - [see section 4](#4-global-settings)
 
-    3.5 Configure custom breathwork session
+      3.5 Configure custom breathwork session
 
 Breathwork sessions typically follow some pattern of Inhale, Hold, Exhale, Hold. As all the configured interval alerts run in parallel, you need to use the offset to create such a pattern. For example, to configure 4 Inhale, 7 Hold, 8 Exhale you'd need to do the following:
 
@@ -267,11 +267,33 @@ Currently not, however I'm planning to introduce this feature at some point.
 
 If the app opens up, but crashes the moment you start a session, it is very likely that your model does not support the selected activity type. Please edit the session and try to use a different activity type. "Generic" should work on all models.
 
+### The app does not track stress
+
+Not all devices support continous stress tracking. (e.g., older models like the [Fenix 5X do not support this - it only support snapshot stress measurements](https://www8.garmin.com/manuals/webhelp/fenix5x/EN-US/GUID-20E035CE-CA52-40D0-B202-13403D6FAA51.html)).
+
+#### But the [old version](https://apps.garmin.com/en-US/apps/c5fc5ea5-7d12-4fb9-be9c-701663a39db7) supported stress tracking
+
+The old version used an own algorithm for estimating stress - this new version of the app uses the built-in stress tracking provided by garmin. I frequently got the question why stress did not match with the built-in stress measurement, so I decided to just reuse what is already there.
+
+### The respiratory rate (breaths per minute) is off
+
+This is not specific to this app and there is nothing I can do about this. The app only uses whatever the Garmin sensor provides. You may be able to improve this by using a chest strap that supports HRV and respiratory rate reporting (e.g., hrm-600)
+
 ### The app stopped working / I need support
 
 Please be respectful of my time and try these steps before you reach out for support:
 
+- Restart the app
+- Update the app
 - Reinstall the app
 - Reboot your watch
+
+Please include the following information when reaching out for support:
+
+- Steps you have already taken (e.g., reinstall of the app)
+- When did it stop working? After a recent app update, after a recent watch firmware update, ...
+- Does this feature work with the [old version of this app](https://apps.garmin.com/en-US/apps/c5fc5ea5-7d12-4fb9-be9c-701663a39db7)?
+
+You can reach out to me using the "Contact Developer" link in the Garmin Connect IQ portal.
 
 [Data Privacy Policy](/meditate_app_data_privacy)
