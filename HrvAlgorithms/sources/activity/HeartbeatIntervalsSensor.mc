@@ -30,24 +30,12 @@ module HrvAlgorithms {
 
 		private function enableHrSensor() {
 			// System.println("HR sensor: Enable");
-			if (Sensor has :enableSensorType) {
-				for (var i = 0; i < me.sensorTypes.size(); i++) {
-					Sensor.enableSensorType(me.sensorTypes[i]);
-				}
-			} else {
-				Sensor.setEnabledSensors(me.sensorTypes);
-			}
+			Sensor.setEnabledSensors(me.sensorTypes);
 		}
 
 		private function disableHrSensor() {
 			// System.println("HR sensor: Disable");
-			if (Sensor has :disableSensorType) {
-				for (var i = 0; i < me.sensorTypes.size(); i++) {
-					Sensor.disableSensorType(me.sensorTypes[i]);
-				}
-			} else {
-				Sensor.setEnabledSensors([]);
-			}
+			Sensor.setEnabledSensors([]);
 		}
 
 		function start() {
@@ -77,11 +65,9 @@ module HrvAlgorithms {
 			if (me.running) {
 				// System.println("HR sensor: Stop");
 				Sensor.unregisterSensorDataListener();
-				me.disableHrSensor();
 				me.running = false;
-			} else {
-				// System.println("HR sensor: Can't stop - already stopped");
 			}
+			me.disableHrSensor();
 		}
 
 		function setOneSecBeatToBeatIntervalsSensorListener(listener) {
@@ -89,9 +75,9 @@ module HrvAlgorithms {
 		}
 
 		function getStatus() {
-			return me.numFails < 2
+			return me.numFails < 3
 				? HeartbeatIntervalsSensorStatus.Good
-				: me.numFails < 5
+				: me.numFails < 6
 				? HeartbeatIntervalsSensorStatus.Weak
 				: HeartbeatIntervalsSensorStatus.Error;
 		}
