@@ -257,7 +257,11 @@ You can change over which time-window the HRV is calculated. For reliable measur
 
 ### HRV does not work / shows "waiting"
 
-Please make sure your sensor is correctly positioned on your wrist. If you adapt the position, please give it 10-20seconds until the readings become stable and the status changes. If you don't get reliable readings, you might want to try to position the sensor on the inside of your wrist, or use an external heart rate sensor that supports heart beat intervals. Please also note, that the watch automatically connects to nearby heart rate sensors, sometimes even if they are charging or in standby mode - this might also end up being the root cause of your unrealiable HRV measurements. Putting your watch in flight mode is one approach to see if this might be the issue.
+1. Close and reopen the app - wait at least 30sec - don't move!
+2. Go to the settings within the app and open the "About" page. This resets all sensors. Close and reopen the app. Give it 30sec - don't move!
+3. Make sure your sensor is correctly positioned on your wrist. If you adapt the position, hold still and give it 30sec until the readings become stable.
+4. Reinstall the app
+5. If you don't get reliable readings or wrong readings, you might want to try to position the sensor on the inside of your wrist, or use an external heart rate sensor that supports heart beat intervals. Also note, that the watch automatically connects to nearby heart rate sensors, sometimes even if they are charging or in standby mode - this might also end up being the root cause of your unrealiable HRV measurements. Putting your watch in flight mode is one approach to see if this might be the issue.
 
 ### Can I change the name of the session on the watch
 
