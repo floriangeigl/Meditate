@@ -30,12 +30,24 @@ module HrvAlgorithms {
 
 		private function enableHrSensor() {
 			// System.println("HR sensor: Enable");
-			Sensor.setEnabledSensors(me.sensorTypes);
+			if (Sensor has :enableSensorType) {
+				for (var i = 0; i < me.sensorTypes.size(); i++) {
+					Sensor.enableSensorType(me.sensorTypes[i]);
+				}
+			} else {
+				Sensor.setEnabledSensors(me.sensorTypes);
+			}
 		}
 
 		private function disableHrSensor() {
 			// System.println("HR sensor: Disable");
-			Sensor.setEnabledSensors([]);
+			if (Sensor has :disableSensorType) {
+				for (var i = 0; i < me.sensorTypes.size(); i++) {
+					Sensor.disableSensorType(me.sensorTypes[i]);
+				}
+			} else {
+				Sensor.setEnabledSensors([]);
+			}
 		}
 
 		function start() {
@@ -46,8 +58,6 @@ module HrvAlgorithms {
 				me.enableHrSensor();
 				me.registerListener();
 				me.running = true;
-			} else {
-				// System.println("HR sensor: Can't start - already running");
 			}
 		}
 
@@ -65,9 +75,9 @@ module HrvAlgorithms {
 			if (me.running) {
 				// System.println("HR sensor: Stop");
 				Sensor.unregisterSensorDataListener();
+				me.disableHrSensor();
 				me.running = false;
 			}
-			me.disableHrSensor();
 		}
 
 		function setOneSecBeatToBeatIntervalsSensorListener(listener) {
