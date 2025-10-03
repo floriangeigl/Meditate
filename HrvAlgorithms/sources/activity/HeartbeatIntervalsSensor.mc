@@ -26,7 +26,6 @@ module HrvAlgorithms {
 			if (Sensor has :SENSOR_ONBOARD_HEARTRATE) {
 				sensorTypes.add(Sensor.SENSOR_ONBOARD_HEARTRATE);
 			}
-			Sensor.setEnabledSensors([]);
 		}
 
 		private function enableHrSensor() {
