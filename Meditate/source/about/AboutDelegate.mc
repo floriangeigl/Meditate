@@ -13,6 +13,7 @@ class AboutDelegate extends ScreenPicker.ScreenPickerDelegate {
 		me.mGlobalSettingsDetailsModel = new ScreenPicker.DetailsModel();
 		me.mSessionPickerDelegate = sessionPickerDelegate;
 		updateAboutDetails();
+		Sensor.setEnabledSensors([]);
 	}
 
 	private var mGlobalSettingsTitle;
