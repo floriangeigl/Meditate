@@ -39,6 +39,7 @@
     <string id="menuGlobalSettings_finalizeTime">Abschl.-Zeit</string>
     <string id="menuGlobalSettings_respiration">Atmung: </string>
     <string id="menuGlobalSettings_save">Speich.: </string>
+    <string id="menuGlobalSettings_externalSensor">Externer Sensor</string>
 
     <string id="menuNewActivityTypeOptions_title">Aktivität</string>
     <string id="menuNewActivityTypeOptions_meditating">Meditieren</string>
@@ -81,6 +82,10 @@
     <string id="menuAutoStopOptions_title">Auto Stopp</string>
     <string id="menuAutoStopOptions_on">Ein (Standard)</string>
     <string id="menuAutoStopOptions_off">Aus</string>
+
+    <string id="menuExternalSensorOptions_title">Externer Sensor</string>
+    <string id="menuExternalSensorOptions_on">Ein</string>
+    <string id="menuExternalSensorOptions_off">Aus (Standard)</string>
 
     <string id="menuColorThemeOptions_title">Farbschema</string>
     <string id="menuColorThemeOptions_light">Hell</string>

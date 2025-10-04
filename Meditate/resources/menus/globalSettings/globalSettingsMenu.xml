@@ -10,4 +10,5 @@
     <menu-item id="hrvWindow" label="@Strings.menuHrvWindowSizeOptions_title" />
     <menu-item id="respirationRate" label="@Strings.menuGlobalSettings_respirationRate" />
     <menu-item id="multiSession" label="@Strings.menuGlobalSettings_multiSession" />
+    <menu-item id="externalSensor" label="@Strings.menuGlobalSettings_externalSensor" />
 </menu>
