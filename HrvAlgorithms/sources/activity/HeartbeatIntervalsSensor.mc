@@ -11,8 +11,7 @@ module HrvAlgorithms {
 		private var totalIntervals;
 		private var sensorRestarts;
 		private var running;
-		private const softResetSeconds = 15;
-		private const hardResetSeconds = 60;
+		private const resetSeconds = 30;
 		private var sensorTypes;
 
 		function initialize(external_sensor) {
@@ -86,18 +85,11 @@ module HrvAlgorithms {
 		}
 
 		function ensureSensorHealth() {
-			if (
-				me.numFails >= softResetSeconds &&
-				(me.numFails % softResetSeconds == 0 || me.numFails % hardResetSeconds == 0)
-			) {
+			if (me.numFails >= resetSeconds && me.numFails % resetSeconds == 0) {
 				me.registerListener();
-				// System.println("HR sensor: Soft reset");
-				if (me.numFails >= hardResetSeconds && me.numFails % hardResetSeconds == 0) {
-					// System.println("HR sensor: Hard reset");
-					me.stop();
-					me.start();
-				}
-
+				// System.println("HR sensor: reset");
+				me.stop();
+				me.start();
 				me.sensorRestarts += 1;
 			}
 		}
