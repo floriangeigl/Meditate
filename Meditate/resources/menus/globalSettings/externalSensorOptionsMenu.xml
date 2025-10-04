@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu id="externalSensorOptionsMenu" title="@Strings.menuExternalSensorOptions_title">
+    <menu-item id="on" label="@Strings.menuExternalSensorOptions_on" />
+    <menu-item id="off" label="@Strings.menuExternalSensorOptions_off" />
+</menu>
