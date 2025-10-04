@@ -259,9 +259,10 @@ You can change over which time-window the HRV is calculated. For reliable measur
 
 1. Close and reopen the app - wait at least 30sec - don't move!
 2. Go to the settings within the app and open the "About" page. This resets all sensors. Close and reopen the app. Give it 30sec - don't move!
-3. Make sure your sensor is correctly positioned on your wrist. If you adapt the position, hold still and give it 30sec until the readings become stable.
-4. Reinstall the app
-5. If you don't get reliable readings or wrong readings, you might want to try to position the sensor on the inside of your wrist, or use an external heart rate sensor that supports heart beat intervals. Also note, that the watch automatically connects to nearby heart rate sensors, sometimes even if they are charging or in standby mode - this might also end up being the root cause of your unrealiable HRV measurements. Putting your watch in flight mode is one approach to see if this might be the issue.
+3. If you are NOT using any external heart rate sensor (e.g., hr chest strap) for the session, go to the connectivity settings of your watch (not the settings in the app!) and make sure all external sensors are disconnected and set to off (so they don't automatically and silently connect in the background when starting a session and mess up your heart rate readings). E.g., You just came home from a run, and the chest strap is still somewhere close by, the watch would automatically connect to it again even if you don't wear the chest strap/it's in standby mode/it's charging.
+4. Make sure your sensor is correctly positioned on your wrist. If you adapt the position, hold still and give it 30sec until the readings become stable.
+5. Reinstall the app
+6. If you don't get reliable readings or wrong readings, you might want to try to position the sensor on the inside of your wrist, or use an external heart rate sensor that supports heart beat intervals. If you are using an external sensor, please make sure to activate "External Sensor" in the global settings and restart the app.
 
 ### Can I change the name of the session on the watch
 

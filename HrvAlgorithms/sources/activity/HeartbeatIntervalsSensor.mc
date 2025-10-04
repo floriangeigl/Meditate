@@ -11,43 +11,35 @@ module HrvAlgorithms {
 		private var totalIntervals;
 		private var sensorRestarts;
 		private var running;
-		private const softResetSeconds = 15;
-		private const hardResetSeconds = 60;
+		private const resetSeconds = 30;
 		private var sensorTypes;
 
-		function initialize() {
+		function initialize(external_sensor) {
 			// System.println("HR sensor: Init");
 			me.numFails = 10;
 			me.totalTime = 0;
 			me.totalIntervals = 0.0;
 			me.sensorRestarts = 0;
 			me.running = false;
-			me.sensorTypes = [Sensor.SENSOR_HEARTRATE];
+			me.sensorTypes = [];
 			if (Sensor has :SENSOR_ONBOARD_HEARTRATE) {
 				sensorTypes.add(Sensor.SENSOR_ONBOARD_HEARTRATE);
+				if (external_sensor) {
+					sensorTypes.add(Sensor.SENSOR_HEARTRATE);
+				}
+			} else {
+				sensorTypes.add(Sensor.SENSOR_HEARTRATE);
 			}
 		}
 
 		private function enableHrSensor() {
 			// System.println("HR sensor: Enable");
-			if (Sensor has :enableSensorType) {
-				for (var i = 0; i < me.sensorTypes.size(); i++) {
-					Sensor.enableSensorType(me.sensorTypes[i]);
-				}
-			} else {
-				Sensor.setEnabledSensors(me.sensorTypes);
-			}
+			Sensor.setEnabledSensors(me.sensorTypes);
 		}
 
 		private function disableHrSensor() {
 			// System.println("HR sensor: Disable");
-			if (Sensor has :disableSensorType) {
-				for (var i = 0; i < me.sensorTypes.size(); i++) {
-					Sensor.disableSensorType(me.sensorTypes[i]);
-				}
-			} else {
-				Sensor.setEnabledSensors([]);
-			}
+			Sensor.setEnabledSensors([]);
 		}
 
 		function start() {
@@ -93,18 +85,11 @@ module HrvAlgorithms {
 		}
 
 		function ensureSensorHealth() {
-			if (
-				me.numFails >= softResetSeconds &&
-				(me.numFails % softResetSeconds == 0 || me.numFails % hardResetSeconds == 0)
-			) {
+			if (me.numFails >= resetSeconds && me.numFails % resetSeconds == 0) {
 				me.registerListener();
-				// System.println("HR sensor: Soft reset");
-				if (me.numFails >= hardResetSeconds && me.numFails % hardResetSeconds == 0) {
-					// System.println("HR sensor: Hard reset");
-					me.stop();
-					me.start();
-				}
-
+				// System.println("HR sensor: reset");
+				me.stop();
+				me.start();
 				me.sensorRestarts += 1;
 			}
 		}

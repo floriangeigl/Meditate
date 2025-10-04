@@ -39,6 +39,7 @@
     <string id="menuGlobalSettings_finalizeTime">Tiempo Finalización</string>
     <string id="menuGlobalSettings_respiration">Respiración: </string>
     <string id="menuGlobalSettings_save">Guardar: </string>
+    <string id="menuGlobalSettings_externalSensor">Sensor externo</string>
 
     <string id="menuNewActivityTypeOptions_title">Actividad</string>
     <string id="menuNewActivityTypeOptions_yoga">Yoga</string>
@@ -81,6 +82,10 @@
     <string id="menuAutoStopOptions_title">Parada Auto</string>
     <string id="menuAutoStopOptions_on">Activ. (Predet.)</string>
     <string id="menuAutoStopOptions_off">Des.</string>
+
+    <string id="menuExternalSensorOptions_title">Sensor Externo</string>
+    <string id="menuExternalSensorOptions_on">Activado</string>
+    <string id="menuExternalSensorOptions_off">Desactivado (Predet.)</string>
 
     <string id="menuColorThemeOptions_title">Tema</string>
     <string id="menuColorThemeOptions_light">Claro</string>
@@ -182,7 +187,7 @@
 
     <string id="optionsMenuHelp">Mantén menú</string>
 
-    <string id="about_AppVersion">v10.4.13</string>
+    <string id="about_AppVersion">v10.5.0</string>
     <string id="about_floriangeigl">floriangeigl</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>

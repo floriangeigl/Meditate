@@ -37,6 +37,7 @@
     <string id="menuGlobalSettings_colorTheme">Color Theme</string>
     <string id="menuGlobalSettings_prepareTime">Prepare Time</string>
     <string id="menuGlobalSettings_finalizeTime">Finalize Time</string>
+    <string id="menuGlobalSettings_externalSensor">External Sensor</string>
     <string id="menuGlobalSettings_respiration">Respiration: </string>
     <string id="menuGlobalSettings_save">Save: </string>
 
@@ -82,6 +83,10 @@
     <string id="menuAutoStopOptions_title">Auto Stop</string>
     <string id="menuAutoStopOptions_on">On (Default)</string>
     <string id="menuAutoStopOptions_off">Off</string>
+
+    <string id="menuExternalSensorOptions_title">External Sensor</string>
+    <string id="menuExternalSensorOptions_on">On</string>
+    <string id="menuExternalSensorOptions_off">Off (Default)</string>
 
     <string id="menuColorThemeOptions_title">Color Theme</string>
     <string id="menuColorThemeOptions_light">Light</string>
@@ -184,7 +189,7 @@
 
     <string id="optionsMenuHelp">Hold menu</string>
 
-    <string id="about_AppVersion">v10.4.13</string>
+    <string id="about_AppVersion">v10.5.0</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>
     <string id="about_falsetru">falsetru</string>

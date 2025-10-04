@@ -46,6 +46,9 @@ class GlobalSettingsMenuDelegate extends Ui.MenuInputDelegate {
 		} else if (item == :colorTheme) {
 			var colorThemeDelegate = new MenuOptionsDelegate(method(:onColorThemePicked));
 			Ui.pushView(new Rez.Menus.colorThemeOptionsMenu(), colorThemeDelegate, Ui.SLIDE_LEFT);
+		} else if (item == :externalSensor) {
+			var externalSensorDelegate = new MenuOptionsDelegate(method(:onExternalSensorPicked));
+			Ui.pushView(new Rez.Menus.externalSensorOptionsMenu(), externalSensorDelegate, Ui.SLIDE_LEFT);
 		} else if (item == :hrvWindow) {
 			var hrvWindowSizeDelegate = new MenuOptionsDelegate(method(:onHrvWindowSizePicked));
 			Ui.pushView(new Rez.Menus.hrvWindowSizeOptionsMenu(), hrvWindowSizeDelegate, Ui.SLIDE_LEFT);
@@ -160,6 +163,15 @@ class GlobalSettingsMenuDelegate extends Ui.MenuInputDelegate {
 		mOnGlobalSettingsChanged.invoke();
 	}
 
+	function onExternalSensorPicked(item) {
+		if (item == :on) {
+			GlobalSettings.saveExternalSensor(ExternalSensor.On);
+		} else if (item == :off) {
+			GlobalSettings.saveExternalSensor(ExternalSensor.Off);
+		}
+		mOnGlobalSettingsChanged.invoke();
+	}
+
 	function onNewActivityTypePicked(item) {
 		if (item == :meditating) {
 			GlobalSettings.saveActivityType(ActivityType.Meditating);
@@ -190,13 +202,13 @@ class GlobalSettingsMenuDelegate extends Ui.MenuInputDelegate {
 		} else if (item == :time_1m) {
 			GlobalSettings.saveHrvWindowTime(60);
 		} else if (item == :time_2m) {
-			GlobalSettings.saveHrvWindowTime(60*2);
+			GlobalSettings.saveHrvWindowTime(60 * 2);
 		} else if (item == :time_3m) {
-			GlobalSettings.saveHrvWindowTime(60*3);
+			GlobalSettings.saveHrvWindowTime(60 * 3);
 		} else if (item == :time_5m) {
-			GlobalSettings.saveHrvWindowTime(60*5);
+			GlobalSettings.saveHrvWindowTime(60 * 5);
 		} else if (item == :time_10m) {
-			GlobalSettings.saveHrvWindowTime(60*10);
+			GlobalSettings.saveHrvWindowTime(60 * 10);
 		}
 		mOnGlobalSettingsChanged.invoke();
 	}

@@ -1,6 +1,11 @@
 <strings>
 	<string id="AppName">명상</string>
 	<string id="ConfirmSaveHeader">저장하시겠습니까?</string>
+
+	<string id="menuExternalSensorOptions_title">외부 센서</string>
+	<string id="menuExternalSensorOptions_on">켜기</string>
+	<string id="menuExternalSensorOptions_off">끄기 (기본)</string>
+
 	<string id="confirmDeleteSessionHeader">삭제하시겠습니까?</string>
 	<string id="confirmDeleteAllIntervalAlertsHeader">모든 알림을 제거합니까?</string>
 
@@ -39,6 +44,7 @@
 	<string id="menuGlobalSettings_finalizeTime">마무리 시간</string>
 	<string id="menuGlobalSettings_respiration">호흡: </string>
 	<string id="menuGlobalSettings_save">저장: </string>
+	<string id="menuGlobalSettings_externalSensor">외부 센서</string>
 
 	<string id="menuNewActivityTypeOptions_title">활동</string>
 	<string id="menuNewActivityTypeOptions_meditating">명상</string>
@@ -182,7 +188,7 @@
 
 	<string id="optionsMenuHelp">메뉴 길게</string>
 
-	<string id="about_AppVersion">v10.4.13</string>
+	<string id="about_AppVersion">v10.5.0</string>
 	<string id="about_vtrifonov">vtrifonov</string>
 	<string id="about_dliedke">dliedke</string>
 	<string id="about_falsetru">falsetru</string>
