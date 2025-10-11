@@ -79,7 +79,7 @@ class Alert {
 			"time" => me.time,
 			"offset" => me.offset,
 			"color" => me.color,
-			"vibePattern" => me.vibePattern,
+			"vibePattern" => me.vibePattern
 		};
 	}
 
