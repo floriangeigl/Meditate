@@ -83,7 +83,36 @@ class IntervalAlertsMenuDelegate extends Ui.Menu2InputDelegate {
 	function onDeleteIntervalAlert(intervalAlertIndex) {
 		me.mIntervalAlerts.delete(intervalAlertIndex);
 		if (me.mEditIntervalAlertsMenu != null) {
+			// Remove the visual item
 			me.mEditIntervalAlertsMenu.deleteItem(intervalAlertIndex);
+			// Reindex remaining items so MenuItem ids match their new list indices
+			for (var i = 0; i < me.mIntervalAlerts.size(); i++) {
+				var intervalAlert = me.mIntervalAlerts.get(i);
+				var typeText;
+				if (intervalAlert.type == IntervalAlertType.OneOff) {
+					typeText = Ui.loadResource(Rez.Strings.intervalTypeMenu_oneOff);
+					me.mEditIntervalAlertsMenu.updateItem(
+						new Ui.MenuItem(
+							Lang.format("$1$ $2$", [typeText, TimeFormatter.format(intervalAlert.time)]),
+							"",
+							i,
+							{}
+						),
+						i
+					);
+				} else {
+					typeText = Ui.loadResource(Rez.Strings.intervalTypeMenu_repeat);
+					me.mEditIntervalAlertsMenu.updateItem(
+						new Ui.MenuItem(
+							Lang.format("$1$ $2$", [typeText, TimeFormatter.formatMinSec(intervalAlert.time)]),
+							"",
+							i,
+							{}
+						),
+						i
+					);
+				}
+			}
 		}
 		me.updateMenuItems();
 		me.mOnIntervalAlertsChanged.invoke(me.mIntervalAlerts);

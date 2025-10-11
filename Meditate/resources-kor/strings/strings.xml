@@ -179,6 +179,7 @@
 	<string id="activityNameMeditate">명상</string>
 	<string id="activityNameYoga">요가</string>
 	<string id="activityNameBreathing">호흡</string>
+	<string id="activityNameGeneric">일반</string>
 	<string id="sessionTitleMeditate">명상 🧘</string>
 	<string id="sessionTitleYoga">요가 🧘</string>
 	<string id="sessionTitleBreathing">호흡 🌬️</string>

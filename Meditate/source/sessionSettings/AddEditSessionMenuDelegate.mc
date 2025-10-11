@@ -35,10 +35,8 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 			var hours = totalMinutes / 60;
 			var minutes = totalMinutes % 60;
 			// Clamp to picker ranges
-			if (hours < 0) { hours = 0; }
-			if (hours > 9) { hours = 9; }
-			if (minutes < 0) { minutes = 0; }
-			if (minutes > 59) { minutes = 59; }
+			hours = Utils.clampToRange(hours, 0, 9);
+			minutes = Utils.clampToRange(minutes, 0, 59);
 			
 			// Use custom two-column picker with themed background
 			var titleString = Ui.loadResource(Rez.Strings.pickHMM);

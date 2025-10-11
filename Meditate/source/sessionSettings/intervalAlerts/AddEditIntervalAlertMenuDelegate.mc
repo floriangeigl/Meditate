@@ -175,10 +175,8 @@ class AddEditIntervalAlertMenuDelegate extends Ui.Menu2InputDelegate {
 			var minutes = initialValue / 60;
 			var seconds = initialValue % 60;
 			// Clamp to picker ranges
-			if (minutes < 0) { minutes = 0; }
-			if (minutes > 59) { minutes = 59; }
-			if (seconds < 0) { seconds = 0; }
-			if (seconds > 59) { seconds = 59; }
+			minutes = Utils.clampToRange(minutes, 0, 59);
+			seconds = Utils.clampToRange(seconds, 0, 59);
 			
 			var titleString = Ui.loadResource(Rez.Strings.pickMMSS);
 			if (titleString == null) { titleString = "Offset"; }
@@ -284,10 +282,8 @@ class AddEditIntervalAlertMenuDelegate extends Ui.Menu2InputDelegate {
 			var hours = totalMinutes / 60;
 			var minutes = totalMinutes % 60;
 			// Clamp to picker ranges
-			if (hours < 0) { hours = 0; }
-			if (hours > 9) { hours = 9; }
-			if (minutes < 0) { minutes = 0; }
-			if (minutes > 59) { minutes = 59; }
+			hours = Utils.clampToRange(hours, 0, 9);
+			minutes = Utils.clampToRange(minutes, 0, 59);
 			
 			var titleString = Ui.loadResource(Rez.Strings.pickHMM);
 			if (titleString == null) { titleString = "Duration"; }
@@ -303,10 +299,8 @@ class AddEditIntervalAlertMenuDelegate extends Ui.Menu2InputDelegate {
 			var minutes = initialValue / 60;
 			var seconds = initialValue % 60;
 			// Clamp to picker ranges
-			if (minutes < 0) { minutes = 0; }
-			if (minutes > 59) { minutes = 59; }
-			if (seconds < 0) { seconds = 0; }
-			if (seconds > 59) { seconds = 59; }
+			minutes = Utils.clampToRange(minutes, 0, 59);
+			seconds = Utils.clampToRange(seconds, 0, 59);
 			
 			var titleString = Ui.loadResource(Rez.Strings.pickMMSS);
 			if (titleString == null) { titleString = "Duration"; }

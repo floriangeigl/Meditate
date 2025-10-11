@@ -24,8 +24,16 @@ class TwoColumnPickerView extends Ui.View {
         mRightMax = options[:rightMax];
         mRightPad = options[:rightPad];
         mRightSuffix = options[:rightSuffix];
-        mLeftValue = options[:leftValue];
-        mRightValue = options[:rightValue];
+        // Initialize current values with provided options or fall back to min bounds
+        var _lv = options[:leftValue];
+        var _rv = options[:rightValue];
+        mLeftValue = (_lv == null) ? mLeftMin : _lv;
+        mRightValue = (_rv == null) ? mRightMin : _rv;
+        // Clamp to valid ranges to avoid out-of-bounds
+        if (mLeftValue < mLeftMin) { mLeftValue = mLeftMin; }
+        if (mLeftValue > mLeftMax) { mLeftValue = mLeftMax; }
+        if (mRightValue < mRightMin) { mRightValue = mRightMin; }
+        if (mRightValue > mRightMax) { mRightValue = mRightMax; }
         mSelectedCol = 0;
 
         var colorTheme = GlobalSettings.loadColorTheme();
@@ -91,7 +99,6 @@ class TwoColumnPickerView extends Ui.View {
         dc.drawText(width/2, height*0.12, Gfx.FONT_SYSTEM_MEDIUM, titleStr, Gfx.TEXT_JUSTIFY_CENTER);
 
         // Layout columns
-        var colWidth = width * 0.42; // leave some space for ':'
         var leftX = width * 0.27;
         var rightX = width * 0.73;
         var centerY = height * 0.55;
@@ -153,11 +160,7 @@ class TwoColumnPickerDelegate extends Ui.BehaviorDelegate {
             return true;
         } else if (key == Ui.KEY_ENTER) {
             // If currently on left, move to right; if on right, accept
-            // We need selected column; add a simple heuristic using a toggle
-            // Simpler: try switching; if already right, accept
-            // Provide explicit getter in view for clarity
-            if (mView.getValues() != null) { /* no-op: values used only to ensure view exists */ }
-            if (mView != null && mView.getSelectedColumn() == 0) {
+            if (mView.getSelectedColumn() == 0) {
                 mView.setSelectedColumn(1);
                 return true;
             }
