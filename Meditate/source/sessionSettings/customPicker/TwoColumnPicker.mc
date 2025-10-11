@@ -157,7 +157,7 @@ class TwoColumnPickerDelegate extends Ui.BehaviorDelegate {
             // Simpler: try switching; if already right, accept
             // Provide explicit getter in view for clarity
             if (mView.getValues() != null) { /* no-op: values used only to ensure view exists */ }
-            if (mView.getSelectedColumn != null && mView.getSelectedColumn() == 0) {
+            if (mView != null && mView.getSelectedColumn() == 0) {
                 mView.setSelectedColumn(1);
                 return true;
             }
