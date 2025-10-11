@@ -170,13 +170,26 @@ class AddEditIntervalAlertMenuDelegate extends Ui.Menu2InputDelegate {
 		} else if (id == :offset) {
 			me.notifyIntervalAlertChanged();
 
-			var durationPickerModel = new DurationPickerModel(4);
-			var timeLayoutBuilder = me.createTimeLayoutMmSsBuilder();
-			var durationPickerDelgate = new DurationPickerDelegate(durationPickerModel, method(:onOffsetPicked));
-			var view = new DurationPickerView(durationPickerModel, timeLayoutBuilder);
-			// Push the duration picker on top of this menu so that when the picker
-			// pops itself the user returns to this Add/Edit Interval Alert menu.
-			Ui.pushView(view, durationPickerDelgate, Ui.SLIDE_IMMEDIATE);
+			// Use custom two-column picker for MM:SS format
+			var initialValue = me.mIntervalAlert.offset != null ? me.mIntervalAlert.offset : 0;
+			var minutes = initialValue / 60;
+			var seconds = initialValue % 60;
+			// Clamp to picker ranges
+			if (minutes < 0) { minutes = 0; }
+			if (minutes > 59) { minutes = 59; }
+			if (seconds < 0) { seconds = 0; }
+			if (seconds > 59) { seconds = 59; }
+			
+			var titleString = Ui.loadResource(Rez.Strings.pickMMSS);
+			if (titleString == null) { titleString = "Offset"; }
+			var view = new TwoColumnPickerView({
+				:title => titleString, :isHourMinute => false,
+				:leftMin => 0, :leftMax => 59, :leftPad => 2, :leftSuffix => "m",
+				:rightMin => 0, :rightMax => 59, :rightPad => 2, :rightSuffix => "s",
+				:leftValue => minutes, :rightValue => seconds,
+			});
+			var delegate = new TwoColumnPickerDelegate(view, method(:onOffsetPicked), false);
+			Ui.pushView(view, delegate, Ui.SLIDE_IMMEDIATE);
 		} else if (id == :color) {
 			var colors = [
 				Gfx.COLOR_RED,
@@ -221,17 +234,16 @@ class AddEditIntervalAlertMenuDelegate extends Ui.Menu2InputDelegate {
 		me.notifyChangeTimer = null;
 	}
 
-	function onOneOffDurationPicked(digits) {
-		var durationInMins = digits[0] * 60 + digits[1] * 10 + digits[2];
-		var durationInSeconds = durationInMins * 60;
-		me.mIntervalAlert.time = durationInSeconds;
+	function onOneOffDurationPicked(value) {
+		// value is total seconds from TwoColumnPicker
+		me.mIntervalAlert.time = value;
 		me.notifyIntervalAlertChanged();
 		me.updateMenuItems();
 	}
 
-	function onRepeatDurationPicked(digits) {
-		var durationInSeconds = digits[0] * 600 + digits[1] * 60 + digits[2] * 10 + digits[3];
-		me.mIntervalAlert.time = durationInSeconds;
+	function onRepeatDurationPicked(value) {
+		// value is total seconds from TwoColumnPicker
+		me.mIntervalAlert.time = value;
 		me.notifyIntervalAlertChanged();
 		me.updateMenuItems();
 	}
@@ -249,9 +261,9 @@ class AddEditIntervalAlertMenuDelegate extends Ui.Menu2InputDelegate {
 		me.updateMenuItems();
 	}
 
-	function onOffsetPicked(digits) {
-		var offsetInSeconds = digits[0] * 600 + digits[1] * 60 + digits[2] * 10 + digits[3];
-		me.mIntervalAlert.offset = offsetInSeconds;
+	function onOffsetPicked(value) {
+		// value is total seconds from TwoColumnPicker
+		me.mIntervalAlert.offset = value;
 		me.notifyIntervalAlertChanged();
 		me.updateMenuItems();
 	}
@@ -260,49 +272,58 @@ class AddEditIntervalAlertMenuDelegate extends Ui.Menu2InputDelegate {
 		me.mIntervalAlert.type = type;
 		me.notifyIntervalAlertChanged();
 
-		var durationPickerModel;
-		var durationPickerDelgate;
-		var timeLayoutBuilder;
+		var initialValue = me.mIntervalAlert.time != null ? me.mIntervalAlert.time : 0;
+		
+		// Determine text color based on color theme (default to white if theme not set)
+		var picker;
+		var pickerDelegate;
+		
 		if (type == IntervalAlertType.OneOff) {
-			durationPickerModel = new DurationPickerModel(3);
-			timeLayoutBuilder = me.createTimeLayoutHmmBuilder();
-			durationPickerDelgate = new DurationPickerDelegate(durationPickerModel, method(:onOneOffDurationPicked));
+			// For one-off: H:MM format
+			var totalMinutes = initialValue / 60;
+			var hours = totalMinutes / 60;
+			var minutes = totalMinutes % 60;
+			// Clamp to picker ranges
+			if (hours < 0) { hours = 0; }
+			if (hours > 9) { hours = 9; }
+			if (minutes < 0) { minutes = 0; }
+			if (minutes > 59) { minutes = 59; }
+			
+			var titleString = Ui.loadResource(Rez.Strings.pickHMM);
+			if (titleString == null) { titleString = "Duration"; }
+			picker = new TwoColumnPickerView({
+				:title => titleString, :isHourMinute => true,
+				:leftMin => 0, :leftMax => 9, :leftPad => 1, :leftSuffix => "h",
+				:rightMin => 0, :rightMax => 59, :rightPad => 2, :rightSuffix => "m",
+				:leftValue => hours, :rightValue => minutes,
+			});
+			pickerDelegate = new TwoColumnPickerDelegate(picker, method(:onOneOffDurationPicked), true);
 		} else {
-			durationPickerModel = new DurationPickerModel(4);
-			timeLayoutBuilder = me.createTimeLayoutMmSsBuilder();
-			durationPickerDelgate = new DurationPickerDelegate(durationPickerModel, method(:onRepeatDurationPicked));
+			// For repeat: MM:SS format
+			var minutes = initialValue / 60;
+			var seconds = initialValue % 60;
+			// Clamp to picker ranges
+			if (minutes < 0) { minutes = 0; }
+			if (minutes > 59) { minutes = 59; }
+			if (seconds < 0) { seconds = 0; }
+			if (seconds > 59) { seconds = 59; }
+			
+			var titleString = Ui.loadResource(Rez.Strings.pickMMSS);
+			if (titleString == null) { titleString = "Duration"; }
+			picker = new TwoColumnPickerView({
+				:title => titleString, :isHourMinute => false,
+				:leftMin => 0, :leftMax => 59, :leftPad => 2, :leftSuffix => "m",
+				:rightMin => 0, :rightMax => 59, :rightPad => 2, :rightSuffix => "s",
+				:leftValue => minutes, :rightValue => seconds,
+			});
+			pickerDelegate = new TwoColumnPickerDelegate(picker, method(:onRepeatDurationPicked), false);
 		}
-		var view = new DurationPickerView(durationPickerModel, timeLayoutBuilder);
+		
 		// Push the duration picker on top of this menu so the user remains in
 		// the Add/Edit Interval Alert menu after finishing the picker.
-		Ui.pushView(view, durationPickerDelgate, Ui.SLIDE_IMMEDIATE);
+		Ui.pushView(picker, pickerDelegate, Ui.SLIDE_IMMEDIATE);
 		me.updateMenuItems();
 	}
-
-	private function createTimeLayoutMmSsBuilder() {
-		var digitsLayout = new DigitsLayoutBuilder(Gfx.FONT_SYSTEM_TINY);
-		var outputXOffset = App.getApp().getProperty("mmssTimePickerOutputXOffset");
-		digitsLayout.setOutputXOffset(outputXOffset);
-		digitsLayout.addInitialHint(Ui.loadResource(Rez.Strings.pickMMSS));
-		digitsLayout.addDigit({ :minValue => 0, :maxValue => 5 });
-		digitsLayout.addDigit({ :minValue => 0, :maxValue => 9 });
-		digitsLayout.addSeparator("m");
-		digitsLayout.addDigit({ :minValue => 0, :maxValue => 5 });
-		digitsLayout.addDigit({ :minValue => 0, :maxValue => 9 });
-		digitsLayout.addSeparator("s");
-		return digitsLayout;
-	}
-
-	private function createTimeLayoutHmmBuilder() {
-		var digitsLayout = new DigitsLayoutBuilder(Gfx.FONT_SYSTEM_TINY);
-		var outputXOffset = App.getApp().getProperty("hmmTimePickerOutputXOffset");
-		digitsLayout.setOutputXOffset(outputXOffset);
-		digitsLayout.addInitialHint(Ui.loadResource(Rez.Strings.pickHMM));
-		digitsLayout.addDigit({ :minValue => 0, :maxValue => 9 });
-		digitsLayout.addSeparator("h");
-		digitsLayout.addDigit({ :minValue => 0, :maxValue => 5 });
-		digitsLayout.addDigit({ :minValue => 0, :maxValue => 9 });
-		digitsLayout.addSeparator("m");
-		return digitsLayout;
-	}
 }
+
+// (Removed) IntervalOffsetPickerDelegate and IntervalDurationPickerDelegate: superseded by TwoColumnPickerDelegate

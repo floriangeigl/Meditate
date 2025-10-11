@@ -17,19 +17,6 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 		me.mMenu = menu;
 	}
 
-	private function createHmmTimeLayoutBuilder() {
-		var digitsLayout = new DigitsLayoutBuilder(Gfx.FONT_TINY);
-		var outputXOffset = App.getApp().getProperty("hmmTimePickerOutputXOffset");
-		digitsLayout.setOutputXOffset(outputXOffset);
-		digitsLayout.addInitialHint(Ui.loadResource(Rez.Strings.pickHMM));
-		digitsLayout.addDigit({ :minValue => 0, :maxValue => 9 });
-		digitsLayout.addSeparator("h");
-		digitsLayout.addDigit({ :minValue => 0, :maxValue => 5 });
-		digitsLayout.addDigit({ :minValue => 0, :maxValue => 9 });
-		digitsLayout.addSeparator("m");
-		return digitsLayout;
-	}
-
 	// Menu2 selection handler
 	function onSelect(item) {
 		var id = item.getId();
@@ -42,13 +29,29 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 			return;
 		}
 		if (id == :time) {
-			var durationPickerModel = new DurationPickerModel(3);
-			var hMmTimeLayoutBuilder = createHmmTimeLayoutBuilder();
-			Ui.pushView(
-				new DurationPickerView(durationPickerModel, hMmTimeLayoutBuilder),
-				new DurationPickerDelegate(durationPickerModel, method(:onHmmDigitsPicked)),
-				Ui.SLIDE_LEFT
-			);
+			// Calculate initial hours and minutes from session time (stored in seconds)
+			var totalSeconds = (me.mSessionModel != null && me.mSessionModel.time != null) ? me.mSessionModel.time : 0;
+			var totalMinutes = totalSeconds / 60;
+			var hours = totalMinutes / 60;
+			var minutes = totalMinutes % 60;
+			// Clamp to picker ranges
+			if (hours < 0) { hours = 0; }
+			if (hours > 9) { hours = 9; }
+			if (minutes < 0) { minutes = 0; }
+			if (minutes > 59) { minutes = 59; }
+			
+			// Use custom two-column picker with themed background
+			var titleString = Ui.loadResource(Rez.Strings.pickHMM);
+			if (titleString == null) { titleString = "Duration"; }
+			var view = new TwoColumnPickerView({
+				:title => titleString,
+				:isHourMinute => true,
+				:leftMin => 0, :leftMax => 9, :leftPad => 1, :leftSuffix => "h",
+				:rightMin => 0, :rightMax => 59, :rightPad => 2, :rightSuffix => "m",
+				:leftValue => hours, :rightValue => minutes,
+			});
+			var delegate = new TwoColumnPickerDelegate(view, method(:onTimePicked), true);
+			Ui.pushView(view, delegate, Ui.SLIDE_LEFT);
 		} else if (id == :color) {
 			var colors = [
 				Gfx.COLOR_BLUE,
@@ -344,10 +347,10 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 		Vibe.vibrate(vibePattern);
 	}
 
-	function onHmmDigitsPicked(digits) {
+	function onTimePicked(value) {
 		var sessionModel = new SessionModel();
-		var durationMins = digits[0] * 60 + digits[1] * 10 + digits[2];
-		sessionModel.time = durationMins * 60;
+		// value is total seconds from TwoColumnPicker
+		sessionModel.time = value;
 		me.mSessionModel.copyNonNullFieldsFromSession(sessionModel);
 		me.mOnChangeSession.invoke(sessionModel);
 		me.updateMenuItems();
@@ -371,3 +374,5 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 		return false;
 	}
 }
+
+// (Removed) SessionDurationPickerDelegate: superseded by TwoColumnPickerDelegate
