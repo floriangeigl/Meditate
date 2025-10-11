@@ -1,3 +1,0 @@
-<menu id="intervalAlertSettingsMenu" title="@Strings.menuIntervalAlertSettings_Title">
-    <menu-item id="addNew" label="@Strings.menuIntervalAlertSettings_addNew" />
-</menu>

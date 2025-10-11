@@ -48,6 +48,10 @@ class MeditateModel extends ScreenPicker.DetailsModel {
 		return me.mSession.getIntervalAlerts().size() > 0;
 	}
 
+	function getName() {
+		return me.mSession.getName();
+	}
+
 	function getIntervalAlerts() {
 		return me.mSession.getIntervalAlerts();
 	}

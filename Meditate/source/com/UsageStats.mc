@@ -88,6 +88,9 @@ class UsageStats {
 					"api_version" => apiVersion,
 					"session_id" => sessionId,
 					"timestamp_micros" => Time.now().value() * 1000000,
+					"model" => model,
+					"firmware_version" => firmwareVersion,
+					"system_language" => systemLanguage,
 				},
 			},
 		];

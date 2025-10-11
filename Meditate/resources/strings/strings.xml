@@ -107,6 +107,10 @@
 
     <string id="menuHrvWindowSizeOptions_title">HRV Window</string>
 
+    <string id="menuGlobalSettings_useSessionName">Session name = Activity name</string>
+    <string id="menuGlobalSettings_useSessionName_on">Yes</string>
+    <string id="menuGlobalSettings_useSessionName_off">No (Default)</string>
+
     <string id="menuNotificationOptions_title">Notifications</string>
     <string id="menuNotificationOptions_on">On (Default)</string>
     <string id="menuNotificationOptions_off">Off</string>
@@ -130,6 +134,7 @@
     <string id="addEditIntervalAlertMenu_delete">Delete</string>
 
     <string id="addEditSessionMenu_title">Session</string>
+    <string id="addEditSessionMenu_name">Name</string>
     <string id="addEditSessionMenu_time">Time</string>
     <string id="addEditSessionMenu_color">Color</string>
     <string id="addEditSessionMenu_vibeSound">Vibe / Sound</string>
@@ -175,6 +180,7 @@
     <string id="activityNameMeditate">Meditating</string>
     <string id="activityNameYoga">Yoga</string>
     <string id="activityNameBreathing">Breathing</string>
+    <string id="activityNameGeneric">Generic</string>
     <string id="sessionTitleMeditate">Meditating 🧘</string>
     <string id="sessionTitleYoga">Yoga 🧘</string>
     <string id="sessionTitleBreathing">Breathing 🌬️</string>
@@ -189,7 +195,7 @@
 
     <string id="optionsMenuHelp">Hold menu</string>
 
-    <string id="about_AppVersion">v10.5.0</string>
+    <string id="about_AppVersion">v10.6.8</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>
     <string id="about_falsetru">falsetru</string>

@@ -21,9 +21,19 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 		var supportsActivityTypes = Utils.MonkeyVersionAtLeast([3, 3, 6]);
 		// System.println(version + " " + supportsActivityTypes);
 
-		// Retrieve activity name property from Garmin Express/Connect IQ
-		var activityName = App.Storage.getApp().getProperty("activityName");
-		activityName = activityName.length() > 0 ? activityName.toString() : "";
+		// Determine activity name: prefer using the session's custom name if the global setting enables it,
+		// otherwise fall back to the Garmin Connect property or default titles.
+		var activityName = "";
+		if (GlobalSettings.loadUseSessionName() && meditateModel.getName() != null && meditateModel.getName().length() > 0) {
+			activityName = meditateModel.getName().toString();
+		} else {
+			var storedActivityName = App.Storage.getApp().getProperty("activityName");
+			if (storedActivityName != null && storedActivityName.length() > 0) {
+				activityName = storedActivityName.toString();
+			} else {
+				activityName = "";
+			}
+		}
 		if (meditateModel.getActivityType() == ActivityType.Yoga) {
 			activityName = activityName.length() > 0 ? activityName : Ui.loadResource(Rez.Strings.sessionTitleYoga);
 			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createYoga(createSessionName(sessionTime, activityName));

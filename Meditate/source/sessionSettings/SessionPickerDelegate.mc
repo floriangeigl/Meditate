@@ -72,8 +72,19 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 	}
 
 	private function showSessionSettingsMenu() {
-		var sessionSettingsMenuDelegate = new SessionSettingsMenuDelegate(me.mSessionStorage, me);
-		Ui.pushView(new Rez.Menus.sessionSettingsMenu(), sessionSettingsMenuDelegate, Ui.SLIDE_UP);
+		// Build a Menu2 root so the delegate can update subtexts (counts, selected index)
+		var menu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.menuSessionSettings_Title) });
+		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_addNew), "", :addNew, {}));
+		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_edit), "", :edit, {}));
+		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_delete), "", :delete, {}));
+		menu.addItem(
+			new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_globalSettings), "", :globalSettings, {})
+		);
+		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_about), "", :about, {}));
+
+		var sessionSettingsMenuDelegate = new SessionSettingsMenuDelegate(me.mSessionStorage, me, menu);
+		sessionSettingsMenuDelegate.updateMenuItems();
+		Ui.pushView(menu, sessionSettingsMenuDelegate, Ui.SLIDE_UP);
 		return true;
 	}
 
@@ -125,42 +136,6 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		me.updateSelectedSessionDetails(session);
 	}
 
-	private static function getVibePatternText(vibePattern) {
-		if (vibePattern == null) {
-			vibePattern = VibePattern.NoNotification;
-		}
-		switch (vibePattern) {
-			case VibePattern.LongPulsating:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_longPulsating);
-			case VibePattern.LongSound:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_longSound);
-			case VibePattern.LongAscending:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_longAscending);
-			case VibePattern.LongContinuous:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_longContinuous);
-			case VibePattern.LongDescending:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_longDescending);
-			case VibePattern.MediumAscending:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_mediumAscending);
-			case VibePattern.MediumContinuous:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_mediumContinuous);
-			case VibePattern.MediumPulsating:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_mediumPulsating);
-			case VibePattern.MediumDescending:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_mediumDescending);
-			case VibePattern.ShortAscending:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_shortAscending);
-			case VibePattern.ShortContinuous:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_shortContinuous);
-			case VibePattern.ShortPulsating:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_shortPulsating);
-			case VibePattern.ShortDescending:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_shortDescending);
-			default:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_noNotification);
-		}
-	}
-
 	function updateHrvStatus(data) {
 		var hrvStatusLine = me.mSelectedSessionDetails.getLine(3);
 		var sensorStatus = me.mHeartbeatIntervalsSensor.getStatus();
@@ -202,18 +177,21 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 	function updateSelectedSessionDetails(session) {
 		me.mHrvTracking = session.getHrvTracking();
 		me.setTestModeHeartbeatIntervalsSensor();
-		me.mSelectedSessionDetails = new ScreenPicker.DetailsModel();
-		var details = me.mSelectedSessionDetails;
-
-		var activityTypeText;
-		if (session.getActivityType() == ActivityType.Yoga) {
-			activityTypeText = Ui.loadResource(Rez.Strings.activityNameYoga);
-		} else if (session.getActivityType() == ActivityType.Breathing) {
-			activityTypeText = Ui.loadResource(Rez.Strings.activityNameBreathing);
-		} else {
-			// Meditation
-			activityTypeText = Ui.loadResource(Rez.Strings.activityNameMeditate);
+		// Reuse the existing DetailsModel instance so the active view (which may
+		// hold a reference to it) sees mutations immediately. If it doesn't
+		// exist yet, create it.
+		if (me.mSelectedSessionDetails == null) {
+			me.mSelectedSessionDetails = new ScreenPicker.DetailsModel();
 		}
+		var details = me.mSelectedSessionDetails;
+		// Reset the details model in-place
+		details.title = "";
+		details.titleColor = null;
+		details.detailLines = [];
+		details.foregroundColor = null;
+		details.linesCount = 0;
+
+		var activityTypeText = Utils.getActivityTypeText(session.getActivityType());
 		if (session.name != null) {
 			details.title = session.name;
 		} else {
@@ -237,7 +215,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 			:symbol => StatusIconFonts.Rez.Strings.IconBell,
 		});
 		line.icon = vibePatternIcon;
-		line.value.text = getVibePatternText(session.vibePattern);
+		line.value.text = Utils.getVibePatternText(session.vibePattern);
 		lineNum++;
 
 		line = details.getLine(lineNum);
@@ -261,6 +239,8 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		});
 		line.icon = settingsIcon;
 		line.value.text = Ui.loadResource(Rez.Strings.optionsMenuHelp);
+		// Ensure the screen updates immediately when session details change
+		Ui.requestUpdate();
 	}
 
 	function createScreenPickerView() {

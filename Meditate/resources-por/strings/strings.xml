@@ -106,6 +106,10 @@
 
     <string id="menuHrvWindowSizeOptions_title">HRV Window</string>
 
+    <string id="menuGlobalSettings_useSessionName">Nome sessão = Nome atividade</string>
+    <string id="menuGlobalSettings_useSessionName_on">Sim</string>
+    <string id="menuGlobalSettings_useSessionName_off">Não (Padrão)</string>
+
     <string id="menuNotificationOptions_title">Notificações</string>
     <string id="menuNotificationOptions_on">Ligado (Padrão)</string>
     <string id="menuNotificationOptions_off">Desligado</string>
@@ -132,6 +136,7 @@
     <string id="addEditSessionMenu_color">Cor</string>
     <string id="addEditSessionMenu_vibeSound">Vibração / Som</string>
     <string id="addEditSessionMenu_intervalAlerts">Intervalo Alerta</string>
+    <string id="addEditSessionMenu_name">Nome</string>
     <string id="addEditSessionMenu_activityType">Tipo Atividade</string>
     <string id="addEditSessionMenu_hrvTracking">Monit. VFC</string>
 
@@ -174,6 +179,7 @@
     <string id="activityNameMeditate">Meditação</string>
     <string id="activityNameYoga">Yoga</string>
     <string id="activityNameBreathing">Respiração</string>
+    <string id="activityNameGeneric">Genérico</string>
     <string id="sessionTitleMeditate">Meditação 🧘</string>
     <string id="sessionTitleYoga">Yoga 🧘</string>
     <string id="sessionTitleBreathing">Respiração 🌬️</string>
@@ -188,7 +194,7 @@
 
     <string id="optionsMenuHelp">Segurar menu</string>
 
-    <string id="about_AppVersion">v10.5.0</string>
+    <string id="about_AppVersion">v10.6.8</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>
     <string id="about_falsetru">falsetru</string>

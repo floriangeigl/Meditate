@@ -1,7 +1,0 @@
-<menu id="sessionSettingsMenu" title="@Strings.menuSessionSettings_Title">
-    <menu-item id="addNew" label="@Strings.menuSessionSettings_addNew" />
-    <menu-item id="edit" label="@Strings.menuSessionSettings_edit" />
-    <menu-item id="delete" label="@Strings.menuSessionSettings_delete" />
-    <menu-item id="globalSettings" label="@Strings.menuSessionSettings_globalSettings" />
-    <menu-item id="about" label="@Strings.menuSessionSettings_about" />
-</menu>

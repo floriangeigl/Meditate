@@ -175,11 +175,15 @@ This is a typical technique to calm your self down and prepare for sleep. You st
     - RMSSD Window
     - HR from heartbeat
 
-      3.3 Delete - deletes a session after asking for confirmation
+- Name - (new) You can give a session a custom name in the Add New / Edit flow. On the watch open Add New or Edit, select the "Name" entry and enter text using the platform TextPicker. The session name supports the `[time]` placeholder which will be replaced by the session duration when exporting the activity (for example: "Deep rest [time]").
 
-      3.4 Global Settings - [see section 4](#4-global-settings)
+  - If you want that session name to show up as the activity name in Garmin Connect after syncing, enable the Global Setting described in [section 4.9](#4.9-use-session-name-as-activity-name).
 
-      3.5 Configure custom breathwork session
+  3.3 Delete - deletes a session after asking for confirmation
+
+  3.4 Global Settings - [see section 4](#4-global-settings)
+
+  3.5 Configure custom breathwork session
 
 Breathwork sessions typically follow some pattern of Inhale, Hold, Exhale, Hold. As all the configured interval alerts run in parallel, you need to use the offset to create such a pattern. For example, to configure 4 Inhale, 7 Hold, 8 Exhale you'd need to do the following:
 
@@ -253,6 +257,18 @@ You can set the default activity type for new sessions.
 
 You can change over which time-window the HRV is calculated. For reliable measurements I recommend going for at least 3min, as everything below is considered ultra-short-term HRV measurement. Personally, I use 5min for my sessions. The default is 60sec, because beginners tend to do session around 5min and still want to see some trend of their HRV within this window. Read more on this topic [here](https://pmc.ncbi.nlm.nih.gov/articles/PMC5624990/)
 
+#### 4.8 Notifications
+
+Enables or disables any notifications from the app. If set to off, you won't get any interval alerts or final alerts.
+
+#### 4.9 Use session name as activity name
+
+This option controls whether the custom session name you set for a session is used as the activity name that appears in Garmin Connect after syncing. The setting is available under Global Settings on the watch and is called "Session name = Activity name". The default is **No (Default)**.
+
+- If enabled and the session has a custom name, that name will be used when creating the activity name. You can include the placeholder `[time]` in the session name — it will be replaced by the session duration (for example, "Deep rest [time]" becomes "Deep rest 20min").
+- If the session name is empty or the setting is disabled, the app falls back to the Garmin Connect activity name configured via Garmin Express or the built-in default titles (for example, "Meditating 🧘").
+- Note: the activity name is truncated to 21 characters to fit Garmin's display limits.
+
 ## FAQs
 
 ### HRV does not work / shows "waiting"
@@ -266,7 +282,7 @@ You can change over which time-window the HRV is calculated. For reliable measur
 
 ### Can I change the name of the session on the watch
 
-Currently not, however I'm planning to introduce this feature at some point.
+Yes. You can edit a session's name from the Add New / Edit flow on the watch: select the "Name" entry and enter text using the platform TextPicker (see section 3.2). If you want the session name to be used as the activity name in Garmin Connect, enable the Global Setting described in section 4.9.
 
 ### The app crashes the moment I start a session - what can I do?
 

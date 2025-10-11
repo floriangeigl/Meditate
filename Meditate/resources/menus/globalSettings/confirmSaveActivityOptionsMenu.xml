@@ -1,6 +1,0 @@
-<menu id="confirmSaveActivityOptionsMenu" title="@Strings.menuConfirmSaveActivityOptions_title">
-    <menu-item id="ask" label="@Strings.menuConfirmSaveActivityOptions_ask" />
-    <menu-item id="autoYes" label="@Strings.menuConfirmSaveActivityOptions_autoYes" />
-    <menu-item id="autoYesExit" label="@Strings.menuConfirmSaveActivityOptions_autoYesExit" />
-    <menu-item id="autoNo" label="@Strings.menuConfirmSaveActivityOptions_autoNo" />
-</menu>

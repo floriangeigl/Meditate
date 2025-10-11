@@ -58,6 +58,10 @@ class SessionModel {
 		me.defaultHrvTracking = GlobalSettings.loadHrvTracking();
 	}
 
+	function getName() {
+		return me.name;
+	}
+
 	function getIntervalAlerts() {
 		return me.intervalAlerts == null ? new IntervalAlerts() : me.intervalAlerts;
 	}

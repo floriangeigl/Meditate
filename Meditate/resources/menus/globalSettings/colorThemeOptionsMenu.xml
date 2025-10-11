@@ -1,4 +1,0 @@
-<menu id="colorThemeOptionsMenu" title="@Strings.menuColorThemeOptions_title">
-    <menu-item id="Dark" label="@Strings.menuColorThemeOptions_dark" />
-    <menu-item id="Light" label="@Strings.menuColorThemeOptions_light" />
-</menu>  

@@ -106,6 +106,10 @@
 
     <string id="menuHrvWindowSizeOptions_title">HRV Window</string>
 
+    <string id="menuGlobalSettings_useSessionName">Nombre sesión = Nombre actividad</string>
+    <string id="menuGlobalSettings_useSessionName_on">Sí</string>
+    <string id="menuGlobalSettings_useSessionName_off">No (Predet.)</string>
+
     <string id="menuNotificationOptions_title">Notificaciones</string>
     <string id="menuNotificationOptions_on">Activado (Predet.)</string>
     <string id="menuNotificationOptions_off">Desactivado</string>
@@ -130,6 +134,7 @@
     <string id="addEditSessionMenu_title">Sesión</string>
     <string id="addEditSessionMenu_time">Tiempo</string>
     <string id="addEditSessionMenu_color">Color</string>
+    <string id="addEditSessionMenu_name">Nombre</string>
     <string id="addEditSessionMenu_vibeSound">Vibración/Son.</string>
     <string id="addEditSessionMenu_intervalAlerts">Alertas Intervalo</string>
     <string id="addEditSessionMenu_activityType">Tipo Actividad</string>
@@ -173,6 +178,7 @@
     <string id="activityNameMeditate">Meditando</string>
     <string id="activityNameYoga">Yoga</string>
     <string id="activityNameBreathing">Respiración</string>
+    <string id="activityNameGeneric">Genérico</string>
     <string id="sessionTitleMeditate">Meditando 🧘</string>
     <string id="sessionTitleYoga">Yoga 🧘</string>
     <string id="sessionTitleBreathing">Respiración 🌬️</string>
@@ -187,7 +193,7 @@
 
     <string id="optionsMenuHelp">Mantén menú</string>
 
-    <string id="about_AppVersion">v10.5.0</string>
+    <string id="about_AppVersion">v10.6.8</string>
     <string id="about_floriangeigl">floriangeigl</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>

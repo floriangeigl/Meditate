@@ -1,8 +1,0 @@
-<menu id="addEditSessionMenu" title="@Strings.addEditSessionMenu_title">
-    <menu-item id="time" label="@Strings.addEditSessionMenu_time" />
-    <menu-item id="color" label="@Strings.addEditSessionMenu_color"></menu-item>
-    <menu-item id="vibePattern" label="@Strings.addEditSessionMenu_vibeSound"></menu-item>
-    <menu-item id="intervalAlerts" label="@Strings.addEditSessionMenu_intervalAlerts"></menu-item>
-    <menu-item id="activityType" label="@Strings.addEditSessionMenu_activityType"></menu-item>
-    <menu-item id="hrvTracking" label="@Strings.addEditSessionMenu_hrvTracking"></menu-item>
- </menu>

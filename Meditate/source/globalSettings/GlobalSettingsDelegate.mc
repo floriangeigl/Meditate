@@ -2,42 +2,39 @@ using Toybox.WatchUi as Ui;
 using Toybox.Application as App;
 using Toybox.Graphics as Gfx;
 using HrvAlgorithms.HrvTracking;
-using StatusIconFonts;
 
-class GlobalSettingsDelegate extends ScreenPicker.ScreenPickerDelegate {
-	protected var mColors;
-	private var mOnColorSelected;
+class GlobalSettingsDelegate {
 	private var mSessionPickerDelegate;
 
 	function initialize(sessionPickerDelegate) {
-		ScreenPickerDelegate.initialize(0, 1);
-		me.mGlobalSettingsTitle = Ui.loadResource(Rez.Strings.menuGlobalSettings_title);
-		me.mGlobalSettingsDetailsModel = new ScreenPicker.DetailsModel();
 		me.mSessionPickerDelegate = sessionPickerDelegate;
-		updateGlobalSettingsDetails();
-	}
-
-	private var mGlobalSettingsTitle;
-	private var mGlobalSettingsDetailsModel;
-
-	function createScreenPickerView() {
-		return new ScreenPicker.ScreenPickerDetailsView(me.mGlobalSettingsDetailsModel, false);
-	}
-
-	function onMenu() {
-		return me.showGlobalSettingsMenu();
-	}
-
-	function onHold(param) {
-		return me.showGlobalSettingsMenu();
 	}
 
 	function showGlobalSettingsMenu() {
-		Ui.pushView(
-			new Rez.Menus.globalSettingsMenu(),
-			new GlobalSettingsMenuDelegate(method(:onGlobalSettingsChanged)),
-			Ui.SLIDE_LEFT
-		);
+		// Build a Menu2 programmatically so we can set sublabels showing the current values
+		var menu = new Ui.Menu2({:title => Ui.loadResource(Rez.Strings.menuGlobalSettings_title)});
+
+		// Add placeholder items; sublabels will be updated by the delegate
+		// Note: order matches resources/menus/globalSettings/globalSettingsMenu.xml
+		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_colorTheme), "", :colorTheme, {}));
+		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_autoStop), "", :autoStop, {}));
+		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_confirmSaveActivity), "", :confirmSaveActivity, {}));
+		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_prepareTime), "", :prepareTime, {}));
+		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_finalizeTime), "", :finalizeTime, {}));
+		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuNotificationOptions_title), "", :notification, {}));
+		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_newActivityType), "", :newActivityType, {}));
+		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_useSessionName), "", :useSessionName, {}));
+		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_newHrvTracking), "", :hrvTracking, {}));
+		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuHrvWindowSizeOptions_title), "", :hrvWindow, {}));
+		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_respirationRate), "", :respirationRate, {}));
+		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_multiSession), "", :multiSession, {}));
+		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_externalSensor), "", :externalSensor, {}));
+
+		var delegate = new GlobalSettingsMenuDelegate(method(:onGlobalSettingsChanged), menu);
+		// Initialize sublabels now
+		delegate.updateMenuItems();
+
+		Ui.pushView(menu, delegate, Ui.SLIDE_LEFT);
 	}
 
 	function onBack() {
@@ -46,113 +43,7 @@ class GlobalSettingsDelegate extends ScreenPicker.ScreenPickerDelegate {
 	}
 
 	function onGlobalSettingsChanged() {
-		me.updateGlobalSettingsDetails();
+		// overview removed; nothing to update here. Keep a requestUpdate in case callers expect UI refresh
 		Ui.requestUpdate();
-	}
-
-	private function updateGlobalSettingsDetails() {
-		var details = me.mGlobalSettingsDetailsModel;
-		details.title = me.mGlobalSettingsTitle;
-		var iconColor = null;
-
-		// Auto stop settings
-		var autoStopSetting = "";
-
-		var autoStop = GlobalSettings.loadAutoStop();
-		var line = details.getLine(0);
-		if (autoStop == AutoStop.On) {
-			// In order to avoid the (default) text in string "menuAutoStopOptions_on"
-			autoStopSetting = Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_on);
-			iconColor = Gfx.COLOR_GREEN;
-		} else {
-			autoStopSetting = Ui.loadResource(Rez.Strings.menuAutoStopOptions_off);
-			iconColor = Gfx.COLOR_RED;
-		}
-		line.icon = new ScreenPicker.Icon({
-			:font => StatusIconFonts.fontAwesomeFreeSolid,
-			:symbol => StatusIconFonts.Rez.Strings.IconStop,
-			:color => iconColor,
-		});
-
-		var autoStopTitle = Ui.loadResource(Rez.Strings.menuAutoStopOptions_title);
-		line.value.text = autoStopTitle + ": " + autoStopSetting;
-
-		// Confirm save activity settings
-		var confirmSaveSetting = "";
-		var saveActivityConfirmation = GlobalSettings.loadConfirmSaveActivity();
-		line = details.getLine(1);
-		if (saveActivityConfirmation == ConfirmSaveActivity.AutoYes) {
-			iconColor = Gfx.COLOR_GREEN;
-			confirmSaveSetting = Ui.loadResource(Rez.Strings.menuConfirmSaveActivityOptions_autoYes);
-		} else if (saveActivityConfirmation == ConfirmSaveActivity.AutoYesExit) {
-			iconColor = Gfx.COLOR_GREEN;
-			confirmSaveSetting = Ui.loadResource(Rez.Strings.menuConfirmSaveActivityOptions_autoYesExit);
-		} else if (saveActivityConfirmation == ConfirmSaveActivity.AutoNo) {
-			iconColor = Gfx.COLOR_RED;
-			confirmSaveSetting = Ui.loadResource(Rez.Strings.menuConfirmSaveActivityOptions_autoNo);
-		} else {
-			// Ask
-			iconColor = Gfx.COLOR_GREEN;
-			confirmSaveSetting = Ui.loadResource(Rez.Strings.menuConfirmSaveActivityOptions_askSimple);
-		}
-		line.icon = new ScreenPicker.Icon({
-			:font => StatusIconFonts.fontAwesomeFreeSolid,
-			:symbol => StatusIconFonts.Rez.Strings.IconSave,
-			:color => iconColor,
-		});
-
-		line.value.text = Ui.loadResource(Rez.Strings.menuGlobalSettings_save) + confirmSaveSetting;
-
-		// Preparation time settings
-		line = details.getLine(2);
-		line.icon = new ScreenPicker.Icon({
-			:font => StatusIconFonts.fontAwesomeFreeSolid,
-			:symbol => StatusIconFonts.Rez.Strings.IconClock,
-		});
-
-		// prepare time
-		var prepareTimeSeconds = GlobalSettings.loadPrepareTime();
-		line.value.text =
-			Ui.loadResource(Rez.Strings.menuPrepareTimeOptions_title) + TimeFormatter.formatMinSec(prepareTimeSeconds);
-
-		// Finalize time settings
-		line = details.getLine(3);
-		line.icon = new ScreenPicker.Icon({
-			:font => StatusIconFonts.fontAwesomeFreeSolid,
-			:symbol => StatusIconFonts.Rez.Strings.IconClock,
-		});
-
-		// finalize time
-		var finalizeTimeSeconds = GlobalSettings.loadFinalizeTime();
-		line.value.text =
-			Ui.loadResource(Rez.Strings.menuFinalizeTimeOptions_title) +
-			TimeFormatter.formatMinSec(finalizeTimeSeconds);
-
-		// New Activity type settings
-		line = details.getLine(4);
-		line.icon = new ScreenPicker.Icon({
-			:font => StatusIconFonts.fontAwesomeFreeSolid,
-			:symbol => StatusIconFonts.Rez.Strings.IconVihara,
-			:color => Gfx.COLOR_GREEN,
-		});
-		var newActivityType = GlobalSettings.loadActivityType();
-		if (newActivityType == ActivityType.Meditating) {
-			line.value.text = Ui.loadResource(Rez.Strings.menuNewActivityTypeOptions_meditating);
-		} else if (newActivityType == ActivityType.Yoga) {
-			line.value.text = Ui.loadResource(Rez.Strings.menuNewActivityTypeOptions_yoga);
-		} else if (newActivityType == ActivityType.Generic) {
-			line.value.text = Ui.loadResource(Rez.Strings.menuNewActivityTypeOptions_generic);
-		} else {
-			// ActivityType.Breathing
-			line.value.text = Ui.loadResource(Rez.Strings.menuNewActivityTypeOptions_breathing);
-		}
-
-		line = details.getLine(5);
-		var settingsIcon = new ScreenPicker.Icon({
-			:font => StatusIconFonts.fontAwesomeFreeSolid,
-			:symbol => StatusIconFonts.Rez.Strings.IconSettings,
-		});
-		line.icon = settingsIcon;
-		line.value.text = Ui.loadResource(Rez.Strings.optionsMenuHelp);
 	}
 }
