@@ -23,6 +23,7 @@ class GlobalSettingsDelegate {
 		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_finalizeTime), "", :finalizeTime, {}));
 		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuNotificationOptions_title), "", :notification, {}));
 		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_newActivityType), "", :newActivityType, {}));
+		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_useSessionName), "", :useSessionName, {}));
 		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_newHrvTracking), "", :hrvTracking, {}));
 		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuHrvWindowSizeOptions_title), "", :hrvWindow, {}));
 		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_respirationRate), "", :respirationRate, {}));
