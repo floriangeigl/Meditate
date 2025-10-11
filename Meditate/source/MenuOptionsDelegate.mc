@@ -9,6 +9,8 @@ class MenuOptionsDelegate extends Ui.Menu2InputDelegate {
 	private var mOnMenuItem;
 
 	function onSelect(item) {
+		// Pop this options view first so the parent menu is visible when it updates
+		Ui.popView(Ui.SLIDE_RIGHT);
 		mOnMenuItem.invoke(item.getId());
 	}
 }

@@ -10,52 +10,60 @@ class IntervalVibePatternMenuDelegate extends Ui.Menu2InputDelegate {
 
 	function onSelect(item) {
 		var id = item.getId();
+		var picked = null;
 		switch (id) {
 			case :mediumContinuous:
-				me.mOnVibePatternPicked.invoke(VibePattern.MediumContinuous);
+				picked = VibePattern.MediumContinuous;
 				break;
 			case :mediumPulsating:
-				me.mOnVibePatternPicked.invoke(VibePattern.MediumPulsating);
+				picked = VibePattern.MediumPulsating;
 				break;
 			case :mediumAscending:
-				me.mOnVibePatternPicked.invoke(VibePattern.MediumAscending);
+				picked = VibePattern.MediumAscending;
 				break;
 			case :mediumDescending:
-				me.mOnVibePatternPicked.invoke(VibePattern.MediumDescending);
+				picked = VibePattern.MediumDescending;
 				break;
 			case :shortContinuous:
-				me.mOnVibePatternPicked.invoke(VibePattern.ShortContinuous);
+				picked = VibePattern.ShortContinuous;
 				break;
 			case :shortPulsating:
-				me.mOnVibePatternPicked.invoke(VibePattern.ShortPulsating);
+				picked = VibePattern.ShortPulsating;
 				break;
 			case :shortAscending:
-				me.mOnVibePatternPicked.invoke(VibePattern.ShortAscending);
+				picked = VibePattern.ShortAscending;
 				break;
 			case :shortDescending:
-				me.mOnVibePatternPicked.invoke(VibePattern.ShortDescending);
+				picked = VibePattern.ShortDescending;
 				break;
 			case :shorterAscending:
-				me.mOnVibePatternPicked.invoke(VibePattern.ShorterAscending);
+				picked = VibePattern.ShorterAscending;
 				break;
 			case :shorterContinuous:
-				me.mOnVibePatternPicked.invoke(VibePattern.ShorterContinuous);
+				picked = VibePattern.ShorterContinuous;
 				break;
 			case :blip:
-				me.mOnVibePatternPicked.invoke(VibePattern.Blip);
+				picked = VibePattern.Blip;
 				break;
 			case :shortSound:
-				me.mOnVibePatternPicked.invoke(VibePattern.ShortSound);
+				picked = VibePattern.ShortSound;
 				break;
 			case :noNotification:
-				me.mOnVibePatternPicked.invoke(VibePattern.NoNotification);
+				picked = VibePattern.NoNotification;
 				break;
 			case :longAscending:
-				me.mOnVibePatternPicked.invoke(VibePattern.LongAscending);
+				picked = VibePattern.LongAscending;
 				break;
 			case :longContinuous:
-				me.mOnVibePatternPicked.invoke(VibePattern.LongContinuous);
+				picked = VibePattern.LongContinuous;
 				break;
+		}
+
+		// If a valid pattern was chosen, pop this menu first so the parent is visible,
+		// then invoke the callback which will update the parent's subtexts.
+		if (picked != null && me.mOnVibePatternPicked != null) {
+			Ui.popView(Ui.SLIDE_RIGHT);
+			me.mOnVibePatternPicked.invoke(picked);
 		}
 	}
 }

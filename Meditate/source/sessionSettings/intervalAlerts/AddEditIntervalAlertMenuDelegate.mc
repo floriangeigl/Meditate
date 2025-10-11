@@ -28,16 +28,63 @@ class AddEditIntervalAlertMenuDelegate extends Ui.Menu2InputDelegate {
 			return;
 		}
 
-		// 0: vibePattern
+		// 0: vibePattern — map all known VibePattern values to readable labels.
 		var vibeText = "";
 		if (me.mIntervalAlert.vibePattern != null) {
-			// reuse the app's existing mapping if available, otherwise fallback
 			switch (me.mIntervalAlert.vibePattern) {
 				case VibePattern.LongPulsating:
 					vibeText = Ui.loadResource(Rez.Strings.vibePatternMenu_longPulsating);
 					break;
 				case VibePattern.LongSound:
 					vibeText = Ui.loadResource(Rez.Strings.vibePatternMenu_longSound);
+					break;
+				case VibePattern.LongAscending:
+					vibeText = Ui.loadResource(Rez.Strings.vibePatternMenu_longAscending);
+					break;
+				case VibePattern.LongContinuous:
+					vibeText = Ui.loadResource(Rez.Strings.vibePatternMenu_longContinuous);
+					break;
+				case VibePattern.LongDescending:
+					vibeText = Ui.loadResource(Rez.Strings.vibePatternMenu_longDescending);
+					break;
+				case VibePattern.MediumAscending:
+					vibeText = Ui.loadResource(Rez.Strings.vibePatternMenu_mediumAscending);
+					break;
+				case VibePattern.MediumContinuous:
+					vibeText = Ui.loadResource(Rez.Strings.vibePatternMenu_mediumContinuous);
+					break;
+				case VibePattern.MediumPulsating:
+					vibeText = Ui.loadResource(Rez.Strings.vibePatternMenu_mediumPulsating);
+					break;
+				case VibePattern.MediumDescending:
+					vibeText = Ui.loadResource(Rez.Strings.vibePatternMenu_mediumDescending);
+					break;
+				case VibePattern.ShortAscending:
+					vibeText = Ui.loadResource(Rez.Strings.vibePatternMenu_shortAscending);
+					break;
+				case VibePattern.ShortContinuous:
+					vibeText = Ui.loadResource(Rez.Strings.vibePatternMenu_shortContinuous);
+					break;
+				case VibePattern.ShortPulsating:
+					vibeText = Ui.loadResource(Rez.Strings.vibePatternMenu_shortPulsating);
+					break;
+				case VibePattern.ShortDescending:
+					vibeText = Ui.loadResource(Rez.Strings.vibePatternMenu_shortDescending);
+					break;
+				case VibePattern.ShorterAscending:
+					vibeText = Ui.loadResource(Rez.Strings.intervalVibePatternMenu_shorterAscending);
+					break;
+				case VibePattern.ShorterContinuous:
+					vibeText = Ui.loadResource(Rez.Strings.intervalVibePatternMenu_shorterContinuous);
+					break;
+				case VibePattern.Blip:
+					vibeText = Ui.loadResource(Rez.Strings.intervalVibePatternMenu_blip);
+					break;
+				case VibePattern.ShortSound:
+					vibeText = Ui.loadResource(Rez.Strings.intervalVibePatternMenu_shortSound);
+					break;
+				case VibePattern.NoNotification:
+					vibeText = Ui.loadResource(Rez.Strings.vibePatternMenu_noNotification);
 					break;
 				default:
 					vibeText = Ui.loadResource(Rez.Strings.vibePatternMenu_noNotification);
