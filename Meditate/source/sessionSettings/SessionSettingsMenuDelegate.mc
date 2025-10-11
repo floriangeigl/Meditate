@@ -17,26 +17,7 @@ class SessionSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 		var id = item.getId();
 		if (id == :addNew) {
 			var newSession = me.mSessionStorage.newSession();
-			var menu = new Ui.Menu2({
-				:title => Ui.loadResource(Rez.Strings.addEditSessionMenu_title) +
-				" " +
-				me.mSessionStorage.getSessionsCount(),
-			});
-			menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_time), "", :time, {}));
-			menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_name), "", :name, {}));
-			menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_color), "", :color, {}));
-			menu.addItem(
-				new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_vibeSound), "", :vibePattern, {})
-			);
-			menu.addItem(
-				new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_intervalAlerts), "", :intervalAlerts, {})
-			);
-			menu.addItem(
-				new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_activityType), "", :activityType, {})
-			);
-			menu.addItem(
-				new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_hrvTracking), "", :hrvTracking, {})
-			);
+			var menu = me.createAddEditSessionMenu(me.mSessionStorage.getSessionsCount() - 1);
 
 			var addEditDelegate = new AddEditSessionMenuDelegate(
 				newSession,
@@ -54,26 +35,7 @@ class SessionSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 				return;
 			}
 			var existingSession = me.mSessionStorage.loadSelectedSession();
-			var menu = new Ui.Menu2({
-				:title => Ui.loadResource(Rez.Strings.addEditSessionMenu_title) +
-				" " +
-				(me.mSessionStorage.getSelectedSessionIndex() + 1),
-			});
-			menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_time), "", :time, {}));
-			menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_name), "", :name, {}));
-			menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_color), "", :color, {}));
-			menu.addItem(
-				new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_vibeSound), "", :vibePattern, {})
-			);
-			menu.addItem(
-				new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_intervalAlerts), "", :intervalAlerts, {})
-			);
-			menu.addItem(
-				new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_activityType), "", :activityType, {})
-			);
-			menu.addItem(
-				new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_hrvTracking), "", :hrvTracking, {})
-			);
+			var menu = me.createAddEditSessionMenu(me.mSessionStorage.getSelectedSessionIndex());
 
 			var addEditDelegate = new AddEditSessionMenuDelegate(
 				existingSession,
