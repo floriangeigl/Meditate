@@ -345,7 +345,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 		var autoStop = GlobalSettings.loadAutoStop();
 		autoStopText =
 			autoStop == AutoStop.On
-				? Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_on)
+				? Ui.loadResource(Rez.Strings.menuAutoStopOptions_on)
 				: Ui.loadResource(Rez.Strings.menuAutoStopOptions_off);
 		mMenu.updateItem(
 			new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_autoStop), autoStopText, :autoStop, {}),
