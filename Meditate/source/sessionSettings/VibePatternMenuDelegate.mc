@@ -1,49 +1,62 @@
 using Toybox.WatchUi as Ui;
 
-class VibePatternMenuDelegate extends Ui.MenuInputDelegate {
+class VibePatternMenuDelegate extends Ui.Menu2InputDelegate {
 	private var mOnVibePatternPicked;
 
 	function initialize(onVibePatternPicked) {
-		MenuInputDelegate.initialize();
+		Menu2InputDelegate.initialize();
 		me.mOnVibePatternPicked = onVibePatternPicked;
 	}
 
-	function onMenuItem(item) {
-		if (item == :noNotification) {
+	// Menu2 handler: receive the MenuItem and forward its id
+	function onSelect(item) {
+		if (item == null) {
+			return;
+		}
+		me.onMenuItem(item.getId());
+	}
+
+	// Compatibility: resource-driven menus call onMenuItem(symbol)
+	function onMenuItem(sym) {
+		if (me.mOnVibePatternPicked == null) {
+			return;
+		}
+
+		if (sym == :noNotification) {
 			me.mOnVibePatternPicked.invoke(VibePattern.NoNotification);
-		} else if (item == :longContinuous) {
+		} else if (sym == :longContinuous) {
 			me.mOnVibePatternPicked.invoke(VibePattern.LongContinuous);
-		} else if (item == :longSound) {
+		} else if (sym == :longSound) {
 			me.mOnVibePatternPicked.invoke(VibePattern.LongSound);
-		} else if (item == :longPulsating) {
+		} else if (sym == :longPulsating) {
 			me.mOnVibePatternPicked.invoke(VibePattern.LongPulsating);
-		} else if (item == :longAscending) {
+		} else if (sym == :longAscending) {
 			me.mOnVibePatternPicked.invoke(VibePattern.LongAscending);
-		} else if (item == :longDescending) {
+		} else if (sym == :longDescending) {
 			me.mOnVibePatternPicked.invoke(VibePattern.LongDescending);
-		} else if (item == :mediumContinuous) {
+		} else if (sym == :mediumContinuous) {
 			me.mOnVibePatternPicked.invoke(VibePattern.MediumContinuous);
-		} else if (item == :mediumPulsating) {
+		} else if (sym == :mediumPulsating) {
 			me.mOnVibePatternPicked.invoke(VibePattern.MediumPulsating);
-		} else if (item == :mediumAscending) {
+		} else if (sym == :mediumAscending) {
 			me.mOnVibePatternPicked.invoke(VibePattern.MediumAscending);
-		} else if (item == :mediumDescending) {
+		} else if (sym == :mediumDescending) {
 			me.mOnVibePatternPicked.invoke(VibePattern.MediumDescending);
-		} else if (item == :shortContinuous) {
+		} else if (sym == :shortContinuous) {
 			me.mOnVibePatternPicked.invoke(VibePattern.ShortContinuous);
-		} else if (item == :shortPulsating) {
+		} else if (sym == :shortPulsating) {
 			me.mOnVibePatternPicked.invoke(VibePattern.ShortPulsating);
-		} else if (item == :shortAscending) {
+		} else if (sym == :shortAscending) {
 			me.mOnVibePatternPicked.invoke(VibePattern.ShortAscending);
-		} else if (item == :shortDescending) {
+		} else if (sym == :shortDescending) {
 			me.mOnVibePatternPicked.invoke(VibePattern.ShortDescending);
-		} else if (item == :blip) {
+		} else if (sym == :blip) {
 			me.mOnVibePatternPicked.invoke(VibePattern.Blip);
-		} else if (item == :shortSound) {
+		} else if (sym == :shortSound) {
 			me.mOnVibePatternPicked.invoke(VibePattern.ShortSound);
-		} else if (item == :shorterAscending) {
+		} else if (sym == :shorterAscending) {
 			me.mOnVibePatternPicked.invoke(VibePattern.ShorterAscending);
-		} else if (item == :shorterContinuous) {
+		} else if (sym == :shorterContinuous) {
 			me.mOnVibePatternPicked.invoke(VibePattern.ShorterContinuous);
 		}
 	}

@@ -99,27 +99,116 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 				Ui.SLIDE_LEFT
 			);
 		} else if (id == :vibePattern) {
+			// Programmatic Menu2 for vibe patterns so the delegate gets Menu2.MenuItems
+			var vibeMenu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.vibePatternMenu_title) });
+			vibeMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_noNotification), "", :noNotification, {})
+			);
+			vibeMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_longContinuous), "", :longContinuous, {})
+			);
+			vibeMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_longSound), "", :longSound, {})
+			);
+			vibeMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_longPulsating), "", :longPulsating, {})
+			);
+			vibeMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_longAscending), "", :longAscending, {})
+			);
+			vibeMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_longDescending), "", :longDescending, {})
+			);
+			vibeMenu.addItem(
+				new Ui.MenuItem(
+					Ui.loadResource(Rez.Strings.vibePatternMenu_mediumContinuous),
+					"",
+					:mediumContinuous,
+					{}
+				)
+			);
+			vibeMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_mediumPulsating), "", :mediumPulsating, {})
+			);
+			vibeMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_mediumAscending), "", :mediumAscending, {})
+			);
+			vibeMenu.addItem(
+				new Ui.MenuItem(
+					Ui.loadResource(Rez.Strings.vibePatternMenu_mediumDescending),
+					"",
+					:mediumDescending,
+					{}
+				)
+			);
+			vibeMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_shortContinuous), "", :shortContinuous, {})
+			);
+			vibeMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_shortPulsating), "", :shortPulsating, {})
+			);
+			vibeMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_shortAscending), "", :shortAscending, {})
+			);
+			vibeMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_shortDescending), "", :shortDescending, {})
+			);
+			// Interval-only patterns (blip/shortSound/shorter*) are not part of the general session vibe menu
+
 			var vibePatternMenuDelegate = new VibePatternMenuDelegate(method(:onVibePatternPicked));
-			Ui.pushView(new Rez.Menus.vibePatternMenu(), vibePatternMenuDelegate, Ui.SLIDE_LEFT);
+			Ui.pushView(vibeMenu, vibePatternMenuDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :intervalAlerts) {
+			// Build Menu2 root for interval alert settings so delegate can update subtexts
+			var intervalAlertSettingsMenu = new Ui.Menu2({
+				:title => Ui.loadResource(Rez.Strings.menuIntervalAlertSettings_Title),
+			});
+			intervalAlertSettingsMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuIntervalAlertSettings_addNew), "", :addNew, {})
+			);
+			intervalAlertSettingsMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuIntervalAlertSettings_edit), "", :edit, {})
+			);
+			intervalAlertSettingsMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuIntervalAlertSettings_deleteAll), "", :deleteAll, {})
+			);
+
 			var intervalAlertsMenuDelegate = new IntervalAlertsMenuDelegate(
 				me.mIntervalAlerts,
-				method(:onIntervalAlertsChanged)
+				method(:onIntervalAlertsChanged),
+				intervalAlertSettingsMenu
 			);
-			var intervalAlertSettingsMenu = new Rez.Menus.intervalAlertSettingsMenu();
-			if (me.mIntervalAlerts != null && me.mIntervalAlerts.size() > 0) {
-				var editName = Ui.loadResource(Rez.Strings.menuIntervalAlertSettings_edit);
-				intervalAlertSettingsMenu.addItem(editName, :edit);
-				var deleteAllName = Ui.loadResource(Rez.Strings.menuIntervalAlertSettings_deleteAll);
-				intervalAlertSettingsMenu.addItem(deleteAllName, :deleteAll);
+			if (intervalAlertsMenuDelegate.updateMenuItems != null) {
+				intervalAlertsMenuDelegate.updateMenuItems();
 			}
 			Ui.pushView(intervalAlertSettingsMenu, intervalAlertsMenuDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :activityType) {
+			// Programmatic Menu2 for activity type
+			var activityMenu = new Ui.Menu2({
+				:title => Ui.loadResource(Rez.Strings.menuNewActivityTypeOptions_title),
+			});
+			activityMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuNewActivityTypeOptions_meditating), "", :meditating, {})
+			);
+			activityMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuNewActivityTypeOptions_yoga), "", :yoga, {})
+			);
+			activityMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuNewActivityTypeOptions_breathing), "", :breathing, {})
+			);
+			activityMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuNewActivityTypeOptions_generic), "", :generic, {})
+			);
 			var activityTypeDelegate = new MenuOptionsDelegate(method(:onActivityTypePicked));
-			Ui.pushView(new Rez.Menus.activityTypeMenu(), activityTypeDelegate, Ui.SLIDE_LEFT);
+			Ui.pushView(activityMenu, activityTypeDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :hrvTracking) {
+			var hrvMenu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_title) });
+			hrvMenu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_on), "", :on, {}));
+			hrvMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_onDetailed), "", :onDetailed, {})
+			);
+			hrvMenu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_off), "", :off, {}));
 			var hrvTrackingDelegate = new MenuOptionsDelegate(method(:onHrvTrackingPicked));
-			Ui.pushView(new Rez.Menus.hrvTrackingMenu(), hrvTrackingDelegate, Ui.SLIDE_LEFT);
+			Ui.pushView(hrvMenu, hrvTrackingDelegate, Ui.SLIDE_LEFT);
 		}
 	}
 

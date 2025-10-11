@@ -72,8 +72,19 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 	}
 
 	private function showSessionSettingsMenu() {
-		var sessionSettingsMenuDelegate = new SessionSettingsMenuDelegate(me.mSessionStorage, me);
-		Ui.pushView(new Rez.Menus.sessionSettingsMenu(), sessionSettingsMenuDelegate, Ui.SLIDE_UP);
+		// Build a Menu2 root so the delegate can update subtexts (counts, selected index)
+		var menu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.menuSessionSettings_Title) });
+		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_addNew), "", :addNew, {}));
+		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_edit), "", :edit, {}));
+		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_delete), "", :delete, {}));
+		menu.addItem(
+			new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_globalSettings), "", :globalSettings, {})
+		);
+		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_about), "", :about, {}));
+
+		var sessionSettingsMenuDelegate = new SessionSettingsMenuDelegate(me.mSessionStorage, me, menu);
+		sessionSettingsMenuDelegate.updateMenuItems();
+		Ui.pushView(menu, sessionSettingsMenuDelegate, Ui.SLIDE_UP);
 		return true;
 	}
 

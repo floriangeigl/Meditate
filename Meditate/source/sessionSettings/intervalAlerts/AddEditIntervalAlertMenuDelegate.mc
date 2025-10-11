@@ -3,30 +3,185 @@ using Toybox.Graphics as Gfx;
 using Toybox.Timer;
 using Toybox.Application as App;
 
-class AddEditIntervalAlertMenuDelegate extends Ui.MenuInputDelegate {
+class AddEditIntervalAlertMenuDelegate extends Ui.Menu2InputDelegate {
 	private var mOnIntervalAlertChanged;
 	private var mIntervalAlert;
 	private var mIntervalAlertIndex;
 	private var mOnIntervalAlertDeleted;
 	private var notifyChangeTimer;
 
-	function initialize(intervalAlert, intervalAlertIndex, onIntervalAlertChanged, onIntervalAlertDeleted) {
-		MenuInputDelegate.initialize();
+	private var mMenu;
+
+	function initialize(intervalAlert, intervalAlertIndex, onIntervalAlertChanged, onIntervalAlertDeleted, menu) {
+		Menu2InputDelegate.initialize();
 		me.mOnIntervalAlertChanged = onIntervalAlertChanged;
 		me.mIntervalAlert = intervalAlert;
 		me.mIntervalAlertIndex = intervalAlertIndex;
 		me.mOnIntervalAlertDeleted = onIntervalAlertDeleted;
 		me.notifyChangeTimer = null;
+		me.mMenu = menu;
 	}
 
-	function onMenuItem(item) {
-		if (item == :vibePattern) {
+	// Update Menu2 subtexts to reflect current interval alert state
+	function updateMenuItems() {
+		if (me.mMenu == null || me.mIntervalAlert == null) {
+			return;
+		}
+
+		// 0: vibePattern
+		var vibeText = "";
+		if (me.mIntervalAlert.vibePattern != null) {
+			// reuse the app's existing mapping if available, otherwise fallback
+			switch (me.mIntervalAlert.vibePattern) {
+				case VibePattern.LongPulsating:
+					vibeText = Ui.loadResource(Rez.Strings.vibePatternMenu_longPulsating);
+					break;
+				case VibePattern.LongSound:
+					vibeText = Ui.loadResource(Rez.Strings.vibePatternMenu_longSound);
+					break;
+				default:
+					vibeText = Ui.loadResource(Rez.Strings.vibePatternMenu_noNotification);
+					break;
+			}
+		}
+		me.mMenu.updateItem(
+			new Ui.MenuItem(
+				Ui.loadResource(Rez.Strings.addEditIntervalAlertMenu_vibeSound),
+				vibeText,
+				:vibePattern,
+				{}
+			),
+			0
+		);
+
+		// 1: time (formatted)
+		var timeText = TimeFormatter.format(me.mIntervalAlert.time);
+		if (me.mIntervalAlert.type == IntervalAlertType.Repeat) {
+			timeText = TimeFormatter.formatMinSec(me.mIntervalAlert.time);
+		}
+		me.mMenu.updateItem(
+			new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditIntervalAlertMenu_time), timeText, :time, {}),
+			1
+		);
+
+		// 2: offset
+		var offsetText = TimeFormatter.formatMinSec(me.mIntervalAlert.offset);
+		me.mMenu.updateItem(
+			new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditIntervalAlertMenu_offset), offsetText, :offset, {}),
+			2
+		);
+
+		// 3: color (show transparent text if transparent)
+		var colorText = "";
+		if (me.mIntervalAlert.color == Gfx.COLOR_TRANSPARENT) {
+			colorText = Ui.loadResource(Rez.Strings.intervalAlertTransparentColorText);
+		}
+		me.mMenu.updateItem(
+			new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditIntervalAlertMenu_color), colorText, :color, {}),
+			3
+		);
+
+		// 4: delete (no subtext)
+		me.mMenu.updateItem(
+			new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditIntervalAlertMenu_delete), "", :delete, {}),
+			4
+		);
+	}
+
+	function onSelect(item) {
+		var id = item.getId();
+		if (id == :vibePattern) {
+			var intervalVibeMenu = new Ui.Menu2({
+				:title => Ui.loadResource(Rez.Strings.intervalVibePatternMenu_title),
+			});
+			intervalVibeMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_noNotification), "", :noNotification, {})
+			);
+			intervalVibeMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_longContinuous), "", :longContinuous, {})
+			);
+			intervalVibeMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_longSound), "", :longSound, {})
+			);
+			intervalVibeMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_longPulsating), "", :longPulsating, {})
+			);
+			intervalVibeMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_longAscending), "", :longAscending, {})
+			);
+			intervalVibeMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_longDescending), "", :longDescending, {})
+			);
+			intervalVibeMenu.addItem(
+				new Ui.MenuItem(
+					Ui.loadResource(Rez.Strings.vibePatternMenu_mediumContinuous),
+					"",
+					:mediumContinuous,
+					{}
+				)
+			);
+			intervalVibeMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_mediumPulsating), "", :mediumPulsating, {})
+			);
+			intervalVibeMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_mediumAscending), "", :mediumAscending, {})
+			);
+			intervalVibeMenu.addItem(
+				new Ui.MenuItem(
+					Ui.loadResource(Rez.Strings.vibePatternMenu_mediumDescending),
+					"",
+					:mediumDescending,
+					{}
+				)
+			);
+			intervalVibeMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_shortContinuous), "", :shortContinuous, {})
+			);
+			intervalVibeMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_shortPulsating), "", :shortPulsating, {})
+			);
+			intervalVibeMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_shortAscending), "", :shortAscending, {})
+			);
+			intervalVibeMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_shortDescending), "", :shortDescending, {})
+			);
+			intervalVibeMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.intervalVibePatternMenu_blip), "", :blip, {})
+			);
+			intervalVibeMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.intervalVibePatternMenu_shortSound), "", :shortSound, {})
+			);
+			intervalVibeMenu.addItem(
+				new Ui.MenuItem(
+					Ui.loadResource(Rez.Strings.intervalVibePatternMenu_shorterAscending),
+					"",
+					:shorterAscending,
+					{}
+				)
+			);
+			intervalVibeMenu.addItem(
+				new Ui.MenuItem(
+					Ui.loadResource(Rez.Strings.intervalVibePatternMenu_shorterContinuous),
+					"",
+					:shorterContinuous,
+					{}
+				)
+			);
+
 			var intervalVibePatternMenuDelegate = new IntervalVibePatternMenuDelegate(method(:onVibePatternChanged));
-			Ui.pushView(new Rez.Menus.intervalVibePatternMenu(), intervalVibePatternMenuDelegate, Ui.SLIDE_LEFT);
-		} else if (item == :time) {
+			Ui.pushView(intervalVibeMenu, intervalVibePatternMenuDelegate, Ui.SLIDE_LEFT);
+		} else if (id == :time) {
+			var intervalTypeMenu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.intervalTypeMenu_title) });
+			intervalTypeMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.intervalTypeMenu_oneOff), "", :oneOff, {})
+			);
+			intervalTypeMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.intervalTypeMenu_repeat), "", :repeat, {})
+			);
 			var intervalTypeMenuDelegate = new IntervalTypeMenuDelegate(method(:onTypeChanged));
-			Ui.pushView(new Rez.Menus.intervalTypeMenu(), intervalTypeMenuDelegate, Ui.SLIDE_LEFT);
-		} else if (item == :offset) {
+			Ui.pushView(intervalTypeMenu, intervalTypeMenuDelegate, Ui.SLIDE_LEFT);
+		} else if (id == :offset) {
 			me.notifyIntervalAlertChanged();
 
 			var durationPickerModel = new DurationPickerModel(4);
@@ -35,7 +190,7 @@ class AddEditIntervalAlertMenuDelegate extends Ui.MenuInputDelegate {
 			var view = new DurationPickerView(durationPickerModel, timeLayoutBuilder);
 			Ui.popView(Ui.SLIDE_IMMEDIATE);
 			Ui.pushView(view, durationPickerDelgate, Ui.SLIDE_IMMEDIATE);
-		} else if (item == :color) {
+		} else if (id == :color) {
 			var colors = [
 				Gfx.COLOR_RED,
 				Gfx.COLOR_YELLOW,
@@ -57,7 +212,7 @@ class AddEditIntervalAlertMenuDelegate extends Ui.MenuInputDelegate {
 				new ColorPickerDelegate(colors, method(:onColorPicked)),
 				Ui.SLIDE_LEFT
 			);
-		} else if (item == :delete) {
+		} else if (id == :delete) {
 			var confirmDeleteIntervalAlertHeader = Ui.loadResource(Rez.Strings.confirmDeleteIntervalAlertHeader);
 			var confirmDeleteDialog = new Ui.Confirmation(confirmDeleteIntervalAlertHeader);
 			Ui.pushView(confirmDeleteDialog, new YesDelegate(method(:onConfirmedDelete)), Ui.SLIDE_IMMEDIATE);
@@ -84,29 +239,34 @@ class AddEditIntervalAlertMenuDelegate extends Ui.MenuInputDelegate {
 		var durationInSeconds = durationInMins * 60;
 		me.mIntervalAlert.time = durationInSeconds;
 		me.notifyIntervalAlertChanged();
+		me.updateMenuItems();
 	}
 
 	function onRepeatDurationPicked(digits) {
 		var durationInSeconds = digits[0] * 600 + digits[1] * 60 + digits[2] * 10 + digits[3];
 		me.mIntervalAlert.time = durationInSeconds;
 		me.notifyIntervalAlertChanged();
+		me.updateMenuItems();
 	}
 
 	function onColorPicked(color) {
 		me.mIntervalAlert.color = color;
 		me.notifyIntervalAlertChanged();
+		me.updateMenuItems();
 	}
 
 	function onVibePatternChanged(vibePattern) {
 		me.mIntervalAlert.vibePattern = vibePattern;
 		me.notifyIntervalAlertChanged();
 		Vibe.vibrate(vibePattern);
+		me.updateMenuItems();
 	}
 
 	function onOffsetPicked(digits) {
 		var offsetInSeconds = digits[0] * 600 + digits[1] * 60 + digits[2] * 10 + digits[3];
 		me.mIntervalAlert.offset = offsetInSeconds;
 		me.notifyIntervalAlertChanged();
+		me.updateMenuItems();
 	}
 
 	function onTypeChanged(type) {
@@ -128,6 +288,7 @@ class AddEditIntervalAlertMenuDelegate extends Ui.MenuInputDelegate {
 		var view = new DurationPickerView(durationPickerModel, timeLayoutBuilder);
 		Ui.popView(Ui.SLIDE_IMMEDIATE);
 		Ui.pushView(view, durationPickerDelgate, Ui.SLIDE_IMMEDIATE);
+		me.updateMenuItems();
 	}
 
 	private function createTimeLayoutMmSsBuilder() {

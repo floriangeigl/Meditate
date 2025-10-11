@@ -14,7 +14,9 @@ class MeditateApp extends App.AppBase {
 	// onStart() is called on application start up
 	function onStart(state) {
 		if (me.heartbeatIntervalsSensor == null) {
-			me.heartbeatIntervalsSensor = new HrvAlgorithms.HeartbeatIntervalsSensor(GlobalSettings.loadExternalSensor() == ExternalSensor.On);
+			me.heartbeatIntervalsSensor = new HrvAlgorithms.HeartbeatIntervalsSensor(
+				GlobalSettings.loadExternalSensor() == ExternalSensor.On
+			);
 		}
 	}
 	// onStop() is called when your application is exiting
