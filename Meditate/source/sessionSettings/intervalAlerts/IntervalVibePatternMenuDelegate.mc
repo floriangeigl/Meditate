@@ -18,6 +18,9 @@ class IntervalVibePatternMenuDelegate extends Ui.MenuInputDelegate {
         else if (item == :mediumAscending) {
         	me.mOnVibePatternPicked.invoke(VibePattern.MediumAscending);
         }
+        else if (item == :mediumDescending) {
+            me.mOnVibePatternPicked.invoke(VibePattern.MediumDescending);
+        }
     	else if (item == :shortContinuous) {
         	me.mOnVibePatternPicked.invoke(VibePattern.ShortContinuous);
         }    
@@ -26,6 +29,9 @@ class IntervalVibePatternMenuDelegate extends Ui.MenuInputDelegate {
         }
         else if (item == :shortAscending) {
         	me.mOnVibePatternPicked.invoke(VibePattern.ShortAscending);
+        }
+        else if (item == :shortDescending) {
+            me.mOnVibePatternPicked.invoke(VibePattern.ShortDescending);
         }
         else if (item == :shorterAscending) {
         	me.mOnVibePatternPicked.invoke(VibePattern.ShorterAscending);
@@ -41,6 +47,12 @@ class IntervalVibePatternMenuDelegate extends Ui.MenuInputDelegate {
         }
         else if (item == :noNotification) {
         	me.mOnVibePatternPicked.invoke(VibePattern.NoNotification);
+        }
+        else if (item == :longAscending) {
+            me.mOnVibePatternPicked.invoke(VibePattern.LongAscending);
+        }
+        else if (item == :longContinuous) {
+            me.mOnVibePatternPicked.invoke(VibePattern.LongContinuous);
         }
     }
 }
