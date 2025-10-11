@@ -233,7 +233,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 				:hrvTracking,
 				{}
 			),
-			7
+			8
 		);
 
 		// 1: newActivityType
@@ -295,7 +295,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 				:multiSession,
 				{}
 			),
-			10
+			11
 		);
 
 		// 4: respirationRate
@@ -316,7 +316,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 				:respirationRate,
 				{}
 			),
-			9
+			10
 		);
 
 		// 5: prepareTime
@@ -389,7 +389,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 				:externalSensor,
 				{}
 			),
-			11
+			12
 		);
 
 		// 11: hrvWindow
@@ -410,14 +410,14 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 		}
 		mMenu.updateItem(
 			new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuHrvWindowSizeOptions_title), hrvWindowText, :hrvWindow, {}),
-			8
+			9
 		);
 
 		// 12: useSessionName
 		var useSessionNameText = GlobalSettings.loadUseSessionName() ? Ui.loadResource(Rez.Strings.menuGlobalSettings_useSessionName_on) : Ui.loadResource(Rez.Strings.menuGlobalSettings_useSessionName_off);
 		mMenu.updateItem(
 			new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_useSessionName), useSessionNameText, :useSessionName, {}),
-			12
+			7
 		);
 	}
 
