@@ -178,6 +178,7 @@
     <string id="activityNameMeditate">Meditieren</string>
     <string id="activityNameYoga">Yoga</string>
     <string id="activityNameBreathing">Atmung</string>
+    <string id="activityNameGeneric">Allgemein</string>
     <string id="sessionTitleMeditate">Meditieren 🧘</string>
     <string id="sessionTitleYoga">Yoga 🧘</string>
     <string id="sessionTitleBreathing">Atmung 🌬️</string>

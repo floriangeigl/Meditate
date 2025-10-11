@@ -59,11 +59,16 @@ class Utils {
 
 	static function getActivityTypeText(activityType) {
 		switch (activityType) {
+			case ActivityType.Meditating:
+				return Ui.loadResource(Rez.Strings.activityNameMeditate);
+			case ActivityType.Generic:
+				return Ui.loadResource(Rez.Strings.activityNameGeneric);
 			case ActivityType.Yoga:
 				return Ui.loadResource(Rez.Strings.activityNameYoga);
 			case ActivityType.Breathing:
 				return Ui.loadResource(Rez.Strings.activityNameBreathing);
 			default:
+				// Fallback to meditating label if unknown
 				return Ui.loadResource(Rez.Strings.activityNameMeditate);
 		}
 	}

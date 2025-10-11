@@ -25,6 +25,8 @@ class IntervalAlertsMenuDelegate extends Ui.Menu2InputDelegate {
 			if (me.mIntervalAlerts.size() == 0) {
 				return;
 			}
+			// If a previous edit menu reference exists, clear it to avoid stale pointers
+			me.mEditIntervalAlertsMenu = null;
 			var editIntervalAlertsMenu = new Ui.Menu2({
 				:title => Ui.loadResource(Rez.Strings.editIntervalAlertsMenu_title),
 			});
@@ -57,7 +59,10 @@ class IntervalAlertsMenuDelegate extends Ui.Menu2InputDelegate {
 				}
 			}
 
-			var editIntervalAlertsMenuDelegate = new EditIntervalAlertsMenuDelegate(method(:editIntervalAlert));
+			var editIntervalAlertsMenuDelegate = new EditIntervalAlertsMenuDelegate(
+				method(:editIntervalAlert),
+				method(:onEditMenuDismissed)
+			);
 			Ui.pushView(editIntervalAlertsMenu, editIntervalAlertsMenuDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :deleteAll) {
 			if (me.mIntervalAlerts.size() == 0) {
@@ -152,6 +157,11 @@ class IntervalAlertsMenuDelegate extends Ui.Menu2InputDelegate {
 		}
 
 		me.mOnIntervalAlertsChanged.invoke(me.mIntervalAlerts);
+	}
+
+	// Called when the Edit Interval Alerts list is dismissed (select or back)
+	function onEditMenuDismissed() {
+		me.mEditIntervalAlertsMenu = null;
 	}
 
 	// Allow callers to ask the delegate to refresh its root Menu2 subtexts
