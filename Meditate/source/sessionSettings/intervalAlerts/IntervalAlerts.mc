@@ -3,7 +3,7 @@ using Toybox.Graphics as Gfx;
 module IntervalAlertType {
 	enum {
 		OneOff = 1,
-		Repeat = 2,
+		Repeat = 2
 	}
 }
 
