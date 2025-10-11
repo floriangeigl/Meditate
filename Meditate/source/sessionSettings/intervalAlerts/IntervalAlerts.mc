@@ -104,7 +104,7 @@ class Alert {
 		if (me.type == IntervalAlertType.OneOff) {
 			return [percentageOffset + percentageTime];
 		} else {
-			var executionsCount = (sessionTime - me.offset) / me.time + 1;
+			var executionsCount = (sessionTime - offsetVal) / me.time + 1;
 			if (executionsCount > maxRepeatExecutionsCount) {
 				executionsCount = maxRepeatExecutionsCount;
 			}
@@ -113,7 +113,7 @@ class Alert {
 			}
 			var result = new [executionsCount];
 			for (var i = 0; i < executionsCount; i++) {
-				if (me.offset > 0) {
+				if (offsetVal > 0) {
 					result[i] = percentageOffset + percentageTime * i;
 				} else {
 					result[i] = percentageOffset + percentageTime * (i + 1);

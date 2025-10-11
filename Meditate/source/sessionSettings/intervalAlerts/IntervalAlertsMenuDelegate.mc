@@ -75,6 +75,7 @@ class IntervalAlertsMenuDelegate extends Ui.Menu2InputDelegate {
 
 	function onDeleteIntervalAlert(intervalAlertIndex) {
 		me.mIntervalAlerts.delete(intervalAlertIndex);
+		me.updateMenuItems();
 		me.mOnIntervalAlertsChanged.invoke(me.mIntervalAlerts);
 	}
 
@@ -108,11 +109,13 @@ class IntervalAlertsMenuDelegate extends Ui.Menu2InputDelegate {
 	function onConfirmedDeleteAllIntervalAlerts() {
 		Ui.popView(Ui.SLIDE_IMMEDIATE);
 		me.mIntervalAlerts.reset();
+		me.updateMenuItems();
 		me.mOnIntervalAlertsChanged.invoke(me.mIntervalAlerts);
 	}
 
 	function onIntervalAlertChanged(intervalAlertIndex, intervalAlert) {
 		me.mIntervalAlerts.set(intervalAlertIndex, intervalAlert);
+		me.updateMenuItems();
 
 		// If the edit list is visible, refresh the specific item so the summary updates
 		if (me.mEditIntervalAlertsMenu != null) {

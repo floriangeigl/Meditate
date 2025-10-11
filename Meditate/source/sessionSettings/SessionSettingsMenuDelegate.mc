@@ -24,7 +24,7 @@ class SessionSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 				me.mSessionStorage.getSessionsCount(),
 			});
 			menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_time), "", :time, {}));
-			menu.addItem(new Ui.MenuItem("Name", "", :name, {}));
+			menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_name), "", :name, {}));
 			menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_color), "", :color, {}));
 			menu.addItem(
 				new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_vibeSound), "", :vibePattern, {})
@@ -58,7 +58,7 @@ class SessionSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 				(me.mSessionStorage.getSelectedSessionIndex() + 1),
 			});
 			menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_time), "", :time, {}));
-			menu.addItem(new Ui.MenuItem("Name", "", :name, {}));
+			menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_name), "", :name, {}));
 			menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_color), "", :color, {}));
 			menu.addItem(
 				new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_vibeSound), "", :vibePattern, {})
@@ -159,7 +159,7 @@ class SessionSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			:title => Ui.loadResource(Rez.Strings.addEditSessionMenu_title) + " " + sessionNumber,
 		});
 		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_time), "", :time, {}));
-		menu.addItem(new Ui.MenuItem("Name", "", :name, {}));
+		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_name), "", :name, {}));
 		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_color), "", :color, {}));
 		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_vibeSound), "", :vibePattern, {}));
 		menu.addItem(
