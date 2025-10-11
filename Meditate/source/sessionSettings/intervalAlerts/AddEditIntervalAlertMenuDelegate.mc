@@ -235,7 +235,8 @@ class AddEditIntervalAlertMenuDelegate extends Ui.Menu2InputDelegate {
 			var timeLayoutBuilder = me.createTimeLayoutMmSsBuilder();
 			var durationPickerDelgate = new DurationPickerDelegate(durationPickerModel, method(:onOffsetPicked));
 			var view = new DurationPickerView(durationPickerModel, timeLayoutBuilder);
-			Ui.popView(Ui.SLIDE_IMMEDIATE);
+			// Push the duration picker on top of this menu so that when the picker
+			// pops itself the user returns to this Add/Edit Interval Alert menu.
 			Ui.pushView(view, durationPickerDelgate, Ui.SLIDE_IMMEDIATE);
 		} else if (id == :color) {
 			var colors = [
@@ -333,7 +334,8 @@ class AddEditIntervalAlertMenuDelegate extends Ui.Menu2InputDelegate {
 			durationPickerDelgate = new DurationPickerDelegate(durationPickerModel, method(:onRepeatDurationPicked));
 		}
 		var view = new DurationPickerView(durationPickerModel, timeLayoutBuilder);
-		Ui.popView(Ui.SLIDE_IMMEDIATE);
+		// Push the duration picker on top of this menu so the user remains in
+		// the Add/Edit Interval Alert menu after finishing the picker.
 		Ui.pushView(view, durationPickerDelgate, Ui.SLIDE_IMMEDIATE);
 		me.updateMenuItems();
 	}

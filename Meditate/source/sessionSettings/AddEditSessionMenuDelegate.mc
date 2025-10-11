@@ -315,7 +315,10 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 		} else if (item == :off) {
 			sessionModel.setHrvTracking(HrvTracking.Off);
 		}
+		// Update local model so the menu subtext can be refreshed immediately
+		me.mSessionModel.copyNonNullFieldsFromSession(sessionModel);
 		me.mOnChangeSession.invoke(sessionModel);
+		me.updateMenuItems();
 	}
 
 	function onActivityTypePicked(item) {
@@ -329,19 +332,26 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 		} else if (item == :generic) {
 			sessionModel.setActivityType(ActivityType.Generic);
 		}
+		// Update local model so the menu subtext can be refreshed immediately
+		me.mSessionModel.copyNonNullFieldsFromSession(sessionModel);
 		me.mOnChangeSession.invoke(sessionModel);
+		me.updateMenuItems();
 	}
 
 	function onIntervalAlertsChanged(intervalAlerts) {
 		var sessionModel = new SessionModel();
 		sessionModel.setIntervalAlerts(intervalAlerts);
+		me.mSessionModel.copyNonNullFieldsFromSession(sessionModel);
 		me.mOnChangeSession.invoke(sessionModel);
+		me.updateMenuItems();
 	}
 
 	function onVibePatternPicked(vibePattern) {
 		var sessionModel = new SessionModel();
 		sessionModel.vibePattern = vibePattern;
+		me.mSessionModel.copyNonNullFieldsFromSession(sessionModel);
 		me.mOnChangeSession.invoke(sessionModel);
+		me.updateMenuItems();
 		Vibe.vibrate(vibePattern);
 	}
 
@@ -349,12 +359,26 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 		var sessionModel = new SessionModel();
 		var durationMins = digits[0] * 60 + digits[1] * 10 + digits[2];
 		sessionModel.time = durationMins * 60;
+		me.mSessionModel.copyNonNullFieldsFromSession(sessionModel);
 		me.mOnChangeSession.invoke(sessionModel);
+		me.updateMenuItems();
 	}
 
 	function onColorSelected(color) {
 		var sessionModel = new SessionModel();
 		sessionModel.color = color;
+		me.mSessionModel.copyNonNullFieldsFromSession(sessionModel);
 		me.mOnChangeSession.invoke(sessionModel);
+		me.updateMenuItems();
+	}
+
+	// Ensure any pending changes are applied when the user presses Back to leave
+	// this Add/Edit menu. We invoke the change callback with the current local
+	// session model so the session picker can immediately refresh.
+	function onBack() {
+		me.mOnChangeSession.invoke(me.mSessionModel);
+		Menu2InputDelegate.onBack();
+		// Return false to let the default back pop behavior proceed.
+		return false;
 	}
 }

@@ -213,8 +213,19 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 	function updateSelectedSessionDetails(session) {
 		me.mHrvTracking = session.getHrvTracking();
 		me.setTestModeHeartbeatIntervalsSensor();
-		me.mSelectedSessionDetails = new ScreenPicker.DetailsModel();
+		// Reuse the existing DetailsModel instance so the active view (which may
+		// hold a reference to it) sees mutations immediately. If it doesn't
+		// exist yet, create it.
+		if (me.mSelectedSessionDetails == null) {
+			me.mSelectedSessionDetails = new ScreenPicker.DetailsModel();
+		}
 		var details = me.mSelectedSessionDetails;
+		// Reset the details model in-place
+		details.title = "";
+		details.titleColor = null;
+		details.detailLines = [];
+		details.foregroundColor = null;
+		details.linesCount = 0;
 
 		var activityTypeText;
 		if (session.getActivityType() == ActivityType.Yoga) {
@@ -272,6 +283,8 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		});
 		line.icon = settingsIcon;
 		line.value.text = Ui.loadResource(Rez.Strings.optionsMenuHelp);
+		// Ensure the screen updates immediately when session details change
+		Ui.requestUpdate();
 	}
 
 	function createScreenPickerView() {

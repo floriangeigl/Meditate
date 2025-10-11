@@ -12,6 +12,12 @@ class IntervalVibePatternMenuDelegate extends Ui.Menu2InputDelegate {
 		var id = item.getId();
 		var picked = null;
 		switch (id) {
+			case :longSound:
+				picked = VibePattern.LongSound;
+				break;
+			case :longPulsating:
+				picked = VibePattern.LongPulsating;
+				break;
 			case :mediumContinuous:
 				picked = VibePattern.MediumContinuous;
 				break;
@@ -53,6 +59,9 @@ class IntervalVibePatternMenuDelegate extends Ui.Menu2InputDelegate {
 				break;
 			case :longAscending:
 				picked = VibePattern.LongAscending;
+				break;
+			case :longDescending:
+				picked = VibePattern.LongDescending;
 				break;
 			case :longContinuous:
 				picked = VibePattern.LongContinuous;
