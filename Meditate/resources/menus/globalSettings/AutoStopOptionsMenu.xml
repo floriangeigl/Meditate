@@ -1,4 +1,0 @@
-<menu id="autoStopOptionMenu" title="@Strings.menuAutoStopOptions_title">
-    <menu-item id="on" label="@Strings.menuAutoStopOptions_on" />
-    <menu-item id="off" label="@Strings.menuAutoStopOptions_off" />
-</menu>
