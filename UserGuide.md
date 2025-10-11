@@ -253,6 +253,10 @@ You can set the default activity type for new sessions.
 
 You can change over which time-window the HRV is calculated. For reliable measurements I recommend going for at least 3min, as everything below is considered ultra-short-term HRV measurement. Personally, I use 5min for my sessions. The default is 60sec, because beginners tend to do session around 5min and still want to see some trend of their HRV within this window. Read more on this topic [here](https://pmc.ncbi.nlm.nih.gov/articles/PMC5624990/)
 
+#### 4.7 Notifications
+
+Enables or disables any notifcations from the app. If set to off, you won't get any interval alerts or final alerts.
+
 ## FAQs
 
 ### HRV does not work / shows "waiting"

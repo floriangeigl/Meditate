@@ -3,14 +3,54 @@ using Toybox.Graphics as Gfx;
 using HrvAlgorithms.HrvTracking;
 using Toybox.Application as App;
 
-class AddEditSessionMenuDelegate extends Ui.MenuInputDelegate {
+class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 	private var mOnChangeSession;
 	private var mIntervalAlerts;
+	private var mMenu;
+	private var mSessionModel;
 
-	function initialize(intervalAlerts, onChangeSession) {
-		MenuInputDelegate.initialize();
+	function initialize(sessionModel, intervalAlerts, onChangeSession, menu) {
+		Menu2InputDelegate.initialize();
+		me.mSessionModel = sessionModel;
 		me.mIntervalAlerts = intervalAlerts;
 		me.mOnChangeSession = onChangeSession;
+		me.mMenu = menu;
+	}
+
+	private static function getVibePatternText(vibePattern) {
+		if (vibePattern == null) {
+			vibePattern = VibePattern.NoNotification;
+		}
+		switch (vibePattern) {
+			case VibePattern.LongPulsating:
+				return Ui.loadResource(Rez.Strings.vibePatternMenu_longPulsating);
+			case VibePattern.LongSound:
+				return Ui.loadResource(Rez.Strings.vibePatternMenu_longSound);
+			case VibePattern.LongAscending:
+				return Ui.loadResource(Rez.Strings.vibePatternMenu_longAscending);
+			case VibePattern.LongContinuous:
+				return Ui.loadResource(Rez.Strings.vibePatternMenu_longContinuous);
+			case VibePattern.LongDescending:
+				return Ui.loadResource(Rez.Strings.vibePatternMenu_longDescending);
+			case VibePattern.MediumAscending:
+				return Ui.loadResource(Rez.Strings.vibePatternMenu_mediumAscending);
+			case VibePattern.MediumContinuous:
+				return Ui.loadResource(Rez.Strings.vibePatternMenu_mediumContinuous);
+			case VibePattern.MediumPulsating:
+				return Ui.loadResource(Rez.Strings.vibePatternMenu_mediumPulsating);
+			case VibePattern.MediumDescending:
+				return Ui.loadResource(Rez.Strings.vibePatternMenu_mediumDescending);
+			case VibePattern.ShortAscending:
+				return Ui.loadResource(Rez.Strings.vibePatternMenu_shortAscending);
+			case VibePattern.ShortContinuous:
+				return Ui.loadResource(Rez.Strings.vibePatternMenu_shortContinuous);
+			case VibePattern.ShortPulsating:
+				return Ui.loadResource(Rez.Strings.vibePatternMenu_shortPulsating);
+			case VibePattern.ShortDescending:
+				return Ui.loadResource(Rez.Strings.vibePatternMenu_shortDescending);
+			default:
+				return Ui.loadResource(Rez.Strings.vibePatternMenu_noNotification);
+		}
 	}
 
 	private function createHmmTimeLayoutBuilder() {
@@ -26,8 +66,10 @@ class AddEditSessionMenuDelegate extends Ui.MenuInputDelegate {
 		return digitsLayout;
 	}
 
-	function onMenuItem(item) {
-		if (item == :time) {
+	// Menu2 selection handler
+	function onSelect(item) {
+		var id = item.getId();
+		if (id == :time) {
 			var durationPickerModel = new DurationPickerModel(3);
 			var hMmTimeLayoutBuilder = createHmmTimeLayoutBuilder();
 			Ui.pushView(
@@ -35,7 +77,7 @@ class AddEditSessionMenuDelegate extends Ui.MenuInputDelegate {
 				new DurationPickerDelegate(durationPickerModel, method(:onHmmDigitsPicked)),
 				Ui.SLIDE_LEFT
 			);
-		} else if (item == :color) {
+		} else if (id == :color) {
 			var colors = [
 				Gfx.COLOR_BLUE,
 				Gfx.COLOR_DK_BLUE,
@@ -56,10 +98,10 @@ class AddEditSessionMenuDelegate extends Ui.MenuInputDelegate {
 				new ColorPickerDelegate(colors, method(:onColorSelected)),
 				Ui.SLIDE_LEFT
 			);
-		} else if (item == :vibePattern) {
+		} else if (id == :vibePattern) {
 			var vibePatternMenuDelegate = new VibePatternMenuDelegate(method(:onVibePatternPicked));
 			Ui.pushView(new Rez.Menus.vibePatternMenu(), vibePatternMenuDelegate, Ui.SLIDE_LEFT);
-		} else if (item == :intervalAlerts) {
+		} else if (id == :intervalAlerts) {
 			var intervalAlertsMenuDelegate = new IntervalAlertsMenuDelegate(
 				me.mIntervalAlerts,
 				method(:onIntervalAlertsChanged)
@@ -72,13 +114,107 @@ class AddEditSessionMenuDelegate extends Ui.MenuInputDelegate {
 				intervalAlertSettingsMenu.addItem(deleteAllName, :deleteAll);
 			}
 			Ui.pushView(intervalAlertSettingsMenu, intervalAlertsMenuDelegate, Ui.SLIDE_LEFT);
-		} else if (item == :activityType) {
+		} else if (id == :activityType) {
 			var activityTypeDelegate = new MenuOptionsDelegate(method(:onActivityTypePicked));
 			Ui.pushView(new Rez.Menus.activityTypeMenu(), activityTypeDelegate, Ui.SLIDE_LEFT);
-		} else if (item == :hrvTracking) {
+		} else if (id == :hrvTracking) {
 			var hrvTrackingDelegate = new MenuOptionsDelegate(method(:onHrvTrackingPicked));
 			Ui.pushView(new Rez.Menus.hrvTrackingMenu(), hrvTrackingDelegate, Ui.SLIDE_LEFT);
 		}
+	}
+
+	// Public: refresh Menu2 subtexts to show current session values
+	function updateMenuItems() {
+		if (me.mMenu == null || me.mSessionModel == null) {
+			return;
+		}
+
+		// time
+		var timeText = TimeFormatter.format(me.mSessionModel.time);
+		me.mMenu.updateItem(
+			new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_time), timeText, :time, {}),
+			0
+		);
+
+		// color: show a textual placeholder; per-item text color isn't widely supported
+		var colorText = "";
+		if (me.mSessionModel.color == null) {
+			colorText = "";
+		} else if (me.mSessionModel.color == Gfx.COLOR_TRANSPARENT) {
+			colorText = Ui.loadResource(Rez.Strings.intervalAlertTransparentColorText);
+		} else {
+			// no localized name for colors; show empty so the color is implied in other UI
+			colorText = "";
+		}
+		me.mMenu.updateItem(
+			new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_color), colorText, :color, {}),
+			1
+		);
+
+		// vibePattern
+		me.mMenu.updateItem(
+			new Ui.MenuItem(
+				Ui.loadResource(Rez.Strings.addEditSessionMenu_vibeSound),
+				getVibePatternText(me.mSessionModel.vibePattern),
+				:vibePattern,
+				{}
+			),
+			2
+		);
+
+		// interval alerts - show count
+		var alertsCount = me.mSessionModel.getIntervalAlerts().size();
+		var alertsText = alertsCount == 0 ? "0" : alertsCount + "";
+		me.mMenu.updateItem(
+			new Ui.MenuItem(
+				Ui.loadResource(Rez.Strings.addEditSessionMenu_intervalAlerts),
+				alertsText,
+				:intervalAlerts,
+				{}
+			),
+			3
+		);
+
+		// activity type
+		var activityText = "";
+		switch (me.mSessionModel.getActivityType()) {
+			case ActivityType.Yoga:
+				activityText = Ui.loadResource(Rez.Strings.activityNameYoga);
+				break;
+			case ActivityType.Breathing:
+				activityText = Ui.loadResource(Rez.Strings.activityNameBreathing);
+				break;
+			default:
+				activityText = Ui.loadResource(Rez.Strings.activityNameMeditate);
+				break;
+		}
+		me.mMenu.updateItem(
+			new Ui.MenuItem(
+				Ui.loadResource(Rez.Strings.addEditSessionMenu_activityType),
+				activityText,
+				:activityType,
+				{}
+			),
+			4
+		);
+
+		// hrv tracking
+		var hrvText = "";
+		switch (me.mSessionModel.getHrvTracking()) {
+			case HrvTracking.On:
+				hrvText = Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_on);
+				break;
+			case HrvTracking.OnDetailed:
+				hrvText = Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_onDetailed);
+				break;
+			default:
+				hrvText = Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_off);
+				break;
+		}
+		me.mMenu.updateItem(
+			new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_hrvTracking), hrvText, :hrvTracking, {}),
+			5
+		);
 	}
 
 	function onHrvTrackingPicked(item) {
