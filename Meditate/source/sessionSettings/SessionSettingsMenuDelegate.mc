@@ -117,8 +117,8 @@ class SessionSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 		var selectedSession = me.mSessionStorage.loadSelectedSession();
 		var editSubtext = "";
 		if (selectedSession != null) {
-			if (selectedSession.name != null && selectedSession.name != "") {
-				editSubtext = selectedSession.name;
+			if (selectedSession.getName() != null && selectedSession.getName() != "") {
+				editSubtext = selectedSession.getName();
 			} else {
 				// Fallback: activity type + 1-based index
 				var idx = me.mSessionStorage.getSelectedSessionIndex() + 1;

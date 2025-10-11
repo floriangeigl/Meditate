@@ -24,8 +24,8 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 		// Determine activity name: prefer using the session's custom name if the global setting enables it,
 		// otherwise fall back to the Garmin Connect property or default titles.
 		var activityName = "";
-		if (GlobalSettings.loadUseSessionName() && meditateModel.name != null && meditateModel.name.length() > 0) {
-			activityName = meditateModel.name.toString();
+		if (GlobalSettings.loadUseSessionName() && meditateModel.getName() != null && meditateModel.getName().length() > 0) {
+			activityName = meditateModel.getName().toString();
 		} else {
 			var storedActivityName = App.Storage.getApp().getProperty("activityName");
 			if (storedActivityName != null && storedActivityName.length() > 0) {
