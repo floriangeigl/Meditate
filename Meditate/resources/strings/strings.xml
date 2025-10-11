@@ -107,6 +107,10 @@
 
     <string id="menuHrvWindowSizeOptions_title">HRV Window</string>
 
+    <string id="menuGlobalSettings_useSessionName">Session name = Activity name</string>
+    <string id="menuGlobalSettings_useSessionName_on">Yes</string>
+    <string id="menuGlobalSettings_useSessionName_off">No (Default)</string>
+
     <string id="menuNotificationOptions_title">Notifications</string>
     <string id="menuNotificationOptions_on">On (Default)</string>
     <string id="menuNotificationOptions_off">Off</string>
@@ -130,6 +134,7 @@
     <string id="addEditIntervalAlertMenu_delete">Delete</string>
 
     <string id="addEditSessionMenu_title">Session</string>
+    <string id="addEditSessionMenu_name">Name</string>
     <string id="addEditSessionMenu_time">Time</string>
     <string id="addEditSessionMenu_color">Color</string>
     <string id="addEditSessionMenu_vibeSound">Vibe / Sound</string>

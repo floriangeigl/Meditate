@@ -69,6 +69,14 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 	// Menu2 selection handler
 	function onSelect(item) {
 		var id = item.getId();
+		if (id == :name) {
+			var initial = "";
+			if (me.mSessionModel.name != null) {
+				initial = me.mSessionModel.name;
+			}
+			Ui.pushView(new Ui.TextPicker(initial), new SessionNamePickerDelegate(method(:onNamePicked)), Ui.SLIDE_LEFT);
+			return;
+		}
 		if (id == :time) {
 			var durationPickerModel = new DurationPickerModel(3);
 			var hMmTimeLayoutBuilder = createHmmTimeLayoutBuilder();
@@ -218,11 +226,21 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 			return;
 		}
 
+		// 0: name
+		var nameText = "";
+		if (me.mSessionModel.name != null && me.mSessionModel.name != "") {
+			nameText = me.mSessionModel.name;
+		}
+		me.mMenu.updateItem(
+			new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_name), nameText, :name, {}),
+			0
+		);
+
 		// time
 		var timeText = TimeFormatter.format(me.mSessionModel.time);
 		me.mMenu.updateItem(
 			new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_time), timeText, :time, {}),
-			0
+			1
 		);
 
 		// color: show a textual placeholder; per-item text color isn't widely supported
@@ -237,7 +255,7 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 		}
 		me.mMenu.updateItem(
 			new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_color), colorText, :color, {}),
-			1
+			2
 		);
 
 		// vibePattern
@@ -248,7 +266,7 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 				:vibePattern,
 				{}
 			),
-			2
+			3
 		);
 
 		// interval alerts - show count
@@ -261,7 +279,7 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 				:intervalAlerts,
 				{}
 			),
-			3
+			4
 		);
 
 		// activity type
@@ -284,7 +302,7 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 				:activityType,
 				{}
 			),
-			4
+			5
 		);
 
 		// hrv tracking
@@ -302,8 +320,37 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 		}
 		me.mMenu.updateItem(
 			new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_hrvTracking), hrvText, :hrvTracking, {}),
-			5
+			6
 		);
+	}
+
+	// Text picker callback for the session name
+	function onNamePicked(text) {
+		var sessionModel = new SessionModel();
+		sessionModel.name = text;
+		me.mSessionModel.copyNonNullFieldsFromSession(sessionModel);
+		me.mOnChangeSession.invoke(sessionModel);
+		me.updateMenuItems();
+	}
+
+	// Small TextPickerDelegate that forwards the entered text to a callback
+	class SessionNamePickerDelegate extends Ui.TextPickerDelegate {
+		private var mOnTextEntered;
+
+		function initialize(onTextEntered) {
+			TextPickerDelegate.initialize();
+			me.mOnTextEntered = onTextEntered;
+		}
+
+		function onTextEntered(text, changed) {
+			if (me.mOnTextEntered != null) {
+				me.mOnTextEntered.invoke(text);
+			}
+		}
+
+		function onCancel() {
+			// No-op
+		}
 	}
 
 	function onHrvTrackingPicked(item) {

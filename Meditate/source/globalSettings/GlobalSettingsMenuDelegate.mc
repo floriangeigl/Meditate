@@ -201,6 +201,12 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			);
 			var hrvWindowSizeDelegate = new MenuOptionsDelegate(method(:onHrvWindowSizePicked));
 			Ui.pushView(windowMenu, hrvWindowSizeDelegate, Ui.SLIDE_LEFT);
+		} else if (id == :useSessionName) {
+			var useMenu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.menuGlobalSettings_useSessionName) });
+			useMenu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_useSessionName_on), "", :on, {}));
+			useMenu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_useSessionName_off), "", :off, {}));
+			var useDelegate = new MenuOptionsDelegate(method(:onUseSessionNamePicked));
+			Ui.pushView(useMenu, useDelegate, Ui.SLIDE_LEFT);
 		}
 	}
 
@@ -406,6 +412,13 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuHrvWindowSizeOptions_title), hrvWindowText, :hrvWindow, {}),
 			8
 		);
+
+		// 12: useSessionName
+		var useSessionNameText = GlobalSettings.loadUseSessionName() ? Ui.loadResource(Rez.Strings.menuGlobalSettings_useSessionName_on) : Ui.loadResource(Rez.Strings.menuGlobalSettings_useSessionName_off);
+		mMenu.updateItem(
+			new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_useSessionName), useSessionNameText, :useSessionName, {}),
+			12
+		);
 	}
 
 	// When option menus save changes they call back here. Update Menu2 subtexts and notify parent.
@@ -571,6 +584,15 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			GlobalSettings.saveHrvWindowTime(60 * 5);
 		} else if (item == :time_10m) {
 			GlobalSettings.saveHrvWindowTime(60 * 10);
+		}
+		onChangedNotify();
+	}
+
+	function onUseSessionNamePicked(item) {
+		if (item == :on) {
+			GlobalSettings.saveUseSessionName(true);
+		} else if (item == :off) {
+			GlobalSettings.saveUseSessionName(false);
 		}
 		onChangedNotify();
 	}

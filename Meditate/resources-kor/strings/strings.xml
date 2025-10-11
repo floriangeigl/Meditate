@@ -107,6 +107,10 @@
 
 	<string id="menuHrvWindowSizeOptions_title">HRV Window</string>
 
+	<string id="menuGlobalSettings_useSessionName">세션 이름 = 활동 이름</string>
+	<string id="menuGlobalSettings_useSessionName_on">예</string>
+	<string id="menuGlobalSettings_useSessionName_off">아니오 (기본값)</string>
+
 	<string id="menuNotificationOptions_title">알림</string>
 	<string id="menuNotificationOptions_on">켜기 (기본값)</string>
 	<string id="menuNotificationOptions_off">끄기</string>
@@ -129,6 +133,7 @@
 	<string id="addEditIntervalAlertMenu_delete">삭제</string>
 
 	<string id="addEditSessionMenu_title">세션</string>
+	<string id="addEditSessionMenu_name">이름</string>
 	<string id="addEditSessionMenu_time">시간</string>
 	<string id="addEditSessionMenu_color">색상</string>
 	<string id="addEditSessionMenu_vibeSound">진동 / 소리</string>

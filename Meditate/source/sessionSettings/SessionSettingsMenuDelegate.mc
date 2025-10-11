@@ -24,6 +24,7 @@ class SessionSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 				me.mSessionStorage.getSessionsCount(),
 			});
 			menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_time), "", :time, {}));
+			menu.addItem(new Ui.MenuItem("Name", "", :name, {}));
 			menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_color), "", :color, {}));
 			menu.addItem(
 				new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_vibeSound), "", :vibePattern, {})
@@ -57,6 +58,7 @@ class SessionSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 				(me.mSessionStorage.getSelectedSessionIndex() + 1),
 			});
 			menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_time), "", :time, {}));
+			menu.addItem(new Ui.MenuItem("Name", "", :name, {}));
 			menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_color), "", :color, {}));
 			menu.addItem(
 				new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_vibeSound), "", :vibePattern, {})
@@ -111,10 +113,26 @@ class SessionSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			0
 		);
 
-		// 1: edit - show currently selected session index (1-based)
-		var selectedIndex = me.mSessionStorage.getSelectedSessionIndex() + 1;
+		// 1: edit - show currently selected session title (or a fallback) as subtext
+		var selectedSession = me.mSessionStorage.loadSelectedSession();
+		var editSubtext = "";
+		if (selectedSession != null) {
+			if (selectedSession.name != null && selectedSession.name != "") {
+				editSubtext = selectedSession.name;
+			} else {
+				// Fallback: activity type + 1-based index
+				var idx = me.mSessionStorage.getSelectedSessionIndex() + 1;
+				var act = Ui.loadResource(Rez.Strings.activityNameMeditate);
+				if (selectedSession.getActivityType() == ActivityType.Yoga) {
+					act = Ui.loadResource(Rez.Strings.activityNameYoga);
+				} else if (selectedSession.getActivityType() == ActivityType.Breathing) {
+					act = Ui.loadResource(Rez.Strings.activityNameBreathing);
+				}
+				editSubtext = act + " " + idx;
+			}
+		}
 		me.mMenu.updateItem(
-			new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_edit), selectedIndex + "", :edit, {}),
+			new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_edit), editSubtext, :edit, {}),
 			1
 		);
 
@@ -141,6 +159,7 @@ class SessionSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			:title => Ui.loadResource(Rez.Strings.addEditSessionMenu_title) + " " + sessionNumber,
 		});
 		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_time), "", :time, {}));
+		menu.addItem(new Ui.MenuItem("Name", "", :name, {}));
 		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_color), "", :color, {}));
 		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_vibeSound), "", :vibePattern, {}));
 		menu.addItem(

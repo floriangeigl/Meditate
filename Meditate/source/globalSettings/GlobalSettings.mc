@@ -179,6 +179,21 @@ class GlobalSettings {
 	static function saveHrvWindowTime(hrvWindowTime) {
 		App.Storage.setValue(HrvWindowTimeKey, hrvWindowTime);
 	}
+
+	private static const UseSessionNameKey = "globalSettings_useSessionName";
+
+	static function loadUseSessionName() {
+		var use = App.Storage.getValue(UseSessionNameKey);
+		if (use == null) {
+			return false;
+		} else {
+			return use;
+		}
+	}
+
+	static function saveUseSessionName(use) {
+		App.Storage.setValue(UseSessionNameKey, use);
+	}
 }
 
 module ConfirmSaveActivity {
