@@ -27,8 +27,13 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 		if (GlobalSettings.loadUseSessionName() && meditateModel.name != null && meditateModel.name.length() > 0) {
 			activityName = meditateModel.name.toString();
 		} else {
-			activityName = App.Storage.getApp().getProperty("activityName");
-			activityName = activityName.length() > 0 ? activityName.toString() : "";
+		} else {
+			var storedActivityName = App.Storage.getApp().getProperty("activityName");
+			if (storedActivityName != null && storedActivityName.length() > 0) {
+				activityName = storedActivityName.toString();
+			} else {
+				activityName = "";
+			}
 		}
 		if (meditateModel.getActivityType() == ActivityType.Yoga) {
 			activityName = activityName.length() > 0 ? activityName : Ui.loadResource(Rez.Strings.sessionTitleYoga);
