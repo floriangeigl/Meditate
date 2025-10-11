@@ -191,15 +191,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		details.foregroundColor = null;
 		details.linesCount = 0;
 
-		var activityTypeText;
-		if (session.getActivityType() == ActivityType.Yoga) {
-			activityTypeText = Ui.loadResource(Rez.Strings.activityNameYoga);
-		} else if (session.getActivityType() == ActivityType.Breathing) {
-			activityTypeText = Ui.loadResource(Rez.Strings.activityNameBreathing);
-		} else {
-			// Meditation
-			activityTypeText = Ui.loadResource(Rez.Strings.activityNameMeditate);
-		}
+		var activityTypeText = Utils.getActivityTypeText(session.getActivityType());
 		if (session.name != null) {
 			details.title = session.name;
 		} else {

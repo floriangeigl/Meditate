@@ -1,6 +1,7 @@
 using Toybox.Lang;
 using Toybox.System;
 using Toybox.WatchUi as Ui;
+using HrvAlgorithms.HrvTracking;
 
 class Utils {
 	static function MonkeyVersionAtLeast(version) {
@@ -53,6 +54,28 @@ class Utils {
 				return Ui.loadResource(Rez.Strings.vibePatternMenu_noNotification);
 			default:
 				return Ui.loadResource(Rez.Strings.vibePatternMenu_noNotification);
+		}
+	}
+
+	static function getActivityTypeText(activityType) {
+		switch (activityType) {
+			case ActivityType.Yoga:
+				return Ui.loadResource(Rez.Strings.activityNameYoga);
+			case ActivityType.Breathing:
+				return Ui.loadResource(Rez.Strings.activityNameBreathing);
+			default:
+				return Ui.loadResource(Rez.Strings.activityNameMeditate);
+		}
+	}
+
+	static function getHrvTrackingText(hrvTracking) {
+		switch (hrvTracking) {
+			case HrvTracking.On:
+				return Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_on);
+			case HrvTracking.OnDetailed:
+				return Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_onDetailed);
+			default:
+				return Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_off);
 		}
 	}
 }

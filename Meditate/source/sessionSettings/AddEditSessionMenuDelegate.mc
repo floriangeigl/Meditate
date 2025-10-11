@@ -247,18 +247,7 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 		);
 
 		// activity type
-		var activityText = "";
-		switch (me.mSessionModel.getActivityType()) {
-			case ActivityType.Yoga:
-				activityText = Ui.loadResource(Rez.Strings.activityNameYoga);
-				break;
-			case ActivityType.Breathing:
-				activityText = Ui.loadResource(Rez.Strings.activityNameBreathing);
-				break;
-			default:
-				activityText = Ui.loadResource(Rez.Strings.activityNameMeditate);
-				break;
-		}
+		var activityText = Utils.getActivityTypeText(me.mSessionModel.getActivityType());
 		me.mMenu.updateItem(
 			new Ui.MenuItem(
 				Ui.loadResource(Rez.Strings.addEditSessionMenu_activityType),
@@ -270,18 +259,7 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 		);
 
 		// hrv tracking
-		var hrvText = "";
-		switch (me.mSessionModel.getHrvTracking()) {
-			case HrvTracking.On:
-				hrvText = Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_on);
-				break;
-			case HrvTracking.OnDetailed:
-				hrvText = Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_onDetailed);
-				break;
-			default:
-				hrvText = Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_off);
-				break;
-		}
+		var hrvText = Utils.getHrvTrackingText(me.mSessionModel.getHrvTracking());
 		me.mMenu.updateItem(
 			new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_hrvTracking), hrvText, :hrvTracking, {}),
 			6

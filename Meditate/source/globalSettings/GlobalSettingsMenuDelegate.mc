@@ -217,15 +217,8 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 		}
 
 		// 0: hrvTracking
-		var hrvTrackingText = "";
 		var hrvTracking = GlobalSettings.loadHrvTracking();
-		if (hrvTracking == HrvTracking.On) {
-			hrvTrackingText = Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_on);
-		} else if (hrvTracking == HrvTracking.OnDetailed) {
-			hrvTrackingText = Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_onDetailed);
-		} else {
-			hrvTrackingText = Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_off);
-		}
+		var hrvTrackingText = Utils.getHrvTrackingText(hrvTracking);
 		mMenu.updateItem(
 			new Ui.MenuItem(
 				Ui.loadResource(Rez.Strings.menuGlobalSettings_newHrvTracking),

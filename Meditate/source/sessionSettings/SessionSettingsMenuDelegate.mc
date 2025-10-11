@@ -89,12 +89,7 @@ class SessionSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			} else {
 				// Fallback: activity type + 1-based index
 				var idx = me.mSessionStorage.getSelectedSessionIndex() + 1;
-				var act = Ui.loadResource(Rez.Strings.activityNameMeditate);
-				if (selectedSession.getActivityType() == ActivityType.Yoga) {
-					act = Ui.loadResource(Rez.Strings.activityNameYoga);
-				} else if (selectedSession.getActivityType() == ActivityType.Breathing) {
-					act = Ui.loadResource(Rez.Strings.activityNameBreathing);
-				}
+				var act = Utils.getActivityTypeText(selectedSession.getActivityType());
 				editSubtext = act + " " + idx;
 			}
 		}
