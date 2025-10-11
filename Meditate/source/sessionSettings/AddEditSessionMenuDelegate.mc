@@ -17,42 +17,6 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 		me.mMenu = menu;
 	}
 
-	private static function getVibePatternText(vibePattern) {
-		if (vibePattern == null) {
-			vibePattern = VibePattern.NoNotification;
-		}
-		switch (vibePattern) {
-			case VibePattern.LongPulsating:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_longPulsating);
-			case VibePattern.LongSound:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_longSound);
-			case VibePattern.LongAscending:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_longAscending);
-			case VibePattern.LongContinuous:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_longContinuous);
-			case VibePattern.LongDescending:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_longDescending);
-			case VibePattern.MediumAscending:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_mediumAscending);
-			case VibePattern.MediumContinuous:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_mediumContinuous);
-			case VibePattern.MediumPulsating:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_mediumPulsating);
-			case VibePattern.MediumDescending:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_mediumDescending);
-			case VibePattern.ShortAscending:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_shortAscending);
-			case VibePattern.ShortContinuous:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_shortContinuous);
-			case VibePattern.ShortPulsating:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_shortPulsating);
-			case VibePattern.ShortDescending:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_shortDescending);
-			default:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_noNotification);
-		}
-	}
-
 	private function createHmmTimeLayoutBuilder() {
 		var digitsLayout = new DigitsLayoutBuilder(Gfx.FONT_TINY);
 		var outputXOffset = App.getApp().getProperty("hmmTimePickerOutputXOffset");
@@ -262,7 +226,7 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 		me.mMenu.updateItem(
 			new Ui.MenuItem(
 				Ui.loadResource(Rez.Strings.addEditSessionMenu_vibeSound),
-				getVibePatternText(me.mSessionModel.vibePattern),
+				Utils.getVibePatternText(me.mSessionModel.vibePattern),
 				:vibePattern,
 				{}
 			),
