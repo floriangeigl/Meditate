@@ -37,8 +37,7 @@ module ScreenPicker {
 			} else {
 				me.setPageIndex(me.mSelectedPageIndex + change);
 			}
-			var slide = change > 0 ? Ui.SLIDE_UP : Ui.SLIDE_DOWN;
-			Ui.switchToView(me.createScreenPickerView(), me, slide);
+			Ui.switchToView(me.createScreenPickerView(), me, Ui.SLIDE_IMMEDIATE);
 			return true;
 		}
 
