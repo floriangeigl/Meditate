@@ -8,7 +8,7 @@ class IntervalAlertsMenuDelegate extends Ui.Menu2InputDelegate {
 	private var mEditIntervalAlertsMenu;
 
 	function initialize(intervalAlerts, onIntervalAlertsChanged, menu) {
-		Menu2InputDelegate.initialize();
+		Ui.Menu2InputDelegate.initialize();
 		me.mIntervalAlerts = intervalAlerts;
 		me.mOnIntervalAlertsChanged = onIntervalAlertsChanged;
 		me.mMenu = menu;
@@ -18,7 +18,9 @@ class IntervalAlertsMenuDelegate extends Ui.Menu2InputDelegate {
 	function onSelect(item) {
 		var id = item.getId();
 		if (id == :addNew) {
-			me.editIntervalAlert(me.mIntervalAlerts.addNew());
+			var newIndex = me.mIntervalAlerts.addNew();
+			me.updateMenuItems();
+			me.editIntervalAlert(newIndex);
 		} else if (id == :edit) {
 			if (me.mIntervalAlerts.size() == 0) {
 				return;
@@ -75,6 +77,9 @@ class IntervalAlertsMenuDelegate extends Ui.Menu2InputDelegate {
 
 	function onDeleteIntervalAlert(intervalAlertIndex) {
 		me.mIntervalAlerts.delete(intervalAlertIndex);
+		if (me.mEditIntervalAlertsMenu != null) {
+			me.mEditIntervalAlertsMenu.deleteItem(intervalAlertIndex);
+		}
 		me.updateMenuItems();
 		me.mOnIntervalAlertsChanged.invoke(me.mIntervalAlerts);
 	}

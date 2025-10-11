@@ -1,5 +1,4 @@
 using Toybox.WatchUi as Ui;
-using Toybox.Graphics as Gfx;
 
 class SessionSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 	private var mSessionStorage;
@@ -51,6 +50,9 @@ class SessionSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			Ui.popView(Ui.SLIDE_IMMEDIATE);
 			Ui.pushView(menu, addEditDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :edit) {
+			if (me.mSessionStorage.getSessionsCount() == 0) {
+				return;
+			}
 			var existingSession = me.mSessionStorage.loadSelectedSession();
 			var menu = new Ui.Menu2({
 				:title => Ui.loadResource(Rez.Strings.addEditSessionMenu_title) +
@@ -83,6 +85,9 @@ class SessionSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			Ui.popView(Ui.SLIDE_IMMEDIATE);
 			Ui.pushView(menu, addEditDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :delete) {
+			if (me.mSessionStorage.getSessionsCount() == 0) {
+				return;
+			}
 			var confirmHeader = Ui.loadResource(Rez.Strings.confirmDeleteSessionHeader);
 			var confirmDeleteSessionDialog = new Ui.Confirmation(confirmHeader);
 			Ui.popView(Ui.SLIDE_IMMEDIATE);
