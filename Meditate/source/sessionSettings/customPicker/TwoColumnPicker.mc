@@ -159,25 +159,54 @@ class TwoColumnPickerDelegate extends Ui.BehaviorDelegate {
             mView.incrementSelected(-1);
             return true;
         } else if (key == Ui.KEY_ENTER) {
-            // If currently on left, move to right; if on right, accept
-            if (mView.getSelectedColumn() == 0) {
-                mView.setSelectedColumn(1);
-                return true;
-            }
-            var vals = mView.getValues();
-            var totalSeconds;
-            if (mIsHourMinute) {
-                var totalMinutes = vals[0] * 60 + vals[1];
-                totalSeconds = totalMinutes * 60;
-            } else {
-                totalSeconds = vals[0] * 60 + vals[1];
-            }
-            if (mOnAccept != null) {
-                mOnAccept.invoke(totalSeconds);
-            }
-            Ui.popView(Ui.SLIDE_IMMEDIATE);
+            return _advanceOrAccept();
+        }
+        return false;
+    }
+
+    // Unified swipe handling for up/down (value change) and left/right (column selection).
+    function onSwipe(swipeEvent) {
+        var dir = swipeEvent.getDirection();
+        if (dir == Ui.SWIPE_UP) {
+            mView.incrementSelected(+1);
+            return true;
+        } else if (dir == Ui.SWIPE_DOWN) {
+            mView.incrementSelected(-1);
+            return true;
+        } else if (dir == Ui.SWIPE_LEFT) {
+            mView.setSelectedColumn(0);
+            return true;
+        } else if (dir == Ui.SWIPE_RIGHT) {
+            mView.setSelectedColumn(1);
             return true;
         }
         return false;
+    }
+
+    // Tap should mimic ENTER key behavior.
+    function onTap(tapEvent) {
+        // We ignore tap location since columns are visually distinct; simple logic suffices.
+        return _advanceOrAccept();
+    }
+
+    // Shared logic for advancing selection or accepting values.
+    function _advanceOrAccept() {
+        if (mView.getSelectedColumn() == 0) {
+            mView.setSelectedColumn(1);
+            return true;
+        }
+        var vals = mView.getValues();
+        var totalSeconds;
+        if (mIsHourMinute) {
+            var totalMinutes = vals[0] * 60 + vals[1];
+            totalSeconds = totalMinutes * 60;
+        } else {
+            totalSeconds = vals[0] * 60 + vals[1];
+        }
+        if (mOnAccept != null) {
+            mOnAccept.invoke(totalSeconds);
+        }
+        Ui.popView(Ui.SLIDE_IMMEDIATE);
+        return true;
     }
 }
