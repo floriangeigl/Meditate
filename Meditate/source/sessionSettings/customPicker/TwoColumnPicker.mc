@@ -167,16 +167,16 @@ class TwoColumnPickerDelegate extends Ui.BehaviorDelegate {
     // Unified swipe handling for up/down (value change) and left/right (column selection).
     function onSwipe(swipeEvent) {
         var dir = swipeEvent.getDirection();
-        if (dir == WatchUi.SWIPE_UP) {
+        if (dir == Ui.SWIPE_UP) {
             mView.incrementSelected(+1);
             return true;
-        } else if (dir == WatchUi.SWIPE_DOWN) {
+        } else if (dir == Ui.SWIPE_DOWN) {
             mView.incrementSelected(-1);
             return true;
-        } else if (dir == WatchUi.SWIPE_LEFT) {
+        } else if (dir == Ui.SWIPE_LEFT) {
             mView.setSelectedColumn(0);
             return true;
-        } else if (dir == WatchUi.SWIPE_RIGHT) {
+        } else if (dir == Ui.SWIPE_RIGHT) {
             mView.setSelectedColumn(1);
             return true;
         }
