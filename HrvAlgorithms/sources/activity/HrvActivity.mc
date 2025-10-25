@@ -56,6 +56,21 @@ module HrvAlgorithms {
 			}
 		}
 
+		// Override pause/resume to also pause heartbeat interval capturing
+		function pauseResume() {
+			var running = HrActivity.pauseResume();
+			if (me.isHrvOn()) {
+				if (running) {
+					// Activity resumed -> resume sensor data capturing
+					me.mHeartbeatIntervalsSensor.resume();
+				} else {
+					// Activity paused -> pause sensor data capturing
+					me.mHeartbeatIntervalsSensor.pause();
+				}
+			}
+			return running;
+		}
+
 		private var mHrvValue;
 
 		function refreshActivityStats() {

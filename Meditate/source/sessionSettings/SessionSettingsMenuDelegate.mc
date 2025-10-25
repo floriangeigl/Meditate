@@ -15,7 +15,13 @@ class SessionSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 	// handle selections via Menu2's MenuItem
 	function onSelect(item) {
 		var id = item.getId();
-		if (id == :addNew) {
+		if (id == :start) {
+			if (me.mSessionStorage.getSessionsCount() == 0) {
+				return;
+			}
+			Ui.popView(Ui.SLIDE_IMMEDIATE);
+			me.mSessionPickerDelegate.startActivity();
+		} else if (id == :addNew) {
 			var newSession = me.mSessionStorage.newSession();
 			var menu = me.createAddEditSessionMenu(me.mSessionStorage.getSessionsCount() - 1);
 
@@ -73,30 +79,19 @@ class SessionSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 		// Build subtexts: we'll show counts and selection hints where possible
 		// Item indices correspond to the original menu resource order
 
-		// 0: addNew - show total sessions count
-		var sessionsCountText = me.mSessionStorage.getSessionsCount() + "";
+		// 0: start - show duration as subtext if available
+		var selectedSession = me.mSessionStorage.loadSelectedSession();
+		var startSubtext = "";
+		if (selectedSession != null) {
+			startSubtext = TimeFormatter.format(selectedSession.time);
+		}
 		me.mMenu.updateItem(
-			new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_addNew), sessionsCountText, :addNew, {}),
+			new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_start), startSubtext, :start, {}),
 			0
 		);
 
-		// 1: edit - show currently selected session title (or a fallback) as subtext
-		var selectedSession = me.mSessionStorage.loadSelectedSession();
-		var editSubtext = "";
-		if (selectedSession != null) {
-			if (selectedSession.getName() != null && selectedSession.getName() != "") {
-				editSubtext = selectedSession.getName();
-			} else {
-				// Fallback: activity type + 1-based index
-				var idx = me.mSessionStorage.getSelectedSessionIndex() + 1;
-				var act = Utils.getActivityTypeText(selectedSession.getActivityType());
-				editSubtext = act + " " + idx;
-			}
-		}
-		me.mMenu.updateItem(
-			new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_edit), editSubtext, :edit, {}),
-			1
-		);
+		// 1: edit - no subtext
+		me.mMenu.updateItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_edit), "", :edit, {}), 1);
 
 		// 2: delete - no subtext
 		me.mMenu.updateItem(
@@ -104,14 +99,21 @@ class SessionSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			2
 		);
 
-		// 3: globalSettings - no subtext
+		// 3: addNew - show total sessions count
+		var sessionsCountText = me.mSessionStorage.getSessionsCount() + "";
 		me.mMenu.updateItem(
-			new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_globalSettings), "", :globalSettings, {}),
+			new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_addNew), sessionsCountText, :addNew, {}),
 			3
 		);
 
-		// 4: about - no subtext
-		me.mMenu.updateItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_about), "", :about, {}), 4);
+		// 4: globalSettings - no subtext
+		me.mMenu.updateItem(
+			new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_globalSettings), "", :globalSettings, {}),
+			4
+		);
+
+		// 5: about - no subtext
+		me.mMenu.updateItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_about), "", :about, {}), 5);
 	}
 
 	private function createAddEditSessionMenu(selectedSessionIndex) {

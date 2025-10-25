@@ -1,7 +1,5 @@
 using Toybox.WatchUi as Ui;
-using Toybox.Application as App;
 using Toybox.Graphics as Gfx;
-using HrvAlgorithms.HrvTracking;
 using StatusIconFonts;
 
 class AboutDelegate extends ScreenPicker.ScreenPickerDelegate {
@@ -13,7 +11,6 @@ class AboutDelegate extends ScreenPicker.ScreenPickerDelegate {
 		me.mGlobalSettingsDetailsModel = new ScreenPicker.DetailsModel();
 		me.mSessionPickerDelegate = sessionPickerDelegate;
 		updateAboutDetails();
-		Sensor.setEnabledSensors([]);
 	}
 
 	private var mGlobalSettingsTitle;

@@ -8,6 +8,9 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 	private var mHeartbeatIntervalsSensor;
 	private var mSummaryModel;
 	private var mShouldAutoExit;
+	private var mPauseMenuVisible;
+	private const PauseReasonManual = 0;
+	private const PauseReasonCompleted = 1;
 
 	function initialize(meditateModel, summaryModels, heartbeatIntervalsSensor, sessionPickerDelegate) {
 		BehaviorDelegate.initialize();
@@ -17,6 +20,7 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 		me.mMeditateActivity = new MediteActivity(meditateModel, heartbeatIntervalsSensor, me);
 		me.mSessionPickerDelegate = sessionPickerDelegate;
 		me.mSummaryModel = null;
+		me.mPauseMenuVisible = false;
 	}
 
 	public function startActivity() {
@@ -24,6 +28,7 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 	}
 
 	public function stopActivity() {
+		me.mPauseMenuVisible = false;
 		me.mMeditateActivity.stop();
 
 		// Store auto-exit state as class member
@@ -86,13 +91,14 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 	function onShowNextViewConfirmDialog() {
 		onShowNextView();
 
-		var confirmSaveHeader = Ui.loadResource(Rez.Strings.ConfirmSaveHeader);
-		var confirmSaveDialog = new Ui.Confirmation(confirmSaveHeader);
-		Ui.pushView(
-			confirmSaveDialog,
-			new YesNoDelegate(me.mMeditateActivity.method(:finish), me.mMeditateActivity.method(:discard)),
-			Ui.SLIDE_IMMEDIATE
+		var menu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.ConfirmSaveHeader) });
+		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.finishMenu_save), "", :save, {}));
+		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.finishMenu_discard), "", :discard, {}));
+		var saveDiscardDelegate = new SaveDiscardMenuDelegate(
+			me.mMeditateActivity.method(:finish),
+			me.mMeditateActivity.method(:discard)
 		);
+		Ui.pushView(menu, saveDiscardDelegate, Ui.SLIDE_IMMEDIATE);
 	}
 
 	function onShowNextView() {
@@ -118,8 +124,8 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 	}
 
 	function onBack() {
-		// back button to pause/resume the activity
-		me.mMeditateModel.isTimerRunning = me.mMeditateActivity.pauseResume();
+		me.pauseForMenu();
+		me.showPauseMenu(PauseReasonManual);
 		return true;
 	}
 
@@ -127,9 +133,118 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 
 	function onKey(keyEvent) {
 		if (keyEvent.getKey() == Ui.KEY_ENTER && me.mMeditateModel.elapsedTime >= MinMeditateActivityStopTime) {
-			me.stopActivity();
+			me.pauseForMenu();
+			me.showPauseMenu(PauseReasonManual);
 			return true;
 		}
 		return false;
+	}
+
+	function onSessionAutoComplete() {
+		me.pauseForMenu();
+		me.showPauseMenu(PauseReasonCompleted);
+	}
+
+	private function pauseForMenu() {
+		if (me.mMeditateModel.isTimerRunning) {
+			me.mMeditateModel.isTimerRunning = me.mMeditateActivity.pauseResume();
+		}
+		me.mMeditateModel.isTimerRunning = false;
+		Ui.requestUpdate();
+	}
+
+	function resumeFromPauseMenu() {
+		if (!me.mMeditateModel.isTimerRunning) {
+			me.mMeditateModel.isTimerRunning = me.mMeditateActivity.pauseResume();
+		}
+		Ui.requestUpdate();
+	}
+
+	function stopFromPauseMenu() {
+		me.stopActivity();
+	}
+
+	function notifyPauseMenuClosed() {
+		me.mPauseMenuVisible = false;
+	}
+
+	private function showPauseMenu(reason) {
+		if (me.mPauseMenuVisible) {
+			return;
+		}
+		var elapsedTime = me.mMeditateModel.elapsedTime;
+		if (elapsedTime == null) {
+			elapsedTime = 0;
+		}
+		var title = TimeFormatter.format(elapsedTime);
+		var menu = new Ui.Menu2({ :title => title });
+		if (reason == PauseReasonCompleted) {
+			menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.pauseMenu_stop), "", :stop, {}));
+			menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.pauseMenu_resume), "", :resume, {}));
+		} else {
+			menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.pauseMenu_resume), "", :resume, {}));
+			menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.pauseMenu_stop), "", :stop, {}));
+		}
+		var pauseMenuDelegate = new PauseMenuDelegate(me);
+		me.mPauseMenuVisible = true;
+		Ui.pushView(menu, pauseMenuDelegate, Ui.SLIDE_UP);
+	}
+}
+
+
+class PauseMenuDelegate extends Ui.Menu2InputDelegate {
+	private var mOwner;
+
+	function initialize(owner) {
+		Menu2InputDelegate.initialize();
+		me.mOwner = owner;
+	}
+
+	function onSelect(item) {
+		var id = item.getId();
+		Ui.popView(Ui.SLIDE_IMMEDIATE);
+		me.mOwner.notifyPauseMenuClosed();
+		if (id == :resume) {
+			me.mOwner.resumeFromPauseMenu();
+		} else if (id == :stop) {
+			me.mOwner.stopFromPauseMenu();
+		}
+	}
+
+	function onBack() {
+		Ui.popView(Ui.SLIDE_IMMEDIATE);
+		me.mOwner.notifyPauseMenuClosed();
+		me.mOwner.resumeFromPauseMenu();
+		return true;
+	}
+}
+
+class SaveDiscardMenuDelegate extends Ui.Menu2InputDelegate {
+	private var mOnSave;
+	private var mOnDiscard;
+
+	function initialize(onSave, onDiscard) {
+		Menu2InputDelegate.initialize();
+		me.mOnSave = onSave;
+		me.mOnDiscard = onDiscard;
+	}
+
+	function onSelect(item) {
+		var id = item.getId();
+		Ui.popView(Ui.SLIDE_IMMEDIATE);
+		if (id == :save) {
+			if (me.mOnSave != null) {
+				me.mOnSave.invoke();
+			}
+		} else if (id == :discard) {
+			if (me.mOnDiscard != null) {
+				me.mOnDiscard.invoke();
+			}
+		}
+	}
+
+	function onBack() {
+		Ui.popView(Ui.SLIDE_IMMEDIATE);
+		return true;
 	}
 }

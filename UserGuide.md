@@ -179,11 +179,11 @@ This is a typical technique to calm your self down and prepare for sleep. You st
 
   - If you want that session name to show up as the activity name in Garmin Connect after syncing, enable the Global Setting described in [section 4.9](#4.9-use-session-name-as-activity-name).
 
-  3.3 Delete - deletes a session after asking for confirmation
+    3.3 Delete - deletes a session after asking for confirmation
 
-  3.4 Global Settings - [see section 4](#4-global-settings)
+    3.4 Global Settings - [see section 4](#4-global-settings)
 
-  3.5 Configure custom breathwork session
+    3.5 Configure custom breathwork session
 
 Breathwork sessions typically follow some pattern of Inhale, Hold, Exhale, Hold. As all the configured interval alerts run in parallel, you need to use the offset to create such a pattern. For example, to configure 4 Inhale, 7 Hold, 8 Exhale you'd need to do the following:
 
@@ -269,12 +269,16 @@ This option controls whether the custom session name you set for a session is us
 - If the session name is empty or the setting is disabled, the app falls back to the Garmin Connect activity name configured via Garmin Express or the built-in default titles (for example, "Meditating 🧘").
 - Note: the activity name is truncated to 21 characters to fit Garmin's display limits.
 
+#### 4.10 Sensor restart
+
+Select this option when the optical heart rate sensor or a connected external sensor stops providing heart beat intervals. The app disables every HR-capable sensor and exits so the watch firmware can reinitialize them cleanly. After triggering the restart, reopen Meditate, keep the watch still for about 30 seconds, and then start your session.
+
 ## FAQs
 
 ### HRV does not work / shows "waiting"
 
 1. Close and reopen the app - wait at least 30sec - don't move!
-2. Go to the settings within the app and open the "About" page. This resets all sensors. Close and reopen the app. Give it 30sec - don't move!
+2. Open Global Settings and pick "Sensor restart". The app will exit after shutting down all heart rate sensors. Reopen the app, wait 30sec, and keep your wrist still.
 3. If you are NOT using any external heart rate sensor (e.g., hr chest strap) for the session, go to the connectivity settings of your watch (not the settings in the app!) and make sure all external sensors are disconnected and set to off (so they don't automatically and silently connect in the background when starting a session and mess up your heart rate readings). E.g., You just came home from a run, and the chest strap is still somewhere close by, the watch would automatically connect to it again even if you don't wear the chest strap/it's in standby mode/it's charging.
 4. Make sure your sensor is correctly positioned on your wrist. If you adapt the position, hold still and give it 30sec until the readings become stable.
 5. Reinstall the app

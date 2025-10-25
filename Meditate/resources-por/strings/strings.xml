@@ -19,7 +19,7 @@
     <string id="SummaryHRVRMSSDFirst5min">Primeiros 5 min</string>
     <string id="SummaryHRVRMSSDLast5min">Últimos 5 min</string>
 
-    <string id="menuSessionSettings_Title">Config.</string>
+    <string id="menuSessionSettings_Title">Sessão</string>
     <string id="menuSessionSettings_addNew">Adicionar</string>
     <string id="menuSessionSettings_edit">Editar</string>
     <string id="menuSessionSettings_delete">Deletar</string>
@@ -40,6 +40,7 @@
     <string id="menuGlobalSettings_respiration">Respiração: </string>
     <string id="menuGlobalSettings_save">Salvar: </string>
     <string id="menuGlobalSettings_externalSensor">Sensor externo</string>
+    <string id="menuGlobalSettings_sensorRestart">Reiniciar sensor</string>
 
     <string id="menuNewActivityTypeOptions_title">Atividade</string>
     <string id="menuNewActivityTypeOptions_meditating">Meditação</string>
@@ -192,9 +193,14 @@
     <string id="HRVweak">HRV fraco</string>
     <string id="HRVoff">VFC Deslig.</string>
 
-    <string id="optionsMenuHelp">Segurar menu</string>
+    <string id="menuSessionSettings_start">Iniciar</string>
+    <string id="pauseMenu_resume">Retomar</string>
+    <string id="pauseMenu_stop">Parar</string>
+    <string id="finishMenu_save">Salvar</string>
+    <string id="finishMenu_discard">Descartar</string>
+    <string id="optionsMenuHelp">Pressione iniciar para opções</string>
 
-    <string id="about_AppVersion">v10.6.11</string>
+    <string id="about_AppVersion">v10.6.14</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>
     <string id="about_falsetru">falsetru</string>

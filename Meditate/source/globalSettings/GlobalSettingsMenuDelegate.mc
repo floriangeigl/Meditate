@@ -1,4 +1,6 @@
 using Toybox.WatchUi as Ui;
+using Toybox.Sensor;
+using Toybox.System;
 using HrvAlgorithms.HrvTracking;
 
 class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
@@ -207,6 +209,10 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			useMenu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_useSessionName_off), "", :off, {}));
 			var useDelegate = new MenuOptionsDelegate(method(:onUseSessionNamePicked));
 			Ui.pushView(useMenu, useDelegate, Ui.SLIDE_LEFT);
+		} else if (id == :sensorRestart) {
+			// Disable all HR sensors and exit the app cleanly
+			Sensor.setEnabledSensors([]);
+			System.exit();
 		}
 	}
 
