@@ -91,10 +91,7 @@ class SessionSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 		);
 
 		// 1: edit - no subtext
-		me.mMenu.updateItem(
-			new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_edit), "", :edit, {}),
-			1
-		);
+		me.mMenu.updateItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_edit), "", :edit, {}), 1);
 
 		// 2: delete - no subtext
 		me.mMenu.updateItem(
