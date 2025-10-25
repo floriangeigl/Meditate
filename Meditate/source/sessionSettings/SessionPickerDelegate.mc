@@ -74,9 +74,10 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 	private function showSessionSettingsMenu() {
 		// Build a Menu2 root so the delegate can update subtexts (counts, selected index)
 		var menu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.menuSessionSettings_Title) });
-		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_addNew), "", :addNew, {}));
+		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_start), "", :start, {}));
 		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_edit), "", :edit, {}));
 		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_delete), "", :delete, {}));
+		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_addNew), "", :addNew, {}));
 		menu.addItem(
 			new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_globalSettings), "", :globalSettings, {})
 		);
@@ -88,7 +89,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		return true;
 	}
 
-	private function startActivity() {
+	function startActivity() {
 		// If there is no preparation time, start the meditate activity
 		if (GlobalSettings.loadPrepareTime() == 0) {
 			startMeditationSession();
@@ -118,15 +119,13 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 
 	function onKey(keyEvent) {
 		if (keyEvent.getKey() == Ui.KEY_ENTER) {
-			me.startActivity();
-			return true;
+			return me.showSessionSettingsMenu();
 		}
 		return false;
 	}
 
 	function onTap(clickEvent) {
-		me.startActivity();
-		return true;
+		return me.showSessionSettingsMenu();
 	}
 
 	private function setSelectedSessionDetails() {
@@ -230,15 +229,6 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 
 		var hrvStatusLine = details.getLine(lineNum);
 		me.setInitialHrvStatus(hrvStatusLine, session);
-		lineNum++;
-
-		line = details.getLine(lineNum);
-		var settingsIcon = new ScreenPicker.Icon({
-			:font => StatusIconFonts.fontAwesomeFreeSolid,
-			:symbol => StatusIconFonts.Rez.Strings.IconSettings,
-		});
-		line.icon = settingsIcon;
-		line.value.text = Ui.loadResource(Rez.Strings.optionsMenuHelp);
 		// Ensure the screen updates immediately when session details change
 		Ui.requestUpdate();
 	}

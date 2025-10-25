@@ -19,7 +19,7 @@
     <string id="SummaryHRVRMSSDFirst5min">First 5 min</string>
     <string id="SummaryHRVRMSSDLast5min">Last 5 min</string>
 
-    <string id="menuSessionSettings_Title">Settings</string>
+    <string id="menuSessionSettings_Title">Session</string>
     <string id="menuSessionSettings_addNew">Add New</string>
     <string id="menuSessionSettings_edit">Edit</string>
     <string id="menuSessionSettings_delete">Delete</string>
@@ -38,6 +38,7 @@
     <string id="menuGlobalSettings_prepareTime">Prepare Time</string>
     <string id="menuGlobalSettings_finalizeTime">Finalize Time</string>
     <string id="menuGlobalSettings_externalSensor">External Sensor</string>
+    <string id="menuGlobalSettings_sensorRestart">Sensor restart</string>
     <string id="menuGlobalSettings_respiration">Respiration: </string>
     <string id="menuGlobalSettings_save">Save: </string>
 
@@ -193,7 +194,8 @@
     <string id="HRVweak">HRV weak</string>
     <string id="HRVoff">HRV off</string>
 
-    <string id="optionsMenuHelp">Hold menu</string>
+    <string id="menuSessionSettings_start">Start</string>
+    <string id="optionsMenuHelp">Press start for options</string>
 
     <string id="about_AppVersion">v10.6.11</string>
     <string id="about_vtrifonov">vtrifonov</string>

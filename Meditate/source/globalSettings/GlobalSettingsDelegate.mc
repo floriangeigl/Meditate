@@ -29,6 +29,7 @@ class GlobalSettingsDelegate {
 		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_respirationRate), "", :respirationRate, {}));
 		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_multiSession), "", :multiSession, {}));
 		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_externalSensor), "", :externalSensor, {}));
+		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_sensorRestart), "", :sensorRestart, {}));
 
 		var delegate = new GlobalSettingsMenuDelegate(method(:onGlobalSettingsChanged), menu);
 		// Initialize sublabels now

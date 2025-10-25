@@ -19,7 +19,7 @@
     <string id="SummaryHRVRMSSDFirst5min">Primeros 5 min</string>
     <string id="SummaryHRVRMSSDLast5min">Últimos 5 min</string>
 
-    <string id="menuSessionSettings_Title">Config</string>
+    <string id="menuSessionSettings_Title">Sesión</string>
     <string id="menuSessionSettings_addNew">Agregar Nuevo</string>
     <string id="menuSessionSettings_edit">Editar</string>
     <string id="menuSessionSettings_delete">Eliminar</string>
@@ -40,6 +40,7 @@
     <string id="menuGlobalSettings_respiration">Respiración: </string>
     <string id="menuGlobalSettings_save">Guardar: </string>
     <string id="menuGlobalSettings_externalSensor">Sensor externo</string>
+    <string id="menuGlobalSettings_sensorRestart">Reinicio sensor</string>
 
     <string id="menuNewActivityTypeOptions_title">Actividad</string>
     <string id="menuNewActivityTypeOptions_yoga">Yoga</string>
@@ -191,7 +192,8 @@
     <string id="HRVweak">HRV débil</string>
     <string id="HRVoff">HRV apagado</string>
 
-    <string id="optionsMenuHelp">Mantén menú</string>
+    <string id="menuSessionSettings_start">Iniciar</string>
+    <string id="optionsMenuHelp">Pulsa iniciar para opciones</string>
 
     <string id="about_AppVersion">v10.6.11</string>
     <string id="about_floriangeigl">floriangeigl</string>

@@ -25,28 +25,41 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 			if (me.mSessionModel.name != null) {
 				initial = me.mSessionModel.name;
 			}
-			Ui.pushView(new Ui.TextPicker(initial), new SessionNamePickerDelegate(method(:onNamePicked)), Ui.SLIDE_LEFT);
+			Ui.pushView(
+				new Ui.TextPicker(initial),
+				new SessionNamePickerDelegate(method(:onNamePicked)),
+				Ui.SLIDE_LEFT
+			);
 			return;
 		}
 		if (id == :time) {
 			// Calculate initial hours and minutes from session time (stored in seconds)
-			var totalSeconds = (me.mSessionModel != null && me.mSessionModel.time != null) ? me.mSessionModel.time : 0;
+			var totalSeconds = me.mSessionModel != null && me.mSessionModel.time != null ? me.mSessionModel.time : 0;
 			var totalMinutes = totalSeconds / 60;
 			var hours = totalMinutes / 60;
 			var minutes = totalMinutes % 60;
 			// Clamp to picker ranges
 			hours = Utils.clampToRange(hours, 0, 9);
 			minutes = Utils.clampToRange(minutes, 0, 59);
-			
+
 			// Use custom two-column picker with themed background
 			var titleString = Ui.loadResource(Rez.Strings.pickHMM);
-			if (titleString == null) { titleString = "Duration"; }
+			if (titleString == null) {
+				titleString = "Duration";
+			}
 			var view = new TwoColumnPickerView({
 				:title => titleString,
 				:isHourMinute => true,
-				:leftMin => 0, :leftMax => 9, :leftPad => 1, :leftSuffix => "h",
-				:rightMin => 0, :rightMax => 59, :rightPad => 2, :rightSuffix => "m",
-				:leftValue => hours, :rightValue => minutes,
+				:leftMin => 0,
+				:leftMax => 9,
+				:leftPad => 1,
+				:leftSuffix => "h",
+				:rightMin => 0,
+				:rightMax => 59,
+				:rightPad => 2,
+				:rightSuffix => "m",
+				:leftValue => hours,
+				:rightValue => minutes,
 			});
 			var delegate = new TwoColumnPickerDelegate(view, method(:onTimePicked), true);
 			Ui.pushView(view, delegate, Ui.SLIDE_LEFT);
