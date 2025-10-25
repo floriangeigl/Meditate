@@ -26,4 +26,7 @@ class MeditatePrepareDelegate extends Ui.BehaviorDelegate {
 
         return true;
     }
+	function onTap(clickEvent) {
+		return onBack();
+	}
 }

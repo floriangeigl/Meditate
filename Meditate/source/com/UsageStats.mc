@@ -72,7 +72,7 @@ class UsageStats {
 		var devSettings = System.getDeviceSettings();
 		var resolution = devSettings.screenWidth + "x" + devSettings.screenHeight;
 		var apiVersion = Lang.format("$1$.$2$.$3$", devSettings.monkeyVersion);
-		var systemLanguage = devSettings.systemLanguage;
+		var systemLanguage = devSettings has :systemLanguage ? devSettings.systemLanguage : "unknown";
 		var deviceId = devSettings.uniqueIdentifier;
 		var firmwareVersion = Lang.format("$1$.$2$", devSettings.firmwareVersion);
 		var appVersion = Ui.loadResource(Rez.Strings.about_AppVersion);
