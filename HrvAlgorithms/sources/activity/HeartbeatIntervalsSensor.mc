@@ -58,12 +58,10 @@ module HrvAlgorithms {
 			me.registerListener();
 		}
 
-		// Pause data capturing without resetting internal quality counters.
 		function pause() {
 			me.stop();
 		}
 
-		// Resume data capturing after a pause.
 		function resume() {
 			me.start();
 		}

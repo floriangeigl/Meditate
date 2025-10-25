@@ -157,6 +157,7 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 		if (!me.mMeditateModel.isTimerRunning) {
 			me.mMeditateModel.isTimerRunning = me.mMeditateActivity.pauseResume();
 		}
+		Ui.requestUpdate();
 	}
 
 	function stopFromPauseMenu() {
