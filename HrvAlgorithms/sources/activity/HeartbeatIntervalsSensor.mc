@@ -6,7 +6,8 @@ module HrvAlgorithms {
 	class HeartbeatIntervalsSensor {
 		private const SessionSamplePeriodSeconds = 1;
 		private const resetSeconds = 30;
-		private const maxErrorFails = 11;
+		private const maxWeakFails = 4;
+		private const maxErrorFails = 6;
 
 		private var mSensorListener;
 		private var numFails;
@@ -15,6 +16,7 @@ module HrvAlgorithms {
 		private var sensorRestarts;
 		private var running;
 		private var sensorTypes;
+		private var lastUpdateFailed;
 
 		function initialize(external_sensor) {
 			// System.println("HR sensor: Init");
@@ -23,6 +25,7 @@ module HrvAlgorithms {
 			me.totalIntervals = 0.0;
 			me.sensorRestarts = 0;
 			me.running = false;
+			me.lastUpdateFailed = false;
 			me.sensorTypes = [];
 			if (Sensor has :SENSOR_ONBOARD_HEARTRATE) {
 				sensorTypes.add(Sensor.SENSOR_ONBOARD_HEARTRATE);
@@ -74,7 +77,7 @@ module HrvAlgorithms {
 		}
 
 		function getStatus() {
-			return me.numFails < 5
+			return me.numFails < maxWeakFails
 				? HeartbeatIntervalsSensorStatus.Good
 				: me.numFails < maxErrorFails
 				? HeartbeatIntervalsSensorStatus.Weak
@@ -95,6 +98,7 @@ module HrvAlgorithms {
 		}
 
 		function update(sensorData) {
+			me.totalTime += 1;
 			var data =
 				sensorData has :heartRateData &&
 				sensorData.heartRateData != null &&
@@ -104,8 +108,16 @@ module HrvAlgorithms {
 					: [];
 
 			if (data == null || data.size() == 0) {
-				me.numFails++;
+				// only increase fail if two in a row fail;
+				// hr below 60, means not every second
+				if (me.lastUpdateFailed) {
+					me.numFails++;
+					me.lastUpdateFailed = false;
+				} else {
+					me.lastUpdateFailed = true;
+				}
 			} else {
+				me.lastUpdateFailed = false;
 				me.numFails = me.numFails > maxErrorFails ? maxErrorFails : me.numFails;
 				me.numFails--;
 				me.numFails = me.numFails < 0 ? 0 : me.numFails;
