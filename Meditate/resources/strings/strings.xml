@@ -195,6 +195,10 @@
     <string id="HRVoff">HRV off</string>
 
     <string id="menuSessionSettings_start">Start</string>
+    <string id="pauseMenu_resume">Resume</string>
+    <string id="pauseMenu_stop">Stop</string>
+    <string id="finishMenu_save">Save</string>
+    <string id="finishMenu_discard">Discard</string>
     <string id="optionsMenuHelp">Press start for options</string>
 
     <string id="about_AppVersion">v10.6.11</string>

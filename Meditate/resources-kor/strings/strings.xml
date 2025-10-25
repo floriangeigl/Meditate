@@ -194,6 +194,10 @@
 	<string id="HRVoff">HRV 꺼짐</string>
 
 	<string id="menuSessionSettings_start">시작</string>
+	<string id="pauseMenu_resume">재개</string>
+	<string id="pauseMenu_stop">중지</string>
+	<string id="finishMenu_save">저장</string>
+	<string id="finishMenu_discard">삭제</string>
 	<string id="optionsMenuHelp">시작을 눌러 옵션</string>
 
 	<string id="about_AppVersion">v10.6.11</string>

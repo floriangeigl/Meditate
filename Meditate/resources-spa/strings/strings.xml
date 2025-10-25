@@ -193,6 +193,10 @@
     <string id="HRVoff">HRV apagado</string>
 
     <string id="menuSessionSettings_start">Iniciar</string>
+    <string id="pauseMenu_resume">Reanudar</string>
+    <string id="pauseMenu_stop">Detener</string>
+    <string id="finishMenu_save">Guardar</string>
+    <string id="finishMenu_discard">Descartar</string>
     <string id="optionsMenuHelp">Pulsa iniciar para opciones</string>
 
     <string id="about_AppVersion">v10.6.11</string>
