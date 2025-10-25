@@ -5,13 +5,15 @@ using Toybox.Timer;
 module HrvAlgorithms {
 	class HeartbeatIntervalsSensor {
 		private const SessionSamplePeriodSeconds = 1;
+		private const resetSeconds = 30;
+		private const maxErrorFails = 11;
+
 		private var mSensorListener;
 		private var numFails;
 		private var totalTime;
 		private var totalIntervals;
 		private var sensorRestarts;
 		private var running;
-		private const resetSeconds = 30;
 		private var sensorTypes;
 
 		function initialize(external_sensor) {
@@ -35,6 +37,12 @@ module HrvAlgorithms {
 		private function enableHrSensor() {
 			// System.println("HR sensor: Enable");
 			Sensor.setEnabledSensors(me.sensorTypes);
+
+			if (Sensor has :enableSensorType) {
+				for (var i = 0; i < me.sensorTypes.size(); i++) {
+					Sensor.enableSensorType(me.sensorTypes[i]);
+				}
+			}
 		}
 
 		private function disableHrSensor() {
@@ -43,14 +51,8 @@ module HrvAlgorithms {
 		}
 
 		function start() {
-			if (!me.running) {
-				// System.println("HR sensor: Start");
-				me.totalTime = 0;
-				me.totalIntervals = 0.0;
-				me.enableHrSensor();
-				me.registerListener();
-				me.running = true;
-			}
+			me.enableHrSensor();
+			me.registerListener();
 		}
 
 		function registerListener() {
@@ -64,12 +66,7 @@ module HrvAlgorithms {
 		}
 
 		function stop() {
-			if (me.running) {
-				// System.println("HR sensor: Stop");
-				Sensor.unregisterSensorDataListener();
-				me.disableHrSensor();
-				me.running = false;
-			}
+			Sensor.unregisterSensorDataListener();
 		}
 
 		function setOneSecBeatToBeatIntervalsSensorListener(listener) {
@@ -77,18 +74,15 @@ module HrvAlgorithms {
 		}
 
 		function getStatus() {
-			return me.numFails < 3
+			return me.numFails < 5
 				? HeartbeatIntervalsSensorStatus.Good
-				: me.numFails < 6
+				: me.numFails < maxErrorFails
 				? HeartbeatIntervalsSensorStatus.Weak
 				: HeartbeatIntervalsSensorStatus.Error;
 		}
 
 		function ensureSensorHealth() {
 			if (me.numFails >= resetSeconds && me.numFails % resetSeconds == 0) {
-				me.registerListener();
-				// System.println("HR sensor: reset");
-				me.stop();
 				me.start();
 				me.sensorRestarts += 1;
 			}
@@ -108,20 +102,28 @@ module HrvAlgorithms {
 				sensorData.heartRateData.heartBeatIntervals != null
 					? sensorData.heartRateData.heartBeatIntervals
 					: [];
-			// System.println("HR sensor: Invoke index " + i + " with data: " + data);
-			if (me.mSensorListener != null) {
-				//TODO: cleanup data? <250ms & >2000ms
-				me.mSensorListener.invoke(data);
-			}
+
 			if (data == null || data.size() == 0) {
 				me.numFails++;
 			} else {
-				me.numFails = me.numFails > 5 ? 5 : me.numFails;
+				me.numFails = me.numFails > maxErrorFails ? maxErrorFails : me.numFails;
 				me.numFails--;
 				me.numFails = me.numFails < 0 ? 0 : me.numFails;
+				var cleanData = [];
+				var val = null;
 				for (var j = 0; j < data.size(); j++) {
-					me.totalIntervals = me.totalIntervals + data[j] / 1000.0;
+					val = data[j];
+					if (val != null && val >= 250 && val <= 2000) {
+						cleanData.add(val);
+						me.totalIntervals = me.totalIntervals + val / 1000.0;
+					}
 				}
+				data = cleanData;
+			}
+
+			// System.println("HR sensor: Invoke index " + i + " with data: " + data);
+			if (me.mSensorListener != null) {
+				me.mSensorListener.invoke(data);
 			}
 
 			//if (me.totalTime > 60) {
