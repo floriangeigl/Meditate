@@ -36,7 +36,9 @@ class GlobalSettings {
 	static function loadExternalSensor() {
 		var externalSensor = App.Storage.getValue(ExternalSensorKey);
 		if (externalSensor == null) {
-			return ExternalSensor.Off;
+			// default to on; most don't have an external sensor and some devices
+			// might need this to properly work with the internal sensor
+			return ExternalSensor.On;
 		}
 		return externalSensor;
 	}
