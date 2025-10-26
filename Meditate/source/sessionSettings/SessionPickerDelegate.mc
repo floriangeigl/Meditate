@@ -10,6 +10,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 	private var mSummaryRollupModel;
 	private var mHeartbeatIntervalsSensor;
 	private var mHrvTracking;
+	private var hrvStatusLineNum;
 
 	function initialize(sessionStorage, heartbeatIntervalsSensor) {
 		ScreenPickerDelegate.initialize(sessionStorage.getSelectedSessionIndex(), sessionStorage.getSessionsCount());
@@ -19,6 +20,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		me.mSelectedSessionDetails = new ScreenPicker.DetailsModel();
 		me.mHeartbeatIntervalsSensor = heartbeatIntervalsSensor;
 		me.setSelectedSessionDetails();
+		me.hrvStatusLineNum = null;
 	}
 
 	function setTestModeHeartbeatIntervalsSensor() {
@@ -136,7 +138,10 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 	}
 
 	function updateHrvStatus(data) {
-		var hrvStatusLine = me.mSelectedSessionDetails.getLine(3);
+		if (me.hrvStatusLineNum == null) {
+			return;
+		}
+		var hrvStatusLine = me.mSelectedSessionDetails.getLine(me.hrvStatusLineNum);
 		var sensorStatus = me.mHeartbeatIntervalsSensor.getStatus();
 		if (sensorStatus != HeartbeatIntervalsSensorStatus.Error) {
 			if (me.mHrvTracking == HrvTracking.On) {
@@ -167,6 +172,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		} else {
 			hrvStatusLine.value.text = Ui.loadResource(Rez.Strings.HRVwaiting);
 		}
+		me.updateHrvStatus([]);
 	}
 
 	function addSummary(summaryModel) {
@@ -174,8 +180,6 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 	}
 
 	function updateSelectedSessionDetails(session) {
-		me.mHrvTracking = session.getHrvTracking();
-		me.setTestModeHeartbeatIntervalsSensor();
 		// Reuse the existing DetailsModel instance so the active view (which may
 		// hold a reference to it) sees mutations immediately. If it doesn't
 		// exist yet, create it.
@@ -227,8 +231,11 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		line.value = alertsToHighlightsLine.getAlertsLine();
 		lineNum++;
 
-		var hrvStatusLine = details.getLine(lineNum);
+		me.mHrvTracking = session.getHrvTracking();
+		me.hrvStatusLineNum = lineNum;
+		var hrvStatusLine = details.getLine(me.hrvStatusLineNum);
 		me.setInitialHrvStatus(hrvStatusLine, session);
+		me.setTestModeHeartbeatIntervalsSensor();
 		// Ensure the screen updates immediately when session details change
 		Ui.requestUpdate();
 	}
