@@ -6,8 +6,9 @@ module HrvAlgorithms {
 	class HeartbeatIntervalsSensor {
 		private const SessionSamplePeriodSeconds = 1;
 		private const resetSeconds = 30;
-		private const maxWeakFails = 4;
-		private const maxErrorFails = 6;
+		private const maxReadyFails = 4;
+		private const maxWeakFails = 8;
+		private const minWeakFails = maxReadyFails + 1;
 
 		private var mSensorListener;
 		private var numFails;
@@ -20,7 +21,7 @@ module HrvAlgorithms {
 
 		function initialize(external_sensor) {
 			// System.println("HR sensor: Init");
-			me.numFails = 10;
+			me.numFails = maxWeakFails + 1;
 			me.totalTime = 0;
 			me.totalIntervals = 0.0;
 			me.sensorRestarts = 0;
@@ -85,9 +86,9 @@ module HrvAlgorithms {
 		}
 
 		function getStatus() {
-			return me.numFails < maxWeakFails
+			return me.numFails <= maxReadyFails
 				? HeartbeatIntervalsSensorStatus.Good
-				: me.numFails < maxErrorFails
+				: me.numFails <= maxWeakFails
 				? HeartbeatIntervalsSensorStatus.Weak
 				: HeartbeatIntervalsSensorStatus.Error;
 		}
@@ -126,8 +127,8 @@ module HrvAlgorithms {
 				}
 			} else {
 				me.lastUpdateFailed = false;
-				me.numFails = me.numFails > maxErrorFails ? maxErrorFails : me.numFails;
 				me.numFails--;
+				me.numFails = me.numFails > minWeakFails ? minWeakFails : me.numFails;
 				me.numFails = me.numFails < 0 ? 0 : me.numFails;
 				var cleanData = [];
 				var val = null;
