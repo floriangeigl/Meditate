@@ -22,13 +22,13 @@ class ElapsedDurationRenderer {
 	function drawOverallElapsedTime(dc, overallElapsedTime, alarmTime) {
 		var progressPercentage;
 		if (overallElapsedTime >= alarmTime) {
-			progressPercentage = 100;
-		} else {
-			progressPercentage = 100 * (overallElapsedTime / alarmTime.toFloat());
-			if (progressPercentage == 0) {
-				progressPercentage = 0.05;
-			}
+			overallElapsedTime = overallElapsedTime % alarmTime;
 		}
+		progressPercentage = 100 * (overallElapsedTime / alarmTime.toFloat());
+		if (progressPercentage == 0) {
+			progressPercentage = 0.01;
+		}
+
 		me.drawDuration(dc, progressPercentage);
 	}
 

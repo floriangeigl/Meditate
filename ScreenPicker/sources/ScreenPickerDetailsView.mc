@@ -28,8 +28,8 @@ module ScreenPicker {
 
 		function onLayout(dc) {
 			ScreenPickerBaseView.onLayout(dc);
-			me.lineHeight = height * 0.11;
-			me.yOffset = height * 0.3;
+			me.lineHeight = me.height * 0.11;
+			me.yOffset = me.yOffsetTitle + me.lineHeight * 2;
 			me.xIconOffset = Math.ceil(me.width * 0.2);
 			me.xTextOffset = Math.ceil(me.xIconOffset + me.width * 0.07);
 			me.progressBarWidth = Math.ceil(me.width * 0.6);
@@ -86,7 +86,7 @@ module ScreenPicker {
 
 		private function drawPercentageHighlightLine(dc, highlights, backgroundColor, startPosX, posY) {
 			dc.setColor(backgroundColor, Gfx.COLOR_TRANSPARENT);
-			posY = posY - (me.progressBarHeight / 2);
+			posY = posY - me.progressBarHeight / 2;
 			dc.fillRectangle(startPosX, posY, me.progressBarWidth, me.progressBarHeight);
 			var highlight = null;
 			var valuePosX = null;

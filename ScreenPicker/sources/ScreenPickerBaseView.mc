@@ -17,6 +17,7 @@ module ScreenPicker {
 		private static const InvalidValueString = " --";
 		private static const colorThemeKey = "globalSettings_colorTheme";
 		protected var height, width;
+		protected var yOffsetTitle;
 
 		function initialize(multiPage) {
 			View.initialize();
@@ -87,7 +88,7 @@ module ScreenPicker {
 				color = foregroundColor;
 			}
 			dc.setColor(color, Graphics.COLOR_TRANSPARENT);
-			dc.drawText(me.width / 2, me.height * 0.1, me.TextFont, title, Graphics.TEXT_JUSTIFY_CENTER);
+			dc.drawText(me.centerXPos, me.yOffsetTitle, me.TextFont, title, Graphics.TEXT_JUSTIFY_CENTER);
 		}
 
 		function onLayout(dc) {
@@ -100,6 +101,7 @@ module ScreenPicker {
 			spaceYSmall = Math.ceil(me.height * 0.01);
 			spaceXMed = spaceXSmall * 5;
 			spaceYMed = spaceYSmall * 5;
+			yOffsetTitle = Math.ceil(me.height * 0.15);
 			if (me.multiPage) {
 				me.layoutArrows(dc);
 			}

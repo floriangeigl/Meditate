@@ -1,4 +1,5 @@
 using Toybox.WatchUi as Ui;
+using Toybox.System;
 
 class MeditateDelegate extends Ui.BehaviorDelegate {
 	private var mMeditateModel;
@@ -177,14 +178,17 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 			elapsedTime = 0;
 		}
 		var title = TimeFormatter.format(elapsedTime);
-		var menu = new Ui.Menu2({ :title => title });
+		var timeNow = System.getClockTime();
+		timeNow = timeNow.hour.format("%02d")+":" + timeNow.min.format("%02d");
+		var menu = new Ui.Menu2({ :title => title , :footer => timeNow});
 		if (reason == PauseReasonCompleted) {
 			menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.pauseMenu_stop), "", :stop, {}));
 			menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.pauseMenu_resume), "", :resume, {}));
 		} else {
 			menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.pauseMenu_resume), "", :resume, {}));
 			menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.pauseMenu_stop), "", :stop, {}));
-		}
+		}		
+		
 		var pauseMenuDelegate = new PauseMenuDelegate(me);
 		me.mPauseMenuVisible = true;
 		Ui.pushView(menu, pauseMenuDelegate, Ui.SLIDE_UP);
