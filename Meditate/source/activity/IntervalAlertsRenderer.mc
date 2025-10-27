@@ -10,7 +10,7 @@ class IntervalAlertsRenderer {
 		me.xCenter = mDcWidth / 2;
 		me.yCenter = mDcHeight / 2;
 		var minDim = mDcWidth < mDcHeight ? mDcWidth : mDcHeight;
-		me.mWidth = Math.floor(minDim / 32.0).toNumber();
+		me.mWidth = Math.floor(minDim / 24.0).toNumber();
 		me.mWidth -= 1; // Make sure the arc fits within the bounds
 		me.mRadius = minDim / 2;
 		me.mRadius -= Math.ceil(me.mWidth / 2);
