@@ -3,7 +3,7 @@ using Toybox.Graphics as Gfx;
 module IntervalAlertType {
 	enum {
 		OneOff = 1,
-		Repeat = 2
+		Repeat = 2,
 	}
 }
 
@@ -21,6 +21,10 @@ class IntervalAlerts {
 	}
 
 	function delete(index) {
+		// Guard against stale indices (e.g., after prior deletions in caller)
+		if (index < 0 || index >= me.mAlerts.size()) {
+			return; // Silently ignore invalid index
+		}
 		var alert = me.mAlerts[index];
 		me.mAlerts.remove(alert);
 	}
@@ -79,7 +83,7 @@ class Alert {
 			"time" => me.time,
 			"offset" => me.offset,
 			"color" => me.color,
-			"vibePattern" => me.vibePattern
+			"vibePattern" => me.vibePattern,
 		};
 	}
 

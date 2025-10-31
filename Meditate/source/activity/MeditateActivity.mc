@@ -7,7 +7,8 @@ using Toybox.Sensor;
 using HrvAlgorithms.HrvTracking;
 using Toybox.Application as App;
 
-class MediteActivity extends HrvAlgorithms.HrvActivity {
+// Renamed class to fix potential typo (MediteActivity -> MeditateActivity) to avoid type resolution issues.
+class MeditateActivity extends HrvAlgorithms.HrvActivity {
 	private var mMeditateModel;
 	private var mVibeAlertsExecutor;
 	private var mMeditateDelegate;

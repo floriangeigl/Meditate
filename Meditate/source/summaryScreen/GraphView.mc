@@ -11,8 +11,7 @@ class GraphView extends ScreenPicker.ScreenPickerBaseView {
 	var positionX, positionY;
 	var chartToLabelOffset;
 	var graphWidth, graphHeight;
-	var centerX, centerY;
-	var shiftRight, smallXSpace, smallYSpace;
+	var shiftRight;
 	var data;
 	var min, max, avg;
 	var elapsedTime;
@@ -81,48 +80,45 @@ class GraphView extends ScreenPicker.ScreenPickerBaseView {
 
 	function onLayout(dc) {
 		ScreenPickerBaseView.onLayout(dc);
-
-		// Calculate center of the screen
-		me.centerX = dc.getWidth() / 2;
-		me.centerY = dc.getHeight() / 2;
-		me.smallXSpace = dc.getWidth() * 0.05;
-		me.smallYSpace = dc.getWidth() * 0.05;
+		me.yOffsetTitle = Math.ceil(me.height * 0.1);
 
 		// Calculate position of the chart
 		me.graphHeight = Math.round(dc.getHeight() * 0.33);
 		me.graphWidth = Math.round(dc.getWidth() * 0.75);
 		me.shiftRight = me.graphWidth * 0.05;
-		me.positionX = me.centerX - me.graphWidth / 2 + me.shiftRight;
-		me.positionY = me.centerY + me.graphHeight / 2;
+		me.positionX = me.centerXPos - me.graphWidth / 2 + me.shiftRight;
+		me.positionY = me.centerYPos + me.graphHeight / 2;
 		// calculate offset of y-ticks to chart
 		me.chartToLabelOffset = Math.ceil(me.graphWidth * 0.01);
 
 		// text elements
 		me.titleText = Ui.loadResource(me.title);
-		me.minTextE = new TextElement(
-			me.positionX + me.smallXSpace,
-			centerY - graphHeight / 2 - me.smallYSpace,
-			Ui.loadResource(Rez.Strings.SummaryMin) + me.formatNumber(me.min),
-			Gfx.FONT_SYSTEM_TINY,
-			Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER
-		);
 		me.avgTextE = new TextElement(
-			centerX,
-			me.positionY + me.smallYSpace,
+			centerXPos,
+			centerYPos - graphHeight / 2 - me.spaceYSmall * 5,
+			
 			Ui.loadResource(Rez.Strings.SummaryAvg) + me.formatNumber(me.avg),
 			Gfx.FONT_SYSTEM_TINY,
 			Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
 		);
+		me.minTextE = new TextElement(
+			me.positionX + me.spaceXSmall,
+			me.positionY + me.spaceYSmall * 5,
+			Ui.loadResource(Rez.Strings.SummaryMin) + me.formatNumber(me.min),
+			Gfx.FONT_SYSTEM_TINY,
+			Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER
+		);
 		me.maxTextE = new TextElement(
-			me.positionX + graphWidth / 2 + me.smallXSpace,
-			centerY - graphHeight / 2 - me.smallYSpace,
+			me.positionX + graphWidth / 2 + me.spaceXSmall,
+			me.positionY + me.spaceYSmall * 5,
 			Ui.loadResource(Rez.Strings.SummaryMax) + me.formatNumber(me.max),
 			Gfx.FONT_SYSTEM_TINY,
 			Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER
 		);
+
 		me.timeTextE = new TextElement(
-			centerX,
-			centerY + centerY / 1.5 + 13,
+			centerXPos,
+			centerYPos + centerYPos / 1.5 + 13,
 			TimeFormatter.format(me.elapsedTime),
 			Gfx.FONT_SYSTEM_TINY,
 			Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER

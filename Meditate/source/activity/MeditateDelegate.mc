@@ -18,7 +18,7 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 		me.mMeditateModel = meditateModel;
 		me.mSummaryModels = summaryModels;
 		me.mHeartbeatIntervalsSensor = heartbeatIntervalsSensor;
-		me.mMeditateActivity = new MediteActivity(meditateModel, heartbeatIntervalsSensor, me);
+		me.mMeditateActivity = new MeditateActivity(meditateModel, heartbeatIntervalsSensor, me);
 		me.mSessionPickerDelegate = sessionPickerDelegate;
 		me.mSummaryModel = null;
 		me.mPauseMenuVisible = false;
@@ -148,7 +148,9 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 
 	private function pauseForMenu() {
 		if (me.mMeditateModel.isTimerRunning) {
-			me.mMeditateModel.isTimerRunning = me.mMeditateActivity.pauseResume();
+			if (me.mMeditateActivity != null) {
+				me.mMeditateModel.isTimerRunning = me.mMeditateActivity.pauseResume();
+			}
 		}
 		me.mMeditateModel.isTimerRunning = false;
 		Ui.requestUpdate();
@@ -156,7 +158,9 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 
 	function resumeFromPauseMenu() {
 		if (!me.mMeditateModel.isTimerRunning) {
-			me.mMeditateModel.isTimerRunning = me.mMeditateActivity.pauseResume();
+			if (me.mMeditateActivity != null) {
+				me.mMeditateModel.isTimerRunning = me.mMeditateActivity.pauseResume();
+			}
 		}
 		Ui.requestUpdate();
 	}
