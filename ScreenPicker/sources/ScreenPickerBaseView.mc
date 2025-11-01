@@ -13,7 +13,7 @@ module ScreenPicker {
 		var colorTheme;
 		var backgroundColor, foregroundColor;
 		var spaceXSmall, spaceYSmall, spaceXMed, spaceYMed;
-		private static const TextFont = App.getApp().getProperty("largeFont");
+		private static const TextFont = App.Properties.getValue("largeFont");
 		private static const InvalidValueString = " --";
 		private static const colorThemeKey = "globalSettings_colorTheme";
 		protected var height, width;

@@ -34,7 +34,7 @@ module HrvAlgorithms {
 			if (me.sensorSupported) {
 				if (me.apiV5Plus) {
 					val = Toybox.ActivityMonitor.Info.stressScore;
-					System.println("StressActivity: got live stress value: " + val);
+					// System.println("StressActivity: got live stress value: " + val);
 				}
 				if (val == null && !me.liveStressAvailable) {
 					var iter = Toybox.SensorHistory.getStressHistory({
@@ -49,7 +49,7 @@ module HrvAlgorithms {
 						}
 						sample = iter.next();
 					}
-					System.println("StressActivity: fallback: " + val);
+					// System.println("StressActivity: fallback: " + val);
 				} else {
 					// force to use live stress if it provides values once
 					me.liveStressAvailable = true;

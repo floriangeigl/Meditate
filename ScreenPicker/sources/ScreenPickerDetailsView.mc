@@ -49,7 +49,7 @@ module ScreenPicker {
 					me.displayFontIcon(dc, line.icon, me.xIconOffset, yPos);
 				}
 				if (line.value instanceof TextValue) {
-					me.displayText(dc, line.value, me.xTextOffset, yPos);
+					me.displayText(dc, line.value, me.xTextOffset, yPos, line.value.justification);
 				} else if (line.value instanceof PercentageHighlightLine) {
 					me.drawPercentageHighlightLine(
 						dc,
@@ -75,13 +75,13 @@ module ScreenPicker {
 			icon.draw(dc);
 		}
 
-		private function displayText(dc, value, xPos, yPos) {
+		private function displayText(dc, value, xPos, yPos, justification) {
 			if (value.color != null) {
 				dc.setColor(value.color, Gfx.COLOR_TRANSPARENT);
 			} else {
 				dc.setColor(foregroundColor, Graphics.COLOR_TRANSPARENT);
 			}
-			dc.drawText(xPos, yPos, value.font, value.text, Gfx.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
+			dc.drawText(xPos, yPos, value.font, value.text, justification);
 		}
 
 		private function drawPercentageHighlightLine(dc, highlights, backgroundColor, startPosX, posY) {

@@ -149,15 +149,10 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 			} else {
 				hrvStatusLine.icon.setStatusOnDetailed();
 			}
-			if (sensorStatus == HeartbeatIntervalsSensorStatus.Good) {
-				hrvStatusLine.value.text = Ui.loadResource(Rez.Strings.HRVready);
-			} else {
-				hrvStatusLine.value.text = Ui.loadResource(Rez.Strings.HRVweak);
-			}
 		} else {
 			hrvStatusLine.icon.setStatusWarning();
-			hrvStatusLine.value.text = Ui.loadResource(Rez.Strings.HRVwaiting);
 		}
+		hrvStatusLine.value.text = Utils.getHrvStatusText(sensorStatus);
 		Ui.requestUpdate();
 	}
 

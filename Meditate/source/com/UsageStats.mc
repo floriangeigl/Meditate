@@ -19,8 +19,8 @@ class UsageStats {
 	private var lastMonthStats;
 
 	function initialize(sessionTime) {
-		me.gMeasurmentID = App.getApp().getProperty("gMeasurmentID");
-		me.gApiSecret = App.getApp().getProperty("gApiSecret");
+		me.gMeasurmentID = App.Properties.getValue("gMeasurmentID");
+		me.gApiSecret = App.Properties.getValue("gApiSecret");
 		me.lastParams = [];
 		me.askTip = false;
 		me.lastMonthStats = 0;

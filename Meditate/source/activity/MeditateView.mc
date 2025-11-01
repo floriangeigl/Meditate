@@ -15,7 +15,6 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 	private var mHrvStatusLine;
 	private var mRrStatusLine;
 	private var mStressStatusLine;
-	private var mExtSensorLine;
 	private var mHrIcon;
 	private var mHrvIcon;
 	private var mHrvText;
@@ -36,7 +35,6 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 		me.mHrvStatusLine = null;
 		me.mStressStatusLine = null;
 		me.mRrStatusLine = null;
-		me.mExtSensorLine = null;
 		me.rrLoaded = false;
 		me.stressLoaded = false;
 		me.hrvLoaded = false;
@@ -58,7 +56,7 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 		me.mStressIcon.setStressInvalid();
 	}
 
-	private static const TextFont = App.getApp().getProperty("largeFont");
+	private static const TextFont = App.Properties.getValue("largeFont");
 
 	// Load your resources here
 	function onLayout(dc) {
@@ -89,8 +87,6 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 			me.mBreathIcon.setColorLoading();
 			lineNum++;
 		}
-		me.mExtSensorLine = me.mMeditateModel.getLine(lineNum);
-		lineNum++;
 
 		me.mMainDurationRenderer = new ElapsedDurationRenderer(me.mMeditateModel.getColor(), null, null);
 
