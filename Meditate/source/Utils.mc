@@ -102,4 +102,13 @@ class Utils {
 				return Ui.loadResource(Rez.Strings.HRVwaiting);
 		}
 	}
+
+	static function getSessionDisplayName(sessionModel, ordinalIndex) {
+		if (sessionModel == null) { return ""; }
+		if (sessionModel.name != null && sessionModel.name.length() > 0) {
+			return sessionModel.name.toString();
+		}
+		var activityTypeText = Utils.getActivityTypeText(sessionModel.getActivityType());
+		return activityTypeText + " " + (ordinalIndex + 1);
+	}
 }

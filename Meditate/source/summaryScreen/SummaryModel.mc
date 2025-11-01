@@ -5,7 +5,7 @@ using Toybox.ActivityMonitor;
 using Toybox.Time.Gregorian;
 
 class SummaryModel {
-	function initialize(activitySummary, rrActivity, stressActivity, hrvTracking, rrOn) {
+	function initialize(activitySummary, rrActivity, stressActivity, hrvTracking, rrOn, sessionName) {
 		me.elapsedTime = activitySummary.hrSummary.elapsedTimeSeconds;
 		me.maxHr = activitySummary.hrSummary.max;
 		me.avgHr = activitySummary.hrSummary.avg;
@@ -41,6 +41,7 @@ class SummaryModel {
 
 		me.hrvTracking = hrvTracking;
 		me.rrOn = rrOn;
+		me.sessionName = sessionName; // may be null
 	}
 
 	var elapsedTime;
@@ -71,4 +72,5 @@ class SummaryModel {
 
 	var hrvTracking;
 	var hrHistory;
+	var sessionName; // name of session for rollup menu subtext
 }
