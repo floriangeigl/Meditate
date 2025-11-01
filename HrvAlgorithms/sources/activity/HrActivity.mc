@@ -43,17 +43,21 @@ module HrvAlgorithms {
 		// Pause/Resume session, returns true is session is now running
 		function pauseResume() {
 			// Check if session is running
-			if (me.mFitSession.isRecording()) {
+			if (me.mFitSession != null && me.mFitSession.isRecording()) {
 				// Stop the timer and refresh the screen
 				// to show the pause text
 				me.mFitSession.stop();
-				me.mRefreshActivityTimer.stop();
+				if (me.mRefreshActivityTimer != null) {
+					me.mRefreshActivityTimer.stop();
+				}
 				me.mRefreshActivityTimer = null;
 				me.refreshActivityStats();
 				return false;
 			} else {
 				// Restart the timer for the session
-				me.mFitSession.start();
+				if (me.mFitSession != null) {
+					me.mFitSession.start();
+				}
 				me.mRefreshActivityTimer = new Timer.Timer();
 				me.mRefreshActivityTimer.start(method(:refreshActivityStats), RefreshActivityInterval, true);
 				return true;
@@ -96,13 +100,17 @@ module HrvAlgorithms {
 		}
 
 		function finish() {
-			me.mFitSession.save();
+			if (me.mFitSession != null) {
+				me.mFitSession.save();
+				me.sessionSaved = true;
+			}
 			me.mFitSession = null;
-			me.sessionSaved = true;
 		}
 
 		function discard() {
-			me.mFitSession.discard();
+			if (me.mFitSession != null) {
+				me.mFitSession.discard();
+			}
 			me.mFitSession = null;
 		}
 

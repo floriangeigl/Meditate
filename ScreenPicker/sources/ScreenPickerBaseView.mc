@@ -13,7 +13,7 @@ module ScreenPicker {
 		var colorTheme;
 		var backgroundColor, foregroundColor;
 		var spaceXSmall, spaceYSmall, spaceXMed, spaceYMed;
-		private static const TextFont = App.getApp().getProperty("largeFont");
+		private static const TextFont = App.Properties.getValue("largeFont");
 		private static const InvalidValueString = " --";
 		private static const colorThemeKey = "globalSettings_colorTheme";
 		protected var height, width;
@@ -95,13 +95,13 @@ module ScreenPicker {
 			View.onLayout(dc);
 			me.height = dc.getHeight();
 			me.width = dc.getWidth();
-			centerXPos = me.width / 2;
-			centerYPos = me.height / 2;
-			spaceXSmall = Math.ceil(me.width * 0.01);
-			spaceYSmall = Math.ceil(me.height * 0.01);
-			spaceXMed = spaceXSmall * 5;
-			spaceYMed = spaceYSmall * 5;
-			yOffsetTitle = Math.ceil(me.height * 0.15);
+			me.centerXPos = me.width / 2;
+			me.centerYPos = me.height / 2;
+			me.spaceXSmall = Math.ceil(me.width * 0.01);
+			me.spaceYSmall = Math.ceil(me.height * 0.01);
+			me.spaceXMed = spaceXSmall * 5;
+			me.spaceYMed = spaceYSmall * 5;
+			me.yOffsetTitle = Math.ceil(me.height * 0.15);
 			if (me.multiPage) {
 				me.layoutArrows(dc);
 			}

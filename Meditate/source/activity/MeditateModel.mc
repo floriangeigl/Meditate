@@ -6,6 +6,7 @@ class MeditateModel extends ScreenPicker.DetailsModel {
 		ScreenPicker.DetailsModel.initialize();
 		me.mSession = sessionModel;
 		me.titleColor = me.mSession.color;
+		me.mDisplayName = null;
 		me.elapsedTime = 0;
 		me.minHr = null;
 		me.currentHr = null;
@@ -20,6 +21,7 @@ class MeditateModel extends ScreenPicker.DetailsModel {
 	}
 
 	private var mSession;
+	private var mDisplayName;
 	private var rrActivity;
 	private var stressActivity;
 	private var mIsHrvOn, mHrvTracking;
@@ -49,7 +51,14 @@ class MeditateModel extends ScreenPicker.DetailsModel {
 	}
 
 	function getName() {
+		if (me.mDisplayName != null) {
+			return me.mDisplayName;
+		}
 		return me.mSession.getName();
+	}
+
+	function setDisplayName(name) {
+		me.mDisplayName = name;
 	}
 
 	function getIntervalAlerts() {

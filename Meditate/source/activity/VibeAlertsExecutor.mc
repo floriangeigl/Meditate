@@ -41,7 +41,8 @@ class VibeAlertsExecutor {
 				}
 			}
 		}
-		for (var i = 0; i < rm.size(); i++) {
+		// Delete one-off alerts in reverse index order to avoid shifting indices leading to out-of-bounds
+		for (var i = rm.size() - 1; i >= 0; i--) {
 			me.mIntervalAlerts.delete(rm[i]);
 		}
 	}

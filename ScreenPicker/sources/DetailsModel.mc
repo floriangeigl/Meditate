@@ -53,12 +53,14 @@ module ScreenPicker {
 			me.font = Gfx.FONT_SYSTEM_TINY;
 			me.color = null;
 			me.xPos = 0;
+			me.justification = Gfx.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER;
 		}
 
 		var text;
 		var font;
 		var color;
 		var xPos;
+		var justification;
 	}
 
 	class DetailsLine {

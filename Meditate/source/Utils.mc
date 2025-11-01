@@ -90,4 +90,25 @@ class Utils {
 				return Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_off);
 		}
 	}
+	static function getHrvStatusText(status) {
+		switch (status) {
+			case HeartbeatIntervalsSensorStatus.Good:
+				return Ui.loadResource(Rez.Strings.HRVready);
+			case HeartbeatIntervalsSensorStatus.Weak:
+				return Ui.loadResource(Rez.Strings.HRVweak);
+			case HeartbeatIntervalsSensorStatus.Error:
+				return Ui.loadResource(Rez.Strings.HRVwaiting);
+			default:
+				return Ui.loadResource(Rez.Strings.HRVwaiting);
+		}
+	}
+
+	static function getSessionDisplayName(sessionModel, ordinalIndex) {
+		if (sessionModel == null) { return ""; }
+		if (sessionModel.name != null && sessionModel.name.length() > 0) {
+			return sessionModel.name.toString();
+		}
+		var activityTypeText = Utils.getActivityTypeText(sessionModel.getActivityType());
+		return activityTypeText + " " + (ordinalIndex + 1);
+	}
 }

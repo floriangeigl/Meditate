@@ -46,13 +46,15 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 	function onBack() {
 		var summaries = me.mSummaryRollupModel.getSummaries();
 		if (summaries.size() > 0) {
-			var summaryRollupMenu = new Ui.Menu();
-			summaryRollupMenu.setTitle(Ui.loadResource(Rez.Strings.summaryRollupMenu_title));
-			summaryRollupMenu.addItem(Ui.loadResource(Rez.Strings.summaryRollupMenuOption_exit), RollupExitOption);
+			var summaryRollupMenu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.summaryRollupMenu_title) });
+			summaryRollupMenu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.summaryRollupMenuOption_exit), "", RollupExitOption, {}));
 			for (var i = 0; i < summaries.size(); i++) {
-				summaryRollupMenu.addItem(TimeFormatter.format(summaries[i].elapsedTime), i);
+				var summaryModel = summaries[i];
+				var sessionName = summaryModel.sessionName != null && summaryModel.sessionName.length() > 0 ? summaryModel.sessionName.toString() : "";
+				var elapsedText = TimeFormatter.format(summaryModel.elapsedTime);
+				summaryRollupMenu.addItem(new Ui.MenuItem(sessionName, elapsedText, i, {}));
 			}
-			var summaryRollupMenuDelegate = new MenuOptionsDelegate(method(:onSummaryRollupMenuOption));
+			var summaryRollupMenuDelegate = new SummaryRollupMenuDelegate(method(:onSummaryRollupMenuOption));
 			Ui.pushView(summaryRollupMenu, summaryRollupMenuDelegate, Ui.SLIDE_LEFT);
 			return true;
 		} else {
@@ -70,6 +72,23 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 			var summaryModel = me.mSummaryRollupModel.getSummary(summaryIndex);
 			var summaryViewDelegate = new SummaryViewDelegate(summaryModel, null);
 			Ui.pushView(summaryViewDelegate.createScreenPickerView(), summaryViewDelegate, Ui.SLIDE_LEFT);
+		}
+	}
+
+	// Custom delegate so we keep the rollup menu in the stack when opening a summary view.
+	// Unlike MenuOptionsDelegate, we do NOT pop the menu first; this allows user to press Back
+	// from a summary view and return to the rollup menu instead of the session picker.
+	class SummaryRollupMenuDelegate extends Ui.Menu2InputDelegate {
+		private var mOnSelectCb;
+
+		function initialize(onSelectCb) {
+			Menu2InputDelegate.initialize();
+			mOnSelectCb = onSelectCb;
+		}
+
+		function onSelect(item) {
+			// Directly invoke callback without popping the menu view
+			mOnSelectCb.invoke(item.getId());
 		}
 	}
 
@@ -107,6 +126,8 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 	function startMeditationSession() {
 		var selectedSession = me.mSessionStorage.loadSelectedSession();
 		var meditateModel = new MeditateModel(selectedSession);
+		var displayName = Utils.getSessionDisplayName(selectedSession, me.mSelectedPageIndex);
+		meditateModel.setDisplayName(displayName);
 		var meditateView = new MeditateView(meditateModel);
 		me.mHeartbeatIntervalsSensor.setOneSecBeatToBeatIntervalsSensorListener(null);
 		var mediateDelegate = new MeditateDelegate(
@@ -149,15 +170,10 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 			} else {
 				hrvStatusLine.icon.setStatusOnDetailed();
 			}
-			if (sensorStatus == HeartbeatIntervalsSensorStatus.Good) {
-				hrvStatusLine.value.text = Ui.loadResource(Rez.Strings.HRVready);
-			} else {
-				hrvStatusLine.value.text = Ui.loadResource(Rez.Strings.HRVweak);
-			}
 		} else {
 			hrvStatusLine.icon.setStatusWarning();
-			hrvStatusLine.value.text = Ui.loadResource(Rez.Strings.HRVwaiting);
 		}
+		hrvStatusLine.value.text = Utils.getHrvStatusText(sensorStatus);
 		Ui.requestUpdate();
 	}
 
@@ -180,9 +196,6 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 	}
 
 	function updateSelectedSessionDetails(session) {
-		// Reuse the existing DetailsModel instance so the active view (which may
-		// hold a reference to it) sees mutations immediately. If it doesn't
-		// exist yet, create it.
 		if (me.mSelectedSessionDetails == null) {
 			me.mSelectedSessionDetails = new ScreenPicker.DetailsModel();
 		}
@@ -194,12 +207,8 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		details.foregroundColor = null;
 		details.linesCount = 0;
 
-		var activityTypeText = Utils.getActivityTypeText(session.getActivityType());
-		if (session.name != null) {
-			details.title = session.name;
-		} else {
-			details.title = activityTypeText + " " + (me.mSelectedPageIndex + 1);
-		}
+		var displayName = Utils.getSessionDisplayName(session, me.mSelectedPageIndex);
+		details.title = displayName;
 		details.titleColor = session.color;
 		var lineNum = 0;
 		var line = details.getLine(lineNum);

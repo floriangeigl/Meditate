@@ -212,6 +212,14 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 		} else if (id == :sensorRestart) {
 			// Disable all HR sensors and exit the app cleanly
 			Sensor.setEnabledSensors([]);
+			if (Sensor has :disableSensorType) {
+				if (Sensor has :SENSOR_ONBOARD_HEARTRATE) {
+					Sensor.disableSensorType(Sensor.SENSOR_ONBOARD_HEARTRATE);
+				}
+				if (Sensor has :SENSOR_HEARTRATE) {
+					Sensor.disableSensorType(Sensor.SENSOR_HEARTRATE);
+				}
+			}
 			System.exit();
 		}
 	}

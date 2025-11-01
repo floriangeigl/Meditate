@@ -7,7 +7,7 @@ using Toybox.Sensor;
 using HrvAlgorithms.HrvTracking;
 using Toybox.Application as App;
 
-class MediteActivity extends HrvAlgorithms.HrvActivity {
+class MeditateActivity extends HrvAlgorithms.HrvActivity {
 	private var mMeditateModel;
 	private var mVibeAlertsExecutor;
 	private var mMeditateDelegate;
@@ -27,7 +27,7 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 		if (GlobalSettings.loadUseSessionName() && meditateModel.getName() != null && meditateModel.getName().length() > 0) {
 			activityName = meditateModel.getName().toString();
 		} else {
-			var storedActivityName = App.Storage.getApp().getProperty("activityName");
+			var storedActivityName = App.Properties.getValue("activityName");
 			if (storedActivityName != null && storedActivityName.length() > 0) {
 				activityName = storedActivityName.toString();
 			} else {
@@ -157,7 +157,8 @@ class MediteActivity extends HrvAlgorithms.HrvActivity {
 			me.mMeditateModel.getRespirationActivity(),
 			me.mMeditateModel.getStressActivity(),
 			me.mMeditateModel.getHrvTracking(),
-			me.mMeditateModel.isRespirationRateOn()
+			me.mMeditateModel.isRespirationRateOn(),
+			me.mMeditateModel.getName()
 		);
 		return summaryModel;
 	}
