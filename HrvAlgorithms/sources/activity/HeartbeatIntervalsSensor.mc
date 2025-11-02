@@ -40,7 +40,7 @@ module HrvAlgorithms {
 			me.numFails = maxWeakFails + 1;
 			me.resetSensorQuality();
 			me.start();
-			ActivityRecording.createSession(FitSessionSpec.createGeneric("tmp"));
+			ActivityRecording.createSession(FitSessionSpec.createTraining("tmp"));
 		}
 
 		function shutdown() {
@@ -57,25 +57,25 @@ module HrvAlgorithms {
 		private function enableHrSensor() {
 			// System.println("HR sensor: Enable");
 			Sensor.setEnabledSensors(me.sensorTypes);
-			if (Sensor has :enableSensorType) {
-				for (var i = 0; i < me.sensorTypes.size(); i++) {
-					Sensor.enableSensorType(me.sensorTypes[i]);
-				}
-			} else {
-				Sensor.setEnabledSensors(me.sensorTypes);
-			}
+			// if (Sensor has :enableSensorType) {
+			// 	for (var i = 0; i < me.sensorTypes.size(); i++) {
+			// 		Sensor.enableSensorType(me.sensorTypes[i]);
+			// 	}
+			// } else {
+			// 	Sensor.setEnabledSensors(me.sensorTypes);
+			// }
 		}
 
 		private function disableHrSensor() {
 			// System.println("HR sensor: Disable");
 			Sensor.setEnabledSensors([]);
-			if (Sensor has :disableSensorType) {
-				for (var i = 0; i < me.sensorTypes.size(); i++) {
-					Sensor.disableSensorType(me.sensorTypes[i]);
-				}
-			} else {
-				Sensor.setEnabledSensors([]);
-			}
+			// if (Sensor has :disableSensorType) {
+			// 	for (var i = 0; i < me.sensorTypes.size(); i++) {
+			// 		Sensor.disableSensorType(me.sensorTypes[i]);
+			// 	}
+			// } else {
+			// 	Sensor.setEnabledSensors([]);
+			// }
 		}
 
 		function start() {
