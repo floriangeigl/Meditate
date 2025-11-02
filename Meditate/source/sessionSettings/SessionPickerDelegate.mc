@@ -34,7 +34,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 	}
 
 	function onMenu() {
-		return me.onMenu();
+		return me.showSessionSettingsMenu();
 	}
 
 	function onHold(param) {
