@@ -1,6 +1,7 @@
 using Toybox.Sensor;
 using Toybox.Lang;
 using Toybox.Timer;
+using Toybox.ActivityRecording;
 
 module HrvAlgorithms {
 	class HeartbeatIntervalsSensor {
@@ -18,13 +19,11 @@ module HrvAlgorithms {
 		private var running;
 		private var sensorTypes;
 		private var lastUpdateFailed;
+		private var statusErrors;
 
 		function initialize(external_sensor) {
 			// System.println("HR sensor: Init");
-			me.numFails = maxWeakFails + 1;
-			me.totalTime = 0;
-			me.totalIntervals = 0.0;
-			me.sensorRestarts = 0;
+			me.resetSensorQuality();
 			me.running = false;
 			me.lastUpdateFailed = false;
 			me.sensorTypes = [];
@@ -38,33 +37,67 @@ module HrvAlgorithms {
 			}
 		}
 
+		function startup() {
+			me.numFails = maxWeakFails + 1;
+			me.resetSensorQuality();
+			me.start();
+			ActivityRecording.createSession(FitSessionSpec.createTraining("tmp"));
+		}
+
+		function shutdown() {
+			me.stop();
+			me.disableHrSensor();
+		}
+
+		function reboot() {
+			System.println("HR sensor: Reboot");
+			me.shutdown();
+			me.startup();
+		}
+
 		private function enableHrSensor() {
 			// System.println("HR sensor: Enable");
 			Sensor.setEnabledSensors(me.sensorTypes);
-
-			if (Sensor has :enableSensorType) {
-				for (var i = 0; i < me.sensorTypes.size(); i++) {
-					Sensor.enableSensorType(me.sensorTypes[i]);
-				}
-			}
+			// if (Sensor has :enableSensorType) {
+			// 	for (var i = 0; i < me.sensorTypes.size(); i++) {
+			// 		Sensor.enableSensorType(me.sensorTypes[i]);
+			// 	}
+			// } else {
+			// 	Sensor.setEnabledSensors(me.sensorTypes);
+			// }
 		}
 
 		private function disableHrSensor() {
 			// System.println("HR sensor: Disable");
 			Sensor.setEnabledSensors([]);
+			// if (Sensor has :disableSensorType) {
+			// 	for (var i = 0; i < me.sensorTypes.size(); i++) {
+			// 		Sensor.disableSensorType(me.sensorTypes[i]);
+			// 	}
+			// } else {
+			// 	Sensor.setEnabledSensors([]);
+			// }
 		}
 
 		function start() {
-			me.enableHrSensor();
-			me.registerListener();
+			if (!me.running) {
+				me.enableHrSensor();
+				me.registerListener();
+				me.running = true;
+			}
 		}
 
-		function pause() {
+		function stop() {
+			if (me.running) {
+				Sensor.unregisterSensorDataListener();
+				me.running = false;
+			}
+		}
+
+		function restart() {
 			me.stop();
-		}
-
-		function resume() {
 			me.start();
+			me.sensorRestarts += 1;
 		}
 
 		function registerListener() {
@@ -77,26 +110,29 @@ module HrvAlgorithms {
 			});
 		}
 
-		function stop() {
-			Sensor.unregisterSensorDataListener();
-		}
-
 		function setOneSecBeatToBeatIntervalsSensorListener(listener) {
 			me.mSensorListener = listener;
 		}
 
 		function getStatus() {
-			return me.numFails <= maxReadyFails
-				? HeartbeatIntervalsSensorStatus.Good
-				: me.numFails <= maxWeakFails
-				? HeartbeatIntervalsSensorStatus.Weak
-				: HeartbeatIntervalsSensorStatus.Error;
+			var status =
+				me.numFails <= maxReadyFails
+					? HeartbeatIntervalsSensorStatus.Good
+					: me.numFails <= maxWeakFails
+					? HeartbeatIntervalsSensorStatus.Weak
+					: HeartbeatIntervalsSensorStatus.Error;
+			if (status == HeartbeatIntervalsSensorStatus.Error) {
+				me.statusErrors += 1;
+				if (me.statusErrors % 10 == 0) {
+					me.enableHrSensor();
+				}
+			}
+			return status;
 		}
 
 		function ensureSensorHealth() {
 			if (me.numFails >= resetSeconds && me.numFails % resetSeconds == 0) {
-				me.start();
-				me.sensorRestarts += 1;
+				me.restart();
 			}
 		}
 
@@ -104,6 +140,8 @@ module HrvAlgorithms {
 			me.totalTime = 0;
 			me.totalIntervals = 0.0;
 			me.sensorRestarts = 0;
+			me.numFails = maxWeakFails + 1;
+			me.statusErrors = 0;
 		}
 
 		function update(sensorData) {

@@ -2,6 +2,7 @@ using Toybox.WatchUi as Ui;
 using Toybox.Sensor;
 using Toybox.System;
 using HrvAlgorithms.HrvTracking;
+using Toybox.Application as App;
 
 class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 	function initialize(onGlobalSettingsChanged, menu) {
@@ -211,15 +212,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			Ui.pushView(useMenu, useDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :sensorRestart) {
 			// Disable all HR sensors and exit the app cleanly
-			Sensor.setEnabledSensors([]);
-			if (Sensor has :disableSensorType) {
-				if (Sensor has :SENSOR_ONBOARD_HEARTRATE) {
-					Sensor.disableSensorType(Sensor.SENSOR_ONBOARD_HEARTRATE);
-				}
-				if (Sensor has :SENSOR_HEARTRATE) {
-					Sensor.disableSensorType(Sensor.SENSOR_HEARTRATE);
-				}
-			}
+			App.getApp().heartbeatIntervalsSensor.shutdown();
 			System.exit();
 		}
 	}

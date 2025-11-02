@@ -48,7 +48,7 @@ class MeditateActivity extends HrvAlgorithms.HrvActivity {
 			);
 		}
 		if (!supportsActivityTypes || meditateModel.getActivityType() == ActivityType.Generic) {
-			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createGeneric(createSessionName(sessionTime, activityName));
+			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createTraining(createSessionName(sessionTime, activityName));
 			// System.println("create generic activity as others are not supported");
 		}
 		var hrvWindowSize = GlobalSettings.loadHrvWindowTime();

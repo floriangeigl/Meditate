@@ -32,10 +32,10 @@ module HrvAlgorithms {
 			};
 		}
 
-		static function createGeneric(sessionName) {
+		static function createTraining(sessionName) {
 			return {
 				:name => sessionName,
-				:Sport => sportGeneric,
+				:sport => sportTraining,
 			};
 		}
 	}
