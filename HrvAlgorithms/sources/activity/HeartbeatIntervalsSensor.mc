@@ -1,6 +1,7 @@
 using Toybox.Sensor;
 using Toybox.Lang;
 using Toybox.Timer;
+using Toybox.ActivityRecording;
 
 module HrvAlgorithms {
 	class HeartbeatIntervalsSensor {
@@ -123,7 +124,7 @@ module HrvAlgorithms {
 			if (status == HeartbeatIntervalsSensorStatus.Error) {
 				me.statusErrors += 1;
 				if (me.statusErrors % 10 == 0) {
-					enableHrSensor();
+					me.enableHrSensor();
 				}
 			}
 			return status;
