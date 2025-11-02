@@ -63,7 +63,7 @@ $deviceFolder = $deviceItem.GetFolder()
 
 # Navigate to Internal Storage (allow German/English wording)
 $internalFolder = Get-ChildFolder -ParentFolder $deviceFolder -NamePatterns @(
-    'Internal Storage','Interner Speicher','*Internal*','*Interner*'
+    'Internal Storage','Interner Speicher','*Internal*','*Interner*', 'Primary', '*Primary*'
 )
 if (-not $internalFolder) {
     throw "Couldn't find 'Internal Storage' on the device."
