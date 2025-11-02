@@ -34,7 +34,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 	}
 
 	function onMenu() {
-		return me.showSessionSettingsMenu();
+		return me.onMenu();
 	}
 
 	function onHold(param) {
@@ -165,13 +165,19 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		var hrvStatusLine = me.mSelectedSessionDetails.getLine(me.hrvStatusLineNum);
 		var sensorStatus = me.mHeartbeatIntervalsSensor.getStatus();
 		if (sensorStatus != HeartbeatIntervalsSensorStatus.Error) {
+			if(!(hrvStatusLine.icon instanceof ScreenPicker.HrvIcon)) {
+				hrvStatusLine.icon = new ScreenPicker.HrvIcon({});
+			}
 			if (me.mHrvTracking == HrvTracking.On) {
 				hrvStatusLine.icon.setStatusOn();
 			} else {
 				hrvStatusLine.icon.setStatusOnDetailed();
 			}
 		} else {
-			hrvStatusLine.icon.setStatusWarning();
+			if(!(hrvStatusLine.icon instanceof ScreenPicker.LoadingIcon)) {
+				hrvStatusLine.icon = new ScreenPicker.LoadingIcon({});
+			}
+			hrvStatusLine.icon.tick();
 		}
 		hrvStatusLine.value.text = Utils.getHrvStatusText(sensorStatus);
 		Ui.requestUpdate();

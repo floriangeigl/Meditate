@@ -62,10 +62,10 @@ module HrvAlgorithms {
 			if (me.isHrvOn()) {
 				if (running) {
 					// Activity resumed -> resume sensor data capturing
-					me.mHeartbeatIntervalsSensor.resume();
+					me.mHeartbeatIntervalsSensor.start();
 				} else {
 					// Activity paused -> pause sensor data capturing
-					me.mHeartbeatIntervalsSensor.pause();
+					me.mHeartbeatIntervalsSensor.stop();
 				}
 			}
 			return running;

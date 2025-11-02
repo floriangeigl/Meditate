@@ -17,6 +17,7 @@ class MeditateApp extends App.AppBase {
 			me.heartbeatIntervalsSensor = new HrvAlgorithms.HeartbeatIntervalsSensor(
 				GlobalSettings.loadExternalSensor() == ExternalSensor.On
 			);
+			me.heartbeatIntervalsSensor.startup();
 		}
 	}
 	// onStop() is called when your application is exiting
@@ -24,7 +25,6 @@ class MeditateApp extends App.AppBase {
 		// Disable and remove listeners for heatbeat sensor
 		if (me.heartbeatIntervalsSensor != null) {
 			me.heartbeatIntervalsSensor.stop();
-			me.heartbeatIntervalsSensor = null;
 		}
 	}
 
