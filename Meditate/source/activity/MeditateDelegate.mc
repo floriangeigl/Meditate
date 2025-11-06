@@ -30,6 +30,8 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 
 	public function stopActivity() {
 		me.mPauseMenuVisible = false;
+		// Compute summary BEFORE stopping recording so session-level fields (e.g., RMSSD) are written safely.
+		me.mSummaryModel = me.mMeditateActivity.calculateSummaryFields();
 		me.mMeditateActivity.stop();
 
 		// Store auto-exit state as class member
@@ -54,7 +56,6 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 	}
 
 	function onFinishActivity() {
-		me.mSummaryModel = me.mMeditateActivity.calculateSummaryFields();
 
 		var confirmSaveActivity = GlobalSettings.loadConfirmSaveActivity();
 		var nextView = null;
