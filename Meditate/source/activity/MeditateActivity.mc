@@ -115,7 +115,7 @@ class MeditateActivity extends HrvAlgorithms.HrvActivity {
 
 	function refreshActivityStats() {
 		HrvAlgorithms.HrvActivity.refreshActivityStats();
-		if (me.activityInfo.elapsedTime != null) {
+		if (me.activityInfo.timerTime != null) {
 			me.mMeditateModel.elapsedTime = me.activityInfo.timerTime / 1000;
 		}
 		me.mMeditateModel.currentHr = me.getLastValue();

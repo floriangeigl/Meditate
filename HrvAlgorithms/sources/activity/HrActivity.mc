@@ -18,17 +18,19 @@ module HrvAlgorithms {
 
 		function initialize(fitSessionSpec) {
 			SensorActivityTumbling.initialize(new HrSummary(), null, HrActivity.windowSize);
+			me.minHr = null;
+			me.currentHr = null;
 			me.mFitSession = ActivityRecording.createSession(fitSessionSpec);
 			me.createMinHrDataField();
+			me.mRefreshActivityTimer = new Timer.Timer();
 		}
 
 		function start() {
-			me.mFitSession.start();
-			me.mRefreshActivityTimer = new Timer.Timer();
-			me.mRefreshActivityTimer.start(method(:refreshActivityStats), RefreshActivityInterval, true);
 			me.minHr = null;
-			me.activityInfo = null;
 			me.currentHr = null;
+			me.mFitSession.start();
+			me.mRefreshActivityTimer.start(method(:refreshActivityStats), RefreshActivityInterval, true);
+			me.activityInfo = Activity.getActivityInfo();
 		}
 
 		function stop() {
@@ -37,28 +39,17 @@ module HrvAlgorithms {
 			}
 			me.mFitSession.stop();
 			me.mRefreshActivityTimer.stop();
-			me.mRefreshActivityTimer = null;
 		}
 
 		// Pause/Resume session, returns true is session is now running
 		function pauseResume() {
 			// Check if session is running
-			if (me.mFitSession != null && me.mFitSession.isRecording()) {
-				// Stop the timer and refresh the screen
-				// to show the pause text
+			if (me.mFitSession.isRecording()) {
 				me.mFitSession.stop();
-				if (me.mRefreshActivityTimer != null) {
-					me.mRefreshActivityTimer.stop();
-				}
-				me.mRefreshActivityTimer = null;
-				me.refreshActivityStats();
+				me.mRefreshActivityTimer.stop();
 				return false;
 			} else {
-				// Restart the timer for the session
-				if (me.mFitSession != null) {
-					me.mFitSession.start();
-				}
-				me.mRefreshActivityTimer = new Timer.Timer();
+				me.mFitSession.start();
 				me.mRefreshActivityTimer.start(method(:refreshActivityStats), RefreshActivityInterval, true);
 				return true;
 			}
@@ -77,10 +68,6 @@ module HrvAlgorithms {
 
 		function refreshActivityStats() {
 			me.activityInfo = Activity.getActivityInfo();
-			if (me.activityInfo == null) {
-				me.updateData(null);
-			}
-
 			if (me.mFitSession != null && me.mFitSession.isRecording()) {
 				me.updateData(activityInfo.currentHeartRate);
 				me.currentHr = me.getLastValue();
@@ -115,8 +102,7 @@ module HrvAlgorithms {
 		}
 
 		function discardDanglingActivity() {
-			var isDangling = me.mFitSession != null && !me.mFitSession.isRecording();
-			if (isDangling) {
+			if (me.mFitSession != null && !me.mFitSession.isRecording()) {
 				me.discard();
 			}
 		}

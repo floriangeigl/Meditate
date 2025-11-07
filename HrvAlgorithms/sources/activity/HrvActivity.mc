@@ -62,10 +62,10 @@ module HrvAlgorithms {
 			if (me.isHrvOn()) {
 				if (running) {
 					// Activity resumed -> resume sensor data capturing
-					me.mHeartbeatIntervalsSensor.start();
+					me.mHeartbeatIntervalsSensor.pause();
 				} else {
 					// Activity paused -> pause sensor data capturing
-					me.mHeartbeatIntervalsSensor.stop();
+					me.mHeartbeatIntervalsSensor.resume();
 				}
 			}
 			return running;
@@ -75,7 +75,7 @@ module HrvAlgorithms {
 
 		function refreshActivityStats() {
 			HrActivity.refreshActivityStats();
-			if (me.isHrvOn()) {
+			if (me.isHrvOn() && me.mFitSession != null && me.mFitSession.isRecording()) {
 				me.mHrvValue = me.mHrvMonitor.getHrv();
 			}
 		}
