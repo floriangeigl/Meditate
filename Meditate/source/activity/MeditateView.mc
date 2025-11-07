@@ -56,8 +56,6 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 		me.mStressIcon.setStressInvalid();
 	}
 
-	private static const TextFont = App.Properties.getValue("largeFont");
-
 	// Load your resources here
 	function onLayout(dc) {
 		ScreenPicker.ScreenPickerDetailsCenterView.onLayout(dc);

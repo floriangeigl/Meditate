@@ -13,7 +13,6 @@ module ScreenPicker {
 		var colorTheme;
 		var backgroundColor, foregroundColor;
 		var spaceXSmall, spaceYSmall, spaceXMed, spaceYMed;
-		private static const TextFont = App.Properties.getValue("largeFont");
 		private static const InvalidValueString = " --";
 		private static const colorThemeKey = "globalSettings_colorTheme";
 		protected var height, width;
@@ -87,8 +86,8 @@ module ScreenPicker {
 			if (color == null) {
 				color = foregroundColor;
 			}
-			dc.setColor(color, Graphics.COLOR_TRANSPARENT);
-			dc.drawText(me.centerXPos, me.yOffsetTitle, me.TextFont, title, Graphics.TEXT_JUSTIFY_CENTER);
+			dc.setColor(color, Gfx.COLOR_TRANSPARENT);
+			dc.drawText(me.centerXPos, me.yOffsetTitle, Gfx.FONT_MEDIUM, title, Gfx.TEXT_JUSTIFY_CENTER);
 		}
 
 		function onLayout(dc) {

@@ -1,5 +1,0 @@
-<properties>
-	<property id="hmmTimePickerOutputXOffset" type="number">85</property>
-	<property id="mmssTimePickerOutputXOffset" type="number">75</property>
-	<property id="largeFont" type="number">3</property> <!--Gfx.FONT_MEDIUM-->
-</properties>
