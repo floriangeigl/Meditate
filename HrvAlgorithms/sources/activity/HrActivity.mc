@@ -67,9 +67,9 @@ module HrvAlgorithms {
 		}
 
 		function refreshActivityStats() {
-			me.activityInfo = Activity.getActivityInfo();
 			if (me.mFitSession != null && me.mFitSession.isRecording()) {
-				me.updateData(activityInfo.currentHeartRate);
+				me.activityInfo = Activity.getActivityInfo();
+				me.updateData(me.activityInfo.currentHeartRate);
 				me.currentHr = me.getLastValue();
 			} else {
 				me.currentHr = null;
@@ -81,8 +81,8 @@ module HrvAlgorithms {
 
 		function getSummary() {
 			var summary = SensorActivityTumbling.getSummary();
-			var activityInfo = Activity.getActivityInfo();
-			summary.elapsedTimeSeconds = activityInfo.timerTime / 1000;
+			me.activityInfo = Activity.getActivityInfo();
+			summary.elapsedTimeSeconds = me.activityInfo.timerTime / 1000;
 			return summary;
 		}
 
