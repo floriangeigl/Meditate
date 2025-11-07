@@ -124,6 +124,12 @@
     <string id="summaryRollupMenu_title">Sessions Summary</string>
     <string id="summaryRollupMenuOption_exit">Exit</string>
 
+    <!-- Multi-session post-session menu -->
+    <string id="multiSessionPostMenu_title">Multi-Session</string>
+    <string id="multiSessionPostMenu_nextSession">Next Session</string>
+    <string id="multiSessionPostMenu_summary">Summary</string>
+    <string id="multiSessionPostMenu_endMultiSession">End Multi-Session</string>
+
     <string id="confirmDeleteIntervalAlertHeader">Delete Alert?</string>
 
     <string id="addEditIntervalAlertMenu_title">Alert</string>

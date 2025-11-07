@@ -124,6 +124,12 @@
 	<string id="summaryRollupMenu_title">세션 요약</string>
 	<string id="summaryRollupMenuOption_exit">나가기</string>
 
+	<!-- Multi-session post-session menu -->
+	<string id="multiSessionPostMenu_title">다중 세션</string>
+	<string id="multiSessionPostMenu_nextSession">다음 세션</string>
+	<string id="multiSessionPostMenu_summary">요약</string>
+	<string id="multiSessionPostMenu_endMultiSession">멀티 세션 종료</string>
+
 	<string id="confirmDeleteIntervalAlertHeader">알림을 제거합니까?</string>
 
 	<string id="addEditIntervalAlertMenu_title">알림</string>

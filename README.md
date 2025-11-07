@@ -38,6 +38,7 @@ A Garmin Connect IQ meditation app that tracks as an activity the heart rate, HR
   - Respiration rate chart including min, avg and max estimated respiration rate
   - Stress
   - HRV
+- multi-session mode: after each saved session an intermediate menu lets you (1) start the next session, (2) view the just-finished session summary (Back returns to the menu), or (3) end the multi-session and view rollup summaries / exit
 - pause/resume current session using the back button
 - ability to configure default custom activity name in Garmin Connect using Garmin Express in PC connected to the watch via USB cable
 

@@ -56,7 +56,6 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 	}
 
 	function onFinishActivity() {
-
 		var confirmSaveActivity = GlobalSettings.loadConfirmSaveActivity();
 		var nextView = null;
 
@@ -106,7 +105,8 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 	function onShowNextView() {
 		var continueAfterFinishingSession = GlobalSettings.loadMultiSession();
 		if (continueAfterFinishingSession == MultiSession.Yes) {
-			showSessionPickerView(me.mSummaryModel);
+			// In multi-session mode show an intermediate post-session menu
+			showPostSessionMenu(me.mSummaryModel);
 		} else {
 			if (me.mHeartbeatIntervalsSensor != null) {
 				me.mHeartbeatIntervalsSensor.stop();
@@ -116,8 +116,49 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 		}
 	}
 
-	private function showSessionPickerView(summaryModel) {
+	// New: Intermediate menu after each session in multi-session mode
+	private function showPostSessionMenu(summaryModel) {
+		// Add the summary to the rollup BEFORE offering choices so it appears in rollup if user ends multi-session
 		me.mSessionPickerDelegate.addSummary(summaryModel);
+		var timeNow = System.getClockTime();
+		var footerTime = timeNow.hour.format("%02d") + ":" + timeNow.min.format("%02d");
+		var menu = new Ui.Menu2({
+			:title => Ui.loadResource(Rez.Strings.multiSessionPostMenu_title),
+			:footer => footerTime,
+		});
+		menu.addItem(
+			new Ui.MenuItem(Ui.loadResource(Rez.Strings.multiSessionPostMenu_nextSession), "", :nextSession, {})
+		);
+		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.multiSessionPostMenu_summary), "", :summary, {}));
+		menu.addItem(
+			new Ui.MenuItem(Ui.loadResource(Rez.Strings.multiSessionPostMenu_endMultiSession), "", :endMultiSession, {})
+		);
+		var delegate = new MultiSessionPostSessionMenuDelegate(me);
+		Ui.switchToView(menu, delegate, Ui.SLIDE_IMMEDIATE);
+	}
+
+	// Called when user picks "Next session" from the post-session menu
+	function proceedToNextSession() {
+		showSessionPickerView(me.mSummaryModel);
+	}
+
+	// Called when user picks "Summary" from the post-session menu (push summary on stack so Back returns to menu)
+	function showLastSessionSummaryFromMenu() {
+		var summaryViewDelegate = new SummaryViewDelegate(
+			me.mSummaryModel,
+			me.mMeditateActivity.method(:discardDanglingActivity)
+		);
+		Ui.pushView(summaryViewDelegate.createScreenPickerView(), summaryViewDelegate, Ui.SLIDE_LEFT);
+	}
+
+	// Called when user picks "End multi-session" from the post-session menu
+	function endMultiSessionNow() {
+		// Reuse existing rollup logic by invoking session picker delegate's onBack()
+		// Heartbeat sensor is stopped in SessionPickerDelegate.onBack() only when no summaries; keep running otherwise.
+		me.mSessionPickerDelegate.onBack();
+	}
+
+	private function showSessionPickerView(summaryModel) {
 		Ui.switchToView(
 			me.mSessionPickerDelegate.createScreenPickerView(),
 			me.mSessionPickerDelegate,
@@ -184,22 +225,47 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 		}
 		var title = TimeFormatter.format(elapsedTime);
 		var timeNow = System.getClockTime();
-		timeNow = timeNow.hour.format("%02d")+":" + timeNow.min.format("%02d");
-		var menu = new Ui.Menu2({ :title => title , :footer => timeNow});
+		timeNow = timeNow.hour.format("%02d") + ":" + timeNow.min.format("%02d");
+		var menu = new Ui.Menu2({ :title => title, :footer => timeNow });
 		if (reason == PauseReasonCompleted) {
 			menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.pauseMenu_stop), "", :stop, {}));
 			menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.pauseMenu_resume), "", :resume, {}));
 		} else {
 			menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.pauseMenu_resume), "", :resume, {}));
 			menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.pauseMenu_stop), "", :stop, {}));
-		}		
-		
+		}
+
 		var pauseMenuDelegate = new PauseMenuDelegate(me);
 		me.mPauseMenuVisible = true;
 		Ui.pushView(menu, pauseMenuDelegate, Ui.SLIDE_UP);
 	}
 }
 
+// Delegate for the post-session multi-session menu
+class MultiSessionPostSessionMenuDelegate extends Ui.Menu2InputDelegate {
+	private var mOwner;
+
+	function initialize(owner) {
+		Menu2InputDelegate.initialize();
+		mOwner = owner;
+	}
+
+	function onSelect(item) {
+		var id = item.getId();
+		if (id == :nextSession) {
+			mOwner.proceedToNextSession();
+		} else if (id == :summary) {
+			mOwner.showLastSessionSummaryFromMenu();
+		} else if (id == :endMultiSession) {
+			mOwner.endMultiSessionNow();
+		}
+	}
+
+	function onBack() {
+		mOwner.proceedToNextSession();
+		return true;
+	}
+}
 
 class PauseMenuDelegate extends Ui.Menu2InputDelegate {
 	private var mOwner;

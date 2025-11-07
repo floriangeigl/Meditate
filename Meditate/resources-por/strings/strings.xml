@@ -123,6 +123,12 @@
     <string id="summaryRollupMenu_title">Sumário Sessões</string>
     <string id="summaryRollupMenuOption_exit">Sair</string>
 
+    <!-- Multi-sessão menu pós-sessão -->
+    <string id="multiSessionPostMenu_title">Multi-Sessão</string>
+    <string id="multiSessionPostMenu_nextSession">Próxima sessão</string>
+    <string id="multiSessionPostMenu_summary">Sumário</string>
+    <string id="multiSessionPostMenu_endMultiSession">Encerrar multi-sessão</string>
+
     <string id="confirmDeleteIntervalAlertHeader">Excluir Alerta?</string>
 
     <string id="addEditIntervalAlertMenu_title">Alerta</string>

@@ -47,10 +47,15 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		var summaries = me.mSummaryRollupModel.getSummaries();
 		if (summaries.size() > 0) {
 			var summaryRollupMenu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.summaryRollupMenu_title) });
-			summaryRollupMenu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.summaryRollupMenuOption_exit), "", RollupExitOption, {}));
+			summaryRollupMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.summaryRollupMenuOption_exit), "", RollupExitOption, {})
+			);
 			for (var i = 0; i < summaries.size(); i++) {
 				var summaryModel = summaries[i];
-				var sessionName = summaryModel.sessionName != null && summaryModel.sessionName.length() > 0 ? summaryModel.sessionName.toString() : "";
+				var sessionName =
+					summaryModel.sessionName != null && summaryModel.sessionName.length() > 0
+						? summaryModel.sessionName.toString()
+						: "";
 				var elapsedText = TimeFormatter.format(summaryModel.elapsedTime);
 				summaryRollupMenu.addItem(new Ui.MenuItem(sessionName, elapsedText, i, {}));
 			}
@@ -165,7 +170,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		var hrvStatusLine = me.mSelectedSessionDetails.getLine(me.hrvStatusLineNum);
 		var sensorStatus = me.mHeartbeatIntervalsSensor.getStatus();
 		if (sensorStatus != HeartbeatIntervalsSensorStatus.Error) {
-			if(!(hrvStatusLine.icon instanceof ScreenPicker.HrvIcon)) {
+			if (!(hrvStatusLine.icon instanceof ScreenPicker.HrvIcon)) {
 				hrvStatusLine.icon = new ScreenPicker.HrvIcon({});
 			}
 			if (me.mHrvTracking == HrvTracking.On) {
@@ -174,7 +179,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 				hrvStatusLine.icon.setStatusOnDetailed();
 			}
 		} else {
-			if(!(hrvStatusLine.icon instanceof ScreenPicker.LoadingIcon)) {
+			if (!(hrvStatusLine.icon instanceof ScreenPicker.LoadingIcon)) {
 				hrvStatusLine.icon = new ScreenPicker.LoadingIcon({});
 			}
 			hrvStatusLine.icon.tick();
