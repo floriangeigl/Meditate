@@ -19,16 +19,17 @@ class ElapsedDurationRenderer {
 	private var mDcWidth, mDcHeight;
 	private const StartDegree = 90;
 
-	function drawOverallElapsedTime(dc, overallElapsedTime, alarmTime) {
+	function drawOverallElapsedTime(dc, elapsedTime, totalTime) {
 		var progressPercentage;
-		if (overallElapsedTime >= alarmTime) {
-			overallElapsedTime = overallElapsedTime % alarmTime;
+		if (totalTime < 1) {
+			totalTime = 1;
 		}
-		progressPercentage = 100 * (overallElapsedTime / alarmTime.toFloat());
+		// Wrap around elapsed time if greater than total time
+		elapsedTime = elapsedTime % totalTime;
+		progressPercentage = 100 * (elapsedTime / totalTime.toFloat());
 		if (progressPercentage == 0) {
 			progressPercentage = 0.01;
 		}
-
 		me.drawDuration(dc, progressPercentage);
 	}
 

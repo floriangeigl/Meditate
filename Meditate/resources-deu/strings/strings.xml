@@ -123,6 +123,12 @@
     <string id="summaryRollupMenu_title">Sitz.-Zusf.</string>
     <string id="summaryRollupMenuOption_exit">Verlassen</string>
 
+    <!-- Multi-session post-session menu -->
+    <string id="multiSessionPostMenu_title">Mehr. Sitz.</string>
+    <string id="multiSessionPostMenu_nextSession">Nächste Sitzung</string>
+    <string id="multiSessionPostMenu_summary">Zusf.</string>
+    <string id="multiSessionPostMenu_endMultiSession">Mehr. Sitz. beenden</string>
+
     <string id="confirmDeleteIntervalAlertHeader">Alert löschen?</string>
 
     <string id="addEditIntervalAlertMenu_title">Alert</string>
@@ -199,7 +205,7 @@
     <string id="finishMenu_discard">Verwerfen</string>
     <string id="optionsMenuHelp">Start drücken für Optionen</string>
 
-    <string id="about_AppVersion">v10.6.27</string>
+    <string id="about_AppVersion">v10.6.33</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>
     <string id="about_falsetru">falsetru</string>

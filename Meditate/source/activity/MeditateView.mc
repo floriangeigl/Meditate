@@ -110,10 +110,7 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 			var currentHrv = null;
 			var currentRr = null;
 			var currentStress = null;
-			var currentElapsedTime = null;
 			if (me.mMeditateModel.isTimerRunning) {
-				currentElapsedTime = TimeFormatter.format(elapsedTime);
-
 				currentHr = me.mMeditateModel.currentHr;
 
 				if (me.mMeditateModel.isHrvOn() == true) {
@@ -124,12 +121,9 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 					currentRr = me.mMeditateModel.getRespirationRate();
 				}
 				currentStress = me.mMeditateModel.getStress();
-			} else {
-				// if activity is paused, render the [Paused] text
-				currentElapsedTime = Ui.loadResource(Rez.Strings.meditateActivityPaused);
 			}
 
-			me.mMeditateModel.title = currentElapsedTime;
+			me.mMeditateModel.title = TimeFormatter.format(elapsedTime);
 			me.mHrStatusLine.value.text = me.formatValue(currentHr);
 			if (currentHr != null) {
 				me.hrLoaded = true;

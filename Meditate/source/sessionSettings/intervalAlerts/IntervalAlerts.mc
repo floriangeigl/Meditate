@@ -103,12 +103,18 @@ class Alert {
 			return [];
 		}
 		var percentageTime = me.time.toDouble() / sessionTime.toDouble();
-		var offsetVal = me.offset == null ? 0 : me.offset;
+		var offsetVal = me.offset == null || me.offset < 0 ? 0 : me.offset;
+		if (offsetVal >= sessionTime) {
+			return [];
+		}
 		var percentageOffset = offsetVal.toDouble() / sessionTime.toDouble();
 		if (me.type == IntervalAlertType.OneOff) {
-			return [percentageOffset + percentageTime];
+			return [Utils.clampToRange(percentageOffset + percentageTime, 0.0, 1.0)];
 		} else {
 			var executionsCount = (sessionTime - offsetVal) / me.time + 1;
+			if (executionsCount < 1) {
+				return [];
+			}
 			if (executionsCount > maxRepeatExecutionsCount) {
 				executionsCount = maxRepeatExecutionsCount;
 			}

@@ -20,6 +20,7 @@ module HrvAlgorithms {
 		private var sensorTypes;
 		private var lastUpdateFailed;
 		private var statusErrors;
+		private var paused;
 
 		function initialize(external_sensor) {
 			// System.println("HR sensor: Init");
@@ -35,6 +36,7 @@ module HrvAlgorithms {
 			} else {
 				sensorTypes.add(Sensor.SENSOR_HEARTRATE);
 			}
+			me.paused = false;
 		}
 
 		function startup() {
@@ -94,6 +96,14 @@ module HrvAlgorithms {
 			}
 		}
 
+		function pause() {
+			me.paused = true;
+		}
+
+		function resume() {
+			me.paused = false;
+		}
+
 		function restart() {
 			me.stop();
 			me.start();
@@ -145,6 +155,9 @@ module HrvAlgorithms {
 		}
 
 		function update(sensorData) {
+			if (me.paused) {
+				return;
+			}
 			me.totalTime += 1;
 			var data =
 				sensorData has :heartRateData &&

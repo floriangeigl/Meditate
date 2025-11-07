@@ -123,6 +123,12 @@
     <string id="summaryRollupMenu_title">Resumen Sesiones</string>
     <string id="summaryRollupMenuOption_exit">Salir</string>
 
+    <!-- Multi-sesión menú post-sesión -->
+    <string id="multiSessionPostMenu_title">Multi-Sesión</string>
+    <string id="multiSessionPostMenu_nextSession">Próxima sesión</string>
+    <string id="multiSessionPostMenu_summary">Resumen</string>
+    <string id="multiSessionPostMenu_endMultiSession">Finalizar multisesión</string>
+
     <string id="confirmDeleteIntervalAlertHeader">¿Eliminar Alerta?</string>
 
     <string id="addEditIntervalAlertMenu_title">Alerta</string>
@@ -199,7 +205,7 @@
     <string id="finishMenu_discard">Descartar</string>
     <string id="optionsMenuHelp">Pulsa iniciar para opciones</string>
 
-    <string id="about_AppVersion">v10.6.27</string>
+    <string id="about_AppVersion">v10.6.33</string>
     <string id="about_floriangeigl">floriangeigl</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>
