@@ -94,6 +94,7 @@ class GraphView extends ScreenPicker.ScreenPickerBaseView {
 		me.positionY = me.centerYPos + me.graphHeight / 2;
 		// calculate offset of y-ticks to chart
 		me.chartToLabelOffset = Math.ceil(me.graphWidth * 0.01);
+		var numChartLines = 4;
 
 		// text elements
 		me.titleText = Ui.loadResource(me.title);
@@ -176,7 +177,7 @@ class GraphView extends ScreenPicker.ScreenPickerBaseView {
 			}
 
 			// ensure lines spaced evenly
-			while ((me.yMax - me.yMin).toNumber() % 3 != 0) {
+			while ((me.yMax - me.yMin).toNumber() % (numChartLines - 1) != 0) {
 				me.yMax += 1;
 			}
 			me.minMaxDiff = me.yMax - me.yMin;
@@ -239,14 +240,13 @@ class GraphView extends ScreenPicker.ScreenPickerBaseView {
 			heightFact = me.graphHeight.toFloat() / me.minMaxDiff;
 		}
 
-		var numLines = 4;
-		var yStep = me.minMaxDiff / (numLines - 1).toFloat();
+		var yStep = me.minMaxDiff / (numChartLines - 1).toFloat();
 		var line = null;
 		var val = null;
 		me.chartLines = [];
 		me.chartLinesValues = [];
 		var lastVal = null;
-		for (var i = 0; i < numLines; i++) {
+		for (var i = 0; i < numChartLines; i++) {
 			val = Math.round(me.yMin + yStep * i).toNumber();
 			if (lastVal != null && val == lastVal) {
 				continue;

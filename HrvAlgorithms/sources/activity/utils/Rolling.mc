@@ -20,6 +20,7 @@ module HrvAlgorithms {
 			me.secondsCount = 0;
 			me.count = 0;
 			me.aggregatedValue = 0.0;
+			me.isFinalized = false;
 		}
 
 		function addOneSec(data) {
@@ -64,7 +65,7 @@ module HrvAlgorithms {
 
 		function finalize() {
 			me.isFinalized = true;
-			me.calculate();
+			return me.calculate();
 		}
 
 		function getHistory() {
