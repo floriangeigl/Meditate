@@ -23,7 +23,7 @@ module HrvAlgorithms {
 
 		function calculate() {
 			var result = null;
-			if (me.secondsCount >= me.rollingIntervalSeconds) {
+			if (me.secondsCount >= me.rollingIntervalSeconds || me.isFinalized) {
 				if (me.count > 0) {
 					result = Math.sqrt(me.aggregatedValue / me.count.toFloat());
 				}

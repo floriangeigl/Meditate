@@ -84,6 +84,7 @@ module HrvAlgorithms {
 			hrvSummary.pnn20 = me.mHrvPnn20.calculate();
 			hrvSummary.first5MinSdrr = me.mHrvSdrrFirst5Min.calculate();
 			hrvSummary.last5MinSdrr = me.mHrvSdrrLast5Min.calculate();
+			me.mHrvRmssdRolling.finalize();
 			hrvSummary.rmssdHistory = me.mHrvRmssdRolling.getHistory();
 			return hrvSummary;
 		}

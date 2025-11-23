@@ -24,7 +24,7 @@ class MeditateApp extends App.AppBase {
 	function onStop(state) {
 		// Disable and remove listeners for heatbeat sensor
 		if (me.heartbeatIntervalsSensor != null) {
-			me.heartbeatIntervalsSensor.stop();
+			me.heartbeatIntervalsSensor.shutdown();
 		}
 	}
 

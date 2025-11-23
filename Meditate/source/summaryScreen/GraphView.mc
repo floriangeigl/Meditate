@@ -23,6 +23,8 @@ class GraphView extends ScreenPicker.ScreenPickerBaseView {
 	var minCutSet, maxCutSet;
 	var yMin, yMax;
 	var lines;
+	var chartLines;
+	var chartLinesValues;
 
 	function initialize(data, elapsedTime, title, minCut, maxCut) {
 		me.minCut = minCut;
@@ -43,6 +45,8 @@ class GraphView extends ScreenPicker.ScreenPickerBaseView {
 		me.yMin = null;
 		me.yMax = null;
 		me.lines = null;
+		me.chartLines = null;
+		me.chartLinesValues = null;
 
 		var total = 0;
 		var count = 0;
@@ -90,13 +94,14 @@ class GraphView extends ScreenPicker.ScreenPickerBaseView {
 		me.positionY = me.centerYPos + me.graphHeight / 2;
 		// calculate offset of y-ticks to chart
 		me.chartToLabelOffset = Math.ceil(me.graphWidth * 0.01);
+		var numChartLines = 4;
 
 		// text elements
 		me.titleText = Ui.loadResource(me.title);
 		me.avgTextE = new TextElement(
 			centerXPos,
 			centerYPos - graphHeight / 2 - me.spaceYSmall * 5,
-			
+
 			Ui.loadResource(Rez.Strings.SummaryAvg) + me.formatNumber(me.avg),
 			Gfx.FONT_SYSTEM_TINY,
 			Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
@@ -124,7 +129,9 @@ class GraphView extends ScreenPicker.ScreenPickerBaseView {
 			Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
 		);
 
-		if (me.data != null && me.data.size() > 1 && me.min != null && me.max != null) {
+		var heightFact = null;
+
+		if (me.data != null && me.data.size() >= 1 && me.min != null && me.max != null) {
 			// System.println("Chart " + me.data.size() + " datapoints");
 			// Calculate different between min and max
 			me.minMaxDiff = me.max - me.min;
@@ -153,7 +160,7 @@ class GraphView extends ScreenPicker.ScreenPickerBaseView {
 
 			// update min max diff and make sure > 0
 			me.minMaxDiff = me.yMax - me.yMin;
-			if (me.minMaxDiff < 1) {
+			if (me.minMaxDiff < 2) {
 				var tmpOffset = Math.ceil(me.yMax * 0.1);
 				tmpOffset = tmpOffset < 1 ? 1.0 : tmpOffset;
 				if (me.maxCutSet && me.yMax + tmpOffset < me.maxCut) {
@@ -168,6 +175,13 @@ class GraphView extends ScreenPicker.ScreenPickerBaseView {
 				}
 				me.minMaxDiff = me.yMax - me.yMin;
 			}
+
+			// ensure lines spaced evenly
+			while ((me.yMax - me.yMin).toNumber() % (numChartLines - 1) != 0) {
+				me.yMax += 1;
+			}
+			me.minMaxDiff = me.yMax - me.yMin;
+
 			// Try adapting the data for the graph width
 			var bucketSize = Math.ceil(me.data.size() / me.graphWidth.toFloat()).toNumber();
 			var nBuckets = Math.ceil(me.data.size() / bucketSize.toFloat());
@@ -177,7 +191,7 @@ class GraphView extends ScreenPicker.ScreenPickerBaseView {
 			// Draw chart
 			var line = null;
 			var val = null;
-			var heightFact = me.graphHeight.toFloat() / minMaxDiff;
+			heightFact = me.graphHeight.toFloat() / me.minMaxDiff;
 			var bucketVal = 0;
 			var bucketCount = 0;
 			var nextStep = 1;
@@ -201,6 +215,7 @@ class GraphView extends ScreenPicker.ScreenPickerBaseView {
 						if (me.maxCutSet && me.maxCut < val) {
 							val = me.maxCut;
 						}
+						val = Math.round(val);
 						line = me.positionY - Math.round((val - me.yMin) * heightFact).toNumber();
 					} else {
 						line = null;
@@ -215,6 +230,31 @@ class GraphView extends ScreenPicker.ScreenPickerBaseView {
 					bucketCount = 0;
 				}
 			}
+		}
+
+		// if no data available, set default lines for the y-axis
+		if (me.minMaxDiff == null) {
+			me.yMin = 0;
+			me.yMax = 100;
+			me.minMaxDiff = 100;
+			heightFact = me.graphHeight.toFloat() / me.minMaxDiff;
+		}
+
+		var yStep = me.minMaxDiff / (numChartLines - 1).toFloat();
+		var line = null;
+		var val = null;
+		me.chartLines = [];
+		me.chartLinesValues = [];
+		var lastVal = null;
+		for (var i = 0; i < numChartLines; i++) {
+			val = Math.round(me.yMin + yStep * i).toNumber();
+			if (lastVal != null && val == lastVal) {
+				continue;
+			}
+			lastVal = val;
+			line = me.positionY - Math.round((val - me.yMin) * heightFact).toNumber();
+			me.chartLines.add(line);
+			me.chartLinesValues.add(val);
 		}
 	}
 
@@ -237,7 +277,7 @@ class GraphView extends ScreenPicker.ScreenPickerBaseView {
 		me.timeTextE.draw(dc);
 
 		// Draw data if available
-		if (me.data != null && me.data.size() > 1 && me.min != null && me.max != null) {
+		if (me.data != null && me.data.size() >= 1 && me.min != null && me.max != null) {
 			// Chart as light blue
 			dc.setPenWidth(1);
 			dc.setColor(0x27a0c4, Graphics.COLOR_TRANSPARENT);
@@ -255,34 +295,22 @@ class GraphView extends ScreenPicker.ScreenPickerBaseView {
 		// Draw lines and labels
 		dc.setPenWidth(1);
 		dc.setColor(foregroundColor, Graphics.COLOR_TRANSPARENT);
-		if (me.minMaxDiff == null) {
-			me.minMaxDiff = 100;
-			me.yMin = 0;
-		}
-		var numLines = minMaxDiff;
-		// max 4 lines
-		if (numLines > 4) {
-			numLines = 4;
-		}
-		var lineSpacing = Math.floor(me.graphHeight / numLines.toFloat());
-
-		for (var i = 0; i <= numLines; i++) {
+		var val = null;
+		var linePos = null;
+		var startX = me.positionX + me.chartToLabelOffset;
+		var endX = me.positionX + me.chartToLabelOffset + me.graphWidth + me.chartToLabelOffset;
+		for (var i = 0; i < me.chartLines.size(); i++) {
 			// Draw lines over chart
-			dc.drawLine(
-				me.positionX + me.chartToLabelOffset,
-				me.positionY - lineSpacing * i,
-				me.positionX + me.chartToLabelOffset + me.graphWidth + me.chartToLabelOffset,
-				me.positionY - lineSpacing * i
-			);
+			linePos = me.chartLines[i];
+			dc.drawLine(startX, linePos, endX, linePos);
 
 			// Draw labels for the lines except last one
+			val = me.chartLinesValues[i];
 			dc.drawText(
 				me.positionX,
-				me.positionY - lineSpacing * i,
+				linePos,
 				Gfx.FONT_SYSTEM_XTINY,
-				Math.round(yMin + (minMaxDiff / numLines) * i)
-					.toNumber()
-					.toString(),
+				val,
 				Graphics.TEXT_JUSTIFY_RIGHT | Graphics.TEXT_JUSTIFY_VCENTER
 			);
 		}

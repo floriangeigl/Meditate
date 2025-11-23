@@ -1,23 +1,26 @@
 module HrvAlgorithms {
 	class Rolling {
-		function initialize(rollingIntervalSeconds) {
-			me.rollingIntervalSeconds = rollingIntervalSeconds;
-			me.reset();
-			me.data = [];
-			me.previousValue = null;
-		}
-
 		var rollingIntervalSeconds;
 		var secondsCount;
 		var previousValue;
 		var count;
 		var aggregatedValue;
 		var data;
+		protected var isFinalized;
+
+		function initialize(rollingIntervalSeconds) {
+			me.rollingIntervalSeconds = rollingIntervalSeconds;
+			me.reset();
+			me.data = [];
+			me.previousValue = null;
+			me.isFinalized = false;
+		}
 
 		function reset() {
 			me.secondsCount = 0;
 			me.count = 0;
 			me.aggregatedValue = 0.0;
+			me.isFinalized = false;
 		}
 
 		function addOneSec(data) {
@@ -50,7 +53,7 @@ module HrvAlgorithms {
 
 		function calculate() {
 			var result = null;
-			if (me.secondsCount >= me.rollingIntervalSeconds) {
+			if (me.secondsCount >= me.rollingIntervalSeconds || me.isFinalized) {
 				if (me.count > 0) {
 					result = me.aggregatedValue / me.count.toFloat();
 				}
@@ -58,6 +61,11 @@ module HrvAlgorithms {
 				me.data.add(result);
 			}
 			return result;
+		}
+
+		function finalize() {
+			me.isFinalized = true;
+			return me.calculate();
 		}
 
 		function getHistory() {
