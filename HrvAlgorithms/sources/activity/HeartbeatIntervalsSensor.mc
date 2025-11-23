@@ -21,6 +21,7 @@ module HrvAlgorithms {
 		private var lastUpdateFailed;
 		private var statusErrors;
 		private var paused;
+		var sensorWakeupSession;
 
 		function initialize(external_sensor) {
 			// System.println("HR sensor: Init");
@@ -37,22 +38,26 @@ module HrvAlgorithms {
 				sensorTypes.add(Sensor.SENSOR_HEARTRATE);
 			}
 			me.paused = false;
+			me.sensorWakeupSession = null;
 		}
 
 		function startup() {
 			me.numFails = maxWeakFails + 1;
 			me.resetSensorQuality();
 			me.start();
-			ActivityRecording.createSession(FitSessionSpec.createTraining("tmp"));
+			me.sensorWakeupSession = ActivityRecording.createSession(FitSessionSpec.createTraining("tmp"));
 		}
 
 		function shutdown() {
 			me.stop();
 			me.disableHrSensor();
+			if (me.sensorWakeupSession != null) {
+				me.sensorWakeupSession.discard();
+				me.sensorWakeupSession = null;
+			}
 		}
 
 		function reboot() {
-			System.println("HR sensor: Reboot");
 			me.shutdown();
 			me.startup();
 		}
