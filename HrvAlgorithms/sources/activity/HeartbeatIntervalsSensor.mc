@@ -2,6 +2,7 @@ using Toybox.Sensor;
 using Toybox.Lang;
 using Toybox.Timer;
 using Toybox.ActivityRecording;
+using Toybox.Attention;
 
 module HrvAlgorithms {
 	class HeartbeatIntervalsSensor {
@@ -64,26 +65,26 @@ module HrvAlgorithms {
 
 		private function enableHrSensor() {
 			// System.println("HR sensor: Enable");
-			Sensor.setEnabledSensors(me.sensorTypes);
-			// if (Sensor has :enableSensorType) {
-			// 	for (var i = 0; i < me.sensorTypes.size(); i++) {
-			// 		Sensor.enableSensorType(me.sensorTypes[i]);
-			// 	}
-			// } else {
-			// 	Sensor.setEnabledSensors(me.sensorTypes);
-			// }
+			Sensor.setEnabledSensors([Sensor.SENSOR_HEARTRATE]);
+			//if (Sensor has :enableSensorType) {
+			//	for (var i = 0; i < me.sensorTypes.size(); i++) {
+			//		Sensor.enableSensorType(me.sensorTypes[i]);
+			//	}
+			//} else {
+			//	Sensor.setEnabledSensors(me.sensorTypes);
+			//}
 		}
 
 		private function disableHrSensor() {
 			// System.println("HR sensor: Disable");
-			Sensor.setEnabledSensors([]);
-			// if (Sensor has :disableSensorType) {
-			// 	for (var i = 0; i < me.sensorTypes.size(); i++) {
-			// 		Sensor.disableSensorType(me.sensorTypes[i]);
-			// 	}
-			// } else {
-			// 	Sensor.setEnabledSensors([]);
-			// }
+			//Sensor.setEnabledSensors([]);
+			//if (Sensor has :disableSensorType) {
+			//	for (var i = 0; i < me.sensorTypes.size(); i++) {
+			//		Sensor.disableSensorType(me.sensorTypes[i]);
+			//	}
+			//} else {
+			//	Sensor.setEnabledSensors([]);
+			//}
 		}
 
 		function start() {
@@ -116,13 +117,17 @@ module HrvAlgorithms {
 		}
 
 		function registerListener() {
-			Sensor.unregisterSensorDataListener();
-			Sensor.registerSensorDataListener(method(:update), {
-				:period => SessionSamplePeriodSeconds,
-				:heartBeatIntervals => {
-					:enabled => true,
-				},
-			});
+			try {
+				Sensor.registerSensorDataListener(method(:update), {
+					:period => SessionSamplePeriodSeconds,
+					:heartBeatIntervals => {
+						:enabled => true,
+					},
+				});
+			} catch (e instanceof Sensor.TooManySensorDataListenersException) {
+				Sensor.unregisterSensorDataListener();
+				me.registerListener();
+			}
 		}
 
 		function setOneSecBeatToBeatIntervalsSensorListener(listener) {
@@ -138,17 +143,20 @@ module HrvAlgorithms {
 					: HeartbeatIntervalsSensorStatus.Error;
 			if (status == HeartbeatIntervalsSensorStatus.Error) {
 				me.statusErrors += 1;
-				if (me.statusErrors % 10 == 0) {
-					me.enableHrSensor();
+				if (me.statusErrors % 5 == 0) {
+					// me.registerListener();
+					// me.running = true;
+					// me.reboot();
+					if (Attention has :backlight) {
+						try {
+							Attention.backlight(true);
+						} catch (e instanceof Attention.BacklightOnTooLongException) {
+							// burn in protection kicked in; backlight disabled; ignore
+						}
+					}
 				}
 			}
 			return status;
-		}
-
-		function ensureSensorHealth() {
-			if (me.numFails >= resetSeconds && me.numFails % resetSeconds == 0) {
-				me.restart();
-			}
 		}
 
 		function resetSensorQuality() {
@@ -208,7 +216,6 @@ module HrvAlgorithms {
 			// 	"HR sensor: Quality: " + me.totalIntervals / me.totalTime + " | restarts: " + me.sensorRestarts
 			// );
 			//}
-			me.ensureSensorHealth();
 		}
 	}
 }
