@@ -40,11 +40,11 @@ module HrvAlgorithms {
 		}
 
 		function createWakeupSession() {
-			me.discaredWakeupeSession();
+			me.discardWakeupeSession();
 			me.sensorWakeupSession = ActivityRecording.createSession(FitSessionSpec.createTraining("tmp"));
 		}
 
-		function discaredWakeupeSession() {
+		function discardWakeupeSession() {
 			if (me.sensorWakeupSession != null) {
 				me.sensorWakeupSession.discard();
 				me.sensorWakeupSession = null;
@@ -53,7 +53,7 @@ module HrvAlgorithms {
 
 		function shutdown() {
 			me.stop();
-			me.discaredWakeupeSession();
+			me.discardWakeupeSession();
 		}
 
 		function start() {
@@ -118,7 +118,7 @@ module HrvAlgorithms {
 					}
 				}
 				if (me.statusErrors > 20) {
-					me.discaredWakeupeSession();
+					me.discardWakeupeSession();
 					me.stop();
 					me.start();
 					me.statusErrors = 1;
