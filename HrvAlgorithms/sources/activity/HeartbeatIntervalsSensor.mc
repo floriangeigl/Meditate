@@ -18,7 +18,6 @@ module HrvAlgorithms {
 		private var totalIntervals;
 		private var sensorRestarts;
 		private var running;
-		private var sensorTypes;
 		private var lastUpdateFailed;
 		private var statusErrors;
 		private var paused;
@@ -29,15 +28,6 @@ module HrvAlgorithms {
 			me.resetSensorQuality();
 			me.running = false;
 			me.lastUpdateFailed = false;
-			me.sensorTypes = [];
-			if (Sensor has :SENSOR_ONBOARD_HEARTRATE) {
-				sensorTypes.add(Sensor.SENSOR_ONBOARD_HEARTRATE);
-				if (external_sensor) {
-					sensorTypes.add(Sensor.SENSOR_HEARTRATE);
-				}
-			} else {
-				sensorTypes.add(Sensor.SENSOR_HEARTRATE);
-			}
 			me.paused = false;
 			me.sensorWakeupSession = null;
 		}
@@ -46,50 +36,28 @@ module HrvAlgorithms {
 			me.numFails = maxWeakFails + 1;
 			me.resetSensorQuality();
 			me.start();
+			me.createWakupeSession();
+		}
+
+		function createWakupeSession() {
+			me.discaredWakeupeSession();
 			me.sensorWakeupSession = ActivityRecording.createSession(FitSessionSpec.createTraining("tmp"));
 		}
 
-		function shutdown() {
-			me.stop();
-			me.disableHrSensor();
+		function discaredWakeupeSession() {
 			if (me.sensorWakeupSession != null) {
 				me.sensorWakeupSession.discard();
 				me.sensorWakeupSession = null;
 			}
 		}
 
-		function reboot() {
-			me.shutdown();
-			me.startup();
-		}
-
-		private function enableHrSensor() {
-			// System.println("HR sensor: Enable");
-			Sensor.setEnabledSensors([Sensor.SENSOR_HEARTRATE]);
-			//if (Sensor has :enableSensorType) {
-			//	for (var i = 0; i < me.sensorTypes.size(); i++) {
-			//		Sensor.enableSensorType(me.sensorTypes[i]);
-			//	}
-			//} else {
-			//	Sensor.setEnabledSensors(me.sensorTypes);
-			//}
-		}
-
-		private function disableHrSensor() {
-			// System.println("HR sensor: Disable");
-			//Sensor.setEnabledSensors([]);
-			//if (Sensor has :disableSensorType) {
-			//	for (var i = 0; i < me.sensorTypes.size(); i++) {
-			//		Sensor.disableSensorType(me.sensorTypes[i]);
-			//	}
-			//} else {
-			//	Sensor.setEnabledSensors([]);
-			//}
+		function shutdown() {
+			me.stop();
+			me.discaredWakeupeSession();
 		}
 
 		function start() {
 			if (!me.running) {
-				me.enableHrSensor();
 				me.registerListener();
 				me.running = true;
 			}
@@ -108,12 +76,6 @@ module HrvAlgorithms {
 
 		function resume() {
 			me.paused = false;
-		}
-
-		function restart() {
-			me.stop();
-			me.start();
-			me.sensorRestarts += 1;
 		}
 
 		function registerListener() {
@@ -141,12 +103,12 @@ module HrvAlgorithms {
 					: me.numFails <= maxWeakFails
 					? HeartbeatIntervalsSensorStatus.Weak
 					: HeartbeatIntervalsSensorStatus.Error;
-			if (status == HeartbeatIntervalsSensorStatus.Error) {
+			if (status == HeartbeatIntervalsSensorStatus.Good && me.statusErrors > 0) {
+				me.statusErrors = 0;
+				Vibe.vibrate(VibePattern.Blip);
+			} else if (status == HeartbeatIntervalsSensorStatus.Error) {
 				me.statusErrors += 1;
 				if (me.statusErrors % 5 == 0) {
-					// me.registerListener();
-					// me.running = true;
-					// me.reboot();
 					if (Attention has :backlight) {
 						try {
 							Attention.backlight(true);
@@ -154,6 +116,12 @@ module HrvAlgorithms {
 							// burn in protection kicked in; backlight disabled; ignore
 						}
 					}
+				}
+				if (me.statusErrors > 20) {
+					me.discaredWakeupeSession();
+					me.stop();
+					me.start();
+					me.statusErrors = 1;
 				}
 			}
 			return status;
