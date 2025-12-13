@@ -23,7 +23,7 @@ module HrvAlgorithms {
 		private var paused;
 		var sensorWakeupSession;
 
-		function initialize(external_sensor) {
+		function initialize() {
 			// System.println("HR sensor: Init");
 			me.resetSensorQuality();
 			me.running = false;

@@ -26,9 +26,7 @@ class MeditateApp extends App.AppBase {
 	// Return the initial view of your application here
 	function getInitialView() {
 		if (me.heartbeatIntervalsSensor == null) {
-			me.heartbeatIntervalsSensor = new HrvAlgorithms.HeartbeatIntervalsSensor(
-				GlobalSettings.loadExternalSensor() == ExternalSensor.On
-			);
+			me.heartbeatIntervalsSensor = new HrvAlgorithms.HeartbeatIntervalsSensor();
 			me.heartbeatIntervalsSensor.startup();
 		}
 		var sessionStorage = new SessionStorage();

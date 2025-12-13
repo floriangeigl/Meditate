@@ -31,22 +31,6 @@ class GlobalSettings {
 		App.Storage.setValue(ActivityTypeKey, activityType);
 	}
 
-	private static const ExternalSensorKey = "globalSettings_externalSensor";
-
-	static function loadExternalSensor() {
-		var externalSensor = App.Storage.getValue(ExternalSensorKey);
-		if (externalSensor == null) {
-			// default to on; most don't have an external sensor and some devices
-			// might need this to properly work with the internal sensor
-			return ExternalSensor.On;
-		}
-		return externalSensor;
-	}
-
-	static function saveExternalSensor(externalSensor) {
-		App.Storage.setValue(ExternalSensorKey, externalSensor);
-	}
-
 	private static const ConfirmSaveActivityKey = "globalSettings_confirmSaveActivity";
 
 	static function loadConfirmSaveActivity() {
@@ -239,12 +223,5 @@ module ColorTheme {
 	enum {
 		Dark = 0,
 		Light = 1,
-	}
-}
-
-module ExternalSensor {
-	enum {
-		Off = 0,
-		On = 1		
 	}
 }

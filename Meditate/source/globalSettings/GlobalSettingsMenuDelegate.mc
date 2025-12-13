@@ -176,12 +176,6 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			themeMenu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuColorThemeOptions_dark), "", :Dark, {}));
 			var colorThemeDelegate = new MenuOptionsDelegate(method(:onColorThemePicked));
 			Ui.pushView(themeMenu, colorThemeDelegate, Ui.SLIDE_LEFT);
-		} else if (id == :externalSensor) {
-			var extMenu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.menuGlobalSettings_externalSensor) });
-			extMenu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuExternalSensorOptions_on), "", :on, {}));
-			extMenu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuExternalSensorOptions_off), "", :off, {}));
-			var externalSensorDelegate = new MenuOptionsDelegate(method(:onExternalSensorPicked));
-			Ui.pushView(extMenu, externalSensorDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :hrvWindow) {
 			var windowMenu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.menuHrvWindowSizeOptions_title) });
 			windowMenu.addItem(
@@ -206,8 +200,12 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			Ui.pushView(windowMenu, hrvWindowSizeDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :useSessionName) {
 			var useMenu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.menuGlobalSettings_useSessionName) });
-			useMenu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_useSessionName_on), "", :on, {}));
-			useMenu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_useSessionName_off), "", :off, {}));
+			useMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_useSessionName_on), "", :on, {})
+			);
+			useMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_useSessionName_off), "", :off, {})
+			);
 			var useDelegate = new MenuOptionsDelegate(method(:onUseSessionNamePicked));
 			Ui.pushView(useMenu, useDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :sensorRestart) {
@@ -377,22 +375,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			0
 		);
 
-		// 10: externalSensor
-		var extText =
-			GlobalSettings.loadExternalSensor() == ExternalSensor.On
-				? Ui.loadResource(Rez.Strings.menuExternalSensorOptions_on)
-				: Ui.loadResource(Rez.Strings.menuExternalSensorOptions_off);
-		mMenu.updateItem(
-			new Ui.MenuItem(
-				Ui.loadResource(Rez.Strings.menuGlobalSettings_externalSensor),
-				extText,
-				:externalSensor,
-				{}
-			),
-			12
-		);
-
-		// 11: hrvWindow
+		// 10: hrvWindow
 		var hrvWindowText = "";
 		var w = GlobalSettings.loadHrvWindowTime();
 		if (w == 30) {
@@ -413,10 +396,17 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			9
 		);
 
-		// 12: useSessionName
-		var useSessionNameText = GlobalSettings.loadUseSessionName() ? Ui.loadResource(Rez.Strings.menuGlobalSettings_useSessionName_on) : Ui.loadResource(Rez.Strings.menuGlobalSettings_useSessionName_off);
+		// 11: useSessionName
+		var useSessionNameText = GlobalSettings.loadUseSessionName()
+			? Ui.loadResource(Rez.Strings.menuGlobalSettings_useSessionName_on)
+			: Ui.loadResource(Rez.Strings.menuGlobalSettings_useSessionName_off);
 		mMenu.updateItem(
-			new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_useSessionName), useSessionNameText, :useSessionName, {}),
+			new Ui.MenuItem(
+				Ui.loadResource(Rez.Strings.menuGlobalSettings_useSessionName),
+				useSessionNameText,
+				:useSessionName,
+				{}
+			),
 			7
 		);
 	}
@@ -535,15 +525,6 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 
 	function onRespirationRateDisabledPicked(item) {
 		// nothing to save, but ensure labels refresh
-		onChangedNotify();
-	}
-
-	function onExternalSensorPicked(item) {
-		if (item == :on) {
-			GlobalSettings.saveExternalSensor(ExternalSensor.On);
-		} else if (item == :off) {
-			GlobalSettings.saveExternalSensor(ExternalSensor.Off);
-		}
 		onChangedNotify();
 	}
 

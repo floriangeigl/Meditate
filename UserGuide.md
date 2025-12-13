@@ -279,10 +279,10 @@ Select this option when the optical heart rate sensor or a connected external se
 
 1. Close and reopen the app - wait at least 30sec - don't move!
 2. Open Global Settings and pick "Sensor restart". The app will exit after shutting down all heart rate sensors. Reopen the app, wait 30sec, and keep your wrist still.
-3. If you are NOT using any external heart rate sensor (e.g., hr chest strap) for the session, go to the connectivity settings of your watch (not the settings in the app!) and make sure all external sensors are disconnected and set to off (so they don't automatically and silently connect in the background when starting a session and mess up your heart rate readings). E.g., You just came home from a run, and the chest strap is still somewhere close by, the watch would automatically connect to it again even if you don't wear the chest strap/it's in standby mode/it's charging.
+3. If you are NOT using any external heart rate sensor (e.g., HR chest strap) for the session, go to the connectivity settings of your watch (not the settings in the app) and make sure all external sensors are disconnected and set to off, so they don't automatically reconnect in the background when starting a session and affect readings. For example, after a run, if the chest strap is still nearby, the watch may reconnect even if you’re not wearing it.
 4. Make sure your sensor is correctly positioned on your wrist. If you adapt the position, hold still and give it 30sec until the readings become stable.
 5. Reinstall the app
-6. If you don't get reliable readings or wrong readings, you might want to try to position the sensor on the inside of your wrist, or use an external heart rate sensor that supports heart beat intervals. If you are using an external sensor, please make sure to activate "External Sensor" in the global settings and restart the app.
+6. If you don't get reliable readings, try positioning the watch sensor on the inside of your wrist, or use an external heart rate sensor that supports heart beat intervals. External sensors are supported automatically—no app setting is required.
 
 ### Can I change the name of the session on the watch
 

@@ -39,7 +39,6 @@
     <string id="menuGlobalSettings_finalizeTime">Tiempo Finalización</string>
     <string id="menuGlobalSettings_respiration">Respiración: </string>
     <string id="menuGlobalSettings_save">Guardar: </string>
-    <string id="menuGlobalSettings_externalSensor">Sensor externo</string>
     <string id="menuGlobalSettings_sensorRestart">Reinicio sensor</string>
 
     <string id="menuNewActivityTypeOptions_title">Actividad</string>
@@ -84,9 +83,6 @@
     <string id="menuAutoStopOptions_on">Activ. (Predet.)</string>
     <string id="menuAutoStopOptions_off">Des.</string>
 
-    <string id="menuExternalSensorOptions_title">Sensor Externo</string>
-    <string id="menuExternalSensorOptions_on">Activado</string>
-    <string id="menuExternalSensorOptions_off">Desactivado (Predet.)</string>
 
     <string id="menuColorThemeOptions_title">Tema</string>
     <string id="menuColorThemeOptions_light">Claro</string>
