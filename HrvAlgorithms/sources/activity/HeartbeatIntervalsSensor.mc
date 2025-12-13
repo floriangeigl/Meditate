@@ -36,10 +36,10 @@ module HrvAlgorithms {
 			me.numFails = maxWeakFails + 1;
 			me.resetSensorQuality();
 			me.start();
-			me.createWakupeSession();
+			me.createWakeupSession();
 		}
 
-		function createWakupeSession() {
+		function createWakeupSession() {
 			me.discaredWakeupeSession();
 			me.sensorWakeupSession = ActivityRecording.createSession(FitSessionSpec.createTraining("tmp"));
 		}
