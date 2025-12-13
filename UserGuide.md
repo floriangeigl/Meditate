@@ -10,16 +10,16 @@
   - interval alerts can trigger from a few seconds up to few hours
 - pre-configured default meditation & breathwork sessions
 - [HRV](https://en.wikipedia.org/wiki/Heart_rate_variability) (Heart Rate Variability)
-  - RMSSD - Root Mean Square of Successive Differences (beat-to-beat intervals)
-  - pNN20 - % of successive beat-to-beat intervals that differ by more than 20 ms
-  - pNN50 - % of successive beat-to-beat intervals that differ by more than 50 ms
-  - beat-to-beat interval - reading coming directly from the watch sensor
-  - HRV Successive Differences - difference between the current and previous beat-to-beat intervals
-  - SDRR - [Standard Deviation](https://en.wikipedia.org/wiki/Standard_deviation) of beat-to-beat intervals
+  - RMSSD - Root Mean Square of Successive Differences (heartbeat intervals)
+  - pNN20 - % of successive heartbeat intervals that differ by more than 20 ms
+  - pNN50 - % of successive heartbeat intervals that differ by more than 50 ms
+  - heartbeat intervals - reading coming directly from the watch sensor
+  - HRV Successive Differences - difference between the current and previous heartbeat intervals
+  - SDRR - [Standard Deviation](https://en.wikipedia.org/wiki/Standard_deviation) of heartbeat intervals
     - calculated from the first and last 5 min of the session
   - HRV RMSSD Window - RMSSD calculated for consecutive 60 second intervals
     - Window size can be adjusted to allow to switch between ultra-short-term and short-term HRV measure
-  - HR from heartbeat - beat-to-beat interval converted to HR
+  - HR from heartbeat intervals - heartbeat intervals converted to HR
 - stress tracking
 - respiration rate
   - Breathes per minute real time in watches that supports it
@@ -129,7 +129,7 @@ This is a typical technique to calm your self down and prepare for sleep. You st
 
   2.2 Interpreting the stats of your session
 
-- HRV: heart rate variability refers to how inconsistent the time between your heart beats is. Yes, this sound scary at first, but is very natural and actually a high variability (low consistency in time between heartbeats) signals a calm body and mind. You can think of this the following way: If you are stressed, your heart goes like "I need to beat now! now! now! now!" - super stressful! If you are calm, your heart goes like "Maybe I should beat now, aah that was good, I think it might do another beat soon."
+- HRV: heart rate variability refers to how inconsistent the time between heartbeats (heartbeat intervals) is. Yes, this sound scary at first, but is very natural and actually a high variability (low consistency in time between heartbeats) signals a calm body and mind. You can think of this the following way: If you are stressed, your heart goes like "I need to beat now! now! now! now!" - super stressful! If you are calm, your heart goes like "Maybe I should beat now, aah that was good, I think it might do another beat soon."
 - Stress: naturally lower stress is great. Anything below 20 is already a great start - I'm sometimes able to reach 0 if I lay myself flat on the ground on a yoga mat and put my hands above my hand on the ground (I've noticed this position opens up my breast, which allows for more space for my heart to unfold and relax. This also spikes HRV far above 100 for me.)
 - Respiration: Lower is great, however, the measurements provided here from garmin I've found to be not very reliable. They might be great for active sports, but for these calm things it doesn't work well.
 - Heart rate: Again, lower is better. You will notice that your heart rate greatly correlates with stress and good HRV values.
@@ -169,7 +169,7 @@ This is a typical technique to calm your self down and prepare for sleep. You st
     - HRV Successive Differences
     - pNN20
     - pNN50
-    - beat-to-beat interval
+    - heartbeat intervals
     - SDRR First 5 min of the session
     - SDRR Last 5 min of the session
     - RMSSD Window
@@ -211,10 +211,10 @@ This setting provides the default **HRV Tracking** for new sessions.
   - RMSSD
   - Successive Differences
   - Stress
-  - beat-to-beat interval
+  - heartbeat intervals
   - pNN50
   - pNN20
-  - HR from heartbeat
+  - HR from heartbeat intervals
   - RMSSD Window
   - SDRR First 5 min of the session
   - SDRR Last 5 min of the session
@@ -271,7 +271,7 @@ This option controls whether the custom session name you set for a session is us
 
 #### 4.10 Sensor restart
 
-Select this option when the optical heart rate sensor or a connected external sensor stops providing heart beat intervals. The app disables every HR-capable sensor and exits so the watch firmware can reinitialize them cleanly. After triggering the restart, reopen Meditate, keep the watch still for about 30 seconds, and then start your session.
+Select this option when the optical heart rate sensor or a connected external sensor stops providing heartbeat intervals. The app disables every HR-capable sensor and exits so the watch firmware can reinitialize them cleanly. After triggering the restart, reopen Meditate, keep the watch still for about 30 seconds, and then start your session.
 
 ## FAQs
 
@@ -279,10 +279,10 @@ Select this option when the optical heart rate sensor or a connected external se
 
 1. Close and reopen the app - wait at least 30sec - don't move!
 2. Open Global Settings and pick "Sensor restart". The app will exit after shutting down all heart rate sensors. Reopen the app, wait 30sec, and keep your wrist still.
-3. If you are NOT using any external heart rate sensor (e.g., hr chest strap) for the session, go to the connectivity settings of your watch (not the settings in the app!) and make sure all external sensors are disconnected and set to off (so they don't automatically and silently connect in the background when starting a session and mess up your heart rate readings). E.g., You just came home from a run, and the chest strap is still somewhere close by, the watch would automatically connect to it again even if you don't wear the chest strap/it's in standby mode/it's charging.
+3. If you are NOT using any external heart rate sensor (e.g., HR chest strap) for the session, go to the connectivity settings of your watch (not the settings in the app) and make sure all external sensors are disconnected and turned off, so they don't automatically reconnect in the background when starting a session and affect readings. For example, after a run, if the chest strap is still nearby, the watch may reconnect even if you’re not wearing it.
 4. Make sure your sensor is correctly positioned on your wrist. If you adapt the position, hold still and give it 30sec until the readings become stable.
 5. Reinstall the app
-6. If you don't get reliable readings or wrong readings, you might want to try to position the sensor on the inside of your wrist, or use an external heart rate sensor that supports heart beat intervals. If you are using an external sensor, please make sure to activate "External Sensor" in the global settings and restart the app.
+6. If you don't get reliable readings, try positioning the watch sensor on the inside of your wrist, or use an external heart rate sensor that supports heartbeat intervals. External sensors are supported automatically—no app setting is required.
 
 ### Can I change the name of the session on the watch
 
