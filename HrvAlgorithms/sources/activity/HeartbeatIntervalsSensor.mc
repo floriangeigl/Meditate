@@ -121,6 +121,7 @@ module HrvAlgorithms {
 					me.discardWakeupeSession();
 					me.stop();
 					me.start();
+					me.createWakeupSession();
 					me.statusErrors = 1;
 				}
 			}
