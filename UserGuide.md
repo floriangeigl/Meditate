@@ -304,6 +304,14 @@ The old version used an own algorithm for estimating stress - this new version o
 
 This is not specific to this app and there is nothing I can do about this. The app only uses whatever the Garmin sensor provides. You may be able to improve this by using a chest strap that supports HRV and respiratory rate reporting (e.g., hrm-600)
 
+### The screen is to bright and burning my eyes when starting the app
+
+This is not specific to this app - it is based on your Garmin watch’s **Focus Mode** settings for activities. By default, your watch activates its own focus mode whenever you open any app or activity, and this default behavior changes your screen **brightness** to 80%.
+
+To change this behavior on your watch, go to **Watch Settings** and select **Focus Modes**. Choose the one called **Activity** and find the entry labeled **Brightness** within the **Display & Brightness** section. Set the brightness to your preferred level. This will change the default display brightness for any activity you start on your watch.
+
+**For advanced users:** You may want to create a custom **Focus Mode** that is auto-triggered only for Meditation, Yoga, and Breathwork activities.
+
 ### The app stopped working / I need support
 
 Please be respectful of my time and try these steps before you reach out for support:
