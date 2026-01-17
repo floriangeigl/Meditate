@@ -146,12 +146,21 @@ class MeditateActivity extends HrvAlgorithms.HrvActivity {
 
 	function finish() {
 		HrvAlgorithms.HrvActivity.finish();
-		if (me.mEffectiveWakeupSessionType != null) {
-			HrvAlgorithms.WakeupSessionStorage.saveActivityType(me.mEffectiveWakeupSessionType);
-		}
+		me.persistWakeupSessionType();
 		var usageStats = new UsageStats(me.mMeditateModel.elapsedTime);
 		usageStats.sendCached();
 		usageStats.sendCurrent();
+	}
+
+	function discard() {
+		HrvAlgorithms.HrvActivity.discard();
+		me.persistWakeupSessionType();
+	}
+
+	private function persistWakeupSessionType() {
+		if (me.mEffectiveWakeupSessionType != null) {
+			HrvAlgorithms.WakeupSessionStorage.saveActivityType(me.mEffectiveWakeupSessionType);
+		}
 	}
 
 	function stop() {
