@@ -336,4 +336,4 @@ Please include the following information when reaching out for support:
 
 You can reach out to me using the "Contact Developer" link in the Garmin Connect IQ portal.
 
-[Data Privacy Policy](/meditate_app_data_privacy)
+[Data Privacy Policy](/meditate_app_data_privacy/)
