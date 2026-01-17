@@ -312,6 +312,13 @@ To change this behavior on your watch, go to **Watch Settings** and select **Foc
 
 **For advanced users:** You may want to create a custom **Focus Mode** that is auto-triggered only for Meditation, Yoga, and Breathwork activities.
 
+### How do I run an open-ended session?
+
+You have two options:
+
+- **Create a long session** (for example, 9 hours) and stop it manually when you’re finished.
+- **Disable the auto-stop option** in the global settings. When this option is turned off, sessions will continue running until you stop them manually.
+
 ### The app stopped working / I need support
 
 Please be respectful of my time and try these steps before you reach out for support:
@@ -329,4 +336,4 @@ Please include the following information when reaching out for support:
 
 You can reach out to me using the "Contact Developer" link in the Garmin Connect IQ portal.
 
-[Data Privacy Policy](/meditate_app_data_privacy)
+[Data Privacy Policy](/meditate_app_data_privacy/)

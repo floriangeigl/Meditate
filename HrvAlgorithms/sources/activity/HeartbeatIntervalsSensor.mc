@@ -41,7 +41,18 @@ module HrvAlgorithms {
 
 		function createWakeupSession() {
 			me.discardWakeupeSession();
-			me.sensorWakeupSession = ActivityRecording.createSession(FitSessionSpec.createTraining("tmp"));
+			var activityType = HrvAlgorithms.WakeupSessionStorage.loadActivityType();
+			var fitSessionSpec = null;
+			if (activityType == HrvAlgorithms.WakeupSessionType.Yoga) {
+				fitSessionSpec = FitSessionSpec.createYoga("tmp");
+			} else if (activityType == HrvAlgorithms.WakeupSessionType.Breathing) {
+				fitSessionSpec = FitSessionSpec.createBreathing("tmp");
+			} else if (activityType == HrvAlgorithms.WakeupSessionType.Meditation) {
+				fitSessionSpec = FitSessionSpec.createMeditation("tmp");
+			} else {
+				fitSessionSpec = FitSessionSpec.createTraining("tmp");
+			}
+			me.sensorWakeupSession = ActivityRecording.createSession(fitSessionSpec);
 		}
 
 		function discardWakeupeSession() {

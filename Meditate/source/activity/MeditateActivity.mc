@@ -12,6 +12,7 @@ class MeditateActivity extends HrvAlgorithms.HrvActivity {
 	private var mVibeAlertsExecutor;
 	private var mMeditateDelegate;
 	private var mAutoStopEnabled;
+	private var mEffectiveWakeupSessionType;
 
 	function initialize(meditateModel, heartbeatIntervalsSensor, meditateDelegate) {
 		var fitSessionSpec;
@@ -34,21 +35,26 @@ class MeditateActivity extends HrvAlgorithms.HrvActivity {
 				activityName = "";
 			}
 		}
-		if (meditateModel.getActivityType() == ActivityType.Yoga) {
+		var selectedActivityType = meditateModel.getActivityType();
+		if (selectedActivityType == ActivityType.Yoga) {
 			activityName = activityName.length() > 0 ? activityName : Ui.loadResource(Rez.Strings.sessionTitleYoga);
 			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createYoga(createSessionName(sessionTime, activityName));
-		} else if (meditateModel.getActivityType() == ActivityType.Breathing) {
+			me.mEffectiveWakeupSessionType = HrvAlgorithms.WakeupSessionType.Yoga;
+		} else if (selectedActivityType == ActivityType.Breathing) {
 			activityName =
 				activityName.length() > 0 ? activityName : Ui.loadResource(Rez.Strings.sessionTitleBreathing);
 			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createBreathing(createSessionName(sessionTime, activityName));
+			me.mEffectiveWakeupSessionType = HrvAlgorithms.WakeupSessionType.Breathing;
 		} else {
 			activityName = activityName.length() > 0 ? activityName : Ui.loadResource(Rez.Strings.sessionTitleMeditate);
 			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createMeditation(
 				createSessionName(sessionTime, activityName)
 			);
+			me.mEffectiveWakeupSessionType = HrvAlgorithms.WakeupSessionType.Meditation;
 		}
-		if (!supportsActivityTypes || meditateModel.getActivityType() == ActivityType.Generic) {
+		if (!supportsActivityTypes || selectedActivityType == ActivityType.Generic) {
 			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createTraining(createSessionName(sessionTime, activityName));
+			me.mEffectiveWakeupSessionType = HrvAlgorithms.WakeupSessionType.Training;
 			// System.println("create generic activity as others are not supported");
 		}
 		var hrvWindowSize = GlobalSettings.loadHrvWindowTime();
@@ -140,9 +146,21 @@ class MeditateActivity extends HrvAlgorithms.HrvActivity {
 
 	function finish() {
 		HrvAlgorithms.HrvActivity.finish();
+		me.persistWakeupSessionType();
 		var usageStats = new UsageStats(me.mMeditateModel.elapsedTime);
 		usageStats.sendCached();
 		usageStats.sendCurrent();
+	}
+
+	function discard() {
+		HrvAlgorithms.HrvActivity.discard();
+		me.persistWakeupSessionType();
+	}
+
+	private function persistWakeupSessionType() {
+		if (me.mEffectiveWakeupSessionType != null) {
+			HrvAlgorithms.WakeupSessionStorage.saveActivityType(me.mEffectiveWakeupSessionType);
+		}
 	}
 
 	function stop() {
