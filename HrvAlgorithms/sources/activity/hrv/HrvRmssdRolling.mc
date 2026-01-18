@@ -17,6 +17,7 @@ module HrvAlgorithms {
 
 		function aggregate(value) {
 			if (value != null && me.previousValue != null) {
+				me.count++;
 				me.aggregatedValue += Math.pow(value - me.previousValue, 2);
 			}
 		}

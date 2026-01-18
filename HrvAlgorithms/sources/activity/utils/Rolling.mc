@@ -33,13 +33,13 @@ module HrvAlgorithms {
 
 		function addValue(value) {
 			if (value != null) {
-				me.count++;
 				me.aggregate(value);
 				me.previousValue = value;
 			}
 		}
 
 		function aggregate(value) {
+			me.count++;
 			me.aggregatedValue += value;
 		}
 
