@@ -13,16 +13,46 @@ class UsageStats {
 	private var gApiSecret;
 	private static const usageStatsCacheKey = "usageStats_cache";
 	private static const usageStatsMonthlyKey = "usageStats_monthly";
+	private static const usageStatsTipPendingKey = "usageStats_tipPending";
 	private var lastParams;
 	private var currentParams;
-	private var askTip;
 	private var lastMonthStats;
+
+	static function tryOpenPendingTip() {
+		try {
+			var pending = App.Storage.getValue(usageStatsTipPendingKey);
+			if (pending == null) {
+				return;
+			}
+			// pending: [month_when_should_show, lastMonthStatsSeconds]
+			if (pending.size() < 2 || pending[0] == null || pending[1] == null) {
+				App.Storage.setValue(usageStatsTipPendingKey, null);
+				return;
+			}
+			var month_today = Gregorian.info(Time.now(), Time.FORMAT_SHORT).month;
+			var pendingMonth = pending[0];
+			if (month_today != pendingMonth) {
+				// Next month started; drop the request so we don't show stale stats.
+				App.Storage.setValue(usageStatsTipPendingKey, null);
+				return;
+			}
+			var devSettings = System.getDeviceSettings();
+			if (devSettings != null && (devSettings has :phoneConnected) && !devSettings.phoneConnected) {
+				// Phone not connected; keep pending and retry later.
+				return;
+			}
+			var mins = Math.ceil(pending[1] / 60);
+			TipMe.openTipMe(mins);
+			App.Storage.setValue(usageStatsTipPendingKey, null);
+		} catch (ex) {
+			// Never break the app due to optional tip prompt logic.
+		}
+	}
 
 	function initialize(sessionTime) {
 		me.gMeasurmentID = App.Properties.getValue("gMeasurmentID");
 		me.gApiSecret = App.Properties.getValue("gApiSecret");
 		me.lastParams = [];
-		me.askTip = false;
 		me.lastMonthStats = 0;
 		me.currentParams = me.createParams(sessionTime);
 		me.addToMonthly(sessionTime);
@@ -156,12 +186,7 @@ class UsageStats {
 				App.Storage.setValue(usageStatsCacheKey, params);
 			}
 		}
-		if (me.askTip) {
-			me.askTip = false;
-			var mins = Math.round(me.lastMonthStats / 60);
-			TipMe.openTipMe(mins);
-			// System.println("Asked for tip. (" + mins + "min)");
-		}
+		UsageStats.tryOpenPendingTip();
 	}
 
 	function addToMonthly(sessionTime) {
@@ -175,8 +200,11 @@ class UsageStats {
 			if (month_today != month_last_entry) {
 				// reset monthly stats if the month has changed
 				me.lastMonthStats = monthlyStats[1];
-				if (me.lastMonthStats / 60 >= 120) {
-					me.askTip = true;
+				if (me.lastMonthStats / 60 >= 30) {
+					var existingPending = App.Storage.getValue(usageStatsTipPendingKey);
+					if (existingPending == null || existingPending.size() < 1 || existingPending[0] != month_today) {
+						App.Storage.setValue(usageStatsTipPendingKey, [month_today, me.lastMonthStats]);
+					}
 				}
 				monthlyStats = [];
 			} else {
