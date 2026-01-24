@@ -11,12 +11,36 @@ using Toybox.Math;
 class UsageStats {
 	private var gMeasurmentID;
 	private var gApiSecret;
-	private static const usageStatsCacheKey = "usageStats_cache";
+	// Queue of pending GA4 payloads: [{"id"=>Number, "ts"=>Number, "params"=>Dictionary}, ...]
+	private static const usageStatsQueueKey = "usageStats_queue_v2";
+	private static const usageStatsQueueMaxAgeSec = 3 * 24 * 60 * 60;
+	private static const usageStatsQueueMaxItems = 50;
+	private static var sFlushInProgress = false;
 	private static const usageStatsMonthlyKey = "usageStats_monthly";
 	private static const usageStatsTipPendingKey = "usageStats_tipPending";
-	private var lastParams;
 	private var currentParams;
 	private var lastMonthStats;
+	private var mInFlightId;
+	private var mLastLocation;
+
+	static function flushQueuedOnStartup() {
+		try {
+			var stats = new UsageStats(null);
+			// Attempt to get location first; if successful we'll enrich and flush.
+			stats.flushQueueWithLocationLookup();
+		} catch (ex) {
+			// Never break the app due to optional usage stats.
+		}
+	}
+
+	function flushQueueWithLocationLookup() {
+		// Trigger the same location lookup; callback decides whether to flush.
+		var options = {
+			:method => Communications.HTTP_REQUEST_METHOD_GET,
+		};
+		var url = "https://ipapi.co/json/";
+		Communications.makeWebRequest(url, null, options, method(:sendCurrentWithLocation));
+	}
 
 	static function tryOpenPendingTip() {
 		try {
@@ -52,22 +76,47 @@ class UsageStats {
 	function initialize(sessionTime) {
 		me.gMeasurmentID = App.Properties.getValue("gMeasurmentID");
 		me.gApiSecret = App.Properties.getValue("gApiSecret");
-		me.lastParams = [];
 		me.lastMonthStats = 0;
-		me.currentParams = me.createParams(sessionTime);
-		me.addToMonthly(sessionTime);
+		me.mInFlightId = null;
+		me.mLastLocation = null;
+		me.currentParams = null;
+		if (sessionTime != null) {
+			me.currentParams = me.createParams(sessionTime);
+			me.addToMonthly(sessionTime);
+		}
 	}
 
 	function sendCurrentWithLocation(responseCode, data) {
+		var hadLocation = false;
 		if (responseCode == 200 && data != null) {
-			me.currentParams["user_location"] = {
-				"city" => data["city"],
-				"country_id" => data["country_code"],
-				"region_id" => data["country_code"] + "-" + data["region_code"],
-			};
-			me.currentParams["ip_override"] = truncateIP(data["ip"]);
+			var ip = data["ip"];
+			if (ip != null) {
+				me.mLastLocation = {
+					"user_location" => {
+						"city" => data["city"],
+						"country_id" => data["country_code"],
+						"region_id" => data["country_code"] + "-" + data["region_code"],
+					},
+					"ip_override" => truncateIP(ip),
+				};
+				hadLocation = true;
+			}
 		}
-		me.send(me.currentParams);
+
+		// Always enqueue the just-finished session.
+		if (me.currentParams != null && hadLocation) {
+			me.applyLocationToParams(me.currentParams, me.mLastLocation);
+		}
+		me.enqueue(me.currentParams);
+
+		// Flush queued GA payloads when we have fresh location (preferred),
+		// or when lookup failed but we're likely online (non-0 response).
+		if (hadLocation) {
+			me.applyLocationToQueued(me.mLastLocation);
+			me.flushQueue();
+		} else if (responseCode != null && responseCode != 0) {
+			me.flushQueue();
+		}
 	}
 
 	function truncateIP(ip) {
@@ -91,6 +140,9 @@ class UsageStats {
 	}
 
 	function sendCurrent() {
+		if (me.currentParams == null) {
+			return;
+		}
 		var options = {
 			:method => Communications.HTTP_REQUEST_METHOD_GET,
 		};
@@ -153,8 +205,7 @@ class UsageStats {
 		return statsParams;
 	}
 
-	function send(params) {
-		me.lastParams.add(params);
+	private function send(params) {
 		var options = {
 			:method => Communications.HTTP_REQUEST_METHOD_POST,
 			:headers => {
@@ -167,26 +218,165 @@ class UsageStats {
 		Communications.makeWebRequest(url, params, options, method(:requestCallback));
 	}
 
-	function sendCached() {
-		var params = App.Storage.getValue(usageStatsCacheKey);
-		if (params != null) {
-			me.send(params);
-			// System.println("Send cached stats");
-			App.Storage.setValue(usageStatsCacheKey, null);
+	function flushQueue() {
+		// Only one flusher at a time; callbacks will continue the drain.
+		if (sFlushInProgress) {
+			return;
 		}
+		sFlushInProgress = true;
+		me.flushNext();
+	}
+
+	private function enqueue(params) {
+		if (params == null) {
+			return;
+		}
+		var queue = me.loadQueue();
+		var now = Time.now().value();
+		queue = me.pruneQueue(queue, now);
+		queue.add({
+			"id" => me.newQueueId(now),
+			"ts" => now,
+			"params" => params,
+		});
+		queue = me.capQueue(queue);
+		me.saveQueue(queue);
+	}
+
+	private function flushNext() {
+		var queue = me.loadQueue();
+		var now = Time.now().value();
+		queue = me.pruneQueue(queue, now);
+		me.saveQueue(queue);
+		if (queue == null || queue.size() == 0) {
+			sFlushInProgress = false;
+			me.mInFlightId = null;
+			return;
+		}
+		var entry = queue[0];
+		if (entry == null || entry["id"] == null || entry["params"] == null) {
+			// Drop corrupt entry and keep going.
+			queue.remove(queue[0]);
+			me.saveQueue(queue);
+			me.flushNext();
+			return;
+		}
+		me.mInFlightId = entry["id"];
+		var params = entry["params"];
+		if (me.mLastLocation != null) {
+			me.applyLocationToParams(params, me.mLastLocation);
+		}
+		me.send(params);
+	}
+
+	private function loadQueue() {
+		var queue = App.Storage.getValue(usageStatsQueueKey);
+		if (queue == null) {
+			queue = [];
+		}
+		return queue;
+	}
+
+	private function saveQueue(queue) {
+		App.Storage.setValue(usageStatsQueueKey, queue);
+	}
+
+	private function pruneQueue(queue, now) {
+		if (queue == null) {
+			return [];
+		}
+		var keep = [];
+		for (var i = 0; i < queue.size(); i++) {
+			var entry = queue[i];
+			if (entry == null || entry["ts"] == null || entry["params"] == null) {
+				// Skip corrupt entries.
+				continue;
+			}
+			// Ensure an id exists (older/corrupt stored queues might lack it).
+			if (entry["id"] == null) {
+				entry["id"] = me.newQueueId(now);
+			}
+			var ts = entry["ts"];
+			if (ts != null && (now - ts) <= usageStatsQueueMaxAgeSec) {
+				keep.add(entry);
+			}
+		}
+		return keep;
+	}
+
+	private function applyLocationToQueued(location) {
+		if (location == null) {
+			return;
+		}
+		var queue = me.loadQueue();
+		for (var i = 0; i < queue.size(); i++) {
+			var entry = queue[i];
+			if (entry == null) {
+				continue;
+			}
+			var params = entry["params"];
+			if (params != null) {
+				me.applyLocationToParams(params, location);
+				entry["params"] = params;
+			}
+		}
+		me.saveQueue(queue);
+	}
+
+	private function applyLocationToParams(params, location) {
+		if (params == null || location == null) {
+			return;
+		}
+		// If we have fresh location, overwrite (queued items likely had none).
+		if (location["user_location"] != null) {
+			params["user_location"] = location["user_location"];
+		}
+		if (location["ip_override"] != null) {
+			params["ip_override"] = location["ip_override"];
+		}
+	}
+
+	private function capQueue(queue) {
+		if (queue == null) {
+			return [];
+		}
+		// Keep newest entries (drop oldest) if we exceed max.
+		while (queue.size() > usageStatsQueueMaxItems) {
+			queue.remove(queue[0]);
+		}
+		return queue;
+	}
+
+	private function newQueueId(nowSec) {
+		// Unique-ish id: epoch seconds + ms-since-boot component.
+		var jitter = System.getTimer() % 1000;
+		return (nowSec * 1000) + jitter;
 	}
 
 	function requestCallback(responseCode, data) {
 		// System.println("UsageStats request completed with response code: " + responseCode);
-		if (me.lastParams.size() > 0) {
-			var params = me.lastParams[0];
-			me.lastParams.remove(params);
-			if (responseCode >= 400) {
-				//response didn' go thru; store and try next time.
-				App.Storage.setValue(usageStatsCacheKey, params);
+		var success = (responseCode != null && responseCode >= 200 && responseCode < 300);
+		if (success) {
+			// Remove the in-flight entry from the queue.
+			var queue = me.loadQueue();
+			var keep = [];
+			for (var i = 0; i < queue.size(); i++) {
+				var entry = queue[i];
+				if (entry != null && entry["id"] != null && entry["id"] == me.mInFlightId) {
+					// drop
+				} else {
+					keep.add(entry);
+				}
 			}
+			me.saveQueue(keep);
+			me.mInFlightId = null;
+			// Continue flushing the remaining queue.
+			me.flushNext();
+		} else {
+			// Network/offline/any non-2xx: keep queue as-is and stop flushing for now.
+			sFlushInProgress = false;
+			me.mInFlightId = null;
 		}
-		UsageStats.tryOpenPendingTip();
 	}
 
 	function addToMonthly(sessionTime) {

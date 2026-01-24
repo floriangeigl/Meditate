@@ -25,6 +25,9 @@ class MeditateApp extends App.AppBase {
 
 	// Return the initial view of your application here
 	function getInitialView() {
+		// Try to send any queued usage stats early (e.g. after reconnect).
+		UsageStats.flushQueuedOnStartup();
+
 		// Retry monthly tip prompt if it was postponed due to missing phone connection.
 		UsageStats.tryOpenPendingTip();
 
