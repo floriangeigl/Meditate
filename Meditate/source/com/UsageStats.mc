@@ -41,7 +41,7 @@ class UsageStats {
 				// Phone not connected; keep pending and retry later.
 				return;
 			}
-			var mins = Math.ceil(pending[1] / 60);
+			var mins = Math.ceil(pending[1] / 60.0);
 			TipMe.openTipMe(mins);
 			App.Storage.setValue(usageStatsTipPendingKey, null);
 		} catch (ex) {
