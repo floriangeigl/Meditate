@@ -248,25 +248,28 @@ class UsageStats {
 		var now = Time.now().value();
 		queue = me.pruneQueue(queue, now);
 		me.saveQueue(queue);
-		if (queue == null || queue.size() == 0) {
-			sFlushInProgress = false;
-			me.mInFlightId = null;
+
+		while (queue != null && queue.size() > 0) {
+			var entry = queue[0];
+			if (entry == null || entry["id"] == null || entry["params"] == null) {
+				// Drop corrupt head entry and keep scanning.
+				queue.remove(queue[0]);
+				me.saveQueue(queue);
+				continue;
+			}
+
+			me.mInFlightId = entry["id"];
+			var params = entry["params"];
+			if (me.mLastLocation != null) {
+				me.applyLocationToParams(params, me.mLastLocation);
+			}
+			me.send(params);
 			return;
 		}
-		var entry = queue[0];
-		if (entry == null || entry["id"] == null || entry["params"] == null) {
-			// Drop corrupt entry and keep going.
-			queue.remove(queue[0]);
-			me.saveQueue(queue);
-			me.flushNext();
-			return;
-		}
-		me.mInFlightId = entry["id"];
-		var params = entry["params"];
-		if (me.mLastLocation != null) {
-			me.applyLocationToParams(params, me.mLastLocation);
-		}
-		me.send(params);
+
+		// Nothing left to send.
+		sFlushInProgress = false;
+		me.mInFlightId = null;
 	}
 
 	private function loadQueue() {
