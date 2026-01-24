@@ -1,46 +1,53 @@
-Meditation and breathwork are powerful practices that aim to enhance mental and physical well-being. Their common goals include reducing stress, increasing emotional balance, improving focus, and promoting self-awareness. While meditation emphasizes mindfulness and mental clarity, breathwork actively engages the nervous system through controlled breathing techniques to achieve relaxation, energy boosts, or emotional release.
+A Mindful Companion for Meditation & Breathwork — Right on Your Garmin Watch
 
-Why Tracking Physiological Metrics Matters
-Measuring stress levels, heart rate variability (HRV), and heart rate during meditation and breathwork provides valuable insights into their effectiveness.
+If you’ve ever felt calm and uneasy at the same time, you’re not broken.
+You’re human.
 
-* Stress Levels: Real-time stress tracking can help assess how meditation and breathwork reduce physiological tension over time.
-* Heart Rate Variability (HRV): A higher HRV is linked to better autonomic nervous system balance, meaning improved resilience to stress. Slow, deep breathing and mindfulness practices can enhance HRV, reflecting better relaxation and recovery.
-* Heart Rate: Meditation typically lowers heart rate over time, while breathwork may cause temporary fluctuations depending on the technique used. Tracking heart rate can reveal patterns in how the body responds to different practices.!
+When life has been demanding for a long time, the nervous system learns to stay alert. Stress becomes familiar. Calm becomes unfamiliar—and unfamiliar states can feel vulnerable or slightly unsettling at first. This isn’t a problem to fix. It’s simply how the nervous system adapts to what it knows.
 
-This meditation/yoga app is tracks all these metrics for you. This allows you to correlate biometric data with specific practices, helping to fine-tune your approach and track long-term progress.
+Meditation & Breathwork helps you reconnect with your body and observe, in real time, how your nervous system responds.
 
-!!! Touch and hold the screen (Touch devices) or hold the left middle button to edit the meditation sessions, properties and global settings.!!!!!
-*** Please read all guide below to avoid issues with the application in your device ***
-*** If you face any issue, please check the troubleshooting guide below before reporting ***
-Please enter a valid email when clicking "Contact Developer" in this page so I can reply to questions and requests.
-Appreciate if you write in English language.
+Meditation & Breathwork is a Garmin watch app designed to support meditation and breathwork through presence, insight, and physiological awareness. By combining mindfulness with real-time biometric data, it helps you understand how your body works—without judgment or pressure.
 
-Totally free application developed by vtrifonov and compiled/enhanced for newer Garmin watch models by dliedke and floriangeigl.
+There is no universal meditation technique. What matters is discovering what supports your nervous system.
 
-Full user guide (explains HRV metrics and how to use application in detail):
-https://github.com/floriangeigl/Meditate/blob/main/UserGuide.md
+A practice shaped around you
 
-Avoid moving your wrist during the session in order to capture HRV and Respiration rate metrics. If HRV is not being detected, please reboot your watch pressing light button for 15s, turn it on and retry the application.
+Create sessions that fit your rhythm and attention
 
-Note: Connect IQ API used for application development only returns the 5min average for the stress metric. That's why the numbers don't match exactly with Garmin Connect, because in GC it shows the real time stress metric when activity started and stopped.
+Observe heart rate, HRV, stress, and breathing in real time
 
-Troubleshooting guide:
+Save sessions to Garmin Connect to gently support consistency and awareness over time
 
-Connect IQ! message in the watch:
------------------------------------------------
-Please use Garmin Express in PC with watch connected to USB to change activity name. If the app is no longer opening, please reinstall it. Unfortunately due to a bug with Connect IQ mobile it is not possible to change the activity name using configuration button.  
+Seeing your sessions over time isn’t about pressure. It simply helps you notice patterns, build familiarity, and stay mindful of a practice you chose for yourself.
 
-HRV not being detected:
----------------------------------
-Sometimes HRV takes longer to be detected if you were moving before starting the application. Please stay quiet for sometime, not moving the wrist with the watch, then open the app and wait for HRV ready before starting your meditate session. If it doesn't work try holding light button for 15s then turn on watch again and retry the app to check if HRV is being detected. 
+Regulation Is Not Always Calm
 
-No vibration or sound during sessions:
----------------------------------------------------
-Make sure to enable vibration in System - Sound and Vibe - Vibration (On). Also make sure to enable sound in System - Sound and Vibe - Alert Tones (On). 
+Meditation and breathwork are not about producing “good” metrics.
 
+A calm session is valuable because it allows your nervous system to spend more time in a regulated state. The longer you remain there, the more those neural pathways are strengthened—making calm and balance easier to access over time.
 
-Please report other issues in "Contact Developer" link at this page or https://github.com/floriangeigl/Meditate/issues and not in the app review.
+At the same time, moving toward calm can bring up restlessness or sudden urges to get up and do something. This is often the mind trying to guide you back to what feels familiar—stress, activity, motion—because familiarity feels safe.
 
-Reduce your stress, relax and Meditate!
+You can meet these moments lightly:
+“Oh, I see you. You miss the chaos. Sneaky little mind.”
 
-This app uses Google Analytics to collect anonymous usage statistics. No personally identifiable information is collected or stored. For more information read the Privacy Policy.
+A stressful session is valuable too. When stress remains high, it often means you stayed present with discomfort instead of reacting to it. You observed what was happening and allowed the body to settle in its own time. This builds the ability to stay grounded when life is challenging.
+
+Both kinds of sessions support regulation. They simply train different skills.
+
+This is why sessions shouldn’t be judged by metrics alone—but also why metrics help. They show which state you were in, helping you become more aware of how these states feel inside your body. Over time, this deepens reconnection and supports more conscious choices.
+
+Why Tracking Helps
+
+Tracking physiological signals like stress, heart rate, and heart rate variability offers insight into how your nervous system responds during meditation and breathwork. Higher HRV is generally associated with calmer, more regulated states and greater nervous system flexibility, while lower HRV reflects activation or stress. Rather than serving as a score, these metrics provide context—helping you recognize patterns, deepen body awareness, and understand what different practices bring up for you.
+
+Tracking isn’t about control or optimization.
+It’s about learning how your nervous system finds balance.
+
+Stay present. Observe honestly. Smile when the mind gets clever.
+
+Download Meditation & Breathwork and discover what truly supports your meditation and breathwork practice—one session at a time.
+
+For more details on features, frequently asked questions, and support, see the full user guide:
+https://geigl.online/meditate_app_user_guide/

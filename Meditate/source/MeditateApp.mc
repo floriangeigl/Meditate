@@ -25,6 +25,9 @@ class MeditateApp extends App.AppBase {
 
 	// Return the initial view of your application here
 	function getInitialView() {
+		// Retry monthly tip prompt if it was postponed due to missing phone connection.
+		UsageStats.tryOpenPendingTip();
+
 		if (me.heartbeatIntervalsSensor == null) {
 			me.heartbeatIntervalsSensor = new HrvAlgorithms.HeartbeatIntervalsSensor();
 			me.heartbeatIntervalsSensor.startup();
