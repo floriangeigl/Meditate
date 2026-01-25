@@ -1,11 +1,3 @@
-<a id="meditation-breathwork"></a>
-
-# Meditation & Breathwork
-
-<a id="garmin-app-user-guide"></a>
-
-## Garmin App User Guide
-
 This guide is meant to support you — not overwhelm you.
 
 You don’t need to understand everything to begin.  
