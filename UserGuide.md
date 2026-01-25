@@ -1,17 +1,34 @@
-# Meditation & Breathwork
-
-## Garmin App User Guide
-
-This guide is meant to support you — not overwhelm you.
+This guide is meant to support you - not overwhelm you.
 
 You don’t need to understand everything to begin.  
 Start with the **Beginner Guide**, and come back to the **Advanced Guide** whenever you’re curious.
 
+### Contents
+
+- [Beginner Guide](#beginner-guide)
+  - [What This App Is About](#what-this-app-is-about)
+  - [Starting Your First Session](#starting-your-first-session)
+  - [A Simple Way to Meditate](#a-simple-way-to-meditate)
+  - [Choosing a Session](#choosing-a-session)
+  - [Breathwork Sessions](#breathwork-sessions)
+  - [Understanding Your Session Data](#understanding-your-session-data)
+- [Advanced Guide](#advanced-guide)
+  - [Session Customization](#session-customization)
+  - [Custom Breathwork Patterns](#custom-breathwork-patterns)
+  - [Advanced HRV Metrics](#advanced-hrv-metrics)
+  - [Global Settings (Defaults for All Sessions)](#global-settings-defaults-for-all-sessions)
+- [FAQs & Troubleshooting](#faqs-troubleshooting)
+- [Data Privacy](#privacy)
+
 ---
+
+<a id="beginner-guide"></a>
 
 # Beginner Guide
 
 _(Everything you need to get started)_
+
+<a id="what-this-app-is-about"></a>
 
 ## What This App Is About
 
@@ -28,12 +45,14 @@ The goal is **awareness, not performance**.
 
 ---
 
+<a id="starting-your-first-session"></a>
+
 ## Starting Your First Session
 
 1. Open the app.
 2. Select a session from the list.
 3. Press **Start** (or tap the screen on touch devices).
-4. Try to keep your wrist still for the first moments — this helps sensors settle.
+4. Try to keep your wrist still for the first moments - this helps sensors settle.
 
 During the session you’ll see:
 
@@ -54,7 +73,9 @@ Saved sessions appear in Garmin Connect after syncing.
 
 ---
 
-## A Simple Way to Meditate (If You’re New to This)
+<a id="a-simple-way-to-meditate"></a>
+
+## A Simple Way to Meditate
 
 If you don’t know how to meditate, you’re not alone - and you’re not behind.  
 You’re already doing the most important thing: showing up.
@@ -91,7 +112,7 @@ Soft and simple.
 
 ---
 
-### When the Mind Wanders (It Will)
+### When the Mind Wanders - It Will!
 
 At some point - often after just a few seconds - your mind will wander.
 
@@ -122,7 +143,6 @@ When you notice:
 - pause for a second
 - maybe even smile
 - gently and kindly ask yourself:
-
   _“Do I want to come back to the breath right now?”_
 
 If the answer is yes, return to the feeling of the breath at the nose.  
@@ -151,7 +171,7 @@ And humor makes the whole thing more human.
 
 ---
 
-### If You Want to Go Deeper (Optional)
+### If You Want to Go Deeper
 
 This simple practice can take you very far on its own.
 
@@ -176,6 +196,8 @@ And you’re allowed to do that gently - with warmth, humor, and a little self-r
 
 ---
 
+<a id="choosing-a-session"></a>
+
 ## Choosing a Session
 
 From the session picker you can scroll through available sessions and see:
@@ -185,7 +207,7 @@ From the session picker you can scroll through available sessions and see:
 - interval alert timing
 - HRV indicator
 
-### HRV Indicator (Quick Explanation)
+### HRV Indicator
 
 - **Off** - HRV and stress tracking disabled
 - **Waiting** - sensor has not settled yet (stay still for a moment)
@@ -194,7 +216,9 @@ From the session picker you can scroll through available sessions and see:
 
 ---
 
-## Breathwork Sessions (Simple Overview)
+<a id="breathwork-sessions"></a>
+
+## Breathwork Sessions
 
 The app includes preconfigured breathwork sessions.  
 A breathing cycle can include:
@@ -226,7 +250,9 @@ Commonly used before sleep.
 
 ---
 
-## Understanding Your Session Data (Beginner View)
+<a id="understanding-your-session-data"></a>
+
+## Understanding Your Session Data
 
 ### HRV (Heart Rate Variability)
 
@@ -235,7 +261,7 @@ HRV reflects how much the time between heartbeats varies.
 - Higher HRV → calmer, more regulated states
 - Lower HRV → activation or stress
 
-Variability is **healthy** — it’s not something to fix.
+Variability is **healthy** - it’s not something to fix.
 
 ### Stress
 
@@ -253,9 +279,13 @@ Respiration data comes from Garmin sensors and is best used for trends, not prec
 
 ---
 
+<a id="advanced-guide"></a>
+
 # Advanced Guide
 
 _(For customization, deeper insight, and power users)_
+
+<a id="session-customization"></a>
 
 ## Session Customization
 
@@ -288,6 +318,8 @@ Priority order: final alert → last one-off → last repeating alert.
 
 ---
 
+<a id="custom-breathwork-patterns"></a>
+
 ## Custom Breathwork Patterns
 
 Breathwork patterns are created using **parallel interval alerts** with offsets.
@@ -307,7 +339,9 @@ Recommended vibration patterns:
 
 ---
 
-## Advanced HRV Metrics (Detailed Mode)
+<a id="advanced-hrv-metrics"></a>
+
+## Advanced HRV Metrics
 
 When HRV Tracking is set to **On Detailed**, the app records:
 
@@ -324,6 +358,8 @@ When HRV Tracking is set to **On Detailed**, the app records:
 These values are for **exploration and learning**, not evaluation.
 
 ---
+
+<a id="global-settings-defaults-for-all-sessions"></a>
 
 ## Global Settings (Defaults for All Sessions)
 
@@ -387,158 +423,210 @@ Access via:
 
 ---
 
-## FAQs & Troubleshooting
+<a id="faqs-troubleshooting"></a>
+
+# FAQs & Troubleshooting
 
 This section is here to help when something feels confusing or doesn’t work as expected.  
 Most issues are easy to resolve, and nothing here means you’re doing anything wrong.
 
 ---
 
-### HRV does not work or shows “waiting”
+<details>
+  <summary><strong>HRV does not work / shows “waiting”</strong></summary>
 
-This usually means the sensor has not yet settled or something is interfering with it.
+  <p>This usually means the sensor has not yet settled or something is interfering with it.</p>
 
-Try the following steps in order:
+  <p>Try the following steps in order:</p>
 
-1. **Close and reopen the app**, then wait at least 30 seconds without moving your wrist.
-2. Open **Global Settings** and select **Sensor restart**.  
-   The app will shut down all heart-rate sensors and exit so the watch firmware can reinitialize them cleanly.  
-   Reopen the app, stay still for about 30 seconds, then start your session.
-3. If you are **not using an external heart-rate sensor** (like a chest strap), open your watch’s **connectivity settings** (not the app settings) and make sure all external sensors are disconnected.  
-   Sometimes a nearby chest strap reconnects automatically and disrupts readings.
-4. Check **sensor placement**. If you adjust the watch position, hold still for ~30 seconds to allow readings to stabilize.
-5. Reinstall the app if the issue persists.
-6. If you still don’t get reliable HRV, try:
-   - wearing the watch on the **inside of your wrist**, or
-   - using an external heart-rate sensor that supports heartbeat intervals (supported automatically, no app setting required).
+  <ol>
+    <li>Close and reopen the app, then wait at least 30 seconds without moving your wrist.</li>
+    <li>
+      Open <strong>Global Settings</strong> and select <strong>Sensor restart</strong>.<br>
+      The app will shut down all heart-rate sensors and exit so the watch firmware can reinitialize them cleanly.<br>
+      Reopen the app, stay still for about 30 seconds, then start your session.
+    </li>
+    <li>
+      If you are not using an external heart-rate sensor (like a chest strap), open your watch’s connectivity settings (not the app settings) and make sure all external sensors are disconnected.<br>
+      Sometimes a nearby chest strap reconnects automatically and disrupts readings.
+    </li>
+    <li>Check sensor placement. If you adjust the watch position, hold still for ~30 seconds to allow readings to stabilize.</li>
+    <li>Reinstall the app if the issue persists.</li>
+    <li>
+      If you still don’t get reliable HRV, try:
+      <ul>
+        <li>wearing the watch on the inside of your wrist, or</li>
+        <li>using an external heart-rate sensor that supports heartbeat intervals (supported automatically, no app setting required).</li>
+      </ul>
+    </li>
+  </ol>
+
+</details>
+
+<details>
+  <summary><strong>Can I change the name of the session on the watch?</strong></summary>
+
+  <p>Yes.</p>
+
+  <p>You can edit a session’s name directly on the watch:</p>
+
+  <ul>
+    <li>Open <strong>Add New</strong> or <strong>Edit</strong> for a session</li>
+    <li>Select <strong>Name</strong></li>
+    <li>Enter text using the watch’s text picker</li>
+  </ul>
+
+  <p>
+    If you want the session name to also appear as the activity name in Garmin Connect, enable:<br>
+    <strong>Global Settings → Session name = Activity name</strong>
+  </p>
+
+  <p>
+    You can use the placeholder <code>[time]</code> in session names.<br>
+    Example: <code>Deep rest [time]</code> → <code>Deep rest 20min</code>
+  </p>
+
+</details>
+
+<details>
+  <summary><strong>The app crashes the moment I start a session - what can I do?</strong></summary>
+
+  <p>If the app opens but crashes immediately when starting a session, your watch model likely does not support the selected activity type.</p>
+
+  <p>Edit the session and choose a different activity type:</p>
+
+  <ul>
+    <li>Meditation</li>
+    <li>Yoga</li>
+    <li>Breathwork</li>
+  </ul>
+
+  <p>If available on your device, a more generic activity type usually works on all models.</p>
+
+</details>
+
+<details>
+  <summary><strong>The app does not track stress</strong></summary>
+
+  <p>Not all Garmin devices support continuous stress tracking.</p>
+
+  <p>Some older models (for example the Fenix 5X) only support stress snapshots, not real-time stress during activities. In these cases, stress data may be missing or limited.</p>
+
+  <p>This behavior depends on the watch hardware, not the app.</p>
+
+</details>
+
+<details>
+  <summary><strong>But the old version supported stress tracking - why not this one?</strong></summary>
+
+  <p>The old version used a custom stress estimation algorithm.</p>
+
+  <p>The current version uses Garmin’s built-in stress tracking instead. This ensures consistency with Garmin Connect and avoids mismatches between different stress values, which caused confusion for many users.</p>
+
+</details>
+
+<details>
+  <summary><strong>The respiration rate (breaths per minute) is off</strong></summary>
+
+  <p>This is not specific to this app.</p>
+
+  <p>The app uses whatever respiration signal Garmin provides. Respiration rate can be less reliable during very calm, still practices.</p>
+
+  <p>If accurate respiration data is important to you, a chest strap that supports HRV and respiration reporting (for example HRM-600) may improve results.</p>
+
+</details>
+
+<details>
+  <summary><strong>The screen is too bright and burns my eyes when starting the app</strong></summary>
+
+  <p>This is controlled by your watch’s <strong>Focus Mode</strong> settings for activities, not by the app.</p>
+
+  <p>By default, Garmin activates a focus mode for activities that may set screen brightness to around 80%.</p>
+
+  <p>To change this on your watch:</p>
+
+  <ol>
+    <li>Open <strong>Watch Settings</strong></li>
+    <li>Go to <strong>Focus Modes</strong></li>
+    <li>Select <strong>Activity</strong></li>
+    <li>Adjust <strong>Brightness</strong> under <strong>Display &amp; Brightness</strong></li>
+  </ol>
+
+  <p>This affects all activities started on your watch.</p>
+
+  <p><strong>Advanced option:</strong> Create a custom Focus Mode that triggers only for Meditation, Yoga, and Breathwork activities.</p>
+
+</details>
+
+<details>
+  <summary><strong>How do I run an open-ended session?</strong></summary>
+
+  <p>You have two options:</p>
+
+  <ul>
+    <li>Create a very long session (for example 9 hours) and stop it manually when you’re finished.</li>
+    <li>Disable the auto-stop option in Global Settings so sessions continue until you stop them manually.</li>
+  </ul>
+
+</details>
+
+<details>
+  <summary><strong>I installed the app, but it doesn’t show up on my watch</strong></summary>
+
+  <p>That’s frustrating - especially when you just want to start a calm session and the tech gets in the way.</p>
+
+  <p>
+    In this case, it’s important to know: installation and delivery of Connect IQ apps to your watch is handled entirely by Garmin (Garmin Connect / Connect IQ / Garmin Express and the sync process).
+    The app itself cannot influence whether it appears on your device, and as the developer there’s nothing I can change in the code to fix an installation or sync issue.
+  </p>
+
+  <p>What you can try quickly (optional):</p>
+
+  <ul>
+    <li>Sync your watch again in Garmin Connect</li>
+    <li>Restart the watch and your phone, then sync again</li>
+    <li>Uninstall the app, restart the watch, then reinstall the app and sync again</li>
+  </ul>
+
+  <p>If it still doesn’t appear, the best next step is to contact Garmin Support, because this is a Garmin-side installation/sync issue:</p>
+
+  <ul>
+    <li><a href="https://support.garmin.com/en-US/?faq=67C7Y58Nxb6rkxt2Enbrf5">Garmin Support (Connect IQ install troubleshooting)</a></li>
+    <li><a href="https://support.garmin.com/">Garmin Support (main support portal)</a></li>
+  </ul>
+
+</details>
+
+<details>
+  <summary><strong>The app stopped working / I need support</strong></summary>
+
+  <p>Before reaching out, please try:</p>
+
+  <ul>
+    <li>restarting the app</li>
+    <li>updating the app</li>
+    <li>reinstalling the app</li>
+    <li>rebooting your watch</li>
+  </ul>
+
+  <p>If you still need help, please include:</p>
+
+  <ul>
+    <li>what you already tried</li>
+    <li>when the issue started (after app update, watch firmware update, etc.)</li>
+    <li>watch model and firmware version</li>
+    <li>whether the issue exists in the previous version of the app (if you tested it)</li>
+  </ul>
+
+  <p>You can contact support using the <strong>Contact Developer</strong> link in the Garmin Connect IQ Store.</p>
+
+</details>
 
 ---
 
-### Can I change the name of a session on the watch?
+<a id="privacy"></a>
 
-Yes.
-
-You can edit a session’s name directly on the watch:
-
-- Open **Add New** or **Edit** for a session
-- Select **Name**
-- Enter text using the watch’s text picker
-
-If you want the session name to also appear as the **activity name in Garmin Connect**, enable the setting described in **Global Settings → Session name = Activity name**.
-
-You can use the placeholder `[time]` in session names.  
-Example: `Deep rest [time]` → `Deep rest 20min`
-
----
-
-### The app crashes as soon as I start a session
-
-If the app opens but crashes immediately when starting a session, your watch model likely does **not support the selected activity type**.
-
-Edit the session and choose a different activity type:
-
-- Meditation
-- Yoga
-- Breathwork
-
-If available on your device, a more generic activity type usually works on all models.
-
----
-
-### The app does not track stress
-
-Not all Garmin devices support **continuous stress tracking**.
-
-Some older models (for example the Fenix 5X) only support **stress snapshots**, not real-time stress during activities. In these cases, stress data may be missing or limited.
-
-This behavior depends on the watch hardware, not the app.
-
----
-
-### But the old version of the app supported stress tracking?
-
-The old version used a custom stress estimation algorithm.
-
-The current version uses **Garmin’s built-in stress tracking** instead. This ensures consistency with Garmin Connect and avoids mismatches between different stress values, which caused confusion for many users.
-
----
-
-### The respiration rate (breaths per minute) seems inaccurate
-
-This is not specific to this app.
-
-Respiration data comes directly from Garmin’s sensors. While it works well during active sports, it can be less reliable during very calm or still practices.
-
-If accurate respiration data is important to you, using a **chest strap that supports respiration reporting** (for example HRM-Pro / HRM-600) may improve results.
-
----
-
-### The screen is too bright when starting the app
-
-This is controlled by your watch’s **Focus Mode** settings, not by the app.
-
-By default, Garmin activates a focus mode for activities that sets screen brightness to around 80%.
-
-To change this:
-
-1. Open **Watch Settings**
-2. Go to **Focus Modes**
-3. Select **Activity**
-4. Adjust **Brightness** under **Display & Brightness**
-
-This will affect all activities started on your watch.
-
-**Advanced option:**  
-You can create a custom focus mode that triggers only for Meditation, Yoga, and Breathwork activities.
-
----
-
-### How do I run an open-ended session?
-
-You have two options:
-
-- **Create a very long session** (for example 9 hours) and stop it manually when finished.
-- **Disable auto-stop** in the global settings so sessions continue until you stop them.
-
----
-
-### The app stopped working / I need support
-
-Before reaching out, please try:
-
-- restarting the app
-- updating the app
-- reinstalling the app
-- rebooting your watch
-
-If you still need help, please include:
-
-- what you already tried
-- when the issue started (after app update, watch firmware update, etc.)
-- whether the issue exists in the previous version of the app
-
-You can contact support using the **Contact Developer** link in the Garmin Connect IQ Store.
-
-### I installed the app, but it doesn’t show up on my watch
-
-That’s frustrating — especially when you just want to start a calm session and the tech gets in the way.
-
-In this case, it’s important to know: **installation and delivery of Connect IQ apps to your watch is handled entirely by Garmin** (Garmin Connect / Connect IQ / Garmin Express and the sync process). The app itself cannot influence whether it appears on your device, and as the developer there’s nothing I can change in the code to fix an installation or sync issue.
-
-What you can try quickly (optional):
-
-- Sync your watch again in Garmin Connect
-- Restart the watch and your phone, then sync again
-- Uninstall the app, restart the watch, then reinstall the app and sync again
-
-If it still doesn’t appear, the best next step is to contact Garmin Support, because this is a Garmin-side installation/sync issue:
-
-- Garmin Support (Connect IQ install troubleshooting): https://support.garmin.com/en-US/?faq=67C7Y58Nxb6rkxt2Enbrf5
-- Garmin Support (main support portal): https://support.garmin.com/
-
----
-
-## Privacy
+# Data Privacy
 
 Your data stays yours.
 
