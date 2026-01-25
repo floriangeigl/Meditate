@@ -1,4 +1,10 @@
-![meditate and breathwork app hero image](assets/img/hero_meditate.png)
+---
+layout: page
+title: Meditation & Breathwork
+subtitle: A Mindful Companion - Right on Your Garmin Watch
+---
+
+![meditate and breathwork app hero image](userGuideScreenshots/hero_meditate.png)
 
 If you have ever felt calm and uneasy at the same time, you are not broken. You are human.
 
