@@ -25,8 +25,8 @@ Start with the **Beginner Guide**, and come back to the **Advanced Guide** whene
   - [Custom Breathwork Patterns](#custom-breathwork-patterns)
   - [Advanced HRV Metrics](#advanced-hrv-metrics)
   - [Global Settings (Defaults for All Sessions)](#global-settings-defaults-for-all-sessions)
-  - [FAQs & Troubleshooting](#faqs-troubleshooting)
-- [Privacy](#privacy)
+- [FAQs & Troubleshooting](#faqs-troubleshooting)
+  - [Privacy](#privacy)
 
 ---
 
@@ -433,7 +433,7 @@ Access via:
 
 <a id="faqs-troubleshooting"></a>
 
-## FAQs & Troubleshooting
+# FAQs & Troubleshooting
 
 This section is here to help when something feels confusing or doesn’t work as expected.  
 Most issues are easy to resolve, and nothing here means you’re doing anything wrong.
