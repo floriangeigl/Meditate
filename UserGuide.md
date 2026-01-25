@@ -1,339 +1,546 @@
-# Meditate Garmin App User Guide
+# Meditation & Breathwork
 
-## Features
+## Garmin App User Guide
 
-- ability to save the meditation session as Garmin Connect activity
-  - activity type **Meditation** or **Yoga** or **Breathwork**
-- ability to configure multiple meditation/yoga/breathwork sessions
-  - e.g. a 20 min session with 1 min recurring alerts, triggering a different alert on the 10th minute
-  - each session supports interval vibration alerts
-  - interval alerts can trigger from a few seconds up to few hours
-- pre-configured default meditation & breathwork sessions
-- [HRV](https://en.wikipedia.org/wiki/Heart_rate_variability) (Heart Rate Variability)
-  - RMSSD - Root Mean Square of Successive Differences (heartbeat intervals)
-  - pNN20 - % of successive heartbeat intervals that differ by more than 20 ms
-  - pNN50 - % of successive heartbeat intervals that differ by more than 50 ms
-  - heartbeat intervals - reading coming directly from the watch sensor
-  - HRV Successive Differences - difference between the current and previous heartbeat intervals
-  - SDRR - [Standard Deviation](https://en.wikipedia.org/wiki/Standard_deviation) of heartbeat intervals
-    - calculated from the first and last 5 min of the session
-  - HRV RMSSD Window - RMSSD calculated for consecutive 60 second intervals
-    - Window size can be adjusted to allow to switch between ultra-short-term and short-term HRV measure
-  - HR from heartbeat intervals - heartbeat intervals converted to HR
-- stress tracking
-- respiration rate
-  - Breathes per minute real time in watches that supports it
-- configurable preparation and finish time before/after the session
-- summary stats at the end of the session
-  - charts including min, max, avg for heart rate, HRV, respiration, stress
-  - stats screens for HRV, stress, and more
-- pause/resume current session using the back button
-- ability to configure default custom activity name in Garmin Connect using Garmin Express in PC connected to the watch via USB cable
-  - ability to configure activity name on watch will come in a later release
+This guide is meant to support you — not overwhelm you.
 
-<img src="userGuideScreenshots/sessionPickerDemo.gif"  width="25%" height="25%" alt="Session Picker Demo"/>
-<img src="userGuideScreenshots/sessionDetailedDemo.gif"  width="25%" height="25%" alt="Session Detailed Demo"/>
+You don’t need to understand everything to begin.  
+Start with the **Beginner Guide**, and come back to the **Advanced Guide** whenever you’re curious.
 
-## How to Use
+---
 
-### 1. Starting a session
+# Beginner Guide
 
-1.1. From the session picker screen press the start button or touch the screen (touch devices only).
-**To get good sensor readings you need to minimise wrist movement!**
+_(Everything you need to get started)_
 
-<img src="userGuideScreenshots/sessionPicker.gif"  width="25%" height="25%" alt="Session Picker"/>
+## What This App Is About
 
-1.2. The session in-progress screen contains the following elements
+Meditation & Breathwork helps you stay present while gently observing how your body responds during meditation and breathwork.
 
-- time elapsed arc
-  - shows the percentage of elapsed session time
-  - full circle means session time has elapsed
-- interval alert triggers
-  - the small colored marks represent the time of trigerring an interval alert
-  - each marked position corresponts to an alert trigger time
-  - you can hide them per alert by selecting transparent color from the [Interval Alerts settings menu](#2-configuring-a-session)
-- time elapsed
-- current HR
-- current HRV
-- current respiration rate estimation calculated by garmin
+It allows you to:
 
-The session finishes once you press the start/stop button.
-The session can be paused/resumed using the back button.
-Enable/disable screen light during the session using light button or touch the screen (touch devices only).
+- run simple or structured sessions
+- receive vibration cues instead of visual distractions
+- observe heart rate, HRV, stress, and breathing
+- save sessions to Garmin Connect to notice patterns over time
 
-<img src="userGuideScreenshots/sessionInProgressExplained.gif"  width="55%" height="55%" alt="Session in progress"/>
+The goal is **awareness, not performance**.
 
-1.3. Once you stop the session you have the option to save it, which means it will show up in your garmin connect portal as activity after syncing your watch.
+---
 
-1.3.1 You can configure to auto save or auto discard the session via [Global Settings](#4-global-settings) -> [Confirm Save](#42-confirm-save)
+## Starting Your First Session
 
-<img src="userGuideScreenshots/confirmSaveSession.gif"  width="25%" height="25%" alt="Confirm save session"/>
+1. Open the app.
+2. Select a session from the list.
+3. Press **Start** (or tap the screen on touch devices).
+4. Try to keep your wrist still for the first moments — this helps sensors settle.
 
-1.4. If you are in single session mode (the default) at the end you see the Summary Screen (for Multi-Session mode see the next section **1.5**). Swipe up/down (touch devices only) or press page up/down buttons to see the summary stats of HR, Stress, HRV, and more. Press back on this view to exit the app.
+During the session you’ll see:
 
-<img src="userGuideScreenshots/sessionSummaryDetailedDemo.gif"  width="25%" height="25%" alt="Session Summary Detailed Demo"/>
+- elapsed time
+- current heart rate
+- HRV status
+- stress and respiration (if supported)
+- small colored markers showing upcoming vibration alerts
 
-1.5 If you are in multi-session mode (determined by [Global Settings](#4-global-settings) -> [Multi-Session](#43-multi-session)) then you go back to the session picker screen. From there you can start another session. Once you finish your session you can go back from the session picker screen to enter the Sessions Summary view.
+You can:
 
-<img src="userGuideScreenshots/summaryRollup.gif"  width="25%" height="25%" alt="Summary Rollup"/>
+- pause or resume with the **back button**
+- stop the session with the **start/stop button**
+- control screen brightness via your watch buttons or touch
 
-1.6 From the Sessions Summary view you can drill-down into individual sessions or exit the app. Drilling-down shows detailed summary stats of the session. If you go back from the Sessions Summary view you can continue doing more sessions.
+When you stop, you can save or discard the session.  
+Saved sessions appear in Garmin Connect after syncing.
 
-### 2. Picking a session
+---
 
-From the session picker screen press page up/down buttons (for touch devices swipe up/down).
-On this screen you can see the applicable settings for the selected session
+## A Simple Way to Meditate (If You’re New to This)
 
-- activity type - in the title
-  - Meditate
-- time - total duration of the session
-- vibe pattern
-- interval alert triggers - the graph in the middle of the screen represents the relative alert triger time compared to the total session time
+If you don’t know how to meditate, you’re not alone - and you’re not behind.  
+You’re already doing the most important thing: showing up.
+
+Meditation is not about stopping thoughts, emptying the mind, or doing anything “right”. Even very experienced meditators notice their thoughts drifting every few seconds. That’s normal.
+
+The practice is not staying focused.  
+The practice is noticing when you’re not - and gently coming back.
+
+If, for your first year of meditation, you did nothing more than what’s described below, that would already be enough. Truly.
+
+And one more thing: the more **humor, gentleness, and loving-kindness** you can bring to your sessions, the more enjoyable the whole experience becomes - and often, the more helpful it is. You’re not trying to “win” meditation. You’re learning how to be with yourself.
+
+---
+
+### A Very Simple Practice
+
+You don’t need to visualize anything or breathe in a special way.
+
+1. Sit or lie down in a way that feels okay.
+2. Let your breath happen naturally.
+3. Bring your attention to the feeling of the breath at your nose.
+
+You might notice:
+
+- cool air as you inhale
+- warmer air as you exhale
+- subtle movement or tingling
+
+That’s enough. Nothing else to achieve.
+
+If it helps, you can quietly label it: _“in”_ … _“out”_.  
+Soft and simple.
+
+---
+
+### When the Mind Wanders (It Will)
+
+At some point - often after just a few seconds - your mind will wander.
+
+You might start thinking about:
+
+- what you should be doing
+- something from the past
+- something that annoys you
+- absolutely nothing important at all
+
+This does not mean you’re bad at meditation. It simply means your mind is doing what minds do.
+
+Sometimes the mind even tries to pull you back into activity, tension, or a bit of chaos - because that’s what feels familiar and safe. It may offer you “very urgent” thoughts like:  
+_“We should definitely reorganize our life right now.”_
+
+You can meet that moment with a smile:
+
+> “Ah, there you are again. You miss the chaos. Sneaky mind.”
+
+---
+
+### The Most Important Part
+
+The moment you notice that your attention has drifted is not a failure. It’s the moment the practice is actually happening.
+
+When you notice:
+
+- pause for a second
+- maybe even smile
+- gently and kindly ask yourself:
+
+  _“Do I want to come back to the breath right now?”_
+
+If the answer is yes, return to the feeling of the breath at the nose.  
+If the answer is no, that’s okay too - you can ask again later.
+
+Every return is a small training moment.  
+And every time you notice, you can quietly celebrate it: _“Oh - I noticed.”_ That’s awareness waking up.
+
+---
+
+### Be Kind With Yourself
+
+Coming back again and again is not something to be annoyed about. It is the training.
+
+Each time you notice and return:
+
+- you strengthen awareness
+- you build patience
+- you teach your nervous system that calm is safe
+
+So if you catch yourself being harsh, see if you can soften it just a little:  
+_“Of course my mind wandered. That’s what minds do. Back we go.”_
+
+Kindness works better than force. Curiosity works better than discipline.  
+And humor makes the whole thing more human.
+
+---
+
+### If You Want to Go Deeper (Optional)
+
+This simple practice can take you very far on its own.
+
+If, at some point, you feel curious to learn more about meditation - especially about working with restlessness, fear, and kindness toward yourself - a wonderful place to start is:
+
+**Pema Chödrön - _How to Meditate: A Practical Guide to Making Friends with Your Mind_** (Sounds True, 2013).
+
+There is no rush. This is here whenever curiosity shows up.
+
+---
+
+### That’s Really It
+
+There is nothing else you need to do.
+
+If your mind wanders 100 times, and you come back 100 times - that was a good session.  
+If you stayed with the breath for only a few seconds at a time - that was a good session.
+
+Meditation is not about staying calm. It’s about learning how to return.
+
+And you’re allowed to do that gently - with warmth, humor, and a little self-respect.
+
+---
+
+## Choosing a Session
+
+From the session picker you can scroll through available sessions and see:
+
+- session duration
+- vibration pattern
+- interval alert timing
 - HRV indicator
-  - ![Off](userGuideScreenshots/hrvIndicatorOff.png) Off - indicates that stress and HRV are turned off
-  - ![Waiting HRV](userGuideScreenshots/hrvIndicatorWaitingHrv.png) Waiting HRV
-    - the hardware sensor does not detect HRV
-    - you can start the session but you will have missing HRV data, it is recommended to stay quiet until HRV is ready
-  - ![HRV Weak/Ready](userGuideScreenshots/hrvIndicatorReady.png) HRV Ready
-    - the hardware sensor detects HRV
-    - the session tracks default HRV and Stress metrics
-    - **the session can be recored with reliable HRV data provided you minimize wrist movement**
-  - ![HRV Weak/Ready Detailed](userGuideScreenshots/hrvIndicatorReadyDetailed.png) HRV Ready
-    - the hardware sensor detects HRV
-    - the session tracks extended HRV and Stress metrics
-    - **the session can be recored with reliable HRV data provided you minimize wrist movement**
 
-<img src="userGuideScreenshots/sessionPickerExplained.gif"  width="55%" height="55%" alt="Session Picker Explained"/>
+### HRV Indicator (Quick Explanation)
 
-2.1 Breathwork introduction
+- **Off** - HRV and stress tracking disabled
+- **Waiting** - sensor has not settled yet (stay still for a moment)
+- **Ready** - HRV tracking active  
+  For reliable HRV data, minimize wrist movement.
 
-The app comes with 3 pre-configured breathwork sessions. The following gives a short introduction to each of them. A full breathcycle consists off the following 4 elements, from wich some might be skipt depending on the breath pattern: Inhale, Hold, Exhale, Hold (cycle starts from the beginning). The inhale is recommended through the nose, while the exhale should be done through the mouth.
+---
 
-2.1.1 Box-Breathing
+## Breathwork Sessions (Simple Overview)
 
-Box breathing refers to the technique where each element of the breath cycle as an equal time. That's also where the name is coming from: Think of a box with 4 equal edges. You start with 4 seconds inhale, hold your breath for 4 seconds, exhale for 4 seconds, hold for 4 seconds, and start again with inhaling. Box-breathing is helpful to calm yourself down.
+The app includes preconfigured breathwork sessions.  
+A breathing cycle can include:
 
-2.1.2 Coherence breathing
+**Inhale → Hold → Exhale → Hold**
 
-This one is even simpler. You just inhale for 5 seconds, exhale for 5 seconds, and repeat. The aim of (heart) coherence breathing is to increased overall HRV values.
+(Some techniques skip certain parts.)
 
-2.1.3 4-7-8 breathing
+### Included Patterns
 
-This is a typical technique to calm your self down and prepare for sleep. You start by a 4 second inhale, hold your breath for 7, and exhale for 8 seconds.
+**Box Breathing**  
+Equal inhale, hold, exhale, hold (e.g. 4–4–4–4).  
+Often used to calm the nervous system.
 
-2.1.4 Tips for breathwork:
+**Coherence Breathing**  
+Inhale 5 seconds, exhale 5 seconds.  
+Often associated with increased HRV.
 
-- The general rule of thumb for calming your self down is exhale twice as long as you inhale. Sometimes it's easier to not stress yourself out additionally but forcing yourself to some timed pattern - just find your own rythm and try to exhale longer than you inhale. In general, the slower your breath, the calmer your body and mind. If you are able to arrive at One-breath-per-minute, you will notice that stress, anxiety, and many other things just resolve and disappear. So just try to breath slower and slower with every cycle and sessions and watch you your body relaxes itself.
-- The pre-configured sessions are great, but sometimes also stressful - it's just hard to get it exactly right. If this is overhelming for you, I recommend to just do a normal session without intervals and follow the rule of thumb above.
-- To extend your exhale, it is helpful if you don't open up your mouth too much. Think of slightly pressing the air through your lips - the air opens the lips, not the muscle around your mouth or of your jaw - keep your facial muscles relaxed. This natural resistance to your exhale makes it easier to have long and calm exhales.
+**4-7-8 Breathing**  
+Inhale 4, hold 7, exhale 8.  
+Commonly used before sleep.
 
-  2.2 Interpreting the stats of your session
+### Gentle Tips
 
-- HRV: heart rate variability refers to how inconsistent the time between heartbeats (heartbeat intervals) is. Yes, this sound scary at first, but is very natural and actually a high variability (low consistency in time between heartbeats) signals a calm body and mind. You can think of this the following way: If you are stressed, your heart goes like "I need to beat now! now! now! now!" - super stressful! If you are calm, your heart goes like "Maybe I should beat now, aah that was good, I think it might do another beat soon."
-- Stress: naturally lower stress is great. Anything below 20 is already a great start - I'm sometimes able to reach 0 if I lay myself flat on the ground on a yoga mat and put my hands above my hand on the ground (I've noticed this position opens up my breast, which allows for more space for my heart to unfold and relax. This also spikes HRV far above 100 for me.)
-- Respiration: Lower is great, however, the measurements provided here from garmin I've found to be not very reliable. They might be great for active sports, but for these calm things it doesn't work well.
-- Heart rate: Again, lower is better. You will notice that your heart rate greatly correlates with stress and good HRV values.
+- Inhale through the nose if possible
+- Exhale through the mouth
+- Longer exhales than inhales often help calm
+- If timed breathing feels stressful, choose a simple session and breathe naturally
 
-### 3. Configuring/Customizing a session
+---
 
-3.1 From the session selection screen hold the menu button (middle left) until you see the Session settings menu.
+## Understanding Your Session Data (Beginner View)
 
-- for touch screen supported devices, it is also possible to touch and hold on the screen
+### HRV (Heart Rate Variability)
 
-<img src="userGuideScreenshots/sessionSettingsMenu.gif"  width="25%" height="25%" alt="Session settings menu"/>
+HRV reflects how much the time between heartbeats varies.
 
-3.2 In Add New/Edit you can configure:
+- Higher HRV → calmer, more regulated states
+- Lower HRV → activation or stress
 
-- Time - total duration of the session in H:MM
-- Color - the color of the session used in graphical controls; select by using page up/down behaviour on the watch (Vivoactive 3/4/Venu - swipe up/down)
-- Vibe Pattern - shorter or longer patterns ranging from pulsating or continuous
-- Interval Alerts - ability to configure multiple intermediate alerts
-  - once you are on a specific interval alert you see in the menu title the Alert ID (e.g. Alert 1) relative to the current session interval alerts
-  - Time
-    - select one-off or repetitive alert
-    - repetitive alerts allow shorter durations than a minute
-    - only a single alert will execute at any given time
-    - priority of alerts with the same time: final session alert, last one-off alert, last repetative alert
-  - Color - the color of the current interval alert used in the graphical controls. Select different colors for each alert to differentiate them during meditation. Select transparent color if you don't want to see visual marks for the alert during meditation
-  - Offset - the offset of the current interval alert. e.g., if you set this to 30sec for a 10sec interval alert, the interval will start after the first 30sec of the session.
-  - Vibe Pattern/Sound - shorter or longer patterns ranging from pulsating or continuous or sound
-- Activity Type - ability to save the session as **Meditation** or **Yoga** or **Breathwork**. You can configure default activity type for new sessions from the Global Settings ([see section 4](#4-global-settings)).
-- HRV Tracking - determines if HRV and stress are tracked
+Variability is **healthy** — it’s not something to fix.
 
-  - ON - tracks stress and the following HRV metrics
-    - RMSSD
-    - HRV Successive Differences
-  - On Detailed (Default) - tracks extra stress and HRV metrics in addition to the **On** option
+### Stress
 
-    - RMSSD
-    - HRV Successive Differences
-    - pNN20
-    - pNN50
-    - heartbeat intervals
-    - SDRR First 5 min of the session
-    - SDRR Last 5 min of the session
-    - RMSSD Window
-    - HR from heartbeat
+Lower stress values feel pleasant, but higher stress does **not** mean a bad session.
 
-- Name - (new) You can give a session a custom name in the Add New / Edit flow. On the watch open Add New or Edit, select the "Name" entry and enter text using the platform TextPicker. The session name supports the `[time]` placeholder which will be replaced by the session duration when exporting the activity (for example: "Deep rest [time]").
+Sometimes a session is about staying present with discomfort.
 
-  - If you want that session name to show up as the activity name in Garmin Connect after syncing, enable the Global Setting described in [section 4.9](#4.9-use-session-name-as-activity-name).
+### Heart Rate
 
-    3.3 Delete - deletes a session after asking for confirmation
+Heart rate often slows as the body settles and usually aligns with HRV and stress.
 
-    3.4 Global Settings - [see section 4](#4-global-settings)
+### Respiration
 
-    3.5 Configure custom breathwork session
+Respiration data comes from Garmin sensors and is best used for trends, not precision.
 
-Breathwork sessions typically follow some pattern of Inhale, Hold, Exhale, Hold. As all the configured interval alerts run in parallel, you need to use the offset to create such a pattern. For example, to configure 4 Inhale, 7 Hold, 8 Exhale you'd need to do the following:
+---
 
-- Calculate the total duration of one breath cycle: 4 + 7 + 8 = 19sec.
-- Create 3 interval alerts with the following settings:
-  - Inhale: Time=19; Offset=0 (recommended vibe pattern: ShortAscending to signal inhale)
-  - Hold: Time=19; Offset=4 (recommended vibe pattern: ShortContinous to signal holding)
-  - Exhale: Time=19; Offset=11 (4+7) (recommended vibe pattern: ShortDescending to signal exhale)
+# Advanced Guide
 
-### 4. Global Settings
+_(For customization, deeper insight, and power users)_
 
-From the session picker screen hold the menu button (or touch and hold the screen) until you see the Session settings menu. Select the Global Settings Menu. You see a view with the states of the global settings. Hold the menu button again (or touch and hold the screen) to edit global settings.
+## Session Customization
 
-<img src="userGuideScreenshots/globalSettings.gif"  width="25%" height="25%" alt="Global settings"/>
+From the session picker:
 
-#### 4.1 HRV Tracking
+- Hold the **menu button** (or touch and hold the screen)
+- Open **Add New** or **Edit**
 
-This setting provides the default **HRV Tracking** for new sessions.
+You can configure:
 
-- **On** - tracks default HRV metrics and Stress
-  - RMSSD
-  - Successive Differences
-  - Stress
-- **On Detailed** - extended HRV and Stress metrics
-  - RMSSD
-  - Successive Differences
-  - Stress
-  - heartbeat intervals
-  - pNN50
-  - pNN20
-  - HR from heartbeat intervals
-  - RMSSD Window
-  - SDRR First 5 min of the session
-  - SDRR Last 5 min of the session
-- **Off** - HRV and Stress tracking turned off
+### Session Basics
 
-#### 4.2 Confirm Save
+- Duration (H:MM)
+- Color (used in visual indicators)
+- Vibration pattern
+- Activity type (Meditation / Yoga / Breathwork)
+- HRV tracking level
+- Custom session name (supports `[time]` placeholder)
 
-- Ask - when an activity finihes asks for confirmation whether to save the activity
-- Auto Yes - when an activity finihes auto saves it
-- Auto No - when an activity finihes auto discards it
+### Interval Alerts
 
-#### 4.3 Multi-Session
+- One-off or repeating alerts
+- Durations from seconds to hours
+- Offset (delay before first trigger)
+- Color per alert (or transparent to hide)
+- Vibration or sound pattern
 
-- Yes
-  - the app continues to run after finishing session
-  - this allows you to record multiple sessions
-- No - the app exits after finishing session
+Only one alert runs at a time.  
+Priority order: final alert → last one-off → last repeating alert.
 
-#### 4.4 Preparation time
+---
 
-- 0 seg - No preparation time
-- 15 seg (Default) - 15s for preparing before starting the meditation session
-- 30 seg - 30s for preparing before starting the meditation session
-- 60 seg - 1min for preparing before starting the meditation session
+## Custom Breathwork Patterns
 
-#### 4.5 Respiration Rate (note: some devices don't support this feature)
+Breathwork patterns are created using **parallel interval alerts** with offsets.
 
-- On (Default) - Respiration rate metrics enabled during session
-- Off - Respiration rate metrics disabled during session
+Example: **4–7–8 breathing**
 
-#### 4.6 New Activity Type
+- Total cycle: 19 seconds
+- Inhale: Time=19, Offset=0
+- Hold: Time=19, Offset=4
+- Exhale: Time=19, Offset=11
 
-You can set the default activity type for new sessions.
+Recommended vibration patterns:
 
-- Yoga
+- Inhale: ShortAscending
+- Hold: ShortContinuous
+- Exhale: ShortDescending
+
+---
+
+## Advanced HRV Metrics (Detailed Mode)
+
+When HRV Tracking is set to **On Detailed**, the app records:
+
+- RMSSD
+- Successive heartbeat differences
+- pNN20
+- pNN50
+- Raw heartbeat intervals
+- HR derived from heartbeat intervals
+- RMSSD rolling window
+- SDRR (first 5 minutes)
+- SDRR (last 5 minutes)
+
+These values are for **exploration and learning**, not evaluation.
+
+---
+
+## Global Settings (Defaults for All Sessions)
+
+Access via:
+
+- Session picker → hold menu → Global Settings
+- Hold menu again to edit
+
+### HRV Tracking (Default)
+
+- Off
+- On
+- On Detailed (default)
+
+### Confirm Save
+
+- Ask
+- Auto Yes
+- Auto No
+
+### Multi-Session Mode
+
+- Yes - app stays open for multiple sessions
+- No - app exits after each session
+
+### Preparation Time
+
+- 0 / 15 / 30 / 60 seconds
+
+### Respiration Rate
+
+- On / Off (device dependent)
+
+### Default Activity Type
+
 - Meditation
+- Yoga
 - Breathwork
 
-#### 4.7 HRV Window
+### HRV Window
 
-You can change over which time-window the HRV is calculated. For reliable measurements I recommend going for at least 3min, as everything below is considered ultra-short-term HRV measurement. Personally, I use 5min for my sessions. The default is 60sec, because beginners tend to do session around 5min and still want to see some trend of their HRV within this window. Read more on this topic [here](https://pmc.ncbi.nlm.nih.gov/articles/PMC5624990/)
+- Short windows show fast changes
+- 3–5 minutes recommended for reliability  
+  (Default: 60 seconds)
 
-#### 4.8 Notifications
+### Notifications
 
-Enables or disables any notifications from the app. If set to off, you won't get any interval alerts or final alerts.
+- Enable or disable all vibration alerts
 
-#### 4.9 Use session name as activity name
+### Use Session Name as Activity Name
 
-This option controls whether the custom session name you set for a session is used as the activity name that appears in Garmin Connect after syncing. The setting is available under Global Settings on the watch and is called "Session name = Activity name". The default is **No (Default)**.
+- Uses custom session name in Garmin Connect
+- Supports `[time]` placeholder
+- Activity names limited to 21 characters
 
-- If enabled and the session has a custom name, that name will be used when creating the activity name. You can include the placeholder `[time]` in the session name — it will be replaced by the session duration (for example, "Deep rest [time]" becomes "Deep rest 20min").
-- If the session name is empty or the setting is disabled, the app falls back to the Garmin Connect activity name configured via Garmin Express or the built-in default titles (for example, "Meditating 🧘").
-- Note: the activity name is truncated to 21 characters to fit Garmin's display limits.
+### Sensor Restart
 
-#### 4.10 Sensor restart
+- Resets all HR sensors
+- Exits app
+- Useful when HRV gets stuck
 
-Select this option when the optical heart rate sensor or a connected external sensor stops providing heartbeat intervals. The app disables every HR-capable sensor and exits so the watch firmware can reinitialize them cleanly. After triggering the restart, reopen Meditate, keep the watch still for about 30 seconds, and then start your session.
+---
 
-## FAQs
+## FAQs & Troubleshooting
 
-### HRV does not work / shows "waiting"
+This section is here to help when something feels confusing or doesn’t work as expected.  
+Most issues are easy to resolve, and nothing here means you’re doing anything wrong.
 
-1. Close and reopen the app - wait at least 30sec - don't move!
-2. Open Global Settings and pick "Sensor restart". The app will exit after shutting down all heart rate sensors. Reopen the app, wait 30sec, and keep your wrist still.
-3. If you are NOT using any external heart rate sensor (e.g., HR chest strap) for the session, go to the connectivity settings of your watch (not the settings in the app) and make sure all external sensors are disconnected and turned off, so they don't automatically reconnect in the background when starting a session and affect readings. For example, after a run, if the chest strap is still nearby, the watch may reconnect even if you’re not wearing it.
-4. Make sure your sensor is correctly positioned on your wrist. If you adapt the position, hold still and give it 30sec until the readings become stable.
-5. Reinstall the app
-6. If you don't get reliable readings, try positioning the watch sensor on the inside of your wrist, or use an external heart rate sensor that supports heartbeat intervals. External sensors are supported automatically—no app setting is required.
+---
 
-### Can I change the name of the session on the watch
+### HRV does not work or shows “waiting”
 
-Yes. You can edit a session's name from the Add New / Edit flow on the watch: select the "Name" entry and enter text using the platform TextPicker (see section 3.2). If you want the session name to be used as the activity name in Garmin Connect, enable the Global Setting described in section 4.9.
+This usually means the sensor has not yet settled or something is interfering with it.
 
-### The app crashes the moment I start a session - what can I do?
+Try the following steps in order:
 
-If the app opens up, but crashes the moment you start a session, it is very likely that your model does not support the selected activity type. Please edit the session and try to use a different activity type. "Generic" should work on all models.
+1. **Close and reopen the app**, then wait at least 30 seconds without moving your wrist.
+2. Open **Global Settings** and select **Sensor restart**.  
+   The app will shut down all heart-rate sensors and exit so the watch firmware can reinitialize them cleanly.  
+   Reopen the app, stay still for about 30 seconds, then start your session.
+3. If you are **not using an external heart-rate sensor** (like a chest strap), open your watch’s **connectivity settings** (not the app settings) and make sure all external sensors are disconnected.  
+   Sometimes a nearby chest strap reconnects automatically and disrupts readings.
+4. Check **sensor placement**. If you adjust the watch position, hold still for ~30 seconds to allow readings to stabilize.
+5. Reinstall the app if the issue persists.
+6. If you still don’t get reliable HRV, try:
+   - wearing the watch on the **inside of your wrist**, or
+   - using an external heart-rate sensor that supports heartbeat intervals (supported automatically, no app setting required).
+
+---
+
+### Can I change the name of a session on the watch?
+
+Yes.
+
+You can edit a session’s name directly on the watch:
+
+- Open **Add New** or **Edit** for a session
+- Select **Name**
+- Enter text using the watch’s text picker
+
+If you want the session name to also appear as the **activity name in Garmin Connect**, enable the setting described in **Global Settings → Session name = Activity name**.
+
+You can use the placeholder `[time]` in session names.  
+Example: `Deep rest [time]` → `Deep rest 20min`
+
+---
+
+### The app crashes as soon as I start a session
+
+If the app opens but crashes immediately when starting a session, your watch model likely does **not support the selected activity type**.
+
+Edit the session and choose a different activity type:
+
+- Meditation
+- Yoga
+- Breathwork
+
+If available on your device, a more generic activity type usually works on all models.
+
+---
 
 ### The app does not track stress
 
-Not all devices support continous stress tracking. (e.g., older models like the [Fenix 5X do not support this - it only support snapshot stress measurements](https://www8.garmin.com/manuals/webhelp/fenix5x/EN-US/GUID-20E035CE-CA52-40D0-B202-13403D6FAA51.html)).
+Not all Garmin devices support **continuous stress tracking**.
 
-#### But the [old version](https://apps.garmin.com/en-US/apps/c5fc5ea5-7d12-4fb9-be9c-701663a39db7) supported stress tracking
+Some older models (for example the Fenix 5X) only support **stress snapshots**, not real-time stress during activities. In these cases, stress data may be missing or limited.
 
-The old version used an own algorithm for estimating stress - this new version of the app uses the built-in stress tracking provided by garmin. I frequently got the question why stress did not match with the built-in stress measurement, so I decided to just reuse what is already there.
+This behavior depends on the watch hardware, not the app.
 
-### The respiratory rate (breaths per minute) is off
+---
 
-This is not specific to this app and there is nothing I can do about this. The app only uses whatever the Garmin sensor provides. You may be able to improve this by using a chest strap that supports HRV and respiratory rate reporting (e.g., hrm-600)
+### But the old version of the app supported stress tracking?
 
-### The screen is to bright and burning my eyes when starting the app
+The old version used a custom stress estimation algorithm.
 
-This is not specific to this app - it is based on your Garmin watch’s **Focus Mode** settings for activities. By default, your watch activates its own focus mode whenever you open any app or activity, and this default behavior changes your screen **brightness** to 80%.
+The current version uses **Garmin’s built-in stress tracking** instead. This ensures consistency with Garmin Connect and avoids mismatches between different stress values, which caused confusion for many users.
 
-To change this behavior on your watch, go to **Watch Settings** and select **Focus Modes**. Choose the one called **Activity** and find the entry labeled **Brightness** within the **Display & Brightness** section. Set the brightness to your preferred level. This will change the default display brightness for any activity you start on your watch.
+---
 
-**For advanced users:** You may want to create a custom **Focus Mode** that is auto-triggered only for Meditation, Yoga, and Breathwork activities.
+### The respiration rate (breaths per minute) seems inaccurate
+
+This is not specific to this app.
+
+Respiration data comes directly from Garmin’s sensors. While it works well during active sports, it can be less reliable during very calm or still practices.
+
+If accurate respiration data is important to you, using a **chest strap that supports respiration reporting** (for example HRM-Pro / HRM-600) may improve results.
+
+---
+
+### The screen is too bright when starting the app
+
+This is controlled by your watch’s **Focus Mode** settings, not by the app.
+
+By default, Garmin activates a focus mode for activities that sets screen brightness to around 80%.
+
+To change this:
+
+1. Open **Watch Settings**
+2. Go to **Focus Modes**
+3. Select **Activity**
+4. Adjust **Brightness** under **Display & Brightness**
+
+This will affect all activities started on your watch.
+
+**Advanced option:**  
+You can create a custom focus mode that triggers only for Meditation, Yoga, and Breathwork activities.
+
+---
 
 ### How do I run an open-ended session?
 
 You have two options:
 
-- **Create a long session** (for example, 9 hours) and stop it manually when you’re finished.
-- **Disable the auto-stop option** in the global settings. When this option is turned off, sessions will continue running until you stop them manually.
+- **Create a very long session** (for example 9 hours) and stop it manually when finished.
+- **Disable auto-stop** in the global settings so sessions continue until you stop them.
+
+---
 
 ### The app stopped working / I need support
 
-Please be respectful of my time and try these steps before you reach out for support:
+Before reaching out, please try:
 
-- Restart the app
-- Update the app
-- Reinstall the app
-- Reboot your watch
+- restarting the app
+- updating the app
+- reinstalling the app
+- rebooting your watch
 
-Please include the following information when reaching out for support:
+If you still need help, please include:
 
-- Steps you have already taken (e.g., reinstall of the app)
-- When did it stop working? After a recent app update, after a recent watch firmware update, ...
-- Does this feature work with the [old version of this app](https://apps.garmin.com/en-US/apps/c5fc5ea5-7d12-4fb9-be9c-701663a39db7)?
+- what you already tried
+- when the issue started (after app update, watch firmware update, etc.)
+- whether the issue exists in the previous version of the app
 
-You can reach out to me using the "Contact Developer" link in the Garmin Connect IQ portal.
+You can contact support using the **Contact Developer** link in the Garmin Connect IQ Store.
 
-[Data Privacy Policy](/meditate_app_data_privacy/)
+### I installed the app, but it doesn’t show up on my watch
+
+That’s frustrating — especially when you just want to start a calm session and the tech gets in the way.
+
+In this case, it’s important to know: **installation and delivery of Connect IQ apps to your watch is handled entirely by Garmin** (Garmin Connect / Connect IQ / Garmin Express and the sync process). The app itself cannot influence whether it appears on your device, and as the developer there’s nothing I can change in the code to fix an installation or sync issue.
+
+What you can try quickly (optional):
+
+- Sync your watch again in Garmin Connect
+- Restart the watch and your phone, then sync again
+- Uninstall the app, restart the watch, then reinstall the app and sync again
+
+If it still doesn’t appear, the best next step is to contact Garmin Support, because this is a Garmin-side installation/sync issue:
+
+- Garmin Support (Connect IQ install troubleshooting): https://support.garmin.com/en-US/?faq=67C7Y58Nxb6rkxt2Enbrf5
+- Garmin Support (main support portal): https://support.garmin.com/
+
+---
+
+## Privacy
+
+Your data stays yours.
+
+The app does not store personal information.  
+For details, see the [Data Privacy Policy](/meditate_app_data_privacy/).
