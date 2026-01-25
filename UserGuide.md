@@ -122,7 +122,6 @@ When you notice:
 - pause for a second
 - maybe even smile
 - gently and kindly ask yourself:
-
   _“Do I want to come back to the breath right now?”_
 
 If the answer is yes, return to the feeling of the breath at the nose.  
@@ -435,6 +434,53 @@ Example: `Deep rest [time]` → `Deep rest 20min`
 
 If the app opens but crashes immediately when starting a session, your watch model likely does **not support the selected activity type**.
 
+## FAQs & Troubleshooting
+
+<details>
+  <summary><strong>HRV does not work / shows “waiting”</strong></summary>
+
+This usually means the sensor has not yet settled or something is interfering with it.
+
+Try the following steps in order:
+
+1. Close and reopen the app, then wait at least 30 seconds without moving your wrist.
+2. Open **Global Settings** and select **Sensor restart**.  
+   The app will shut down all heart-rate sensors and exit so the watch firmware can reinitialize them cleanly.  
+   Reopen the app, stay still for about 30 seconds, then start your session.
+3. If you are not using an external heart-rate sensor (like a chest strap), open your watch’s connectivity settings (not the app settings) and make sure all external sensors are disconnected.  
+   Sometimes a nearby chest strap reconnects automatically and disrupts readings.
+4. Check sensor placement. If you adjust the watch position, hold still for ~30 seconds to allow readings to stabilize.
+5. Reinstall the app if the issue persists.
+6. If you still don’t get reliable HRV, try:
+   - wearing the watch on the inside of your wrist, or
+   - using an external heart-rate sensor that supports heartbeat intervals (supported automatically, no app setting required).
+
+</details>
+
+<details>
+  <summary><strong>Can I change the name of the session on the watch?</strong></summary>
+
+Yes.
+
+You can edit a session’s name directly on the watch:
+
+- Open **Add New** or **Edit** for a session
+- Select **Name**
+- Enter text using the watch’s text picker
+
+If you want the session name to also appear as the activity name in Garmin Connect, enable:  
+**Global Settings → Session name = Activity name**
+
+You can use the placeholder `[time]` in session names.  
+Example: `Deep rest [time]` → `Deep rest 20min`
+
+</details>
+
+<details>
+  <summary><strong>The app crashes the moment I start a session - what can I do?</strong></summary>
+
+If the app opens but crashes immediately when starting a session, your watch model likely does not support the selected activity type.
+
 Edit the session and choose a different activity type:
 
 - Meditation
@@ -443,66 +489,91 @@ Edit the session and choose a different activity type:
 
 If available on your device, a more generic activity type usually works on all models.
 
----
+</details>
 
-### The app does not track stress
+<details>
+  <summary><strong>The app does not track stress</strong></summary>
 
-Not all Garmin devices support **continuous stress tracking**.
+Not all Garmin devices support continuous stress tracking.
 
-Some older models (for example the Fenix 5X) only support **stress snapshots**, not real-time stress during activities. In these cases, stress data may be missing or limited.
+Some older models (for example the Fenix 5X) only support stress snapshots, not real-time stress during activities. In these cases, stress data may be missing or limited.
 
 This behavior depends on the watch hardware, not the app.
 
----
+</details>
 
-### But the old version of the app supported stress tracking?
+<details>
+  <summary><strong>But the old version supported stress tracking - why not this one?</strong></summary>
 
 The old version used a custom stress estimation algorithm.
 
-The current version uses **Garmin’s built-in stress tracking** instead. This ensures consistency with Garmin Connect and avoids mismatches between different stress values, which caused confusion for many users.
+The current version uses Garmin’s built-in stress tracking instead. This ensures consistency with Garmin Connect and avoids mismatches between different stress values, which caused confusion for many users.
 
----
+</details>
 
-### The respiration rate (breaths per minute) seems inaccurate
+<details>
+  <summary><strong>The respiration rate (breaths per minute) is off</strong></summary>
 
 This is not specific to this app.
 
-Respiration data comes directly from Garmin’s sensors. While it works well during active sports, it can be less reliable during very calm or still practices.
+The app uses whatever respiration signal Garmin provides. Respiration rate can be less reliable during very calm, still practices.
 
-If accurate respiration data is important to you, using a **chest strap that supports respiration reporting** (for example HRM-Pro / HRM-600) may improve results.
+If accurate respiration data is important to you, a chest strap that supports HRV and respiration reporting (for example HRM-600) may improve results.
 
----
+</details>
 
-### The screen is too bright when starting the app
+<details>
+  <summary><strong>The screen is too bright and burns my eyes when starting the app</strong></summary>
 
-This is controlled by your watch’s **Focus Mode** settings, not by the app.
+This is controlled by your watch’s **Focus Mode** settings for activities, not by the app.
 
-By default, Garmin activates a focus mode for activities that sets screen brightness to around 80%.
+By default, Garmin activates a focus mode for activities that may set screen brightness to around 80%.
 
-To change this:
+To change this on your watch:
 
 1. Open **Watch Settings**
 2. Go to **Focus Modes**
 3. Select **Activity**
 4. Adjust **Brightness** under **Display & Brightness**
 
-This will affect all activities started on your watch.
+This affects all activities started on your watch.
 
-**Advanced option:**  
-You can create a custom focus mode that triggers only for Meditation, Yoga, and Breathwork activities.
+**Advanced option:** Create a custom Focus Mode that triggers only for Meditation, Yoga, and Breathwork activities.
 
----
+</details>
 
-### How do I run an open-ended session?
+<details>
+  <summary><strong>How do I run an open-ended session?</strong></summary>
 
 You have two options:
 
-- **Create a very long session** (for example 9 hours) and stop it manually when finished.
-- **Disable auto-stop** in the global settings so sessions continue until you stop them.
+- Create a very long session (for example 9 hours) and stop it manually when you’re finished.
+- Disable the auto-stop option in Global Settings so sessions continue until you stop them manually.
 
----
+</details>
 
-### The app stopped working / I need support
+<details>
+  <summary><strong>I installed the app, but it doesn’t show up on my watch</strong></summary>
+
+That’s frustrating - especially when you just want to start a calm session and the tech gets in the way.
+
+In this case, it’s important to know: installation and delivery of Connect IQ apps to your watch is handled entirely by Garmin (Garmin Connect / Connect IQ / Garmin Express and the sync process). The app itself cannot influence whether it appears on your device, and as the developer there’s nothing I can change in the code to fix an installation or sync issue.
+
+What you can try quickly (optional):
+
+- Sync your watch again in Garmin Connect
+- Restart the watch and your phone, then sync again
+- Uninstall the app, restart the watch, then reinstall the app and sync again
+
+If it still doesn’t appear, the best next step is to contact Garmin Support, because this is a Garmin-side installation/sync issue:
+
+- [Garmin Support (Connect IQ install troubleshooting)](https://support.garmin.com/en-US/?faq=67C7Y58Nxb6rkxt2Enbrf5)
+- [Garmin Support (main support portal)](https://support.garmin.com/)
+
+</details>
+
+<details>
+  <summary><strong>The app stopped working / I need support</strong></summary>
 
 Before reaching out, please try:
 
@@ -515,26 +586,12 @@ If you still need help, please include:
 
 - what you already tried
 - when the issue started (after app update, watch firmware update, etc.)
-- whether the issue exists in the previous version of the app
+- watch model and firmware version
+- whether the issue exists in the previous version of the app (if you tested it)
 
 You can contact support using the **Contact Developer** link in the Garmin Connect IQ Store.
 
-### I installed the app, but it doesn’t show up on my watch
-
-That’s frustrating — especially when you just want to start a calm session and the tech gets in the way.
-
-In this case, it’s important to know: **installation and delivery of Connect IQ apps to your watch is handled entirely by Garmin** (Garmin Connect / Connect IQ / Garmin Express and the sync process). The app itself cannot influence whether it appears on your device, and as the developer there’s nothing I can change in the code to fix an installation or sync issue.
-
-What you can try quickly (optional):
-
-- Sync your watch again in Garmin Connect
-- Restart the watch and your phone, then sync again
-- Uninstall the app, restart the watch, then reinstall the app and sync again
-
-If it still doesn’t appear, the best next step is to contact Garmin Support, because this is a Garmin-side installation/sync issue:
-
-- Garmin Support (Connect IQ install troubleshooting): https://support.garmin.com/en-US/?faq=67C7Y58Nxb6rkxt2Enbrf5
-- Garmin Support (main support portal): https://support.garmin.com/
+</details>
 
 ---
 
