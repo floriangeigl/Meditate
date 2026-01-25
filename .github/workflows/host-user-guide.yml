@@ -27,14 +27,15 @@ jobs:
           token: ${{ secrets.FLORIANGEIGL_GITHUB_IO_TOKEN }}
       - name: create user guide page
         run: |
-          echo -e '---\nlayout: page\ntitle: Meditation & Breathwork\nsubtitle: User Guide\n---' > ./geigl.online/meditate_app_user_guide.md
-          cat UserGuide.md >> ./geigl.online/meditate_app_user_guide.md
+          cat UserGuide.md > ./geigl.online/meditate_app_user_guide.md
           mkdir -p ./geigl.online/userGuideScreenshots
           cp -r ./userGuideScreenshots ./geigl.online/meditate_app_user_guide/
+          find ./geigl.online -type f -name '*.md' -exec sed -i 's|meditate_app_user_guide/userGuideScreenshots/|__KEEP__|g; s|userGuideScreenshots/|meditate_app_user_guide/userGuideScreenshots/|g; s|__KEEP__|meditate_app_user_guide/userGuideScreenshots/|g' {} +
+
       - name: create advertisment page
         run: |
-          echo -e '---\nlayout: page\ntitle: Meditation & Breathwork\nsubtitle: Breathe in. Let go.\n---' > ./geigl.online/meditate_app.md
-          cat Advertisement.md >> ./geigl.online/meditate_app.md
+          cat Advertisement.md > ./geigl.online/meditate_app.md
+          find ./geigl.online -type f -name '*.md' -exec sed -i 's|meditate_app_user_guide/userGuideScreenshots/|__KEEP__|g; s|userGuideScreenshots/|meditate_app_user_guide/userGuideScreenshots/|g; s|__KEEP__|meditate_app_user_guide/userGuideScreenshots/|g' {} +
       - name: git add
         run: ls -lah && cd ./geigl.online/ && git add .
       - name: debug
