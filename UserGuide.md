@@ -1,3 +1,9 @@
+---
+layout: page
+title: Meditation & Breathwork
+subtitle: Garmin App User Guide
+---
+
 This guide is meant to support you - not overwhelm you.
 
 You don’t need to understand everything to begin.  
