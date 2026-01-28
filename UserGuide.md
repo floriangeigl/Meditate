@@ -24,6 +24,7 @@ Start with the **Beginner Guide**, and come back to the **Advanced Guide** whene
   - [Advanced HRV Metrics](#advanced-hrv-metrics)
   - [Global Settings (Defaults for All Sessions)](#global-settings-defaults-for-all-sessions)
 - [FAQs & Troubleshooting](#faqs-troubleshooting)
+- [Get Support / Report Problem](#get-support--report-problem)
 - [Data Privacy](#privacy)
 
 ---
@@ -629,6 +630,10 @@ Most issues are easy to resolve, and nothing here means you’re doing anything 
 </details>
 
 ---
+
+# Get Support / Report Problem
+
+If something doesn’t work, or you have feedback or feature requests, you can [send me a mail](mailto:florian.geigl+garmin@gmail.com?subject=User%20Feedback%20for%20Meditation%20and%20Breathwork%20-%20Connect%20IQ%20Notification).
 
 <a id="privacy"></a>
 
