@@ -2,9 +2,12 @@
 layout: page
 title: Meditation & Breathwork
 subtitle: Garmin App User Guide
+permalink: /meditate_app_user_guide/
+share-title: Meditation & Breathwork User Guide (Garmin) | Florian Geigl
+share-description: Setup, features, FAQs, troubleshooting, and support for the Meditation & Breathwork Garmin watch app.
 ---
 
-This guide is meant to support you - not overwhelm you.
+This guide is meant to support you - not overwhelm you :)
 
 You don’t need to understand everything to begin.  
 Start with the **Beginner Guide**, and come back to the **Advanced Guide** whenever you’re curious.
@@ -600,9 +603,7 @@ Most issues are easy to resolve, and nothing here means you’re doing anything 
 
 </details>
 
-<a id="restart-watch"></a>
-
-<details>
+<details id="restart-watch">
   <summary><strong>How do I restart (reboot) my Garmin watch?</strong></summary>
 
   <p>
