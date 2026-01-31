@@ -3,10 +3,9 @@ run-name: Translate texts, guides, etc by @${{ github.actor }}
 on:
   pull_request:
     branches:
-      - 'main'
+      - "main"
     paths:
-      - './ConnectIQStore/MeditateStoreDescription-en.txt'
-      - './UserGuide.md'
+      - "**.md"
 jobs:
   translate_texts:
     name: Translate
@@ -20,11 +19,11 @@ jobs:
         run: |
           git push -d origin release-translation || echo "no remote branch to cleanup"
           git branch -d release-translation || echo "no local branch to cleanup"
-      
+
       ################### Store Description
       - name: read content
         id: store-content
-        # needs encoding in base64 to be able to pass multiline 
+        # needs encoding in base64 to be able to pass multiline
         run: |
           echo "content=$(cat ./ConnectIQStore/MeditateStoreDescription-en.txt | base64 --wrap=0)" >> $GITHUB_OUTPUT
           echo "prompt=$(grep -v '[/|#]' ./.github/workflows/translate-content-store-prompt.txt | awk '{print}' ORS=' ')" >> $GITHUB_OUTPUT
@@ -35,38 +34,38 @@ jobs:
         uses: cahaseler/openai-api@v1.0.0
         with:
           apiKey: ${{ secrets.CHATGPT_TOKEN }}
-          prompt: '${{ steps.store-content.outputs.prompt }} ${{ matrix.language }}'
-          input: '${{ steps.store-content.outputs.content }}'
-          model: '${{ steps.store-content.outputs.model }}'
+          prompt: "${{ steps.store-content.outputs.prompt }} ${{ matrix.language }}"
+          input: "${{ steps.store-content.outputs.content }}"
+          model: "${{ steps.store-content.outputs.model }}"
       - name: write response to file
         run: |
           cat > ./ConnectIQStore/MeditateStoreDescription-${{ matrix.language }}.txt << EOF
           ${{ steps.de.outputs.completion }}
       - name: cat
         run: cat ./ConnectIQStore/MeditateStoreDescription-${{ matrix.language }}.txt
-      
+
       ################### UserGuide
       - name: read content
         id: userguide-content
-        # needs encoding in base64 to be able to pass multiline 
+        # needs encoding in base64 to be able to pass multiline
         run: |
           echo "content=$(cat ./UserGuide.md | base64 --wrap=0)" >> $GITHUB_OUTPUT
           echo "prompt=$(grep -v '[/|#]' ./.github/workflows/translate-content-userguide-prompt.txt | awk '{print}' ORS=' ')" >> $GITHUB_OUTPUT
           echo "model=$(grep -v '[/|#]' -m 1 ./.github/workflows/translate-content-model.txt)" >> $GITHUB_OUTPUT
-      
+
       - name: OpenAI ChatGPT Action
         id: userguide-de
         uses: cahaseler/openai-api@v1.0.0
         with:
           apiKey: ${{ secrets.CHATGPT_TOKEN }}
-          prompt: '${{ steps.userguide-content.outputs.prompt }} ${{ matrix.language }}'
-          input: '${{ steps.userguide-content.outputs.content }}'
-          model: '${{ steps.userguide-content.outputs.model }}'
+          prompt: "${{ steps.userguide-content.outputs.prompt }} ${{ matrix.language }}"
+          input: "${{ steps.userguide-content.outputs.content }}"
+          model: "${{ steps.userguide-content.outputs.model }}"
       - name: write response to file
         run: |
-            cat > ./UserGuide-${{ matrix.language }}.md << EOF
-            ${{ steps.userguide-de.outputs.completion }}
-      
+          cat > ./UserGuide-${{ matrix.language }}.md << EOF
+          ${{ steps.userguide-de.outputs.completion }}
+
       - name: git commit && push
         run: |
           git add .
