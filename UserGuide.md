@@ -600,9 +600,7 @@ Most issues are easy to resolve, and nothing here means you’re doing anything 
 
 </details>
 
-<a id="restart-watch"></a>
-
-<details>
+<details id="restart-watch">
   <summary><strong>How do I restart (reboot) my Garmin watch?</strong></summary>
 
   <p>
