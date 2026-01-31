@@ -3,6 +3,8 @@ layout: page
 title: Meditation & Breathwork
 subtitle: A Mindful Companion - Right on Your Garmin Watch
 permalink: /meditate_app/
+share-title: Meditation & Breathwork Garmin App | Florian Geigl
+share-description: Meditation & breathwork on your Garmin watch — mindfulness with real-time biometrics. Download on Garmin Connect IQ.
 ---
 
 ![meditate and breathwork app hero image](userGuideScreenshots/hero_meditate.png)
