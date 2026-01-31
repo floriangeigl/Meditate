@@ -578,22 +578,90 @@ Most issues are easy to resolve, and nothing here means you’re doing anything 
 </details>
 
 <details>
-  <summary><strong>I installed the app, but it doesn’t show up on my watch</strong></summary>
+  <summary><strong>Can I listen to music while using the app?</strong></summary>
+
+  <p>
+    The app itself does <strong>not</strong> support playing or controlling music.
+    However, on many Garmin watches you can start music separately (for example the built-in music player, Spotify, etc.) and then run your session in Meditate.
+  </p>
+
+  <p><strong>How to access music controls (varies by model)</strong></p>
+
+  <ul>
+    <li><strong>Hot key / shortcut:</strong> Many models let you assign <em>Music controls</em> to a shortcut or hot key in your watch settings (often under <strong>Settings</strong> → <strong>System</strong> → <strong>Hot Keys</strong> / <strong>Controls</strong>).</li>
+    <li><strong>Controls menu:</strong> Open the watch’s controls menu and select <em>Music</em> / <em>Music Controls</em>.</li>
+    <li><strong>Touchscreen shortcut control (some models):</strong> Garmin documents a “shortcut control” you can set to music controls (example: Venu manual: <a href="https://www8.garmin.com/manuals/webhelp/venu/EN-US/GUID-5E9D3D0F-D4C9-4A4A-97D6-4F178C27DAD8.html">Setting Up a Shortcut Control</a>).</li>
+  </ul>
+
+  <p>
+    If you want the vibration cues to match your music, you can configure session interval alerts to your target timing.
+    But there is no “beat-sync” feature, so it won’t automatically stay perfectly aligned with a track.
+  </p>
+
+</details>
+
+<a id="restart-watch"></a>
+
+<details>
+  <summary><strong>How do I restart (reboot) my Garmin watch?</strong></summary>
+
+  <p>
+    Garmin watches differ a bit by model, but these options work for most devices.
+  </p>
+
+  <p><strong>Option 1 (most common): power button / LIGHT button</strong></p>
+
+  <ol>
+    <li>Press and hold the <strong>LIGHT</strong> / power button until the watch turns off (often ~10–15 seconds).</li>
+    <li>Wait a few seconds.</li>
+    <li>Press the same button again to turn it back on.</li>
+  </ol>
+
+  <p><strong>Option 2: from the watch settings</strong></p>
+
+  <ul>
+    <li>Open <strong>Settings</strong> → <strong>System</strong> → <strong>Power Off</strong> or <strong>Restart</strong> (wording may vary by model).</li>
+  </ul>
+
+  <p>
+    A restart does not erase your data; it just reboots the watch.
+    If your watch is frozen, keep holding the power button longer until it powers off.
+  </p>
+
+</details>
+
+<details>
+  <summary><strong>I installed the app, but it doesn’t show up on my watch (or installation is stuck)</strong></summary>
 
   <p>That’s frustrating - especially when you just want to start a calm session and the tech gets in the way.</p>
+
+  <p>
+    <strong>First, make sure you’re looking in the right place:</strong><br>
+    This app shows up in your watch’s <strong>Activities</strong> / <strong>Apps</strong> list (the same place where you start things like a run, yoga, breathwork, etc.).
+    It may <em>not</em> show up in widget lists / glance lists / shortcut lists (depending on your model and how your watch organizes apps).
+  </p>
 
   <p>
     In this case, it’s important to know: installation and delivery of Connect IQ apps to your watch is handled entirely by Garmin (Garmin Connect / Connect IQ / Garmin Express and the sync process).
     The app itself cannot influence whether it appears on your device, and as the developer there’s nothing I can change in the code to fix an installation or sync issue.
   </p>
 
+  <p>
+    Some users also see the app stuck on “Installing…” or partially installed (for example, the app appears but some parts don’t load).
+    The steps below typically fix both cases.
+  </p>
+
   <p>What you can try quickly (optional):</p>
 
   <ul>
     <li>Sync your watch again in Garmin Connect</li>
-    <li>Restart the watch and your phone, then sync again</li>
-    <li>Uninstall the app, restart the watch, then reinstall the app and sync again</li>
+    <li><a href="#restart-watch">Restart the watch</a> and your phone, then sync again</li>
+    <li>Uninstall the app, <a href="#restart-watch">restart the watch</a>, then reinstall the app and sync again</li>
   </ul>
+
+  <p>
+    If the watch seems frozen during installation, <a href="#restart-watch">restart the watch</a> first, then try syncing/installing again.
+  </p>
 
   <p>If it still doesn’t appear, the best next step is to contact Garmin Support, because this is a Garmin-side installation/sync issue:</p>
 
@@ -605,27 +673,35 @@ Most issues are easy to resolve, and nothing here means you’re doing anything 
 </details>
 
 <details>
+  <summary><strong>Parts of the app are shown in the wrong language</strong></summary>
+
+  <p>
+    Sometimes a few texts (for example HRV-related labels) may show up in a different language even though the rest of the app is correct.
+    This is usually a one-off installation/sync hiccup.
+  </p>
+
+  <p>What to try (in this order):</p>
+
+  <ol>
+    <li>Uninstall the app from your watch</li>
+    <li><a href="#restart-watch">Restart (reboot) your watch</a></li>
+    <li>Reinstall the app and sync again</li>
+  </ol>
+
+  <p>
+    If it still happens, please open the <strong>Contact Developer</strong> link in the Connect IQ Store and include your watch model,
+    watch firmware version, and which language you see incorrectly.
+  </p>
+
+</details>
+
+<details>
   <summary><strong>The app stopped working / I need support</strong></summary>
 
-  <p>Before reaching out, please try:</p>
-
-  <ul>
-    <li>restarting the app</li>
-    <li>updating the app</li>
-    <li>reinstalling the app</li>
-    <li>rebooting your watch</li>
-  </ul>
-
-  <p>If you still need help, please include:</p>
-
-  <ul>
-    <li>what you already tried</li>
-    <li>when the issue started (after app update, watch firmware update, etc.)</li>
-    <li>watch model and firmware version</li>
-    <li>whether the issue exists in the previous version of the app (if you tested it)</li>
-  </ul>
-
-  <p>You can contact support using the <strong>Contact Developer</strong> link in the Garmin Connect IQ Store.</p>
+  <p>
+    Please use the dedicated support section here (it contains the up-to-date steps, what information to include, and the best way to contact me):
+    <a href="#get-support--report-problem">Get Support / Report Problem</a>
+  </p>
 
 </details>
 

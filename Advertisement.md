@@ -12,7 +12,9 @@ When life has been demanding for a long time, the nervous system learns to stay 
 
 **Meditation & Breathwork** helps you reconnect with your body and observe, in real time, how your nervous system responds.
 
-[Download now](https://apps.garmin.com/apps/e6f3f3d2-3ea6-4ec1-81a5-977c708eb75b)
+**Get the app:** [Download Meditation & Breathwork](https://apps.garmin.com/apps/e6f3f3d2-3ea6-4ec1-81a5-977c708eb75b)
+
+**Get started:** [Read the user guide](https://geigl.online/meditate_app_user_guide/) (features, FAQs, and support)
 
 ---
 
@@ -74,4 +76,4 @@ Smile when the mind gets clever.
 
 [Download Meditation & Breathwork](https://apps.garmin.com/apps/e6f3f3d2-3ea6-4ec1-81a5-977c708eb75b) and discover what truly supports your meditation and breathwork practice - one session at a time.
 
-For more details on features, frequently asked questions, and support, see the [full user guide](https://geigl.online/meditate_app_user_guide/).
+For more details on features, frequently asked questions, and support, see the [user guide](https://geigl.online/meditate_app_user_guide/).
