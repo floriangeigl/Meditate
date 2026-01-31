@@ -1,2 +1,2 @@
 // model used with openai to generate translations
-gpt-5
+gpt-5.2

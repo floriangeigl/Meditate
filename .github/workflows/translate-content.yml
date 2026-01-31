@@ -37,6 +37,7 @@ jobs:
           prompt: "${{ steps.store-content.outputs.prompt }} ${{ matrix.language }}"
           input: "${{ steps.store-content.outputs.content }}"
           model: "${{ steps.store-content.outputs.model }}"
+          max_tokens: 2000
       - name: write response to file
         run: |
           cat > ./ConnectIQStore/MeditateStoreDescription-${{ matrix.language }}.txt << EOF
@@ -61,7 +62,7 @@ jobs:
           prompt: "${{ steps.userguide-content.outputs.prompt }} ${{ matrix.language }}"
           input: "${{ steps.userguide-content.outputs.content }}"
           model: "${{ steps.userguide-content.outputs.model }}"
-      - name: write response to file
+          max_tokens: 2000
         run: |
           cat > ./UserGuide-${{ matrix.language }}.md << EOF
           ${{ steps.userguide-de.outputs.completion }}
