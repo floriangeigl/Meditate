@@ -2,6 +2,7 @@
 layout: page
 title: Meditation & Breathwork
 subtitle: A Mindful Companion - Right on Your Garmin Watch
+permalink: /meditate_app/
 ---
 
 ![meditate and breathwork app hero image](userGuideScreenshots/hero_meditate.png)
