@@ -2,6 +2,7 @@
 layout: page
 title: Meditation & Breathwork
 subtitle: Garmin App User Guide
+permalink: /meditate_app_user_guide/
 ---
 
 This guide is meant to support you - not overwhelm you.
