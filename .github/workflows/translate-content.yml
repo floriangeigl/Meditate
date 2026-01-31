@@ -63,6 +63,7 @@ jobs:
           input: "${{ steps.userguide-content.outputs.content }}"
           model: "${{ steps.userguide-content.outputs.model }}"
           max_tokens: 2000
+      - name: write response to file
         run: |
           cat > ./UserGuide-${{ matrix.language }}.md << EOF
           ${{ steps.userguide-de.outputs.completion }}
