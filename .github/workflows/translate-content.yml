@@ -14,6 +14,8 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: refs/pull/${{ github.event.pull_request.number }}/head
       - name: cleanup release-translation branch
         run: |
           git push -d origin release-translation || echo "no remote branch to cleanup"
@@ -21,8 +23,7 @@ jobs:
 
       - name: create release-translation branch
         run: |
-          git fetch --no-tags origin main
-          git checkout -B release-translation origin/main
+          git checkout -B release-translation
 
       ################### Store Description
       - name: Translate via Codex (reads + writes files)
