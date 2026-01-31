@@ -71,8 +71,8 @@ class MeditateActivity extends HrvAlgorithms.HrvActivity {
 
 	private function createSessionName(sessionTime, activityName) {
 		// Calculate session minutes and hours
-		var sessionTimeMinutes = Math.round(sessionTime / 60);
-		var sessionTimeHours = Math.round(sessionTimeMinutes / 60);
+		var sessionTimeMinutes = Math.round(sessionTime / 60.0);
+		var sessionTimeHours = Math.floor(sessionTimeMinutes / 60.0);
 		var sessionTimeString;
 
 		// Create the Connect activity name showing the number of hours/minutes for the meditate session
@@ -148,8 +148,8 @@ class MeditateActivity extends HrvAlgorithms.HrvActivity {
 		HrvAlgorithms.HrvActivity.finish();
 		me.persistWakeupSessionType();
 		var usageStats = new UsageStats(me.mMeditateModel.elapsedTime);
-		usageStats.sendCached();
 		usageStats.sendCurrent();
+		UsageStats.tryOpenPendingTip();
 	}
 
 	function discard() {
