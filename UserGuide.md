@@ -53,6 +53,8 @@ It allows you to:
 
 The goal is **awareness, not performance**.
 
+If you’d like a short, motivating reflection on why slowing down matters (and why it’s so hard in a fast-paced culture), **[Cory Muscara's The Practicing Human podcast - “Why You Need to Slow Down”](https://practicinghuman.buzzsprout.com/597910/episodes/18537284-why-you-need-to-slow-down)** explores how speed can erode relationships, happiness, and clear decision-making.
+
 ---
 
 <a id="starting-your-first-session"></a>
