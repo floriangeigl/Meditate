@@ -137,12 +137,12 @@ You might start thinking about:
 
 This does not mean you’re bad at meditation. It simply means your mind is doing what minds do.
 
-Sometimes the mind even tries to pull you back into activity, tension, or a bit of chaos - because that’s what feels familiar and safe. It may offer you “very urgent” thoughts like:  
+Sometimes the mind even tries to pull you back into activity, tension, or a bit of chaos - because that’s what feels familiar and safe. The nervous system can cling to a kind of familiar hell before it learns to trust an unfamiliar heaven. And these thoughts may not sound random at all - they can sound very convincing, like intuition, or even like this is simply who you are. It may offer you “very urgent” thoughts like:  
 _“We should definitely reorganize our life right now.”_
 
-You can meet that moment with a smile:
+You can meet that moment with a smile and hold it with love:
 
-> “Ah, there you are again. You miss the chaos. Sneaky mind.”
+> “Ah, there you are again. You miss the chaos. Sneaky mind. I love you.”
 
 ---
 
@@ -191,7 +191,9 @@ If, at some point, you feel curious to learn more about meditation - especially 
 
 **Pema Chödrön - _How to Meditate: A Practical Guide to Making Friends with Your Mind_** (Sounds True, 2013).
 
-There is no rush. This is here whenever curiosity shows up.
+And if you're moving through change, letting go, or feeling that part of practice is learning how to say goodbye to an old way of being, this podcast episode - **[Brave Souls - “Kissing your old life goodbye”](https://open.spotify.com/episode/0lbaZMdJm7E90vmqYTTs0I)** - is a beautiful companion. If you don't have much time - or want to jump to a part that may really move something in you - start at around 27 minutes and stay with it until the end, ideally with earphones on.
+
+There is no rush. These are here whenever curiosity shows up.
 
 ---
 
