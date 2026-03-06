@@ -2,4 +2,5 @@ bin
 .metadata
 export
 Meditate/resources/secrets.xml
+Meditate/backup
 
