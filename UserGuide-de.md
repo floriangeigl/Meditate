@@ -137,7 +137,7 @@ Vielleicht denkst du an:
 
 Das heißt nicht, dass du schlecht meditierst. Es heißt nur, dass dein Geist das tut, was Geister tun.
 
-Manchmal versucht der Geist sogar, dich zurück in Aktivität, Spannung oder ein bisschen Chaos zu ziehen – weil sich das vertraut und sicher anfühlt. Er bietet dir dann „sehr dringende“ Gedanken an wie:  
+Manchmal versucht der Geist sogar, dich zurück in Aktivität, Spannung oder ein bisschen Chaos zu ziehen – weil sich das vertraut und sicher anfühlt. Das Nervensystem kann sich an eine Art vertraute Hölle klammern, bevor es lernt, einem unvertrauten Himmel zu vertrauen. Und diese Gedanken klingen oft gar nicht zufällig – sie können sehr überzeugend wirken, wie Intuition oder sogar wie „so bin ich eben“. Er bietet dir dann „sehr dringende“ Gedanken an wie:  
 _„Wir sollten unbedingt jetzt sofort unser Leben neu organisieren.“_
 
 Du kannst diesem Moment mit einem Lächeln begegnen:
@@ -190,6 +190,8 @@ Diese einfache Praxis kann dich allein schon sehr weit bringen.
 Wenn du irgendwann Lust hast, mehr über Meditation zu lernen – besonders über den Umgang mit Unruhe, Angst und Freundlichkeit dir selbst gegenüber – ist ein wunderbarer Einstieg:
 
 **Pema Chödrön - _How to Meditate: A Practical Guide to Making Friends with Your Mind_** (Sounds True, 2013).
+
+Und wenn du gerade durch Veränderung gehst, loslässt oder spürst, dass ein Teil der Praxis darin besteht, dich von einer alten Art zu sein zu verabschieden, ist diese Podcast-Folge ein wunderbarer Begleiter: **[Brave Souls - “Kissing your old life goodbye”](https://open.spotify.com/episode/0lbaZMdJm7E90vmqYTTs0I)**. Wenn du wenig Zeit hast – oder direkt zu einem Teil springen willst, der wirklich etwas in dir bewegen kann – starte bei etwa Minute 27 und bleib bis zum Ende dran, idealerweise mit Kopfhörern.
 
 Es gibt keine Eile. Das ist da, wann immer die Neugier auftaucht.
 

@@ -137,7 +137,7 @@ Você pode começar a pensar em:
 
 Isso não significa que você é ruim em meditar. Significa apenas que a mente está fazendo o que mentes fazem.
 
-Às vezes a mente até tenta te puxar de volta para atividade, tensão ou um pouco de caos — porque isso parece familiar e seguro. Ela pode oferecer pensamentos “muito urgentes” como:  
+Às vezes a mente até tenta te puxar de volta para atividade, tensão ou um pouco de caos — porque isso parece familiar e seguro. O sistema nervoso pode se apegar a uma espécie de inferno familiar antes de aprender a confiar em um paraíso desconhecido. E esses pensamentos podem nem soar aleatórios — podem soar muito convincentes, como intuição, ou até como se isso fosse simplesmente quem você é. Ela pode oferecer pensamentos “muito urgentes” como:  
 _“A gente deveria reorganizar a vida agora mesmo.”_
 
 Você pode receber esse momento com um sorriso:
@@ -190,6 +190,8 @@ Essa prática simples já pode levar você muito longe.
 Se, em algum momento, você sentir curiosidade para aprender mais sobre meditação — especialmente sobre lidar com inquietação, medo e gentileza consigo mesmo — um ótimo lugar para começar é:
 
 **Pema Chödrön - _How to Meditate: A Practical Guide to Making Friends with Your Mind_** (Sounds True, 2013).
+
+E se você está passando por mudanças, soltando coisas, ou sentindo que parte da prática é aprender a se despedir de um jeito antigo de ser, este episódio do podcast é um lindo companheiro: **[Brave Souls - “Kissing your old life goodbye”](https://open.spotify.com/episode/0lbaZMdJm7E90vmqYTTs0I)**. Se você não tiver muito tempo — ou quiser ir direto para uma parte que pode realmente mexer com algo em você — comece por volta dos 27 minutos e siga até o fim, de preferência com fones de ouvido.
 
 Não há pressa. Isso está aqui quando a curiosidade aparecer.
 
