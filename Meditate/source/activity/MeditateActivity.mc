@@ -25,7 +25,11 @@ class MeditateActivity extends HrvAlgorithms.HrvActivity {
 		// Determine activity name: prefer using the session's custom name if the global setting enables it,
 		// otherwise fall back to the Garmin Connect property or default titles.
 		var activityName = "";
-		if (GlobalSettings.loadUseSessionName() && meditateModel.getName() != null && meditateModel.getName().length() > 0) {
+		if (
+			GlobalSettings.loadUseSessionName() &&
+			meditateModel.getName() != null &&
+			meditateModel.getName().length() > 0
+		) {
 			activityName = meditateModel.getName().toString();
 		} else {
 			var storedActivityName = App.Properties.getValue("activityName");
@@ -71,8 +75,8 @@ class MeditateActivity extends HrvAlgorithms.HrvActivity {
 
 	private function createSessionName(sessionTime, activityName) {
 		// Calculate session minutes and hours
-		var sessionTimeMinutes = Math.round(sessionTime / 60.0);
-		var sessionTimeHours = Math.floor(sessionTimeMinutes / 60.0);
+		var sessionTimeMinutes = Math.round(sessionTime / 60.0).toNumber();
+		var sessionTimeHours = sessionTimeMinutes / 60;
 		var sessionTimeString;
 
 		// Create the Connect activity name showing the number of hours/minutes for the meditate session
