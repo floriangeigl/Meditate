@@ -199,7 +199,7 @@ function Get-BackupShortId {
 
 # Descriptions shown per file during restore confirmation
 $fileDescriptions = @{
-    '.SET' = 'app settings (values configured via Garmin Connect / Garmin Express)'
+    '.SET' = 'app settings (NOTE: may not take effect on sideloaded builds)'
     '.DAT' = 'app storage data (saved sessions, state, analytics queue)'
     '.IDX' = 'data store index (paired with .DAT - needed for data integrity)'
     '.IMT' = 'install metadata (CIQ runtime app version info)'
@@ -237,13 +237,63 @@ function Copy-LocalFileToMtpFolder {
         if (-not $next) { throw "MTP folder '$seg' not found during restore." }
         $folder = $next.GetFolder()
     }
+    # Delete existing file first - MTP CopyHere may silently fail to overwrite
+    $existing = $folder.ParseName($fileName)
+    if ($existing) {
+        Write-Host "  Deleting existing $fileName on device..."
+        $existing.InvokeVerb('delete')
+        # Wait for deletion to complete
+        for ($dw = 0; $dw -lt 20; $dw++) {
+            Start-Sleep -Milliseconds 300
+            # Re-navigate to get a fresh folder reference after deletion
+            $sh2 = New-Object -ComObject Shell.Application
+            $dev2 = $sh2.Namespace(0x11).Items() |
+                Where-Object { $_.IsFolder -and $_.Name -like $devicePattern } |
+                Select-Object -First 1
+            $fld2 = $dev2.GetFolder()
+            $int2 = $null
+            foreach ($it in $fld2.Items()) {
+                if ($it.IsFolder -and $it.Name -match 'Internal|Interner|Primary') {
+                    $int2 = $it.GetFolder(); break
+                }
+            }
+            $fld2 = $int2
+            foreach ($seg in $MtpSubfolderPath) {
+                $fld2 = $fld2.ParseName($seg).GetFolder()
+            }
+            if (-not $fld2.ParseName($fileName)) {
+                $folder = $fld2  # use the fresh reference for the copy
+                break
+            }
+        }
+    }
     Write-Host "  Source : $LocalFilePath"
     Write-Host "  Target : Device\...\$($MtpSubfolderPath -join '\')\ "
     $folder.CopyHere($LocalFilePath, $fof)
-    # Poll for arrival (CopyHere is async); re-query the folder each iteration
+    # Poll for arrival (CopyHere is async)
     for ($w = 0; $w -lt 30; $w++) {
         Start-Sleep -Milliseconds 500
-        if ($folder.ParseName($fileName)) { return $true }
+        # Re-navigate each iteration to get fresh reference
+        $shV = New-Object -ComObject Shell.Application
+        $devV = $shV.Namespace(0x11).Items() |
+            Where-Object { $_.IsFolder -and $_.Name -like $devicePattern } |
+            Select-Object -First 1
+        if (-not $devV) { continue }
+        $fldV = $devV.GetFolder()
+        $intV = $null
+        foreach ($it in $fldV.Items()) {
+            if ($it.IsFolder -and $it.Name -match 'Internal|Interner|Primary') {
+                $intV = $it.GetFolder(); break
+            }
+        }
+        if (-not $intV) { continue }
+        $fldV = $intV
+        foreach ($seg in $MtpSubfolderPath) {
+            $n = $fldV.ParseName($seg)
+            if (-not $n) { $fldV = $null; break }
+            $fldV = $n.GetFolder()
+        }
+        if ($fldV -and $fldV.ParseName($fileName)) { return $true }
     }
     return $false
 }
@@ -306,10 +356,20 @@ $backupShortId = Get-BackupShortId -BackupDir $selectedBackup.FullName
 
 if ($backupShortId -and $backupShortId -ne $deviceShortId) {
     Write-Host ""
-    Write-Host "[NOTE] App short ID changed since this backup was taken."
+    Write-Host "============================================================"
+    Write-Host "  WARNING: App short ID changed since this backup was taken."
     Write-Host "       Backup ID : $backupShortId"
     Write-Host "       Device ID : $deviceShortId"
-    Write-Host "       Files will be renamed during restore: $backupShortId.* -> $deviceShortId.*"
+    Write-Host ""
+    Write-Host "  CIQ encrypts .DAT/.IDX files per-build. Restoring data"
+    Write-Host "  files from a different build WILL cause the app to crash"
+    Write-Host "  on first launch (the runtime then resets the corrupt data)."
+    Write-Host ""
+    Write-Host "  .SET files (settings/properties) can usually be restored"
+    Write-Host "  across builds, though property ordering may differ."
+    Write-Host ""
+    Write-Host "  Recommendation: only restore .SET, skip .DAT/.IDX/.IMT."
+    Write-Host "============================================================"
     Write-Host ""
 }
 
@@ -323,6 +383,45 @@ function Get-TargetName {
     return $SourceName
 }
 
+# -- Two-phase workflow check -----------------------------------------------
+# When a PRG is sideloaded, the CIQ runtime processes it on USB disconnect.
+# During processing it creates fresh .DAT/.IDX/.IMT/.SET files. If we restore
+# data BEFORE that disconnect, the runtime will overwrite our restored files.
+# Check if the app's data files exist under the current short ID. If they don't,
+# the PRG hasn't been processed yet and the user needs to disconnect first.
+$dataFolder = Get-ChildFolder -ParentFolder $appsFolder -NamePatterns @('Data','DATA')
+$hasDeviceData = $false
+if ($dataFolder) {
+    foreach ($item in $dataFolder.Items()) {
+        if ($item.Name -like "$deviceShortId.*") {
+            $hasDeviceData = $true
+            break
+        }
+    }
+}
+
+if (-not $hasDeviceData) {
+    Write-Host ""
+    Write-Host "============================================================"
+    Write-Host "  WARNING: No data files found for short ID '$deviceShortId'."
+    Write-Host ""
+    Write-Host "  This means either:"
+    Write-Host "  1) A new PRG was just deployed and the watch hasn't"
+    Write-Host "     processed it yet (it processes on USB disconnect)."
+    Write-Host "  2) The app has never been opened on the watch."
+    Write-Host ""
+    Write-Host "  To fix: disconnect the watch, wait ~30 seconds for it"
+    Write-Host "  to process the PRG, then reconnect and run this script"
+    Write-Host "  again."
+    Write-Host "============================================================"
+    Write-Host ""
+    $forceAns = Read-Host "Continue anyway? [y/N]"
+    if ($forceAns -notin @('y','Y','yes','Yes')) {
+        Write-Host "Aborted. Disconnect the watch, reconnect, then retry."
+        exit 0
+    }
+}
+
 # -- Restore Data -----------------------------------------------------------
 $localDataDir = Join-Path $selectedBackup.FullName 'Apps_DATA'
 if (Test-Path $localDataDir) {
@@ -332,8 +431,15 @@ if (Test-Path $localDataDir) {
     } else {
         Write-Host "Data files in backup ($($dataFiles.Count)):"
         $dataFiles | ForEach-Object { Write-Host "  $($_.Name)  ($([math]::Round($_.Length/1KB, 1)) KB)" }
+        $isCrossBuild = $backupShortId -and ($backupShortId -ne $deviceShortId)
         $restoredData = 0
         foreach ($item in $dataFiles) {
+            $ext = [IO.Path]::GetExtension($item.Name).ToUpper()
+            if ($isCrossBuild -and $ext -in @('.DAT','.IDX','.IMT')) {
+                Write-Host ""
+                Write-Host "  $($item.Name)  [SKIPPED - encrypted per-build, cross-build restore causes crash]"
+                continue
+            }
             $targetName = Get-TargetName -SourceName $item.Name
             if (Confirm-AndRestoreFile -LocalFile $item -MtpSubfolderPath @('GARMIN', 'Apps', 'DATA') -TargetFileName $targetName) {
                 $restoredData++
@@ -392,6 +498,11 @@ if ($logsFolder) {
 Write-Host ""
 Write-Host "[DONE] Restore complete from: $($selectedBackup.Name)"
 Write-Host "       Device: $($deviceItem.Name)"
+Write-Host "       Device short ID: $deviceShortId"
 Write-Host ""
 Write-Host "IMPORTANT: Disconnect the watch from USB now."
-Write-Host "           The app will load the restored data when you open it on the watch."
+Write-Host "           Open Meditate on the watch to verify the restored data."
+Write-Host ""
+Write-Host "NOTE: .SET files (settings) only work fully for store-installed apps."
+Write-Host "      For sideloaded builds, app properties use the defaults compiled"
+Write-Host "      into the PRG. Use Application.Storage for data that must survive."
