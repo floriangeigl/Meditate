@@ -3,5 +3,8 @@
         <setting propertyKey="@Properties.activityName" title="@Strings.activityName">
             <settingConfig type="alphaNumeric" />
         </setting>
+        <setting propertyKey="@Properties.restoreDeviceId" title="@Strings.restoreDeviceId">
+            <settingConfig type="alphaNumeric" />
+        </setting>
     </settings>
 </resources>

@@ -3,4 +3,5 @@ bin
 export
 Meditate/resources/secrets.xml
 Meditate/backup
+Meditate/debug-pulls
 

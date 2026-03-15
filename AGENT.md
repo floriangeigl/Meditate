@@ -135,27 +135,15 @@ Meditate/resources/secrets.xml
 
 ## Device Scripts (Meditate/)
 
-Three PowerShell 5.1 scripts for deploying, restoring, and debugging on a physical Garmin watch via MTP (USB). All scripts accept an optional device name parameter (default: `fenix`).
+Two PowerShell 5.1 scripts for deploying and debugging on a physical Garmin watch via MTP (USB). Both scripts accept an optional device name parameter (default: `fenix`).
 
 ### CopyBuildToDevice.ps1
 
-Deploys `bin/Meditate.prg` to the watch. Before copying:
+Deploys `bin/Meditate.prg` to the watch:
 
-1. Checks for existing backups and asks whether to create an additional one (protects the original)
-2. Parses `GARMIN/GarminDevice.xml` to discover Meditate's short filename ID (e.g. `G1HF1837`)
-3. Backs up only Meditate-specific files from `GARMIN/Apps/DATA/` and `GARMIN/Apps/SETTINGS/`
-4. Verifies backup files landed on disk before proceeding
-5. Shows backup status and asks for confirmation before deploying
-6. After deploy, creates an empty `MEDITATE.TXT` in `GARMIN/Apps/LOGS/` to enable `System.println()` logging
-
-### RestoreSettingsToDevice.ps1
-
-Two-step restore from a backup:
-
-1. **Pick a date** (shown as dd.MM.yyyy) from all available backup dates
-2. **Pick a specific backup** from that date (sorted oldest-first, showing time only)
-3. Restores `Apps_DATA/` and `Apps_SETTINGS/` from the backup to the watch
-4. Removes Meditate-specific log files from `GARMIN/Apps/LOGS/` (only `MEDITATE.TXT`/`.BAK`, not other apps' logs)
+1. Shows device and source path, asks for confirmation before deploying
+2. Copies `Meditate.prg` to `GARMIN/Apps/` and verifies it arrived
+3. Creates an empty `MEDITATE.TXT` in `GARMIN/Apps/LOGS/` to enable `System.println()` logging
 
 ### PullDebugInfoFromDevice.ps1
 
@@ -170,6 +158,48 @@ Pulls all debug-relevant files from the watch into a timestamped `debug-pulls/` 
 - **Connect IQ on-device logging**: `System.println()` writes to `GARMIN/Apps/LOGS/<APPNAME>.TXT`, but the file must **already exist** (empty) on the device. The filename matches the PRG name in uppercase (e.g., `Meditate.prg` -> `MEDITATE.TXT`).
 - **`CIQ_LOG.YAML`** is auto-created by the runtime on **app crashes only** -- not a trigger file for logging.
 - **Garmin app storage locations**: `GARMIN/Apps/DATA/` for Object Store data, `GARMIN/Apps/SETTINGS/` for phone-configured settings. **Older devices** use UUID-named subfolders (e.g., `DATA/3A747E00-.../`). **Newer devices** (fenix 8+) use short encoded filenames (e.g., `G1HF1837.DAT`, `G1HF1837.SET`) with no UUID in the name.
+- **CIQ data files are encrypted per-build**: `.DAT` (Application.Storage) and `.IDX` (index) files are encrypted with a build-specific key. Same-build backups produce byte-identical DATs, but cross-build DATs are entirely different. Restoring a DAT from a different build causes the app to crash on first launch; the CIQ runtime then resets the corrupt store. `.SET` (Application.Properties) files contain plaintext key-value pairs but property ordering and offset tables change between builds -- they can usually be restored across builds. `.IMT` (install metadata) contains build-specific hashes and varies in size per build. **Only same-build restores of DAT/IDX are reliable. Cross-build restores should only include SET files.**
 - **`GarminDevice.xml`** in the `GARMIN/` root contains an `<IQAppExt>` section that maps each installed CIQ app to its short filename. Each `<App>` entry has `<AppName>`, `<StoreId>`, `<AppId>` (= manifest UUID), and `<FileName>` (e.g., `G1HF1837.PRG`). The base name (without extension) is the short ID used across DATA, SETTINGS, and LOGS folders. Scripts parse this file to back up only the target app's files.
 - **MTP access in PowerShell**: Use `Shell.Application` COM object. MTP paths (e.g., `Dieser PC\fenix\Internal Storage`) are not regular filesystem paths -- you must navigate via Shell folder objects. `CopyHere` always preserves the original filename -- to copy to a predictable path, use a unique temp subdirectory rather than renaming the destination.
 - **PowerShell 5.1 encoding**: Files without a UTF-8 BOM are read as ANSI (Windows-1252). Non-ASCII characters (em dashes, box-drawing chars) in strings will cause parse errors. **Always use ASCII-only content or save with UTF-8 BOM.**
+
+## Cloud Backup & Restore (Dev Feature)
+
+In-app developer tool accessible via **long-press on the About screen** → "Dev Tools" menu. Backed by Firebase Realtime Database (`meditate-garmin` project).
+
+### Sync Rule
+
+**Whenever an `Application.Storage` key is added, renamed, or removed**, update both:
+
+1. `Meditate/source/devTools/CloudBackup.mc` — `GLOBAL_SETTINGS_KEYS` constant array (for serialization)
+2. `Meditate/source/devTools/CloudRestore.mc` — `onRestoreResponse()` method (for deserialization)
+
+### Keys Currently Backed Up
+
+- `globalSettings_*` (12 keys) — app-wide settings
+- `sessionsKeys` — list of session IDs
+- `selectedSessionIndex` — active session index
+- `sesssion_<key>` (per entry in `sessionsKeys`) — individual session data (note: triple-s typo is intentional)
+- `wakeupSession_activityType`
+
+**Not backed up:** `usageStats_queue_v2` (too large, auto-rebuilds), monthly stats, `tipPending` flag.
+
+### Architecture Notes
+
+- Firebase auth via legacy database secret appended as `?auth=<SECRET>` query param
+- Firebase credentials are in `secrets.xml` (gitignored) via `App.Properties` — they do NOT appear in Garmin Connect Mobile because they are not listed in `settings.xml`
+- `restoreDeviceId` property IS listed in `settings.xml` → configurable in GCM to restore another device's backups
+- All HTTP callbacks use an `mActive` boolean guard to prevent zombie callbacks from touching the view stack after navigation
+- Use `Ui.switchToView` (not `pushView`+`popView`) from HTTP callbacks — `popView` from a callback corrupts the view stack
+- Backup list is trimmed to the 10 most recent entries in code (after sort); old entries remain in Firebase but are never shown
+
+### Key Learnings (App.Properties / secrets)
+
+- **`properties.xml` is only needed for properties referenced by `settings.xml`** (via `@Properties.<id>`). Secrets used only in code (e.g. Firebase URL/secret, GA4 credentials) need only a `secrets.xml` entry — `properties.xml` is not required for them and should be omitted to avoid redundancy.
+- **Firebase RTDB has no native TTL** — that feature exists only in Firestore (via Cloud Functions). For a dev tool, trimming the displayed list to the N most recent entries after sorting is sufficient; no Firebase config or cleanup code needed.
+
+### Key Learnings (Monkey C compiler)
+
+- **`settings.xml` string IDs must be defined in ALL locale resource folders.** Any string referenced via `@Strings.<id>` in `settings.xml` (e.g. as a `title=`) must exist in every `resources-<lang>/strings/strings.xml`, not just the base `resources/` folder. A missing locale string produces a `WARNING: String id '...' undefined for language '...'` and triggers the generic "A critical error has occurred" compiler crash.
+- **Static methods cannot access `private` instance members or call `private` instance methods**, even on a freshly created instance of their own class. Doing so causes the assembler error `Trying to add undefined symbol: <memberName>` during release builds. The fix is to move all initialization that touches private members into `initialize()`, so the `static run()` factory simply calls `new MyClass()`.
+- **"A critical error has occurred" is a compiler crash masking real errors.** Re-run with `--debug-log-level 2 --debug-log-output <file>.zip` to get `error.txt` inside the zip, which lists the actual `CompilerException` messages (e.g., assembler symbol errors, missing strings).

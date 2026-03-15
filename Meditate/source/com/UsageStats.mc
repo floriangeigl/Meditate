@@ -16,6 +16,7 @@ class UsageStats {
 	private static const usageStatsQueueMaxAgeSec = 259200; // 3 days in seconds
 	private static const usageStatsQueueMaxItems = 50;
 	private static var sFlushInProgress = false;
+	private static var sQueueIdCounter = 0;
 	private static const usageStatsMonthlyKey = "usageStats_monthly";
 	private static const usageStatsTipPendingKey = "usageStats_tipPending";
 	private var currentParams;
@@ -303,8 +304,8 @@ class UsageStats {
 
 		while (queue != null && queue.size() > 0) {
 			var entry = queue[0];
-			if (entry == null || entry["id"] == null || entry["params"] == null) {
-				// Drop corrupt head entry and keep scanning.
+			if (entry == null || me.isValidId(entry["id"]) == false || entry["params"] == null) {
+				// Drop corrupt/wrong-typed head entry and keep scanning.
 				queue.remove(queue[0]);
 				me.saveQueue(queue);
 				continue;
@@ -347,8 +348,10 @@ class UsageStats {
 				// Skip corrupt entries.
 				continue;
 			}
-			// Ensure an id exists (older/corrupt stored queues might lack it).
-			if (entry["id"] == null) {
+			// Ensure an id exists and is the expected type (Number).
+			// Older/corrupt entries may carry a String id from a previous build;
+			// replace those to avoid mixed-type comparison crashes.
+			if (me.isValidId(entry["id"]) == false) {
 				entry["id"] = me.newQueueId(now);
 			}
 			var ts = entry["ts"];
@@ -402,12 +405,20 @@ class UsageStats {
 		return queue;
 	}
 
+	// Returns true when id is a Number (the only type newQueueId produces).
+	// Older cached entries may carry a String id from a previous build;
+	// those must be dropped rather than compared, because a mixed-type ==
+	// can crash the release-optimised VM.
+	private function isValidId(id) {
+		return id != null && id instanceof Toybox.Lang.Number;
+	}
+
 	private function newQueueId(nowSec) {
-		// Unique id: concatenate epoch seconds and boot-time jitter as a
-		// string so different (nowSec, jitter) pairs can never collide the
-		// way numeric addition could (e.g. 1000+5 == 1001+4).
-		var jitter = System.getTimer() % 10000;
-		return nowSec.toString() + "_" + jitter.toString();
+		// Both nowSec (UTC epoch) and the static counter increase
+		// monotonically, so their sum is strictly increasing and
+		// collision-free.  Counter stays tiny vs Int32 headroom.
+		sQueueIdCounter++;
+		return nowSec + sQueueIdCounter;
 	}
 
 	function requestCallback(responseCode, data) {
@@ -420,7 +431,7 @@ class UsageStats {
 				var keep = [];
 				for (var i = 0; i < queue.size(); i++) {
 					var entry = queue[i];
-					if (entry != null && entry["id"] != null && entry["id"] == me.mInFlightId) {
+					if (entry != null && me.isValidId(entry["id"]) && entry["id"] == me.mInFlightId) {
 						// drop
 					} else {
 						keep.add(entry);
