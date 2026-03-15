@@ -185,7 +185,15 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 
 	function onSessionAutoComplete() {
 		me.pauseForMenu();
-		me.showPauseMenu(PauseReasonCompleted);
+		// When any auto-save variant is set, skip the stop/resume menu and proceed
+		// directly to stopping. Only show the menu when the user wants to be asked
+		// (Ask), so they still have a chance to resume.
+		var confirmSaveActivity = GlobalSettings.loadConfirmSaveActivity();
+		if (confirmSaveActivity == ConfirmSaveActivity.Ask) {
+			me.showPauseMenu(PauseReasonCompleted);
+		} else {
+			me.stopActivity();
+		}
 	}
 
 	private function pauseForMenu() {

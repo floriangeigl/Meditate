@@ -12,9 +12,7 @@ class MeditateApp extends App.AppBase {
 	}
 
 	// onStart() is called on application start up
-	function onStart(state) {
-
-	}
+	function onStart(state) {}
 	// onStop() is called when your application is exiting
 	function onStop(state) {
 		// Disable and remove listeners for heatbeat sensor
