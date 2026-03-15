@@ -98,14 +98,26 @@ class UsageStats {
 			if (responseCode == 200 && data != null) {
 				var ip = data["ip"];
 				if (ip != null) {
-					me.mLastLocation = {
-						"user_location" => {
-							"city" => data["city"],
-							"country_id" => data["country_code"],
-							"region_id" => data["country_code"] + "-" + data["region_code"],
-						},
-						"ip_override" => truncateIP(ip),
-					};
+					var countryCode = data["country_code"];
+					if (countryCode != null) {
+						// Prefer structured location; GA ignores ip_override when
+						// user_location is present, so we don't set it here.
+						var loc = { "country_id" => countryCode };
+						var regionCode = data["region_code"];
+						if (regionCode != null) {
+							loc["region_id"] = countryCode + "-" + regionCode;
+						}
+						var city = data["city"];
+						if (city != null) {
+							loc["city"] = city;
+						}
+						me.mLastLocation = { "user_location" => loc };
+					} else {
+						// No geo data; fall back to anonymized IP for location.
+						me.mLastLocation = {
+							"ip_override" => isIPv4(ip) ? truncateIP(ip) : anonymizeIPv6(ip),
+						};
+					}
 					hadLocation = true;
 				}
 			}
@@ -127,6 +139,36 @@ class UsageStats {
 		} catch (ex) {
 			sFlushInProgress = false;
 		}
+	}
+
+	// Returns true only for plain IPv4 addresses (e.g. "1.2.3.4").
+	// IPv4-mapped IPv6 ("::ffff:1.2.3.4") contains ":" and is treated as IPv6.
+	function isIPv4(ip) {
+		return ip.find(".") != null && ip.find(":") == null;
+	}
+
+	// Anonymizes an IPv6 address to its /48 prefix by zeroing the last 80 bits
+	// (groups 4–8). Handles compressed "::" notation.
+	// Examples: "2001:db8:1234:5678::1" → "2001:db8:1234::"
+	//           "fe80::1"              → "fe80::"
+	function anonymizeIPv6(ip) {
+		var chars = ip.toCharArray();
+		var colonCount = 0;
+		var result = "";
+		for (var i = 0; i < chars.size(); i++) {
+			if (chars[i] == ':') {
+				colonCount++;
+				if (colonCount == 3) {
+					return result + "::";
+				}
+				// "::" shorthand: everything after is already zeroed.
+				if (i + 1 < chars.size() && chars[i + 1] == ':') {
+					return result + "::";
+				}
+			}
+			result += chars[i];
+		}
+		return result + "::";
 	}
 
 	function truncateIP(ip) {
@@ -361,10 +403,11 @@ class UsageStats {
 	}
 
 	private function newQueueId(nowSec) {
-		// Unique-ish id: combine epoch seconds with boot-time jitter.
-		// Avoid nowSec * 1000 which overflows Int32 (epoch ~1.77 billion).
+		// Unique id: concatenate epoch seconds and boot-time jitter as a
+		// string so different (nowSec, jitter) pairs can never collide the
+		// way numeric addition could (e.g. 1000+5 == 1001+4).
 		var jitter = System.getTimer() % 10000;
-		return nowSec + jitter;
+		return nowSec.toString() + "_" + jitter.toString();
 	}
 
 	function requestCallback(responseCode, data) {
