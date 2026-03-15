@@ -46,4 +46,10 @@ class AboutDelegate extends ScreenPicker.ScreenPickerDelegate {
 		Ui.switchToView(me.mSessionPickerDelegate.createScreenPickerView(), me.mSessionPickerDelegate, Ui.SLIDE_RIGHT);
 		return true;
 	}
+
+	// Long-press on the About screen opens the hidden Dev Tools menu (backup/restore).
+	function onHold(evt) {
+		DevToolsDelegate.show();
+		return true;
+	}
 }

@@ -189,6 +189,7 @@
     <string id="sessionTitleBreathing">Breathing 🌬️</string>
 
     <string id="activityName">Activity Name (use [time] to be replaced by session time and also keep name short):</string>
+    <string id="restoreDeviceId">Restore From Device ID (leave empty to use this device):</string>
     <string id="pickMMSS">Pick MM:SS</string>
     <string id="pickHMM">Pick H:MM</string>
     <string id="HRVwaiting">HRV waiting</string>

@@ -67,3 +67,31 @@ A Garmin Connect IQ meditation app that tracks as an activity the heart rate, HR
 ## Dependencies
 
 - Status Icons - [Font Awesome free](https://fontawesome.com/license) (SIL OFL 1.1 License)
+
+## Developer Tools (Cloud Backup & Restore)
+
+Sideloading a new PRG build generates fresh encrypted `.DAT`/`.IDX` files for `Application.Storage`, making the standard PowerShell restore script ineffective across builds. To preserve sessions and settings through development iterations, a hidden cloud backup/restore feature is built into the app.
+
+**How to access:** Long-press on the **About** screen to open the Dev Tools menu.
+
+**Backup to Cloud**  
+Serializes all user sessions and global settings to [Firebase Realtime Database](https://console.firebase.google.com/project/meditate-garmin/database). The backup is keyed by the watch's hardware `uniqueIdentifier` (persists across reinstalls and sideloads). Each backup is timestamped; the menu shows the ID being backed up as a subtitle.
+
+**Restore from Cloud**  
+Fetches the list of available backups for this device, sorted most-recent-first. Select a backup to write all settings and sessions back to `Application.Storage`. The app must be restarted after restore for changes to take effect.
+
+**Cross-device restore**  
+To restore another device's backup (e.g. after switching watches), enter the source device's `uniqueIdentifier` in the **Restore From Device ID** field in the Garmin Connect Mobile app settings for Meditate. Leave it empty to restore from the current device's own backups. The Dev Tools menu shows the active restore source ID as a subtitle on the Restore item.
+
+**Secrets** (`resources/secrets.xml`, gitignored)
+
+- `firebaseUrl` — RTDB base URL
+- `firebaseSecret` — database legacy secret (used as `?auth=` token)  
+  See `resources/secrets_template.xml` for the required format.
+
+**TTL / cleanup**  
+Firebase RTDB has no built-in TTL. Backups accumulate indefinitely. Clean up old entries manually via the [Firebase Console](https://console.firebase.google.com/project/meditate-garmin/database) or with:
+
+```sh
+curl -X DELETE "https://meditate-garmin-default-rtdb.europe-west1.firebasedatabase.app/backups/<deviceId>/<timestamp>.json?auth=<SECRET>"
+```

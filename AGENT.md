@@ -174,3 +174,38 @@ Pulls all debug-relevant files from the watch into a timestamped `debug-pulls/` 
 - **`GarminDevice.xml`** in the `GARMIN/` root contains an `<IQAppExt>` section that maps each installed CIQ app to its short filename. Each `<App>` entry has `<AppName>`, `<StoreId>`, `<AppId>` (= manifest UUID), and `<FileName>` (e.g., `G1HF1837.PRG`). The base name (without extension) is the short ID used across DATA, SETTINGS, and LOGS folders. Scripts parse this file to back up only the target app's files.
 - **MTP access in PowerShell**: Use `Shell.Application` COM object. MTP paths (e.g., `Dieser PC\fenix\Internal Storage`) are not regular filesystem paths -- you must navigate via Shell folder objects. `CopyHere` always preserves the original filename -- to copy to a predictable path, use a unique temp subdirectory rather than renaming the destination.
 - **PowerShell 5.1 encoding**: Files without a UTF-8 BOM are read as ANSI (Windows-1252). Non-ASCII characters (em dashes, box-drawing chars) in strings will cause parse errors. **Always use ASCII-only content or save with UTF-8 BOM.**
+
+## Cloud Backup & Restore (Dev Feature)
+
+In-app developer tool accessible via **long-press on the About screen** → "Dev Tools" menu. Backed by Firebase Realtime Database (`meditate-garmin` project).
+
+### Sync Rule
+
+**Whenever an `Application.Storage` key is added, renamed, or removed**, update both:
+
+1. `Meditate/source/devTools/CloudBackup.mc` — `GLOBAL_SETTINGS_KEYS` constant array (for serialization)
+2. `Meditate/source/devTools/CloudRestore.mc` — `onRestoreResponse()` method (for deserialization)
+
+### Keys Currently Backed Up
+
+- `globalSettings_*` (12 keys) — app-wide settings
+- `sessionsKeys` — list of session IDs
+- `selectedSessionIndex` — active session index
+- `sesssion_<key>` (per entry in `sessionsKeys`) — individual session data (note: triple-s typo is intentional)
+- `wakeupSession_activityType`
+
+**Not backed up:** `usageStats_queue_v2` (too large, auto-rebuilds), monthly stats, `tipPending` flag.
+
+### Architecture Notes
+
+- Firebase auth via legacy database secret appended as `?auth=<SECRET>` query param
+- Firebase credentials are in `secrets.xml` (gitignored) via `App.Properties` — they do NOT appear in Garmin Connect Mobile because they are not listed in `settings.xml`
+- `restoreDeviceId` property IS listed in `settings.xml` → configurable in GCM to restore another device's backups
+- All HTTP callbacks use an `mActive` boolean guard to prevent zombie callbacks from touching the view stack after navigation
+- Use `Ui.switchToView` (not `pushView`+`popView`) from HTTP callbacks — `popView` from a callback corrupts the view stack
+- Backup list is trimmed to the 10 most recent entries in code (after sort); old entries remain in Firebase but are never shown
+
+### Key Learnings (App.Properties / secrets)
+
+- **`properties.xml` is only needed for properties referenced by `settings.xml`** (via `@Properties.<id>`). Secrets used only in code (e.g. Firebase URL/secret, GA4 credentials) need only a `secrets.xml` entry — `properties.xml` is not required for them and should be omitted to avoid redundancy.
+- **Firebase RTDB has no native TTL** — that feature exists only in Firestore (via Cloud Functions). For a dev tool, trimming the displayed list to the N most recent entries after sorting is sufficient; no Firebase config or cleanup code needed.
