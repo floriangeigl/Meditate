@@ -132,3 +132,44 @@ bin
 export
 Meditate/resources/secrets.xml
 ```
+
+## Device Scripts (Meditate/)
+
+Three PowerShell 5.1 scripts for deploying, restoring, and debugging on a physical Garmin watch via MTP (USB). All scripts accept an optional device name parameter (default: `fenix`).
+
+### CopyBuildToDevice.ps1
+
+Deploys `bin/Meditate.prg` to the watch. Before copying:
+
+1. Checks for existing backups and asks whether to create an additional one (protects the original)
+2. Parses `GARMIN/GarminDevice.xml` to discover Meditate's short filename ID (e.g. `G1HF1837`)
+3. Backs up only Meditate-specific files from `GARMIN/Apps/DATA/` and `GARMIN/Apps/SETTINGS/`
+4. Verifies backup files landed on disk before proceeding
+5. Shows backup status and asks for confirmation before deploying
+6. After deploy, creates an empty `MEDITATE.TXT` in `GARMIN/Apps/LOGS/` to enable `System.println()` logging
+
+### RestoreSettingsToDevice.ps1
+
+Two-step restore from a backup:
+
+1. **Pick a date** (shown as dd.MM.yyyy) from all available backup dates
+2. **Pick a specific backup** from that date (sorted oldest-first, showing time only)
+3. Restores `Apps_DATA/` and `Apps_SETTINGS/` from the backup to the watch
+4. Removes Meditate-specific log files from `GARMIN/Apps/LOGS/` (only `MEDITATE.TXT`/`.BAK`, not other apps' logs)
+
+### PullDebugInfoFromDevice.ps1
+
+Pulls all debug-relevant files from the watch into a timestamped `debug-pulls/` subfolder:
+
+- `GARMIN/Apps/LOGS/` -- println output (`MEDITATE.TXT`) and crash logs (`CIQ_LOG.YAML`)
+- `GARMIN/CIQLOG/` -- Connect IQ system logs
+- `GARMIN/ERR_LOG.txt` -- device/firmware crash logs
+
+### Key Learnings (scripting for Garmin devices)
+
+- **Connect IQ on-device logging**: `System.println()` writes to `GARMIN/Apps/LOGS/<APPNAME>.TXT`, but the file must **already exist** (empty) on the device. The filename matches the PRG name in uppercase (e.g., `Meditate.prg` -> `MEDITATE.TXT`).
+- **`CIQ_LOG.YAML`** is auto-created by the runtime on **app crashes only** -- not a trigger file for logging.
+- **Garmin app storage locations**: `GARMIN/Apps/DATA/` for Object Store data, `GARMIN/Apps/SETTINGS/` for phone-configured settings. **Older devices** use UUID-named subfolders (e.g., `DATA/3A747E00-.../`). **Newer devices** (fenix 8+) use short encoded filenames (e.g., `G1HF1837.DAT`, `G1HF1837.SET`) with no UUID in the name.
+- **`GarminDevice.xml`** in the `GARMIN/` root contains an `<IQAppExt>` section that maps each installed CIQ app to its short filename. Each `<App>` entry has `<AppName>`, `<StoreId>`, `<AppId>` (= manifest UUID), and `<FileName>` (e.g., `G1HF1837.PRG`). The base name (without extension) is the short ID used across DATA, SETTINGS, and LOGS folders. Scripts parse this file to back up only the target app's files.
+- **MTP access in PowerShell**: Use `Shell.Application` COM object. MTP paths (e.g., `Dieser PC\fenix\Internal Storage`) are not regular filesystem paths -- you must navigate via Shell folder objects. `CopyHere` always preserves the original filename -- to copy to a predictable path, use a unique temp subdirectory rather than renaming the destination.
+- **PowerShell 5.1 encoding**: Files without a UTF-8 BOM are read as ANSI (Windows-1252). Non-ASCII characters (em dashes, box-drawing chars) in strings will cause parse errors. **Always use ASCII-only content or save with UTF-8 BOM.**
