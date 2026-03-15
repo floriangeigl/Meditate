@@ -21,22 +21,21 @@ class CloudRestore extends Ui.BehaviorDelegate {
 	function initialize() {
 		BehaviorDelegate.initialize();
 		mActive = true;
+		mFirebaseUrl = App.Properties.getValue("firebaseUrl");
+		mFirebaseSecret = App.Properties.getValue("firebaseSecret");
+		// Use restoreDeviceId phone-setting override if set — allows restoring another device's backup.
+		// Leave the setting empty to restore from this device's own backups.
+		var overrideId = App.Properties.getValue("restoreDeviceId");
+		mDeviceId =
+			overrideId != null && overrideId.length() > 0 ? overrideId : System.getDeviceSettings().uniqueIdentifier;
+		mStatusView = new StatusView("Loading backups...");
+		Ui.switchToView(mStatusView, me, Ui.SLIDE_LEFT);
+		fetchBackupList();
 	}
 
 	// Called from DevToolsDelegate.onSelect — switches the DevTools menu to this view.
 	static function run() {
-		var restore = new CloudRestore();
-		var view = new StatusView("Loading backups...");
-		restore.mStatusView = view;
-		restore.mFirebaseUrl = App.Properties.getValue("firebaseUrl");
-		restore.mFirebaseSecret = App.Properties.getValue("firebaseSecret");
-		// Use restoreDeviceId phone-setting override if set — allows restoring another device's backup.
-		// Leave the setting empty to restore from this device's own backups.
-		var overrideId = App.Properties.getValue("restoreDeviceId");
-		restore.mDeviceId =
-			overrideId != null && overrideId.length() > 0 ? overrideId : System.getDeviceSettings().uniqueIdentifier;
-		Ui.switchToView(view, restore, Ui.SLIDE_LEFT);
-		restore.fetchBackupList();
+		new CloudRestore();
 	}
 
 	private function fetchBackupList() {
@@ -151,11 +150,23 @@ class CloudRestore extends Ui.BehaviorDelegate {
 				if (selectedIndex != null) {
 					App.Storage.setValue("selectedSessionIndex", selectedIndex);
 				}
-				if (items != null) {
-					var itemKeys = items.keys();
-					for (var i = 0; i < itemKeys.size(); i++) {
-						var k = itemKeys[i];
-						App.Storage.setValue("sesssion_" + k, items[k]);
+				if (items != null && sessionKeys != null) {
+					// Firebase coerces {"0":…,"1":…} with integer-like keys into a JSON
+					// array on read-back, so items may arrive as an Array instead of a
+					// Dictionary.  Use sessionKeys (which we already restored) as the
+					// source of truth for the key names; index into items accordingly.
+					for (var i = 0; i < sessionKeys.size(); i++) {
+						var k = sessionKeys[i];
+						var sessionData;
+						if (items instanceof Toybox.Lang.Dictionary) {
+							sessionData = items[k.toString()];
+						} else {
+							// Array — Firebase preserved insertion order which matches sessionKeys order
+							sessionData = i < items.size() ? items[i] : null;
+						}
+						if (sessionData != null) {
+							App.Storage.setValue("sesssion_" + k.toString(), sessionData);
+						}
 					}
 				}
 			}
@@ -166,7 +177,8 @@ class CloudRestore extends Ui.BehaviorDelegate {
 				App.Storage.setValue("wakeupSession_activityType", wakeup["activityType"]);
 			}
 
-			mStatusView.setMessage("Restored! Restart app");
+			mStatusView.setMessage("Restored! Restarting...");
+			System.exit();
 		} catch (ex) {
 			mStatusView.setMessage("Error writing storage");
 		}

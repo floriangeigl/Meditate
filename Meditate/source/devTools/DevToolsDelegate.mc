@@ -1,4 +1,5 @@
 using Toybox.Application as App;
+using Toybox.Communications;
 using Toybox.System;
 using Toybox.WatchUi as Ui;
 
@@ -10,14 +11,10 @@ class DevToolsDelegate extends Ui.Menu2InputDelegate {
 	}
 
 	static function show() {
-		var deviceId = System.getDeviceSettings().uniqueIdentifier;
-		var overrideId = App.Properties.getValue("restoreDeviceId");
-		var restoreId = overrideId != null && overrideId.length() > 0 ? overrideId : deviceId;
-
 		var menu = new Ui.Menu2({ :title => "Dev Tools" });
-		menu.addItem(new Ui.MenuItem("Backup to Cloud", deviceId, :backup, {}));
-		menu.addItem(new Ui.MenuItem("Restore from Cloud", restoreId, :restore, {}));
-		menu.addItem(new Ui.MenuItem("Device ID", deviceId, :deviceId, {}));
+		menu.addItem(new Ui.MenuItem("Backup to Cloud", "", :backup, {}));
+		menu.addItem(new Ui.MenuItem("Restore from Cloud", "", :restore, {}));
+		menu.addItem(new Ui.MenuItem("Device ID", "", :deviceId, {}));
 		Ui.pushView(menu, new DevToolsDelegate(), Ui.SLIDE_LEFT);
 	}
 
@@ -27,8 +24,10 @@ class DevToolsDelegate extends Ui.Menu2InputDelegate {
 			CloudBackup.run();
 		} else if (id == :restore) {
 			CloudRestore.run();
+		} else if (id == :deviceId) {
+			var deviceId = System.getDeviceSettings().uniqueIdentifier;
+			Communications.openWebPage("https://" + deviceId, {}, {});
 		}
-		// :deviceId — display-only, no action
 	}
 
 	function onBack() {

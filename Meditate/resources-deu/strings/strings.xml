@@ -201,6 +201,8 @@
     <string id="finishMenu_discard">Verwerfen</string>
     <string id="optionsMenuHelp">Start drücken für Optionen</string>
 
+    <string id="restoreDeviceId">Restore From Device ID (leave empty to use this device):</string>
+
     <string id="about_AppVersion">v10.6.63</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>

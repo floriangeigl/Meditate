@@ -135,27 +135,15 @@ Meditate/resources/secrets.xml
 
 ## Device Scripts (Meditate/)
 
-Three PowerShell 5.1 scripts for deploying, restoring, and debugging on a physical Garmin watch via MTP (USB). All scripts accept an optional device name parameter (default: `fenix`).
+Two PowerShell 5.1 scripts for deploying and debugging on a physical Garmin watch via MTP (USB). Both scripts accept an optional device name parameter (default: `fenix`).
 
 ### CopyBuildToDevice.ps1
 
-Deploys `bin/Meditate.prg` to the watch. Before copying:
+Deploys `bin/Meditate.prg` to the watch:
 
-1. Checks for existing backups and asks whether to create an additional one (protects the original)
-2. Parses `GARMIN/GarminDevice.xml` to discover Meditate's short filename ID (e.g. `G1HF1837`)
-3. Backs up only Meditate-specific files from `GARMIN/Apps/DATA/` and `GARMIN/Apps/SETTINGS/`
-4. Verifies backup files landed on disk before proceeding
-5. Shows backup status and asks for confirmation before deploying
-6. After deploy, creates an empty `MEDITATE.TXT` in `GARMIN/Apps/LOGS/` to enable `System.println()` logging
-
-### RestoreSettingsToDevice.ps1
-
-Two-step restore from a backup:
-
-1. **Pick a date** (shown as dd.MM.yyyy) from all available backup dates
-2. **Pick a specific backup** from that date (sorted oldest-first, showing time only)
-3. Restores `Apps_DATA/` and `Apps_SETTINGS/` from the backup to the watch
-4. Removes Meditate-specific log files from `GARMIN/Apps/LOGS/` (only `MEDITATE.TXT`/`.BAK`, not other apps' logs)
+1. Shows device and source path, asks for confirmation before deploying
+2. Copies `Meditate.prg` to `GARMIN/Apps/` and verifies it arrived
+3. Creates an empty `MEDITATE.TXT` in `GARMIN/Apps/LOGS/` to enable `System.println()` logging
 
 ### PullDebugInfoFromDevice.ps1
 
@@ -209,3 +197,9 @@ In-app developer tool accessible via **long-press on the About screen** → "Dev
 
 - **`properties.xml` is only needed for properties referenced by `settings.xml`** (via `@Properties.<id>`). Secrets used only in code (e.g. Firebase URL/secret, GA4 credentials) need only a `secrets.xml` entry — `properties.xml` is not required for them and should be omitted to avoid redundancy.
 - **Firebase RTDB has no native TTL** — that feature exists only in Firestore (via Cloud Functions). For a dev tool, trimming the displayed list to the N most recent entries after sorting is sufficient; no Firebase config or cleanup code needed.
+
+### Key Learnings (Monkey C compiler)
+
+- **`settings.xml` string IDs must be defined in ALL locale resource folders.** Any string referenced via `@Strings.<id>` in `settings.xml` (e.g. as a `title=`) must exist in every `resources-<lang>/strings/strings.xml`, not just the base `resources/` folder. A missing locale string produces a `WARNING: String id '...' undefined for language '...'` and triggers the generic "A critical error has occurred" compiler crash.
+- **Static methods cannot access `private` instance members or call `private` instance methods**, even on a freshly created instance of their own class. Doing so causes the assembler error `Trying to add undefined symbol: <memberName>` during release builds. The fix is to move all initialization that touches private members into `initialize()`, so the `static run()` factory simply calls `new MyClass()`.
+- **"A critical error has occurred" is a compiler crash masking real errors.** Re-run with `--debug-log-level 2 --debug-log-output <file>.zip` to get `error.txt` inside the zip, which lists the actual `CompilerException` messages (e.g., assembler symbol errors, missing strings).

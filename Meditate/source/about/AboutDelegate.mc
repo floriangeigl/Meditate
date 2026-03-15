@@ -47,8 +47,13 @@ class AboutDelegate extends ScreenPicker.ScreenPickerDelegate {
 		return true;
 	}
 
-	// Long-press on the About screen opens the hidden Dev Tools menu (backup/restore).
+	// Long-press on the touchscreen or menu button opens the hidden Dev Tools menu.
 	function onHold(evt) {
+		DevToolsDelegate.show();
+		return true;
+	}
+
+	function onMenu() {
 		DevToolsDelegate.show();
 		return true;
 	}

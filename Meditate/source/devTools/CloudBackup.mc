@@ -31,15 +31,14 @@ class CloudBackup extends Ui.BehaviorDelegate {
 	function initialize() {
 		BehaviorDelegate.initialize();
 		mActive = true;
+		mStatusView = new StatusView("Backing up...");
+		Ui.switchToView(mStatusView, me, Ui.SLIDE_LEFT);
+		performBackup();
 	}
 
 	// Called from DevToolsDelegate.onSelect — switches the DevTools menu to this view.
 	static function run() {
-		var backup = new CloudBackup();
-		var view = new StatusView("Backing up...");
-		backup.mStatusView = view;
-		Ui.switchToView(view, backup, Ui.SLIDE_LEFT);
-		backup.performBackup();
+		new CloudBackup();
 	}
 
 	private function performBackup() {
