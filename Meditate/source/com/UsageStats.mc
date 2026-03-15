@@ -13,7 +13,7 @@ class UsageStats {
 	private var gApiSecret;
 	// Queue of pending GA4 payloads: [{"id"=>Number, "ts"=>Number, "params"=>Dictionary}, ...]
 	private static const usageStatsQueueKey = "usageStats_queue_v2";
-	private static const usageStatsQueueMaxAgeSec = 3 * 24 * 60 * 60;
+	private static const usageStatsQueueMaxAgeSec = 259200; // 3 days in seconds
 	private static const usageStatsQueueMaxItems = 50;
 	private static var sFlushInProgress = false;
 	private static const usageStatsMonthlyKey = "usageStats_monthly";
@@ -25,8 +25,14 @@ class UsageStats {
 
 	static function flushQueuedOnStartup() {
 		try {
+			// Only fire a web request if there are actually queued entries;
+			// avoids holding a UsageStats instance + pending request in memory
+			// while the user navigates to start a session.
+			var queue = App.Storage.getValue(usageStatsQueueKey);
+			if (queue == null || queue.size() == 0) {
+				return;
+			}
 			var stats = new UsageStats(null);
-			// Attempt to get location first; if successful we'll enrich and flush.
 			stats.flushQueueWithLocationLookup();
 		} catch (ex) {
 			// Never break the app due to optional usage stats.
@@ -61,7 +67,7 @@ class UsageStats {
 				return;
 			}
 			var devSettings = System.getDeviceSettings();
-			if (devSettings != null && (devSettings has :phoneConnected) && !devSettings.phoneConnected) {
+			if (devSettings != null && devSettings has :phoneConnected && !devSettings.phoneConnected) {
 				// Phone not connected; keep pending and retry later.
 				return;
 			}
@@ -87,36 +93,82 @@ class UsageStats {
 	}
 
 	function sendCurrentWithLocation(responseCode, data) {
-		var hadLocation = false;
-		if (responseCode == 200 && data != null) {
-			var ip = data["ip"];
-			if (ip != null) {
-				me.mLastLocation = {
-					"user_location" => {
-						"city" => data["city"],
-						"country_id" => data["country_code"],
-						"region_id" => data["country_code"] + "-" + data["region_code"],
-					},
-					"ip_override" => truncateIP(ip),
-				};
-				hadLocation = true;
+		try {
+			var hadLocation = false;
+			if (responseCode == 200 && data != null) {
+				var ip = data["ip"];
+				if (ip != null) {
+					var countryCode = data["country_code"];
+					if (countryCode != null) {
+						// Prefer structured location; GA ignores ip_override when
+						// user_location is present, so we don't set it here.
+						var loc = { "country_id" => countryCode };
+						var regionCode = data["region_code"];
+						if (regionCode != null) {
+							loc["region_id"] = countryCode + "-" + regionCode;
+						}
+						var city = data["city"];
+						if (city != null) {
+							loc["city"] = city;
+						}
+						me.mLastLocation = { "user_location" => loc };
+					} else {
+						// No geo data; fall back to anonymized IP for location.
+						me.mLastLocation = {
+							"ip_override" => isIPv4(ip) ? truncateIP(ip) : anonymizeIPv6(ip),
+						};
+					}
+					hadLocation = true;
+				}
 			}
-		}
 
-		// Always enqueue the just-finished session.
-		if (me.currentParams != null && hadLocation) {
-			me.applyLocationToParams(me.currentParams, me.mLastLocation);
-		}
-		me.enqueue(me.currentParams);
+			// Always enqueue the just-finished session.
+			if (me.currentParams != null && hadLocation) {
+				me.applyLocationToParams(me.currentParams, me.mLastLocation);
+			}
+			me.enqueue(me.currentParams);
 
-		// Flush queued GA payloads when we have fresh location (preferred),
-		// or when lookup failed but we're likely online (non-0 response).
-		if (hadLocation) {
-			me.applyLocationToQueued(me.mLastLocation);
-			me.flushQueue();
-		} else if (responseCode != null && responseCode != 0) {
-			me.flushQueue();
+			// Flush queued GA payloads when we have fresh location (preferred),
+			// or when lookup failed but we're likely online (non-0 response).
+			if (hadLocation) {
+				me.applyLocationToQueued(me.mLastLocation);
+				me.flushQueue();
+			} else if (responseCode != null && responseCode != 0) {
+				me.flushQueue();
+			}
+		} catch (ex) {
+			sFlushInProgress = false;
 		}
+	}
+
+	// Returns true only for plain IPv4 addresses (e.g. "1.2.3.4").
+	// IPv4-mapped IPv6 ("::ffff:1.2.3.4") contains ":" and is treated as IPv6.
+	function isIPv4(ip) {
+		return ip.find(".") != null && ip.find(":") == null;
+	}
+
+	// Anonymizes an IPv6 address to its /48 prefix by zeroing the last 80 bits
+	// (groups 4–8). Handles compressed "::" notation.
+	// Examples: "2001:db8:1234:5678::1" → "2001:db8:1234::"
+	//           "fe80::1"              → "fe80::"
+	function anonymizeIPv6(ip) {
+		var chars = ip.toCharArray();
+		var colonCount = 0;
+		var result = "";
+		for (var i = 0; i < chars.size(); i++) {
+			if (chars[i] == ':') {
+				colonCount++;
+				if (colonCount == 3) {
+					return result + "::";
+				}
+				// "::" shorthand: everything after is already zeroed.
+				if (i + 1 < chars.size() && chars[i + 1] == ':') {
+					return result + "::";
+				}
+			}
+			result += chars[i];
+		}
+		return result + "::";
 	}
 
 	function truncateIP(ip) {
@@ -300,7 +352,7 @@ class UsageStats {
 				entry["id"] = me.newQueueId(now);
 			}
 			var ts = entry["ts"];
-			if (ts != null && (now - ts) <= usageStatsQueueMaxAgeSec) {
+			if (ts != null && now - ts <= usageStatsQueueMaxAgeSec) {
 				keep.add(entry);
 			}
 		}
@@ -351,32 +403,39 @@ class UsageStats {
 	}
 
 	private function newQueueId(nowSec) {
-		// Unique-ish id: epoch seconds + ms-since-boot component.
-		var jitter = System.getTimer() % 1000;
-		return (nowSec * 1000) + jitter;
+		// Unique id: concatenate epoch seconds and boot-time jitter as a
+		// string so different (nowSec, jitter) pairs can never collide the
+		// way numeric addition could (e.g. 1000+5 == 1001+4).
+		var jitter = System.getTimer() % 10000;
+		return nowSec.toString() + "_" + jitter.toString();
 	}
 
 	function requestCallback(responseCode, data) {
-		// System.println("UsageStats request completed with response code: " + responseCode);
-		var success = (responseCode != null && responseCode >= 200 && responseCode < 300);
-		if (success) {
-			// Remove the in-flight entry from the queue.
-			var queue = me.loadQueue();
-			var keep = [];
-			for (var i = 0; i < queue.size(); i++) {
-				var entry = queue[i];
-				if (entry != null && entry["id"] != null && entry["id"] == me.mInFlightId) {
-					// drop
-				} else {
-					keep.add(entry);
+		try {
+			// System.println("UsageStats request completed with response code: " + responseCode);
+			var success = responseCode != null && responseCode >= 200 && responseCode < 300;
+			if (success) {
+				// Remove the in-flight entry from the queue.
+				var queue = me.loadQueue();
+				var keep = [];
+				for (var i = 0; i < queue.size(); i++) {
+					var entry = queue[i];
+					if (entry != null && entry["id"] != null && entry["id"] == me.mInFlightId) {
+						// drop
+					} else {
+						keep.add(entry);
+					}
 				}
+				me.saveQueue(keep);
+				me.mInFlightId = null;
+				// Continue flushing the remaining queue.
+				me.flushNext();
+			} else {
+				// Network/offline/any non-2xx: keep queue as-is and stop flushing for now.
+				sFlushInProgress = false;
+				me.mInFlightId = null;
 			}
-			me.saveQueue(keep);
-			me.mInFlightId = null;
-			// Continue flushing the remaining queue.
-			me.flushNext();
-		} else {
-			// Network/offline/any non-2xx: keep queue as-is and stop flushing for now.
+		} catch (ex) {
 			sFlushInProgress = false;
 			me.mInFlightId = null;
 		}
