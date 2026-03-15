@@ -1,46 +1,53 @@
-Meditation und Atemarbeit sind kraftvolle Praktiken, die darauf abzielen, das mentale und körperliche Wohlbefinden zu verbessern. Ihre Hauptziele beinhalten die Reduktion von Stress, die Steigerung des emotionalen Gleichgewichts, die Verbesserung der Konzentration und die Förderung eines besseren Selbstbewusstseins. Während Meditation die Achtsamkeit und mentale Klarheit betont, engagiert sich die Atemarbeit aktiv mit dem Nervensystem durch kontrollierte Atemtechniken, um Entspannung, Energieboosts oder emotionale Entlastung zu erzielen.
+Ein achtsamer Begleiter für Meditation & Atemarbeit – direkt auf deiner Garmin‑Uhr
 
-Warum Psychologische Metriken?
+Wenn du dich schon mal ruhig und gleichzeitig unruhig gefühlt hast, bist du nicht kaputt.
+Du bist menschlich.
 
-Das Messen von Stresspegeln, Herzfrequenzvariabilität (HRV) und Herzfrequenz während Meditation und Atemarbeit liefert wertvolle Einblicke in deren Effektivität.
+Wenn das Leben lange fordernd war, lernt das Nervensystem, auf Alarm zu bleiben. Stress wird vertraut. Ruhe wird ungewohnt – und Ungewohntes kann sich anfangs verletzlich oder leicht unangenehm anfühlen. Das ist kein Problem, das man beheben muss. So passt sich das Nervensystem einfach an das an, was es kennt.
 
-* Stresslevel: Echtzeit-Stress-Tracking kann helfen, zu bewerten, wie Meditation und Atemarbeit physische Anspannung über Zeit reduzieren können.
-* Herzfrequenzvariabilität (HRV): Eine höhere HRV ist verknüpft mit einem besseren autonomen Nervensystemausgleich, was bedeutet, dass Stress langsamer abbaut. Tiefe Atmung und effektive Achtsamkeitspraktiken können die HRV erhöhen, wodurch Entspannung und Erholung verstärkt werden.
-* Herzfrequenz: Meditation reduziert typischerweise die Herzfrequenz über Zeit, während Atemarbeit vorübergehende Schwankungen verursachen kann, abhängig von der angewandten Technik. Die Verfolgung der Herzfrequenz kann Muster offenbaren, wie der Körper auf verschiedene Praktiken reagiert.
+Meditation & Breathwork hilft dir, dich wieder mit deinem Körper zu verbinden und in Echtzeit zu beobachten, wie dein Nervensystem reagiert.
 
-Diese Meditations/Yoga-App verfolgt all diese Metriken für Sie. Dies ermöglicht es Ihnen, biologische Daten mit speziellen Praktiken zu korrelieren und Ihre Herangehensweise langfristig zu verfeinern und zu verbessern.
+Meditation & Breathwork ist eine Garmin‑App für Meditation und Atemarbeit, die dich mit Präsenz, Einsicht und körperlichem Bewusstsein unterstützt. Durch die Kombination von Achtsamkeit mit Biomessungen in Echtzeit hilft sie dir zu verstehen, wie dein Körper funktioniert – ohne Urteil oder Druck.
 
-Berühre und halte den Bildschirm (Touch-Geräte) oder halte die linke mittlere Taste gedrückt, um die Meditationssessions zu bearbeiten, Eigenschaften und globale Einstellungen anzupassen.
+Es gibt keine universelle Meditationstechnik. Entscheidend ist, herauszufinden, was dein Nervensystem unterstützt.
 
-*** Bitte lesen Sie alle unten stehenden Anleitungen, um Probleme mit der Anwendung auf Ihrem Gerät zu vermeiden ***
+Eine Praxis, die zu dir passt
 
-** Wenn Sie auf ein Problem stoßen, überprüfen Sie den Leitfaden zur Fehlerbehebung unten, bevor Sie berichten **
+Erstelle Sessions, die zu deinem Rhythmus und deiner Aufmerksamkeit passen
 
-Bitte kontaktieren Sie mich per gültiger E-Mail über "Contact Developer" auf dieser Seite, damit ich auf Fragen und Anfragen antworten kann. Ich freue mich, wenn Sie in der englischen Sprache schreiben.
+Beobachte Herzfrequenz, HRV, Stress und Atmung in Echtzeit
 
-Vollständig entwickelte Anwendung von vtrifonov und kompiliert/erweitert für neuere Garmin-Uhrenmodelle durch dliedke und florianeigle.
+Speichere Sessions in Garmin Connect, um über die Zeit sanft Beständigkeit und Bewusstsein zu fördern
 
-Kompletter Benutzerleitfaden (erklärt HRV-Metriken und wie man die Anwendung im Detail nutzt): 
-https://github.com/florianeigle/Meditate/blob/main/UserGuide.md
+Deine Sessions über die Zeit zu sehen, bedeutet keinen Druck. Es hilft dir einfach, Muster zu erkennen, Vertrautheit aufzubauen und achtsam bei einer Praxis zu bleiben, die du dir selbst ausgesucht hast.
 
-Vermeiden Sie es, das Handgelenk während der Sitzung zu bewegen, um HRV- und Inspirationsraten-Metriken genauer zu erfassen. Wenn HRV nicht erkannt wird, starten Sie bitte Ihre Uhrenaufladung neu, indem Sie die Taste zum Zurücksetzen für 15 Sekunden gedrückt halten, schalten Sie sie ein und versuchen Sie die Anwendung erneut.
+Regulation ist nicht immer Ruhe
 
-Hinweis: Die Connect IQ API, die für die Anwendungsentwicklung genutzt wird, liefert nur den 5-Minuten-Durchschnitt des Stressmetriks. Deshalb passen die Zahlen nicht immer exakt mit Garmin Connect zusammen, da es in GC die Echtzeit-Stressmetrik zeigt, wenn Aktivität gestartet und gestoppt wurde.
+Meditation und Atemarbeit gehen nicht darum, „gute“ Messwerte zu erzeugen.
 
-Fehlerbehebungsleitfaden:
+Eine ruhige Session ist wertvoll, weil dein Nervensystem mehr Zeit in einem regulierten Zustand verbringt. Je länger du dort bleibst, desto stärker werden diese Nervenbahnen – und Ruhe sowie Balance sind mit der Zeit leichter erreichbar.
 
-Garmin IQ-Nachricht auf der Uhr:
----------------------------------
-Bitte verwenden Sie Garmin Express im PC mit der Uhr über USB verbunden, um den Aktivitätsnamen zu ändern. Falls die App nicht mehr geöffnet wird, installieren Sie sie bitte neu. Aufgrund eines Fehlers mit Connect IQ mobile ist es nicht möglich, den Aktivitätsnamen mittels Konfigurations-Button zu ändern.
+Gleichzeitig kann der Weg zur Ruhe Unruhe oder plötzliche Impulse auslösen, aufzustehen und etwas zu tun. Oft versucht der Geist damit, dich zurück zu dem zu führen, was vertraut wirkt – Stress, Aktivität, Bewegung – weil Vertrautes sich sicher anfühlt.
 
-HRV wird nicht erkannt:
------------------------
-Manchmal dauert es länger, bis HRV erkannt wird, wenn Sie sich vor dem Start der Anwendung bewegt haben. Bitte bleiben Sie eine Weile ruhig, ohne die Uhr zu berühren. Öffnen Sie dann die App und warten Sie, bis HRV bereit ist, bevor Sie Ihre Meditationssession starten. Wenn es nicht funktioniert, versuchen Sie, die Lichttaste für 15 Sekunden zu halten, dann die Uhr erneut einschalten und die App erneut versuchen, um zu prüfen, ob HRV erkannt wird.
+Du kannst diesen Momenten leicht begegnen:
+„Oh, da bist du. Du vermisst das Chaos. Hinterhältiger kleiner Geist.“
 
-Keine Vibration oder Ton während Sitzungen:
--------------------------------------------
-Stellen Sie sicher, dass Vibration im System - Sound und Vibe - Vibration (Ein) aktiviert ist. Stellen Sie auch sicher, dass Sound in System - Sound and Vibe - Alert Tones (Ein) aktiviert ist.
+Auch eine stressige Session ist wertvoll. Wenn der Stress hoch bleibt, heißt das oft, dass du mit dem Unbehagen präsent geblieben bist, statt darauf zu reagieren. Du hast beobachtet, was passiert, und dem Körper Zeit gegeben, sich selbst zu beruhigen. Das stärkt die Fähigkeit, geerdet zu bleiben, wenn das Leben herausfordernd ist.
 
-Bitte melden Sie andere Probleme im "Contact Developer" Link auf dieser Seite oder https://github.com/florianeigle/Meditate/issues und nicht in der App-Bewertung.
+Beide Arten von Sessions unterstützen Regulation. Sie trainieren einfach unterschiedliche Fähigkeiten.
 
-Reduzieren Sie Ihren Stress, entspannen und meditieren!
+Darum sollten Sessions nicht nur nach Messwerten beurteilt werden – aber genau deshalb helfen Messwerte. Sie zeigen, in welchem Zustand du warst, und helfen dir, bewusster wahrzunehmen, wie sich diese Zustände in deinem Körper anfühlen. Mit der Zeit vertieft das die Verbindung und unterstützt bewusstere Entscheidungen.
+
+Warum Tracking hilft
+
+Das Tracking körperlicher Signale wie Stress, Herzfrequenz und Herzfrequenzvariabilität zeigt, wie dein Nervensystem während Meditation und Atemarbeit reagiert. Höhere HRV ist generell mit ruhigeren, regulierteren Zuständen und größerer Flexibilität des Nervensystems verbunden, während niedrigere HRV Aktivierung oder Stress widerspiegelt. Statt als Score dienen diese Werte als Kontext – sie helfen dir, Muster zu erkennen, das Körperbewusstsein zu vertiefen und zu verstehen, was verschiedene Praktiken bei dir auslösen.
+
+Tracking geht nicht um Kontrolle oder Optimierung.
+Es geht darum zu lernen, wie dein Nervensystem Balance findet.
+
+Bleib präsent. Beobachte ehrlich. Lächle, wenn der Geist clever wird.
+
+Lade Meditation & Breathwork herunter und entdecke, was deine Meditation- und Atemarbeitspraxis wirklich unterstützt – eine Session nach der anderen.
+
+Für mehr Details zu Funktionen, häufigen Fragen und Support siehe den vollständigen User Guide:
+https://geigl.online/meditate_app_user_guide/

@@ -1,43 +1,53 @@
-A mediação e a respiração são práticas poderosas que buscam aprimorar o bem-estar mental e físico. Seus objetivos comuns incluem a redução do estresse, o aumento do equilíbrio emocional, a melhoria do foco e a promoção do autoconhecimento. Enquanto a meditação enfatiza a atenção plena e a clareza mental, a respiração ativa envolve o sistema nervoso através de técnicas de controle da respiração para alcançar relaxamento, aumentar a energia ou liberar emoções.
+Um companheiro mindful para meditação e respiração — direto no seu relógio Garmin
 
-Por que monitorar métricas fisiológicas?
-Medir níveis de estresse, variabilidade da frequência cardíaca (HRV) e frequência cardíaca durante a meditação e respiração proporciona insights valiosos sobre sua eficácia.
+Se você já se sentiu calmo e inquieto ao mesmo tempo, você não está quebrado.
+Você é humano.
 
-* Níveis de Estresse: A medição de estresse em tempo real pode ajudar a avaliar como a meditação e respiração reduzem a tensão física ao longo do tempo.
-* Variabilidade da Frequência Cardíaca (HRV): Um HRV mais alto está ligado a um sistema nervoso autônomo mais equilibrado, o que significa maior resiliência ao estresse. Práticas de respiração e atenção plena podem melhorar o HRV, refletindo melhor relaxamento e recuperação.
-* Frequência Cardíaca: Meditar geralmente baixa a frequência cardíaca ao longo do tempo, enquanto a respiração pode causar flutuações temporárias dependendo da técnica utilizada. Monitorar a frequência cardíaca pode revelar padrões em como o corpo responde a diferentes práticas.
+Quando a vida tem sido exigente por muito tempo, o sistema nervoso aprende a ficar em alerta. O estresse vira familiar. A calma vira estranha — e estados estranhos podem parecer vulneráveis ou um pouco desconfortáveis no começo. Isso não é um problema para consertar. É só a forma como o sistema nervoso se adapta ao que conhece.
 
-Este aplicativo de meditação/respiração rastreia todas essas métricas para você. Isso lhe permite correlacionar dados biométricos com práticas específicas, ajudando a ajustar sua abordagem e acompanhar o progresso a longo prazo.
+Meditation & Breathwork ajuda você a se reconectar com o corpo e observar, em tempo real, como seu sistema nervoso responde.
 
-!!! Toque e mantenha a tela (dispositivos Touch) ou mantenha pressionado o botão do meio esquerdo para editar as sessões de meditação, propriedades e configurações globais. !!! 
-*** Por favor, leia todo o guia abaixo para evitar problemas com o aplicativo em seu dispositivo **
-*** Se você enfrentar qualquer problema, por favor, consulte o guia de solução de problemas abaixo antes de reportar ***
+Meditation & Breathwork é um app da Garmin feito para apoiar meditação e respiração com presença, percepção e consciência fisiológica. Ao combinar mindfulness com dados biométricos em tempo real, ele ajuda você a entender como seu corpo funciona — sem julgamento ou pressão.
 
-Por favor, entre um email válido ao clicar em "Contact Developer" nesta página para que eu possa responder a perguntas e solicitações. Eu aprecio se você escreve em inglês.
+Não existe uma técnica universal de meditação. O importante é descobrir o que apoia o seu sistema nervoso.
 
-Aplicação totalmente gratuita desenvolvida por vtrifonov e compilada/enhanced para novos modelos de relógios Garmin por dliedke e florianeigel.
+Uma prática feita para você
 
-Guia completo do usuário (explica métricas HRV e como usar o aplicativo em detalhes):
-https://github.com/florianeigel/Meditate/blob/main/UserGuide.md
+Crie sessões que combinem com seu ritmo e atenção
 
-Evite mover seus pulsos durante a sessão para capturar métricas de HRV e inspirar métricas de respiração. Se o HRV não for detectado, por favor reinicie seu relógio pressionando o botão de luz por 15 segundos, ligue-o novamente e tente o aplicativo novamente.
+Observe frequência cardíaca, HRV, estresse e respiração em tempo real
 
-Nota: A API Garmin ConnectIQ usada para desenvolvimento de aplicativos apenas retorna a média de 5 minutos para métricas de estresse. É por isso que os números não correspondem exatamente ao Garmin Connect, porque no GC ele mostra a métrica de estresse em tempo real quando a atividade é iniciada e parada. 
+Salve sessões no Garmin Connect para apoiar, de forma gentil, consistência e consciência ao longo do tempo
 
-Guia de solução de problemas:
+Ver suas sessões ao longo do tempo não é sobre pressão. É só para notar padrões, criar familiaridade e manter atenção em uma prática que você escolheu.
 
-Mensagem Connect IQ no relógio:
-------------------------------
-Por favor, use Garmin Express no PC com relógio conectado ao USB para alterar o nome da atividade. Se o aplicativo não abrir mais, por favor reinstale-o. Infelizmente, devido a um bug com o iQ mobile, não é possível mudar o nome da atividade usando o botão de configuração.  
- 
-HRV não sendo detectado:
-------------------------
-Às vezes, HRV demora mais para ser detectado se você estava se movendo antes de iniciar o aplicativo. Por favor, fique quieto por algum tempo, não mova o pulso com o relógio, depois abra o aplicativo e aguarde o HRV estar pronto antes de iniciar sua sessão de meditação. Se ainda não funcionar, tente segurar o botão de luz por 15s, depois ligue o relógio novamente e tente o aplicativo para verificar se HRV está sendo detectado. 
+Regulação nem sempre é calma
 
-Sem vibração ou som durante sessões:
-------------------------------------
-Garanta ativar vibração no Sistema - Som e Vibração - Vibração (On). Também garanta ativar som no Sistema - Som e Vibração - Alertas de Toque (On). 
+Meditação e respiração não são sobre produzir métricas “boas”.
 
-Por favor, reporte outros problemas no link "Contact Developer" nesta página ou https://github.com/florianeigel/Meditate/issues e não na revisão do aplicativo.
+Uma sessão calma é valiosa porque permite que seu sistema nervoso passe mais tempo em um estado regulado. Quanto mais você permanece ali, mais esses caminhos neurais se fortalecem — tornando a calma e o equilíbrio mais acessíveis com o tempo.
 
-Reduza seu estresse, relaxe e medite!
+Ao mesmo tempo, caminhar em direção à calma pode trazer inquietação ou impulsos de levantar e fazer algo. Muitas vezes, a mente tenta te levar de volta ao que é familiar — estresse, atividade, movimento — porque o familiar parece seguro.
+
+Você pode encontrar esses momentos com leveza:
+“Ah, entendi. Você sente falta do caos. Mente danadinha.”
+
+Uma sessão estressante também é valiosa. Quando o estresse permanece alto, muitas vezes significa que você ficou presente com o desconforto em vez de reagir. Você observou o que estava acontecendo e permitiu que o corpo se acomodasse no seu próprio tempo. Isso fortalece a capacidade de se manter firme quando a vida está desafiadora.
+
+Os dois tipos de sessão apoiam a regulação. Só treinam habilidades diferentes.
+
+Por isso, as sessões não devem ser julgadas só pelas métricas — mas é por isso também que as métricas ajudam. Elas mostram em que estado você estava, ajudando você a se tornar mais consciente de como esses estados se sentem no corpo. Com o tempo, isso aprofunda a reconexão e apoia escolhas mais conscientes.
+
+Por que o rastreamento ajuda
+
+Acompanhar sinais fisiológicos como estresse, frequência cardíaca e variabilidade da frequência cardíaca oferece insights sobre como seu sistema nervoso responde durante meditação e respiração. HRV mais alta geralmente está associada a estados mais calmos, mais regulados e maior flexibilidade do sistema nervoso, enquanto HRV mais baixa reflete ativação ou estresse. Em vez de servir como pontuação, essas métricas dão contexto — ajudando você a reconhecer padrões, aprofundar a consciência corporal e entender o que diferentes práticas despertam em você.
+
+Rastrear não é sobre controle ou otimização.
+É sobre aprender como seu sistema nervoso encontra equilíbrio.
+
+Fique presente. Observe com honestidade. Sorria quando a mente ficar esperta.
+
+Baixe Meditation & Breathwork e descubra o que realmente apoia sua prática de meditação e respiração — uma sessão de cada vez.
+
+Para mais detalhes sobre recursos, perguntas frequentes e suporte, veja o guia completo:
+https://geigl.online/meditate_app_user_guide/
