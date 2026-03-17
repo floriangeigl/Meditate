@@ -83,6 +83,12 @@ class CloudBackup extends Ui.BehaviorDelegate {
 				"activityType" => App.Storage.getValue("wakeupSession_activityType"),
 			};
 
+			// --- Monthly meditation stats ---
+			var monthlyStats = {
+				"monthly" => App.Storage.getValue("usageStats_monthly"),
+				"tipPending" => App.Storage.getValue("usageStats_tipPending"),
+			};
+
 			// --- Full payload ---
 			var payload = {
 				"appVersion" => appVersion,
@@ -90,6 +96,7 @@ class CloudBackup extends Ui.BehaviorDelegate {
 				"globalSettings" => globalSettings,
 				"sessions" => sessions,
 				"wakeup" => wakeup,
+				"monthlyStats" => monthlyStats,
 			};
 
 			var url =
