@@ -177,6 +177,17 @@ class CloudRestore extends Ui.BehaviorDelegate {
 				App.Storage.setValue("wakeupSession_activityType", wakeup["activityType"]);
 			}
 
+			// --- Monthly meditation stats ---
+			var monthlyStats = data["monthlyStats"];
+			if (monthlyStats != null) {
+				if (monthlyStats["monthly"] != null) {
+					App.Storage.setValue("usageStats_monthly", monthlyStats["monthly"]);
+				}
+				if (monthlyStats["tipPending"] != null) {
+					App.Storage.setValue("usageStats_tipPending", monthlyStats["tipPending"]);
+				}
+			}
+
 			mStatusView.setMessage("Restored! Restarting...");
 			System.exit();
 		} catch (ex) {

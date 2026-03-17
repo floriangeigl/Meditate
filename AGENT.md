@@ -181,8 +181,10 @@ In-app developer tool accessible via **long-press on the About screen** → "Dev
 - `selectedSessionIndex` — active session index
 - `sesssion_<key>` (per entry in `sessionsKeys`) — individual session data (note: triple-s typo is intentional)
 - `wakeupSession_activityType`
+- `usageStats_monthly` — current month meditation time (via `monthlyStats` section)
+- `usageStats_tipPending` — pending tip flag (via `monthlyStats` section)
 
-**Not backed up:** `usageStats_queue_v2` (too large, auto-rebuilds), monthly stats, `tipPending` flag.
+**Not backed up:** `usageStats_queue_v2` (too large, auto-rebuilds).
 
 ### Architecture Notes
 
