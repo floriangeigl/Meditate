@@ -59,18 +59,15 @@
 	<string id="activityTypeMenu_generic">일반</string>
 
 	<string id="menuNewHrvTrackingOptions_title">Hrv 추적</string>
-	<string id="menuNewHrvTrackingOptions_onDetailed">상세하게 (기본값)</string>
 	<string id="menuNewHrvTrackingOptions_on">켜기</string>
 	<string id="menuNewHrvTrackingOptions_off">끄기</string>
-	<string id="menuNewHrvTrackingOptions_onDetailedSimple">상세하게</string>
 
 	<string id="menuHrvTrackingOptions_title">Hrv 추적</string>
-	<string id="menuHrvTrackingOptions_onDetailed">상세하게 (기본값)</string>
+	<string id="menuHrvTrackingOptions_onDetailed">상세하게</string>
 	<string id="menuHrvTrackingOptions_on">켜기</string>
 	<string id="menuHrvTrackingOptions_off">끄기</string>
 
 	<string id="menuConfirmSaveActivityOptions_title">저장 확인</string>
-	<string id="menuConfirmSaveActivityOptions_ask">물어보기 (기본값)</string>
 	<string id="menuConfirmSaveActivityOptions_autoYes">예 (자동 저장)</string>
 	<string id="menuConfirmSaveActivityOptions_autoNo">아니오 (저장 안함)</string>
 	<string id="menuConfirmSaveActivityOptions_askSimple">물어보기</string>
@@ -78,19 +75,19 @@
 
 	<string id="menuMultiSessionOptions_title">다중 세션</string>
 	<string id="menuMultiSessionOptions_yes">예</string>
-	<string id="menuMultiSessionOptions_no">아니오 (기본값)</string>
+	<string id="menuMultiSessionOptions_no">아니오</string>
 
 	<string id="menuRespirationRateOptions_title">호흡수 추적</string>
-	<string id="menuRespirationRateOptions_on">켜기 (기본값)</string>
+	<string id="menuRespirationRateOptions_on">켜기</string>
 	<string id="menuRespirationRateOptions_off">끄기</string>
 
 	<string id="menuAutoStopOptions_title">자동 중단</string>
-	<string id="menuAutoStopOptions_on">켜기 (기본값)</string>
+	<string id="menuAutoStopOptions_on">켜기</string>
 	<string id="menuAutoStopOptions_off">끄기</string>
 
 	<string id="menuColorThemeOptions_title">테마</string>
 	<string id="menuColorThemeOptions_light">밝은 화면</string>
-	<string id="menuColorThemeOptions_dark">어두운 화면 (기본값)</string>
+	<string id="menuColorThemeOptions_dark">어두운 화면</string>
 
 	<string id="menuPrepareTimeOptions_title">준비</string>
 	<string id="menuFinalizeTimeOptions_title">마무리</string>
@@ -106,13 +103,15 @@
 	<string id="menuPrepareTimeOptions_10m">10 min</string>
 
 	<string id="menuHrvWindowSizeOptions_title">HRV Window</string>
+	<string id="menuLabelDefault">기본값</string>
+	<string id="menuLabelRecommended">권장</string>
 
 	<string id="menuGlobalSettings_useSessionName">세션 이름 = 활동 이름</string>
 	<string id="menuGlobalSettings_useSessionName_on">예</string>
-	<string id="menuGlobalSettings_useSessionName_off">아니오 (기본값)</string>
+	<string id="menuGlobalSettings_useSessionName_off">아니오</string>
 
 	<string id="menuNotificationOptions_title">알림</string>
-	<string id="menuNotificationOptions_on">켜기 (기본값)</string>
+	<string id="menuNotificationOptions_on">켜기</string>
 	<string id="menuNotificationOptions_off">끄기</string>
 
 	<string id="menuIntervalAlertSettings_Title">구간 알림</string>
@@ -207,7 +206,7 @@
 
 	<string id="restoreDeviceId">Restore From Device ID (leave empty to use this device):</string>
 
-	<string id="about_AppVersion">v10.7.0</string>
+	<string id="about_AppVersion">v10.7.3</string>
 	<string id="about_vtrifonov">vtrifonov</string>
 	<string id="about_dliedke">dliedke</string>
 	<string id="about_falsetru">falsetru</string>

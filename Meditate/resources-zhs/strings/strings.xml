@@ -57,18 +57,15 @@
     <string id="activityTypeMenu_generic">通用</string>
 
     <string id="menuNewHrvTrackingOptions_title">HRV追踪</string>
-    <string id="menuNewHrvTrackingOptions_onDetailed">详细（默认）</string>
     <string id="menuNewHrvTrackingOptions_on">开启</string>
     <string id="menuNewHrvTrackingOptions_off">关闭</string>
-    <string id="menuNewHrvTrackingOptions_onDetailedSimple">详细</string>
 
     <string id="menuHrvTrackingOptions_title">HRV追踪</string>
-    <string id="menuHrvTrackingOptions_onDetailed">详细（默认）</string>
+    <string id="menuHrvTrackingOptions_onDetailed">详细</string>
     <string id="menuHrvTrackingOptions_on">开启</string>
     <string id="menuHrvTrackingOptions_off">关闭</string>
 
     <string id="menuConfirmSaveActivityOptions_title">保存确认</string>
-    <string id="menuConfirmSaveActivityOptions_ask">询问（默认）</string>
     <string id="menuConfirmSaveActivityOptions_autoYes">自动保存</string>
     <string id="menuConfirmSaveActivityOptions_autoNo">自动放弃</string>
     <string id="menuConfirmSaveActivityOptions_askSimple">询问</string>
@@ -76,19 +73,19 @@
 
     <string id="menuMultiSessionOptions_title">多段会话</string>
     <string id="menuMultiSessionOptions_yes">是</string>
-    <string id="menuMultiSessionOptions_no">否（默认）</string>
+    <string id="menuMultiSessionOptions_no">否</string>
 
     <string id="menuRespirationRateOptions_title">呼吸</string>
-    <string id="menuRespirationRateOptions_on">开启（默认）</string>
+    <string id="menuRespirationRateOptions_on">开启</string>
     <string id="menuRespirationRateOptions_off">关闭</string>
 
     <string id="menuAutoStopOptions_title">自动停止</string>
-    <string id="menuAutoStopOptions_on">开启（默认）</string>
+    <string id="menuAutoStopOptions_on">开启</string>
     <string id="menuAutoStopOptions_off">关闭</string>
 
     <string id="menuColorThemeOptions_title">主题颜色</string>
     <string id="menuColorThemeOptions_light">浅色</string>
-    <string id="menuColorThemeOptions_dark">深色（默认）</string>
+    <string id="menuColorThemeOptions_dark">深色</string>
 
     <string id="menuPrepareTimeOptions_title">准备</string>
     <string id="menuFinalizeTimeOptions_title">收尾</string>
@@ -104,13 +101,15 @@
     <string id="menuPrepareTimeOptions_10m">10分钟</string>
 
     <string id="menuHrvWindowSizeOptions_title">HRV窗口</string>
+    <string id="menuLabelDefault">默认</string>
+    <string id="menuLabelRecommended">推荐</string>
 
     <string id="menuGlobalSettings_useSessionName">会话名=活动名</string>
     <string id="menuGlobalSettings_useSessionName_on">是</string>
-    <string id="menuGlobalSettings_useSessionName_off">否（默认）</string>
+    <string id="menuGlobalSettings_useSessionName_off">否</string>
 
     <string id="menuNotificationOptions_title">通知</string>
-    <string id="menuNotificationOptions_on">开启（默认）</string>
+    <string id="menuNotificationOptions_on">开启</string>
     <string id="menuNotificationOptions_off">关闭</string>
 
     <string id="menuIntervalAlertSettings_Title">间隔提醒</string>
@@ -204,7 +203,7 @@
     <string id="finishMenu_discard">放弃</string>
     <string id="optionsMenuHelp">按开始键查看选项</string>
 
-    <string id="about_AppVersion">v10.7.0</string>
+    <string id="about_AppVersion">v10.7.3</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>
     <string id="about_falsetru">falsetru</string>

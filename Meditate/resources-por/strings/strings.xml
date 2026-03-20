@@ -57,18 +57,15 @@
     <string id="activityTypeMenu_generic">Genérico</string>
 
     <string id="menuNewHrvTrackingOptions_title">Monit. VFC</string>
-    <string id="menuNewHrvTrackingOptions_onDetailed">Detalhado (Padrão)</string>
     <string id="menuNewHrvTrackingOptions_on">Lig.</string>
     <string id="menuNewHrvTrackingOptions_off">Desl.</string>
-    <string id="menuNewHrvTrackingOptions_onDetailedSimple">Detalhado</string>
 
     <string id="menuHrvTrackingOptions_title">Monit. VFC</string>
-    <string id="menuHrvTrackingOptions_onDetailed">Detalhado (Padrão)</string>
+    <string id="menuHrvTrackingOptions_onDetailed">Detalhado</string>
     <string id="menuHrvTrackingOptions_on">Lig.</string>
     <string id="menuHrvTrackingOptions_off">Deslig.</string>
 
     <string id="menuConfirmSaveActivityOptions_title">Confirmar Salvar</string>
-    <string id="menuConfirmSaveActivityOptions_ask">Perguntar (Padrão)</string>
     <string id="menuConfirmSaveActivityOptions_autoYes">Auto Sim</string>
     <string id="menuConfirmSaveActivityOptions_autoNo">Auto Não</string>
     <string id="menuConfirmSaveActivityOptions_askSimple">Perguntar</string>
@@ -76,20 +73,20 @@
 
     <string id="menuMultiSessionOptions_title">Multi-Sessão</string>
     <string id="menuMultiSessionOptions_yes">Sim</string>
-    <string id="menuMultiSessionOptions_no">Não (Padrão)</string>
+    <string id="menuMultiSessionOptions_no">Não</string>
 
     <string id="menuRespirationRateOptions_title">Respiração</string>
-    <string id="menuRespirationRateOptions_on">Lig. (Padrão)</string>
+    <string id="menuRespirationRateOptions_on">Lig.</string>
     <string id="menuRespirationRateOptions_off">Deslig.</string>
 
     <string id="menuAutoStopOptions_title">Parada Auto</string>
-    <string id="menuAutoStopOptions_on">Lig. (Padrão)</string>
+    <string id="menuAutoStopOptions_on">Lig.</string>
     <string id="menuAutoStopOptions_off">Desl.</string>
 
 
     <string id="menuColorThemeOptions_title">Tema</string>
     <string id="menuColorThemeOptions_light">Claro</string>
-    <string id="menuColorThemeOptions_dark">Escuro (Padrão)</string>
+    <string id="menuColorThemeOptions_dark">Escuro</string>
 
     <string id="menuPrepareTimeOptions_title">Preparação</string>
     <string id="menuFinalizeTimeOptions_title">Finalização</string>
@@ -105,13 +102,15 @@
     <string id="menuPrepareTimeOptions_10m">10 min</string>
 
     <string id="menuHrvWindowSizeOptions_title">HRV Window</string>
+    <string id="menuLabelDefault">Padrão</string>
+    <string id="menuLabelRecommended">Recomendado</string>
 
     <string id="menuGlobalSettings_useSessionName">Nome sessão = Nome atividade</string>
     <string id="menuGlobalSettings_useSessionName_on">Sim</string>
-    <string id="menuGlobalSettings_useSessionName_off">Não (Padrão)</string>
+    <string id="menuGlobalSettings_useSessionName_off">Não</string>
 
     <string id="menuNotificationOptions_title">Notificações</string>
-    <string id="menuNotificationOptions_on">Ligado (Padrão)</string>
+    <string id="menuNotificationOptions_on">Ligado</string>
     <string id="menuNotificationOptions_off">Desligado</string>
 
     <string id="menuIntervalAlertSettings_Title">Intervalo de Alerta</string>
@@ -207,7 +206,7 @@
 
     <string id="restoreDeviceId">Restore From Device ID (leave empty to use this device):</string>
 
-    <string id="about_AppVersion">v10.7.0</string>
+    <string id="about_AppVersion">v10.7.3</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>
     <string id="about_falsetru">falsetru</string>

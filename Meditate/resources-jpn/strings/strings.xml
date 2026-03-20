@@ -57,18 +57,15 @@
     <string id="activityTypeMenu_generic">汎用</string>
 
     <string id="menuNewHrvTrackingOptions_title">HRV計測</string>
-    <string id="menuNewHrvTrackingOptions_onDetailed">詳細（既定）</string>
     <string id="menuNewHrvTrackingOptions_on">オン</string>
     <string id="menuNewHrvTrackingOptions_off">オフ</string>
-    <string id="menuNewHrvTrackingOptions_onDetailedSimple">詳細</string>
 
     <string id="menuHrvTrackingOptions_title">HRV計測</string>
-    <string id="menuHrvTrackingOptions_onDetailed">詳細（既定）</string>
+    <string id="menuHrvTrackingOptions_onDetailed">詳細</string>
     <string id="menuHrvTrackingOptions_on">オン</string>
     <string id="menuHrvTrackingOptions_off">オフ</string>
 
     <string id="menuConfirmSaveActivityOptions_title">保存確認</string>
-    <string id="menuConfirmSaveActivityOptions_ask">確認する（既定）</string>
     <string id="menuConfirmSaveActivityOptions_autoYes">自動保存</string>
     <string id="menuConfirmSaveActivityOptions_autoNo">自動破棄</string>
     <string id="menuConfirmSaveActivityOptions_askSimple">確認する</string>
@@ -76,19 +73,19 @@
 
     <string id="menuMultiSessionOptions_title">マルチセッション</string>
     <string id="menuMultiSessionOptions_yes">はい</string>
-    <string id="menuMultiSessionOptions_no">いいえ（既定）</string>
+    <string id="menuMultiSessionOptions_no">いいえ</string>
 
     <string id="menuRespirationRateOptions_title">呼吸</string>
-    <string id="menuRespirationRateOptions_on">オン（既定）</string>
+    <string id="menuRespirationRateOptions_on">オン</string>
     <string id="menuRespirationRateOptions_off">オフ</string>
 
     <string id="menuAutoStopOptions_title">自動停止</string>
-    <string id="menuAutoStopOptions_on">オン（既定）</string>
+    <string id="menuAutoStopOptions_on">オン</string>
     <string id="menuAutoStopOptions_off">オフ</string>
 
     <string id="menuColorThemeOptions_title">テーマ</string>
     <string id="menuColorThemeOptions_light">ライト</string>
-    <string id="menuColorThemeOptions_dark">ダーク（既定）</string>
+    <string id="menuColorThemeOptions_dark">ダーク</string>
 
     <string id="menuPrepareTimeOptions_title">準備</string>
     <string id="menuFinalizeTimeOptions_title">終了</string>
@@ -104,13 +101,15 @@
     <string id="menuPrepareTimeOptions_10m">10分</string>
 
     <string id="menuHrvWindowSizeOptions_title">HRVウィンドウ</string>
+    <string id="menuLabelDefault">既定</string>
+    <string id="menuLabelRecommended">推奨</string>
 
     <string id="menuGlobalSettings_useSessionName">セッション名=活動名</string>
     <string id="menuGlobalSettings_useSessionName_on">はい</string>
-    <string id="menuGlobalSettings_useSessionName_off">いいえ（既定）</string>
+    <string id="menuGlobalSettings_useSessionName_off">いいえ</string>
 
     <string id="menuNotificationOptions_title">通知</string>
-    <string id="menuNotificationOptions_on">オン（既定）</string>
+    <string id="menuNotificationOptions_on">オン</string>
     <string id="menuNotificationOptions_off">オフ</string>
 
     <string id="menuIntervalAlertSettings_Title">間隔アラート</string>
@@ -189,7 +188,7 @@
     <string id="sessionTitleBreathing">呼吸法 🌬️</string>
 
     <string id="activityName">活動名（[time]で時間に置換、短くしてください）:</string>
-    <string id="restoreDeviceId">Restore From Device ID (leave empty to use this device):</string>
+    <string id="restoreDeviceId">デバイスIDから復元（空欄の場合はこのデバイスを使用）</string>
     <string id="pickMMSS">MM:SSを選択</string>
     <string id="pickHMM">H:MMを選択</string>
     <string id="HRVwaiting">HRV待機中</string>
@@ -204,7 +203,7 @@
     <string id="finishMenu_discard">破棄</string>
     <string id="optionsMenuHelp">開始でオプション表示</string>
 
-    <string id="about_AppVersion">v10.7.0</string>
+    <string id="about_AppVersion">v10.7.3</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>
     <string id="about_falsetru">falsetru</string>

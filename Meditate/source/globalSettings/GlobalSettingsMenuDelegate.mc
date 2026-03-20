@@ -31,7 +31,12 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			});
 			hrvMenu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_on), "", :on, {}));
 			hrvMenu.addItem(
-				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_onDetailed), "", :onDetailed, {})
+				new Ui.MenuItem(
+					Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_onDetailed),
+					Ui.loadResource(Rez.Strings.menuLabelDefault),
+					:onDetailed,
+					{}
+				)
 			);
 			hrvMenu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_off), "", :off, {}));
 			var hrvTrackingDelegate = new MenuOptionsDelegate(method(:onHrvTrackingPicked));
@@ -79,7 +84,12 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 				:focus => focusIdx,
 			});
 			confirmMenu.addItem(
-				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuConfirmSaveActivityOptions_askSimple), "", :ask, {})
+				new Ui.MenuItem(
+					Ui.loadResource(Rez.Strings.menuConfirmSaveActivityOptions_askSimple),
+					Ui.loadResource(Rez.Strings.menuLabelDefault),
+					:ask,
+					{}
+				)
 			);
 			confirmMenu.addItem(
 				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuConfirmSaveActivityOptions_autoYes), "", :autoYes, {})
@@ -104,7 +114,14 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 				:focus => focusIdx,
 			});
 			multiMenu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuMultiSessionOptions_yes), "", :yes, {}));
-			multiMenu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuMultiSessionOptions_no), "", :no, {}));
+			multiMenu.addItem(
+				new Ui.MenuItem(
+					Ui.loadResource(Rez.Strings.menuMultiSessionOptions_no),
+					Ui.loadResource(Rez.Strings.menuLabelDefault),
+					:no,
+					{}
+				)
+			);
 			var multiSessionDelegate = new MenuOptionsDelegate(method(:onMultiSessionPicked));
 			Ui.pushView(multiMenu, multiSessionDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :respirationRate) {
@@ -115,7 +132,12 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 					:focus => focusIdx,
 				});
 				respirationMenu.addItem(
-					new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuRespirationRateOptions_on), "", :on, {})
+					new Ui.MenuItem(
+						Ui.loadResource(Rez.Strings.menuRespirationRateOptions_on),
+						Ui.loadResource(Rez.Strings.menuLabelDefault),
+						:on,
+						{}
+					)
 				);
 				respirationMenu.addItem(
 					new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuRespirationRateOptions_off), "", :off, {})
@@ -234,7 +256,14 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 				:title => Ui.loadResource(Rez.Strings.menuGlobalSettings_autoStop),
 				:focus => focusIdx,
 			});
-			autoStopMenu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuAutoStopOptions_on), "", :on, {}));
+			autoStopMenu.addItem(
+				new Ui.MenuItem(
+					Ui.loadResource(Rez.Strings.menuAutoStopOptions_on),
+					Ui.loadResource(Rez.Strings.menuLabelDefault),
+					:on,
+					{}
+				)
+			);
 			autoStopMenu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuAutoStopOptions_off), "", :off, {}));
 			var autoStopDelegate = new MenuOptionsDelegate(method(:onAutoStopPicked));
 			Ui.pushView(autoStopMenu, autoStopDelegate, Ui.SLIDE_LEFT);
@@ -245,7 +274,12 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 				:focus => focusIdx,
 			});
 			notificationMenu.addItem(
-				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuNotificationOptions_on), "", :on, {})
+				new Ui.MenuItem(
+					Ui.loadResource(Rez.Strings.menuNotificationOptions_on),
+					Ui.loadResource(Rez.Strings.menuLabelDefault),
+					:on,
+					{}
+				)
 			);
 			notificationMenu.addItem(
 				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuNotificationOptions_off), "", :off, {})
@@ -261,7 +295,14 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			themeMenu.addItem(
 				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuColorThemeOptions_light), "", :Light, {})
 			);
-			themeMenu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuColorThemeOptions_dark), "", :Dark, {}));
+			themeMenu.addItem(
+				new Ui.MenuItem(
+					Ui.loadResource(Rez.Strings.menuColorThemeOptions_dark),
+					Ui.loadResource(Rez.Strings.menuLabelDefault),
+					:Dark,
+					{}
+				)
+			);
 			var colorThemeDelegate = new MenuOptionsDelegate(method(:onColorThemePicked));
 			Ui.pushView(themeMenu, colorThemeDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :hrvWindow) {
@@ -286,7 +327,12 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuPrepareTimeOptions_30s), "", :time_30s, {})
 			);
 			windowMenu.addItem(
-				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuPrepareTimeOptions_1m), "", :time_1m, {})
+				new Ui.MenuItem(
+					Ui.loadResource(Rez.Strings.menuPrepareTimeOptions_1m),
+					Ui.loadResource(Rez.Strings.menuLabelDefault),
+					:time_1m,
+					{}
+				)
 			);
 			windowMenu.addItem(
 				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuPrepareTimeOptions_2m), "", :time_2m, {})
@@ -295,7 +341,12 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuPrepareTimeOptions_3m), "", :time_3m, {})
 			);
 			windowMenu.addItem(
-				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuPrepareTimeOptions_5m), "", :time_5m, {})
+				new Ui.MenuItem(
+					Ui.loadResource(Rez.Strings.menuPrepareTimeOptions_5m),
+					Ui.loadResource(Rez.Strings.menuLabelRecommended),
+					:time_5m,
+					{}
+				)
 			);
 			windowMenu.addItem(
 				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuPrepareTimeOptions_10m), "", :time_10m, {})
@@ -312,7 +363,12 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_useSessionName_on), "", :on, {})
 			);
 			useMenu.addItem(
-				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_useSessionName_off), "", :off, {})
+				new Ui.MenuItem(
+					Ui.loadResource(Rez.Strings.menuGlobalSettings_useSessionName_off),
+					Ui.loadResource(Rez.Strings.menuLabelDefault),
+					:off,
+					{}
+				)
 			);
 			var useDelegate = new MenuOptionsDelegate(method(:onUseSessionNamePicked));
 			Ui.pushView(useMenu, useDelegate, Ui.SLIDE_LEFT);

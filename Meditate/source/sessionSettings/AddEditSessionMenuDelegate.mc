@@ -242,7 +242,12 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 			});
 			hrvMenu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_on), "", :on, {}));
 			hrvMenu.addItem(
-				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_onDetailed), "", :onDetailed, {})
+				new Ui.MenuItem(
+					Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_onDetailed),
+					Ui.loadResource(Rez.Strings.menuLabelDefault),
+					:onDetailed,
+					{}
+				)
 			);
 			hrvMenu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_off), "", :off, {}));
 			var hrvTrackingDelegate = new MenuOptionsDelegate(method(:onHrvTrackingPicked));

@@ -57,18 +57,15 @@
     <string id="activityTypeMenu_generic">Genérico</string>
 
     <string id="menuNewHrvTrackingOptions_title">Seguimiento HRV</string>
-    <string id="menuNewHrvTrackingOptions_onDetailed">En Detalle (Predet.)</string>
     <string id="menuNewHrvTrackingOptions_on">Activado</string>
     <string id="menuNewHrvTrackingOptions_off">Desactivado</string>
-    <string id="menuNewHrvTrackingOptions_onDetailedSimple">En Detalle</string>
 
     <string id="menuHrvTrackingOptions_title">Seguimiento HRV</string>
-    <string id="menuHrvTrackingOptions_onDetailed">En Detalle (Predet.)</string>
+    <string id="menuHrvTrackingOptions_onDetailed">En Detalle</string>
     <string id="menuHrvTrackingOptions_on">Act.</string>
     <string id="menuHrvTrackingOptions_off">Desac.</string>
 
     <string id="menuConfirmSaveActivityOptions_title">Confirmar Guardado</string>
-    <string id="menuConfirmSaveActivityOptions_ask">Preguntar (Predet.)</string>
     <string id="menuConfirmSaveActivityOptions_autoYes">Sí Auto</string>
     <string id="menuConfirmSaveActivityOptions_autoNo">No Auto</string>
     <string id="menuConfirmSaveActivityOptions_askSimple">Preguntar</string>
@@ -76,20 +73,20 @@
 
     <string id="menuMultiSessionOptions_title">Multi-Sesión</string>
     <string id="menuMultiSessionOptions_yes">Sí</string>
-    <string id="menuMultiSessionOptions_no">No (Predet.)</string>
+    <string id="menuMultiSessionOptions_no">No</string>
 
     <string id="menuRespirationRateOptions_title">Respiración</string>
-    <string id="menuRespirationRateOptions_on">Activado (Predet.)</string>
+    <string id="menuRespirationRateOptions_on">Activado</string>
     <string id="menuRespirationRateOptions_off">Desactivado</string>
 
     <string id="menuAutoStopOptions_title">Parada Auto</string>
-    <string id="menuAutoStopOptions_on">Activ. (Predet.)</string>
+    <string id="menuAutoStopOptions_on">Activ.</string>
     <string id="menuAutoStopOptions_off">Des.</string>
 
 
     <string id="menuColorThemeOptions_title">Tema</string>
     <string id="menuColorThemeOptions_light">Claro</string>
-    <string id="menuColorThemeOptions_dark">Oscuro (Predet.)</string>
+    <string id="menuColorThemeOptions_dark">Oscuro</string>
 
     <string id="menuPrepareTimeOptions_title">Preparación</string>
     <string id="menuFinalizeTimeOptions_title">Finalización</string>
@@ -105,13 +102,15 @@
     <string id="menuPrepareTimeOptions_10m">10 min</string>
 
     <string id="menuHrvWindowSizeOptions_title">HRV Window</string>
+    <string id="menuLabelDefault">Predet.</string>
+    <string id="menuLabelRecommended">Recomend.</string>
 
     <string id="menuGlobalSettings_useSessionName">Nombre sesión = Nombre actividad</string>
     <string id="menuGlobalSettings_useSessionName_on">Sí</string>
-    <string id="menuGlobalSettings_useSessionName_off">No (Predet.)</string>
+    <string id="menuGlobalSettings_useSessionName_off">No</string>
 
     <string id="menuNotificationOptions_title">Notificaciones</string>
-    <string id="menuNotificationOptions_on">Activado (Predet.)</string>
+    <string id="menuNotificationOptions_on">Activado</string>
     <string id="menuNotificationOptions_off">Desactivado</string>
 
     <string id="menuIntervalAlertSettings_Title">Alertas Intervalo</string>
@@ -206,7 +205,7 @@
 
     <string id="restoreDeviceId">Restore From Device ID (leave empty to use this device):</string>
 
-    <string id="about_AppVersion">v10.7.0</string>
+    <string id="about_AppVersion">v10.7.3</string>
     <string id="about_floriangeigl">floriangeigl</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>

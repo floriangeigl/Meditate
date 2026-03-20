@@ -57,18 +57,15 @@
     <string id="activityTypeMenu_generic">Загальне</string>
 
     <string id="menuNewHrvTrackingOptions_title">HRV відстеж.</string>
-    <string id="menuNewHrvTrackingOptions_onDetailed">Детально (за замовч.)</string>
     <string id="menuNewHrvTrackingOptions_on">Увімк.</string>
     <string id="menuNewHrvTrackingOptions_off">Вимк.</string>
-    <string id="menuNewHrvTrackingOptions_onDetailedSimple">Детально</string>
 
     <string id="menuHrvTrackingOptions_title">HRV відстеж.</string>
-    <string id="menuHrvTrackingOptions_onDetailed">Детально (за замовч.)</string>
+    <string id="menuHrvTrackingOptions_onDetailed">Детально</string>
     <string id="menuHrvTrackingOptions_on">Увімк.</string>
     <string id="menuHrvTrackingOptions_off">Вимк.</string>
 
     <string id="menuConfirmSaveActivityOptions_title">Підтв. збереж.</string>
-    <string id="menuConfirmSaveActivityOptions_ask">Запитати (за замовч.)</string>
     <string id="menuConfirmSaveActivityOptions_autoYes">Авто так</string>
     <string id="menuConfirmSaveActivityOptions_autoNo">Авто ні</string>
     <string id="menuConfirmSaveActivityOptions_askSimple">Запитати</string>
@@ -76,19 +73,19 @@
 
     <string id="menuMultiSessionOptions_title">Мульти-сеанс</string>
     <string id="menuMultiSessionOptions_yes">Так</string>
-    <string id="menuMultiSessionOptions_no">Ні (за замовч.)</string>
+    <string id="menuMultiSessionOptions_no">Ні</string>
 
     <string id="menuRespirationRateOptions_title">Дихання</string>
-    <string id="menuRespirationRateOptions_on">Увімк. (за замовч.)</string>
+    <string id="menuRespirationRateOptions_on">Увімк.</string>
     <string id="menuRespirationRateOptions_off">Вимк.</string>
 
     <string id="menuAutoStopOptions_title">Автозупинка</string>
-    <string id="menuAutoStopOptions_on">Увімк. (за замовч.)</string>
+    <string id="menuAutoStopOptions_on">Увімк.</string>
     <string id="menuAutoStopOptions_off">Вимк.</string>
 
     <string id="menuColorThemeOptions_title">Тема</string>
     <string id="menuColorThemeOptions_light">Світла</string>
-    <string id="menuColorThemeOptions_dark">Темна (за замовч.)</string>
+    <string id="menuColorThemeOptions_dark">Темна</string>
 
     <string id="menuPrepareTimeOptions_title">Підготовка</string>
     <string id="menuFinalizeTimeOptions_title">Завершення</string>
@@ -104,13 +101,15 @@
     <string id="menuPrepareTimeOptions_10m">10 хв</string>
 
     <string id="menuHrvWindowSizeOptions_title">Вікно HRV</string>
+    <string id="menuLabelDefault">за замовч.</string>
+    <string id="menuLabelRecommended">рекомен.</string>
 
     <string id="menuGlobalSettings_useSessionName">Назва сеансу = назва актив.</string>
     <string id="menuGlobalSettings_useSessionName_on">Так</string>
-    <string id="menuGlobalSettings_useSessionName_off">Ні (за замовч.)</string>
+    <string id="menuGlobalSettings_useSessionName_off">Ні</string>
 
     <string id="menuNotificationOptions_title">Сповіщення</string>
-    <string id="menuNotificationOptions_on">Увімк. (за замовч.)</string>
+    <string id="menuNotificationOptions_on">Увімк.</string>
     <string id="menuNotificationOptions_off">Вимк.</string>
 
     <string id="menuIntervalAlertSettings_Title">Інтерв. нагад.</string>
@@ -204,7 +203,7 @@
     <string id="finishMenu_discard">Скасувати</string>
     <string id="optionsMenuHelp">Натисніть старт</string>
 
-    <string id="about_AppVersion">v10.7.0</string>
+    <string id="about_AppVersion">v10.7.3</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>
     <string id="about_falsetru">falsetru</string>

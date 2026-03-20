@@ -58,18 +58,15 @@
 
 
     <string id="menuNewHrvTrackingOptions_title">Hrv Tracking</string>
-    <string id="menuNewHrvTrackingOptions_onDetailed">On Detailed (Default)</string>
     <string id="menuNewHrvTrackingOptions_on">On</string>
     <string id="menuNewHrvTrackingOptions_off">Off</string>
-    <string id="menuNewHrvTrackingOptions_onDetailedSimple">On Detailed</string>
 
     <string id="menuHrvTrackingOptions_title">Hrv Tracking</string>
-    <string id="menuHrvTrackingOptions_onDetailed">On Detailed (Default)</string>
+    <string id="menuHrvTrackingOptions_onDetailed">On Detailed</string>
     <string id="menuHrvTrackingOptions_on">On</string>
     <string id="menuHrvTrackingOptions_off">Off</string>
 
     <string id="menuConfirmSaveActivityOptions_title">Confirm Save</string>
-    <string id="menuConfirmSaveActivityOptions_ask">Ask (Default)</string>
     <string id="menuConfirmSaveActivityOptions_autoYes">Auto Yes</string>
     <string id="menuConfirmSaveActivityOptions_autoNo">Auto No</string>
     <string id="menuConfirmSaveActivityOptions_askSimple">Ask</string>
@@ -77,20 +74,20 @@
 
     <string id="menuMultiSessionOptions_title">Multi-Session</string>
     <string id="menuMultiSessionOptions_yes">Yes</string>
-    <string id="menuMultiSessionOptions_no">No (Default)</string>
+    <string id="menuMultiSessionOptions_no">No</string>
 
     <string id="menuRespirationRateOptions_title">Respiration</string>
-    <string id="menuRespirationRateOptions_on">On (Default)</string>
+    <string id="menuRespirationRateOptions_on">On</string>
     <string id="menuRespirationRateOptions_off">Off</string>
 
     <string id="menuAutoStopOptions_title">Auto Stop</string>
-    <string id="menuAutoStopOptions_on">On (Default)</string>
+    <string id="menuAutoStopOptions_on">On</string>
     <string id="menuAutoStopOptions_off">Off</string>
 
 
     <string id="menuColorThemeOptions_title">Color Theme</string>
     <string id="menuColorThemeOptions_light">Light</string>
-    <string id="menuColorThemeOptions_dark">Dark (Default)</string>
+    <string id="menuColorThemeOptions_dark">Dark</string>
 
     <string id="menuPrepareTimeOptions_title">Preparation</string>
     <string id="menuFinalizeTimeOptions_title">Finalization</string>
@@ -106,13 +103,15 @@
     <string id="menuPrepareTimeOptions_10m">10 min</string>
 
     <string id="menuHrvWindowSizeOptions_title">HRV Window</string>
+    <string id="menuLabelDefault">Default</string>
+    <string id="menuLabelRecommended">Recommended</string>
 
     <string id="menuGlobalSettings_useSessionName">Session name = Activity name</string>
     <string id="menuGlobalSettings_useSessionName_on">Yes</string>
-    <string id="menuGlobalSettings_useSessionName_off">No (Default)</string>
+    <string id="menuGlobalSettings_useSessionName_off">No</string>
 
     <string id="menuNotificationOptions_title">Notifications</string>
-    <string id="menuNotificationOptions_on">On (Default)</string>
+    <string id="menuNotificationOptions_on">On</string>
     <string id="menuNotificationOptions_off">Off</string>
 
     <string id="menuIntervalAlertSettings_Title">Interval Alerts</string>
@@ -207,7 +206,7 @@
     <string id="finishMenu_discard">Discard</string>
     <string id="optionsMenuHelp">Press start for options</string>
 
-    <string id="about_AppVersion">v10.7.0</string>
+    <string id="about_AppVersion">v10.7.3</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>
     <string id="about_falsetru">falsetru</string>
