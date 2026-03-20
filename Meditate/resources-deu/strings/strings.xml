@@ -57,18 +57,15 @@
     <string id="activityTypeMenu_generic">Allgemein</string>
 
     <string id="menuNewHrvTrackingOptions_title">HRV-Überw.</string>
-    <string id="menuNewHrvTrackingOptions_onDetailed">Detail. Ein (Std.)</string>
     <string id="menuNewHrvTrackingOptions_on">Ein</string>
     <string id="menuNewHrvTrackingOptions_off">Aus</string>
-    <string id="menuNewHrvTrackingOptions_onDetailedSimple">Detailliert ein</string>
 
     <string id="menuHrvTrackingOptions_title">HRV-Überw.</string>
-    <string id="menuHrvTrackingOptions_onDetailed">Detail. Ein (Std.)</string>
+    <string id="menuHrvTrackingOptions_onDetailed">Detailliert ein</string>
     <string id="menuHrvTrackingOptions_on">Ein</string>
     <string id="menuHrvTrackingOptions_off">Aus</string>
 
     <string id="menuConfirmSaveActivityOptions_title">Speich. best.</string>
-    <string id="menuConfirmSaveActivityOptions_ask">Fragen (Standard)</string>
     <string id="menuConfirmSaveActivityOptions_autoYes">Auto Ja</string>
     <string id="menuConfirmSaveActivityOptions_autoNo">Auto Nein</string>
     <string id="menuConfirmSaveActivityOptions_askSimple">Fragen</string>
@@ -76,20 +73,20 @@
 
     <string id="menuMultiSessionOptions_title">Mehr. Sitz.</string>
     <string id="menuMultiSessionOptions_yes">Ja</string>
-    <string id="menuMultiSessionOptions_no">Nein (Standard)</string>
+    <string id="menuMultiSessionOptions_no">Nein</string>
 
     <string id="menuRespirationRateOptions_title">Atm.-Freq.</string>
-    <string id="menuRespirationRateOptions_on">Ein (Standard)</string>
+    <string id="menuRespirationRateOptions_on">Ein</string>
     <string id="menuRespirationRateOptions_off">Aus</string>
 
     <string id="menuAutoStopOptions_title">Auto Stopp</string>
-    <string id="menuAutoStopOptions_on">Ein (Standard)</string>
+    <string id="menuAutoStopOptions_on">Ein</string>
     <string id="menuAutoStopOptions_off">Aus</string>
 
 
     <string id="menuColorThemeOptions_title">Farbschema</string>
     <string id="menuColorThemeOptions_light">Hell</string>
-    <string id="menuColorThemeOptions_dark">Dunkel (Standard)</string>
+    <string id="menuColorThemeOptions_dark">Dunkel</string>
 
     <string id="menuPrepareTimeOptions_title">Vorbereitung</string>
     <string id="menuFinalizeTimeOptions_title">Abschluss</string>
@@ -105,13 +102,15 @@
     <string id="menuPrepareTimeOptions_10m">10 min</string>
 
     <string id="menuHrvWindowSizeOptions_title">HRV Fenster</string>
+    <string id="menuLabelDefault">Standard</string>
+    <string id="menuLabelRecommended">Empfohlen</string>
 
     <string id="menuGlobalSettings_useSessionName">Sitzungsname = Aktivitätsname</string>
     <string id="menuGlobalSettings_useSessionName_on">Ja</string>
-    <string id="menuGlobalSettings_useSessionName_off">Nein (Standard)</string>
+    <string id="menuGlobalSettings_useSessionName_off">Nein</string>
 
     <string id="menuNotificationOptions_title">Benachrichtigungen</string>
-    <string id="menuNotificationOptions_on">Ein (Standard)</string>
+    <string id="menuNotificationOptions_on">Ein</string>
     <string id="menuNotificationOptions_off">Aus</string>
 
     <string id="menuIntervalAlertSettings_Title">Intervall-Alerts</string>

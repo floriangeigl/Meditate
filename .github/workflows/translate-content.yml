@@ -38,6 +38,7 @@ jobs:
           codex-args: --full-auto
           safety-strategy: drop-sudo
           sandbox: workspace-write
+          model: gpt-5.4
 
       - name: git commit && push
         run: |
