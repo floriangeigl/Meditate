@@ -7,10 +7,10 @@ share-title: Guide utilisateur Meditation & Breathwork (Garmin) | Florian Geigl
 share-description: Installation, fonctionnalités, FAQ, dépannage et support pour l’app Garmin Meditation & Breathwork.
 ---
 
-Ce guide est là pour vous aider - pas pour vous submerger :)
+Ce guide est là pour t’aider - pas pour te submerger :)
 
-Vous n’avez pas besoin de tout comprendre pour commencer.  
-Commencez par le **Guide débutant**, puis revenez au **Guide avancé** quand vous êtes curieux.
+Tu n’as pas besoin de tout comprendre pour commencer.  
+Commence par le **Guide débutant**, puis reviens au **Guide avancé** quand tu es curieux.
 
 ### Sommaire
 
@@ -42,9 +42,9 @@ _(Tout ce qu’il faut pour bien commencer)_
 
 ## À quoi sert cette app
 
-Meditation & Breathwork vous aide à rester présent tout en observant en douceur comment votre corps réagit pendant la méditation et la respiration.
+Meditation & Breathwork t’aide à rester présent tout en observant en douceur comment ton corps réagit pendant la méditation et la respiration.
 
-Elle vous permet de :
+Elle te permet de :
 
 - lancer des sessions simples ou structurées
 - recevoir des signaux vibrants au lieu de distractions visuelles
@@ -53,7 +53,7 @@ Elle vous permet de :
 
 L’objectif est **la conscience, pas la performance**.
 
-Si vous voulez une réflexion courte et motivante sur l’importance de ralentir (et pourquoi c’est difficile dans une culture rapide), **[Cory Muscara dans The Practicing Human - “Why You Need to Slow Down”](https://practicinghuman.buzzsprout.com/597910/episodes/18537284-why-you-need-to-slow-down)** montre comment la vitesse peut éroder les relations, le bonheur et la clarté des décisions.
+Si tu veux une réflexion courte et motivante sur l’importance de ralentir (et pourquoi c’est difficile dans une culture rapide), **[Cory Muscara dans The Practicing Human - “Why You Need to Slow Down”](https://practicinghuman.buzzsprout.com/597910/episodes/18537284-why-you-need-to-slow-down)** montre comment la vitesse peut éroder les relations, le bonheur et la clarté des décisions.
 
 ---
 
@@ -61,12 +61,12 @@ Si vous voulez une réflexion courte et motivante sur l’importance de ralentir
 
 ## Démarrer votre première session
 
-1. Ouvrez l’app.
-2. Sélectionnez une session dans la liste.
-3. Appuyez sur **Start** (ou touchez l’écran sur les appareils tactiles).
-4. Essayez de garder le poignet immobile au début - cela aide les capteurs à se stabiliser.
+1. Ouvre l’app.
+2. Sélectionne une session dans la liste.
+3. Appuie sur **Start** (ou touche l’écran sur les appareils tactiles).
+4. Essaie de garder le poignet immobile au début - cela aide les capteurs à se stabiliser.
 
-Pendant la session, vous voyez :
+Pendant la session, tu vois :
 
 - le temps écoulé
 - la fréquence cardiaque actuelle
@@ -74,13 +74,13 @@ Pendant la session, vous voyez :
 - le stress et la respiration (si pris en charge)
 - de petits marqueurs colorés indiquant les prochaines alertes de vibration
 
-Vous pouvez :
+Tu peux :
 
 - mettre en pause ou reprendre avec le **bouton retour**
 - arrêter la session avec le **bouton start/stop**
 - ajuster la luminosité via les boutons de la montre ou le tactile
 
-Quand vous arrêtez, vous pouvez enregistrer ou ignorer la session.  
+Quand tu arrêtes, tu peux enregistrer ou ignorer la session.  
 Les sessions enregistrées apparaissent dans Garmin Connect après synchronisation.
 
 ---
@@ -89,17 +89,17 @@ Les sessions enregistrées apparaissent dans Garmin Connect après synchronisati
 
 ## Une façon simple de méditer
 
-Si vous ne savez pas méditer, vous n’êtes pas seul - et vous n’êtes pas en retard.  
-Vous faites déjà l’essentiel : vous êtes là.
+Si tu ne sais pas méditer, tu n’es pas seul - et tu n’es pas en retard.  
+Tu fais déjà l’essentiel : tu es là.
 
 Méditer, ce n’est pas arrêter les pensées, vider l’esprit ou tout faire “comme il faut”. Même les méditants expérimentés voient leur esprit partir toutes les quelques secondes. C’est normal.
 
 La pratique n’est pas de rester concentré en permanence.  
 La pratique, c’est de remarquer quand ce n’est plus le cas — puis revenir doucement.
 
-Si, pendant votre première année, vous ne faisiez que ce qui est décrit ici, ce serait déjà largement suffisant.
+Si, pendant ta première année, tu ne faisais que ce qui est décrit ici, ce serait déjà largement suffisant.
 
-Et une chose importante : plus vous apportez **d’humour, de douceur et de bienveillance**, plus la pratique devient agréable — et souvent plus utile. Vous n’essayez pas de “gagner” en méditation. Vous apprenez à être avec vous-même.
+Et une chose importante : plus tu apportes **d’humour, de douceur et de bienveillance**, plus la pratique devient agréable — et souvent plus utile. Tu n’essaies pas de “gagner” en méditation. Tu apprends à être avec toi-même.
 
 ---
 
@@ -107,9 +107,9 @@ Et une chose importante : plus vous apportez **d’humour, de douceur et de bien
 
 Pas besoin de visualiser quoi que ce soit, ni de respirer d’une façon spéciale.
 
-1. Asseyez-vous ou allongez-vous dans une position confortable.
+1. Assieds-toi ou allonge-toi dans une position confortable.
 2. Laissez la respiration se faire naturellement.
-3. Portez votre attention sur la sensation de l’air au niveau du nez.
+3. Porte ton attention sur la sensation de l’air au niveau du nez.
 
 Vous pouvez remarquer :
 
@@ -119,28 +119,28 @@ Vous pouvez remarquer :
 
 C’est suffisant. Rien d’autre à atteindre.
 
-Si cela aide, vous pouvez nommer doucement : _« inspire »_ … _« expire »_.  
+Si cela aide, tu peux nommer doucement : _« inspire »_ … _« expire »_.  
 Simple et doux.
 
 ---
 
 ### Quand l’esprit part - et il partira
 
-À un moment — souvent après quelques secondes — votre esprit va vagabonder.
+À un moment — souvent après quelques secondes — ton esprit va vagabonder.
 
-Vous pouvez penser à :
+Tu peux penser à :
 
-- ce que vous devriez faire
+- ce que tu devrais faire
 - quelque chose du passé
 - quelque chose d’agaçant
 - rien d’important
 
-Cela ne veut pas dire que vous méditez mal. Cela veut juste dire que l’esprit fait ce qu’un esprit fait.
+Cela ne veut pas dire que tu médites mal. Cela veut juste dire que l’esprit fait ce qu’un esprit fait.
 
-Parfois, l’esprit essaie même de vous ramener vers l’activité, la tension ou un peu de chaos, parce que c’est familier et donc rassurant. Le système nerveux peut s’accrocher à un enfer familier avant d’apprendre à faire confiance à un paradis inconnu. Et ces pensées peuvent sembler très convaincantes, comme de l’intuition, voire comme votre identité. Il peut proposer des pensées “très urgentes” comme :  
+Parfois, l’esprit essaie même de te ramener vers l’activité, la tension ou un peu de chaos, parce que c’est familier et donc rassurant. Le système nerveux peut s’accrocher à un enfer familier avant d’apprendre à faire confiance à un paradis inconnu. Et ces pensées peuvent sembler très convaincantes, comme de l’intuition, voire comme ton identité. Il peut proposer des pensées “très urgentes” comme :  
 _« Il faut absolument réorganiser toute notre vie maintenant. »_
 
-Vous pouvez accueillir ce moment avec un sourire :
+Tu peux accueillir ce moment avec un sourire :
 
 > « Ah, te revoilà. Le chaos te manque. Petit mental malin. Je t’aime. »
 
@@ -148,34 +148,34 @@ Vous pouvez accueillir ce moment avec un sourire :
 
 ### La partie la plus importante
 
-Le moment où vous remarquez que votre attention est partie n’est pas un échec. C’est exactement là que la pratique se passe.
+Le moment où tu remarques que ton attention est partie n’est pas un échec. C’est exactement là que la pratique se passe.
 
-Quand vous remarquez :
+Quand tu remarques :
 
 - marquez une pause
 - souriez peut-être
-- demandez-vous avec bienveillance :
+- demande-toi avec bienveillance :
   _« Est-ce que je veux revenir au souffle maintenant ? »_
 
-Si la réponse est oui, revenez à la sensation du souffle au nez.  
-Si la réponse est non, c’est ok aussi — vous pourrez redemander plus tard.
+Si la réponse est oui, reviens à la sensation du souffle au nez.  
+Si la réponse est non, c’est ok aussi — tu pourras redemander plus tard.
 
 Chaque retour est un petit entraînement.  
-Et chaque fois que vous remarquez, vous pouvez célébrer doucement : _« Ah — j’ai remarqué. »_
+Et chaque fois que tu remarques, tu peux célébrer doucement : _« Ah — j’ai remarqué. »_
 
 ---
 
-### Soyez bienveillant avec vous-même
+### Sois Bienveillant Avec Toi-même
 
 Revenir encore et encore n’est pas un problème. C’est l’entraînement.
 
-À chaque fois que vous remarquez et revenez :
+À chaque fois que tu remarques et reviens :
 
-- vous renforcez la conscience
-- vous développez la patience
-- vous apprenez à votre système nerveux que le calme est sûr
+- tu renforces la conscience
+- tu développes la patience
+- tu apprends à ton système nerveux que le calme est sûr
 
-Si vous sentez de la dureté envers vous-même, essayez d’adoucir un peu :  
+Si tu sens de la dureté envers toi-même, essaie d’adoucir un peu :  
 _« Bien sûr que mon esprit est parti. C’est normal. On revient. »_
 
 La douceur fonctionne mieux que la force. La curiosité fonctionne mieux que la discipline.  
@@ -183,15 +183,15 @@ Et l’humour rend la pratique plus humaine.
 
 ---
 
-### Si vous voulez aller plus loin
+### Si Tu Veux Aller Plus Loin
 
-Cette pratique simple peut déjà vous emmener très loin.
+Cette pratique simple peut déjà t’emmener très loin.
 
-Si un jour vous voulez approfondir la méditation — surtout la relation à l’agitation, à la peur et à la bienveillance envers vous-même — un excellent point de départ est :
+Si un jour tu veux approfondir la méditation — surtout la relation à l’agitation, à la peur et à la bienveillance envers toi-même — un excellent point de départ est :
 
 **Pema Chödrön - _How to Meditate: A Practical Guide to Making Friends with Your Mind_** (Sounds True, 2013).
 
-Et si vous traversez un changement, un lâcher-prise, ou sentez qu’une partie de la pratique consiste à dire au revoir à une ancienne manière d’être, cet épisode de podcast - **[Brave Souls - “Kissing your old life goodbye”](https://open.spotify.com/episode/0lbaZMdJm7E90vmqYTTs0I)** - peut être un beau compagnon. Si vous manquez de temps, commencez vers 27 minutes et écoutez jusqu’à la fin, idéalement avec des écouteurs.
+Et si tu traverses un changement, un lâcher-prise, ou sens qu’une partie de la pratique consiste à dire au revoir à une ancienne manière d’être, cet épisode de podcast - **[Brave Souls - “Kissing your old life goodbye”](https://open.spotify.com/episode/0lbaZMdJm7E90vmqYTTs0I)** - peut être un beau compagnon. Si tu manques de temps, commence vers 27 minutes et écoute jusqu’à la fin, idéalement avec des écouteurs.
 
 Aucune urgence. Ce contenu est là quand la curiosité se présente.
 
@@ -199,14 +199,14 @@ Aucune urgence. Ce contenu est là quand la curiosité se présente.
 
 ### C’est vraiment tout
 
-Vous n’avez rien d’autre à faire.
+Tu n’as rien d’autre à faire.
 
-Si votre esprit est parti 100 fois et que vous êtes revenu 100 fois, c’était une bonne session.  
-Si vous ne restiez avec le souffle que quelques secondes à la fois, c’était une bonne session.
+Si ton esprit est parti 100 fois et que tu es revenu 100 fois, c’était une bonne session.  
+Si tu ne restais avec le souffle que quelques secondes à la fois, c’était une bonne session.
 
 La méditation ne consiste pas à rester calme en permanence. Elle consiste à apprendre à revenir.
 
-Et vous avez le droit de le faire avec douceur, chaleur, humour et respect de vous-même.
+Et tu as le droit de le faire avec douceur, chaleur, humour et respect de toi-même.
 
 ---
 
@@ -214,7 +214,7 @@ Et vous avez le droit de le faire avec douceur, chaleur, humour et respect de vo
 
 ## Choisir une session
 
-Dans le sélecteur de sessions, vous voyez :
+Dans le sélecteur de sessions, tu vois :
 
 - la durée de session
 - le schéma de vibration
@@ -224,7 +224,7 @@ Dans le sélecteur de sessions, vous voyez :
 ### Indicateur VFC
 
 - **Off** - suivi VFC et stress désactivé
-- **Waiting** - capteur pas encore stabilisé (restez immobile un moment)
+- **Waiting** - capteur pas encore stabilisé (reste immobile un moment)
 - **Ready** - suivi VFC actif  
   Pour des données VFC fiables, limitez les mouvements du poignet.
 
@@ -260,7 +260,7 @@ Souvent utilisé avant le sommeil.
 - Inspirez par le nez si possible
 - Expirez par la bouche
 - Des expirations plus longues que les inspirations calment souvent
-- Si la respiration rythmée vous stresse, choisissez une session simple et respirez naturellement
+- Si la respiration rythmée te stresse, choisis une session simple et respire naturellement
 
 ---
 
@@ -369,7 +369,7 @@ Quand HRV Tracking est réglé sur **On Detailed**, l’app enregistre :
 - SDRR (5 premières minutes)
 - SDRR (5 dernières minutes)
 
-Ces valeurs servent à **explorer et apprendre**, pas à vous évaluer.
+Ces valeurs servent à **explorer et apprendre**, pas à t’évaluer.
 
 ---
 
@@ -441,7 +441,7 @@ Accès :
 
 # FAQ et dépannage
 
-Cette section vous aide si quelque chose semble confus ou ne fonctionne pas comme prévu.  
+Cette section est là pour t’aider si quelque chose semble confus ou ne fonctionne pas comme prévu.  
 La plupart des problèmes se résolvent facilement.
 
 ---
@@ -461,7 +461,7 @@ La plupart des problèmes se résolvent facilement.
       Rouvrez l’app, restez immobile ~30 secondes, puis démarrez la session.
     </li>
     <li>
-      Si vous n’utilisez pas de capteur externe (ceinture thoracique), ouvrez les paramètres de connectivité de la montre et vérifiez que les capteurs externes sont déconnectés.<br>
+      Si tu n’utilises pas de capteur externe (ceinture thoracique), ouvre les paramètres de connectivité de la montre et vérifie que les capteurs externes sont déconnectés.<br>
       Une ceinture proche peut parfois se reconnecter automatiquement.
     </li>
     <li>Vérifiez le positionnement de la montre. Après ajustement, restez immobile ~30 secondes.</li>
@@ -482,7 +482,7 @@ La plupart des problèmes se résolvent facilement.
 
   <p>Oui.</p>
 
-  <p>Vous pouvez modifier le nom directement sur la montre :</p>
+  <p>Tu peux modifier le nom directement sur la montre :</p>
 
   <ul>
     <li>Ouvrez <strong>Add New</strong> ou <strong>Edit</strong> pour une session</li>
@@ -491,7 +491,7 @@ La plupart des problèmes se résolvent facilement.
   </ul>
 
   <p>
-    Pour utiliser ce nom aussi comme nom d’activité dans Garmin Connect, activez :<br>
+    Pour utiliser ce nom aussi comme nom d’activité dans Garmin Connect, active :<br>
     <strong>Global Settings → Session name = Activity name</strong>
   </p>
 
@@ -505,7 +505,7 @@ La plupart des problèmes se résolvent facilement.
 <details>
   <summary><strong>L’app plante dès que je lance une session - que faire ?</strong></summary>
 
-  <p>Si l’app s’ouvre mais plante au lancement, votre modèle de montre ne prend probablement pas en charge le type d’activité choisi.</p>
+  <p>Si l’app s’ouvre mais plante au lancement, ton modèle de montre ne prend probablement pas en charge le type d’activité choisi.</p>
 
   <p>Modifiez la session et choisissez un autre type :</p>
 
@@ -546,14 +546,14 @@ La plupart des problèmes se résolvent facilement.
 
   <p>L’app utilise le signal respiratoire fourni par Garmin, qui peut être moins fiable pendant des pratiques très calmes et immobiles.</p>
 
-  <p>Si vous voulez plus de précision, une ceinture compatible VFC et respiration (ex. HRM-600) peut aider.</p>
+  <p>Si tu veux plus de précision, une ceinture compatible VFC et respiration (ex. HRM-600) peut aider.</p>
 
 </details>
 
 <details>
   <summary><strong>L’écran est trop lumineux au démarrage de l’app</strong></summary>
 
-  <p>Cela dépend des paramètres <strong>Focus Mode</strong> de votre montre pour les activités, pas de l’app.</p>
+  <p>Cela dépend des paramètres <strong>Focus Mode</strong> de ta montre pour les activités, pas de l’app.</p>
 
   <p>Par défaut, Garmin peut régler la luminosité d’activité autour de 80%.</p>
 
@@ -587,7 +587,7 @@ La plupart des problèmes se résolvent facilement.
 
   <p>
     L’app ne lit ni ne contrôle la musique.
-    Mais sur beaucoup de montres Garmin, vous pouvez lancer la musique séparément puis démarrer la session.
+    Mais sur beaucoup de montres Garmin, tu peux lancer la musique séparément puis démarrer la session.
   </p>
 
   <p><strong>Accès aux contrôles musique (selon modèle)</strong></p>
@@ -607,7 +607,7 @@ La plupart des problèmes se résolvent facilement.
 
   <p><strong>Option 2 :</strong> via <strong>Settings</strong> → <strong>System</strong> → <strong>Power Off</strong> ou <strong>Restart</strong>.</p>
 
-  <p>Le redémarrage n’efface pas vos données.</p>
+  <p>Le redémarrage n’efface pas tes données.</p>
 
 </details>
 
@@ -661,7 +661,7 @@ La plupart des problèmes se résolvent facilement.
 
 # Support / Signaler un problème
 
-Si quelque chose ne fonctionne pas, ou pour tout retour et demande de fonctionnalité, vous pouvez [m’envoyer un e-mail](mailto:florian.geigl+garmin@gmail.com?subject=User%20Feedback%20for%20Meditation%20and%20Breathwork%20-%20Connect%20IQ%20Notification).
+Si quelque chose ne fonctionne pas, ou pour tout retour et demande de fonctionnalité, tu peux [m’envoyer un e-mail](mailto:florian.geigl+garmin@gmail.com?subject=User%20Feedback%20for%20Meditation%20and%20Breathwork%20-%20Connect%20IQ%20Notification).
 
 <a id="privacy"></a>
 
