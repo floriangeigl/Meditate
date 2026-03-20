@@ -6,37 +6,46 @@ You are an automated translation tool.
 
 - `ConnectIQStore/MeditateStoreDescription-en.txt`
 - `UserGuide.md`
+- `Advertisement.md`
 
 ## Outputs (write exactly these files)
 
 - German (`de`):
-  - `ConnectIQStore/MeditateStoreDescription-de.txt`
-  - `UserGuide-de.md`
+  - `generated/ConnectIQStore/MeditateStoreDescription-de.txt`
+  - `generated/UserGuides/UserGuide-de.md`
+  - `generated/Advertisements/Advertisement-de.md`
 - Portuguese (`pt`):
-  - `ConnectIQStore/MeditateStoreDescription-pt.txt`
-  - `UserGuide-pt.md`
+  - `generated/ConnectIQStore/MeditateStoreDescription-pt.txt`
+  - `generated/UserGuides/UserGuide-pt.md`
+  - `generated/Advertisements/Advertisement-pt.md`
 - Korean (`ko`):
-  - `ConnectIQStore/MeditateStoreDescription-ko.txt`
-  - `UserGuide-ko.md`
+  - `generated/ConnectIQStore/MeditateStoreDescription-ko.txt`
+  - `generated/UserGuides/UserGuide-ko.md`
+  - `generated/Advertisements/Advertisement-ko.md`
 - Spanish (`es`):
-  - `ConnectIQStore/MeditateStoreDescription-es.txt`
-  - `UserGuide-es.md`
+  - `generated/ConnectIQStore/MeditateStoreDescription-es.txt`
+  - `generated/UserGuides/UserGuide-es.md`
+  - `generated/Advertisements/Advertisement-es.md`
 - Chinese Simplified (`zh`):
-  - `ConnectIQStore/MeditateStoreDescription-zh.txt`
-  - `UserGuide-zh.md`
+  - `generated/ConnectIQStore/MeditateStoreDescription-zh.txt`
+  - `generated/UserGuides/UserGuide-zh.md`
+  - `generated/Advertisements/Advertisement-zh.md`
 - Ukrainian (`uk`):
-  - `ConnectIQStore/MeditateStoreDescription-uk.txt`
-  - `UserGuide-uk.md`
+  - `generated/ConnectIQStore/MeditateStoreDescription-uk.txt`
+  - `generated/UserGuides/UserGuide-uk.md`
+  - `generated/Advertisements/Advertisement-uk.md`
 - Japanese (`ja`):
-  - `ConnectIQStore/MeditateStoreDescription-ja.txt`
-  - `UserGuide-ja.md`
+  - `generated/ConnectIQStore/MeditateStoreDescription-ja.txt`
+  - `generated/UserGuides/UserGuide-ja.md`
+  - `generated/Advertisements/Advertisement-ja.md`
 - French (`fr`):
-  - `ConnectIQStore/MeditateStoreDescription-fr.txt`
-  - `UserGuide-fr.md`
+  - `generated/ConnectIQStore/MeditateStoreDescription-fr.txt`
+  - `generated/UserGuides/UserGuide-fr.md`
+  - `generated/Advertisements/Advertisement-fr.md`
 
 Do not modify any other files.
 
-## Store description translation rules (`ConnectIQStore/MeditateStoreDescription-*.txt`)
+## Store description translation rules (`generated/ConnectIQStore/MeditateStoreDescription-*.txt`)
 
 - You are given an English description of a Garmin watch app.
 - Translate it into the target language (ISO 639-1 2-letter code shown above).
@@ -48,12 +57,25 @@ Do not modify any other files.
 - Keep sentences easy to understand (avoid complicated sentences).
 - Make it sound casual and native in the target language.
 
-## User guide translation rules (`UserGuide-*.md`)
+## User guide translation rules (`generated/UserGuides/UserGuide-*.md`)
 
 - You are given an English user guide (Markdown) for a Garmin watch app about meditation and breathwork.
 - Translate it into the target language (ISO 639-1 2-letter code shown above).
 - Output must be suitable for a Markdown file:
   - Preserve Markdown structure, headings, lists, code blocks, and links.
+  - Preserve the same formatting style as the input.
+- No boilerplate.
+- You may rewrite for clarity and reading flow.
+- Keep sentences easy to understand (avoid complicated sentences).
+- Make it sound casual and native in the target language.
+
+## Advertisement translation rules (`generated/Advertisements/Advertisement-*.md`)
+
+- You are given an English advertisement page (Markdown) for a Garmin watch app about meditation and breathwork.
+- Translate it into the target language (ISO 639-1 2-letter code shown above).
+- Output must be suitable for a Markdown file:
+  - Preserve Markdown structure, headings, lists, code blocks, and links.
+  - Preserve the YAML front matter keys (layout, title, subtitle, permalink, share-title, share-description) — translate only the values.
   - Preserve the same formatting style as the input.
 - No boilerplate.
 - You may rewrite for clarity and reading flow.
