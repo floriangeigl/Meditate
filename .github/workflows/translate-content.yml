@@ -1,7 +1,10 @@
 name: Translate texts, guides, etc
 run-name: Translate texts, guides, etc by @${{ github.actor }}
+concurrency:
+  group: translate-content
+  cancel-in-progress: true
 on:
-  pull_request:
+  push:
     branches:
       - "main"
     paths:
@@ -18,8 +21,6 @@ jobs:
       pull-requests: write
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: refs/pull/${{ github.event.pull_request.number }}/head
       - name: cleanup release-translation branch
         run: |
           git push -d origin release-translation || echo "no remote branch to cleanup"
