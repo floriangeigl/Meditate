@@ -1,0 +1,26 @@
+<strings>
+	<string id="minHrField">FC min</string>
+	<string id="hrUnits">bpm</string>
+
+	<string id="hrvSdrrFieldLabel">HRV SDRR</string>
+	<string id="hrvSdrrFirst5MinFieldLabel">HRV SDRR 5 prem. min</string>
+	<string id="hrvSdrrLast5MinFieldLabel">HRV SDRR 5 dern. min</string>
+
+	<string id="hrvFieldUnits">ms</string>
+
+	<string id="hrvSuccessiveField">HRV différences success. (ms)</string>
+	<string id="hrvRmssdFieldLabel">HRV RMSSD</string>
+	<string id="hrvPnn20FieldLabel">HRV pNN20</string>
+	<string id="hrvPnn50FieldLabel">HRV pNN50</string>
+
+	<string id="hrvRmssdWindowField">Fenêtre HRV RMSSD (ms)</string>
+
+	<string id="percentUnits">%</string>
+	<string id="stressUnits">%</string>
+
+	<string id="hrvRrIntervalsField">HRV intervalle battements (ms)</string>
+
+	<string id="hrPeaksWindow10Field">Pics FC fenêtre 10 s (bpm)</string>
+	<string id="stressField">Stress</string>
+	<string id="hrFromHeartbeatField">FC depuis battements (bpm)</string>
+</strings>

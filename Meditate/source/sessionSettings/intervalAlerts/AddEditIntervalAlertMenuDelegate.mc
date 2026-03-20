@@ -77,8 +77,28 @@ class AddEditIntervalAlertMenuDelegate extends Ui.Menu2InputDelegate {
 	function onSelect(item) {
 		var id = item.getId();
 		if (id == :vibePattern) {
+			var vp = me.mIntervalAlert.vibePattern;
+			var focusIdx = 0;
+			if (vp == VibePattern.LongContinuous) { focusIdx = 1; }
+			else if (vp == VibePattern.LongSound) { focusIdx = 2; }
+			else if (vp == VibePattern.LongPulsating) { focusIdx = 3; }
+			else if (vp == VibePattern.LongAscending) { focusIdx = 4; }
+			else if (vp == VibePattern.LongDescending) { focusIdx = 5; }
+			else if (vp == VibePattern.MediumContinuous) { focusIdx = 6; }
+			else if (vp == VibePattern.MediumPulsating) { focusIdx = 7; }
+			else if (vp == VibePattern.MediumAscending) { focusIdx = 8; }
+			else if (vp == VibePattern.MediumDescending) { focusIdx = 9; }
+			else if (vp == VibePattern.ShortContinuous) { focusIdx = 10; }
+			else if (vp == VibePattern.ShortPulsating) { focusIdx = 11; }
+			else if (vp == VibePattern.ShortAscending) { focusIdx = 12; }
+			else if (vp == VibePattern.ShortDescending) { focusIdx = 13; }
+			else if (vp == VibePattern.Blip) { focusIdx = 14; }
+			else if (vp == VibePattern.ShortSound) { focusIdx = 15; }
+			else if (vp == VibePattern.ShorterAscending) { focusIdx = 16; }
+			else if (vp == VibePattern.ShorterContinuous) { focusIdx = 17; }
 			var intervalVibeMenu = new Ui.Menu2({
 				:title => Ui.loadResource(Rez.Strings.intervalVibePatternMenu_title),
+				:focus => focusIdx,
 			});
 			intervalVibeMenu.addItem(
 				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_noNotification), "", :noNotification, {})
@@ -158,7 +178,8 @@ class AddEditIntervalAlertMenuDelegate extends Ui.Menu2InputDelegate {
 			var intervalVibePatternMenuDelegate = new IntervalVibePatternMenuDelegate(method(:onVibePatternChanged));
 			Ui.pushView(intervalVibeMenu, intervalVibePatternMenuDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :time) {
-			var intervalTypeMenu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.intervalTypeMenu_title) });
+			var focusIdx = (me.mIntervalAlert.type == IntervalAlertType.OneOff) ? 0 : 1;
+			var intervalTypeMenu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.intervalTypeMenu_title), :focus => focusIdx });
 			intervalTypeMenu.addItem(
 				new Ui.MenuItem(Ui.loadResource(Rez.Strings.intervalTypeMenu_oneOff), "", :oneOff, {})
 			);

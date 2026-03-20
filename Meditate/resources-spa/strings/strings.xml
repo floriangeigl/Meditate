@@ -24,7 +24,10 @@
     <string id="menuSessionSettings_edit">Editar</string>
     <string id="menuSessionSettings_delete">Eliminar</string>
     <string id="menuSessionSettings_globalSettings">Config Global</string>
+    <string id="menuSessionSettings_help">Ayuda</string>
     <string id="menuSessionSettings_about">Acerca de</string>
+
+    <string id="help_openingUserGuide">Abriendo guía en tu móvil</string>
 
     <string id="menuGlobalSettings_title">Config</string>
     <string id="menuGlobalSettings_newHrvTracking">Seguimiento HRV</string>

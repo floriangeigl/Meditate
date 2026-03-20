@@ -1,4 +1,5 @@
 using Toybox.WatchUi as Ui;
+using Toybox.Communications;
 
 class SessionSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 	private var mSessionStorage;
@@ -64,6 +65,15 @@ class SessionSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			Ui.popView(Ui.SLIDE_IMMEDIATE);
 			var globalSettingsDelegate = new GlobalSettingsDelegate(me.mSessionPickerDelegate);
 			globalSettingsDelegate.showGlobalSettingsMenu();
+		} else if (id == :help) {
+			Communications.openWebPage("https://geigl.online/meditate_app_user_guide/", null, null);
+			if (Ui has :showToast) {
+				Ui.showToast(Ui.loadResource(Rez.Strings.help_openingUserGuide), null);
+			} else {
+				Ui.popView(Ui.SLIDE_IMMEDIATE);
+				var helpDelegate = new HelpDelegate(me.mSessionPickerDelegate);
+				Ui.switchToView(helpDelegate.createScreenPickerView(), helpDelegate, Ui.SLIDE_LEFT);
+			}
 		} else if (id == :about) {
 			Ui.popView(Ui.SLIDE_IMMEDIATE);
 			var aboutDelegate = new AboutDelegate(me.mSessionPickerDelegate);
@@ -112,8 +122,11 @@ class SessionSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			4
 		);
 
-		// 5: about - no subtext
-		me.mMenu.updateItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_about), "", :about, {}), 5);
+		// 5: help - no subtext
+		me.mMenu.updateItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_help), "", :help, {}), 5);
+
+		// 6: about - no subtext
+		me.mMenu.updateItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_about), "", :about, {}), 6);
 	}
 
 	private function createAddEditSessionMenu(selectedSessionIndex) {

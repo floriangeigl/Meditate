@@ -1,0 +1,213 @@
+<strings>
+    <string id="AppName">Медитація</string>
+    <string id="ConfirmSaveHeader">Зберегти?</string>
+    <string id="confirmDeleteSessionHeader">Видалити?</string>
+    <string id="confirmDeleteAllIntervalAlertsHeader">Видалити всі нагад.?</string>
+
+    <string id="SummaryTitle">Підсумок</string>
+    <string id="SummaryHR">Пульс</string>
+    <string id="SummaryStress">Стрес</string>
+    <string id="SummaryStart">Поч.: </string>
+    <string id="SummaryEnd">Кін.: </string>
+    <string id="SummaryRespiration">Дихання</string>
+    <string id="SummaryMin">Мін.:</string>
+    <string id="SummaryAvg">Сер.:</string>
+    <string id="SummaryMax">Макс.:</string>
+    <string id="SummaryHRVRMSSD">HRV RMSSD</string>
+    <string id="SummaryHRVpNNx">HRV &gt; x</string>
+    <string id="SummaryHRVSDRR">HRV SDRR</string>
+    <string id="SummaryHRVRMSSDFirst5min">Перші 5 хв</string>
+    <string id="SummaryHRVRMSSDLast5min">Ост. 5 хв</string>
+
+    <string id="menuSessionSettings_Title">Сеанс</string>
+    <string id="menuSessionSettings_addNew">Додати</string>
+    <string id="menuSessionSettings_edit">Змінити</string>
+    <string id="menuSessionSettings_delete">Видалити</string>
+    <string id="menuSessionSettings_globalSettings">Налаштування</string>
+    <string id="menuSessionSettings_help">Допомога</string>
+    <string id="menuSessionSettings_about">Про додаток</string>
+
+    <string id="help_openingUserGuide">Гід відкрито на телефоні</string>
+
+    <string id="menuGlobalSettings_title">Налашт.</string>
+    <string id="menuGlobalSettings_newHrvTracking">HRV відстеж.</string>
+    <string id="menuGlobalSettings_newActivityType">Тип активності</string>
+    <string id="menuGlobalSettings_confirmSaveActivity">Підтв. збереж.</string>
+    <string id="menuGlobalSettings_multiSession">Мульти-сеанс</string>
+    <string id="menuGlobalSettings_singleSession">Один сеанс</string>
+    <string id="menuGlobalSettings_respirationRate">Частота дих.</string>
+    <string id="menuGlobalSettings_autoStop">Автозупинка</string>
+    <string id="menuGlobalSettings_colorTheme">Тема</string>
+    <string id="menuGlobalSettings_prepareTime">Час підготовки</string>
+    <string id="menuGlobalSettings_finalizeTime">Час заверш.</string>
+    <string id="menuGlobalSettings_sensorRestart">Перезап. сенсора</string>
+    <string id="menuGlobalSettings_respiration">Дихання: </string>
+    <string id="menuGlobalSettings_save">Збер.: </string>
+
+    <string id="menuNewActivityTypeOptions_title">Активність</string>
+    <string id="menuNewActivityTypeOptions_meditating">Медитація</string>
+    <string id="menuNewActivityTypeOptions_yoga">Йога</string>
+    <string id="menuNewActivityTypeOptions_breathing">Дихання</string>
+    <string id="menuNewActivityTypeOptions_generic">Загальне</string>
+
+    <string id="activityTypeMenu_title">Тип актив.</string>
+    <string id="activityTypeMenu_yoga">Йога</string>
+    <string id="activityTypeMenu_meditating">Медитація</string>
+    <string id="activityTypeMenu_breathing">Дихання</string>
+    <string id="activityTypeMenu_generic">Загальне</string>
+
+    <string id="menuNewHrvTrackingOptions_title">HRV відстеж.</string>
+    <string id="menuNewHrvTrackingOptions_onDetailed">Детально (за замовч.)</string>
+    <string id="menuNewHrvTrackingOptions_on">Увімк.</string>
+    <string id="menuNewHrvTrackingOptions_off">Вимк.</string>
+    <string id="menuNewHrvTrackingOptions_onDetailedSimple">Детально</string>
+
+    <string id="menuHrvTrackingOptions_title">HRV відстеж.</string>
+    <string id="menuHrvTrackingOptions_onDetailed">Детально (за замовч.)</string>
+    <string id="menuHrvTrackingOptions_on">Увімк.</string>
+    <string id="menuHrvTrackingOptions_off">Вимк.</string>
+
+    <string id="menuConfirmSaveActivityOptions_title">Підтв. збереж.</string>
+    <string id="menuConfirmSaveActivityOptions_ask">Запитати (за замовч.)</string>
+    <string id="menuConfirmSaveActivityOptions_autoYes">Авто так</string>
+    <string id="menuConfirmSaveActivityOptions_autoNo">Авто ні</string>
+    <string id="menuConfirmSaveActivityOptions_askSimple">Запитати</string>
+    <string id="menuConfirmSaveActivityOptions_autoYesExit">Авто так &amp; вихід</string>
+
+    <string id="menuMultiSessionOptions_title">Мульти-сеанс</string>
+    <string id="menuMultiSessionOptions_yes">Так</string>
+    <string id="menuMultiSessionOptions_no">Ні (за замовч.)</string>
+
+    <string id="menuRespirationRateOptions_title">Дихання</string>
+    <string id="menuRespirationRateOptions_on">Увімк. (за замовч.)</string>
+    <string id="menuRespirationRateOptions_off">Вимк.</string>
+
+    <string id="menuAutoStopOptions_title">Автозупинка</string>
+    <string id="menuAutoStopOptions_on">Увімк. (за замовч.)</string>
+    <string id="menuAutoStopOptions_off">Вимк.</string>
+
+    <string id="menuColorThemeOptions_title">Тема</string>
+    <string id="menuColorThemeOptions_light">Світла</string>
+    <string id="menuColorThemeOptions_dark">Темна (за замовч.)</string>
+
+    <string id="menuPrepareTimeOptions_title">Підготовка</string>
+    <string id="menuFinalizeTimeOptions_title">Завершення</string>
+    <string id="menuPrepareTimeOptions_0s">0 с</string>
+    <string id="menuPrepareTimeOptions_15s">15 с</string>
+    <string id="menuPrepareTimeOptions_30s">30 с</string>
+    <string id="menuPrepareTimeOptions_45s">45 с</string>
+    <string id="menuPrepareTimeOptions_1m">1 хв</string>
+    <string id="menuPrepareTimeOptions_2m">2 хв</string>
+    <string id="menuPrepareTimeOptions_3m">3 хв</string>
+    <string id="menuPrepareTimeOptions_4m">4 хв</string>
+    <string id="menuPrepareTimeOptions_5m">5 хв</string>
+    <string id="menuPrepareTimeOptions_10m">10 хв</string>
+
+    <string id="menuHrvWindowSizeOptions_title">Вікно HRV</string>
+
+    <string id="menuGlobalSettings_useSessionName">Назва сеансу = назва актив.</string>
+    <string id="menuGlobalSettings_useSessionName_on">Так</string>
+    <string id="menuGlobalSettings_useSessionName_off">Ні (за замовч.)</string>
+
+    <string id="menuNotificationOptions_title">Сповіщення</string>
+    <string id="menuNotificationOptions_on">Увімк. (за замовч.)</string>
+    <string id="menuNotificationOptions_off">Вимк.</string>
+
+    <string id="menuIntervalAlertSettings_Title">Інтерв. нагад.</string>
+    <string id="menuIntervalAlertSettings_addNew">Додати</string>
+    <string id="menuIntervalAlertSettings_edit">Змінити</string>
+    <string id="menuIntervalAlertSettings_deleteAll">Видалити всі</string>
+
+    <string id="summaryRollupMenu_title">Підсумок сеансів</string>
+    <string id="summaryRollupMenuOption_exit">Вийти</string>
+
+    <!-- Multi-session post-session menu -->
+    <string id="multiSessionPostMenu_title">Мульти-сеанс</string>
+    <string id="multiSessionPostMenu_nextSession">Наст. сеанс</string>
+    <string id="multiSessionPostMenu_summary">Підсумок</string>
+    <string id="multiSessionPostMenu_endMultiSession">Заверш. мульти</string>
+
+    <string id="confirmDeleteIntervalAlertHeader">Видалити нагад.?</string>
+
+    <string id="addEditIntervalAlertMenu_title">Нагадув.</string>
+    <string id="addEditIntervalAlertMenu_time">Час</string>
+    <string id="addEditIntervalAlertMenu_offset">Зміщення</string>
+    <string id="addEditIntervalAlertMenu_color">Колір</string>
+    <string id="addEditIntervalAlertMenu_vibeSound">Вібр. / Звук</string>
+    <string id="addEditIntervalAlertMenu_delete">Видалити</string>
+
+    <string id="addEditSessionMenu_title">Сеанс</string>
+    <string id="addEditSessionMenu_name">Назва</string>
+    <string id="addEditSessionMenu_time">Час</string>
+    <string id="addEditSessionMenu_color">Колір</string>
+    <string id="addEditSessionMenu_vibeSound">Вібр. / Звук</string>
+    <string id="addEditSessionMenu_intervalAlerts">Інтерв. нагад.</string>
+    <string id="addEditSessionMenu_activityType">Тип актив.</string>
+    <string id="addEditSessionMenu_hrvTracking">HRV відстеж.</string>
+
+    <string id="intervalAlertTransparentColorText">Прозорий</string>
+
+    <string id="vibePatternMenu_title">Вібр. / Звук</string>
+    <string id="vibePatternMenu_noNotification">Без сповіщ.</string>
+    <string id="vibePatternMenu_longPulsating">Довга пульсація</string>
+    <string id="vibePatternMenu_longSound">Довгий звук</string>
+    <string id="vibePatternMenu_longContinuous">Довга безперерв.</string>
+    <string id="vibePatternMenu_longAscending">Довга наростаюча</string>
+    <string id="vibePatternMenu_mediumPulsating">Сер. пульсація</string>
+    <string id="vibePatternMenu_mediumContinuous">Сер. безперерв.</string>
+    <string id="vibePatternMenu_mediumAscending">Сер. наростаюча</string>
+    <string id="vibePatternMenu_shortPulsating">Кор. пульсація</string>
+    <string id="vibePatternMenu_shortContinuous">Кор. безперерв.</string>
+    <string id="vibePatternMenu_shortAscending">Кор. наростаюча</string>
+    <string id="vibePatternMenu_shortDescending">Кор. згасаюча</string>
+    <string id="vibePatternMenu_mediumDescending">Сер. згасаюча</string>
+    <string id="vibePatternMenu_longDescending">Довга згасаюча</string>
+
+    <string id="intervalVibePatternMenu_title">Вібр. / Звук</string>
+    <string id="intervalVibePatternMenu_noNotification">Без сповіщ.</string>
+    <string id="intervalVibePatternMenu_shorterContinuous">Мін. безперерв.</string>
+    <string id="intervalVibePatternMenu_shorterAscending">Мін. наростаюча</string>
+    <string id="intervalVibePatternMenu_blip">Сигнал</string>
+    <string id="intervalVibePatternMenu_shortSound">Кор. звук</string>
+
+    <string id="intervalTypeMenu_title">Тип нагадув.</string>
+    <string id="intervalTypeMenu_oneOff">Одноразово H:MM</string>
+    <string id="intervalTypeMenu_repeat">Кожні MM:SS</string>
+
+    <string id="editIntervalAlertsMenu_title">Ред. нагадувань</string>
+    <string id="activityDelayedFinishingText">Завершення...</string>
+    <string id="meditateActivityPaused">[Пауза]</string>
+    <string id="meditateActivityPrepare">Розслабтесь\nсеанс почнеться\nчерез</string>
+    <string id="meditateActivityFinalize">Завершення\nсеансу\nчерез</string>
+
+    <string id="activityNameMeditate">Медитація</string>
+    <string id="activityNameYoga">Йога</string>
+    <string id="activityNameBreathing">Дихання</string>
+    <string id="activityNameGeneric">Загальне</string>
+    <string id="sessionTitleMeditate">Медитація 🧘</string>
+    <string id="sessionTitleYoga">Йога 🧘</string>
+    <string id="sessionTitleBreathing">Дихання 🌬️</string>
+
+    <string id="activityName">Назва (використ. [time] для часу, будьте стислими):</string>
+    <string id="restoreDeviceId">Restore From Device ID (leave empty to use this device):</string>
+    <string id="pickMMSS">Обрати ММ:СС</string>
+    <string id="pickHMM">Обрати Г:ММ</string>
+    <string id="HRVwaiting">HRV очікує</string>
+    <string id="HRVready">HRV готово</string>
+    <string id="HRVweak">HRV слабкий</string>
+    <string id="HRVoff">HRV вимк.</string>
+
+    <string id="menuSessionSettings_start">Старт</string>
+    <string id="pauseMenu_resume">Продовж.</string>
+    <string id="pauseMenu_stop">Стоп</string>
+    <string id="finishMenu_save">Зберегти</string>
+    <string id="finishMenu_discard">Скасувати</string>
+    <string id="optionsMenuHelp">Натисніть старт</string>
+
+    <string id="about_AppVersion">v10.6.66</string>
+    <string id="about_vtrifonov">vtrifonov</string>
+    <string id="about_dliedke">dliedke</string>
+    <string id="about_falsetru">falsetru</string>
+    <string id="about_floriangeigl">floriangeigl</string>
+
+</strings>

@@ -18,7 +18,11 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 	function onSelect(item) {
 		var id = item.getId();
 		if (id == :hrvTracking) {
-			var hrvMenu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_title) });
+			var hrvVal = GlobalSettings.loadHrvTracking();
+			var focusIdx = 0;
+			if (hrvVal == HrvTracking.OnDetailed) { focusIdx = 1; }
+			else if (hrvVal == HrvTracking.Off) { focusIdx = 2; }
+			var hrvMenu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_title), :focus => focusIdx });
 			hrvMenu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_on), "", :on, {}));
 			hrvMenu.addItem(
 				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_onDetailed), "", :onDetailed, {})
@@ -27,7 +31,12 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			var hrvTrackingDelegate = new MenuOptionsDelegate(method(:onHrvTrackingPicked));
 			Ui.pushView(hrvMenu, hrvTrackingDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :newActivityType) {
-			var actMenu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.menuGlobalSettings_newActivityType) });
+			var actVal = GlobalSettings.loadActivityType();
+			var focusIdx = 0;
+			if (actVal == ActivityType.Yoga) { focusIdx = 1; }
+			else if (actVal == ActivityType.Generic) { focusIdx = 2; }
+			else if (actVal == ActivityType.Breathing) { focusIdx = 3; }
+			var actMenu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.menuGlobalSettings_newActivityType), :focus => focusIdx });
 			actMenu.addItem(
 				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuNewActivityTypeOptions_meditating), "", :meditating, {})
 			);
@@ -43,8 +52,14 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			var newActivityTypeDelegate = new MenuOptionsDelegate(method(:onNewActivityTypePicked));
 			Ui.pushView(actMenu, newActivityTypeDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :confirmSaveActivity) {
+			var csVal = GlobalSettings.loadConfirmSaveActivity();
+			var focusIdx = 0;
+			if (csVal == ConfirmSaveActivity.AutoYes) { focusIdx = 1; }
+			else if (csVal == ConfirmSaveActivity.AutoYesExit) { focusIdx = 2; }
+			else if (csVal == ConfirmSaveActivity.AutoNo) { focusIdx = 3; }
 			var confirmMenu = new Ui.Menu2({
 				:title => Ui.loadResource(Rez.Strings.menuGlobalSettings_confirmSaveActivity),
+				:focus => focusIdx,
 			});
 			confirmMenu.addItem(
 				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuConfirmSaveActivityOptions_askSimple), "", :ask, {})
@@ -66,15 +81,18 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			var confirmSaveActivityDelegate = new MenuOptionsDelegate(method(:onConfirmSaveActivityPicked));
 			Ui.pushView(confirmMenu, confirmSaveActivityDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :multiSession) {
-			var multiMenu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.menuMultiSessionOptions_title) });
+			var focusIdx = (GlobalSettings.loadMultiSession() == MultiSession.Yes) ? 0 : 1;
+			var multiMenu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.menuMultiSessionOptions_title), :focus => focusIdx });
 			multiMenu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuMultiSessionOptions_yes), "", :yes, {}));
 			multiMenu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuMultiSessionOptions_no), "", :no, {}));
 			var multiSessionDelegate = new MenuOptionsDelegate(method(:onMultiSessionPicked));
 			Ui.pushView(multiMenu, multiSessionDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :respirationRate) {
 			if (HrvAlgorithms.RrActivity.isSensorSupported()) {
+				var focusIdx = (GlobalSettings.loadRespirationRate() == RespirationRate.On) ? 0 : 1;
 				var respirationMenu = new Ui.Menu2({
 					:title => Ui.loadResource(Rez.Strings.menuRespirationRateOptions_title),
+					:focus => focusIdx,
 				});
 				respirationMenu.addItem(
 					new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuRespirationRateOptions_on), "", :on, {})
@@ -95,7 +113,17 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 				Ui.pushView(respirationMenu, respirationRateDelegate, Ui.SLIDE_LEFT);
 			}
 		} else if (id == :prepareTime) {
-			var prepareMenu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.menuGlobalSettings_prepareTime) });
+			var pt = GlobalSettings.loadPrepareTime();
+			var focusIdx = 0;
+			if (pt == 15) { focusIdx = 1; }
+			else if (pt == 30) { focusIdx = 2; }
+			else if (pt == 45) { focusIdx = 3; }
+			else if (pt == 60) { focusIdx = 4; }
+			else if (pt == 120) { focusIdx = 5; }
+			else if (pt == 180) { focusIdx = 6; }
+			else if (pt == 240) { focusIdx = 7; }
+			else if (pt == 300) { focusIdx = 8; }
+			var prepareMenu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.menuGlobalSettings_prepareTime), :focus => focusIdx });
 			prepareMenu.addItem(
 				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuPrepareTimeOptions_0s), "", :time_0s, {})
 			);
@@ -126,7 +154,15 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			var prepareTimeDelegate = new MenuOptionsDelegate(method(:onPrepareTimePicked));
 			Ui.pushView(prepareMenu, prepareTimeDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :finalizeTime) {
-			var finalizeMenu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.menuGlobalSettings_finalizeTime) });
+			var ft = GlobalSettings.loadFinalizeTime();
+			var focusIdx = 0;
+			if (ft == 15) { focusIdx = 1; }
+			else if (ft == 30) { focusIdx = 2; }
+			else if (ft == 45) { focusIdx = 3; }
+			else if (ft == 60) { focusIdx = 4; }
+			else if (ft == 120) { focusIdx = 5; }
+			else if (ft == 180) { focusIdx = 6; }
+			var finalizeMenu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.menuGlobalSettings_finalizeTime), :focus => focusIdx });
 			finalizeMenu.addItem(
 				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuPrepareTimeOptions_0s), "", :time_0s, {})
 			);
@@ -151,14 +187,17 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			var finalizeTimeDelegate = new MenuOptionsDelegate(method(:onFinalizeTimePicked));
 			Ui.pushView(finalizeMenu, finalizeTimeDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :autoStop) {
-			var autoStopMenu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.menuGlobalSettings_autoStop) });
+			var focusIdx = (GlobalSettings.loadAutoStop() == AutoStop.On) ? 0 : 1;
+			var autoStopMenu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.menuGlobalSettings_autoStop), :focus => focusIdx });
 			autoStopMenu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuAutoStopOptions_on), "", :on, {}));
 			autoStopMenu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuAutoStopOptions_off), "", :off, {}));
 			var autoStopDelegate = new MenuOptionsDelegate(method(:onAutoStopPicked));
 			Ui.pushView(autoStopMenu, autoStopDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :notification) {
+			var focusIdx = (GlobalSettings.loadNotification() == Notification.On) ? 0 : 1;
 			var notificationMenu = new Ui.Menu2({
 				:title => Ui.loadResource(Rez.Strings.menuNotificationOptions_title),
+				:focus => focusIdx,
 			});
 			notificationMenu.addItem(
 				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuNotificationOptions_on), "", :on, {})
@@ -169,7 +208,8 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			var notificationDelegate = new MenuOptionsDelegate(method(:onNotificationPicked));
 			Ui.pushView(notificationMenu, notificationDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :colorTheme) {
-			var themeMenu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.menuGlobalSettings_colorTheme) });
+			var focusIdx = (GlobalSettings.loadColorTheme() == ColorTheme.Light) ? 0 : 1;
+			var themeMenu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.menuGlobalSettings_colorTheme), :focus => focusIdx });
 			themeMenu.addItem(
 				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuColorThemeOptions_light), "", :Light, {})
 			);
@@ -177,7 +217,14 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			var colorThemeDelegate = new MenuOptionsDelegate(method(:onColorThemePicked));
 			Ui.pushView(themeMenu, colorThemeDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :hrvWindow) {
-			var windowMenu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.menuHrvWindowSizeOptions_title) });
+			var w = GlobalSettings.loadHrvWindowTime();
+			var focusIdx = 0;
+			if (w == 60) { focusIdx = 1; }
+			else if (w == 120) { focusIdx = 2; }
+			else if (w == 180) { focusIdx = 3; }
+			else if (w == 300) { focusIdx = 4; }
+			else if (w == 600) { focusIdx = 5; }
+			var windowMenu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.menuHrvWindowSizeOptions_title), :focus => focusIdx });
 			windowMenu.addItem(
 				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuPrepareTimeOptions_30s), "", :time_30s, {})
 			);
@@ -199,7 +246,8 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			var hrvWindowSizeDelegate = new MenuOptionsDelegate(method(:onHrvWindowSizePicked));
 			Ui.pushView(windowMenu, hrvWindowSizeDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :useSessionName) {
-			var useMenu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.menuGlobalSettings_useSessionName) });
+			var focusIdx = GlobalSettings.loadUseSessionName() ? 0 : 1;
+			var useMenu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.menuGlobalSettings_useSessionName), :focus => focusIdx });
 			useMenu.addItem(
 				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_useSessionName_on), "", :on, {})
 			);

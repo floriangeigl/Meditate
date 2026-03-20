@@ -24,7 +24,10 @@
     <string id="menuSessionSettings_edit">Editar</string>
     <string id="menuSessionSettings_delete">Deletar</string>
     <string id="menuSessionSettings_globalSettings">Conf.Globais</string>
+    <string id="menuSessionSettings_help">Ajuda</string>
     <string id="menuSessionSettings_about">Sobre</string>
+
+    <string id="help_openingUserGuide">Abrindo guia no celular</string>
 
     <string id="menuGlobalSettings_title">Globais</string>
     <string id="menuGlobalSettings_newHrvTracking">Monit. VFC</string>

@@ -107,6 +107,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		menu.addItem(
 			new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_globalSettings), "", :globalSettings, {})
 		);
+		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_help), "", :help, {}));
 		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_about), "", :about, {}));
 
 		var sessionSettingsMenuDelegate = new SessionSettingsMenuDelegate(me.mSessionStorage, me, menu);

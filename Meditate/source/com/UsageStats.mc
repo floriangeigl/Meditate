@@ -14,14 +14,14 @@ class UsageStats {
 	// Queue of pending GA4 payloads: [{"id"=>Number, "ts"=>Number, "params"=>Dictionary}, ...]
 	private static const usageStatsQueueKey = "usageStats_queue_v2";
 	private static const usageStatsQueueMaxAgeSec = 259200; // 3 days in seconds
-	private static const usageStatsQueueMaxItems = 50;
+	private static const usageStatsQueueMaxItems = 10;
 	private static var sFlushInProgress = false;
 	private static var sQueueIdCounter = 0;
 	private static const usageStatsMonthlyKey = "usageStats_monthly";
 	private static const usageStatsTipPendingKey = "usageStats_tipPending";
 	private var currentParams;
 	private var lastMonthStats;
-	private var mInFlightId;
+	private var mInFlightEntry;
 	private var mLastLocation;
 
 	static function flushQueuedOnStartup() {
@@ -84,7 +84,7 @@ class UsageStats {
 		me.gMeasurmentID = App.Properties.getValue("gMeasurmentID");
 		me.gApiSecret = App.Properties.getValue("gApiSecret");
 		me.lastMonthStats = 0;
-		me.mInFlightId = null;
+		me.mInFlightEntry = null;
 		me.mLastLocation = null;
 		me.currentParams = null;
 		if (sessionTime != null) {
@@ -311,7 +311,12 @@ class UsageStats {
 				continue;
 			}
 
-			me.mInFlightId = entry["id"];
+			// Remove from persistent queue BEFORE sending so that if the app
+			// is killed mid-request the entry won't be resent on next startup.
+			// On confirmed failure the callback re-enqueues it for later retry.
+			me.mInFlightEntry = entry;
+			queue.remove(queue[0]);
+			me.saveQueue(queue);
 			var params = entry["params"];
 			if (me.mLastLocation != null) {
 				me.applyLocationToParams(params, me.mLastLocation);
@@ -322,7 +327,7 @@ class UsageStats {
 
 		// Nothing left to send.
 		sFlushInProgress = false;
-		me.mInFlightId = null;
+		me.mInFlightEntry = null;
 	}
 
 	private function loadQueue() {
@@ -423,33 +428,33 @@ class UsageStats {
 
 	function requestCallback(responseCode, data) {
 		try {
-			// System.println("UsageStats request completed with response code: " + responseCode);
 			var success = responseCode != null && responseCode >= 200 && responseCode < 300;
 			if (success) {
-				// Remove the in-flight entry from the queue.
-				var queue = me.loadQueue();
-				var keep = [];
-				for (var i = 0; i < queue.size(); i++) {
-					var entry = queue[i];
-					if (entry != null && me.isValidId(entry["id"]) && entry["id"] == me.mInFlightId) {
-						// drop
-					} else {
-						keep.add(entry);
-					}
-				}
-				me.saveQueue(keep);
-				me.mInFlightId = null;
-				// Continue flushing the remaining queue.
+				me.mInFlightEntry = null;
 				me.flushNext();
 			} else {
-				// Network/offline/any non-2xx: keep queue as-is and stop flushing for now.
+				// Confirmed failure: re-enqueue so it's retried on next flush.
+				me.reEnqueueInFlight();
 				sFlushInProgress = false;
-				me.mInFlightId = null;
 			}
 		} catch (ex) {
+			me.reEnqueueInFlight();
 			sFlushInProgress = false;
-			me.mInFlightId = null;
 		}
+	}
+
+	private function reEnqueueInFlight() {
+		if (me.mInFlightEntry == null) {
+			return;
+		}
+		var entry = me.mInFlightEntry;
+		me.mInFlightEntry = null;
+		try {
+			var queue = me.loadQueue();
+			queue.add(entry);
+			queue = me.capQueue(queue);
+			me.saveQueue(queue);
+		} catch (ex) {}
 	}
 
 	function addToMonthly(sessionTime) {
