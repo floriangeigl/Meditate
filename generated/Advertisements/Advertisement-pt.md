@@ -1,9 +1,9 @@
 ---
 layout: page
-title: Meditação e Respiração
+title: Meditation & Breathwork
 subtitle: Um companheiro atento - no seu relógio Garmin
 permalink: /meditate_app/
-share-title: App Garmin Meditação e Respiração | Florian Geigl
+share-title: App Garmin Meditation & Breathwork | Florian Geigl
 share-description: Meditação e respiração no seu relógio Garmin — atenção plena com biometria em tempo real. Transfira na Garmin Connect IQ.
 ---
 
@@ -13,9 +13,9 @@ Se alguma vez se sentiu calmo e inquieto ao mesmo tempo, não há nada de errado
 
 Quando a vida exige muito durante muito tempo, o sistema nervoso aprende a manter-se em alerta. O stress torna-se familiar. A calma torna-se menos familiar - e estados menos familiares podem parecer vulneráveis ou um pouco desconfortáveis no início. Isto não é um problema para resolver. É apenas a forma como o sistema nervoso se adapta ao que conhece.
 
-**Meditação e Respiração** ajuda-o a voltar a ligar-se ao corpo e a observar, em tempo real, como o seu sistema nervoso reage.
+**Meditation & Breathwork** ajuda-o a voltar a ligar-se ao corpo e a observar, em tempo real, como o seu sistema nervoso reage.
 
-**Obter a app:** [Transferir Meditação e Respiração](https://apps.garmin.com/apps/e6f3f3d2-3ea6-4ec1-81a5-977c708eb75b)
+**Obter a app:** [Transferir Meditation & Breathwork](https://apps.garmin.com/apps/e6f3f3d2-3ea6-4ec1-81a5-977c708eb75b)
 
 **Começar aqui:** [Ler o guia do utilizador](https://geigl.online/meditate_app_user_guide/)
 
@@ -23,7 +23,7 @@ Quando a vida exige muito durante muito tempo, o sistema nervoso aprende a mante
 
 ## Compreenda o seu sistema nervoso através da prática
 
-Meditação e Respiração é uma app para relógios Garmin criada para apoiar a meditação e o breathwork com presença, clareza e consciência fisiológica. Ao combinar mindfulness com dados biométricos em tempo real, ajuda-o a perceber melhor como o seu corpo funciona - sem julgamento nem pressão.
+Meditation & Breathwork é uma app para relógios Garmin criada para apoiar a meditação e o breathwork com presença, clareza e consciência fisiológica. Ao combinar mindfulness com dados biométricos em tempo real, ajuda-o a perceber melhor como o seu corpo funciona - sem julgamento nem pressão.
 
 Não existe uma técnica universal de meditação.  
 O importante é descobrir o que apoia **o seu** sistema nervoso.
@@ -77,6 +77,6 @@ Acompanhar não é controlo nem otimização.
 Mantenha-se presente. Observe com honestidade.  
 Sorria quando a mente ficar esperta.
 
-[Transferir Meditação e Respiração](https://apps.garmin.com/apps/e6f3f3d2-3ea6-4ec1-81a5-977c708eb75b) e descubra o que realmente apoia a sua prática de meditação e respiração - uma sessão de cada vez.
+[Transferir Meditation & Breathwork](https://apps.garmin.com/apps/e6f3f3d2-3ea6-4ec1-81a5-977c708eb75b) e descubra o que realmente apoia a sua prática de meditação e respiração - uma sessão de cada vez.
 
 Para mais detalhes sobre funcionalidades, perguntas frequentes e apoio, consulte o [guia do utilizador](https://geigl.online/meditate_app_user_guide/).

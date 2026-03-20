@@ -1,10 +1,10 @@
 ---
 layout: page
-title: Méditation et Respiration
+title: Meditation & Breathwork
 subtitle: Guide utilisateur de l’app Garmin
 permalink: /meditate_app_user_guide/
-share-title: Guide utilisateur Méditation et Respiration (Garmin) | Florian Geigl
-share-description: Installation, fonctionnalités, FAQ, dépannage et support pour l’app Garmin Méditation et Respiration.
+share-title: Guide utilisateur Meditation & Breathwork (Garmin) | Florian Geigl
+share-description: Installation, fonctionnalités, FAQ, dépannage et support pour l’app Garmin Meditation & Breathwork.
 ---
 
 Ce guide est là pour vous aider - pas pour vous submerger :)
@@ -42,7 +42,7 @@ _(Tout ce qu’il faut pour bien commencer)_
 
 ## À quoi sert cette app
 
-Méditation et Respiration vous aide à rester présent tout en observant en douceur comment votre corps réagit pendant la méditation et la respiration.
+Meditation & Breathwork vous aide à rester présent tout en observant en douceur comment votre corps réagit pendant la méditation et la respiration.
 
 Elle vous permet de :
 
