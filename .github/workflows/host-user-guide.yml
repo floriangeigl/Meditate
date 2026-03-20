@@ -65,20 +65,21 @@ jobs:
               target="./geigl.online/meditate_app_user_guide-${current}.md"
             fi
 
-            nav="🌐"
+            nav="<div><small>🌐"
             first=true
             for other in "${LANGS[@]}"; do
               name="${LANG_NAMES[$other]:-$other}"
               $first || nav+=" |"
               first=false
               if [ "$other" = "$current" ]; then
-                nav+=" **${name}**"
+                nav+=" <b>${name}</b>"
               elif [ "$other" = "en" ]; then
-                nav+=" [${name}](/meditate_app_user_guide/)"
+                nav+=" <a href=\"/meditate_app_user_guide/\">${name}</a>"
               else
-                nav+=" [${name}](/meditate_app_user_guide-${other}/)"
+                nav+=" <a href=\"/meditate_app_user_guide-${other}/\">${name}</a>"
               fi
             done
+            nav+="</small></div>"
 
             awk -v nav="$nav" 'BEGIN{c=0} /^---$/{c++; print; if(c==2){print ""; print nav; print ""} next} {print}' "$target" > "${target}.tmp" && mv "${target}.tmp" "$target"
           done
