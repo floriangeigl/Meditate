@@ -1,26 +1,26 @@
 <strings>
-	<string id="minHrField">Мін. ЧСС</string>
-	<string id="hrUnits">bpm</string>
+    <string id="minHrField">Мін. ЧСС</string>
+    <string id="hrUnits">bpm</string>
 
-	<string id="hrvSdrrFieldLabel">HRV SDRR</string>
-	<string id="hrvSdrrFirst5MinFieldLabel">HRV SDRR перші 5 хв</string>
-	<string id="hrvSdrrLast5MinFieldLabel">HRV SDRR ост. 5 хв</string>
+    <string id="hrvSdrrFieldLabel">HRV SDRR</string>
+    <string id="hrvSdrrFirst5MinFieldLabel">HRV SDRR перші 5 хв</string>
+    <string id="hrvSdrrLast5MinFieldLabel">HRV SDRR ост. 5 хв</string>
 
-	<string id="hrvFieldUnits">ms</string>
+    <string id="hrvFieldUnits">ms</string>
 
-	<string id="hrvSuccessiveField">HRV послідовні різниці (ms)</string>
-	<string id="hrvRmssdFieldLabel">HRV RMSSD</string>
-	<string id="hrvPnn20FieldLabel">HRV pNN20</string>
-	<string id="hrvPnn50FieldLabel">HRV pNN50</string>
+    <string id="hrvSuccessiveField">HRV послідовні різниці (ms)</string>
+    <string id="hrvRmssdFieldLabel">HRV RMSSD</string>
+    <string id="hrvPnn20FieldLabel">HRV pNN20</string>
+    <string id="hrvPnn50FieldLabel">HRV pNN50</string>
 
-	<string id="hrvRmssdWindowField">HRV RMSSD вікно (ms)</string>
+    <string id="hrvRmssdWindowField">HRV RMSSD вікно (ms)</string>
 
-	<string id="percentUnits">%</string>
-	<string id="stressUnits">%</string>
+    <string id="percentUnits">%</string>
+    <string id="stressUnits">%</string>
 
-	<string id="hrvRrIntervalsField">HRV інтерв. між ударами (ms)</string>
+    <string id="hrvRrIntervalsField">HRV інтерв. між ударами (ms)</string>
 
-	<string id="hrPeaksWindow10Field">Піки ЧСС 10с вікно (bpm)</string>
-	<string id="stressField">Стрес</string>
-	<string id="hrFromHeartbeatField">ЧСС з пульсу (bpm)</string>
+    <string id="hrPeaksWindow10Field">Піки ЧСС 10с вікно (bpm)</string>
+    <string id="stressField">Стрес</string>
+    <string id="hrFromHeartbeatField">ЧСС з пульсу (bpm)</string>
 </strings>

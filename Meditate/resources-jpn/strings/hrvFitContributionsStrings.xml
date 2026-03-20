@@ -1,26 +1,26 @@
 <strings>
-	<string id="minHrField">最小心拍数</string>
-	<string id="hrUnits">bpm</string>
+    <string id="minHrField">最小心拍数</string>
+    <string id="hrUnits">bpm</string>
 
-	<string id="hrvSdrrFieldLabel">HRV SDRR</string>
-	<string id="hrvSdrrFirst5MinFieldLabel">HRV SDRR 最初5分</string>
-	<string id="hrvSdrrLast5MinFieldLabel">HRV SDRR 最後5分</string>
+    <string id="hrvSdrrFieldLabel">HRV SDRR</string>
+    <string id="hrvSdrrFirst5MinFieldLabel">HRV SDRR 最初5分</string>
+    <string id="hrvSdrrLast5MinFieldLabel">HRV SDRR 最後5分</string>
 
-	<string id="hrvFieldUnits">ms</string>
+    <string id="hrvFieldUnits">ms</string>
 
-	<string id="hrvSuccessiveField">HRV 連続差分 (ms)</string>
-	<string id="hrvRmssdFieldLabel">HRV RMSSD</string>
-	<string id="hrvPnn20FieldLabel">HRV pNN20</string>
-	<string id="hrvPnn50FieldLabel">HRV pNN50</string>
+    <string id="hrvSuccessiveField">HRV 連続差分 (ms)</string>
+    <string id="hrvRmssdFieldLabel">HRV RMSSD</string>
+    <string id="hrvPnn20FieldLabel">HRV pNN20</string>
+    <string id="hrvPnn50FieldLabel">HRV pNN50</string>
 
-	<string id="hrvRmssdWindowField">HRV RMSSD ウィンドウ (ms)</string>
+    <string id="hrvRmssdWindowField">HRV RMSSD ウィンドウ (ms)</string>
 
-	<string id="percentUnits">%</string>
-	<string id="stressUnits">%</string>
+    <string id="percentUnits">%</string>
+    <string id="stressUnits">%</string>
 
-	<string id="hrvRrIntervalsField">HRV 心拍間隔 (ms)</string>
+    <string id="hrvRrIntervalsField">HRV 心拍間隔 (ms)</string>
 
-	<string id="hrPeaksWindow10Field">10秒窓 心拍ピーク (bpm)</string>
-	<string id="stressField">ストレス</string>
-	<string id="hrFromHeartbeatField">心拍由来HR (bpm)</string>
+    <string id="hrPeaksWindow10Field">10秒窓 心拍ピーク (bpm)</string>
+    <string id="stressField">ストレス</string>
+    <string id="hrFromHeartbeatField">心拍由来HR (bpm)</string>
 </strings>
