@@ -1,16 +1,16 @@
 ---
 layout: page
-title: Meditation & Breathwork
+title: Meditação & Respiração
 subtitle: Guia do Usuário do App Garmin
 permalink: /meditate_app_user_guide/
-share-title: Guia do Usuário Meditation & Breathwork (Garmin) | Florian Geigl
-share-description: Configuração, recursos, FAQs, solução de problemas e suporte para o app Garmin Meditation & Breathwork.
+share-title: Guia do Usuário de Meditação & Respiração (Garmin) | Florian Geigl
+share-description: Configuração, recursos, FAQs, solução de problemas e suporte para o app Garmin de Meditação & Respiração.
 ---
 
-Este guia é para te apoiar — não te sobrecarregar :)
+Este guia foi feito para te apoiar - não para te sobrecarregar :)
 
 Você não precisa entender tudo para começar.  
-Comece pelo **Guia para Iniciantes** e volte ao **Guia Avançado** quando bater a curiosidade.
+Comece pelo **Guia para Iniciantes** e volte ao **Guia Avançado** quando tiver curiosidade.
 
 ### Conteúdo
 
@@ -19,16 +19,16 @@ Comece pelo **Guia para Iniciantes** e volte ao **Guia Avançado** quando bater 
   - [Começando sua primeira sessão](#starting-your-first-session)
   - [Um jeito simples de meditar](#a-simple-way-to-meditate)
   - [Escolhendo uma sessão](#choosing-a-session)
-  - [Sessões de respiração](#breathwork-sessions)
-  - [Entendendo seus dados da sessão](#understanding-your-session-data)
+  - [Sessões de Respiração](#breathwork-sessions)
+  - [Entendendo os dados da sessão](#understanding-your-session-data)
 - [Guia Avançado](#advanced-guide)
-  - [Personalização de sessões](#session-customization)
+  - [Personalização de sessão](#session-customization)
   - [Padrões de respiração personalizados](#custom-breathwork-patterns)
   - [Métricas avançadas de HRV](#advanced-hrv-metrics)
-  - [Configurações Globais (padrões para todas as sessões)](#global-settings-defaults-for-all-sessions)
-- [FAQs e Solução de Problemas](#faqs-troubleshooting)
-- [Obter Suporte / Reportar Problema](#get-support--report-problem)
-- [Privacidade de Dados](#privacy)
+  - [Configurações globais (padrões para todas as sessões)](#global-settings-defaults-for-all-sessions)
+- [FAQs & Solução de Problemas](#faqs-troubleshooting)
+- [Suporte / Relatar problema](#get-support--report-problem)
+- [Privacidade de dados](#privacy)
 
 ---
 
@@ -36,24 +36,24 @@ Comece pelo **Guia para Iniciantes** e volte ao **Guia Avançado** quando bater 
 
 # Guia para Iniciantes
 
-_(Tudo o que você precisa para começar)_
+_(Tudo que você precisa para começar)_
 
 <a id="what-this-app-is-about"></a>
 
 ## Sobre o que é este app
 
-Meditation & Breathwork ajuda você a ficar presente enquanto observa, de forma gentil, como seu corpo responde durante meditação e respiração.
+Meditação & Respiração ajuda você a ficar presente enquanto observa, com leveza, como seu corpo responde durante meditação e respiração.
 
-Ele permite que você:
+Com ele você pode:
 
-- faça sessões simples ou estruturadas
-- receba sinais por vibração em vez de distrações visuais
-- observe frequência cardíaca, HRV, estresse e respiração
-- salve sessões no Garmin Connect para notar padrões ao longo do tempo
+- fazer sessões simples ou estruturadas
+- receber alertas por vibração em vez de distrações visuais
+- observar frequência cardíaca, HRV, estresse e respiração
+- salvar sessões no Garmin Connect para notar padrões ao longo do tempo
 
-O objetivo é **consciência, não desempenho**.
+O objetivo é **consciência, não performance**.
 
-Se você quer uma reflexão curta e motivadora sobre por que desacelerar importa (e por que é tão difícil numa cultura acelerada), **[Cory Muscara's The Practicing Human podcast - “Why You Need to Slow Down”](https://practicinghuman.buzzsprout.com/597910/episodes/18537284-why-you-need-to-slow-down)** explora como a velocidade pode corroer relacionamentos, felicidade e decisões claras.
+Se você quiser uma reflexão curta e motivadora sobre por que desacelerar importa (e por que isso é tão difícil numa cultura acelerada), **[Cory Muscara no podcast The Practicing Human - “Why You Need to Slow Down”](https://practicinghuman.buzzsprout.com/597910/episodes/18537284-why-you-need-to-slow-down)** mostra como a velocidade pode desgastar relacionamentos, felicidade e decisões claras.
 
 ---
 
@@ -63,8 +63,8 @@ Se você quer uma reflexão curta e motivadora sobre por que desacelerar importa
 
 1. Abra o app.
 2. Selecione uma sessão na lista.
-3. Pressione **Start** (ou toque na tela em dispositivos com toque).
-4. Tente manter o pulso parado nos primeiros momentos — isso ajuda os sensores a se estabilizarem.
+3. Pressione **Start** (ou toque na tela em dispositivos touch).
+4. Tente manter o pulso parado nos primeiros momentos - isso ajuda os sensores a estabilizarem.
 
 Durante a sessão você verá:
 
@@ -72,7 +72,7 @@ Durante a sessão você verá:
 - frequência cardíaca atual
 - status de HRV
 - estresse e respiração (se suportado)
-- pequenos marcadores coloridos mostrando alertas de vibração futuros
+- pequenos marcadores coloridos mostrando próximos alertas de vibração
 
 Você pode:
 
@@ -81,7 +81,7 @@ Você pode:
 - controlar o brilho da tela pelos botões do relógio ou toque
 
 Ao parar, você pode salvar ou descartar a sessão.  
-Sessões salvas aparecem no Garmin Connect após a sincronização.
+As sessões salvas aparecem no Garmin Connect após sincronizar.
 
 ---
 
@@ -89,44 +89,44 @@ Sessões salvas aparecem no Garmin Connect após a sincronização.
 
 ## Um jeito simples de meditar
 
-Se você não sabe meditar, você não está sozinho — e não está atrasado.  
-Você já está fazendo o mais importante: aparecer.
+Se você não sabe como meditar, você não está sozinho - e não está atrasado.  
+Você já está fazendo o mais importante: aparecendo.
 
-Meditação não é sobre parar pensamentos, esvaziar a mente ou fazer algo “certo”. Até meditadores muito experientes percebem a mente vagando a cada poucos segundos. Isso é normal.
+Meditar não é parar pensamentos, esvaziar a mente ou fazer tudo “certo”. Mesmo pessoas com muita experiência percebem a mente vagando a cada poucos segundos. Isso é normal.
 
-A prática não é ficar focado.  
-A prática é notar quando você não está — e voltar com gentileza.
+A prática não é ficar focado o tempo todo.  
+A prática é perceber quando você saiu do foco - e voltar com gentileza.
 
-Se, no seu primeiro ano de meditação, você não fizesse nada além do que está abaixo, isso já seria suficiente. De verdade.
+Se no seu primeiro ano você fizesse só o que está abaixo, já seria suficiente. De verdade.
 
-E mais uma coisa: quanto mais **humor, gentileza e amorosidade** você leva para as sessões, mais agradável fica a experiência — e muitas vezes, mais útil. Você não está tentando “vencer” a meditação. Você está aprendendo a ficar consigo mesmo.
+E mais uma coisa: quanto mais **humor, gentileza e amorosidade** você levar para as sessões, mais agradável tudo fica - e muitas vezes mais útil também. Você não está tentando “vencer” na meditação. Está aprendendo a estar com você.
 
 ---
 
-### Uma prática bem simples
+### Uma prática muito simples
 
 Você não precisa visualizar nada nem respirar de um jeito especial.
 
-1. Sente ou deite de um jeito que fique ok.
+1. Sente ou deite de um jeito confortável.
 2. Deixe a respiração acontecer naturalmente.
-3. Leve sua atenção para a sensação da respiração no nariz.
+3. Leve a atenção para a sensação do ar na ponta do nariz.
 
 Você pode notar:
 
-- ar frio ao inspirar
+- ar fresco ao inspirar
 - ar mais quente ao expirar
 - movimento sutil ou formigamento
 
-Isso já basta. Nada mais a alcançar.
+Isso basta. Não há mais nada para alcançar.
 
-Se ajudar, você pode rotular em silêncio: _“entra”_ … _“sai”_.  
-Suave e simples.
+Se ajudar, você pode nomear em silêncio: _“entra”_ … _“sai”_.  
+Simples e suave.
 
 ---
 
-### Quando a mente divagar — ela vai!
+### Quando a mente vagar - ela vai!
 
-Em algum momento — muitas vezes depois de poucos segundos — sua mente vai divagar.
+Em algum momento - muitas vezes em poucos segundos - sua mente vai vagar.
 
 Você pode começar a pensar em:
 
@@ -135,65 +135,65 @@ Você pode começar a pensar em:
 - algo que te irrita
 - absolutamente nada importante
 
-Isso não significa que você é ruim em meditar. Significa apenas que a mente está fazendo o que mentes fazem.
+Isso não significa que você é ruim em meditação. Só significa que sua mente está fazendo o que mentes fazem.
 
-Às vezes a mente até tenta te puxar de volta para atividade, tensão ou um pouco de caos — porque isso parece familiar e seguro. O sistema nervoso pode se apegar a uma espécie de inferno familiar antes de aprender a confiar em um paraíso desconhecido. E esses pensamentos podem nem soar aleatórios — podem soar muito convincentes, como intuição, ou até como se isso fosse simplesmente quem você é. Ela pode oferecer pensamentos “muito urgentes” como:  
-_“A gente deveria reorganizar a vida agora mesmo.”_
+Às vezes a mente tenta puxar você de volta para atividade, tensão ou um pouco de caos - porque isso parece familiar e seguro. O sistema nervoso pode se agarrar a um inferno familiar antes de confiar num céu desconhecido. E esses pensamentos podem soar bem convincentes, como intuição, ou até como “quem você é”. Ela pode trazer ideias “muito urgentes” tipo:  
+_“A gente precisa reorganizar a vida inteira agora.”_
 
-Você pode receber esse momento com um sorriso:
+Você pode receber esse momento com um sorriso e cuidado:
 
-> “Ah, você de novo. Sente falta do caos. Mente danadinha.”
+> “Ah, você de novo. Sentiu falta do caos. Mente espertinha. Eu te amo.”
 
 ---
 
 ### A parte mais importante
 
-O momento em que você percebe que sua atenção se desviou não é um fracasso. É o momento em que a prática está acontecendo de verdade.
+O momento em que você percebe que a atenção se perdeu não é fracasso. É exatamente onde a prática acontece.
 
-Quando você percebe:
+Quando perceber:
 
-- pare por um segundo
-- talvez até sorria
-- pergunte a si mesmo com gentileza:
-  _“Eu quero voltar para a respiração agora?”_
+- pause por um segundo
+- talvez sorria
+- pergunte com carinho:
+  _“Quero voltar para a respiração agora?”_
 
-Se a resposta for sim, volte para a sensação da respiração no nariz.  
-Se a resposta for não, tudo bem — você pode perguntar de novo mais tarde.
+Se a resposta for sim, volte para a sensação do ar no nariz.  
+Se for não, tudo bem também - você pode perguntar de novo depois.
 
-Cada retorno é um pequeno momento de treino.  
-E cada vez que você percebe, pode comemorar em silêncio: _“Ah — eu percebi.”_ Isso é a consciência despertando.
+Cada retorno é um pequeno treino.  
+E toda vez que perceber, você pode comemorar em silêncio: _“Ah - eu percebi.”_ Isso é consciência acordando.
 
 ---
 
-### Seja gentil consigo
+### Seja gentil com você
 
-Voltar de novo e de novo não é algo para se irritar. É o treino.
+Voltar de novo e de novo não é motivo para irritação. Esse é o treino.
 
-Cada vez que você percebe e retorna:
+Cada vez que você percebe e volta:
 
 - fortalece a consciência
-- constrói paciência
+- desenvolve paciência
 - ensina ao seu sistema nervoso que a calma é segura
 
-Se você se perceber sendo duro consigo mesmo, veja se dá para suavizar um pouco:  
-_“Claro que a mente divagou. É isso que mentes fazem. Voltamos.”_
+Se notar rigidez com você mesmo, tente suavizar um pouco:  
+_“Claro que minha mente vagou. É isso que mentes fazem. Vamos voltar.”_
 
-Gentileza funciona melhor do que força. Curiosidade funciona melhor do que disciplina.  
+Gentileza funciona melhor que força. Curiosidade funciona melhor que disciplina.  
 E humor deixa tudo mais humano.
 
 ---
 
-### Se você quiser ir mais fundo
+### Se você quiser se aprofundar
 
-Essa prática simples já pode levar você muito longe.
+Essa prática simples já pode te levar muito longe.
 
-Se, em algum momento, você sentir curiosidade para aprender mais sobre meditação — especialmente sobre lidar com inquietação, medo e gentileza consigo mesmo — um ótimo lugar para começar é:
+Se em algum momento você quiser aprender mais sobre meditação - especialmente sobre lidar com inquietação, medo e gentileza consigo mesmo - um ótimo começo é:
 
 **Pema Chödrön - _How to Meditate: A Practical Guide to Making Friends with Your Mind_** (Sounds True, 2013).
 
-E se você está passando por mudanças, soltando coisas, ou sentindo que parte da prática é aprender a se despedir de um jeito antigo de ser, este episódio do podcast é um lindo companheiro: **[Brave Souls - “Kissing your old life goodbye”](https://open.spotify.com/episode/0lbaZMdJm7E90vmqYTTs0I)**. Se você não tiver muito tempo — ou quiser ir direto para uma parte que pode realmente mexer com algo em você — comece por volta dos 27 minutos e siga até o fim, de preferência com fones de ouvido.
+E se você estiver passando por mudanças, desapego, ou sentindo que parte da prática é aprender a se despedir de um jeito antigo de viver, este episódio - **[Brave Souls - “Kissing your old life goodbye”](https://open.spotify.com/episode/0lbaZMdJm7E90vmqYTTs0I)** - é uma ótima companhia. Se tiver pouco tempo - ou quiser ir direto para um trecho que pode mexer muito com você - comece por volta dos 27 minutos e siga até o fim, de preferência com fones.
 
-Não há pressa. Isso está aqui quando a curiosidade aparecer.
+Sem pressa. Esse conteúdo está aqui quando a curiosidade aparecer.
 
 ---
 
@@ -201,12 +201,12 @@ Não há pressa. Isso está aqui quando a curiosidade aparecer.
 
 Não há mais nada que você precise fazer.
 
-Se sua mente divagou 100 vezes, e você voltou 100 vezes — foi uma boa sessão.  
-Se você ficou com a respiração por apenas alguns segundos de cada vez — foi uma boa sessão.
+Se sua mente vagou 100 vezes e você voltou 100 vezes - foi uma boa sessão.  
+Se ficou na respiração só por alguns segundos de cada vez - foi uma boa sessão.
 
-Meditação não é sobre ficar calmo. É sobre aprender a voltar.
+Meditar não é ficar calmo o tempo todo. É aprender a voltar.
 
-E você pode fazer isso com gentileza — com calor, humor e um pouco de autorrespeito.
+E você pode fazer isso com gentileza - com calor humano, humor e respeito por si.
 
 ---
 
@@ -214,25 +214,25 @@ E você pode fazer isso com gentileza — com calor, humor e um pouco de autorre
 
 ## Escolhendo uma sessão
 
-No seletor de sessões, você pode rolar pelas sessões disponíveis e ver:
+No seletor de sessões, você pode rolar as opções e ver:
 
 - duração da sessão
 - padrão de vibração
-- timing dos alertas de intervalo
+- tempo dos alertas de intervalo
 - indicador de HRV
 
 ### Indicador de HRV
 
-- **Off** – rastreamento de HRV e estresse desativado
-- **Waiting** – sensor ainda não estabilizou (fique parado por um momento)
-- **Ready** – rastreamento de HRV ativo  
-  Para dados confiáveis de HRV, minimize o movimento do pulso.
+- **Off** - HRV e monitoramento de estresse desativados
+- **Waiting** - sensor ainda não estabilizou (fique parado por um momento)
+- **Ready** - monitoramento de HRV ativo  
+  Para dados confiáveis de HRV, minimize movimentos do pulso.
 
 ---
 
 <a id="breathwork-sessions"></a>
 
-## Sessões de respiração
+## Sessões de Respiração
 
 O app inclui sessões de respiração pré-configuradas.  
 Um ciclo respiratório pode incluir:
@@ -243,53 +243,53 @@ Um ciclo respiratório pode incluir:
 
 ### Padrões incluídos
 
-**Respiração em Caixa (Box Breathing)**  
-Inspiração, pausa, expiração, pausa iguais (ex.: 4–4–4–4).  
-Muitas vezes usada para acalmar o sistema nervoso.
+**Box Breathing**  
+Inspirar, segurar, expirar, segurar em tempos iguais (ex.: 4–4–4–4).  
+Muito usado para acalmar o sistema nervoso.
 
-**Respiração de Coerência (Coherence Breathing)**  
-Inspire 5 segundos, expire 5 segundos.  
-Frequentemente associada a maior HRV.
+**Coherence Breathing**  
+Inspirar 5 segundos, expirar 5 segundos.  
+Frequentemente associado a aumento de HRV.
 
-**Respiração 4-7-8**  
-Inspire 4, segure 7, expire 8.  
-Comumente usada antes de dormir.
+**4-7-8 Breathing**  
+Inspirar 4, segurar 7, expirar 8.  
+Comum antes de dormir.
 
-### Dicas gentis
+### Dicas suaves
 
-- Inspire pelo nariz se possível
+- Inspire pelo nariz, se possível
 - Expire pela boca
-- Expirações mais longas que inspirações costumam ajudar a acalmar
-- Se a respiração cronometrada for estressante, escolha uma sessão simples e respire naturalmente
+- Expirações mais longas que inspirações costumam acalmar
+- Se respiração guiada por tempo gerar estresse, escolha uma sessão simples e respire naturalmente
 
 ---
 
 <a id="understanding-your-session-data"></a>
 
-## Entendendo seus dados da sessão
+## Entendendo os dados da sessão
 
 ### HRV (Variabilidade da Frequência Cardíaca)
 
-HRV reflete o quanto o tempo entre batimentos varia.
+A HRV mostra o quanto o tempo entre batimentos varia.
 
 - HRV mais alta → estados mais calmos e regulados
 - HRV mais baixa → ativação ou estresse
 
-Variabilidade é **saudável** — não é algo para consertar.
+Variabilidade é **saudável** - não é algo para “consertar”.
 
 ### Estresse
 
-Valores mais baixos de estresse são agradáveis, mas estresse mais alto **não** significa uma sessão ruim.
+Valores menores de estresse costumam ser agradáveis, mas valores altos **não** significam sessão ruim.
 
-Às vezes uma sessão é sobre permanecer presente com o desconforto.
+Às vezes a sessão é justamente ficar presente no desconforto.
 
 ### Frequência Cardíaca
 
-A frequência cardíaca costuma diminuir quando o corpo se acalma e geralmente se alinha com HRV e estresse.
+A frequência cardíaca costuma diminuir quando o corpo se ajusta e geralmente acompanha HRV e estresse.
 
 ### Respiração
 
-Os dados de respiração vêm dos sensores da Garmin e são melhores para tendências, não para precisão.
+Os dados de respiração vêm dos sensores Garmin e são melhores para tendências, não para precisão absoluta.
 
 ---
 
@@ -297,11 +297,11 @@ Os dados de respiração vêm dos sensores da Garmin e são melhores para tendê
 
 # Guia Avançado
 
-_(Para personalização, percepção mais profunda e usuários avançados)_
+_(Para personalização, visão mais profunda e usuários avançados)_
 
 <a id="session-customization"></a>
 
-## Personalização de sessões
+## Personalização de sessão
 
 No seletor de sessões:
 
@@ -315,19 +315,19 @@ Você pode configurar:
 - Duração (H:MM)
 - Cor (usada nos indicadores visuais)
 - Padrão de vibração
-- Tipo de atividade (Meditation / Yoga / Breathwork)
-- Nível de rastreamento de HRV
-- Nome de sessão personalizado (suporta o placeholder `[time]`)
+- Tipo de atividade (Meditação / Yoga / Respiração)
+- Nível de monitoramento de HRV
+- Nome personalizado da sessão (suporta placeholder `[time]`)
 
 ### Alertas de intervalo
 
 - Alertas únicos ou repetidos
 - Durações de segundos a horas
 - Offset (atraso antes do primeiro disparo)
-- Cor por alerta (ou transparente para ocultar)
+- Cor por alerta (ou transparente para esconder)
 - Padrão de vibração ou som
 
-Apenas um alerta roda por vez.  
+Só um alerta roda por vez.  
 Ordem de prioridade: alerta final → último alerta único → último alerta repetido.
 
 ---
@@ -336,7 +336,7 @@ Ordem de prioridade: alerta final → último alerta único → último alerta r
 
 ## Padrões de respiração personalizados
 
-Padrões de respiração são criados usando **alertas de intervalo paralelos** com offsets.
+Padrões de respiração são criados com **alertas de intervalo paralelos** usando offsets.
 
 Exemplo: **respiração 4–7–8**
 
@@ -357,38 +357,38 @@ Padrões de vibração recomendados:
 
 ## Métricas avançadas de HRV
 
-Quando o rastreamento de HRV está em **On Detailed**, o app registra:
+Quando o HRV Tracking está em **On Detailed**, o app registra:
 
 - RMSSD
-- Successive heartbeat differences
+- Diferenças sucessivas entre batimentos
 - pNN20
 - pNN50
-- Raw heartbeat intervals
-- HR derived from heartbeat intervals
-- RMSSD rolling window
-- SDRR (first 5 minutes)
-- SDRR (last 5 minutes)
+- Intervalos brutos entre batimentos
+- FC derivada dos intervalos
+- Janela móvel de RMSSD
+- SDRR (primeiros 5 minutos)
+- SDRR (últimos 5 minutos)
 
-Esses valores são para **exploração e aprendizado**, não para avaliação.
+Esses valores são para **exploração e aprendizado**, não avaliação.
 
 ---
 
 <a id="global-settings-defaults-for-all-sessions"></a>
 
-## Configurações Globais (padrões para todas as sessões)
+## Configurações globais (padrões para todas as sessões)
 
-Acesso via:
+Acesse via:
 
-- Seletor de sessões → segure menu → Global Settings
+- Seletor de sessões → segurar menu → Global Settings
 - Segure menu novamente para editar
 
-### Rastreamento de HRV (padrão)
+### HRV Tracking (padrão)
 
 - Off
 - On
 - On Detailed (padrão)
 
-### Confirmar salvamento
+### Confirm Save
 
 - Ask
 - Auto Yes
@@ -396,8 +396,8 @@ Acesso via:
 
 ### Modo multi-sessão
 
-- Yes – app permanece aberto para várias sessões
-- No – app fecha após cada sessão
+- Yes - app fica aberto para várias sessões
+- No - app fecha após cada sessão
 
 ### Tempo de preparação
 
@@ -405,72 +405,72 @@ Acesso via:
 
 ### Taxa de respiração
 
-- On / Off (dependente do dispositivo)
+- On / Off (depende do dispositivo)
 
 ### Tipo de atividade padrão
 
-- Meditation
+- Meditação
 - Yoga
-- Breathwork
+- Respiração
 
 ### Janela de HRV
 
 - Janelas curtas mostram mudanças rápidas
-- 3–5 minutos recomendados para confiabilidade  
+- 3–5 minutos recomendado para mais confiabilidade  
   (Padrão: 60 segundos)
 
 ### Notificações
 
-- Ativar ou desativar todos os alertas de vibração
+- Ativa ou desativa todos os alertas por vibração
 
 ### Usar nome da sessão como nome da atividade
 
 - Usa o nome personalizado da sessão no Garmin Connect
-- Suporta o placeholder `[time]`
-- Nomes de atividade limitados a 21 caracteres
+- Suporta placeholder `[time]`
+- Nome da atividade limitado a 21 caracteres
 
-### Reiniciar sensores
+### Reinício de sensor
 
-- Reinicia todos os sensores de HR
-- Sai do app
+- Reinicia todos os sensores de FC
+- Fecha o app
 - Útil quando o HRV trava
 
 ---
 
 <a id="faqs-troubleshooting"></a>
 
-# FAQs e Solução de Problemas
+# FAQs & Solução de Problemas
 
-Esta seção está aqui para ajudar quando algo fica confuso ou não funciona como esperado.  
-A maioria dos problemas é fácil de resolver, e nada disso significa que você fez algo errado.
+Esta seção existe para ajudar quando algo parece confuso ou não funciona como esperado.  
+A maioria dos problemas é fácil de resolver, e nada aqui significa que você está fazendo algo errado.
 
 ---
 
 <details>
-  <summary><strong>HRV não funciona / mostra “waiting”</strong></summary>
+  <summary><strong>HRV não funciona / aparece “waiting”</strong></summary>
 
-  <p>Isso geralmente significa que o sensor ainda não estabilizou ou algo está interferindo.</p>
+  <p>Isso normalmente significa que o sensor ainda não estabilizou ou que algo está interferindo.</p>
 
-  <p>Tente os passos abaixo em ordem:</p>
+  <p>Tente os passos abaixo na ordem:</p>
 
   <ol>
-    <li>Feche e reabra o app, depois espere pelo menos 30 segundos sem mexer o pulso.</li>
+    <li>Feche e reabra o app, depois aguarde pelo menos 30 segundos sem mexer o pulso.</li>
     <li>
       Abra <strong>Global Settings</strong> e selecione <strong>Sensor restart</strong>.<br>
-      O app vai desligar todos os sensores de frequência cardíaca e sair para que o firmware do relógio os reinicialize corretamente.<br>
-      Abra o app novamente, fique parado por cerca de 30 segundos e então inicie sua sessão.
+      O app vai desligar todos os sensores cardíacos e encerrar para o firmware do relógio reinicializar tudo de forma limpa.<br>
+      Abra o app de novo, fique parado por cerca de 30 segundos e inicie a sessão.
     </li>
     <li>
-      Se você não estiver usando um sensor externo de frequência cardíaca (como cinta peitoral), abra as configurações de conectividade do relógio (não as configurações do app) e certifique-se de que todos os sensores externos estejam desconectados.<br>
+      Se você não usa sensor cardíaco externo (como cinta), abra as configurações de conectividade do relógio (não as do app) e verifique se todos os sensores externos estão desconectados.<br>
       Às vezes uma cinta próxima reconecta automaticamente e atrapalha as leituras.
     </li>
-    <li>Verifique a posição do sensor. Se ajustar a posição do relógio, fique parado por ~30 segundos para estabilizar as leituras.</li>
-    <li>Reinstale o app se o problema persistir.</li>
+    <li>Verifique a posição do relógio. Se ajustar no pulso, fique parado por ~30 segundos para as leituras estabilizarem.</li>
+    <li>Reinstale o app se o problema continuar.</li>
     <li>
-      Se ainda assim você não conseguir HRV confiável, tente:
+      Se ainda não conseguir HRV confiável, tente:
       <ul>
         <li>usar o relógio na parte interna do pulso, ou</li>
-        <li>usar um sensor externo de frequência cardíaca que suporte intervalos de batimento (suporte automático, sem configuração no app).</li>
+        <li>usar um sensor cardíaco externo com suporte a intervalos entre batimentos (suporte automático, sem configuração no app).</li>
       </ul>
     </li>
   </ol>
@@ -482,37 +482,37 @@ A maioria dos problemas é fácil de resolver, e nada disso significa que você 
 
   <p>Sim.</p>
 
-  <p>Você pode editar o nome de uma sessão diretamente no relógio:</p>
+  <p>Você pode editar o nome da sessão direto no relógio:</p>
 
   <ul>
-    <li>Abra <strong>Add New</strong> ou <strong>Edit</strong> para uma sessão</li>
+    <li>Abra <strong>Add New</strong> ou <strong>Edit</strong> da sessão</li>
     <li>Selecione <strong>Name</strong></li>
-    <li>Digite o texto usando o seletor de texto do relógio</li>
+    <li>Digite usando o seletor de texto do relógio</li>
   </ul>
 
   <p>
-    Se você quiser que o nome da sessão também apareça como nome da atividade no Garmin Connect, ative:<br>
+    Se quiser que o nome da sessão também apareça como nome da atividade no Garmin Connect, ative:<br>
     <strong>Global Settings → Session name = Activity name</strong>
   </p>
 
   <p>
-    Você pode usar o placeholder <code>[time]</code> nos nomes das sessões.<br>
-    Exemplo: <code>Deep rest [time]</code> → <code>Deep rest 20min</code>
+    Você pode usar o placeholder <code>[time]</code> no nome da sessão.<br>
+    Exemplo: <code>Descanso profundo [time]</code> → <code>Descanso profundo 20min</code>
   </p>
 
 </details>
 
 <details>
-  <summary><strong>O app trava no momento em que inicio uma sessão — o que posso fazer?</strong></summary>
+  <summary><strong>O app fecha na hora que inicio uma sessão - o que fazer?</strong></summary>
 
-  <p>Se o app abre mas trava imediatamente ao iniciar uma sessão, seu modelo de relógio provavelmente não suporta o tipo de atividade selecionado.</p>
+  <p>Se o app abre mas fecha ao iniciar a sessão, seu modelo de relógio provavelmente não suporta o tipo de atividade escolhido.</p>
 
   <p>Edite a sessão e escolha outro tipo de atividade:</p>
 
   <ul>
-    <li>Meditation</li>
+    <li>Meditação</li>
     <li>Yoga</li>
-    <li>Breathwork</li>
+    <li>Respiração</li>
   </ul>
 
   <p>Se disponível no seu dispositivo, um tipo de atividade mais genérico costuma funcionar em todos os modelos.</p>
@@ -524,38 +524,38 @@ A maioria dos problemas é fácil de resolver, e nada disso significa que você 
 
   <p>Nem todos os dispositivos Garmin suportam rastreamento contínuo de estresse.</p>
 
-  <p>Alguns modelos mais antigos (por exemplo Fenix 5X) só suportam snapshots de estresse, não estresse em tempo real durante atividades. Nesses casos, os dados de estresse podem estar ausentes ou limitados.</p>
+  <p>Alguns modelos mais antigos (por exemplo, Fenix 5X) só suportam snapshots de estresse, não estresse em tempo real durante atividades. Nesses casos, os dados de estresse podem faltar ou ser limitados.</p>
 
   <p>Esse comportamento depende do hardware do relógio, não do app.</p>
 
 </details>
 
 <details>
-  <summary><strong>Mas a versão antiga suportava estresse — por que esta não?</strong></summary>
+  <summary><strong>Mas a versão antiga rastreava estresse - por que esta não?</strong></summary>
 
-  <p>A versão antiga usava um algoritmo personalizado de estimativa de estresse.</p>
+  <p>A versão antiga usava um algoritmo próprio para estimar estresse.</p>
 
-  <p>A versão atual usa o rastreamento de estresse integrado da Garmin. Isso garante consistência com o Garmin Connect e evita divergências entre valores de estresse, que confundiam muitos usuários.</p>
+  <p>A versão atual usa o rastreamento de estresse nativo da Garmin. Isso mantém consistência com o Garmin Connect e evita diferenças entre valores de estresse, que causavam confusão para muitos usuários.</p>
 
 </details>
 
 <details>
-  <summary><strong>A taxa de respiração (respirações por minuto) está errada</strong></summary>
+  <summary><strong>A taxa respiratória (respirações por minuto) está errada</strong></summary>
 
   <p>Isso não é específico deste app.</p>
 
-  <p>O app usa o sinal de respiração que a Garmin fornece. A taxa de respiração pode ser menos confiável durante práticas muito calmas e imóveis.</p>
+  <p>O app usa o sinal respiratório fornecido pela Garmin. A taxa respiratória pode ser menos confiável em práticas muito calmas e paradas.</p>
 
-  <p>Se dados de respiração precisos forem importantes para você, uma cinta peitoral que suporte HRV e reporte de respiração (por exemplo HRM-600) pode melhorar os resultados.</p>
+  <p>Se dados respiratórios precisos são importantes para você, uma cinta com suporte a HRV e respiração (por exemplo HRM-600) pode melhorar os resultados.</p>
 
 </details>
 
 <details>
-  <summary><strong>A tela está brilhando demais e incomoda ao iniciar o app</strong></summary>
+  <summary><strong>A tela está muito brilhante e machuca meus olhos ao abrir o app</strong></summary>
 
-  <p>Isso é controlado pelas configurações de <strong>Focus Mode</strong> do seu relógio para atividades, não pelo app.</p>
+  <p>Isso é controlado pelas configurações de <strong>Focus Mode</strong> para atividades no seu relógio, não pelo app.</p>
 
-  <p>Por padrão, a Garmin ativa um Focus Mode para atividades que pode definir o brilho da tela em cerca de 80%.</p>
+  <p>Por padrão, a Garmin ativa um modo de foco para atividades que pode definir o brilho da tela em cerca de 80%.</p>
 
   <p>Para mudar isso no relógio:</p>
 
@@ -568,7 +568,7 @@ A maioria dos problemas é fácil de resolver, e nada disso significa que você 
 
   <p>Isso afeta todas as atividades iniciadas no relógio.</p>
 
-  <p><strong>Opção avançada:</strong> Crie um Focus Mode personalizado que seja acionado apenas para atividades de Meditation, Yoga e Breathwork.</p>
+  <p><strong>Opção avançada:</strong> crie um Focus Mode personalizado que dispare só para Meditação, Yoga e Respiração.</p>
 
 </details>
 
@@ -578,8 +578,8 @@ A maioria dos problemas é fácil de resolver, e nada disso significa que você 
   <p>Você tem duas opções:</p>
 
   <ul>
-    <li>Crie uma sessão muito longa (por exemplo 9 horas) e pare manualmente quando terminar.</li>
-    <li>Desative a opção de parada automática nas Global Settings para que as sessões continuem até você pará-las manualmente.</li>
+    <li>Crie uma sessão bem longa (por exemplo, 9 horas) e pare manualmente quando terminar.</li>
+    <li>Desative a opção de auto-stop em Global Settings para a sessão continuar até você parar manualmente.</li>
   </ul>
 
 </details>
@@ -588,21 +588,21 @@ A maioria dos problemas é fácil de resolver, e nada disso significa que você 
   <summary><strong>Posso ouvir música enquanto uso o app?</strong></summary>
 
   <p>
-    O app em si <strong>não</strong> suporta tocar ou controlar música.
-    Porém, em muitos relógios Garmin você pode iniciar a música separadamente (por exemplo o player integrado, Spotify etc.) e então rodar sua sessão no Meditate.
+    O app em si <strong>não</strong> reproduz nem controla música.
+    Mas em muitos relógios Garmin você pode iniciar música separadamente (player nativo, Spotify etc.) e depois iniciar a sessão no Meditate.
   </p>
 
   <p><strong>Como acessar os controles de música (varia por modelo)</strong></p>
 
   <ul>
-    <li><strong>Tecla de atalho / atalho:</strong> Muitos modelos permitem atribuir <em>Music controls</em> a um atalho ou hot key nas configurações do relógio (geralmente em <strong>Settings</strong> → <strong>System</strong> → <strong>Hot Keys</strong> / <strong>Controls</strong>).</li>
-    <li><strong>Menu de controles:</strong> Abra o menu de controles do relógio e selecione <em>Music</em> / <em>Music Controls</em>.</li>
-    <li><strong>Atalho de touchscreen (alguns modelos):</strong> A Garmin documenta um “shortcut control” que você pode definir para controles de música (exemplo: manual do Venu: <a href="https://www8.garmin.com/manuals/webhelp/venu/EN-US/GUID-5E9D3D0F-D4C9-4A4A-97D6-4F178C27DAD8.html">Setting Up a Shortcut Control</a>).</li>
+    <li><strong>Atalho / hot key:</strong> muitos modelos permitem atribuir <em>Music controls</em> a um atalho nas configurações (geralmente em <strong>Settings</strong> → <strong>System</strong> → <strong>Hot Keys</strong> / <strong>Controls</strong>).</li>
+    <li><strong>Menu de controles:</strong> abra o menu de controles do relógio e escolha <em>Music</em> / <em>Music Controls</em>.</li>
+    <li><strong>Atalho no touchscreen (alguns modelos):</strong> a Garmin documenta um “shortcut control” para música (exemplo manual Venu: <a href="https://www8.garmin.com/manuals/webhelp/venu/EN-US/GUID-5E9D3D0F-D4C9-4A4A-97D6-4F178C27DAD8.html">Setting Up a Shortcut Control</a>).</li>
   </ul>
 
   <p>
-    Se você quiser que os alertas de vibração combinem com sua música, você pode configurar os alertas de intervalo para o timing desejado.
-    Mas não há um recurso de “sync de batida”, então ele não vai ficar automaticamente alinhado com a faixa.
+    Se quiser sincronizar vibrações com sua música, você pode configurar os intervalos da sessão no tempo desejado.
+    Mas não há recurso de sincronização automática com batida, então não fica perfeitamente alinhado o tempo todo.
   </p>
 
 </details>
@@ -611,13 +611,13 @@ A maioria dos problemas é fácil de resolver, e nada disso significa que você 
   <summary><strong>Como reinicio (reboot) meu relógio Garmin?</strong></summary>
 
   <p>
-    Os relógios Garmin variam um pouco por modelo, mas estas opções funcionam para a maioria dos dispositivos.
+    Os relógios Garmin variam um pouco por modelo, mas estas opções funcionam para a maioria.
   </p>
 
-  <p><strong>Opção 1 (mais comum): botão de energia / botão LIGHT</strong></p>
+  <p><strong>Opção 1 (mais comum): botão power / LIGHT</strong></p>
 
   <ol>
-    <li>Pressione e segure o botão <strong>LIGHT</strong> / energia até o relógio desligar (geralmente ~10–15 segundos).</li>
+    <li>Pressione e segure o botão <strong>LIGHT</strong> / power até o relógio desligar (normalmente ~10–15 segundos).</li>
     <li>Espere alguns segundos.</li>
     <li>Pressione o mesmo botão novamente para ligar.</li>
   </ol>
@@ -625,64 +625,64 @@ A maioria dos problemas é fácil de resolver, e nada disso significa que você 
   <p><strong>Opção 2: pelas configurações do relógio</strong></p>
 
   <ul>
-    <li>Abra <strong>Settings</strong> → <strong>System</strong> → <strong>Power Off</strong> ou <strong>Restart</strong> (a redação pode variar por modelo).</li>
+    <li>Abra <strong>Settings</strong> → <strong>System</strong> → <strong>Power Off</strong> ou <strong>Restart</strong> (o nome pode variar por modelo).</li>
   </ul>
 
   <p>
-    Reiniciar não apaga seus dados; só reinicia o relógio.
-    Se o relógio travar, segure o botão de energia por mais tempo até ele desligar.
+    Reiniciar não apaga seus dados; apenas reinicia o relógio.
+    Se estiver travado, continue segurando o botão por mais tempo até desligar.
   </p>
 
 </details>
 
 <details>
-  <summary><strong>Instalei o app, mas ele não aparece no relógio (ou a instalação está travada)</strong></summary>
+  <summary><strong>Instalei o app, mas ele não aparece no relógio (ou a instalação travou)</strong></summary>
 
-  <p>Isso é frustrante — especialmente quando você só quer começar uma sessão calma e a tecnologia atrapalha.</p>
+  <p>Isso é frustrante - especialmente quando você só quer iniciar uma sessão tranquila e a tecnologia atrapalha.</p>
 
   <p>
-    <strong>Primeiro, certifique-se de procurar no lugar certo:</strong><br>
-    Este app aparece na lista de <strong>Atividades</strong> / <strong>Apps</strong> do relógio (o mesmo lugar onde você inicia corrida, yoga, respiração etc.).
-    Ele pode <em>não</em> aparecer em listas de widgets / glances / atalhos (dependendo do modelo e de como o relógio organiza apps).
+    <strong>Primeiro, confira se está procurando no lugar certo:</strong><br>
+    Este app aparece na lista de <strong>Activities</strong> / <strong>Apps</strong> do relógio (o mesmo lugar onde você inicia corrida, yoga, respiração etc.).
+    Dependendo do modelo e da organização da interface, ele pode <em>não</em> aparecer em listas de widgets / glances / atalhos.
   </p>
 
   <p>
-    Nesse caso, é importante saber: a instalação e o envio de apps Connect IQ para o relógio são totalmente gerenciados pela Garmin (Garmin Connect / Connect IQ / Garmin Express e o processo de sincronização).
-    O app em si não pode influenciar se ele aparece no seu dispositivo, e como desenvolvedor não há nada que eu possa mudar no código para corrigir um problema de instalação ou sync.
+    Importante: a instalação e entrega de apps Connect IQ para o relógio é totalmente controlada pela Garmin (Garmin Connect / Connect IQ / Garmin Express e processo de sync).
+    O app em si não consegue influenciar se ele aparece no dispositivo, e como desenvolvedor não há mudança de código que resolva um problema de instalação/sincronização da Garmin.
   </p>
 
   <p>
-    Alguns usuários também veem o app travado em “Installing…” ou parcialmente instalado (por exemplo, o app aparece, mas algumas partes não carregam).
-    Os passos abaixo normalmente resolvem os dois casos.
+    Alguns usuários também veem o app travado em “Installing…” ou parcialmente instalado (por exemplo, aparece mas partes não carregam).
+    Os passos abaixo geralmente resolvem os dois casos.
   </p>
 
   <p>O que você pode tentar rapidamente (opcional):</p>
 
   <ul>
-    <li>Sincronize seu relógio novamente no Garmin Connect</li>
-    <li><a href="#restart-watch">Reinicie o relógio</a> e seu celular, depois sincronize de novo</li>
-    <li>Desinstale o app, <a href="#restart-watch">reinicie o relógio</a>, depois reinstale o app e sincronize novamente</li>
+    <li>Sincronizar o relógio novamente no Garmin Connect</li>
+    <li><a href="#restart-watch">Reiniciar o relógio</a> e o celular, depois sincronizar de novo</li>
+    <li>Desinstalar o app, <a href="#restart-watch">reiniciar o relógio</a>, instalar novamente e sincronizar</li>
   </ul>
 
   <p>
-    Se o relógio parecer travado durante a instalação, <a href="#restart-watch">reinicie o relógio</a> primeiro, depois tente sincronizar/instalar novamente.
+    Se o relógio parecer travado durante a instalação, <a href="#restart-watch">reinicie o relógio</a> primeiro e tente sincronizar/instalar novamente.
   </p>
 
-  <p>Se ainda não aparecer, o melhor próximo passo é entrar em contato com o suporte da Garmin, pois este é um problema de instalação/sincronização do lado da Garmin:</p>
+  <p>Se ainda não aparecer, o melhor próximo passo é falar com o suporte Garmin, porque esse é um problema de instalação/sync do lado da Garmin:</p>
 
   <ul>
-    <li><a href="https://support.garmin.com/en-US/?faq=67C7Y58Nxb6rkxt2Enbrf5">Suporte Garmin (solução de problemas de instalação do Connect IQ)</a></li>
-    <li><a href="https://support.garmin.com/">Suporte Garmin (portal principal)</a></li>
+    <li><a href="https://support.garmin.com/en-US/?faq=67C7Y58Nxb6rkxt2Enbrf5">Garmin Support (troubleshooting de instalação Connect IQ)</a></li>
+    <li><a href="https://support.garmin.com/">Garmin Support (portal principal)</a></li>
   </ul>
 
 </details>
 
 <details>
-  <summary><strong>Algumas partes do app aparecem no idioma errado</strong></summary>
+  <summary><strong>Partes do app aparecem no idioma errado</strong></summary>
 
   <p>
-    Às vezes alguns textos (por exemplo rótulos relacionados a HRV) podem aparecer em um idioma diferente, mesmo com o resto do app correto.
-    Isso geralmente é uma falha pontual de instalação/sync.
+    Às vezes alguns textos (por exemplo labels de HRV) podem aparecer em outro idioma mesmo que o resto do app esteja correto.
+    Normalmente é uma falha pontual de instalação/sincronização.
   </p>
 
   <p>O que tentar (nesta ordem):</p>
@@ -690,12 +690,12 @@ A maioria dos problemas é fácil de resolver, e nada disso significa que você 
   <ol>
     <li>Desinstale o app do relógio</li>
     <li><a href="#restart-watch">Reinicie (reboot) o relógio</a></li>
-    <li>Reinstale o app e sincronize novamente</li>
+    <li>Reinstale o app e sincronize de novo</li>
   </ol>
 
   <p>
-    Se ainda acontecer, abra o link <strong>Contact Developer</strong> na Connect IQ Store e informe o modelo do relógio,
-    a versão do firmware e qual idioma aparece incorretamente.
+    Se continuar acontecendo, abra o link <strong>Contact Developer</strong> na Connect IQ Store e inclua modelo do relógio,
+    versão do firmware e qual idioma aparece incorretamente.
   </p>
 
 </details>
@@ -704,23 +704,23 @@ A maioria dos problemas é fácil de resolver, e nada disso significa que você 
   <summary><strong>O app parou de funcionar / preciso de suporte</strong></summary>
 
   <p>
-    Por favor, use a seção de suporte dedicada aqui (ela contém os passos atualizados, quais informações incluir e o melhor jeito de falar comigo):
-    <a href="#get-support--report-problem">Obter Suporte / Reportar Problema</a>
+    Use a seção dedicada de suporte aqui (com passos atualizados, informações para enviar e melhor forma de contato):
+    <a href="#get-support--report-problem">Suporte / Relatar problema</a>
   </p>
 
 </details>
 
 ---
 
-# Obter Suporte / Reportar Problema
+# Suporte / Relatar problema
 
-Se algo não funciona, ou você tem feedback ou pedidos de recursos, você pode [me enviar um e-mail](mailto:florian.geigl+garmin@gmail.com?subject=User%20Feedback%20for%20Meditation%20and%20Breathwork%20-%20Connect%20IQ%20Notification).
+Se algo não funcionar, ou se você tiver feedback e sugestões, pode [me enviar um e-mail](mailto:florian.geigl+garmin@gmail.com?subject=User%20Feedback%20for%20Meditation%20and%20Breathwork%20-%20Connect%20IQ%20Notification).
 
 <a id="privacy"></a>
 
-# Privacidade de Dados
+# Privacidade de dados
 
 Seus dados continuam sendo seus.
 
 O app não armazena informações pessoais.  
-Para detalhes, veja a [Política de Privacidade de Dados](/meditate_app_data_privacy/).
+Para detalhes, veja a [Política de Privacidade](/meditate_app_data_privacy/).
