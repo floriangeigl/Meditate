@@ -29,8 +29,10 @@ jobs:
       - name: create user guide pages
         run: |
           cat UserGuide.md > ./geigl.online/meditate_app_user_guide.md
-          for f in UserGuide-*.md; do
-            lang="${f#UserGuide-}"
+          for f in generated/UserGuides/UserGuide-*.md; do
+            [ -f "$f" ] || continue
+            lang="$(basename "$f")"
+            lang="${lang#UserGuide-}"
             lang="${lang%.md}"
             cat "$f" > "./geigl.online/meditate_app_user_guide-${lang}.md"
           done
@@ -44,9 +46,10 @@ jobs:
           declare -A LANG_NAMES=([en]="English" [de]="Deutsch" [es]="Español" [ko]="한국어" [pt]="Português" [fr]="Français" [it]="Italiano" [ja]="日本語" [zh]="中文" [nl]="Nederlands" [ru]="Русский" [uk]="Українська")
 
           LANGS=("en")
-          for f in UserGuide-*.md; do
+          for f in generated/UserGuides/UserGuide-*.md; do
             [ -f "$f" ] || continue
-            lang="${f#UserGuide-}"
+            lang="$(basename "$f")"
+            lang="${lang#UserGuide-}"
             lang="${lang%.md}"
             LANGS+=("$lang")
           done
@@ -85,10 +88,65 @@ jobs:
             awk -v nav="$nav" 'BEGIN{c=0} /^---$/{c++; print; if(c==2){print ""; print nav; print ""} next} {print}' "$target" > "${target}.tmp" && mv "${target}.tmp" "$target"
           done
 
-      - name: create advertisment page
+      - name: create advertisement pages
         run: |
           cat Advertisement.md > ./geigl.online/meditate_app.md
+          for f in generated/Advertisements/Advertisement-*.md; do
+            [ -f "$f" ] || continue
+            lang="$(basename "$f")"
+            lang="${lang#Advertisement-}"
+            lang="${lang%.md}"
+            cat "$f" > "./geigl.online/meditate_app-${lang}.md"
+          done
           find ./geigl.online -type f -name '*.md' -exec sed -i 's|meditate_app_user_guide/userGuideScreenshots/|__KEEP__|g; s|userGuideScreenshots/|meditate_app_user_guide/userGuideScreenshots/|g; s|__KEEP__|meditate_app_user_guide/userGuideScreenshots/|g' {} +
+
+      - name: add language navigation to advertisements
+        shell: bash
+        run: |
+          declare -A LANG_NAMES=([en]="English" [de]="Deutsch" [es]="Español" [ko]="한국어" [pt]="Português" [fr]="Français" [it]="Italiano" [ja]="日本語" [zh]="中文" [nl]="Nederlands" [ru]="Русский" [uk]="Українська")
+
+          LANGS=("en")
+          for f in generated/Advertisements/Advertisement-*.md; do
+            [ -f "$f" ] || continue
+            lang="$(basename "$f")"
+            lang="${lang#Advertisement-}"
+            lang="${lang%.md}"
+            LANGS+=("$lang")
+          done
+
+          # Fix permalinks for translated advertisements
+          for lang in "${LANGS[@]}"; do
+            [ "$lang" = "en" ] && continue
+            target="./geigl.online/meditate_app-${lang}.md"
+            sed -i "s|permalink: /meditate_app/|permalink: /meditate_app-${lang}/|" "$target"
+          done
+
+          # Insert language nav into each advertisement
+          for current in "${LANGS[@]}"; do
+            if [ "$current" = "en" ]; then
+              target="./geigl.online/meditate_app.md"
+            else
+              target="./geigl.online/meditate_app-${current}.md"
+            fi
+
+            nav="<div><small>🌐"
+            first=true
+            for other in "${LANGS[@]}"; do
+              name="${LANG_NAMES[$other]:-$other}"
+              $first || nav+=" |"
+              first=false
+              if [ "$other" = "$current" ]; then
+                nav+=" <b>${name}</b>"
+              elif [ "$other" = "en" ]; then
+                nav+=" <a href=\"/meditate_app/\">${name}</a>"
+              else
+                nav+=" <a href=\"/meditate_app-${other}/\">${name}</a>"
+              fi
+            done
+            nav+="</small></div>"
+
+            awk -v nav="$nav" 'BEGIN{c=0} /^---$/{c++; print; if(c==2){print ""; print nav; print ""} next} {print}' "$target" > "${target}.tmp" && mv "${target}.tmp" "$target"
+          done
       - name: git add
         run: ls -lah && cd ./geigl.online/ && git add .
       - name: debug
