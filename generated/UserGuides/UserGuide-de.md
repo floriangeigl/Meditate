@@ -647,7 +647,7 @@ Die meisten Probleme lassen sich leicht lösen, und nichts davon bedeutet, dass 
   </p>
 
   <p>
-    Wichtig zu wissen: Installation und Übertragung von Connect-IQ-Apps auf deine Uhr werden vollständig von Garmin gesteuert (Garmin Connect / Connect IQ / Garmin Express und der Sync-Prozess).
+    Wichtig zu wissen: Installation und Übertragung von Connect IQ-Apps auf deine Uhr werden vollständig von Garmin gesteuert (Garmin Connect / Connect IQ / Garmin Express und der Sync-Prozess).
     Die App selbst kann nicht beeinflussen, ob sie auf deinem Gerät erscheint, und als Entwickler kann ich im Code nichts ändern, um ein Installations- oder Sync-Problem zu beheben.
   </p>
 
