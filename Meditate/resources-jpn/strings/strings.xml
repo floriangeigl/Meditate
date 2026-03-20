@@ -1,0 +1,213 @@
+<strings>
+    <string id="AppName">瞑想</string>
+    <string id="ConfirmSaveHeader">保存しますか？</string>
+    <string id="confirmDeleteSessionHeader">削除しますか？</string>
+    <string id="confirmDeleteAllIntervalAlertsHeader">全アラート削除？</string>
+
+    <string id="SummaryTitle">概要</string>
+    <string id="SummaryHR">心拍数</string>
+    <string id="SummaryStress">ストレス</string>
+    <string id="SummaryStart">開始: </string>
+    <string id="SummaryEnd">終了: </string>
+    <string id="SummaryRespiration">呼吸</string>
+    <string id="SummaryMin">最小:</string>
+    <string id="SummaryAvg">平均:</string>
+    <string id="SummaryMax">最大:</string>
+    <string id="SummaryHRVRMSSD">HRV RMSSD</string>
+    <string id="SummaryHRVpNNx">HRV &gt; x</string>
+    <string id="SummaryHRVSDRR">HRV SDRR</string>
+    <string id="SummaryHRVRMSSDFirst5min">最初の5分</string>
+    <string id="SummaryHRVRMSSDLast5min">最後の5分</string>
+
+    <string id="menuSessionSettings_Title">セッション</string>
+    <string id="menuSessionSettings_addNew">新規追加</string>
+    <string id="menuSessionSettings_edit">編集</string>
+    <string id="menuSessionSettings_delete">削除</string>
+    <string id="menuSessionSettings_globalSettings">全体設定</string>
+    <string id="menuSessionSettings_help">ヘルプ</string>
+    <string id="menuSessionSettings_about">アプリ情報</string>
+
+    <string id="help_openingUserGuide">スマホでガイドを表示中</string>
+
+    <string id="menuGlobalSettings_title">設定</string>
+    <string id="menuGlobalSettings_newHrvTracking">HRV計測</string>
+    <string id="menuGlobalSettings_newActivityType">アクティビティ種別</string>
+    <string id="menuGlobalSettings_confirmSaveActivity">保存確認</string>
+    <string id="menuGlobalSettings_multiSession">マルチセッション</string>
+    <string id="menuGlobalSettings_singleSession">シングルセッション</string>
+    <string id="menuGlobalSettings_respirationRate">呼吸数</string>
+    <string id="menuGlobalSettings_autoStop">自動停止</string>
+    <string id="menuGlobalSettings_colorTheme">カラーテーマ</string>
+    <string id="menuGlobalSettings_prepareTime">準備時間</string>
+    <string id="menuGlobalSettings_finalizeTime">終了時間</string>
+    <string id="menuGlobalSettings_sensorRestart">センサー再起動</string>
+    <string id="menuGlobalSettings_respiration">呼吸: </string>
+    <string id="menuGlobalSettings_save">保存: </string>
+
+    <string id="menuNewActivityTypeOptions_title">アクティビティ</string>
+    <string id="menuNewActivityTypeOptions_meditating">瞑想</string>
+    <string id="menuNewActivityTypeOptions_yoga">ヨガ</string>
+    <string id="menuNewActivityTypeOptions_breathing">呼吸法</string>
+    <string id="menuNewActivityTypeOptions_generic">汎用</string>
+
+    <string id="activityTypeMenu_title">種別</string>
+    <string id="activityTypeMenu_yoga">ヨガ</string>
+    <string id="activityTypeMenu_meditating">瞑想</string>
+    <string id="activityTypeMenu_breathing">呼吸法</string>
+    <string id="activityTypeMenu_generic">汎用</string>
+
+    <string id="menuNewHrvTrackingOptions_title">HRV計測</string>
+    <string id="menuNewHrvTrackingOptions_onDetailed">詳細（既定）</string>
+    <string id="menuNewHrvTrackingOptions_on">オン</string>
+    <string id="menuNewHrvTrackingOptions_off">オフ</string>
+    <string id="menuNewHrvTrackingOptions_onDetailedSimple">詳細</string>
+
+    <string id="menuHrvTrackingOptions_title">HRV計測</string>
+    <string id="menuHrvTrackingOptions_onDetailed">詳細（既定）</string>
+    <string id="menuHrvTrackingOptions_on">オン</string>
+    <string id="menuHrvTrackingOptions_off">オフ</string>
+
+    <string id="menuConfirmSaveActivityOptions_title">保存確認</string>
+    <string id="menuConfirmSaveActivityOptions_ask">確認する（既定）</string>
+    <string id="menuConfirmSaveActivityOptions_autoYes">自動保存</string>
+    <string id="menuConfirmSaveActivityOptions_autoNo">自動破棄</string>
+    <string id="menuConfirmSaveActivityOptions_askSimple">確認する</string>
+    <string id="menuConfirmSaveActivityOptions_autoYesExit">自動保存して終了</string>
+
+    <string id="menuMultiSessionOptions_title">マルチセッション</string>
+    <string id="menuMultiSessionOptions_yes">はい</string>
+    <string id="menuMultiSessionOptions_no">いいえ（既定）</string>
+
+    <string id="menuRespirationRateOptions_title">呼吸</string>
+    <string id="menuRespirationRateOptions_on">オン（既定）</string>
+    <string id="menuRespirationRateOptions_off">オフ</string>
+
+    <string id="menuAutoStopOptions_title">自動停止</string>
+    <string id="menuAutoStopOptions_on">オン（既定）</string>
+    <string id="menuAutoStopOptions_off">オフ</string>
+
+    <string id="menuColorThemeOptions_title">テーマ</string>
+    <string id="menuColorThemeOptions_light">ライト</string>
+    <string id="menuColorThemeOptions_dark">ダーク（既定）</string>
+
+    <string id="menuPrepareTimeOptions_title">準備</string>
+    <string id="menuFinalizeTimeOptions_title">終了</string>
+    <string id="menuPrepareTimeOptions_0s">0秒</string>
+    <string id="menuPrepareTimeOptions_15s">15秒</string>
+    <string id="menuPrepareTimeOptions_30s">30秒</string>
+    <string id="menuPrepareTimeOptions_45s">45秒</string>
+    <string id="menuPrepareTimeOptions_1m">1分</string>
+    <string id="menuPrepareTimeOptions_2m">2分</string>
+    <string id="menuPrepareTimeOptions_3m">3分</string>
+    <string id="menuPrepareTimeOptions_4m">4分</string>
+    <string id="menuPrepareTimeOptions_5m">5分</string>
+    <string id="menuPrepareTimeOptions_10m">10分</string>
+
+    <string id="menuHrvWindowSizeOptions_title">HRVウィンドウ</string>
+
+    <string id="menuGlobalSettings_useSessionName">セッション名=活動名</string>
+    <string id="menuGlobalSettings_useSessionName_on">はい</string>
+    <string id="menuGlobalSettings_useSessionName_off">いいえ（既定）</string>
+
+    <string id="menuNotificationOptions_title">通知</string>
+    <string id="menuNotificationOptions_on">オン（既定）</string>
+    <string id="menuNotificationOptions_off">オフ</string>
+
+    <string id="menuIntervalAlertSettings_Title">間隔アラート</string>
+    <string id="menuIntervalAlertSettings_addNew">新規追加</string>
+    <string id="menuIntervalAlertSettings_edit">編集</string>
+    <string id="menuIntervalAlertSettings_deleteAll">全削除</string>
+
+    <string id="summaryRollupMenu_title">セッション概要</string>
+    <string id="summaryRollupMenuOption_exit">終了</string>
+
+    <!-- Multi-session post-session menu -->
+    <string id="multiSessionPostMenu_title">マルチセッション</string>
+    <string id="multiSessionPostMenu_nextSession">次のセッション</string>
+    <string id="multiSessionPostMenu_summary">概要</string>
+    <string id="multiSessionPostMenu_endMultiSession">マルチ終了</string>
+
+    <string id="confirmDeleteIntervalAlertHeader">アラート削除？</string>
+
+    <string id="addEditIntervalAlertMenu_title">アラート</string>
+    <string id="addEditIntervalAlertMenu_time">時間</string>
+    <string id="addEditIntervalAlertMenu_offset">オフセット</string>
+    <string id="addEditIntervalAlertMenu_color">色</string>
+    <string id="addEditIntervalAlertMenu_vibeSound">振動 / 音</string>
+    <string id="addEditIntervalAlertMenu_delete">削除</string>
+
+    <string id="addEditSessionMenu_title">セッション</string>
+    <string id="addEditSessionMenu_name">名前</string>
+    <string id="addEditSessionMenu_time">時間</string>
+    <string id="addEditSessionMenu_color">色</string>
+    <string id="addEditSessionMenu_vibeSound">振動 / 音</string>
+    <string id="addEditSessionMenu_intervalAlerts">間隔アラート</string>
+    <string id="addEditSessionMenu_activityType">種別</string>
+    <string id="addEditSessionMenu_hrvTracking">HRV計測</string>
+
+    <string id="intervalAlertTransparentColorText">透明</string>
+
+    <string id="vibePatternMenu_title">振動 / 音</string>
+    <string id="vibePatternMenu_noNotification">通知なし</string>
+    <string id="vibePatternMenu_longPulsating">長い断続</string>
+    <string id="vibePatternMenu_longSound">長い音</string>
+    <string id="vibePatternMenu_longContinuous">長い連続</string>
+    <string id="vibePatternMenu_longAscending">長い上昇</string>
+    <string id="vibePatternMenu_mediumPulsating">中断続</string>
+    <string id="vibePatternMenu_mediumContinuous">中連続</string>
+    <string id="vibePatternMenu_mediumAscending">中上昇</string>
+    <string id="vibePatternMenu_shortPulsating">短い断続</string>
+    <string id="vibePatternMenu_shortContinuous">短い連続</string>
+    <string id="vibePatternMenu_shortAscending">短い上昇</string>
+    <string id="vibePatternMenu_shortDescending">短い下降</string>
+    <string id="vibePatternMenu_mediumDescending">中下降</string>
+    <string id="vibePatternMenu_longDescending">長い下降</string>
+
+    <string id="intervalVibePatternMenu_title">振動 / 音</string>
+    <string id="intervalVibePatternMenu_noNotification">通知なし</string>
+    <string id="intervalVibePatternMenu_shorterContinuous">極短連続</string>
+    <string id="intervalVibePatternMenu_shorterAscending">極短上昇</string>
+    <string id="intervalVibePatternMenu_blip">ピッ</string>
+    <string id="intervalVibePatternMenu_shortSound">短い音</string>
+
+    <string id="intervalTypeMenu_title">アラート種別</string>
+    <string id="intervalTypeMenu_oneOff">1回限り H:MM</string>
+    <string id="intervalTypeMenu_repeat">繰返し MM:SS</string>
+
+    <string id="editIntervalAlertsMenu_title">アラート編集</string>
+    <string id="activityDelayedFinishingText">終了中...</string>
+    <string id="meditateActivityPaused">[一時停止]</string>
+    <string id="meditateActivityPrepare">リラックスして\nセッション開始\nまであと</string>
+    <string id="meditateActivityFinalize">セッション\n終了まで\nあと</string>
+
+    <string id="activityNameMeditate">瞑想</string>
+    <string id="activityNameYoga">ヨガ</string>
+    <string id="activityNameBreathing">呼吸法</string>
+    <string id="activityNameGeneric">汎用</string>
+    <string id="sessionTitleMeditate">瞑想 🧘</string>
+    <string id="sessionTitleYoga">ヨガ 🧘</string>
+    <string id="sessionTitleBreathing">呼吸法 🌬️</string>
+
+    <string id="activityName">活動名（[time]で時間に置換、短くしてください）:</string>
+    <string id="restoreDeviceId">Restore From Device ID (leave empty to use this device):</string>
+    <string id="pickMMSS">MM:SSを選択</string>
+    <string id="pickHMM">H:MMを選択</string>
+    <string id="HRVwaiting">HRV待機中</string>
+    <string id="HRVready">HRV準備完了</string>
+    <string id="HRVweak">HRV微弱</string>
+    <string id="HRVoff">HRVオフ</string>
+
+    <string id="menuSessionSettings_start">開始</string>
+    <string id="pauseMenu_resume">再開</string>
+    <string id="pauseMenu_stop">停止</string>
+    <string id="finishMenu_save">保存</string>
+    <string id="finishMenu_discard">破棄</string>
+    <string id="optionsMenuHelp">開始でオプション表示</string>
+
+    <string id="about_AppVersion">v10.7.0</string>
+    <string id="about_vtrifonov">vtrifonov</string>
+    <string id="about_dliedke">dliedke</string>
+    <string id="about_falsetru">falsetru</string>
+    <string id="about_floriangeigl">floriangeigl</string>
+
+</strings>

@@ -86,7 +86,39 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 			);
 		} else if (id == :vibePattern) {
 			// Programmatic Menu2 for vibe patterns so the delegate gets Menu2.MenuItems
-			var vibeMenu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.vibePatternMenu_title) });
+			var vp = me.mSessionModel.vibePattern;
+			var focusIdx = 0;
+			if (vp == VibePattern.LongContinuous) {
+				focusIdx = 1;
+			} else if (vp == VibePattern.LongSound) {
+				focusIdx = 2;
+			} else if (vp == VibePattern.LongPulsating) {
+				focusIdx = 3;
+			} else if (vp == VibePattern.LongAscending) {
+				focusIdx = 4;
+			} else if (vp == VibePattern.LongDescending) {
+				focusIdx = 5;
+			} else if (vp == VibePattern.MediumContinuous) {
+				focusIdx = 6;
+			} else if (vp == VibePattern.MediumPulsating) {
+				focusIdx = 7;
+			} else if (vp == VibePattern.MediumAscending) {
+				focusIdx = 8;
+			} else if (vp == VibePattern.MediumDescending) {
+				focusIdx = 9;
+			} else if (vp == VibePattern.ShortContinuous) {
+				focusIdx = 10;
+			} else if (vp == VibePattern.ShortPulsating) {
+				focusIdx = 11;
+			} else if (vp == VibePattern.ShortAscending) {
+				focusIdx = 12;
+			} else if (vp == VibePattern.ShortDescending) {
+				focusIdx = 13;
+			}
+			var vibeMenu = new Ui.Menu2({
+				:title => Ui.loadResource(Rez.Strings.vibePatternMenu_title),
+				:focus => focusIdx,
+			});
 			vibeMenu.addItem(
 				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_noNotification), "", :noNotification, {})
 			);
@@ -169,8 +201,18 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 			Ui.pushView(intervalAlertSettingsMenu, intervalAlertsMenuDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :activityType) {
 			// Programmatic Menu2 for activity type
+			var atVal = me.mSessionModel.getActivityType();
+			var focusIdx = 0;
+			if (atVal == ActivityType.Yoga) {
+				focusIdx = 1;
+			} else if (atVal == ActivityType.Breathing) {
+				focusIdx = 2;
+			} else if (atVal == ActivityType.Generic) {
+				focusIdx = 3;
+			}
 			var activityMenu = new Ui.Menu2({
 				:title => Ui.loadResource(Rez.Strings.menuNewActivityTypeOptions_title),
+				:focus => focusIdx,
 			});
 			activityMenu.addItem(
 				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuNewActivityTypeOptions_meditating), "", :meditating, {})
@@ -187,7 +229,17 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 			var activityTypeDelegate = new MenuOptionsDelegate(method(:onActivityTypePicked));
 			Ui.pushView(activityMenu, activityTypeDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :hrvTracking) {
-			var hrvMenu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_title) });
+			var hrvVal = me.mSessionModel.getHrvTracking();
+			var focusIdx = 0;
+			if (hrvVal == HrvTracking.OnDetailed) {
+				focusIdx = 1;
+			} else if (hrvVal == HrvTracking.Off) {
+				focusIdx = 2;
+			}
+			var hrvMenu = new Ui.Menu2({
+				:title => Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_title),
+				:focus => focusIdx,
+			});
 			hrvMenu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_on), "", :on, {}));
 			hrvMenu.addItem(
 				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_onDetailed), "", :onDetailed, {})

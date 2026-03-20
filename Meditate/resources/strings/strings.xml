@@ -24,7 +24,10 @@
     <string id="menuSessionSettings_edit">Edit</string>
     <string id="menuSessionSettings_delete">Delete</string>
     <string id="menuSessionSettings_globalSettings">Global Settings</string>
+    <string id="menuSessionSettings_help">Help</string>
     <string id="menuSessionSettings_about">About</string>
+
+    <string id="help_openingUserGuide">Opening User Guide on your phone</string>
 
     <string id="menuGlobalSettings_title">Settings</string>
     <string id="menuGlobalSettings_newHrvTracking">HRV Tracking</string>
@@ -204,7 +207,7 @@
     <string id="finishMenu_discard">Discard</string>
     <string id="optionsMenuHelp">Press start for options</string>
 
-    <string id="about_AppVersion">v10.6.66</string>
+    <string id="about_AppVersion">v10.7.0</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>
     <string id="about_falsetru">falsetru</string>

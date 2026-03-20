@@ -25,12 +25,63 @@ jobs:
           path: ./geigl.online/
           ref: master
           token: ${{ secrets.FLORIANGEIGL_GITHUB_IO_TOKEN }}
-      - name: create user guide page
+      - name: create user guide pages
         run: |
           cat UserGuide.md > ./geigl.online/meditate_app_user_guide.md
+          for f in UserGuide-*.md; do
+            lang="${f#UserGuide-}"
+            lang="${lang%.md}"
+            cat "$f" > "./geigl.online/meditate_app_user_guide-${lang}.md"
+          done
           mkdir -p ./geigl.online/userGuideScreenshots
           cp -r ./userGuideScreenshots ./geigl.online/meditate_app_user_guide/
           find ./geigl.online -type f -name '*.md' -exec sed -i 's|meditate_app_user_guide/userGuideScreenshots/|__KEEP__|g; s|userGuideScreenshots/|meditate_app_user_guide/userGuideScreenshots/|g; s|__KEEP__|meditate_app_user_guide/userGuideScreenshots/|g' {} +
+
+      - name: add language navigation to user guides
+        shell: bash
+        run: |
+          declare -A LANG_NAMES=([en]="English" [de]="Deutsch" [es]="Español" [ko]="한국어" [pt]="Português" [fr]="Français" [it]="Italiano" [ja]="日本語" [zh]="中文" [nl]="Nederlands" [ru]="Русский" [uk]="Українська")
+
+          LANGS=("en")
+          for f in UserGuide-*.md; do
+            [ -f "$f" ] || continue
+            lang="${f#UserGuide-}"
+            lang="${lang%.md}"
+            LANGS+=("$lang")
+          done
+
+          # Fix permalinks for translated guides
+          for lang in "${LANGS[@]}"; do
+            [ "$lang" = "en" ] && continue
+            target="./geigl.online/meditate_app_user_guide-${lang}.md"
+            sed -i "s|permalink: /meditate_app_user_guide/|permalink: /meditate_app_user_guide-${lang}/|" "$target"
+          done
+
+          # Insert language nav into each guide
+          for current in "${LANGS[@]}"; do
+            if [ "$current" = "en" ]; then
+              target="./geigl.online/meditate_app_user_guide.md"
+            else
+              target="./geigl.online/meditate_app_user_guide-${current}.md"
+            fi
+
+            nav="🌐"
+            first=true
+            for other in "${LANGS[@]}"; do
+              name="${LANG_NAMES[$other]:-$other}"
+              $first || nav+=" |"
+              first=false
+              if [ "$other" = "$current" ]; then
+                nav+=" **${name}**"
+              elif [ "$other" = "en" ]; then
+                nav+=" [${name}](/meditate_app_user_guide/)"
+              else
+                nav+=" [${name}](/meditate_app_user_guide-${other}/)"
+              fi
+            done
+
+            awk -v nav="$nav" 'BEGIN{c=0} /^---$/{c++; print; if(c==2){print ""; print nav; print ""} next} {print}' "$target" > "${target}.tmp" && mv "${target}.tmp" "$target"
+          done
 
       - name: create advertisment page
         run: |

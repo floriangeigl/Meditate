@@ -24,7 +24,10 @@
     <string id="menuSessionSettings_edit">Bearbeiten</string>
     <string id="menuSessionSettings_delete">Löschen</string>
     <string id="menuSessionSettings_globalSettings">Glob. Einst.</string>
+    <string id="menuSessionSettings_help">Hilfe</string>
     <string id="menuSessionSettings_about">Über</string>
+
+    <string id="help_openingUserGuide">Anleitung wird auf dem Handy geöffnet</string>
 
     <string id="menuGlobalSettings_title">Einst.</string>
     <string id="menuGlobalSettings_newHrvTracking">HRV-Überwachung</string>
@@ -203,7 +206,7 @@
 
     <string id="restoreDeviceId">Restore From Device ID (leave empty to use this device):</string>
 
-    <string id="about_AppVersion">v10.6.66</string>
+    <string id="about_AppVersion">v10.7.0</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>
     <string id="about_falsetru">falsetru</string>

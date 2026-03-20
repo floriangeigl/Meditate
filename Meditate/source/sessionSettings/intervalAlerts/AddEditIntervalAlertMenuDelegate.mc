@@ -77,8 +77,46 @@ class AddEditIntervalAlertMenuDelegate extends Ui.Menu2InputDelegate {
 	function onSelect(item) {
 		var id = item.getId();
 		if (id == :vibePattern) {
+			var vp = me.mIntervalAlert.vibePattern;
+			var focusIdx = 0;
+			if (vp == VibePattern.LongContinuous) {
+				focusIdx = 1;
+			} else if (vp == VibePattern.LongSound) {
+				focusIdx = 2;
+			} else if (vp == VibePattern.LongPulsating) {
+				focusIdx = 3;
+			} else if (vp == VibePattern.LongAscending) {
+				focusIdx = 4;
+			} else if (vp == VibePattern.LongDescending) {
+				focusIdx = 5;
+			} else if (vp == VibePattern.MediumContinuous) {
+				focusIdx = 6;
+			} else if (vp == VibePattern.MediumPulsating) {
+				focusIdx = 7;
+			} else if (vp == VibePattern.MediumAscending) {
+				focusIdx = 8;
+			} else if (vp == VibePattern.MediumDescending) {
+				focusIdx = 9;
+			} else if (vp == VibePattern.ShortContinuous) {
+				focusIdx = 10;
+			} else if (vp == VibePattern.ShortPulsating) {
+				focusIdx = 11;
+			} else if (vp == VibePattern.ShortAscending) {
+				focusIdx = 12;
+			} else if (vp == VibePattern.ShortDescending) {
+				focusIdx = 13;
+			} else if (vp == VibePattern.Blip) {
+				focusIdx = 14;
+			} else if (vp == VibePattern.ShortSound) {
+				focusIdx = 15;
+			} else if (vp == VibePattern.ShorterAscending) {
+				focusIdx = 16;
+			} else if (vp == VibePattern.ShorterContinuous) {
+				focusIdx = 17;
+			}
 			var intervalVibeMenu = new Ui.Menu2({
 				:title => Ui.loadResource(Rez.Strings.intervalVibePatternMenu_title),
+				:focus => focusIdx,
 			});
 			intervalVibeMenu.addItem(
 				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_noNotification), "", :noNotification, {})
@@ -158,7 +196,11 @@ class AddEditIntervalAlertMenuDelegate extends Ui.Menu2InputDelegate {
 			var intervalVibePatternMenuDelegate = new IntervalVibePatternMenuDelegate(method(:onVibePatternChanged));
 			Ui.pushView(intervalVibeMenu, intervalVibePatternMenuDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :time) {
-			var intervalTypeMenu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.intervalTypeMenu_title) });
+			var focusIdx = me.mIntervalAlert.type == IntervalAlertType.OneOff ? 0 : 1;
+			var intervalTypeMenu = new Ui.Menu2({
+				:title => Ui.loadResource(Rez.Strings.intervalTypeMenu_title),
+				:focus => focusIdx,
+			});
 			intervalTypeMenu.addItem(
 				new Ui.MenuItem(Ui.loadResource(Rez.Strings.intervalTypeMenu_oneOff), "", :oneOff, {})
 			);
@@ -177,14 +219,24 @@ class AddEditIntervalAlertMenuDelegate extends Ui.Menu2InputDelegate {
 			// Clamp to picker ranges
 			minutes = Utils.clampToRange(minutes, 0, 59);
 			seconds = Utils.clampToRange(seconds, 0, 59);
-			
+
 			var titleString = Ui.loadResource(Rez.Strings.pickMMSS);
-			if (titleString == null) { titleString = "Offset"; }
+			if (titleString == null) {
+				titleString = "Offset";
+			}
 			var view = new TwoColumnPickerView({
-				:title => titleString, :isHourMinute => false,
-				:leftMin => 0, :leftMax => 59, :leftPad => 2, :leftSuffix => "m",
-				:rightMin => 0, :rightMax => 59, :rightPad => 2, :rightSuffix => "s",
-				:leftValue => minutes, :rightValue => seconds,
+				:title => titleString,
+				:isHourMinute => false,
+				:leftMin => 0,
+				:leftMax => 59,
+				:leftPad => 2,
+				:leftSuffix => "m",
+				:rightMin => 0,
+				:rightMax => 59,
+				:rightPad => 2,
+				:rightSuffix => "s",
+				:leftValue => minutes,
+				:rightValue => seconds,
 			});
 			var delegate = new TwoColumnPickerDelegate(view, method(:onOffsetPicked), false);
 			Ui.pushView(view, delegate, Ui.SLIDE_IMMEDIATE);
@@ -271,11 +323,11 @@ class AddEditIntervalAlertMenuDelegate extends Ui.Menu2InputDelegate {
 		me.notifyIntervalAlertChanged();
 
 		var initialValue = me.mIntervalAlert.time != null ? me.mIntervalAlert.time : 0;
-		
+
 		// Determine text color based on color theme (default to white if theme not set)
 		var picker;
 		var pickerDelegate;
-		
+
 		if (type == IntervalAlertType.OneOff) {
 			// For one-off: H:MM format
 			var totalMinutes = initialValue / 60;
@@ -284,14 +336,24 @@ class AddEditIntervalAlertMenuDelegate extends Ui.Menu2InputDelegate {
 			// Clamp to picker ranges
 			hours = Utils.clampToRange(hours, 0, 9);
 			minutes = Utils.clampToRange(minutes, 0, 59);
-			
+
 			var titleString = Ui.loadResource(Rez.Strings.pickHMM);
-			if (titleString == null) { titleString = "Duration"; }
+			if (titleString == null) {
+				titleString = "Duration";
+			}
 			picker = new TwoColumnPickerView({
-				:title => titleString, :isHourMinute => true,
-				:leftMin => 0, :leftMax => 9, :leftPad => 1, :leftSuffix => "h",
-				:rightMin => 0, :rightMax => 59, :rightPad => 2, :rightSuffix => "m",
-				:leftValue => hours, :rightValue => minutes,
+				:title => titleString,
+				:isHourMinute => true,
+				:leftMin => 0,
+				:leftMax => 9,
+				:leftPad => 1,
+				:leftSuffix => "h",
+				:rightMin => 0,
+				:rightMax => 59,
+				:rightPad => 2,
+				:rightSuffix => "m",
+				:leftValue => hours,
+				:rightValue => minutes,
 			});
 			pickerDelegate = new TwoColumnPickerDelegate(picker, method(:onOneOffDurationPicked), true);
 		} else {
@@ -301,18 +363,28 @@ class AddEditIntervalAlertMenuDelegate extends Ui.Menu2InputDelegate {
 			// Clamp to picker ranges
 			minutes = Utils.clampToRange(minutes, 0, 59);
 			seconds = Utils.clampToRange(seconds, 0, 59);
-			
+
 			var titleString = Ui.loadResource(Rez.Strings.pickMMSS);
-			if (titleString == null) { titleString = "Duration"; }
+			if (titleString == null) {
+				titleString = "Duration";
+			}
 			picker = new TwoColumnPickerView({
-				:title => titleString, :isHourMinute => false,
-				:leftMin => 0, :leftMax => 59, :leftPad => 2, :leftSuffix => "m",
-				:rightMin => 0, :rightMax => 59, :rightPad => 2, :rightSuffix => "s",
-				:leftValue => minutes, :rightValue => seconds,
+				:title => titleString,
+				:isHourMinute => false,
+				:leftMin => 0,
+				:leftMax => 59,
+				:leftPad => 2,
+				:leftSuffix => "m",
+				:rightMin => 0,
+				:rightMax => 59,
+				:rightPad => 2,
+				:rightSuffix => "s",
+				:leftValue => minutes,
+				:rightValue => seconds,
 			});
 			pickerDelegate = new TwoColumnPickerDelegate(picker, method(:onRepeatDurationPicked), false);
 		}
-		
+
 		// Push the duration picker on top of this menu so the user remains in
 		// the Add/Edit Interval Alert menu after finishing the picker.
 		Ui.pushView(picker, pickerDelegate, Ui.SLIDE_IMMEDIATE);

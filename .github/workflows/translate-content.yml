@@ -7,7 +7,6 @@ on:
     paths:
       - "UserGuide.md"
       - "ConnectIQStore/MeditateStoreDescription-en.txt"
-      - ".github/workflows/translate-content*.txt"
       - ".github/codex/prompts/translate-content.md"
 jobs:
   translate_texts:
@@ -49,10 +48,18 @@ jobs:
             ./ConnectIQStore/MeditateStoreDescription-pt.txt \
             ./ConnectIQStore/MeditateStoreDescription-ko.txt \
             ./ConnectIQStore/MeditateStoreDescription-es.txt \
+            ./ConnectIQStore/MeditateStoreDescription-zh.txt \
+            ./ConnectIQStore/MeditateStoreDescription-uk.txt \
+            ./ConnectIQStore/MeditateStoreDescription-ja.txt \
+            ./ConnectIQStore/MeditateStoreDescription-fr.txt \
             ./UserGuide-de.md \
             ./UserGuide-pt.md \
             ./UserGuide-ko.md \
-            ./UserGuide-es.md
+            ./UserGuide-es.md \
+            ./UserGuide-zh.md \
+            ./UserGuide-uk.md \
+            ./UserGuide-ja.md \
+            ./UserGuide-fr.md
           git commit -m "Update translations" || echo "No translation changes to commit"
           git push -f origin release-translation
 

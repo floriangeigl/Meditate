@@ -26,7 +26,10 @@
 	<string id="menuSessionSettings_edit">변경</string>
 	<string id="menuSessionSettings_delete">삭제</string>
 	<string id="menuSessionSettings_globalSettings">전역 설정</string>
+	<string id="menuSessionSettings_help">도움말</string>
 	<string id="menuSessionSettings_about">이 앱에 관하여</string>
+
+	<string id="help_openingUserGuide">휴대폰에서 사용 가이드 열기</string>
 
 	<string id="menuGlobalSettings_title">설정</string>
 	<string id="menuGlobalSettings_newHrvTracking">HRV 추적</string>
@@ -204,7 +207,7 @@
 
 	<string id="restoreDeviceId">Restore From Device ID (leave empty to use this device):</string>
 
-	<string id="about_AppVersion">v10.6.66</string>
+	<string id="about_AppVersion">v10.7.0</string>
 	<string id="about_vtrifonov">vtrifonov</string>
 	<string id="about_dliedke">dliedke</string>
 	<string id="about_falsetru">falsetru</string>

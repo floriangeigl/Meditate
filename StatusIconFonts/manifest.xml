@@ -155,8 +155,12 @@
         <iq:languages>
             <iq:language>deu</iq:language>
             <iq:language>eng</iq:language>
+            <iq:language>fra</iq:language>
+            <iq:language>jpn</iq:language>
             <iq:language>kor</iq:language>
             <iq:language>por</iq:language>
+            <iq:language>ukr</iq:language>
+            <iq:language>zhs</iq:language>
         </iq:languages>
         <iq:barrels/>
         <iq:annotations/>

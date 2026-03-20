@@ -21,6 +21,18 @@ You are an automated translation tool.
 - Spanish (`es`):
   - `ConnectIQStore/MeditateStoreDescription-es.txt`
   - `UserGuide-es.md`
+- Chinese Simplified (`zh`):
+  - `ConnectIQStore/MeditateStoreDescription-zh.txt`
+  - `UserGuide-zh.md`
+- Ukrainian (`uk`):
+  - `ConnectIQStore/MeditateStoreDescription-uk.txt`
+  - `UserGuide-uk.md`
+- Japanese (`ja`):
+  - `ConnectIQStore/MeditateStoreDescription-ja.txt`
+  - `UserGuide-ja.md`
+- French (`fr`):
+  - `ConnectIQStore/MeditateStoreDescription-fr.txt`
+  - `UserGuide-fr.md`
 
 Do not modify any other files.
 
