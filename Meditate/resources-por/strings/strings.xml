@@ -207,7 +207,7 @@
 
     <string id="restoreDeviceId">Restore From Device ID (leave empty to use this device):</string>
 
-    <string id="about_AppVersion">v10.6.66</string>
+    <string id="about_AppVersion">v10.6.67</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>
     <string id="about_falsetru">falsetru</string>
