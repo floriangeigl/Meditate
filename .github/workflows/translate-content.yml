@@ -8,6 +8,7 @@ on:
       - "UserGuide.md"
       - "ConnectIQStore/MeditateStoreDescription-en.txt"
       - ".github/codex/prompts/translate-content.md"
+      - ".github/workflows/translate-content.yml"
 jobs:
   translate_texts:
     name: Translate
