@@ -85,6 +85,7 @@ jobs:
             done
             nav+="</small></div>"
 
+            sed -i 's/\r$//' "$target"
             awk -v nav="$nav" 'BEGIN{c=0} /^---$/{c++; print; if(c==2){print ""; print nav; print ""} next} {print}' "$target" > "${target}.tmp" && mv "${target}.tmp" "$target"
           done
 
@@ -145,6 +146,7 @@ jobs:
             done
             nav+="</small></div>"
 
+            sed -i 's/\r$//' "$target"
             awk -v nav="$nav" 'BEGIN{c=0} /^---$/{c++; print; if(c==2){print ""; print nav; print ""} next} {print}' "$target" > "${target}.tmp" && mv "${target}.tmp" "$target"
           done
       - name: git add
