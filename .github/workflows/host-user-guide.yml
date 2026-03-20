@@ -9,6 +9,7 @@ on:
       - "**.jpg"
       - "**.jpeg"
       - "**.png"
+      - ".github/workflows/host-user-guide.yml"
   workflow_dispatch:
 jobs:
   build:
