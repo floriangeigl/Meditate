@@ -1,10 +1,10 @@
 ---
 layout: page
-title: Meditation & Breathwork
+title: 瞑想 & 呼吸法
 subtitle: Garminアプリ ユーザーガイド
 permalink: /meditate_app_user_guide/
-share-title: Meditation & Breathwork ユーザーガイド (Garmin) | Florian Geigl
-share-description: Garminウォッチアプリ Meditation & Breathwork の設定、機能、FAQ、トラブルシューティング、サポート。
+share-title: 瞑想 & 呼吸法ユーザーガイド (Garmin) | Florian Geigl
+share-description: Garminウォッチアプリ瞑想 & 呼吸法の設定、機能、FAQ、トラブルシューティング、サポート。
 ---
 
 このガイドは、あなたを助けるためのものです。負担を増やすためのものではありません。 :)
@@ -42,7 +42,7 @@ _(はじめるために必要なことを、ここにまとめています)_
 
 ## このアプリについて
 
-Meditation & Breathwork は、瞑想や呼吸ワークのあいだ、身体がどう反応しているかをやさしく見守りながら、今この瞬間にとどまるのを助けてくれます。
+瞑想 & 呼吸法は、瞑想や呼吸ワークのあいだ、身体がどう反応しているかをやさしく見守りながら、今この瞬間にとどまるのを助けてくれます。
 
 このアプリでできること：
 

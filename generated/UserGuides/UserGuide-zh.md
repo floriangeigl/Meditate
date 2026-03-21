@@ -1,10 +1,10 @@
 ---
 layout: page
-title: Meditation & Breathwork
+title: 冥想 & 呼吸练习
 subtitle: Garmin 应用用户指南
 permalink: /meditate_app_user_guide/
-share-title: Meditation & Breathwork用户指南 (Garmin) | Florian Geigl
-share-description: Meditation & Breathwork Garmin 手表应用的设置、功能、常见问题、故障排查与支持。
+share-title: 冥想 & 呼吸练习用户指南 (Garmin) | Florian Geigl
+share-description: 冥想 & 呼吸练习 Garmin 手表应用的设置、功能、常见问题、故障排查与支持。
 ---
 
 这份指南是为了支持你，而不是让你有压力 :)
@@ -16,16 +16,16 @@ share-description: Meditation & Breathwork Garmin 手表应用的设置、功能
 
 - [新手指南](#beginner-guide)
   - [这个应用是做什么的](#what-this-app-is-about)
-  - [开始你的第一节训练](#starting-your-first-session)
+  - [开始第一次练习](#starting-your-first-session)
   - [一个简单的冥想方法](#a-simple-way-to-meditate)
-  - [如何选择训练](#choosing-a-session)
-  - [呼吸训练](#breathwork-sessions)
-  - [理解你的训练数据](#understanding-your-session-data)
+  - [如何选择练习](#choosing-a-session)
+  - [呼吸练习](#breathwork-sessions)
+  - [理解你的练习数据](#understanding-your-session-data)
 - [进阶指南](#advanced-guide)
-  - [训练自定义](#session-customization)
+  - [自定义练习](#session-customization)
   - [自定义呼吸模式](#custom-breathwork-patterns)
   - [高级 HRV 指标](#advanced-hrv-metrics)
-  - [全局设置（所有训练的默认值）](#global-settings-defaults-for-all-sessions)
+  - [全局设置（所有练习的默认值）](#global-settings-defaults-for-all-sessions)
 - [常见问题与故障排查](#faqs-troubleshooting)
 - [获取支持 / 报告问题](#get-support--report-problem)
 - [数据隐私](#privacy)
@@ -42,11 +42,11 @@ _(快速开始所需的一切)_
 
 ## 这个应用是做什么的
 
-Meditation & Breathwork可以帮助你在练习时保持在场，并温和地观察身体如何反应。
+冥想 & 呼吸练习可以帮助你在练习时保持在场，并温和地观察身体如何反应。
 
 你可以：
 
-- 进行简单或结构化训练
+- 进行简单或结构化练习
 - 使用震动提示，减少视觉干扰
 - 观察心率、HRV、压力和呼吸
 - 保存到 Garmin Connect，长期查看变化趋势
@@ -59,14 +59,14 @@ Meditation & Breathwork可以帮助你在练习时保持在场，并温和地观
 
 <a id="starting-your-first-session"></a>
 
-## 开始你的第一节训练
+## 开始第一次练习
 
 1. 打开应用。
-2. 从列表中选择一个训练。
+2. 从列表中选择一项练习。
 3. 按 **Start**（触屏设备可点屏幕）。
 4. 刚开始时尽量保持手腕稳定，帮助传感器稳定。
 
-训练中你会看到：
+练习过程中你会看到：
 
 - 已用时间
 - 当前心率
@@ -159,13 +159,13 @@ _“我们现在必须马上重整人生。”_
 如果答案是想，就回到鼻尖的呼吸感觉。  
 如果答案是不想，也没关系，稍后再问一次。
 
-每一次回来，都是一次训练。
+每一次回来，都是一次练习。
 
 ---
 
 ### 对自己温柔一点
 
-一次次回来，不是问题本身，这就是训练。
+一次次回来，不是问题本身，这本身就是练习。
 
 每次你发现并回来：
 
@@ -192,7 +192,7 @@ _“走神很正常。回来就好。”_
 
 ### 真的就这些
 
-如果你走神 100 次，回来 100 次，这就是一节好训练。
+如果你走神 100 次，回来 100 次，这就是一次很好的练习。
 
 冥想不是永远平静，而是学习“回来”。
 
@@ -200,11 +200,11 @@ _“走神很正常。回来就好。”_
 
 <a id="choosing-a-session"></a>
 
-## 如何选择训练
+## 如何选择练习
 
-在训练列表中你可以看到：
+在练习列表中你可以看到：
 
-- 训练时长
+- 练习时长
 - 震动模式
 - 间隔提示时间
 - HRV 指示器
@@ -220,9 +220,9 @@ _“走神很正常。回来就好。”_
 
 <a id="breathwork-sessions"></a>
 
-## 呼吸训练
+## 呼吸练习
 
-应用内置了多种呼吸训练。  
+应用内置了多种呼吸练习。  
 一个呼吸循环可包含：
 
 **吸气 → 屏息 → 呼气 → 屏息**
@@ -243,13 +243,13 @@ _“走神很正常。回来就好。”_
 - 尽量鼻吸
 - 口呼
 - 呼气比吸气长通常更放松
-- 若按节奏呼吸让你紧张，改用简单训练并自然呼吸
+- 若按节奏呼吸让你紧张，改用简单练习，顺其自然地呼吸
 
 ---
 
 <a id="understanding-your-session-data"></a>
 
-## 理解你的训练数据
+## 理解你的练习数据
 
 ### HRV（心率变异性）
 
@@ -262,7 +262,7 @@ HRV 反映心跳间隔变化程度。
 
 ### 压力
 
-压力高并不等于训练不好。
+压力高并不等于这次练习不好。
 
 ### 心率
 
@@ -282,9 +282,9 @@ _(给需要更深入自定义与理解的用户)_
 
 <a id="session-customization"></a>
 
-## 训练自定义
+## 自定义练习
 
-在训练列表中：
+在练习列表中：
 
 - 长按**菜单键**（或长按屏幕）
 - 打开 **Add New** 或 **Edit**
@@ -347,11 +347,11 @@ _(给需要更深入自定义与理解的用户)_
 
 <a id="global-settings-defaults-for-all-sessions"></a>
 
-## 全局设置（所有训练的默认值）
+## 全局设置（所有练习的默认值）
 
 入口：
 
-- 训练列表 → 长按菜单 → Global Settings
+- 练习列表 → 长按菜单 → Global Settings
 - 再次长按菜单进入编辑
 
 ### HRV Tracking（默认）
@@ -368,8 +368,8 @@ _(给需要更深入自定义与理解的用户)_
 
 ### Multi-Session Mode
 
-- Yes - 应用保持打开，可连续训练
-- No - 每次训练后退出
+- Yes - 应用保持打开，可连续进行多次练习
+- No - 每次练习后退出
 
 ### Preparation Time
 
@@ -396,7 +396,7 @@ _(给需要更深入自定义与理解的用户)_
 
 ### Use Session Name as Activity Name
 
-- 使用训练名作为 Garmin Connect 活动名
+- 使用练习名称作为 Garmin Connect 活动名称
 - 支持 [time]
 
 ### Sensor Restart
@@ -428,14 +428,14 @@ _(给需要更深入自定义与理解的用户)_
 </details>
 
 <details>
-  <summary><strong>可以在手表上改训练名称吗？</strong></summary>
+  <summary><strong>可以在手表上修改练习名称吗？</strong></summary>
 
   <p>可以。进入 <strong>Add New</strong> 或 <strong>Edit</strong>，选择 <strong>Name</strong>。</p>
 
 </details>
 
 <details>
-  <summary><strong>开始训练就闪退怎么办？</strong></summary>
+  <summary><strong>一开始练习就闪退怎么办？</strong></summary>
 
   <p>可能是当前活动类型与手表型号不兼容。请更换活动类型。</p>
 
@@ -470,10 +470,10 @@ _(给需要更深入自定义与理解的用户)_
 </details>
 
 <details>
-  <summary><strong>如何进行“无限时长”训练？</strong></summary>
+  <summary><strong>如何进行“无限时长”练习？</strong></summary>
 
   <ul>
-    <li>创建很长的训练（如 9 小时）并手动结束。</li>
+    <li>创建一段很长的练习（如 9 小时），结束时再手动停止。</li>
     <li>在全局设置中关闭 auto-stop。</li>
   </ul>
 
@@ -482,7 +482,7 @@ _(给需要更深入自定义与理解的用户)_
 <details>
   <summary><strong>使用应用时可以听音乐吗？</strong></summary>
 
-  <p>应用本身不播放音乐，但多数 Garmin 机型可以单独启动音乐后再进行训练。</p>
+  <p>应用本身不播放音乐，但多数 Garmin 机型可以先单独启动音乐，再开始练习。</p>
 
 </details>
 

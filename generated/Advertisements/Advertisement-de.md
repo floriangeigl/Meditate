@@ -1,9 +1,9 @@
 ---
 layout: page
-title: Meditation & Breathwork
+title: Meditation & Atemübungen
 subtitle: Ein achtsamer Begleiter - direkt auf deiner Garmin Uhr
 permalink: /meditate_app/
-share-title: Meditation & Breathwork Garmin-App | Florian Geigl
+share-title: Meditation & Atemübungen Garmin-App | Florian Geigl
 share-description: Meditation und Atemarbeit auf deiner Garmin Uhr – Achtsamkeit mit biometrischen Echtzeitdaten. Jetzt bei Garmin Connect IQ herunterladen.
 ---
 
@@ -13,9 +13,9 @@ Wenn du dich schon einmal gleichzeitig ruhig und unruhig gefühlt hast, bist du 
 
 Wenn das Leben lange fordernd war, lernt das Nervensystem, wachsam zu bleiben. Stress fühlt sich vertraut an. Ruhe fühlt sich unvertraut an - und unvertraute Zustände können sich anfangs verletzlich oder leicht unangenehm anfühlen. Das ist kein Problem, das gelöst werden muss. So passt sich das Nervensystem einfach an das an, was es kennt.
 
-**Meditation & Breathwork** hilft dir, wieder Verbindung zu deinem Körper aufzubauen und in Echtzeit zu beobachten, wie dein Nervensystem reagiert.
+**Meditation & Atemübungen** hilft dir, wieder Verbindung zu deinem Körper aufzubauen und in Echtzeit zu beobachten, wie dein Nervensystem reagiert.
 
-**App holen:** [Meditation & Breathwork herunterladen](https://apps.garmin.com/apps/e6f3f3d2-3ea6-4ec1-81a5-977c708eb75b)
+**App holen:** [Meditation & Atemübungen herunterladen](https://apps.garmin.com/apps/e6f3f3d2-3ea6-4ec1-81a5-977c708eb75b)
 
 **Erste Schritte:** [Benutzerhandbuch lesen](https://geigl.online/meditate_app_user_guide/)
 
@@ -23,7 +23,7 @@ Wenn das Leben lange fordernd war, lernt das Nervensystem, wachsam zu bleiben. S
 
 ## Verstehe dein Nervensystem durch Praxis
 
-Meditation & Breathwork ist eine Garmin-Uhren-App, die Meditation und Atemarbeit mit Präsenz, Einsicht und körperlichem Bewusstsein unterstützt. Durch die Verbindung von Achtsamkeit mit biometrischen Echtzeitdaten hilft sie dir, deinen Körper besser zu verstehen - ohne Bewertung und ohne Druck.
+Meditation & Atemübungen ist eine Garmin-Uhren-App, die Meditation und Atemarbeit mit Präsenz, Einsicht und körperlichem Bewusstsein unterstützt. Durch die Verbindung von Achtsamkeit mit biometrischen Echtzeitdaten hilft sie dir, deinen Körper besser zu verstehen - ohne Bewertung und ohne Druck.
 
 Es gibt keine universelle Meditationstechnik.  
 Entscheidend ist, herauszufinden, was **dein** Nervensystem unterstützt.
@@ -77,6 +77,6 @@ Es geht darum zu lernen, wie dein Nervensystem Balance findet.
 Bleib präsent. Beobachte ehrlich.  
 Lächle, wenn der Geist wieder clever wird.
 
-[Meditation & Breathwork herunterladen](https://apps.garmin.com/apps/e6f3f3d2-3ea6-4ec1-81a5-977c708eb75b) und entdecke, was deine Meditations- und Atempraxis wirklich unterstützt - eine Session nach der anderen.
+[Meditation & Atemübungen herunterladen](https://apps.garmin.com/apps/e6f3f3d2-3ea6-4ec1-81a5-977c708eb75b) und entdecke, was deine Meditations- und Atempraxis wirklich unterstützt - eine Session nach der anderen.
 
 Mehr Details zu Funktionen, häufigen Fragen und Support findest du im [Benutzerhandbuch](https://geigl.online/meditate_app_user_guide/).
