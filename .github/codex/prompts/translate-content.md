@@ -59,7 +59,7 @@ The source text has a specific voice — warm, contemplative, gently encouraging
 ## Do Not Translate (preserve exactly as-is)
 
 - **Brand / product names:** Garmin, Garmin Connect, Connect IQ
-- **App name:** "Meditation & Breathwork" — keep in English in all languages.
+- **App name:** "Meditation & Breathwork" — translate naturally into the target language (e.g., DE: "Meditation & Atemübungen", FR: "Méditation & Respiration"). Use the most natural, idiomatic phrasing. Keep the `&` separator.
 - **Technical acronyms:** HRV, RMSSD, SDRR, pNN20, pNN50, bpm
 - **URLs and links:** all `https://...` URLs, Markdown link targets
 - **Markdown anchors:** all `<a id="..."></a>` values and `#anchor` references in links

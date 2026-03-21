@@ -38,7 +38,23 @@ jobs:
           done
           mkdir -p ./geigl.online/userGuideScreenshots
           cp -r ./userGuideScreenshots ./geigl.online/meditate_app_user_guide/
+          # Copy translated hero images
+          for f in generated/HeroImages/hero_meditate-*.png; do
+            [ -f "$f" ] || continue
+            cp "$f" "./geigl.online/meditate_app_user_guide/userGuideScreenshots/"
+          done
           find ./geigl.online -type f -name '*.md' -exec sed -i 's|meditate_app_user_guide/userGuideScreenshots/|__KEEP__|g; s|userGuideScreenshots/|meditate_app_user_guide/userGuideScreenshots/|g; s|__KEEP__|meditate_app_user_guide/userGuideScreenshots/|g' {} +
+          # Update hero image references in translated pages to use language-specific images
+          for f in generated/HeroImages/hero_meditate-*.png; do
+            [ -f "$f" ] || continue
+            lang="$(basename "$f")"
+            lang="${lang#hero_meditate-}"
+            lang="${lang%.png}"
+            for md in ./geigl.online/meditate_app_user_guide-${lang}.md ./geigl.online/meditate_app-${lang}.md; do
+              [ -f "$md" ] || continue
+              sed -i "s|hero_meditate\.png|hero_meditate-${lang}.png|g" "$md"
+            done
+          done
 
       - name: add language navigation to user guides
         shell: bash

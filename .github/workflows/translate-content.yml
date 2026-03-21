@@ -11,6 +11,7 @@ on:
       - "UserGuide.md"
       - "Advertisement.md"
       - "ConnectIQStore/MeditateStoreDescription-en.txt"
+      - "userGuideScreenshots/hero_meditate.png"
       - ".github/codex/prompts/translate-content.md"
       - ".github/workflows/translate-content.yml"
 jobs:
@@ -42,6 +43,63 @@ jobs:
           safety-strategy: drop-sudo
           sandbox: workspace-write
           model: gpt-5.4
+
+      - name: Translate hero image for each language
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.CHATGPT_TOKEN }}
+        run: |
+          sudo apt-get install -y -qq imagemagick > /dev/null 2>&1
+
+          declare -A LANG_FULL=([de]="German" [pt]="Brazilian Portuguese" [ko]="Korean" [es]="Spanish" [zh]="Chinese Simplified" [uk]="Ukrainian" [ja]="Japanese" [fr]="French")
+
+          SRC="userGuideScreenshots/hero_meditate.png"
+          mkdir -p generated/HeroImages
+
+          # Pad to 1536x1024 (nearest supported size) preserving center
+          convert "$SRC" -gravity center -background black -extent 1536x1024 /tmp/hero_padded.png
+
+          for lang in "${!LANG_FULL[@]}"; do
+            lang_name="${LANG_FULL[$lang]}"
+            echo "Translating hero image to ${lang_name} (${lang})..."
+
+            prompt="You are editing a hero banner image for a Garmin watch meditation and breathwork app.
+
+          Translate ALL visible text in this image into ${lang_name}.
+
+          Rules:
+          - Translate the app name naturally (e.g. for German: \"Meditation & Atemübungen\"). Use the most idiomatic phrasing. Keep the & separator.
+          - Translate all other visible text naturally and fluently, as a native ${lang_name} speaker would write it. The tone is warm, gentle, and encouraging.
+          - Preserve the EXACT same visual design: background, colors, gradients, watch imagery, layout, typography style, text positioning, and text sizing.
+          - Only change the language of the text. Everything else must remain pixel-identical.
+          - The result must look professional and polished, as if it were the original design in ${lang_name}.
+          - Do NOT add any new text, watermarks, logos, or visual elements."
+
+            response=$(curl -s -X POST "https://api.openai.com/v1/images/edits" \
+              -H "Authorization: Bearer ${OPENAI_API_KEY}" \
+              -F "model=gpt-image-1" \
+              -F "image[]=@/tmp/hero_padded.png" \
+              -F "prompt=${prompt}" \
+              -F "size=1536x1024" \
+              -F "quality=high")
+
+            # Check for errors
+            error=$(echo "$response" | jq -r '.error.message // empty')
+            if [ -n "$error" ]; then
+              echo "::warning::Failed to translate hero image to ${lang_name}: ${error}"
+              continue
+            fi
+
+            # Decode base64 image
+            echo "$response" | jq -r '.data[0].b64_json' | base64 -d > "/tmp/hero_${lang}_raw.png"
+
+            # Crop back to center 1536x768 (2:1 ratio) then resize to exact 1440x720
+            convert "/tmp/hero_${lang}_raw.png" -gravity center -crop 1536x768+0+0 +repage -resize 1440x720! "generated/HeroImages/hero_meditate-${lang}.png"
+            rm -f "/tmp/hero_${lang}_raw.png"
+
+            echo "Done: generated/HeroImages/hero_meditate-${lang}.png"
+          done
+          rm -f /tmp/hero_padded.png
 
       - name: git commit && push
         run: |
