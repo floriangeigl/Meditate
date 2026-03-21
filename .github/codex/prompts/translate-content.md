@@ -59,7 +59,6 @@ The source text has a specific voice — warm, contemplative, gently encouraging
 ## Do Not Translate (preserve exactly as-is)
 
 - **Brand / product names:** Garmin, Garmin Connect, Connect IQ
-- **App name:** "Meditation & Breathwork" — translate naturally into the target language (e.g., DE: "Meditation & Atemübungen", FR: "Méditation & Respiration"). Use the most natural, idiomatic phrasing. Keep the `&` separator.
 - **Technical acronyms:** HRV, RMSSD, SDRR, pNN20, pNN50, bpm
 - **URLs and links:** all `https://...` URLs, Markdown link targets
 - **Markdown anchors:** all `<a id="..."></a>` values and `#anchor` references in links
@@ -69,16 +68,17 @@ The source text has a specific voice — warm, contemplative, gently encouraging
 
 ## Glossary (key terms — use consistently within each language)
 
-| English                      | Guidance                                                                                                                                                                                |
-| ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| session                      | A single meditation or breathwork run. Use the most natural equivalent (e.g., DE: "Session", FR: "session", JA: "セッション", KO: "세션", ZH: "练习" or "课程").                        |
-| breathwork                   | Structured breathing exercises. Use the established wellness term in each language (e.g., DE: "Atemarbeit" or "Atemübungen", FR: "exercices de respiration" or "travail respiratoire"). |
-| nervous system               | Use the standard physiological term (e.g., DE: "Nervensystem", ES: "sistema nervioso").                                                                                                 |
-| regulation / regulated state | Emotional/nervous-system regulation — not rules or government.                                                                                                                          |
-| stress                       | As a physiological signal, not general life stress. Keep lowercase unless sentence-initial.                                                                                             |
-| heart rate variability       | Spell out on first use, then use "HRV" throughout.                                                                                                                                      |
-| tracking                     | In the context of observing/recording physiological data — not surveillance.                                                                                                            |
-| mindfulness / awareness      | Choose the most natural, non-academic equivalent.                                                                                                                                       |
+| English                      | Guidance                                                                                                                                                                                    |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Meditation & Breathwork      | The app name. Translate naturally into the target language (e.g., DE: "Meditation & Atemübungen", FR: "Méditation & Respiration"). Use the most idiomatic phrasing. Keep the `&` separator. |
+| session                      | A single meditation or breathwork run. Use the most natural equivalent (e.g., DE: "Session", FR: "session", JA: "セッション", KO: "세션", ZH: "练习" or "课程").                            |
+| breathwork                   | Structured breathing exercises. Use the established wellness term in each language (e.g., DE: "Atemarbeit" or "Atemübungen", FR: "exercices de respiration" or "travail respiratoire").     |
+| nervous system               | Use the standard physiological term (e.g., DE: "Nervensystem", ES: "sistema nervioso").                                                                                                     |
+| regulation / regulated state | Emotional/nervous-system regulation — not rules or government.                                                                                                                              |
+| stress                       | As a physiological signal, not general life stress. Keep lowercase unless sentence-initial.                                                                                                 |
+| heart rate variability       | Spell out on first use, then use "HRV" throughout.                                                                                                                                          |
+| tracking                     | In the context of observing/recording physiological data — not surveillance.                                                                                                                |
+| mindfulness / awareness      | Choose the most natural, non-academic equivalent.                                                                                                                                           |
 
 ## Cultural & Linguistic Adaptation
 

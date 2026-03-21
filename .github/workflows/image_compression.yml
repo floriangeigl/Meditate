@@ -1,15 +1,7 @@
-name: Compress Images on Push to main branch
-run-name: Compress images on push to main @${{ github.actor }}
+name: Compress Images
+run-name: Compress images by @${{ github.actor }}
 on:
-  pull_request:
-    branches:
-      - "main"
-    paths:
-      - "**.jpg"
-      - "**.jpeg"
-      - "**.png"
-      - ".github/workflows/image_compression.yml"
-      - "**.webp"
+  workflow_dispatch:
 jobs:
   build:
     name: calibreapp/image-actions
@@ -17,8 +9,6 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
       - name: Compress Images
         id: calibre
         uses: calibreapp/image-actions@main

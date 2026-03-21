@@ -50,6 +50,8 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.CHATGPT_TOKEN }}
         run: |
           sudo apt-get install -y -qq imagemagick > /dev/null 2>&1
+          # Use magick if available (ImageMagick 7), fall back to convert (ImageMagick 6)
+          if command -v magick &> /dev/null; then IM="magick"; else IM="convert"; fi
 
           declare -A LANG_FULL=([de]="German" [pt]="Brazilian Portuguese" [ko]="Korean" [es]="Spanish" [zh]="Chinese Simplified" [uk]="Ukrainian" [ja]="Japanese" [fr]="French")
 
@@ -57,7 +59,7 @@ jobs:
           mkdir -p generated/HeroImages
 
           # Pad to 1536x1024 (nearest supported size) preserving center
-          convert "$SRC" -gravity center -background black -extent 1536x1024 /tmp/hero_padded.png
+          $IM "$SRC" -gravity center -background black -extent 1536x1024 /tmp/hero_padded.png
 
           for lang in "${!LANG_FULL[@]}"; do
             lang_name="${LANG_FULL[$lang]}"
@@ -81,7 +83,8 @@ jobs:
               -F "image[]=@/tmp/hero_padded.png" \
               -F "prompt=${prompt}" \
               -F "size=1536x1024" \
-              -F "quality=high")
+              -F "quality=high" \
+              -F "response_format=b64_json")
 
             # Check for errors
             error=$(echo "$response" | jq -r '.error.message // empty')
@@ -94,7 +97,7 @@ jobs:
             echo "$response" | jq -r '.data[0].b64_json' | base64 -d > "/tmp/hero_${lang}_raw.png"
 
             # Crop back to center 1536x768 (2:1 ratio) then resize to exact 1440x720
-            convert "/tmp/hero_${lang}_raw.png" -gravity center -crop 1536x768+0+0 +repage -resize 1440x720! "generated/HeroImages/hero_meditate-${lang}.png"
+            $IM "/tmp/hero_${lang}_raw.png" -gravity center -crop 1536x768+0+0 +repage -resize 1440x720! "generated/HeroImages/hero_meditate-${lang}.png"
             rm -f "/tmp/hero_${lang}_raw.png"
 
             echo "Done: generated/HeroImages/hero_meditate-${lang}.png"
