@@ -15,25 +15,55 @@ on:
       - ".github/codex/prompts/translate-content.md"
       - ".github/workflows/translate-content.yml"
 jobs:
-  translate_texts:
-    name: Translate
+  detect-changes:
+    name: Detect changes
+    runs-on: ubuntu-latest
+    outputs:
+      text_changed: ${{ steps.filter.outputs.text }}
+      image_changed: ${{ steps.filter.outputs.image }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            text:
+              - "UserGuide.md"
+              - "Advertisement.md"
+              - "ConnectIQStore/MeditateStoreDescription-en.txt"
+              - ".github/codex/prompts/translate-content.md"
+              - ".github/workflows/translate-content.yml"
+            image:
+              - "userGuideScreenshots/hero_meditate.png"
+              - ".github/workflows/translate-content.yml"
+
+  prepare-branch:
+    name: Prepare translation branch
+    needs: detect-changes
+    if: needs.detect-changes.outputs.text_changed == 'true' || needs.detect-changes.outputs.image_changed == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      pull-requests: write
     steps:
       - uses: actions/checkout@v4
-      - name: cleanup release-translation branch
+      - name: cleanup and create release-translation branch
         run: |
           git push -d origin release-translation || echo "no remote branch to cleanup"
-          git branch -d release-translation || echo "no local branch to cleanup"
-
-      - name: create release-translation branch
-        run: |
           git checkout -B release-translation
+          git push -f origin release-translation
 
-      ################### Store Description
-      - name: Translate via Codex (reads + writes files)
+  translate-text:
+    name: Translate text
+    needs: [detect-changes, prepare-branch]
+    if: needs.detect-changes.outputs.text_changed == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: release-translation
+      - name: Translate via Codex
         id: codex_translate
         uses: openai/codex-action@v1
         with:
@@ -43,7 +73,26 @@ jobs:
           safety-strategy: drop-sudo
           sandbox: workspace-write
           model: gpt-5.4
+      - name: Commit text translations
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add ./generated/
+          git commit -m "Update text translations" || echo "No text translation changes to commit"
+          git pull --rebase origin release-translation || true
+          git push origin release-translation
 
+  translate-images:
+    name: Translate hero image
+    needs: [detect-changes, prepare-branch]
+    if: needs.detect-changes.outputs.image_changed == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: release-translation
       - name: Translate hero image for each language
         shell: bash
         env:
@@ -105,16 +154,25 @@ jobs:
             echo "Done: generated/HeroImages/hero_meditate-${lang}.png"
           done
           rm -f /tmp/hero_padded.png
-
-      - name: git commit && push
+      - name: Commit image translations
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add ./generated/
-          git commit -m "Update translations" || echo "No translation changes to commit"
-          git push -f origin release-translation
+          git add ./generated/HeroImages/
+          git commit -m "Update hero image translations" || echo "No image translation changes to commit"
+          git pull --rebase origin release-translation || true
+          git push origin release-translation
 
-      - name: create or update PR to main
+  create-pr:
+    name: Create or update PR
+    needs: [detect-changes, translate-text, translate-images]
+    if: always() && (needs.translate-text.result == 'success' || needs.translate-images.result == 'success')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Create or update PR to main
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
