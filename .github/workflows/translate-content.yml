@@ -137,16 +137,37 @@ jobs:
             lang_name="${LANG_FULL[$lang]}"
             echo "Translating hero image to ${lang_name} (${lang})..."
 
-            prompt="Edit this hero banner image for a Garmin watch meditation app. Your ONLY task is to translate the visible text into ${lang_name}. 
+            # Exact watch screen translations from the app's resource files
+            case "$lang" in
+              de) watch_session="Meditation 7"; watch_vibe="Lang anhaltend"; watch_hrv="HRV bereit";;
+              es) watch_session="Meditación 7"; watch_vibe="Larga continua"; watch_hrv="HRV listo";;
+              fr) watch_session="Méditation 7"; watch_vibe="Long continu"; watch_hrv="HRV prêt";;
+              pt) watch_session="Meditação 7"; watch_vibe="Longo contínuo"; watch_hrv="VFC pronto";;
+              ko) watch_session="명상 7"; watch_vibe="길게 연속적"; watch_hrv="HRV 준비됨";;
+              ja) watch_session="瞑想 7"; watch_vibe="長い連続"; watch_hrv="HRV準備完了";;
+              uk) watch_session="Медитація 7"; watch_vibe="Довга безперерв."; watch_hrv="HRV готово";;
+              zh) watch_session="冥想 7"; watch_vibe="长持续"; watch_hrv="HRV就绪";;
+            esac
 
-          CRITICAL RULES:
-          - Translate ONLY the text on the dark background panel on the right side of the image (headings, bullet points, button label).
+            prompt="Edit this hero banner image for a Garmin watch meditation app. Translate the visible text into ${lang_name}.
+
+          WATCH SCREEN (inside the round watch face):
+          Use these EXACT translations from the app:
+          - \"Meditation 7\" → \"${watch_session}\"
+          - \"Long continuous\" → \"${watch_vibe}\"
+          - \"HRV ready\" → \"${watch_hrv}\"
+          - Keep the timer \"01:00:00\" unchanged.
+          - Keep the colored bar chart and icons unchanged.
+
+          TEXT OUTSIDE THE WATCH:
+          - Translate ALL text on the light blue background (left side tagline) and the dark panel (right side headings, bullet points, button label).
           - Translate the app name naturally (e.g. for German: \"Meditation & Atemübungen\"). Keep the & separator.
-          - Do NOT touch, modify, or regenerate the watch face, the watch itself, or the left side of the image AT ALL. The watch screen content must remain exactly as-is in English.
-          - Do NOT change any colors, backgrounds, gradients, clouds, decorative elements, layout, or positioning.
+
+          PRESERVATION RULES:
+          - Do NOT change any colors, backgrounds, gradients, clouds, watch body, decorative elements, layout, or positioning.
           - Do NOT add, remove, or move any visual elements.
-          - Keep the exact same font style, size, weight, and positioning for all translated text.
-          - The result must be pixel-identical to the original except for the translated text on the dark panel."
+          - Keep the exact same font style, size, weight, and positioning for all text.
+          - The result must be pixel-identical to the original except for the translated text."
 
             response=$(curl -s -X POST "https://api.openai.com/v1/images/edits" \
               -H "Authorization: Bearer ${OPENAI_API_KEY}" \
