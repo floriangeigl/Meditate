@@ -116,6 +116,15 @@ jobs:
             cat "$f" > "./geigl.online/meditate_app-${lang}.md"
           done
           find ./geigl.online -type f -name '*.md' -exec sed -i 's|meditate_app_user_guide/userGuideScreenshots/|__KEEP__|g; s|userGuideScreenshots/|meditate_app_user_guide/userGuideScreenshots/|g; s|__KEEP__|meditate_app_user_guide/userGuideScreenshots/|g' {} +
+          # Update hero image references in translated advertisement pages
+          for f in generated/HeroImages/hero_meditate-*.png; do
+            [ -f "$f" ] || continue
+            lang="$(basename "$f")"
+            lang="${lang#hero_meditate-}"
+            lang="${lang%.png}"
+            md="./geigl.online/meditate_app-${lang}.md"
+            [ -f "$md" ] && sed -i "s|hero_meditate\.png|hero_meditate-${lang}.png|g" "$md"
+          done
 
       - name: add language navigation to advertisements
         shell: bash
