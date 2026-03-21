@@ -357,7 +357,7 @@ Patrones de vibración recomendados:
 
 ## Métricas avanzadas de HRV
 
-Cuando HRV Tracking está en **On Detailed**, la app registra:
+Cuando el seguimiento de HRV está en **On Detailed**, la app registra:
 
 - RMSSD
 - Diferencias sucesivas entre latidos
@@ -382,19 +382,19 @@ Acceso:
 - Selector de sesiones → mantener menú → Global Settings
 - Mantén menú de nuevo para editar
 
-### HRV Tracking (por defecto)
+### Seguimiento de HRV (por defecto)
 
 - Off
 - On
 - On Detailed (por defecto)
 
-### Confirm Save
+### Confirmar guardado
 
 - Ask
 - Auto Yes
 - Auto No
 
-### Modo multisession
+### Modo multisesión
 
 - Yes - la app sigue abierta para varias sesiones
 - No - la app se cierra tras cada sesión
