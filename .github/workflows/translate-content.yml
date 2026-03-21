@@ -49,9 +49,11 @@ jobs:
         env:
           OPENAI_API_KEY: ${{ secrets.CHATGPT_TOKEN }}
         run: |
-          sudo apt-get install -y -qq imagemagick > /dev/null 2>&1
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq imagemagick
           # Use magick if available (ImageMagick 7), fall back to convert (ImageMagick 6)
           if command -v magick &> /dev/null; then IM="magick"; else IM="convert"; fi
+          echo "Using ImageMagick command: $IM"
 
           declare -A LANG_FULL=([de]="German" [pt]="Brazilian Portuguese" [ko]="Korean" [es]="Spanish" [zh]="Chinese Simplified" [uk]="Ukrainian" [ja]="Japanese" [fr]="French")
 
