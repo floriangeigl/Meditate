@@ -1,21 +1,21 @@
 ---
 layout: page
-title: Meditation & Breathwork
+title: Méditation & Respiration
 subtitle: Un compagnon de pleine conscience, directement sur ta montre Garmin
 permalink: /meditate_app/
-share-title: App Garmin Meditation & Breathwork | Florian Geigl
+share-title: App Garmin Méditation & Respiration | Florian Geigl
 share-description: Méditation et respiration sur ta montre Garmin — pleine conscience et biométrie en temps réel. Télécharge l’app sur Garmin Connect IQ.
 ---
 
-![image principale de l’app Meditation & Breathwork](userGuideScreenshots/hero_meditate.png)
+![image principale de l’app Méditation & Respiration](userGuideScreenshots/hero_meditate.png)
 
 Si tu t’es déjà senti calme et mal à l’aise en même temps, tu n’as rien de cassé. Tu es humain.
 
 Quand la vie te demande beaucoup depuis longtemps, le système nerveux apprend à rester en alerte. Le stress devient familier. Le calme devient moins familier, et les états inhabituels peuvent d’abord sembler vulnérables ou légèrement inconfortables. Ce n’est pas un problème à corriger. C’est simplement la manière dont le système nerveux s’adapte à ce qu’il connaît.
 
-**Meditation & Breathwork** t’aide à te reconnecter à ton corps et à observer, en temps réel, comment ton système nerveux réagit.
+**Méditation & Respiration** t’aide à te reconnecter à ton corps et à observer, en temps réel, comment ton système nerveux réagit.
 
-**Télécharger l’app :** [Télécharger Meditation & Breathwork](https://apps.garmin.com/apps/e6f3f3d2-3ea6-4ec1-81a5-977c708eb75b)
+**Télécharger l’app :** [Télécharger Méditation & Respiration](https://apps.garmin.com/apps/e6f3f3d2-3ea6-4ec1-81a5-977c708eb75b)
 
 **Pour commencer :** [Lire le guide utilisateur](https://geigl.online/meditate_app_user_guide/)
 
@@ -23,7 +23,7 @@ Quand la vie te demande beaucoup depuis longtemps, le système nerveux apprend �
 
 ## Comprendre Ton Système Nerveux Par La Pratique
 
-Meditation & Breathwork est une app Garmin conçue pour accompagner la méditation et les exercices de respiration avec présence, clarté et conscience physiologique. En associant la pleine conscience à des données biométriques en temps réel, elle t’aide à mieux comprendre ton corps, sans jugement ni pression.
+Méditation & Respiration est une app Garmin conçue pour accompagner la méditation et les exercices de respiration avec présence, clarté et conscience physiologique. En associant la pleine conscience à des données biométriques en temps réel, elle t’aide à mieux comprendre ton corps, sans jugement ni pression.
 
 Il n’existe pas de technique de méditation universelle.  
 L’essentiel est de découvrir ce qui soutient **ton** système nerveux.
@@ -77,6 +77,6 @@ Il s’agit d’apprendre comment ton système nerveux retrouve son équilibre.
 Reste présent. Observe honnêtement.  
 Souris quand le mental essaie d’être malin.
 
-[Télécharger Meditation & Breathwork](https://apps.garmin.com/apps/e6f3f3d2-3ea6-4ec1-81a5-977c708eb75b) et découvre ce qui soutient vraiment ta pratique de la méditation et de la respiration, une session à la fois.
+[Télécharger Méditation & Respiration](https://apps.garmin.com/apps/e6f3f3d2-3ea6-4ec1-81a5-977c708eb75b) et découvre ce qui soutient vraiment ta pratique de la méditation et de la respiration, une session à la fois.
 
 Pour plus de détails sur les fonctions, les questions fréquentes et le support, consulte le [guide utilisateur](https://geigl.online/meditate_app_user_guide/).
