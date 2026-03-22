@@ -66,7 +66,15 @@ class SessionSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			var globalSettingsDelegate = new GlobalSettingsDelegate(me.mSessionPickerDelegate);
 			globalSettingsDelegate.showGlobalSettingsMenu();
 		} else if (id == :help) {
-			Communications.openWebPage("https://geigl.online/meditate_app_user_guide/", null, null);
+			Communications.openWebPage(
+				"https://geigl.online/meditate_app_user_guide/",
+				{
+					"utm_source" => "meditate_app",
+					"utm_medium" => "garmin_watch",
+					"utm_campaign" => "help",
+				},
+				null
+			);
 			if (Ui has :showToast) {
 				Ui.showToast(Ui.loadResource(Rez.Strings.help_openingUserGuide), null);
 			} else {
