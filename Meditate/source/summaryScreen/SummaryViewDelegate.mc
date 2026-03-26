@@ -8,6 +8,7 @@ using HrvAlgorithms.HrvTracking;
 class SummaryViewDelegate extends ScreenPicker.ScreenPickerDelegate {
 	private var mSummaryModel;
 	private var mDiscardDanglingActivity;
+	private var mIdleReminderTimer;
 	private var pages;
 	private static const pageHeartRateGraph = "HeartRateGraph";
 	private static const pageRespirationRateGraph = "RespirationRateGraph";
@@ -18,13 +19,14 @@ class SummaryViewDelegate extends ScreenPicker.ScreenPickerDelegate {
 	private static const pageHrvSdrr = "HrvSdrr";
 	private static const pageHrvRmssdGraph = "HrvRmssdGraph";
 
-	function initialize(summaryModel, discardDanglingActivity) {
+	function initialize(summaryModel, discardDanglingActivity, idleReminderTimer) {
 		me.setPageIndexes(summaryModel.hrvTracking, summaryModel.rrOn);
 		me.mPagesCount = me.pages.size();
 
 		ScreenPickerDelegate.initialize(0, me.mPagesCount);
 		me.mSummaryModel = summaryModel;
 		me.mDiscardDanglingActivity = discardDanglingActivity;
+		me.mIdleReminderTimer = idleReminderTimer;
 	}
 
 	private function setPageIndexes(hrvTracking, isRespirationRateOn) {
@@ -182,5 +184,12 @@ class SummaryViewDelegate extends ScreenPicker.ScreenPickerDelegate {
 			ScreenPicker.ScreenPickerBaseView.formatValue(me.mSummaryModel.hrvLast5Min),
 		]);
 		return detailsModel;
+	}
+
+	function onBack() {
+		if (me.mIdleReminderTimer != null) {
+			me.mIdleReminderTimer.stop();
+		}
+		return false;
 	}
 }
