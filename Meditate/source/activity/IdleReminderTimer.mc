@@ -1,8 +1,7 @@
 using Toybox.Timer;
 
 class IdleReminderTimer {
-	// private static const IdleReminderIntervalMs = 600000; // 10 minutes
-	private static const IdleReminderIntervalMs = 5000;
+	private static const IdleReminderIntervalMs = 600000; // 10 minutes
 	private var mTimer;
 
 	function initialize() {
