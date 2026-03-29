@@ -4,8 +4,8 @@ module HrvAlgorithms {
 			me.mHrvTracking = hrvTracking;
 			me.mHrvWindowSize = hrvWindowSize;
 			me.mHeartbeatIntervalsSensor = heartbeatIntervalsSensor;
+			me.mHeartbeatIntervalsSensor.discardWakeupeSession();
 			HrActivity.initialize(fitSession);
-			me.mHeartbeatIntervalsSensor.sensorWakeupSession = null;
 		}
 
 		private var mHrvTracking;

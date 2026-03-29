@@ -2,29 +2,20 @@ class VibeAlertsExecutor {
 	function initialize(meditateModel) {
 		me.mMeditateModel = meditateModel;
 		me.mIntervalAlerts = me.mMeditateModel.getIntervalAlerts();
-		me.mIsFinalAlertPending = true;
 	}
 
-	private var mIsFinalAlertPending;
 	private var mMeditateModel;
 	private var mIntervalAlerts;
 
 	function firePendingAlerts() {
-		if (me.mIsFinalAlertPending == true) {
-			me.fireIfRequiredIntervalAlerts();
-			me.fireIfRequiredFinalAlert();
-		}
-
-		// Continue firing alert for repeated invervals even after regular session time is over
-		if (me.mMeditateModel.elapsedTime >= me.mMeditateModel.getSessionTime() + 10) {
-			me.fireIfRequiredIntervalAlerts();
-		}
+		me.fireIfRequiredIntervalAlerts();
+		me.fireIfRequiredFinalAlert();
 	}
 
 	private function fireIfRequiredFinalAlert() {
-		if (me.mMeditateModel.elapsedTime >= me.mMeditateModel.getSessionTime()) {
+		var sessionTime = me.mMeditateModel.getSessionTime();
+		if (sessionTime > 0 && me.mMeditateModel.elapsedTime > 0 && me.mMeditateModel.elapsedTime % sessionTime == 0) {
 			Vibe.vibrate(me.mMeditateModel.getVibePattern());
-			me.mIsFinalAlertPending = false;
 		}
 	}
 

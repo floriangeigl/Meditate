@@ -10,6 +10,7 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 	private var mSummaryModel;
 	private var mShouldAutoExit;
 	private var mPauseMenuVisible;
+	private var mIdleReminderTimer;
 	private const PauseReasonManual = 0;
 	private const PauseReasonCompleted = 1;
 
@@ -22,6 +23,7 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 		me.mSessionPickerDelegate = sessionPickerDelegate;
 		me.mSummaryModel = null;
 		me.mPauseMenuVisible = false;
+		me.mIdleReminderTimer = new IdleReminderTimer();
 	}
 
 	public function startActivity() {
@@ -81,10 +83,12 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 	private function showSummaryView(summaryModel) {
 		var summaryViewDelegate = new SummaryViewDelegate(
 			summaryModel,
-			me.mMeditateActivity.method(:discardDanglingActivity)
+			me.mMeditateActivity.method(:discardDanglingActivity),
+			me.mIdleReminderTimer
 		);
 		var view = summaryViewDelegate.createScreenPickerView();
 		if (view != null) {
+			me.mIdleReminderTimer.start();
 			Ui.switchToView(view, summaryViewDelegate, Ui.SLIDE_IMMEDIATE);
 		}
 	}
@@ -97,8 +101,10 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.finishMenu_discard), "", :discard, {}));
 		var saveDiscardDelegate = new SaveDiscardMenuDelegate(
 			me.mMeditateActivity.method(:finish),
-			me.mMeditateActivity.method(:discard)
+			me.mMeditateActivity.method(:discard),
+			me
 		);
+		me.mIdleReminderTimer.start();
 		Ui.pushView(menu, saveDiscardDelegate, Ui.SLIDE_IMMEDIATE);
 	}
 
@@ -134,11 +140,13 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 			new Ui.MenuItem(Ui.loadResource(Rez.Strings.multiSessionPostMenu_endMultiSession), "", :endMultiSession, {})
 		);
 		var delegate = new MultiSessionPostSessionMenuDelegate(me);
+		me.mIdleReminderTimer.start();
 		Ui.switchToView(menu, delegate, Ui.SLIDE_IMMEDIATE);
 	}
 
 	// Called when user picks "Next session" from the post-session menu
 	function proceedToNextSession() {
+		me.mIdleReminderTimer.stop();
 		showSessionPickerView(me.mSummaryModel);
 	}
 
@@ -146,13 +154,16 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 	function showLastSessionSummaryFromMenu() {
 		var summaryViewDelegate = new SummaryViewDelegate(
 			me.mSummaryModel,
-			me.mMeditateActivity.method(:discardDanglingActivity)
+			me.mMeditateActivity.method(:discardDanglingActivity),
+			me.mIdleReminderTimer
 		);
+		me.mIdleReminderTimer.start();
 		Ui.pushView(summaryViewDelegate.createScreenPickerView(), summaryViewDelegate, Ui.SLIDE_LEFT);
 	}
 
 	// Called when user picks "End multi-session" from the post-session menu
 	function endMultiSessionNow() {
+		me.mIdleReminderTimer.stop();
 		// Reuse existing rollup logic by invoking session picker delegate's onBack()
 		// Heartbeat sensor is stopped in SessionPickerDelegate.onBack() only when no summaries; keep running otherwise.
 		me.mSessionPickerDelegate.onBack();
@@ -207,6 +218,7 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 	}
 
 	function resumeFromPauseMenu() {
+		me.mIdleReminderTimer.stop();
 		if (!me.mMeditateModel.isTimerRunning) {
 			if (me.mMeditateActivity != null) {
 				me.mMeditateModel.isTimerRunning = me.mMeditateActivity.pauseResume();
@@ -216,11 +228,20 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 	}
 
 	function stopFromPauseMenu() {
+		me.mIdleReminderTimer.stop();
 		me.stopActivity();
 	}
 
 	function notifyPauseMenuClosed() {
 		me.mPauseMenuVisible = false;
+	}
+
+	function stopIdleReminder() {
+		me.mIdleReminderTimer.stop();
+	}
+
+	function restartIdleReminder() {
+		me.mIdleReminderTimer.start();
 	}
 
 	private function showPauseMenu(reason) {
@@ -245,6 +266,7 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 
 		var pauseMenuDelegate = new PauseMenuDelegate(me);
 		me.mPauseMenuVisible = true;
+		me.mIdleReminderTimer.start();
 		Ui.pushView(menu, pauseMenuDelegate, Ui.SLIDE_UP);
 	}
 }
@@ -305,16 +327,19 @@ class PauseMenuDelegate extends Ui.Menu2InputDelegate {
 class SaveDiscardMenuDelegate extends Ui.Menu2InputDelegate {
 	private var mOnSave;
 	private var mOnDiscard;
+	private var mOwner;
 
-	function initialize(onSave, onDiscard) {
+	function initialize(onSave, onDiscard, owner) {
 		Menu2InputDelegate.initialize();
 		me.mOnSave = onSave;
 		me.mOnDiscard = onDiscard;
+		me.mOwner = owner;
 	}
 
 	function onSelect(item) {
 		var id = item.getId();
 		Ui.popView(Ui.SLIDE_IMMEDIATE);
+		me.mOwner.restartIdleReminder();
 		if (id == :save) {
 			if (me.mOnSave != null) {
 				me.mOnSave.invoke();
@@ -328,6 +353,7 @@ class SaveDiscardMenuDelegate extends Ui.Menu2InputDelegate {
 
 	function onBack() {
 		Ui.popView(Ui.SLIDE_IMMEDIATE);
+		me.mOwner.restartIdleReminder();
 		return true;
 	}
 }

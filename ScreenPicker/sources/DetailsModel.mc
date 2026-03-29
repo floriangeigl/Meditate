@@ -6,7 +6,8 @@ module ScreenPicker {
 	class PercentageHighlightLine {
 		function initialize(highlightsCount) {
 			if (highlightsCount > 0) {
-				me.highlights = new [MaxHighlightsCount];
+				var count = highlightsCount < 30 ? highlightsCount : 30;
+				me.highlights = new [count];
 			} else {
 				me.highlights = [];
 			}
@@ -14,7 +15,6 @@ module ScreenPicker {
 			me.backgroundColor = Gfx.COLOR_WHITE;
 		}
 
-		private const MaxHighlightsCount = 50;
 		private var highlights;
 		private var latestAddedIndex;
 
@@ -23,7 +23,7 @@ module ScreenPicker {
 		var yOffset;
 
 		function addHighlight(color, progressPercentage) {
-			if (latestAddedIndex + 1 < MaxHighlightsCount) {
+			if (latestAddedIndex + 1 < me.highlights.size()) {
 				me.latestAddedIndex++;
 				me.highlights[me.latestAddedIndex] = new LineHighlight(color, progressPercentage);
 			}
