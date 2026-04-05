@@ -1,11 +1,7 @@
 using Toybox.Math;
 using Toybox.System;
-using Toybox.Application as App;
 using Toybox.WatchUi as Ui;
 using Toybox.Graphics as Gfx;
-using Toybox.Activity as Activity;
-using Toybox.SensorHistory as SensorHistory;
-using Toybox.ActivityMonitor as ActivityMonitor;
 
 class GraphView extends ScreenPicker.ScreenPickerBaseView {
 	var positionX, positionY;
@@ -143,20 +139,11 @@ class GraphView extends ScreenPicker.ScreenPickerBaseView {
 			me.yMin = Math.floor(me.min - yOffset);
 			me.yMax = Math.ceil(me.max + yOffset);
 
-			// if y-cuts set, make sure graph stays within set range
-			if (me.minCutSet && me.yMin < me.minCut) {
-				me.yMin = me.minCut;
-			}
-			if (me.maxCutSet && me.yMin > me.maxCut) {
-				me.yMin = me.maxCut;
-			}
-
-			if (me.maxCutSet && me.yMax > me.maxCut) {
-				me.yMax = me.maxCut;
-			}
-			if (me.minCutSet && me.yMax < me.minCut) {
-				me.yMax = me.minCut;
-			}
+			// clamp yMin/yMax to the allowed display range
+			var lo = me.minCutSet ? me.minCut : me.yMin;
+			var hi = me.maxCutSet ? me.maxCut : me.yMax;
+			me.yMin = Utils.clampToRange(me.yMin, lo, hi);
+			me.yMax = Utils.clampToRange(me.yMax, lo, hi);
 
 			// update min max diff and make sure > 0
 			me.minMaxDiff = me.yMax - me.yMin;
@@ -177,8 +164,9 @@ class GraphView extends ScreenPicker.ScreenPickerBaseView {
 			}
 
 			// ensure lines spaced evenly
-			while ((me.yMax - me.yMin).toNumber() % (numChartLines - 1) != 0) {
-				me.yMax += 1;
+			var remainder = (me.yMax - me.yMin).toNumber() % (numChartLines - 1);
+			if (remainder != 0) {
+				me.yMax += numChartLines - 1 - remainder;
 			}
 			me.minMaxDiff = me.yMax - me.yMin;
 
@@ -230,6 +218,9 @@ class GraphView extends ScreenPicker.ScreenPickerBaseView {
 					bucketCount = 0;
 				}
 			}
+
+			// free data array — no longer needed, lines are computed
+			me.data = null;
 		}
 
 		// if no data available, set default lines for the y-axis
@@ -277,7 +268,7 @@ class GraphView extends ScreenPicker.ScreenPickerBaseView {
 		me.timeTextE.draw(dc);
 
 		// Draw data if available
-		if (me.data != null && me.data.size() >= 1 && me.min != null && me.max != null) {
+		if (me.lines != null && me.lines.size() > 0) {
 			// Chart as light blue
 			dc.setPenWidth(1);
 			dc.setColor(0x27a0c4, Graphics.COLOR_TRANSPARENT);
