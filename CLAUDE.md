@@ -221,6 +221,22 @@ MeditateApp.getInitialView()
   - Settings keys: `"globalSettings_<name>"`
 - **`App.Properties`** — Device-configurable properties (activity name, GA4 credentials)
 
+### Timers (`Timer.Timer` concurrency limit)
+
+Connect IQ caps the number of **concurrently active `Timer.Timer` objects per app**. The limit is **device-dependent with a default of 3** (and a default minimum interval of 50 ms); both "depend on the host system" per the API docs. Starting one more than the device allows throws the runtime **"Too Many Timers Error"**. A `Timer.Timer` is a native resource — its slot is held until you call `.stop()` (or, unreliably, until the object is garbage-collected). **Always `.stop()` a timer before dropping its reference; do not rely on GC, especially on slower watches.** `Sensor.registerSensorDataListener` (used by `HeartbeatIntervalsSensor`) is **not** a `Timer` and does not count toward this limit.
+
+**Timers in this app** (keep this list current when adding/removing timers):
+
+| Timer | Where | Repeating | Released by |
+| --- | --- | --- | --- |
+| `mRefreshActivityTimer` | `HrActivity` (1 s session refresh) | yes | `stop()` / `pauseResume()` |
+| `mviewDrawnTimer` | `MeditatePrepareView` (prepare/finalize countdown) | yes | `onHide()` → `stop()` |
+| `viewDrawnTimer` | `DelayedFinishingView` (1 s finish delay) | no (one-shot) | `onHide()` → `stop()` |
+| `mTimer` | `IdleReminderTimer` (10 min idle vibe) | yes | `stop()` |
+| `notifyChangeTimer` | `AddEditIntervalAlertMenuDelegate` (500 ms debounce, settings only) | no (one-shot) | fires then nulls |
+
+Steady state holds ≤2 of these at once (session refresh + an idle-reminder while a menu is up), well under the 3-timer floor. The finish flow is the tight spot: it chains two `DelayedFinishingView` instances and then starts the `IdleReminderTimer`, so any leaked finishing-view timer slot can tip a 3-timer device over. This is exactly the historical **"Too Many Timers Error"** (backtrace `IdleReminderTimer.start` ← `showSummaryView` ← `DelayedFinishingView.onViewDrawn`): fixed by having `DelayedFinishingView.onHide()` call `.stop()` instead of only nulling the reference, matching `MeditatePrepareView`.
+
 ## Secrets
 
 `Meditate/resources/secrets.xml` is **gitignored**. Copy `secrets_template.xml` → `secrets.xml` and fill in GA4 credentials to enable usage analytics.

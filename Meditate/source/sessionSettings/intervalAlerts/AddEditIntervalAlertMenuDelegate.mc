@@ -275,6 +275,10 @@ class AddEditIntervalAlertMenuDelegate extends Ui.Menu2InputDelegate {
 	}
 
 	private function notifyIntervalAlertChanged() {
+		// stop any pending debounce first; rapid picks would otherwise stack timer slots
+		if (me.notifyChangeTimer != null) {
+			me.notifyChangeTimer.stop();
+		}
 		me.notifyChangeTimer = new Timer.Timer();
 		me.notifyChangeTimer.start(method(:onNotifyIntervalAlertChanged), 500, false);
 	}
