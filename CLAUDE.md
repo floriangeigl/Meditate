@@ -52,9 +52,24 @@ Copies `bin/Meditate.prg` to `<Device>\GARMIN\Apps\` via MTP.
 
 ### Release
 
+**Always release via `makeRelease.sh`** — never hand-roll the version bump / commit / tag steps.
+
+The script (run from repo root) does the full flow in order:
+
+1. Prints the current `manifest.xml` version, then **prompts** `Make release for version:` (read from stdin).
+2. Seds the entered version into every `about_AppVersion">vX.X.X<` string (all locale `strings.xml`) and into `Meditate/manifest.xml`'s `<iq:application version="...">`.
+3. `git add .` → `git commit -am "bump version to vX.X.X"` → `git tag vX.X.X` → `git push origin tag vX.X.X` → `git push`.
+
+It is interactive, so feed the version on stdin via the Bash tool:
+
 ```bash
-./makeRelease.sh   # prompts for version, updates manifest + about strings, commits, tags, pushes
+echo "10.7.7" | ./makeRelease.sh   # non-interactive: pipes the version into the prompt
 ```
+
+Notes:
+- The version sed is idempotent — safe to re-run.
+- Stage any other intended changes (e.g. doc edits) **before** running; step 3's `git add .` sweeps the whole tree into the bump commit.
+- The final `git push` uses SSH (`git@github.com:...`). If the agent has no loaded key / a passphrase-protected key, push fails *after* the local commit+tag succeed — finish with a manual `git push origin dev && git push origin tag vX.X.X`.
 
 ## Supported Devices
 
@@ -165,10 +180,16 @@ No CI pipeline builds or tests Monkey C code. GitHub Actions handle only image c
 
 ### Commit Messages
 
+- **Always super concise.** Lead with the behavior change (what the user notices); add technical detail only if it's needed to understand the change.
 - Start with **user-facing release notes** (what changed for the user)
-- Follow with **technical details** below (implementation specifics, files changed, reasoning)
+- Follow with **technical details** below (implementation specifics, files changed, reasoning) — only when they add necessary context
 - **No special characters** that shells may misinterpret: avoid parentheses, colons, slashes, quotes, brackets, backticks, and dollar signs in the message text
 - When providing via terminal, use the temp-file approach: write to a file with `Set-Content`, then `git commit -a -F <file>`, then delete the file
+
+### Release Notes
+
+- **Always customer-facing, value-focused, super concise.** Describe what the user gets, not how it was built.
+- No internal/technical detail (file names, refactors, SDK plumbing) — that belongs in commit messages only.
 
 ## Architecture
 
