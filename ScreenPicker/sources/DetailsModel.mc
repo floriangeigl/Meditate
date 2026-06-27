@@ -5,9 +5,10 @@ using Toybox.Application as App;
 module ScreenPicker {
 	class PercentageHighlightLine {
 		function initialize(highlightsCount) {
+			// highlightsCount is the alert count, but each repeat alert expands to many bars,
+			// so allocate the bar cap not the alert count; else only 1 bar shows for 1 repeat alert
 			if (highlightsCount > 0) {
-				var count = highlightsCount < 30 ? highlightsCount : 30;
-				me.highlights = new [count];
+				me.highlights = new [MaxHighlightsCount];
 			} else {
 				me.highlights = [];
 			}
@@ -15,6 +16,7 @@ module ScreenPicker {
 			me.backgroundColor = Gfx.COLOR_WHITE;
 		}
 
+		private const MaxHighlightsCount = 30;
 		private var highlights;
 		private var latestAddedIndex;
 
