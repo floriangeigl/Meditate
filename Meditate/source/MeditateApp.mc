@@ -1,6 +1,7 @@
 using Toybox.Application as App;
 using Toybox.WatchUi as Ui;
 using Toybox.Graphics as Gfx;
+using Toybox.Sensor;
 using Toybox.System;
 
 class MeditateApp extends App.AppBase {
@@ -19,6 +20,10 @@ class MeditateApp extends App.AppBase {
 		if (me.heartbeatIntervalsSensor != null) {
 			me.heartbeatIntervalsSensor.shutdown();
 		}
+		// Defensive: work around firmware bug that can leave sensor callbacks
+		// alive after app exit, causing battery drain (Venu 2, FR955, FR265, etc.)
+		Sensor.setEnabledSensors([]);
+		Sensor.enableSensorEvents(null);
 	}
 
 	// Return the initial view of your application here

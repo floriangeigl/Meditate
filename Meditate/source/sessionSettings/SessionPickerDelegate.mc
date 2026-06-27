@@ -75,7 +75,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		} else {
 			var summaryIndex = option;
 			var summaryModel = me.mSummaryRollupModel.getSummary(summaryIndex);
-			var summaryViewDelegate = new SummaryViewDelegate(summaryModel, null);
+			var summaryViewDelegate = new SummaryViewDelegate(summaryModel, null, null);
 			Ui.pushView(summaryViewDelegate.createScreenPickerView(), summaryViewDelegate, Ui.SLIDE_LEFT);
 		}
 	}

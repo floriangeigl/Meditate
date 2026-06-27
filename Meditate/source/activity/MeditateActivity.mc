@@ -139,9 +139,14 @@ class MeditateActivity extends HrvAlgorithms.HrvActivity {
 		}
 		me.mMeditateModel.hrvValue = me.getHrv();
 
-		// Check if we need to pause when the planned session duration elapsed
-		if (me.mAutoStopEnabled && me.mMeditateModel.elapsedTime >= me.mMeditateModel.getSessionTime()) {
-			me.mAutoStopEnabled = false;
+		// Check if we need to pause when a multiple of the planned session duration elapsed
+		var sessionTime = me.mMeditateModel.getSessionTime();
+		if (
+			me.mAutoStopEnabled &&
+			me.mMeditateModel.elapsedTime > 0 &&
+			sessionTime > 0 &&
+			me.mMeditateModel.elapsedTime % sessionTime == 0
+		) {
 			mMeditateDelegate.onSessionAutoComplete();
 			return;
 		}

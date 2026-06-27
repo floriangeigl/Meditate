@@ -90,6 +90,13 @@ No CI pipeline builds or tests Monkey C code. GitHub Actions handle only image c
 - Format-on-save enabled via Prettier Monkey C
 - Braces on same line: `function initialize() {`
 
+### Commit Messages
+
+- Start with **user-facing release notes** (what changed for the user)
+- Follow with **technical details** below (implementation specifics, files changed, reasoning)
+- **No special characters** that shells may misinterpret: avoid parentheses, colons, slashes, quotes, brackets, backticks, and dollar signs in the message text
+- When providing via terminal, use the temp-file approach: write to a file with `Set-Content`, then `git commit -a -F <file>`, then delete the file
+
 ## Architecture
 
 ### App Flow
