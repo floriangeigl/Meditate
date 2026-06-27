@@ -57,11 +57,29 @@ class SummaryViewDelegate extends ScreenPicker.ScreenPickerDelegate {
 		if (me.mSelectedPageIndex < me.mPagesCount) {
 			var page = me.pages[me.mSelectedPageIndex];
 			if (page.equals(me.pageHeartRateGraph)) {
-				return new HeartRateGraphView(me.mSummaryModel);
+				return new GraphView(
+					me.mSummaryModel.hrHistory,
+					me.mSummaryModel.elapsedTime,
+					Rez.Strings.SummaryHR,
+					20,
+					150
+				);
 			} else if (page.equals(me.pageRespirationRateGraph)) {
-				return new RespirationRateGraphView(me.mSummaryModel);
+				return new GraphView(
+					me.mSummaryModel.rrHistory,
+					me.mSummaryModel.elapsedTime,
+					Rez.Strings.SummaryRespiration,
+					1,
+					60
+				);
 			} else if (page.equals(me.pageStressGraph)) {
-				return new StressGraphView(me.mSummaryModel);
+				return new GraphView(
+					me.mSummaryModel.stHistory,
+					me.mSummaryModel.elapsedTime,
+					Rez.Strings.SummaryStress,
+					0,
+					100
+				);
 			} else if (page.equals(me.pageStress)) {
 				detailsModel = me.createDetailsPageStress();
 			} else if (page.equals(me.pageHrvRmssd)) {
@@ -71,12 +89,30 @@ class SummaryViewDelegate extends ScreenPicker.ScreenPickerDelegate {
 			} else if (page.equals(me.pageHrvSdrr)) {
 				detailsModel = me.createDetailsPageHrvSdrr();
 			} else if (page.equals(me.pageHrvRmssdGraph)) {
-				return new HrvRmssdGraphView(me.mSummaryModel);
+				return new GraphView(
+					me.mSummaryModel.hrvRmssdHistory,
+					me.mSummaryModel.elapsedTime,
+					Rez.Strings.SummaryHRVRMSSD,
+					0,
+					250
+				);
 			} else {
-				return new HeartRateGraphView(me.mSummaryModel);
+				return new GraphView(
+					me.mSummaryModel.hrHistory,
+					me.mSummaryModel.elapsedTime,
+					Rez.Strings.SummaryHR,
+					20,
+					150
+				);
 			}
 		} else {
-			return new HeartRateGraphView(me.mSummaryModel);
+			return new GraphView(
+				me.mSummaryModel.hrHistory,
+				me.mSummaryModel.elapsedTime,
+				Rez.Strings.SummaryHR,
+				20,
+				150
+			);
 		}
 		return new ScreenPicker.ScreenPickerDetailsView(detailsModel, me.mPagesCount > 1);
 	}

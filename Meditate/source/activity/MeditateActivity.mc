@@ -12,6 +12,7 @@ class MeditateActivity extends HrvAlgorithms.HrvActivity {
 	private var mVibeAlertsExecutor;
 	private var mMeditateDelegate;
 	private var mAutoStopEnabled;
+	private var mAutoStopRoundsTriggered;
 	private var mEffectiveWakeupSessionType;
 
 	function initialize(meditateModel, heartbeatIntervalsSensor, meditateDelegate) {
@@ -71,6 +72,7 @@ class MeditateActivity extends HrvAlgorithms.HrvActivity {
 			hrvWindowSize
 		);
 		me.mAutoStopEnabled = GlobalSettings.loadAutoStop();
+		me.mAutoStopRoundsTriggered = 0;
 	}
 
 	private function createSessionName(sessionTime, activityName) {
@@ -139,16 +141,16 @@ class MeditateActivity extends HrvAlgorithms.HrvActivity {
 		}
 		me.mMeditateModel.hrvValue = me.getHrv();
 
-		// Check if we need to pause when a multiple of the planned session duration elapsed
+		// Check if we need to pause when a multiple of the planned session duration elapsed.
+		// Edge-triggered on the round number so a skipped/jittered timer tick can't miss the boundary.
 		var sessionTime = me.mMeditateModel.getSessionTime();
-		if (
-			me.mAutoStopEnabled &&
-			me.mMeditateModel.elapsedTime > 0 &&
-			sessionTime > 0 &&
-			me.mMeditateModel.elapsedTime % sessionTime == 0
-		) {
-			mMeditateDelegate.onSessionAutoComplete();
-			return;
+		if (me.mAutoStopEnabled && sessionTime > 0 && me.mMeditateModel.elapsedTime > 0) {
+			var round = me.mMeditateModel.elapsedTime / sessionTime;
+			if (round > me.mAutoStopRoundsTriggered) {
+				me.mAutoStopRoundsTriggered = round;
+				mMeditateDelegate.onSessionAutoComplete();
+				return;
+			}
 		}
 		Ui.requestUpdate();
 	}

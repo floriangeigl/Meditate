@@ -37,6 +37,10 @@ class DelayedFinishingView extends Ui.View {
 	}
 
 	function onHide() {
-		me.viewDrawnTimer = null;
+		// release native timer slot; nulling alone relies on GC and can leak the slot -> Too Many Timers
+		if (me.viewDrawnTimer != null) {
+			me.viewDrawnTimer.stop();
+			me.viewDrawnTimer = null;
+		}
 	}
 }

@@ -26,6 +26,8 @@ module HrvAlgorithms {
 				me.mHeartbeatIntervalsSensor.setOneSecBeatToBeatIntervalsSensorListener(
 					method(:onOneSecBeatToBeatIntervals)
 				);
+				// clear stale paused from prior session; else multi-session drops HRV after session 1
+				me.mHeartbeatIntervalsSensor.resume();
 				me.mHeartbeatIntervalsSensor.resetSensorQuality();
 				if (me.isHrvDetailOn()) {
 					me.mHrvMonitor = new HrvMonitorDetailed(me.mFitSession, me.mHrvWindowSize);
@@ -54,6 +56,8 @@ module HrvAlgorithms {
 			HrActivity.stop();
 			if (me.isHrvOn()) {
 				me.mHeartbeatIntervalsSensor.setOneSecBeatToBeatIntervalsSensorListener(null);
+				// clear paused so picker live HRV status keeps updating between sessions
+				me.mHeartbeatIntervalsSensor.resume();
 			}
 		}
 
