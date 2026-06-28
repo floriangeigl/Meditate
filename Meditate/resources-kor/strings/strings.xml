@@ -110,7 +110,7 @@
 	<string id="menuGlobalSettings_useSessionName_on">예</string>
 	<string id="menuGlobalSettings_useSessionName_off">아니오</string>
 
-	<string id="menuNotificationOptions_title">알림</string>
+	<string id="menuNotificationOptions_title">진동 및 소리</string>
 	<string id="menuNotificationOptions_on">켜기</string>
 	<string id="menuNotificationOptions_off">끄기</string>
 
@@ -149,7 +149,7 @@
 	<string id="intervalAlertTransparentColorText">투명</string>
 
 	<string id="vibePatternMenu_title">진동 / 소리</string>
-	<string id="vibePatternMenu_noNotification">알림 없음</string>
+	<string id="vibePatternMenu_noNotification">끄기</string>
 	<string id="vibePatternMenu_longPulsating">긴 진동</string>
 	<string id="vibePatternMenu_longSound">긴 소리</string>
 	<string id="vibePatternMenu_longContinuous">길게 연속적</string>

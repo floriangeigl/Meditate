@@ -108,7 +108,7 @@
     <string id="menuGlobalSettings_useSessionName_on">Так</string>
     <string id="menuGlobalSettings_useSessionName_off">Ні</string>
 
-    <string id="menuNotificationOptions_title">Сповіщення</string>
+    <string id="menuNotificationOptions_title">Вібрація та звук</string>
     <string id="menuNotificationOptions_on">Увімк.</string>
     <string id="menuNotificationOptions_off">Вимк.</string>
 
@@ -147,7 +147,7 @@
     <string id="intervalAlertTransparentColorText">Прозорий</string>
 
     <string id="vibePatternMenu_title">Вібр. / Звук</string>
-    <string id="vibePatternMenu_noNotification">Без сповіщ.</string>
+    <string id="vibePatternMenu_noNotification">Вимк.</string>
     <string id="vibePatternMenu_longPulsating">Довга пульсація</string>
     <string id="vibePatternMenu_longSound">Довгий звук</string>
     <string id="vibePatternMenu_longContinuous">Довга безперерв.</string>

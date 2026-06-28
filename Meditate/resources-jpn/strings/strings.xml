@@ -108,7 +108,7 @@
     <string id="menuGlobalSettings_useSessionName_on">はい</string>
     <string id="menuGlobalSettings_useSessionName_off">いいえ</string>
 
-    <string id="menuNotificationOptions_title">通知</string>
+    <string id="menuNotificationOptions_title">振動と音</string>
     <string id="menuNotificationOptions_on">オン</string>
     <string id="menuNotificationOptions_off">オフ</string>
 
@@ -147,7 +147,7 @@
     <string id="intervalAlertTransparentColorText">透明</string>
 
     <string id="vibePatternMenu_title">振動 / 音</string>
-    <string id="vibePatternMenu_noNotification">通知なし</string>
+    <string id="vibePatternMenu_noNotification">オフ</string>
     <string id="vibePatternMenu_longPulsating">長い断続</string>
     <string id="vibePatternMenu_longSound">長い音</string>
     <string id="vibePatternMenu_longContinuous">長い連続</string>

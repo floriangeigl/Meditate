@@ -185,6 +185,7 @@ No CI pipeline builds or tests Monkey C code. GitHub Actions handle only image c
 - Follow with **technical details** below (implementation specifics, files changed, reasoning) — only when they add necessary context
 - **No special characters** that shells may misinterpret: avoid parentheses, colons, slashes, quotes, brackets, backticks, and dollar signs in the message text
 - When providing via terminal, use the temp-file approach: write to a file with `Set-Content`, then `git commit -a -F <file>`, then delete the file
+- **After creating a commit, read the commit message back verbatim** in the reply — do not just assert that it follows the convention
 
 ### Release Notes
 

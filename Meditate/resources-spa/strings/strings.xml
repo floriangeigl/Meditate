@@ -109,7 +109,7 @@
     <string id="menuGlobalSettings_useSessionName_on">Sí</string>
     <string id="menuGlobalSettings_useSessionName_off">No</string>
 
-    <string id="menuNotificationOptions_title">Notificaciones</string>
+    <string id="menuNotificationOptions_title">Vibración y sonido</string>
     <string id="menuNotificationOptions_on">Activado</string>
     <string id="menuNotificationOptions_off">Desactivado</string>
 
@@ -148,7 +148,7 @@
     <string id="intervalAlertTransparentColorText">Transparente</string>
 
     <string id="vibePatternMenu_title">Vibración/Son.</string>
-    <string id="vibePatternMenu_noNotification">Sin Notif.</string>
+    <string id="vibePatternMenu_noNotification">Desactivado</string>
     <string id="vibePatternMenu_longPulsating">Larga pulsante</string>
     <string id="vibePatternMenu_longSound">Sonido Largo</string>
     <string id="vibePatternMenu_longContinuous">Larga continua</string>

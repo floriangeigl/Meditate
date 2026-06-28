@@ -108,7 +108,7 @@
     <string id="menuGlobalSettings_useSessionName_on">是</string>
     <string id="menuGlobalSettings_useSessionName_off">否</string>
 
-    <string id="menuNotificationOptions_title">通知</string>
+    <string id="menuNotificationOptions_title">振动与声音</string>
     <string id="menuNotificationOptions_on">开启</string>
     <string id="menuNotificationOptions_off">关闭</string>
 
@@ -147,7 +147,7 @@
     <string id="intervalAlertTransparentColorText">透明</string>
 
     <string id="vibePatternMenu_title">振动 / 声音</string>
-    <string id="vibePatternMenu_noNotification">无通知</string>
+    <string id="vibePatternMenu_noNotification">关闭</string>
     <string id="vibePatternMenu_longPulsating">长脉冲</string>
     <string id="vibePatternMenu_longSound">长声音</string>
     <string id="vibePatternMenu_longContinuous">长持续</string>
