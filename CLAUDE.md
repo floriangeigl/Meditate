@@ -68,6 +68,7 @@ echo "10.7.7" | ./makeRelease.sh   # non-interactive: pipes the version into the
 
 Notes:
 - The version sed is idempotent — safe to re-run.
+- **Before every release, check whether any of the changes since the last release require an update to `UserGuide.md`** (e.g. renamed/added/removed settings, menus, or features the guide documents). Update it and stage the edit *before* running `makeRelease.sh` so it lands in the bump commit.
 - Stage any other intended changes (e.g. doc edits) **before** running; step 3's `git add .` sweeps the whole tree into the bump commit.
 - The final `git push` uses SSH (`git@github.com:...`). If the agent has no loaded key / a passphrase-protected key, push fails *after* the local commit+tag succeed — finish with a manual `git push origin dev && git push origin tag vX.X.X`.
 

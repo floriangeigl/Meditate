@@ -419,9 +419,9 @@ Access via:
 - 3–5 minutes recommended for reliability  
   (Default: 60 seconds)
 
-### Notifications
+### Vibration & Sound
 
-- Enable or disable all vibration alerts
+- Enable or disable all vibration and sound alerts
 
 ### Use Session Name as Activity Name
 
