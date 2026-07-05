@@ -601,13 +601,30 @@ La plupart des problèmes se résolvent facilement.
 </details>
 
 <details id="restart-watch">
-  <summary><strong>Comment redémarrer ma montre Garmin ?</strong></summary>
+  <summary><strong>Comment redémarrer (rebooter) ma montre Garmin ?</strong></summary>
 
-  <p><strong>Option 1 :</strong> maintenir le bouton <strong>LIGHT</strong>/power ~10–15 s jusqu’à extinction, attendre, puis rallumer.</p>
+  <p>
+    Les montres Garmin varient un peu selon le modèle, mais ces options fonctionnent pour la plupart des appareils.
+  </p>
 
-  <p><strong>Option 2 :</strong> via <strong>Settings</strong> → <strong>System</strong> → <strong>Power Off</strong> ou <strong>Restart</strong>.</p>
+  <p><strong>Option 1 (la plus courante) : bouton d’alimentation / bouton LIGHT</strong></p>
 
-  <p>Le redémarrage n’efface pas tes données.</p>
+  <ol>
+    <li>Maintiens le bouton <strong>LIGHT</strong> / d’alimentation enfoncé jusqu’à ce que la montre s’éteigne (souvent ~10 à 15 secondes).</li>
+    <li>Attends quelques secondes.</li>
+    <li>Appuie à nouveau sur le même bouton pour la rallumer.</li>
+  </ol>
+
+  <p><strong>Option 2 : depuis les réglages de la montre</strong></p>
+
+  <ul>
+    <li>Ouvre <strong>Settings</strong> → <strong>System</strong> → <strong>Power Off</strong> ou <strong>Restart</strong> (le libellé peut varier selon le modèle).</li>
+  </ul>
+
+  <p>
+    Un redémarrage n’efface pas tes données ; il relance simplement la montre.
+    Si elle est bloquée, continue à maintenir le bouton d’alimentation un peu plus longtemps jusqu’à l’arrêt complet.
+  </p>
 
 </details>
 
@@ -615,28 +632,44 @@ La plupart des problèmes se résolvent facilement.
   <summary><strong>L’app est installée mais n’apparaît pas (ou installation bloquée)</strong></summary>
 
   <p>
-    Vérifie d’abord la bonne liste : l’app apparaît dans <strong>Activities</strong> / <strong>Apps</strong>.
-    Selon le modèle, elle peut ne pas apparaître dans les widgets/raccourcis.
+    C’est frustrant, surtout quand tu veux simplement lancer une session calme et que la technique s’en mêle.
   </p>
 
   <p>
-    L’installation Connect IQ est gérée côté Garmin (Connect IQ / Garmin Connect / Garmin Express).
-    L’app elle-même ne peut pas corriger un problème de synchronisation/installation.
+    <strong>Commence par vérifier que tu regardes au bon endroit :</strong><br>
+    Cette app apparaît dans la liste <strong>Activités</strong> / <strong>Apps</strong> de ta montre (le même endroit où tu lances une course, du yoga, du breathwork, etc.).
+    Selon ton modèle et la façon dont la montre classe les apps, elle peut <em>ne pas</em> apparaître dans les widgets / glance lists / raccourcis.
   </p>
 
-  <p>Essais rapides :</p>
+  <p>
+    Dans ce cas, il est utile de savoir que l’installation et le transfert des apps Connect IQ vers ta montre sont entièrement gérés par Garmin
+    (Garmin Connect / Connect IQ / Garmin Express et le processus de synchronisation).
+    L’app elle-même ne peut pas influencer son apparition sur l’appareil, et en tant que développeur, je n’ai rien à modifier dans le code pour corriger un problème d’installation ou de synchronisation.
+  </p>
+
+  <p>
+    Certains utilisateurs voient aussi l’app rester bloquée sur « Installing… » ou n’être installée que partiellement
+    (par exemple, l’app apparaît mais certaines parties ne se chargent pas).
+    Les étapes ci-dessous résolvent généralement les deux cas.
+  </p>
+
+  <p>Ce que tu peux essayer rapidement (facultatif) :</p>
 
   <ul>
-    <li>Resynchronise la montre</li>
-    <li><a href="#restart-watch">Redémarrer la montre</a> et le téléphone</li>
-    <li>Désinstaller puis réinstaller l’app après redémarrage</li>
+    <li>Synchronise à nouveau ta montre dans Garmin Connect</li>
+    <li><a href="#restart-watch">Redémarre la montre</a> et ton téléphone, puis resynchronise</li>
+    <li>Désinstalle l’app, <a href="#restart-watch">redémarre la montre</a>, puis réinstalle l’app et resynchronise</li>
   </ul>
 
-  <p>Si ça ne marche toujours pas, contacte Garmin Support :</p>
+  <p>
+    Si la montre semble bloquée pendant l’installation, <a href="#restart-watch">redémarre d’abord la montre</a>, puis réessaie la synchronisation ou l’installation.
+  </p>
+
+  <p>Si l’app n’apparaît toujours pas, la meilleure étape suivante est de contacter Garmin Support, car il s’agit d’un problème d’installation/synchronisation côté Garmin :</p>
 
   <ul>
-    <li><a href="https://support.garmin.com/en-US/?faq=67C7Y58Nxb6rkxt2Enbrf5">Garmin Support (Connect IQ install)</a></li>
-    <li><a href="https://support.garmin.com/">Garmin Support</a></li>
+    <li><a href="https://support.garmin.com/en-US/?faq=67C7Y58Nxb6rkxt2Enbrf5">Garmin Support (dépannage installation Connect IQ)</a></li>
+    <li><a href="https://support.garmin.com/">Garmin Support (portail principal)</a></li>
   </ul>
 
 </details>
@@ -644,16 +677,33 @@ La plupart des problèmes se résolvent facilement.
 <details>
   <summary><strong>Des éléments de l’app sont dans la mauvaise langue</strong></summary>
 
-  <p>Essaie dans l’ordre : désinstaller l’app, redémarrer la montre, réinstaller et resynchroniser.</p>
+  <p>
+    Il arrive que quelques textes (par exemple des libellés liés à la VFC) s’affichent dans une autre langue alors que le reste de l’app est correct.
+    En général, c’est juste un petit raté ponctuel de l’installation ou de la synchronisation.
+  </p>
 
-  <p>Si le problème continue, utilisez le lien <strong>Contact Developer</strong> dans le Connect IQ Store avec modèle de montre, firmware et langue concernée.</p>
+  <p>À essayer (dans cet ordre) :</p>
+
+  <ol>
+    <li>Désinstalle l’app de ta montre</li>
+    <li><a href="#restart-watch">Redémarre complètement ta montre</a></li>
+    <li>Réinstalle l’app et resynchronise</li>
+  </ol>
+
+  <p>
+    Si le problème persiste, ouvre le lien <strong>Contact Developer</strong> dans le Connect IQ Store et indique ton modèle de montre,
+    la version du firmware et la langue qui s’affiche incorrectement.
+  </p>
 
 </details>
 
 <details>
   <summary><strong>L’app ne fonctionne plus / besoin d’aide</strong></summary>
 
-  <p>Consulte la section dédiée : <a href="#get-support--report-problem">Support / Signaler un problème</a>.</p>
+  <p>
+    Utilise la section d’assistance dédiée ici (elle contient les étapes à jour, les informations à fournir et la meilleure façon de me contacter) :
+    <a href="#get-support--report-problem">Support / Signaler un problème</a>
+  </p>
 
 </details>
 
