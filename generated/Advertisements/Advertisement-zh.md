@@ -7,7 +7,7 @@ share-title: Garmin 应用：冥想 & 呼吸练习 | Florian Geigl
 share-description: 在 Garmin 手表上进行冥想 & 呼吸练习——结合实时生理数据的正念体验。前往 Garmin Connect IQ 下载。
 ---
 
-![冥想 & 呼吸练习应用主图](userGuideScreenshots/hero_meditate.png)
+![冥想 & 呼吸练习应用主图](/meditate_app_user_guide/userGuideScreenshots/hero_meditate.png)
 
 如果你曾经同时感到平静和不安，那并不说明你哪里坏掉了。你只是很正常。
 

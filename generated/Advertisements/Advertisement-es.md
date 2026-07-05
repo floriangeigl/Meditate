@@ -7,7 +7,7 @@ share-title: App Garmin Meditación & Respiración | Florian Geigl
 share-description: Meditación y respiración en tu reloj Garmin — atención plena con biometría en tiempo real. Descárgala en Garmin Connect IQ.
 ---
 
-![imagen principal de la app de meditación y respiración](userGuideScreenshots/hero_meditate.png)
+![imagen principal de la app de meditación y respiración](/meditate_app_user_guide/userGuideScreenshots/hero_meditate.png)
 
 Si alguna vez te has sentido en calma y a la vez inquieto, no estás roto. Eres humano.
 
