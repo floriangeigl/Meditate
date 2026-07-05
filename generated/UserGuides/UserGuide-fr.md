@@ -24,7 +24,7 @@ Commence par le **Guide débutant**, puis reviens au **Guide avancé** quand tu 
 - [Guide avancé](#advanced-guide)
   - [Personnalisation des sessions](#session-customization)
   - [Schémas de respiration personnalisés](#custom-breathwork-patterns)
-  - [Métriques VFC avancées](#advanced-hrv-metrics)
+  - [Métriques HRV avancées](#advanced-hrv-metrics)
   - [Paramètres globaux (par défaut pour toutes les sessions)](#global-settings-defaults-for-all-sessions)
 - [FAQ et dépannage](#faqs-troubleshooting)
 - [Support / Signaler un problème](#get-support--report-problem)
@@ -48,7 +48,7 @@ Elle te permet de :
 
 - lancer des sessions simples ou structurées
 - recevoir des signaux vibrants au lieu de distractions visuelles
-- observer fréquence cardiaque, VFC, stress et respiration
+- observer fréquence cardiaque, l’HRV, le stress et la respiration
 - enregistrer tes sessions dans Garmin Connect pour repérer des schémas au fil du temps
 
 L’objectif est **la conscience, pas la performance**.
@@ -70,7 +70,7 @@ Pendant la session, tu vois :
 
 - le temps écoulé
 - la fréquence cardiaque actuelle
-- le statut VFC
+- le statut HRV
 - le stress et la respiration (si pris en charge)
 - de petits marqueurs colorés indiquant les prochaines alertes de vibration
 
@@ -219,14 +219,14 @@ Dans le sélecteur de sessions, tu vois :
 - la durée de session
 - le schéma de vibration
 - le timing des alertes d’intervalle
-- l’indicateur VFC
+- l’indicateur HRV
 
-### Indicateur VFC
+### Indicateur HRV
 
-- **Off** - suivi VFC et stress désactivé
+- **Off** - suivi HRV et stress désactivé
 - **Waiting** - capteur pas encore stabilisé (reste immobile un moment)
-- **Ready** - suivi VFC actif  
-  Pour des données VFC fiables, limitez les mouvements du poignet.
+- **Ready** - suivi HRV actif  
+  Pour des données HRV fiables, limite les mouvements du poignet.
 
 ---
 
@@ -249,7 +249,7 @@ Souvent utilisé pour calmer le système nerveux.
 
 **Coherence Breathing**  
 Inspire 5 secondes, expire 5 secondes.  
-Souvent associé à une VFC plus élevée.
+Souvent associé à une HRV plus élevée.
 
 **4-7-8 Breathing**  
 Inspire 4, retiens 7, expire 8.  
@@ -268,12 +268,12 @@ Souvent utilisé avant le sommeil.
 
 ## Comprendre les données de session
 
-### VFC (variabilité de la fréquence cardiaque)
+### HRV (variabilité de la fréquence cardiaque)
 
-La VFC reflète la variation du temps entre les battements.
+L’HRV reflète la variation du temps entre les battements.
 
-- VFC plus élevée → états plus calmes et régulés
-- VFC plus faible → activation ou stress
+- HRV plus élevée → états plus calmes et régulés
+- HRV plus faible → activation ou stress
 
 La variabilité est **saine** - ce n’est pas quelque chose à corriger.
 
@@ -285,7 +285,7 @@ Parfois, la session consiste à rester présent dans l’inconfort.
 
 ### Fréquence cardiaque
 
-La fréquence cardiaque baisse souvent quand le corps se pose, et s’aligne généralement avec VFC et stress.
+La fréquence cardiaque baisse souvent quand le corps se pose, et s’aligne généralement avec l’HRV et le stress.
 
 ### Respiration
 
@@ -316,8 +316,8 @@ Tu peux configurer :
 - Couleur (utilisée dans les indicateurs visuels)
 - Schéma de vibration
 - Type d’activité (Méditation / Yoga / Respiration)
-- Niveau de suivi VFC
-- Nom de session personnalisé (prend en charge [time])
+- Niveau de suivi HRV
+- Nom de session personnalisé (prend en charge `[time]`)
 
 ### Alertes d’intervalle
 
@@ -355,9 +355,9 @@ Schémas de vibration recommandés :
 
 <a id="advanced-hrv-metrics"></a>
 
-## Métriques VFC avancées
+## Métriques HRV avancées
 
-Quand le suivi VFC est réglé sur **On Detailed**, l’app enregistre :
+Quand le suivi HRV est réglé sur **On Detailed**, l’app enregistre :
 
 - RMSSD
 - Différences successives entre battements
@@ -382,7 +382,7 @@ Accès :
 - Sélecteur de sessions → maintenir menu → Global Settings
 - Maintenir menu à nouveau pour modifier
 
-### Suivi VFC (par défaut)
+### Suivi HRV (par défaut)
 
 - Off
 - On
@@ -413,7 +413,7 @@ Accès :
 - Yoga
 - Respiration
 
-### Fenêtre VFC
+### Fenêtre HRV
 
 - Les fenêtres courtes montrent les changements rapides
 - 3 à 5 minutes recommandées pour la fiabilité  
@@ -426,14 +426,14 @@ Accès :
 ### Utiliser le nom de session comme nom d’activité
 
 - Utilise le nom personnalisé dans Garmin Connect
-- Prend en charge [time]
+- Prend en charge `[time]`
 - Noms d’activité limités à 21 caractères
 
 ### Redémarrage capteurs
 
 - Réinitialise tous les capteurs cardiaques
 - Quitte l’app
-- Utile si la VFC reste bloquée
+- Utile si l’HRV reste bloquée
 
 ---
 
@@ -447,7 +447,7 @@ La plupart des problèmes se résolvent facilement.
 ---
 
 <details>
-  <summary><strong>La VFC ne fonctionne pas / affiche “waiting”</strong></summary>
+  <summary><strong>L’HRV ne fonctionne pas / affiche “waiting”</strong></summary>
 
   <p>Cela signifie généralement que le capteur n’est pas encore stabilisé ou qu’il y a une interférence.</p>
 
@@ -467,7 +467,7 @@ La plupart des problèmes se résolvent facilement.
     <li>Vérifie le positionnement de la montre. Après ajustement, reste immobile ~30 secondes.</li>
     <li>Réinstalle l’app si le problème persiste.</li>
     <li>
-      Si la VFC reste peu fiable, essaie :
+      Si l’HRV reste peu fiable, essaie :
       <ul>
         <li>de porter la montre à l’intérieur du poignet, ou</li>
         <li>d’utiliser un capteur externe qui prend en charge les intervalles entre battements.</li>
@@ -546,7 +546,7 @@ La plupart des problèmes se résolvent facilement.
 
   <p>L’app utilise le signal respiratoire fourni par Garmin, qui peut être moins fiable pendant des pratiques très calmes et immobiles.</p>
 
-  <p>Si tu veux plus de précision, une ceinture compatible VFC et respiration (ex. HRM-600) peut aider.</p>
+  <p>Si tu veux plus de précision, une ceinture compatible HRV et respiration (ex. HRM-600) peut aider.</p>
 
 </details>
 
@@ -678,7 +678,7 @@ La plupart des problèmes se résolvent facilement.
   <summary><strong>Des éléments de l’app sont dans la mauvaise langue</strong></summary>
 
   <p>
-    Il arrive que quelques textes (par exemple des libellés liés à la VFC) s’affichent dans une autre langue alors que le reste de l’app est correct.
+    Il arrive que quelques textes (par exemple des libellés liés à l’HRV) s’affichent dans une autre langue alors que le reste de l’app est correct.
     En général, c’est juste un petit raté ponctuel de l’installation ou de la synchronisation.
   </p>
 
