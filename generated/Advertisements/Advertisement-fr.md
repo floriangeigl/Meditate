@@ -43,7 +43,7 @@ Cela t’aide simplement à repérer des schémas, à gagner en familiarité et 
 
 ## La régulation n’est pas toujours synonyme de calme
 
-La méditation et le breathwork ne servent pas à produire de "bons" indicateurs.
+La méditation et les exercices de respiration ne servent pas à produire de "bons" indicateurs.
 
 Une session calme a de la valeur, car elle permet à ton système nerveux de passer plus de temps dans un état régulé. Plus tu y restes, plus ces circuits neuronaux se renforcent, ce qui rend le calme et l’équilibre plus accessibles avec le temps.
 
