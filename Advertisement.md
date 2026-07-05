@@ -7,7 +7,7 @@ share-title: Meditation & Breathwork Garmin App | Florian Geigl
 share-description: Meditation & breathwork on your Garmin watch — mindfulness with real-time biometrics. Download on Garmin Connect IQ.
 ---
 
-![meditate and breathwork app hero image](userGuideScreenshots/hero_meditate.png)
+![meditate and breathwork app hero image](/meditate_app_user_guide/userGuideScreenshots/hero_meditate.png)
 
 If you have ever felt calm and uneasy at the same time, you are not broken. You are human.
 

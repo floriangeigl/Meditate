@@ -43,7 +43,7 @@ jobs:
             [ -f "$f" ] || continue
             cp "$f" "./geigl.online/meditate_app_user_guide/userGuideScreenshots/"
           done
-          find ./geigl.online -type f -name '*.md' -exec sed -i 's|meditate_app_user_guide/userGuideScreenshots/|__KEEP__|g; s|userGuideScreenshots/|meditate_app_user_guide/userGuideScreenshots/|g; s|__KEEP__|meditate_app_user_guide/userGuideScreenshots/|g' {} +
+          find ./geigl.online -type f -name '*.md' -exec sed -i 's|/meditate_app_user_guide/userGuideScreenshots/|__KEEP__|g; s|meditate_app_user_guide/userGuideScreenshots/|__KEEP__|g; s|userGuideScreenshots/|/meditate_app_user_guide/userGuideScreenshots/|g; s|__KEEP__|/meditate_app_user_guide/userGuideScreenshots/|g' {} +
           # Update hero image references in translated pages to use language-specific images
           for f in generated/HeroImages/hero_meditate-*.png; do
             [ -f "$f" ] || continue
@@ -115,7 +115,7 @@ jobs:
             lang="${lang%.md}"
             cat "$f" > "./geigl.online/meditate_app-${lang}.md"
           done
-          find ./geigl.online -type f -name '*.md' -exec sed -i 's|meditate_app_user_guide/userGuideScreenshots/|__KEEP__|g; s|userGuideScreenshots/|meditate_app_user_guide/userGuideScreenshots/|g; s|__KEEP__|meditate_app_user_guide/userGuideScreenshots/|g' {} +
+          find ./geigl.online -type f -name '*.md' -exec sed -i 's|/meditate_app_user_guide/userGuideScreenshots/|__KEEP__|g; s|meditate_app_user_guide/userGuideScreenshots/|__KEEP__|g; s|userGuideScreenshots/|/meditate_app_user_guide/userGuideScreenshots/|g; s|__KEEP__|/meditate_app_user_guide/userGuideScreenshots/|g' {} +
           # Update hero image references in translated advertisement pages
           for f in generated/HeroImages/hero_meditate-*.png; do
             [ -f "$f" ] || continue
