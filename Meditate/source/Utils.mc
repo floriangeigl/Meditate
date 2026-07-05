@@ -18,6 +18,22 @@ class Utils {
 		return device_version >= compare_version ? true : false;
 	}
 
+	// per-device sport override; keyed by partNumber. add new devices here, not one-off checks
+	private static var activityTypeOverridesByPartNumber = {
+		"006-B3225-00" => { ActivityType.Meditating => ActivityType.Breathing }, // vivoactive4
+		"006-B3388-00" => { ActivityType.Meditating => ActivityType.Breathing }, // vivoactive4
+		"006-B3224-00" => { ActivityType.Meditating => ActivityType.Breathing }, // vivoactive4s
+		"006-B3387-00" => { ActivityType.Meditating => ActivityType.Breathing }, // vivoactive4s
+	};
+
+	static function getEffectiveActivityType(selectedActivityType) {
+		var overrides = Utils.activityTypeOverridesByPartNumber[System.getDeviceSettings().partNumber];
+		if (overrides != null && overrides[selectedActivityType] != null) {
+			return overrides[selectedActivityType];
+		}
+		return selectedActivityType;
+	}
+
 	static function getVibePatternText(vibePattern) {
 		if (vibePattern == null) {
 			vibePattern = VibePattern.NoNotification;

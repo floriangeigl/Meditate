@@ -1,4 +1,4 @@
-<strings>
+﻿<strings>
     <string id="AppName">Meditação</string>
     <string id="ConfirmSaveHeader">Salvar sessão?</string>
     <string id="confirmDeleteSessionHeader">Deletar sessão?</string>
@@ -109,7 +109,7 @@
     <string id="menuGlobalSettings_useSessionName_on">Sim</string>
     <string id="menuGlobalSettings_useSessionName_off">Não</string>
 
-    <string id="menuNotificationOptions_title">Notificações</string>
+    <string id="menuNotificationOptions_title">Vibração &amp; som</string>
     <string id="menuNotificationOptions_on">Ligado</string>
     <string id="menuNotificationOptions_off">Desligado</string>
 
@@ -148,7 +148,7 @@
     <string id="intervalAlertTransparentColorText">Transparente</string>
 
     <string id="vibePatternMenu_title">Vibração / Som</string>
-    <string id="vibePatternMenu_noNotification">Sem Notif.</string>
+    <string id="vibePatternMenu_noNotification">Desligado</string>
     <string id="vibePatternMenu_longPulsating">Longo pulsante</string>
     <string id="vibePatternMenu_longSound">Som Longo</string>
     <string id="vibePatternMenu_longContinuous">Longo contínuo</string>
@@ -206,7 +206,7 @@
 
     <string id="restoreDeviceId">Restore From Device ID (leave empty to use this device):</string>
 
-    <string id="about_AppVersion">v10.7.8</string>
+    <string id="about_AppVersion">v10.7.10</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>
     <string id="about_falsetru">falsetru</string>

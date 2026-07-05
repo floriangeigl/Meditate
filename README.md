@@ -15,7 +15,7 @@ A Garmin Connect IQ meditation app that tracks as an activity the heart rate, HR
 - [HRV](https://en.wikipedia.org/wiki/Heart_rate_variability) (Heart Rate Variability)
   - RMSSD - Root Mean Square of Successive Differences (beat-to-beat intervals). Reflects short-term HRV and is primarily influenced by parasympathetic (vagal) activity.
   - pNN20 (HRV > 20) - % of successive beat-to-beat intervals that differ by more than 20 ms. Represents the percentage of successive RR intervals that differ by more than 20 ms, linked to vagal tone.
-  - pNN50 (HRV > 20) - % of successive beat-to-beat intervals that differ by more than 50 ms. Represents the percentage of successive RR intervals that differ by more than 50 ms, linked to vagal tone.
+  - pNN50 (HRV > 50) - % of successive beat-to-beat intervals that differ by more than 50 ms. Represents the percentage of successive RR intervals that differ by more than 50 ms, linked to vagal tone.
   - beat-to-beat interval - reading coming directly from the watch sensor
   - HRV Successive Differences - difference between the current and previous beat-to-beat intervals
   - SDRR - [Standard Deviation](https://en.wikipedia.org/wiki/Standard_deviation) of beat-to-beat intervals. Measures overall HRV, reflecting both sympathetic and parasympathetic activity.
