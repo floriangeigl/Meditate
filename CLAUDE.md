@@ -1,5 +1,9 @@
 # CLAUDE.md — Meditate (Garmin Connect IQ)
 
+## Agent Notes Policy
+
+**Never use Claude's persistent cross-session memory for this project.** All notes, hints, learnings, and project knowledge go directly into this file instead — it's checked into the repo, version-controlled, and visible to every contributor and every future session. If you learn something worth remembering, add it here in the relevant section.
+
 ## Overview
 
 Garmin Connect IQ meditation watch-app tracking HR, HRV, stress, and respiration rate. Written in **Monkey C** using the **Toybox API**. Targets 90+ Garmin watches (Connect IQ ≥ 3.0). Licensed under MIT.
@@ -105,6 +109,14 @@ else { "$id: $([int]($wa/1024)) KB — meets 512 KB minimum" }
 
 So a new device passing the memory check still warrants a judgment call (CIQ version, form factor, and a sim build) before adding.
 
+### Device quirk: vívoactive4/4s reject SPORT_MEDITATION
+
+vívoactive4/4s report Connect IQ API >= 3.3.6 (the `Utils.MonkeyVersionAtLeast([3,3,6])` gate in `MeditateActivity.mc` that's meant to guard Meditation/Yoga/Breathing FIT sport support), but `ActivityRecording.createSession` still throws **"Invalid Value"** for `SPORT_MEDITATION` (67) on this hardware — first seen as a production crash (backtrace `HrActivity.initialize` ← `HrvActivity.initialize` ← `MeditateActivity.initialize`, vívoactive4S firmware 8.30, app v10.7.8, 2026-07-03). Garmin's manuals confirm this device ships native Yoga and Breathwork activities but never got a native Meditation profile, so the API-level heuristic is a false positive specifically for this device family.
+
+Fixed via `Utils.activityTypeOverridesByPartNumber` (keyed by `System.getDeviceSettings().partNumber` — `006-B3225-00`/`006-B3388-00` = vivoactive4, `006-B3224-00`/`006-B3387-00` = vivoactive4s) and `Utils.getEffectiveActivityType()`, applied once where `MeditateActivity.mc` resolves `selectedActivityType` — remaps `ActivityType.Meditating` to `ActivityType.Breathing` on these devices. That single remap point also fixes wakeup-resume, since `mEffectiveWakeupSessionType` → `WakeupSessionStorage` → `HeartbeatIntervalsSensor` branches on the same enum. Add new devices/overrides to that table rather than writing new one-off boolean checks.
+
+Note: `ActivityRecording.createSession` does **not** throw a catchable exception for this failure — a try/catch-and-retry safety net was considered and rejected because it wouldn't actually intercept it. Don't propose try/catch around a Toybox call without first confirming (via the API docs or existing repo precedent) that it's documented to throw.
+
 ### Flow: check for new devices to support
 
 **Goal: surface only genuinely new watch releases.** A raw SDK-vs-manifest diff returns ~76 entries that are *not* new — they're non-wrist hardware and old watches already intentionally dropped. Folder timestamps can't distinguish new from old (they all reset to the SDK install date). So the diff is filtered against a curated baseline of known exclusions; anything left over is a genuinely new device to evaluate.
@@ -177,7 +189,7 @@ No CI pipeline builds or tests Monkey C code. GitHub Actions handle only image c
 - Tab indentation, LF line endings
 - Format-on-save enabled via Prettier Monkey C
 - Braces on same line: `function initialize() {`
-- Comments: concise, lowercase, no full sentences — just the point (e.g. `// clear stale paused; else multi-session drops HRV after session 1`)
+- Comments: concise, lowercase, no full sentences — just the point (e.g. `// clear stale paused; else multi-session drops HRV after session 1`). One line, not a paragraph — this applies to agent-written comments too, don't explain background/history/rationale inline, that belongs in the commit message
 
 ### Commit Messages
 
@@ -326,3 +338,6 @@ In-app developer tool accessible via **long-press on the About screen** → "Dev
 - **`settings.xml` string IDs must be defined in ALL locale resource folders.** Any string referenced via `@Strings.<id>` in `settings.xml` (e.g. as a `title=`) must exist in every `resources-<lang>/strings/strings.xml`, not just the base `resources/` folder. A missing locale string produces a `WARNING: String id '...' undefined for language '...'` and triggers the generic "A critical error has occurred" compiler crash.
 - **Static methods cannot access `private` instance members or call `private` instance methods**, even on a freshly created instance of their own class. Doing so causes the assembler error `Trying to add undefined symbol: <memberName>` during release builds. The fix is to move all initialization that touches private members into `initialize()`, so the `static run()` factory simply calls `new MyClass()`.
 - **"A critical error has occurred" is a compiler crash masking real errors.** Re-run with `--debug-log-level 2 --debug-log-output <file>.zip` to get `error.txt` inside the zip, which lists the actual `CompilerException` messages (e.g., assembler symbol errors, missing strings).
+- **Runtime device identification**: Monkey C does not expose the SDK's device-id string (e.g. `"vivoactive4"`) at runtime. The closest proxy is `System.getDeviceSettings().partNumber`, a hardware SKU string (e.g. `"006-B3225-00"`) matching the `partNumbers[].number` entries in that device's `compiler.json`. Each device model can have multiple part numbers (one per regional/firmware SKU), so device-specific checks need the full list, not a single value — see the vívoactive4/4s quirk above for a working example.
+- **Verify a Toybox API throws before wrapping it in try/catch.** `ActivityRecording.createSession` does not throw a catchable exception for an unsupported sport/subSport combo — confirmed via the vívoactive4/4s "Invalid Value" crash above. Check the API docs or existing repo precedent (e.g. `Sensor.TooManySensorDataListenersException`, `Attention.BacklightOnTooLongException`) before assuming a call is catchable.
+- **CLI builds outside the VS Code extension** need a private key (`-y`) even for unsigned debug builds — generate a throwaway one with `openssl genrsa` + `openssl pkcs8` if just verifying compilation. Jungle file paths in `-f` are resolved relative to the jungle file's own directory, not the invocation cwd — pass `Meditate/monkey.jungle;Meditate/barrels.jungle` together (the auto-generated `bin/combined.jungle` uses paths meant for the extension's own resolution and won't work standalone).

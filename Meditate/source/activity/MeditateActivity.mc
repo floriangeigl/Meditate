@@ -40,7 +40,7 @@ class MeditateActivity extends HrvAlgorithms.HrvActivity {
 				activityName = "";
 			}
 		}
-		var selectedActivityType = meditateModel.getActivityType();
+		var selectedActivityType = Utils.getEffectiveActivityType(meditateModel.getActivityType());
 		if (selectedActivityType == ActivityType.Yoga) {
 			activityName = activityName.length() > 0 ? activityName : Ui.loadResource(Rez.Strings.sessionTitleYoga);
 			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createYoga(createSessionName(sessionTime, activityName));
