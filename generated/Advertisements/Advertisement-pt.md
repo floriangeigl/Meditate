@@ -4,7 +4,7 @@ title: Meditação & Respiração
 subtitle: Um companheiro de presença - direto no seu relógio Garmin
 permalink: /meditate_app/
 share-title: App Garmin Meditação & Respiração | Florian Geigl
-share-description: Meditação e respiração no seu relógio Garmin — mindfulness com biometria em tempo real. Baixe no Garmin Connect IQ.
+share-description: Meditação e respiração no seu relógio Garmin — atenção plena com biometria em tempo real. Baixe no Garmin Connect IQ.
 ---
 
 ![imagem principal do app Meditação & Respiração](userGuideScreenshots/hero_meditate.png)
@@ -23,7 +23,7 @@ Quando a vida exige muito por muito tempo, o sistema nervoso aprende a ficar em 
 
 ## Entenda Seu Sistema Nervoso Pela Prática
 
-Meditação & Respiração é um app para relógios Garmin criado para apoiar a meditação e os exercícios de respiração com presença, clareza e consciência fisiológica. Ao combinar mindfulness com dados biométricos em tempo real, ele ajuda você a entender melhor como seu corpo funciona, sem julgamento nem pressão.
+Meditação & Respiração é um app para relógios Garmin criado para apoiar a meditação e os exercícios de respiração com presença, clareza e consciência fisiológica. Ao combinar atenção plena com dados biométricos em tempo real, ele ajuda você a entender melhor como seu corpo funciona, sem julgamento nem pressão.
 
 Não existe uma técnica universal de meditação.  
 O importante é descobrir o que apoia **o seu** sistema nervoso.
@@ -43,7 +43,7 @@ Isso só ajuda você a notar padrões, ganhar familiaridade e manter viva a prá
 
 ## Regulação Nem Sempre É Calma
 
-Meditação e breathwork não servem para produzir métricas "boas".
+Meditação e exercícios de respiração não servem para produzir métricas "boas".
 
 Uma sessão calma é valiosa porque permite que seu sistema nervoso passe mais tempo em um estado regulado. Quanto mais tempo você permanece ali, mais essas vias neurais se fortalecem, tornando a calma e o equilíbrio mais acessíveis com o tempo.
 

@@ -4,7 +4,7 @@ title: Meditación & Respiración
 subtitle: Un compañero consciente - en tu reloj Garmin
 permalink: /meditate_app/
 share-title: App Garmin Meditación & Respiración | Florian Geigl
-share-description: Meditación y respiración en tu reloj Garmin — mindfulness con biometría en tiempo real. Descárgala en Garmin Connect IQ.
+share-description: Meditación y respiración en tu reloj Garmin — atención plena con biometría en tiempo real. Descárgala en Garmin Connect IQ.
 ---
 
 ![imagen principal de la app de meditación y respiración](userGuideScreenshots/hero_meditate.png)
@@ -23,7 +23,7 @@ Cuando la vida ha sido exigente durante mucho tiempo, el sistema nervioso aprend
 
 ## Entiende tu sistema nervioso a través de la práctica
 
-Meditación & Respiración es una app para relojes Garmin diseñada para acompañar la meditación y el breathwork con presencia, comprensión y conciencia fisiológica. Al combinar mindfulness con datos biométricos en tiempo real, te ayuda a entender cómo funciona tu cuerpo, sin juicio ni presión.
+Meditación & Respiración es una app para relojes Garmin diseñada para acompañar la meditación y las prácticas de respiración con presencia, comprensión y conciencia fisiológica. Al combinar atención plena con datos biométricos en tiempo real, te ayuda a entender cómo funciona tu cuerpo, sin juicio ni presión.
 
 No existe una técnica universal de meditación.  
 Lo importante es descubrir qué ayuda a **tu** sistema nervioso.
@@ -43,7 +43,7 @@ Simplemente te ayuda a notar patrones, ganar familiaridad y mantener presente un
 
 ## Regularse no siempre se siente como calma
 
-La meditación y el breathwork no consisten en producir métricas "buenas".
+La meditación y las prácticas de respiración no consisten en producir métricas "buenas".
 
 Una sesión tranquila es valiosa porque permite que tu sistema nervioso pase más tiempo en un estado regulado. Cuanto más tiempo permaneces ahí, más se refuerzan esas rutas neuronales, y con el tiempo resulta más fácil acceder a la calma y al equilibrio.
 
@@ -63,7 +63,7 @@ Por eso no conviene juzgar una sesión solo por las métricas, pero también por
 
 ## Por qué ayuda hacer seguimiento
 
-Hacer seguimiento de señales fisiológicas como el estrés, la frecuencia cardíaca y la variabilidad de la frecuencia cardíaca te da una visión más clara de cómo responde tu sistema nervioso durante la meditación y el breathwork. Una HRV más alta suele asociarse con estados más tranquilos, más regulados y con mayor flexibilidad del sistema nervioso, mientras que una HRV más baja refleja activación o estrés.
+Hacer seguimiento de señales fisiológicas como el estrés, la frecuencia cardíaca y la variabilidad de la frecuencia cardíaca te da una visión más clara de cómo responde tu sistema nervioso durante la meditación y las prácticas de respiración. Una HRV más alta suele asociarse con estados más tranquilos, más regulados y con mayor flexibilidad del sistema nervioso, mientras que una HRV más baja refleja activación o estrés.
 
 En lugar de funcionar como una puntuación, estas métricas te dan contexto. Te ayudan a reconocer patrones, profundizar la conciencia corporal y entender qué despiertan en ti las distintas prácticas.
 
