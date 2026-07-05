@@ -17,10 +17,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: main
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: "floriangeigl/floriangeigl.github.io"
           path: ./geigl.online/
@@ -184,7 +184,7 @@ jobs:
       - name: debug
         run: cd ./geigl.online/ && git status && git diff && ls -lah
       - name: Commit & Push changes
-        uses: actions-js/push@master
+        uses: actions-js/push@v1.5
         with:
           directory: ./geigl.online/
           github_token: ${{ secrets.FLORIANGEIGL_GITHUB_IO_TOKEN }}
