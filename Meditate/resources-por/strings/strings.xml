@@ -1,4 +1,4 @@
-<strings>
+﻿<strings>
     <string id="AppName">Meditação</string>
     <string id="ConfirmSaveHeader">Salvar sessão?</string>
     <string id="confirmDeleteSessionHeader">Deletar sessão?</string>
@@ -206,7 +206,7 @@
 
     <string id="restoreDeviceId">Restore From Device ID (leave empty to use this device):</string>
 
-    <string id="about_AppVersion">v10.7.10</string>
+    <string id="about_AppVersion">v10.7.10</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>
     <string id="about_falsetru">falsetru</string>

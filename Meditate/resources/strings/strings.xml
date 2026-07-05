@@ -1,4 +1,4 @@
-<strings>
+﻿<strings>
     <string id="AppName">Meditate</string>
     <string id="ConfirmSaveHeader">Save Session?</string>
     <string id="confirmDeleteSessionHeader">Delete Session?</string>
@@ -206,7 +206,7 @@
     <string id="finishMenu_discard">Discard</string>
     <string id="optionsMenuHelp">Press start for options</string>
 
-    <string id="about_AppVersion">v10.7.10</string>
+    <string id="about_AppVersion">v10.7.10</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>
     <string id="about_falsetru">falsetru</string>

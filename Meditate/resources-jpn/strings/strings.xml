@@ -1,4 +1,4 @@
-<strings>
+﻿<strings>
     <string id="AppName">瞑想</string>
     <string id="ConfirmSaveHeader">保存しますか？</string>
     <string id="confirmDeleteSessionHeader">削除しますか？</string>
@@ -203,7 +203,7 @@
     <string id="finishMenu_discard">破棄</string>
     <string id="optionsMenuHelp">開始でオプション表示</string>
 
-    <string id="about_AppVersion">v10.7.10</string>
+    <string id="about_AppVersion">v10.7.10</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>
     <string id="about_falsetru">falsetru</string>
