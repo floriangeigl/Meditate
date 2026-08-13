@@ -34,11 +34,11 @@ module HrvAlgorithms {
 		}
 
 		function stop() {
+			me.mRefreshActivityTimer.stop();
 			if (me.mFitSession.isRecording() == false) {
 				return;
 			}
 			me.mFitSession.stop();
-			me.mRefreshActivityTimer.stop();
 		}
 
 		// Pause/Resume session, returns true is session is now running
