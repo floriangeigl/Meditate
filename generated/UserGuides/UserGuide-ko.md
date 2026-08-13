@@ -722,4 +722,4 @@ HRV 추적을 **On Detailed**로 설정하면 앱은 다음 값을 기록해요:
 당신의 데이터는 당신의 것입니다.
 
 앱은 개인 정보를 저장하지 않아요.  
-자세한 내용은 [Data Privacy Policy](/meditate_app_data_privacy/)를 확인해 주세요.
+자세한 내용은 [개인정보 처리방침](/meditate_app_data_privacy/)을 확인해 주세요.

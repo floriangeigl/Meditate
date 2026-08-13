@@ -15,7 +15,7 @@ Une pratique pensée pour toi
 
 Crée des sessions qui s’accordent à ton rythme et à ton niveau d’attention
 
-Observe la fréquence cardiaque, la VFC, le stress et la respiration en temps réel
+Observe la fréquence cardiaque, l’HRV, le stress et la respiration en temps réel
 
 Enregistre tes sessions dans Garmin Connect pour soutenir en douceur la régularité et la conscience au fil du temps
 
@@ -40,7 +40,7 @@ C’est pour ça qu’une session ne devrait pas être jugée uniquement sur ses
 
 Pourquoi le suivi aide
 
-Suivre des signaux physiologiques comme le stress, la fréquence cardiaque et la variabilité de la fréquence cardiaque permet de mieux comprendre comment ton système nerveux réagit pendant la méditation et les exercices de respiration. Une VFC plus élevée est généralement associée à des états plus calmes, mieux régulés et à une plus grande flexibilité du système nerveux, tandis qu’une VFC plus basse reflète plutôt une activation ou du stress. Ces métriques ne servent pas de note : elles donnent du contexte, t’aident à reconnaître des schémas, à approfondir la conscience corporelle et à comprendre ce que différentes pratiques font émerger chez toi.
+Suivre des signaux physiologiques comme le stress, la fréquence cardiaque et la variabilité de la fréquence cardiaque permet de mieux comprendre comment ton système nerveux réagit pendant la méditation et les exercices de respiration. Une HRV plus élevée est généralement associée à des états plus calmes, mieux régulés et à une plus grande flexibilité du système nerveux, tandis qu’une HRV plus basse reflète plutôt une activation ou du stress. Ces métriques ne servent pas de note : elles donnent du contexte, t’aident à reconnaître des schémas, à approfondir la conscience corporelle et à comprendre ce que différentes pratiques font émerger chez toi.
 
 Le suivi n’est pas une question de contrôle ou d’optimisation.
 Il s’agit d’apprendre comment ton système nerveux retrouve son équilibre.

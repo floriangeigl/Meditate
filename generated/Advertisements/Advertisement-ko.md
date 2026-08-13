@@ -7,7 +7,7 @@ share-title: 명상 & 호흡 훈련 Garmin 앱 | Florian Geigl
 share-description: Garmin 시계에서 하는 명상 & 호흡 훈련 — 실시간 생체 데이터와 함께하는 마음챙김. Garmin Connect IQ에서 다운로드하세요.
 ---
 
-![명상 & 호흡 훈련 앱 대표 이미지](userGuideScreenshots/hero_meditate.png)
+![명상 & 호흡 훈련 앱 대표 이미지](/meditate_app_user_guide/userGuideScreenshots/hero_meditate.png)
 
 차분하면서도 동시에 불안했던 적이 있다면, 당신에게 문제가 있는 게 아닙니다. 그저 인간적인 반응입니다.
 

@@ -7,7 +7,7 @@ share-title: 瞑想 & 呼吸法 Garminアプリ | Florian Geigl
 share-description: Garminウォッチで行う瞑想 & 呼吸法。リアルタイムの生体データとともに、自分の状態をやさしく見つめられます。Garmin Connect IQでダウンロード。
 ---
 
-![瞑想 & 呼吸法アプリのメイン画像](userGuideScreenshots/hero_meditate.png)
+![瞑想 & 呼吸法アプリのメイン画像](/meditate_app_user_guide/userGuideScreenshots/hero_meditate.png)
 
 落ち着いているのに、どこか不安でもある。そんなふうに感じたことがあっても、おかしくありません。とても人間らしいことです。
 

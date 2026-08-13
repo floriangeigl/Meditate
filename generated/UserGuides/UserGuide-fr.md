@@ -24,7 +24,7 @@ Commence par le **Guide débutant**, puis reviens au **Guide avancé** quand tu 
 - [Guide avancé](#advanced-guide)
   - [Personnalisation des sessions](#session-customization)
   - [Schémas de respiration personnalisés](#custom-breathwork-patterns)
-  - [Métriques VFC avancées](#advanced-hrv-metrics)
+  - [Métriques HRV avancées](#advanced-hrv-metrics)
   - [Paramètres globaux (par défaut pour toutes les sessions)](#global-settings-defaults-for-all-sessions)
 - [FAQ et dépannage](#faqs-troubleshooting)
 - [Support / Signaler un problème](#get-support--report-problem)
@@ -48,7 +48,7 @@ Elle te permet de :
 
 - lancer des sessions simples ou structurées
 - recevoir des signaux vibrants au lieu de distractions visuelles
-- observer fréquence cardiaque, VFC, stress et respiration
+- observer fréquence cardiaque, l’HRV, le stress et la respiration
 - enregistrer tes sessions dans Garmin Connect pour repérer des schémas au fil du temps
 
 L’objectif est **la conscience, pas la performance**.
@@ -70,7 +70,7 @@ Pendant la session, tu vois :
 
 - le temps écoulé
 - la fréquence cardiaque actuelle
-- le statut VFC
+- le statut HRV
 - le stress et la respiration (si pris en charge)
 - de petits marqueurs colorés indiquant les prochaines alertes de vibration
 
@@ -108,10 +108,10 @@ Et une chose importante : plus tu apportes **d’humour, de douceur et de bienve
 Pas besoin de visualiser quoi que ce soit, ni de respirer d’une façon spéciale.
 
 1. Assieds-toi ou allonge-toi dans une position confortable.
-2. Laissez la respiration se faire naturellement.
+2. Laisse la respiration se faire naturellement.
 3. Porte ton attention sur la sensation de l’air au niveau du nez.
 
-Vous pouvez remarquer :
+Tu peux remarquer :
 
 - de l’air frais à l’inspiration
 - de l’air plus chaud à l’expiration
@@ -152,8 +152,8 @@ Le moment où tu remarques que ton attention est partie n’est pas un échec. C
 
 Quand tu remarques :
 
-- marquez une pause
-- souriez peut-être
+- fais une pause
+- souris peut-être
 - demande-toi avec bienveillance :
   _« Est-ce que je veux revenir au souffle maintenant ? »_
 
@@ -219,14 +219,14 @@ Dans le sélecteur de sessions, tu vois :
 - la durée de session
 - le schéma de vibration
 - le timing des alertes d’intervalle
-- l’indicateur VFC
+- l’indicateur HRV
 
-### Indicateur VFC
+### Indicateur HRV
 
-- **Off** - suivi VFC et stress désactivé
+- **Off** - suivi HRV et stress désactivé
 - **Waiting** - capteur pas encore stabilisé (reste immobile un moment)
-- **Ready** - suivi VFC actif  
-  Pour des données VFC fiables, limitez les mouvements du poignet.
+- **Ready** - suivi HRV actif  
+  Pour des données HRV fiables, limite les mouvements du poignet.
 
 ---
 
@@ -249,7 +249,7 @@ Souvent utilisé pour calmer le système nerveux.
 
 **Coherence Breathing**  
 Inspire 5 secondes, expire 5 secondes.  
-Souvent associé à une VFC plus élevée.
+Souvent associé à une HRV plus élevée.
 
 **4-7-8 Breathing**  
 Inspire 4, retiens 7, expire 8.  
@@ -268,12 +268,12 @@ Souvent utilisé avant le sommeil.
 
 ## Comprendre les données de session
 
-### VFC (variabilité de la fréquence cardiaque)
+### HRV (variabilité de la fréquence cardiaque)
 
-La VFC reflète la variation du temps entre les battements.
+L’HRV reflète la variation du temps entre les battements.
 
-- VFC plus élevée → états plus calmes et régulés
-- VFC plus faible → activation ou stress
+- HRV plus élevée → états plus calmes et régulés
+- HRV plus faible → activation ou stress
 
 La variabilité est **saine** - ce n’est pas quelque chose à corriger.
 
@@ -285,7 +285,7 @@ Parfois, la session consiste à rester présent dans l’inconfort.
 
 ### Fréquence cardiaque
 
-La fréquence cardiaque baisse souvent quand le corps se pose, et s’aligne généralement avec VFC et stress.
+La fréquence cardiaque baisse souvent quand le corps se pose, et s’aligne généralement avec l’HRV et le stress.
 
 ### Respiration
 
@@ -306,9 +306,9 @@ _(Pour la personnalisation, l’exploration et les utilisateurs avancés)_
 Depuis le sélecteur de sessions :
 
 - Maintenez le **bouton menu** (ou appui long sur l’écran)
-- Ouvrez **Add New** ou **Edit**
+- Ouvre **Add New** ou **Edit**
 
-Vous pouvez configurer :
+Tu peux configurer :
 
 ### Bases de la session
 
@@ -316,8 +316,8 @@ Vous pouvez configurer :
 - Couleur (utilisée dans les indicateurs visuels)
 - Schéma de vibration
 - Type d’activité (Méditation / Yoga / Respiration)
-- Niveau de suivi VFC
-- Nom de session personnalisé (prend en charge [time])
+- Niveau de suivi HRV
+- Nom de session personnalisé (prend en charge `[time]`)
 
 ### Alertes d’intervalle
 
@@ -355,9 +355,9 @@ Schémas de vibration recommandés :
 
 <a id="advanced-hrv-metrics"></a>
 
-## Métriques VFC avancées
+## Métriques HRV avancées
 
-Quand le suivi VFC est réglé sur **On Detailed**, l’app enregistre :
+Quand le suivi HRV est réglé sur **On Detailed**, l’app enregistre :
 
 - RMSSD
 - Différences successives entre battements
@@ -382,7 +382,7 @@ Accès :
 - Sélecteur de sessions → maintenir menu → Global Settings
 - Maintenir menu à nouveau pour modifier
 
-### Suivi VFC (par défaut)
+### Suivi HRV (par défaut)
 
 - Off
 - On
@@ -413,7 +413,7 @@ Accès :
 - Yoga
 - Respiration
 
-### Fenêtre VFC
+### Fenêtre HRV
 
 - Les fenêtres courtes montrent les changements rapides
 - 3 à 5 minutes recommandées pour la fiabilité  
@@ -426,14 +426,14 @@ Accès :
 ### Utiliser le nom de session comme nom d’activité
 
 - Utilise le nom personnalisé dans Garmin Connect
-- Prend en charge [time]
+- Prend en charge `[time]`
 - Noms d’activité limités à 21 caractères
 
 ### Redémarrage capteurs
 
 - Réinitialise tous les capteurs cardiaques
 - Quitte l’app
-- Utile si la VFC reste bloquée
+- Utile si l’HRV reste bloquée
 
 ---
 
@@ -447,16 +447,16 @@ La plupart des problèmes se résolvent facilement.
 ---
 
 <details>
-  <summary><strong>La VFC ne fonctionne pas / affiche “waiting”</strong></summary>
+  <summary><strong>L’HRV ne fonctionne pas / affiche “waiting”</strong></summary>
 
   <p>Cela signifie généralement que le capteur n’est pas encore stabilisé ou qu’il y a une interférence.</p>
 
-  <p>Essayez dans cet ordre :</p>
+  <p>Essaie dans cet ordre :</p>
 
   <ol>
-    <li>Fermez puis rouvrez l’app, puis attendez au moins 30 secondes sans bouger le poignet.</li>
+    <li>Ferme puis rouvre l’app, puis attends au moins 30 secondes sans bouger le poignet.</li>
     <li>
-      Ouvrez <strong>Global Settings</strong> et choisissez <strong>Sensor restart</strong>.<br>
+      Ouvre <strong>Global Settings</strong> et choisis <strong>Sensor restart</strong>.<br>
       L’app coupe tous les capteurs cardiaques et quitte, afin que le firmware de la montre les réinitialise proprement.<br>
       Rouvrez l’app, restez immobile ~30 secondes, puis démarrez la session.
     </li>
@@ -464,10 +464,10 @@ La plupart des problèmes se résolvent facilement.
       Si tu n’utilises pas de capteur externe (ceinture thoracique), ouvre les paramètres de connectivité de la montre et vérifie que les capteurs externes sont déconnectés.<br>
       Une ceinture proche peut parfois se reconnecter automatiquement.
     </li>
-    <li>Vérifiez le positionnement de la montre. Après ajustement, restez immobile ~30 secondes.</li>
-    <li>Réinstallez l’app si le problème persiste.</li>
+    <li>Vérifie le positionnement de la montre. Après ajustement, reste immobile ~30 secondes.</li>
+    <li>Réinstalle l’app si le problème persiste.</li>
     <li>
-      Si la VFC reste peu fiable, essayez :
+      Si l’HRV reste peu fiable, essaie :
       <ul>
         <li>de porter la montre à l’intérieur du poignet, ou</li>
         <li>d’utiliser un capteur externe qui prend en charge les intervalles entre battements.</li>
@@ -485,9 +485,9 @@ La plupart des problèmes se résolvent facilement.
   <p>Tu peux modifier le nom directement sur la montre :</p>
 
   <ul>
-    <li>Ouvrez <strong>Add New</strong> ou <strong>Edit</strong> pour une session</li>
-    <li>Sélectionnez <strong>Name</strong></li>
-    <li>Saisissez le texte via le sélecteur de texte de la montre</li>
+    <li>Ouvre <strong>Add New</strong> ou <strong>Edit</strong> pour une session</li>
+    <li>Sélectionne <strong>Name</strong></li>
+    <li>Saisis le texte via le sélecteur de texte de la montre</li>
   </ul>
 
   <p>
@@ -496,7 +496,7 @@ La plupart des problèmes se résolvent facilement.
   </p>
 
   <p>
-    Vous pouvez utiliser le placeholder <code>[time]</code> dans le nom.<br>
+    Tu peux utiliser le placeholder <code>[time]</code> dans le nom.<br>
     Exemple : <code>Repos profond [time]</code> → <code>Repos profond 20min</code>
   </p>
 
@@ -507,7 +507,7 @@ La plupart des problèmes se résolvent facilement.
 
   <p>Si l’app s’ouvre mais plante au lancement, ton modèle de montre ne prend probablement pas en charge le type d’activité choisi.</p>
 
-  <p>Modifiez la session et choisissez un autre type :</p>
+  <p>Modifie la session et choisis un autre type :</p>
 
   <ul>
     <li>Méditation</li>
@@ -546,7 +546,7 @@ La plupart des problèmes se résolvent facilement.
 
   <p>L’app utilise le signal respiratoire fourni par Garmin, qui peut être moins fiable pendant des pratiques très calmes et immobiles.</p>
 
-  <p>Si tu veux plus de précision, une ceinture compatible VFC et respiration (ex. HRM-600) peut aider.</p>
+  <p>Si tu veux plus de précision, une ceinture compatible HRV et respiration (ex. HRM-600) peut aider.</p>
 
 </details>
 
@@ -560,10 +560,10 @@ La plupart des problèmes se résolvent facilement.
   <p>Pour modifier :</p>
 
   <ol>
-    <li>Ouvrez <strong>Watch Settings</strong></li>
-    <li>Allez dans <strong>Focus Modes</strong></li>
-    <li>Sélectionnez <strong>Activity</strong></li>
-    <li>Ajustez <strong>Brightness</strong> dans <strong>Display &amp; Brightness</strong></li>
+    <li>Ouvre <strong>Watch Settings</strong></li>
+    <li>Va dans <strong>Focus Modes</strong></li>
+    <li>Sélectionne <strong>Activity</strong></li>
+    <li>Ajuste <strong>Brightness</strong> dans <strong>Display &amp; Brightness</strong></li>
   </ol>
 
   <p>Cela affecte toutes les activités.</p>
@@ -576,8 +576,8 @@ La plupart des problèmes se résolvent facilement.
   <p>Deux options :</p>
 
   <ul>
-    <li>Créer une session très longue (par ex. 9 h) et l’arrêter manuellement.</li>
-    <li>Désactiver l’auto-stop dans Global Settings.</li>
+    <li>Crée une session très longue (par ex. 9 h) et arrête-la manuellement.</li>
+    <li>Désactive l’auto-stop dans Global Settings.</li>
   </ul>
 
 </details>
@@ -594,20 +594,37 @@ La plupart des problèmes se résolvent facilement.
 
   <ul>
     <li><strong>Raccourci :</strong> beaucoup de modèles permettent d’assigner <em>Music controls</em> dans les réglages.</li>
-    <li><strong>Menu de contrôles :</strong> ouvrez le menu et sélectionnez <em>Music</em>.</li>
+    <li><strong>Menu de contrôles :</strong> ouvre le menu et sélectionne <em>Music</em>.</li>
     <li><strong>Raccourci tactile :</strong> voir doc Garmin (Venu) : <a href="https://www8.garmin.com/manuals/webhelp/venu/EN-US/GUID-5E9D3D0F-D4C9-4A4A-97D6-4F178C27DAD8.html">Setting Up a Shortcut Control</a>.</li>
   </ul>
 
 </details>
 
 <details id="restart-watch">
-  <summary><strong>Comment redémarrer ma montre Garmin ?</strong></summary>
+  <summary><strong>Comment redémarrer (rebooter) ma montre Garmin ?</strong></summary>
 
-  <p><strong>Option 1 :</strong> maintenir le bouton <strong>LIGHT</strong>/power ~10–15 s jusqu’à extinction, attendre, puis rallumer.</p>
+  <p>
+    Les montres Garmin varient un peu selon le modèle, mais ces options fonctionnent pour la plupart des appareils.
+  </p>
 
-  <p><strong>Option 2 :</strong> via <strong>Settings</strong> → <strong>System</strong> → <strong>Power Off</strong> ou <strong>Restart</strong>.</p>
+  <p><strong>Option 1 (la plus courante) : bouton d’alimentation / bouton LIGHT</strong></p>
 
-  <p>Le redémarrage n’efface pas tes données.</p>
+  <ol>
+    <li>Maintiens le bouton <strong>LIGHT</strong> / d’alimentation enfoncé jusqu’à ce que la montre s’éteigne (souvent ~10 à 15 secondes).</li>
+    <li>Attends quelques secondes.</li>
+    <li>Appuie à nouveau sur le même bouton pour la rallumer.</li>
+  </ol>
+
+  <p><strong>Option 2 : depuis les réglages de la montre</strong></p>
+
+  <ul>
+    <li>Ouvre <strong>Settings</strong> → <strong>System</strong> → <strong>Power Off</strong> ou <strong>Restart</strong> (le libellé peut varier selon le modèle).</li>
+  </ul>
+
+  <p>
+    Un redémarrage n’efface pas tes données ; il relance simplement la montre.
+    Si elle est bloquée, continue à maintenir le bouton d’alimentation un peu plus longtemps jusqu’à l’arrêt complet.
+  </p>
 
 </details>
 
@@ -615,28 +632,44 @@ La plupart des problèmes se résolvent facilement.
   <summary><strong>L’app est installée mais n’apparaît pas (ou installation bloquée)</strong></summary>
 
   <p>
-    Vérifiez d’abord la bonne liste : l’app apparaît dans <strong>Activities</strong> / <strong>Apps</strong>.
-    Selon le modèle, elle peut ne pas apparaître dans les widgets/raccourcis.
+    C’est frustrant, surtout quand tu veux simplement lancer une session calme et que la technique s’en mêle.
   </p>
 
   <p>
-    L’installation Connect IQ est gérée côté Garmin (Connect IQ / Garmin Connect / Garmin Express).
-    L’app elle-même ne peut pas corriger un problème de synchronisation/installation.
+    <strong>Commence par vérifier que tu regardes au bon endroit :</strong><br>
+    Cette app apparaît dans la liste <strong>Activités</strong> / <strong>Apps</strong> de ta montre (le même endroit où tu lances une course, du yoga, du breathwork, etc.).
+    Selon ton modèle et la façon dont la montre classe les apps, elle peut <em>ne pas</em> apparaître dans les widgets / glance lists / raccourcis.
   </p>
 
-  <p>Essais rapides :</p>
+  <p>
+    Dans ce cas, il est utile de savoir que l’installation et le transfert des apps Connect IQ vers ta montre sont entièrement gérés par Garmin
+    (Garmin Connect / Connect IQ / Garmin Express et le processus de synchronisation).
+    L’app elle-même ne peut pas influencer son apparition sur l’appareil, et en tant que développeur, je n’ai rien à modifier dans le code pour corriger un problème d’installation ou de synchronisation.
+  </p>
+
+  <p>
+    Certains utilisateurs voient aussi l’app rester bloquée sur « Installing… » ou n’être installée que partiellement
+    (par exemple, l’app apparaît mais certaines parties ne se chargent pas).
+    Les étapes ci-dessous résolvent généralement les deux cas.
+  </p>
+
+  <p>Ce que tu peux essayer rapidement (facultatif) :</p>
 
   <ul>
-    <li>Resynchroniser la montre</li>
-    <li><a href="#restart-watch">Redémarrer la montre</a> et le téléphone</li>
-    <li>Désinstaller puis réinstaller l’app après redémarrage</li>
+    <li>Synchronise à nouveau ta montre dans Garmin Connect</li>
+    <li><a href="#restart-watch">Redémarre la montre</a> et ton téléphone, puis resynchronise</li>
+    <li>Désinstalle l’app, <a href="#restart-watch">redémarre la montre</a>, puis réinstalle l’app et resynchronise</li>
   </ul>
 
-  <p>Si ça ne marche toujours pas, contactez Garmin Support :</p>
+  <p>
+    Si la montre semble bloquée pendant l’installation, <a href="#restart-watch">redémarre d’abord la montre</a>, puis réessaie la synchronisation ou l’installation.
+  </p>
+
+  <p>Si l’app n’apparaît toujours pas, la meilleure étape suivante est de contacter Garmin Support, car il s’agit d’un problème d’installation/synchronisation côté Garmin :</p>
 
   <ul>
-    <li><a href="https://support.garmin.com/en-US/?faq=67C7Y58Nxb6rkxt2Enbrf5">Garmin Support (Connect IQ install)</a></li>
-    <li><a href="https://support.garmin.com/">Garmin Support</a></li>
+    <li><a href="https://support.garmin.com/en-US/?faq=67C7Y58Nxb6rkxt2Enbrf5">Garmin Support (dépannage installation Connect IQ)</a></li>
+    <li><a href="https://support.garmin.com/">Garmin Support (portail principal)</a></li>
   </ul>
 
 </details>
@@ -644,16 +677,33 @@ La plupart des problèmes se résolvent facilement.
 <details>
   <summary><strong>Des éléments de l’app sont dans la mauvaise langue</strong></summary>
 
-  <p>Essayez dans l’ordre : désinstaller l’app, redémarrer la montre, réinstaller et resynchroniser.</p>
+  <p>
+    Il arrive que quelques textes (par exemple des libellés liés à l’HRV) s’affichent dans une autre langue alors que le reste de l’app est correct.
+    En général, c’est juste un petit raté ponctuel de l’installation ou de la synchronisation.
+  </p>
 
-  <p>Si le problème continue, utilisez le lien <strong>Contact Developer</strong> dans le Connect IQ Store avec modèle de montre, firmware et langue concernée.</p>
+  <p>À essayer (dans cet ordre) :</p>
+
+  <ol>
+    <li>Désinstalle l’app de ta montre</li>
+    <li><a href="#restart-watch">Redémarre complètement ta montre</a></li>
+    <li>Réinstalle l’app et resynchronise</li>
+  </ol>
+
+  <p>
+    Si le problème persiste, ouvre le lien <strong>Contact Developer</strong> dans le Connect IQ Store et indique ton modèle de montre,
+    la version du firmware et la langue qui s’affiche incorrectement.
+  </p>
 
 </details>
 
 <details>
   <summary><strong>L’app ne fonctionne plus / besoin d’aide</strong></summary>
 
-  <p>Consultez la section dédiée : <a href="#get-support--report-problem">Support / Signaler un problème</a>.</p>
+  <p>
+    Utilise la section d’assistance dédiée ici (elle contient les étapes à jour, les informations à fournir et la meilleure façon de me contacter) :
+    <a href="#get-support--report-problem">Support / Signaler un problème</a>
+  </p>
 
 </details>
 
@@ -667,7 +717,7 @@ Si quelque chose ne fonctionne pas, ou pour tout retour et demande de fonctionna
 
 # Confidentialité des données
 
-Vos données restent les vôtres.
+Tes données restent les tiennes.
 
 L’app ne stocke pas d’informations personnelles.  
 Voir la [Politique de confidentialité](/meditate_app_data_privacy/).

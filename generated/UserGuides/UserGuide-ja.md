@@ -722,4 +722,4 @@ HRVトラッキングを **On Detailed** にすると、アプリは次の値を
 あなたのデータは、あなたのものです。
 
 このアプリは個人情報を保存しません。  
-詳しくは [Data Privacy Policy](/meditate_app_data_privacy/) をご覧ください。
+詳しくは [プライバシーポリシー](/meditate_app_data_privacy/) をご覧ください。
