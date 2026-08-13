@@ -10,6 +10,7 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 	private var mSummaryModel;
 	private var mShouldAutoExit;
 	private var mPauseMenuVisible;
+	private var mActivityStopped;
 	private var mIdleReminderTimer;
 	private const PauseReasonManual = 0;
 	private const PauseReasonCompleted = 1;
@@ -23,6 +24,7 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 		me.mSessionPickerDelegate = sessionPickerDelegate;
 		me.mSummaryModel = null;
 		me.mPauseMenuVisible = false;
+		me.mActivityStopped = false;
 		me.mIdleReminderTimer = new IdleReminderTimer();
 	}
 
@@ -31,7 +33,8 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 	}
 
 	public function stopActivity() {
-		me.mPauseMenuVisible = false;
+		// one-way; finishing views reuse this delegate, so in-session gestures must go inert
+		me.mActivityStopped = true;
 		// Compute summary BEFORE stopping recording so session-level fields (e.g., RMSSD) are written safely.
 		me.mSummaryModel = me.mMeditateActivity.calculateSummaryFields();
 		me.mMeditateActivity.stop();
@@ -178,6 +181,10 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 	}
 
 	function onBack() {
+		// no pause menu once the session ended; resuming a saved/discarded activity crashes
+		if (me.mActivityStopped) {
+			return true;
+		}
 		me.pauseForMenu();
 		me.showPauseMenu(PauseReasonManual);
 		return true;
@@ -186,7 +193,11 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 	private const MinMeditateActivityStopTime = 1;
 
 	function onKey(keyEvent) {
-		if (keyEvent.getKey() == Ui.KEY_ENTER && me.mMeditateModel.elapsedTime >= MinMeditateActivityStopTime) {
+		if (
+			!me.mActivityStopped &&
+			keyEvent.getKey() == Ui.KEY_ENTER &&
+			me.mMeditateModel.elapsedTime >= MinMeditateActivityStopTime
+		) {
 			me.pauseForMenu();
 			me.showPauseMenu(PauseReasonManual);
 			return true;
