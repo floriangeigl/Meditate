@@ -117,6 +117,31 @@ Fixed via `Utils.activityTypeOverridesByPartNumber` (keyed by `System.getDeviceS
 
 Note: `ActivityRecording.createSession` does **not** throw a catchable exception for this failure — a try/catch-and-retry safety net was considered and rejected because it wouldn't actually intercept it. Don't propose try/catch around a Toybox call without first confirming (via the API docs or existing repo precedent) that it's documented to throw.
 
+### Device quirk: multitasking devices suspend sensors off-screen
+
+On multitasking devices the app **keeps running when it leaves the screen** — no `onStop()`, just `AppBase.onInactive()`. While inactive the system suspends the app's sensors (`Toybox.Sensor` docs: *"Sensor states can not be changed while in inacitve mode and sensor enabled during active mode will be disabled when app becomes inactive"*), so the `heartBeatIntervals` callback keeps firing with **empty data** — indistinguishable from a dead HR sensor.
+
+The authoritative device list is the **`onActive`/`onInactive` supported-devices list in the SDK docs** (`doc/Toybox/Application/AppBase.html`), API 4.2.3+: Approach S50, D2 Mach 2/Pro, Enduro 3, fēnix 8 (43/47/51/Pro/Solar), tactix 8, quatix 8, fēnix E, Venu 3/3S, Venu 4 41/45mm, D2 Air X15, Venu X1, vívoactive 5/6. Use that list, not "AMOLED" or "released after 2023" — fēnix 8 Solar 51mm is MIP and *is* multitasking.
+
+This caused a production crash (24 reports, v10.7.10, backtrace `HeartbeatIntervalsSensor.createWakeupSession` ← `getStatus` ← `SessionPickerDelegate.updateHrvStatus` ← `update`): after ~40 s backgrounded on the session picker, `getStatus()`'s >20-error recovery path fired and called `ActivityRecording.createSession`, which is not permitted in that state. **Every crashing device was on the multitasking list; none of the other 81 supported devices appeared** — that 100% correlation is what identified the root cause, so check the device list against it before assuming a sport/spec problem.
+
+Fixed with a `foreground` flag on `HeartbeatIntervalsSensor` (`setForeground()`, driven by `MeditateApp.onActive`/`onInactive`):
+
+- The gate lives in **`getStatus()`, not `update()`** — `getStatus()`'s only caller is the session picker, so gating there cannot touch in-session HRV capture. Early-returning in `update()` would suppress `mSensorListener.invoke(data)`, i.e. the HRV feed of a session recording in the background.
+- `setForeground(true)` calls `resetSensorQuality()` on the false→true edge only — the counters are meaningless after a suspended gap, and this gives the re-enabled sensor its full ~21 s grace instead of firing recovery on the first tick back.
+- `foreground` defaults `true` and the callbacks only exist on multitasking devices, so the other 81 devices are unchanged. Defining `onActive`/`onInactive` compiles fine down to CIQ 3.0.3 (verified on `d2deltapx`) — on older devices they're just methods that are never called.
+- Going inactive deliberately does **nothing** beyond setting the flag: sensor state must not be changed there.
+
+Known related exposure, unverified and not fixed: `MeditatePrepareView`'s countdown `Timer.Timer` calls `startMeditationSession()` → `createSession`. If a view's timer survives backgrounding (i.e. `onHide()` does *not* fire when a multitasking app loses the screen), backgrounding during a prepare countdown hits the same illegal call with a different backtrace.
+
+### Invariant: at most one open `ActivityRecording` session
+
+`ActivityRecording.createSession` **returns the existing Session object** if one is open rather than creating a new one (documented, not an error). So any code path that leaves a stopped session unsaved/undiscarded silently corrupts the *next* session: `HrActivity.initialize` gets handed the old object, `createMinHrDataField()` re-adds `min_hr` to it, and the next meditation records into the previous session's file under its sport and name.
+
+`SaveDiscardMenuDelegate.onBack()` used to pop without saving or discarding, leaking exactly that. It now invokes the save callback — **back on the save/discard prompt saves**. `HrActivity.finish()`/`discard()` both null-check `mFitSession`, so a later close can't double-fire.
+
+`HrActivity.discardDanglingActivity()` was written for this but never wired up (`SummaryViewDelegate` stored the callback and never invoked it); both were deleted rather than left as dead code. Don't reintroduce a defensive discard in `HrvActivity.initialize` — that hides a leak instead of closing it. Close the session where it's created.
+
 ### Flow: check for new devices to support
 
 **Goal: surface only genuinely new watch releases.** A raw SDK-vs-manifest diff returns ~76 entries that are *not* new — they're non-wrist hardware and old watches already intentionally dropped. Folder timestamps can't distinguish new from old (they all reset to the SDK install date). So the diff is filtered against a curated baseline of known exclusions; anything left over is a genuinely new device to evaluate.

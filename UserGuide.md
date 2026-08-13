@@ -81,6 +81,7 @@ You can:
 - control screen brightness via your watch buttons or touch
 
 When you stop, you can save or discard the session.  
+Pressing back on that prompt saves the session.  
 Saved sessions appear in Garmin Connect after syncing.
 
 ---

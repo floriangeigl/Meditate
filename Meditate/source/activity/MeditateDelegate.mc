@@ -84,11 +84,7 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 
 	//this reads/writes session settings and needs to happen before saving session to avoid FIT file corruption
 	private function showSummaryView(summaryModel) {
-		var summaryViewDelegate = new SummaryViewDelegate(
-			summaryModel,
-			me.mMeditateActivity.method(:discardDanglingActivity),
-			me.mIdleReminderTimer
-		);
+		var summaryViewDelegate = new SummaryViewDelegate(summaryModel, me.mIdleReminderTimer);
 		var view = summaryViewDelegate.createScreenPickerView();
 		if (view != null) {
 			me.mIdleReminderTimer.start();
@@ -155,11 +151,7 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 
 	// Called when user picks "Summary" from the post-session menu (push summary on stack so Back returns to menu)
 	function showLastSessionSummaryFromMenu() {
-		var summaryViewDelegate = new SummaryViewDelegate(
-			me.mSummaryModel,
-			me.mMeditateActivity.method(:discardDanglingActivity),
-			me.mIdleReminderTimer
-		);
+		var summaryViewDelegate = new SummaryViewDelegate(me.mSummaryModel, me.mIdleReminderTimer);
 		me.mIdleReminderTimer.start();
 		Ui.pushView(summaryViewDelegate.createScreenPickerView(), summaryViewDelegate, Ui.SLIDE_LEFT);
 	}
@@ -365,6 +357,10 @@ class SaveDiscardMenuDelegate extends Ui.Menu2InputDelegate {
 	function onBack() {
 		Ui.popView(Ui.SLIDE_IMMEDIATE);
 		me.mOwner.restartIdleReminder();
+		// never leave the fit session open; the next createSession would return it instead of a new one
+		if (me.mOnSave != null) {
+			me.mOnSave.invoke();
+		}
 		return true;
 	}
 }

@@ -21,6 +21,7 @@ module HrvAlgorithms {
 		private var lastUpdateFailed;
 		private var statusErrors;
 		private var paused;
+		private var foreground;
 		var sensorWakeupSession;
 
 		function initialize() {
@@ -29,7 +30,17 @@ module HrvAlgorithms {
 			me.running = false;
 			me.lastUpdateFailed = false;
 			me.paused = false;
+			me.foreground = true;
 			me.sensorWakeupSession = null;
+		}
+
+		// multitasking devices suspend our sensors while the app is not on screen
+		function setForeground(isForeground) {
+			if (isForeground && !me.foreground) {
+				// sensors were suspended; fail counters mean nothing after that gap
+				me.resetSensorQuality();
+			}
+			me.foreground = isForeground;
 		}
 
 		function startup() {
@@ -114,6 +125,10 @@ module HrvAlgorithms {
 					: me.numFails <= maxWeakFails
 					? HeartbeatIntervalsSensorStatus.Weak
 					: HeartbeatIntervalsSensorStatus.Error;
+			// missing data while backgrounded is not a sensor fault; recovery here would create a session illegally
+			if (!me.foreground) {
+				return status;
+			}
 			if (status == HeartbeatIntervalsSensorStatus.Good && me.statusErrors > 0) {
 				me.statusErrors = 0;
 				Vibe.vibrate(VibePattern.Blip);

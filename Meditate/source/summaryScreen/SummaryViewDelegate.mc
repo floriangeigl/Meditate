@@ -7,7 +7,6 @@ using HrvAlgorithms.HrvTracking;
 
 class SummaryViewDelegate extends ScreenPicker.ScreenPickerDelegate {
 	private var mSummaryModel;
-	private var mDiscardDanglingActivity;
 	private var mIdleReminderTimer;
 	private var pages;
 	private static const pageHeartRateGraph = "HeartRateGraph";
@@ -19,13 +18,12 @@ class SummaryViewDelegate extends ScreenPicker.ScreenPickerDelegate {
 	private static const pageHrvSdrr = "HrvSdrr";
 	private static const pageHrvRmssdGraph = "HrvRmssdGraph";
 
-	function initialize(summaryModel, discardDanglingActivity, idleReminderTimer) {
+	function initialize(summaryModel, idleReminderTimer) {
 		me.setPageIndexes(summaryModel.hrvTracking, summaryModel.rrOn);
 		me.mPagesCount = me.pages.size();
 
 		ScreenPickerDelegate.initialize(0, me.mPagesCount);
 		me.mSummaryModel = summaryModel;
-		me.mDiscardDanglingActivity = discardDanglingActivity;
 		me.mIdleReminderTimer = idleReminderTimer;
 	}
 

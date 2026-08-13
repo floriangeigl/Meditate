@@ -101,12 +101,6 @@ module HrvAlgorithms {
 			me.mFitSession = null;
 		}
 
-		function discardDanglingActivity() {
-			if (me.mFitSession != null && !me.mFitSession.isRecording()) {
-				me.discard();
-			}
-		}
-
 		static function getLoadTime() {
 			return HrActivity.windowSize;
 		}
