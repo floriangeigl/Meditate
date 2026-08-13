@@ -211,4 +211,34 @@
     <string id="about_dliedke">dliedke</string>
     <string id="about_falsetru">falsetru</string>
 
+
+    <string id="breathPhase_inhale">Inhala</string>
+    <string id="breathPhase_exhale">Exhala</string>
+    <string id="breathPhase_hold">Retén</string>
+    <string id="addEditSessionMenu_breathProgram">Programa de respiración</string>
+    <string id="breathProgramMenu_addStep">Añadir paso</string>
+    <string id="breathProgramMenu_deleteAll">Eliminar todo</string>
+    <string id="breathProgramMenu_inRoute">Inhalar por</string>
+    <string id="breathProgramMenu_outRoute">Exhalar por</string>
+    <string id="breathProgramMenu_steps">pasos</string>
+    <string id="breathProgramMenu_full">Máx. 10 pasos</string>
+    <string id="breathRouteMenu_unset">Sin definir</string>
+    <string id="breathRouteMenu_nose">Nariz</string>
+    <string id="breathRouteMenu_mouth">Boca</string>
+    <string id="breathStepMenu_title">Paso</string>
+    <string id="breathStepMenu_holdEmpty">Retener vacío</string>
+    <string id="breathStepMenu_repeat">Repetición</string>
+    <string id="breathStepMenu_moveUp">Subir</string>
+    <string id="breathStepMenu_moveDown">Bajar</string>
+    <string id="breathStepMenu_invalid">Define al menos una fase</string>
+    <string id="breathRepeatMenu_rounds">Rondas</string>
+    <string id="breathRepeatMenu_duration">Duración MM:SS</string>
+    <string id="breathTemplate_custom">Personalizado</string>
+    <string id="breathBriefing_more">más</string>
+    <string id="breathBriefing_belly">respira con el abdomen</string>
+    <string id="breathBriefing_in">insp</string>
+    <string id="breathBriefing_out">exh</string>
+    <string id="menuGlobalSettings_breathCues">Señales de respiración</string>
+    <string id="menuBreathCuesOptions_vibration">Vibración</string>
+    <string id="menuBreathCuesOptions_vibrationTone">Vibración + Sonido</string>
 </strings>

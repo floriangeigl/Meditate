@@ -124,7 +124,12 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		}
 
 		// Show preparation time view and start meditation session once the time is over
-		var meditatePrepareView = new MeditatePrepareView(method(:startMeditationSession), 1);
+		var selectedSession = me.mSessionStorage.loadSelectedSession();
+		var meditatePrepareView = new MeditatePrepareView(
+			method(:startMeditationSession),
+			1,
+			selectedSession.getActiveBreathProgram()
+		);
 		var meditatePrepareDelegate = new MeditatePrepareDelegate(me, meditatePrepareView);
 		Ui.switchToView(meditatePrepareView, meditatePrepareDelegate, Ui.SLIDE_IMMEDIATE);
 	}
@@ -142,6 +147,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 			me.mHeartbeatIntervalsSensor,
 			me
 		);
+		mediateDelegate.setMeditateView(meditateView);
 		mediateDelegate.startActivity();
 		Ui.switchToView(meditateView, mediateDelegate, Ui.SLIDE_LEFT);
 	}

@@ -24,6 +24,10 @@ class Utils {
 		"006-B3388-00" => { ActivityType.Meditating => ActivityType.Breathing }, // vivoactive4
 		"006-B3224-00" => { ActivityType.Meditating => ActivityType.Breathing }, // vivoactive4s
 		"006-B3387-00" => { ActivityType.Meditating => ActivityType.Breathing }, // vivoactive4s
+		"006-B3226-00" => { ActivityType.Meditating => ActivityType.Breathing }, // venu
+		"006-B3389-00" => { ActivityType.Meditating => ActivityType.Breathing }, // venu
+		"006-B3740-00" => { ActivityType.Meditating => ActivityType.Breathing }, // venud (Mercedes-Benz Collection)
+		"006-B3737-00" => { ActivityType.Meditating => ActivityType.Breathing }, // venud (Mercedes-Benz Collection)
 	};
 
 	static function getEffectiveActivityType(selectedActivityType) {
@@ -116,6 +120,79 @@ class Utils {
 				return Ui.loadResource(Rez.Strings.HRVwaiting);
 			default:
 				return Ui.loadResource(Rez.Strings.HRVwaiting);
+		}
+	}
+
+	// step names are derived from the numbers, never typed by the user
+	static function getBreathStepName(step) {
+		if (step == null) {
+			return "";
+		}
+		if (step.isHoldOnly()) {
+			return (
+				Ui.loadResource(Rez.Strings.breathPhase_hold) + " " + TimeFormatter.formatMinSec(step.cycleTime())
+			);
+		}
+		var d = step.durations;
+		// no holds at all reads as "6-6" rather than "6-0-6"
+		if (d[BreathPhase.HoldFull] == 0 && d[BreathPhase.HoldEmpty] == 0) {
+			return d[BreathPhase.Inhale].toString() + "-" + d[BreathPhase.Exhale].toString();
+		}
+		var last = BreathStep.PhaseCount - 1;
+		while (last > 0 && d[last] == 0) {
+			last--;
+		}
+		var name = d[0].toString();
+		for (var i = 1; i <= last; i++) {
+			name += "-" + d[i].toString();
+		}
+		return name;
+	}
+
+	static function getBreathStepDetail(step) {
+		if (step == null) {
+			return "";
+		}
+		var total = TimeFormatter.formatMinSec(step.totalTime());
+		if (step.repeatType == BreathRepeat.Rounds && step.repeatValue > 1) {
+			return "x" + step.repeatValue.toString() + " " + total;
+		}
+		return total;
+	}
+
+	static function getBreathRouteText(route) {
+		switch (route) {
+			case BreathRoute.Nose:
+				return Ui.loadResource(Rez.Strings.breathRouteMenu_nose);
+			case BreathRoute.Mouth:
+				return Ui.loadResource(Rez.Strings.breathRouteMenu_mouth);
+			default:
+				return Ui.loadResource(Rez.Strings.breathRouteMenu_unset);
+		}
+	}
+
+	// subtitle for the session menu row: "3 steps 6:00", or "Off"
+	static function getBreathProgramText(breathProgram) {
+		if (breathProgram == null || breathProgram.isEmpty()) {
+			return Ui.loadResource(Rez.Strings.menuNotificationOptions_off);
+		}
+		return (
+			breathProgram.size().toString() +
+			" " +
+			Ui.loadResource(Rez.Strings.breathProgramMenu_steps) +
+			" " +
+			TimeFormatter.formatMinSec(breathProgram.totalTime())
+		);
+	}
+
+	static function getBreathCuesText(breathCues) {
+		switch (breathCues) {
+			case BreathCues.Off:
+				return Ui.loadResource(Rez.Strings.menuNotificationOptions_off);
+			case BreathCues.VibrationTone:
+				return Ui.loadResource(Rez.Strings.menuBreathCuesOptions_vibrationTone);
+			default:
+				return Ui.loadResource(Rez.Strings.menuBreathCuesOptions_vibration);
 		}
 	}
 

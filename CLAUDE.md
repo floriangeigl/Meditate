@@ -113,7 +113,7 @@ So a new device passing the memory check still warrants a judgment call (CIQ ver
 
 vívoactive4/4s report Connect IQ API >= 3.3.6 (the `Utils.MonkeyVersionAtLeast([3,3,6])` gate in `MeditateActivity.mc` that's meant to guard Meditation/Yoga/Breathing FIT sport support), but `ActivityRecording.createSession` still throws **"Invalid Value"** for `SPORT_MEDITATION` (67) on this hardware — first seen as a production crash (backtrace `HrActivity.initialize` ← `HrvActivity.initialize` ← `MeditateActivity.initialize`, vívoactive4S firmware 8.30, app v10.7.8, 2026-07-03). Garmin's manuals confirm this device ships native Yoga and Breathwork activities but never got a native Meditation profile, so the API-level heuristic is a false positive specifically for this device family.
 
-Fixed via `Utils.activityTypeOverridesByPartNumber` (keyed by `System.getDeviceSettings().partNumber` — `006-B3225-00`/`006-B3388-00` = vivoactive4, `006-B3224-00`/`006-B3387-00` = vivoactive4s) and `Utils.getEffectiveActivityType()`, applied once where `MeditateActivity.mc` resolves `selectedActivityType` — remaps `ActivityType.Meditating` to `ActivityType.Breathing` on these devices. That single remap point also fixes wakeup-resume, since `mEffectiveWakeupSessionType` → `WakeupSessionStorage` → `HeartbeatIntervalsSensor` branches on the same enum. Add new devices/overrides to that table rather than writing new one-off boolean checks.
+Fixed via `Utils.activityTypeOverridesByPartNumber` (keyed by `System.getDeviceSettings().partNumber` — `006-B3225-00`/`006-B3388-00` = vivoactive4, `006-B3224-00`/`006-B3387-00` = vivoactive4s, `006-B3226-00`/`006-B3389-00` = venu, `006-B3740-00`/`006-B3737-00` = venud Mercedes-Benz Collection) and `Utils.getEffectiveActivityType()`, applied once where `MeditateActivity.mc` resolves `selectedActivityType` — remaps `ActivityType.Meditating` to `ActivityType.Breathing` on these devices. That single remap point also fixes wakeup-resume, since `mEffectiveWakeupSessionType` → `WakeupSessionStorage` → `HeartbeatIntervalsSensor` branches on the same enum. Add new devices/overrides to that table rather than writing new one-off boolean checks.
 
 Note: `ActivityRecording.createSession` does **not** throw a catchable exception for this failure — a try/catch-and-retry safety net was considered and rejected because it wouldn't actually intercept it. Don't propose try/catch around a Toybox call without first confirming (via the API docs or existing repo precedent) that it's documented to throw.
 
@@ -228,7 +228,69 @@ MeditateApp.getInitialView()
 - `Meditate/source/com/` — GA4 analytics, donation prompts
 - `HrvAlgorithms/sources/activity/hrv/` — HRV algorithm implementations (RMSSD, SDRR, pNNx)
 
-### Storage
+### Breath Programs (guided breathwork)
+
+A session may carry an optional **breath program**: an ordered list of steps, each a fixed
+4-slot pattern (`inhale / holdFull / exhale / holdEmpty`, seconds, `0` = skip) plus a repeat
+rule (N rounds, or a duration). A pure breath-hold is just a step whose only non-zero slot is
+a hold — there is no special case for it.
+
+- **Gate on `SessionModel.hasBreathProgram()`, never on `ActivityType.Breathing`.** The stored
+  activity type and `Utils.getEffectiveActivityType()` diverge on the 8 vívoactive4/venu part
+  numbers, so gating on activity type would show breathwork UI in *meditation* sessions there.
+- **Degenerate programs count as absent.** `getActiveBreathProgram()` returns null for an empty
+  program or one totalling 0s, and the session falls back to today's behaviour.
+- **`SessionModel.time` stays the runtime source of truth.** The program editor recomputes
+  `totalTime()` and writes it into `time` on every edit, so the session arc, auto-stop,
+  interval-alert percentages and the picker card need no program awareness. Keep it that way.
+- **`BreathProgramRunner` is a pure function of `elapsedTime`** (`activityInfo.timerTime / 1000`,
+  which freezes while paused), so pause/resume needs no saved state. It precomputes only the
+  per-step start offsets — never expand rounds into a flat timeline, that is thousands of
+  entries for a long program.
+- **Cues are edge-triggered on `phaseStart`**, not on `phaseElapsed == 0`, so a dropped timer
+  tick fires late instead of not at all. Same reasoning as `VibeAlertsExecutor.pointCrossed`.
+- **Interval alerts still work** and coexist with a program. Their tick ring is drawn on the
+  metrics page; the guidance page draws step-boundary ticks on the same ring instead.
+- `restorePresets` only runs on new installs and explicit preset restore, so **existing users
+  keep their old alert-based breathwork presets** until they restore presets.
+- **`BreathTemplates.createProgram` is the single definition of each shipped program**;
+  `SessionPresets` only wraps it in a session. There is no separate template-picker UI —
+  `Add New` deliberately creates a plain empty session, exactly as it did before breathwork
+  existed, and all four activity types stay reachable from the session's Activity Type row.
+
+- **The breathing route (nose/mouth) is per step, not per program**, so a program can switch
+  routes as it goes. `BreathStep.getRoute(phase)` / `setRoute(phase, route)` are the accessors;
+  holds always return `Unset`.
+- **Template routes are not arbitrary — they follow the source techniques.** Don't "tidy" them
+  to be uniform: 4-7-8 exhales through the **mouth** (Weil's whoosh), coherent/resonant
+  breathing is **nasal both ways**, box breathing is nasal in and tolerates either out, and
+  power breathing (the `:breathHolds` template) is **nose in / mouth out** with the retention on
+  empty lungs followed by a recovery breath held full.
+- Avoid naming templates after living people; `:breathHolds` is deliberately generic.
+
+Files: `Meditate/source/sessionSettings/breathProgram/` (model, templates, menus),
+`Meditate/source/activity/BreathProgramRunner.mc`, `BreathCuesExecutor.mc`,
+`BreathGuidanceRenderer.mc`.
+
+### Menu row indices are load-bearing
+
+`Ui.Menu2.updateItem(item, index)` replaces label, sublabel **and** id together, so the
+construction order and the `updateMenuItems()` indices must agree. `AddEditSessionMenuDelegate`
+declares `Row*` constants for this; `SessionSettingsMenuDelegate.createAddEditSessionMenu` must
+add items in exactly that order. `GlobalSettingsDelegate.showGlobalSettingsMenu` and
+`GlobalSettingsMenuDelegate.updateMenuItems` have the same coupling by raw index — inserting a
+row there means renumbering every later one. `Ui.Menu2.findItemById` is not safe at the app's
+CIQ 3.0 floor.
+
+### `ElapsedDurationRenderer` gotchas
+
+- It **mutates its own radius/width on first draw** (`layoutDuration` subtracts
+  `ceil(width/2)` from the radius and 1 from the width, guarded by `mX == null`). Construct
+  instances in `onLayout`, never per frame, and pass radius `desired + ceil(width/2)`.
+- `drawOverallElapsedTime` wraps via `elapsedTime % totalTime`, so a full ring reads as empty.
+  Use `drawProgressPercentage` when you need an explicit 0-100% that can reach 100.
+
+## Storage
 
 - **`App.Storage`** — Key-value persistence for sessions, settings, analytics queue.
   - Session keys: `"sesssion_<key>"` (historical triple-s typo — **do not fix**)
@@ -302,14 +364,20 @@ In-app developer tool accessible via **long-press on the About screen** → "Dev
 
 ### Sync Rule
 
-**Whenever an `Application.Storage` key is added, renamed, or removed**, update both:
+**Whenever a `globalSettings_*` key is added, renamed, or removed**, add it to
+`Meditate/source/devTools/CloudBackup.mc` — `GLOBAL_SETTINGS_KEYS`. That array is the only
+allowlist; a missing key is silently dropped from the backup.
 
-1. `Meditate/source/devTools/CloudBackup.mc` — `GLOBAL_SETTINGS_KEYS` constant array (for serialization)
-2. `Meditate/source/devTools/CloudRestore.mc` — `onRestoreResponse()` method (for deserialization)
+`CloudRestore.onRestoreResponse()` needs **no change for new global settings** — it iterates
+whatever keys came back (`gs.keys()`) and writes them straight to storage. It only needs
+editing when a whole new *section* of the backup payload is added (alongside `globalSettings`,
+`sessions`, `wakeup`, `monthlyStats`). Session dictionaries are likewise backed up opaquely, so
+growing `SessionModel` needs no cloud-backup change at all — only watch the 32 KB
+`maxLength` envelope on both sides.
 
 ### Keys Currently Backed Up
 
-- `globalSettings_*` (12 keys) — app-wide settings
+- `globalSettings_*` (13 keys) — app-wide settings
 - `sessionsKeys` — list of session IDs
 - `selectedSessionIndex` — active session index
 - `sesssion_<key>` (per entry in `sessionsKeys`) — individual session data (note: triple-s typo is intentional)

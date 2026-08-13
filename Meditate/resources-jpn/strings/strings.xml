@@ -209,4 +209,34 @@
     <string id="about_falsetru">falsetru</string>
     <string id="about_floriangeigl">floriangeigl</string>
 
+
+    <string id="breathPhase_inhale">吸う</string>
+    <string id="breathPhase_exhale">吐く</string>
+    <string id="breathPhase_hold">止める</string>
+    <string id="addEditSessionMenu_breathProgram">呼吸プログラム</string>
+    <string id="breathProgramMenu_addStep">ステップを追加</string>
+    <string id="breathProgramMenu_deleteAll">すべて削除</string>
+    <string id="breathProgramMenu_inRoute">吸う経路</string>
+    <string id="breathProgramMenu_outRoute">吐く経路</string>
+    <string id="breathProgramMenu_steps">ステップ</string>
+    <string id="breathProgramMenu_full">最大10ステップ</string>
+    <string id="breathRouteMenu_unset">未設定</string>
+    <string id="breathRouteMenu_nose">鼻</string>
+    <string id="breathRouteMenu_mouth">口</string>
+    <string id="breathStepMenu_title">ステップ</string>
+    <string id="breathStepMenu_holdEmpty">空で止める</string>
+    <string id="breathStepMenu_repeat">繰り返し</string>
+    <string id="breathStepMenu_moveUp">上へ</string>
+    <string id="breathStepMenu_moveDown">下へ</string>
+    <string id="breathStepMenu_invalid">1つ以上のフェーズを設定</string>
+    <string id="breathRepeatMenu_rounds">ラウンド</string>
+    <string id="breathRepeatMenu_duration">時間 MM:SS</string>
+    <string id="breathTemplate_custom">カスタム</string>
+    <string id="breathBriefing_more">その他</string>
+    <string id="breathBriefing_belly">お腹で呼吸</string>
+    <string id="breathBriefing_in">吸</string>
+    <string id="breathBriefing_out">吐</string>
+    <string id="menuGlobalSettings_breathCues">呼吸の合図</string>
+    <string id="menuBreathCuesOptions_vibration">バイブレーション</string>
+    <string id="menuBreathCuesOptions_vibrationTone">バイブ + 音</string>
 </strings>

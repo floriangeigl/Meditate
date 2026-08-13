@@ -36,6 +36,9 @@ class GlobalSettingsDelegate {
 			new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuNotificationOptions_title), "", :notification, {})
 		);
 		menu.addItem(
+			new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_breathCues), "", :breathCues, {})
+		);
+		menu.addItem(
 			new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_newActivityType), "", :newActivityType, {})
 		);
 		menu.addItem(

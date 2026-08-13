@@ -143,8 +143,13 @@ class SessionSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 		var menu = new Ui.Menu2({
 			:title => Ui.loadResource(Rez.Strings.addEditSessionMenu_title) + " " + sessionNumber,
 		});
-		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_time), "", :time, {}));
+		// order must match the Row* constants in AddEditSessionMenuDelegate, which
+		// rewrites every row by index in updateMenuItems()
 		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_name), "", :name, {}));
+		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_time), "", :time, {}));
+		menu.addItem(
+			new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_breathProgram), "", :breathProgram, {})
+		);
 		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_color), "", :color, {}));
 		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_vibeSound), "", :vibePattern, {}));
 		menu.addItem(

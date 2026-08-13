@@ -39,6 +39,7 @@ class SessionModel {
 	var name;
 	var vibePattern;
 	protected var intervalAlerts;
+	protected var breathProgram;
 	var key;
 	protected var activityType;
 	protected var hrvTracking;
@@ -52,6 +53,7 @@ class SessionModel {
 		me.color = null;
 		me.vibePattern = null;
 		me.intervalAlerts = null;
+		me.breathProgram = null;
 		me.activityType = null;
 		me.hrvTracking = null;
 		me.defaultActivityType = GlobalSettings.loadActivityType();
@@ -70,6 +72,26 @@ class SessionModel {
 		me.intervalAlerts = intervalAlerts;
 	}
 
+	function getBreathProgram() {
+		return me.breathProgram == null ? new BreathProgram() : me.breathProgram;
+	}
+
+	function setBreathProgram(breathProgram) {
+		me.breathProgram = breathProgram;
+	}
+
+	// null when there is nothing to guide; degenerate programs count as absent
+	function getActiveBreathProgram() {
+		if (me.breathProgram == null || me.breathProgram.isEmpty()) {
+			return null;
+		}
+		return me.breathProgram;
+	}
+
+	function hasBreathProgram() {
+		return me.getActiveBreathProgram() != null;
+	}
+
 	function fromDictionary(loadedSessionDictionary) {
 		me.time = loadedSessionDictionary["time"];
 		me.color = loadedSessionDictionary["color"];
@@ -83,6 +105,8 @@ class SessionModel {
 			me.intervalAlerts = new IntervalAlerts();
 			me.intervalAlerts.fromArray(serializedAlerts);
 		}
+		// null-tolerant by contract; a throw here would wipe every stored session
+		me.breathProgram = BreathProgram.fromDictionary(loadedSessionDictionary["breathProgram"]);
 	}
 
 	function getActivityType() {
@@ -103,6 +127,7 @@ class SessionModel {
 
 	function toDictionary() {
 		var serializedAlerts = me.intervalAlerts != null ? me.intervalAlerts.toArray() : null;
+		var serializedProgram = me.breathProgram != null ? me.breathProgram.toDictionary() : null;
 		return {
 			"time" => me.time,
 			"color" => me.color,
@@ -110,6 +135,7 @@ class SessionModel {
 			"key" => me.key,
 			"vibePattern" => me.vibePattern,
 			"intervalAlerts" => serializedAlerts,
+			"breathProgram" => serializedProgram,
 			"activityType" => me.activityType,
 			"hrvTracking" => me.hrvTracking,
 		};
@@ -133,6 +159,9 @@ class SessionModel {
 		}
 		if (otherSession.intervalAlerts != null) {
 			me.intervalAlerts = otherSession.intervalAlerts;
+		}
+		if (otherSession.breathProgram != null) {
+			me.breathProgram = otherSession.breathProgram;
 		}
 		if (otherSession.activityType != null) {
 			me.activityType = otherSession.activityType;

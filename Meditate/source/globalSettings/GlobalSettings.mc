@@ -166,6 +166,21 @@ class GlobalSettings {
 		App.Storage.setValue(HrvWindowTimeKey, hrvWindowTime);
 	}
 
+	private static const BreathCuesKey = "globalSettings_breathCues";
+
+	static function loadBreathCues() {
+		var breathCues = App.Storage.getValue(BreathCuesKey);
+		if (breathCues == null) {
+			return BreathCues.Vibration;
+		} else {
+			return breathCues;
+		}
+	}
+
+	static function saveBreathCues(breathCues) {
+		App.Storage.setValue(BreathCuesKey, breathCues);
+	}
+
 	private static const UseSessionNameKey = "globalSettings_useSessionName";
 
 	static function loadUseSessionName() {
@@ -223,5 +238,13 @@ module ColorTheme {
 	enum {
 		Dark = 0,
 		Light = 1,
+	}
+}
+
+module BreathCues {
+	enum {
+		Off = 0,
+		Vibration = 1,
+		VibrationTone = 2,
 	}
 }

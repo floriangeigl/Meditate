@@ -212,4 +212,34 @@
     <string id="about_falsetru">falsetru</string>
     <string id="about_floriangeigl">floriangeigl</string>
 
+
+    <string id="breathPhase_inhale">Inhale</string>
+    <string id="breathPhase_exhale">Exhale</string>
+    <string id="breathPhase_hold">Hold</string>
+    <string id="addEditSessionMenu_breathProgram">Breath Program</string>
+    <string id="breathProgramMenu_addStep">Add step</string>
+    <string id="breathProgramMenu_deleteAll">Delete all</string>
+    <string id="breathProgramMenu_inRoute">Breathe in via</string>
+    <string id="breathProgramMenu_outRoute">Breathe out via</string>
+    <string id="breathProgramMenu_steps">steps</string>
+    <string id="breathProgramMenu_full">Max 10 steps</string>
+    <string id="breathRouteMenu_unset">Not set</string>
+    <string id="breathRouteMenu_nose">Nose</string>
+    <string id="breathRouteMenu_mouth">Mouth</string>
+    <string id="breathStepMenu_title">Step</string>
+    <string id="breathStepMenu_holdEmpty">Hold empty</string>
+    <string id="breathStepMenu_repeat">Repeat</string>
+    <string id="breathStepMenu_moveUp">Move up</string>
+    <string id="breathStepMenu_moveDown">Move down</string>
+    <string id="breathStepMenu_invalid">Set at least one phase</string>
+    <string id="breathRepeatMenu_rounds">Rounds</string>
+    <string id="breathRepeatMenu_duration">Duration MM:SS</string>
+    <string id="breathTemplate_custom">Custom</string>
+    <string id="breathBriefing_more">more</string>
+    <string id="breathBriefing_belly">breathe into the belly</string>
+    <string id="breathBriefing_in">in</string>
+    <string id="breathBriefing_out">out</string>
+    <string id="menuGlobalSettings_breathCues">Breath Cues</string>
+    <string id="menuBreathCuesOptions_vibration">Vibration</string>
+    <string id="menuBreathCuesOptions_vibrationTone">Vibration + Tone</string>
 </strings>

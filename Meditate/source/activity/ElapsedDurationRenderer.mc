@@ -33,6 +33,16 @@ class ElapsedDurationRenderer {
 		me.drawDuration(dc, progressPercentage);
 	}
 
+	// explicit percentage, without the wrap-around drawOverallElapsedTime applies to session time
+	function drawProgressPercentage(dc, progressPercentage) {
+		if (progressPercentage <= 0) {
+			progressPercentage = 0.01;
+		} else if (progressPercentage > 100) {
+			progressPercentage = 100;
+		}
+		me.drawDuration(dc, progressPercentage);
+	}
+
 	private function layoutDuration(dc) {
 		var mDcWidth = dc.getWidth();
 		var mDcHeight = dc.getHeight();

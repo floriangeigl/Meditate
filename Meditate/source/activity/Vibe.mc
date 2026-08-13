@@ -78,12 +78,31 @@ class Vibe {
 				break;
 		}
 
-		if (vibeProfile != null) {
+		if (vibeProfile != null && Attention has :vibrate) {
 			Attention.vibrate(vibeProfile);
 		}
-		if (toneProfile != null) {
+		if (toneProfile != null && Attention has :playTone) {
 			Attention.playTone({ :toneProfile => toneProfile });
 		}
+	}
+
+	// distinct tone per breath phase; silent on devices without tone support
+	static function playBreathTone(phase) {
+		if (GlobalSettings.loadNotification() == Notification.Off) {
+			return;
+		}
+		if (!(Attention has :ToneProfile) || !(Attention has :playTone)) {
+			return;
+		}
+		var toneProfile;
+		if (phase == BreathPhase.Inhale) {
+			toneProfile = getRisingSound();
+		} else if (phase == BreathPhase.Exhale) {
+			toneProfile = getFallingSound();
+		} else {
+			toneProfile = getShortSound();
+		}
+		Attention.playTone({ :toneProfile => toneProfile });
 	}
 
 	static function getLongPulsating() {
@@ -191,5 +210,13 @@ class Vibe {
 
 	static function getShortSound() {
 		return [new Attention.ToneProfile(650, 100)];
+	}
+
+	static function getRisingSound() {
+		return [new Attention.ToneProfile(523, 120), new Attention.ToneProfile(698, 120)];
+	}
+
+	static function getFallingSound() {
+		return [new Attention.ToneProfile(698, 120), new Attention.ToneProfile(523, 120)];
 	}
 }

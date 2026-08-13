@@ -212,4 +212,34 @@
 	<string id="about_falsetru">falsetru</string>
 	<string id="about_floriangeigl">floriangeigl</string>
 
+
+    <string id="breathPhase_inhale">들이쉬기</string>
+    <string id="breathPhase_exhale">내쉬기</string>
+    <string id="breathPhase_hold">멈춤</string>
+    <string id="addEditSessionMenu_breathProgram">호흡 프로그램</string>
+    <string id="breathProgramMenu_addStep">단계 추가</string>
+    <string id="breathProgramMenu_deleteAll">모두 삭제</string>
+    <string id="breathProgramMenu_inRoute">들이쉬는 경로</string>
+    <string id="breathProgramMenu_outRoute">내쉬는 경로</string>
+    <string id="breathProgramMenu_steps">단계</string>
+    <string id="breathProgramMenu_full">최대 10단계</string>
+    <string id="breathRouteMenu_unset">설정 안 함</string>
+    <string id="breathRouteMenu_nose">코</string>
+    <string id="breathRouteMenu_mouth">입</string>
+    <string id="breathStepMenu_title">단계</string>
+    <string id="breathStepMenu_holdEmpty">비우고 멈춤</string>
+    <string id="breathStepMenu_repeat">반복</string>
+    <string id="breathStepMenu_moveUp">위로</string>
+    <string id="breathStepMenu_moveDown">아래로</string>
+    <string id="breathStepMenu_invalid">최소 한 단계를 설정하세요</string>
+    <string id="breathRepeatMenu_rounds">라운드</string>
+    <string id="breathRepeatMenu_duration">시간 MM:SS</string>
+    <string id="breathTemplate_custom">사용자 지정</string>
+    <string id="breathBriefing_more">더</string>
+    <string id="breathBriefing_belly">배로 호흡하기</string>
+    <string id="breathBriefing_in">흡</string>
+    <string id="breathBriefing_out">호</string>
+    <string id="menuGlobalSettings_breathCues">호흡 신호</string>
+    <string id="menuBreathCuesOptions_vibration">진동</string>
+    <string id="menuBreathCuesOptions_vibrationTone">진동 + 소리</string>
 </strings>

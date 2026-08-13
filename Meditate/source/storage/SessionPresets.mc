@@ -2,6 +2,22 @@ using Toybox.Application as App;
 using Toybox.Graphics as Gfx;
 
 class SessionPresets {
+	// BreathTemplates owns the program data; this only wraps it in a session
+	private static function createBreathworkPreset(name, templateId, sessionKey) {
+		var program = BreathTemplates.createProgram(templateId);
+		var session = new SessionModel();
+		session.fromDictionary({
+			"time" => program.totalTime(),
+			"color" => Gfx.COLOR_GREEN,
+			"name" => name,
+			"vibePattern" => VibePattern.LongContinuous,
+			"breathProgram" => program.toDictionary(),
+			"activityType" => ActivityType.Breathing,
+			"key" => sessionKey,
+		});
+		return session;
+	}
+
 	static function getPresets() {
 		var sessions = new SessionModel [0];
 		var session = null;
@@ -129,74 +145,22 @@ class SessionPresets {
 		sessions.add(session);
 		sessionKey++;
 
-		// 5min Breathwork Box-Breathing
-		session = new SessionModel();
-		iAlert = new IntervalAlerts();
-		iAlert.addNew();
-		iAlert.get(0).time = 4;
-		settings = {
-			"time" => 5 * 60,
-			"color" => Gfx.COLOR_GREEN,
-			"name" => "Box Breath",
-			"vibePattern" => VibePattern.LongContinuous,
-			"intervalAlerts" => iAlert.toArray(),
-			"activityType" => ActivityType.Breathing,
-			"key" => sessionKey,
-		};
-		session.fromDictionary(settings);
-		sessions.add(session);
-		sessionKey++;
-
-		// 5min Breathwork Coherence
-		session = new SessionModel();
-		iAlert = new IntervalAlerts();
-		iAlert.addNew();
-		iAlert.get(0).time = 6;
-		settings = {
-			"time" => 5 * 60,
-			"color" => Gfx.COLOR_GREEN,
-			"name" => "B. Coherence",
-			"vibePattern" => VibePattern.LongContinuous,
-			"intervalAlerts" => iAlert.toArray(),
-			"activityType" => ActivityType.Breathing,
-			"key" => sessionKey,
-		};
-		session.fromDictionary(settings);
-		sessions.add(session);
-		sessionKey++;
-
-		// 5min 4-7-8 breathing
-		session = new SessionModel();
-		iAlert = new IntervalAlerts();
-		iAlert.addNew();
-		iAlert.get(0).time = 19;
-		iAlert.get(0).offset = 4;
-		iAlert.get(0).color = Gfx.COLOR_BLUE;
-		iAlert.get(0).vibePattern = VibePattern.ShortContinuous;
-
-		iAlert.addNew();
-		iAlert.get(1).time = 19;
-		iAlert.get(1).offset = 4 + 7;
-		iAlert.get(1).color = Gfx.COLOR_RED;
-		iAlert.get(1).vibePattern = VibePattern.MediumDescending;
-
-		iAlert.addNew();
-		iAlert.get(2).time = 19;
-		iAlert.get(2).offset = 4 + 7 + 8;
-		iAlert.get(2).color = Gfx.COLOR_WHITE;
-		iAlert.get(2).vibePattern = VibePattern.ShortAscending;
-		settings = {
-			"time" => 5 * 60,
-			"color" => Gfx.COLOR_GREEN,
-			"name" => "B. 4-7-8",
-			"vibePattern" => VibePattern.LongContinuous,
-			"intervalAlerts" => iAlert.toArray(),
-			"activityType" => ActivityType.Breathing,
-			"key" => sessionKey,
-		};
-		session.fromDictionary(settings);
-		sessions.add(session);
-		sessionKey++;
+		// Breathwork presets are guided breath programs; the program defines the length.
+		// The first three keep their original names so existing users still recognise them.
+		var breathworkPresets = [
+			["Box Breath", :box5],
+			["B. Coherence", :coherence5],
+			["B. 4-7-8", :b4785],
+			["B. Energize", :energize],
+			["B. Wind Down", :windDown],
+			["B. Holds", :breathHolds],
+		];
+		for (var i = 0; i < breathworkPresets.size(); i++) {
+			sessions.add(
+				SessionPresets.createBreathworkPreset(breathworkPresets[i][0], breathworkPresets[i][1], sessionKey)
+			);
+			sessionKey++;
+		}
 
 		return sessions;
 	}

@@ -11,6 +11,7 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 	private var mShouldAutoExit;
 	private var mPauseMenuVisible;
 	private var mIdleReminderTimer;
+	private var mMeditateView;
 	private const PauseReasonManual = 0;
 	private const PauseReasonCompleted = 1;
 
@@ -26,8 +27,30 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 		me.mIdleReminderTimer = new IdleReminderTimer();
 	}
 
+	public function setMeditateView(meditateView) {
+		me.mMeditateView = meditateView;
+	}
+
 	public function startActivity() {
 		me.mMeditateActivity.start();
+	}
+
+	// up/down (keys or swipe) flips guidance <-> metrics; unused during a session otherwise.
+	// Returns false without a breath program so meditation behaviour is unchanged.
+	private function switchBreathPage() {
+		if (me.mMeditateView == null || !me.mMeditateView.toggleBreathPage()) {
+			return false;
+		}
+		Ui.requestUpdate();
+		return true;
+	}
+
+	function onNextPage() {
+		return me.switchBreathPage();
+	}
+
+	function onPreviousPage() {
+		return me.switchBreathPage();
 	}
 
 	public function stopActivity() {
@@ -47,7 +70,8 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 		}
 
 		// Show finalize time view and delayed finished view session once the time is over
-		var meditatePrepareView = new MeditatePrepareView(method(:onShowDelayedFinishedView), 0);
+		// finalize screen shows no briefing; the session is already over
+		var meditatePrepareView = new MeditatePrepareView(method(:onShowDelayedFinishedView), 0, null);
 		var meditatePrepareDelegate = new MeditatePrepareDelegate(me, meditatePrepareView);
 		Ui.switchToView(meditatePrepareView, meditatePrepareDelegate, Ui.SLIDE_IMMEDIATE);
 	}

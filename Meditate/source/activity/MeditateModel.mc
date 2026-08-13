@@ -18,6 +18,8 @@ class MeditateModel extends ScreenPicker.DetailsModel {
 		me.mHrvTracking = me.mSession.getHrvTracking();
 		me.mIsHrvOn = me.mHrvTracking != HrvTracking.Off;
 		me.mRespirationRateSetting = GlobalSettings.loadRespirationRate();
+		var breathProgram = me.mSession.getActiveBreathProgram();
+		me.mBreathRunner = breathProgram == null ? null : new BreathProgramRunner(breathProgram);
 	}
 
 	private var mSession;
@@ -26,6 +28,7 @@ class MeditateModel extends ScreenPicker.DetailsModel {
 	private var stressActivity;
 	private var mIsHrvOn, mHrvTracking;
 	private var mRespirationRateSetting;
+	private var mBreathRunner;
 
 	var currentHr;
 	var minHr;
@@ -48,6 +51,21 @@ class MeditateModel extends ScreenPicker.DetailsModel {
 
 	function hasIntervalAlerts() {
 		return me.mSession.getIntervalAlerts().size() > 0;
+	}
+
+	function getBreathRunner() {
+		return me.mBreathRunner;
+	}
+
+	// single place the breath phase state advances; both the cues and the view read the result
+	function updateBreathRunner() {
+		if (me.mBreathRunner != null) {
+			me.mBreathRunner.update(me.elapsedTime);
+		}
+	}
+
+	function hasBreathProgram() {
+		return me.mBreathRunner != null;
 	}
 
 	function getName() {

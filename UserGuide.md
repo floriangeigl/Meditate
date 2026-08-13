@@ -23,7 +23,7 @@ Start with the **Beginner Guide**, and come back to the **Advanced Guide** whene
   - [Understanding Your Session Data](#understanding-your-session-data)
 - [Advanced Guide](#advanced-guide)
   - [Session Customization](#session-customization)
-  - [Custom Breathwork Patterns](#custom-breathwork-patterns)
+  - [Guided Breathwork](#custom-breathwork-patterns)
   - [Advanced HRV Metrics](#advanced-hrv-metrics)
   - [Global Settings (Defaults for All Sessions)](#global-settings-defaults-for-all-sessions)
 - [FAQs & Troubleshooting](#faqs-troubleshooting)
@@ -234,33 +234,66 @@ From the session picker you can scroll through available sessions and see:
 
 ## Breathwork Sessions
 
-The app includes preconfigured breathwork sessions.  
+The app includes preconfigured breathwork sessions that guide you breath by breath.  
 A breathing cycle can include:
 
 **Inhale → Hold → Exhale → Hold**
 
 (Some techniques skip certain parts.)
 
-### Included Patterns
+### Included Sessions
+
+| Session | Rhythm | Length |
+| --- | --- | --- |
+| Box Breath | 4-4-4-4 | 5:00 |
+| B. Coherence | 6-6 | 5:00 |
+| B. 4-7-8 | 4-7-8 | 5:00 |
+| B. Energize | fast breathing, then box breathing | 5:20 |
+| B. Wind Down | long exhales, then 4-7-8 | 4:54 |
+| B. Holds | deep breaths, then breath holds | 7:16 |
 
 **Box Breathing**  
-Equal inhale, hold, exhale, hold (e.g. 4–4–4–4).  
+Equal inhale, hold, exhale, hold.  
 Often used to calm the nervous system.
 
 **Coherence Breathing**  
-Inhale 5 seconds, exhale 5 seconds.  
+Equal, slow inhale and exhale.  
 Often associated with increased HRV.
 
 **4-7-8 Breathing**  
 Inhale 4, hold 7, exhale 8.  
 Commonly used before sleep.
 
+You can edit any of these, or build your own - see [Guided Breathwork](#custom-breathwork-patterns).
+
+### What Happens During a Session
+
+Every phase change has its own vibration:
+
+- **rising** - breathe in
+- **a short blip** - hold
+- **falling** - breathe out
+
+That alone is enough to follow a whole session with your eyes closed.
+
+If you do look at the watch, it shows:
+
+- the current phase (**Inhale**, **Hold**, **Exhale**) and a countdown to the next change
+- a ring that fills as the phase progresses
+- the breathing route, when the session specifies nose or mouth
+
+Press **up** or **down** (or swipe) to switch to your heart rate, HRV, stress and respiration - and back again.  
+The vibrations continue either way.
+
+Before the session starts, the preparation countdown shows what is coming.
+
 ### Gentle Tips
 
 - Inhale through the nose if possible
-- Exhale through the mouth
 - Longer exhales than inhales often help calm
+- The session tells you when to use the mouth - 4-7-8, for example, exhales through the mouth
 - If timed breathing feels stressful, choose a simple session and breathe naturally
+- Never practise breath holds in water, while driving, or while standing up
 
 ---
 
@@ -334,22 +367,90 @@ Priority order: final alert → last one-off → last repeating alert.
 
 <a id="custom-breathwork-patterns"></a>
 
-## Custom Breathwork Patterns
+## Guided Breathwork
 
-Breathwork patterns are created using **parallel interval alerts** with offsets.
+Every guided breathwork session is built from a **Breath Program**: an ordered list of steps.
+The [included sessions](#breathwork-sessions) are ordinary programs, so you can open any of
+them and change it. To add guidance to another session, use its **Breath Program** row.
 
-Example: **4–7–8 breathing**
+Adding a step always starts from a ready-made pattern (`4-4-4-4`, `4-7-8`, `6-6`, `4-4-4`,
+`4-8`, `2-2`, a hold, or a custom one), so you rarely have to enter four numbers by hand.
 
-- Total cycle: 19 seconds
-- Inhale: Time=19, Offset=0
-- Hold: Time=19, Offset=4
-- Exhale: Time=19, Offset=11
+### Steps
 
-Recommended vibration patterns:
+Each step is a breath pattern plus a repeat rule:
 
-- Inhale: ShortAscending
-- Hold: ShortContinuous
-- Exhale: ShortDescending
+| Field | Meaning |
+| --- | --- |
+| Inhale | seconds breathing in (`0:00` skips this phase) |
+| Hold | seconds holding with full lungs |
+| Exhale | seconds breathing out |
+| Hold empty | seconds holding with empty lungs |
+| Breathe in via | nose, mouth, or not set |
+| Breathe out via | nose, mouth, or not set |
+| Repeat | either a number of rounds, or a duration |
+
+A pure breath-hold is just a step where only a hold is set. Steps are named automatically
+from their numbers, so `4-7-8` means inhale 4, hold 7, exhale 8.
+
+Example - `4 rounds of 5-5-5, then a 2:00 hold, then 6-6 for 3 minutes`:
+
+| Step | Pattern | Repeat | Length |
+| --- | --- | --- | --- |
+| 1 | 5-5-5 | 4 rounds | 1:00 |
+| 2 | Hold 2:00 | once | 2:00 |
+| 3 | 6-6 | for 3:00 | 3:00 |
+| | | **total** | **6:00** |
+
+**The program sets the session length.** With a program in place the Time row shows the
+computed total and opens the program editor instead of a duration picker.
+
+Use **Move up** / **Move down** inside a step to reorder.
+
+The breathing route is set **per step**, so a program can switch between nose and mouth as it
+goes - for example fast breathing out through the mouth first, then slow nasal breathing to settle.
+
+Limits: 10 steps per program, 99 rounds per step, 9:59 per phase.
+
+### Reading the Guidance Screen
+
+Beyond the phase word and countdown, the screen carries two rings:
+
+- the **inner ring** fills over the current phase and is coloured by phase
+- the **outer ring** is overall session progress, with tick marks where the steps change
+
+The line under the countdown shows your round within the current step (`3/4`) and, when the
+step specifies one, the breathing route for the phase you are in.
+
+### Cues
+
+Each phase change fires its own vibration, so a session works with your eyes closed and the
+screen off:
+
+| Phase | Vibration | Tone |
+| --- | --- | --- |
+| Inhale | ascending | rising two notes |
+| Hold (full or empty) | short blip | one short note |
+| Exhale | descending | falling two notes |
+
+Both holds share the same cue. A hold always follows an inhale or an exhale, so you already
+know whether your lungs are full or empty without a fourth pattern to learn.
+
+**Settings → Breath Cues** switches these between Off, Vibration, and Vibration + Tone.
+Tones only play on watches that support them. They also obey the global Vibration & Sound
+setting. Cues keep firing while you are on the metrics screen, so you can look at your heart
+rate without losing the rhythm.
+
+### Before the Session Starts
+
+The preparation countdown shows the program summary, so you know what is coming before the
+first inhale. When every step uses the same breathing route it is shown here too; when the
+steps differ, watch the guidance screen instead.
+
+Programs longer than four steps are summarised as `+N more`.
+
+> Interval alerts still work exactly as before and can be combined with a breath program -
+> they are best used for periodic reminders rather than for breathing patterns.
 
 ---
 

@@ -209,4 +209,34 @@
     <string id="about_falsetru">falsetru</string>
     <string id="about_floriangeigl">floriangeigl</string>
 
+
+    <string id="breathPhase_inhale">吸气</string>
+    <string id="breathPhase_exhale">呼气</string>
+    <string id="breathPhase_hold">屏息</string>
+    <string id="addEditSessionMenu_breathProgram">呼吸方案</string>
+    <string id="breathProgramMenu_addStep">添加步骤</string>
+    <string id="breathProgramMenu_deleteAll">全部删除</string>
+    <string id="breathProgramMenu_inRoute">吸气方式</string>
+    <string id="breathProgramMenu_outRoute">呼气方式</string>
+    <string id="breathProgramMenu_steps">步骤</string>
+    <string id="breathProgramMenu_full">最多10个步骤</string>
+    <string id="breathRouteMenu_unset">未设置</string>
+    <string id="breathRouteMenu_nose">鼻</string>
+    <string id="breathRouteMenu_mouth">口</string>
+    <string id="breathStepMenu_title">步骤</string>
+    <string id="breathStepMenu_holdEmpty">空屏息</string>
+    <string id="breathStepMenu_repeat">重复</string>
+    <string id="breathStepMenu_moveUp">上移</string>
+    <string id="breathStepMenu_moveDown">下移</string>
+    <string id="breathStepMenu_invalid">请至少设置一个阶段</string>
+    <string id="breathRepeatMenu_rounds">轮数</string>
+    <string id="breathRepeatMenu_duration">时长 MM:SS</string>
+    <string id="breathTemplate_custom">自定义</string>
+    <string id="breathBriefing_more">更多</string>
+    <string id="breathBriefing_belly">用腹部呼吸</string>
+    <string id="breathBriefing_in">吸</string>
+    <string id="breathBriefing_out">呼</string>
+    <string id="menuGlobalSettings_breathCues">呼吸提示</string>
+    <string id="menuBreathCuesOptions_vibration">振动</string>
+    <string id="menuBreathCuesOptions_vibrationTone">振动 + 提示音</string>
 </strings>

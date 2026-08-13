@@ -10,6 +10,7 @@ using Toybox.Application as App;
 class MeditateActivity extends HrvAlgorithms.HrvActivity {
 	private var mMeditateModel;
 	private var mVibeAlertsExecutor;
+	private var mBreathCuesExecutor;
 	private var mMeditateDelegate;
 	private var mAutoStopEnabled;
 	private var mAutoStopRoundsTriggered;
@@ -123,6 +124,9 @@ class MeditateActivity extends HrvAlgorithms.HrvActivity {
 		HrvAlgorithms.HrvActivity.start();
 		me.mMeditateModel.isTimerRunning = true;
 		me.mVibeAlertsExecutor = new VibeAlertsExecutor(me.mMeditateModel);
+		if (me.mMeditateModel.hasBreathProgram()) {
+			me.mBreathCuesExecutor = new BreathCuesExecutor(me.mMeditateModel);
+		}
 	}
 
 	function refreshActivityStats() {
@@ -136,8 +140,13 @@ class MeditateActivity extends HrvAlgorithms.HrvActivity {
 			me.mMeditateModel.currentHr = me.activityInfo.currentHeartRate;
 		}
 		me.mMeditateModel.minHr = me.minHr;
+		// advance the breath phase before anything reads it
+		me.mMeditateModel.updateBreathRunner();
 		if (me.mVibeAlertsExecutor != null) {
 			me.mVibeAlertsExecutor.firePendingAlerts();
+		}
+		if (me.mBreathCuesExecutor != null) {
+			me.mBreathCuesExecutor.firePendingCues();
 		}
 		me.mMeditateModel.hrvValue = me.getHrv();
 
@@ -177,6 +186,7 @@ class MeditateActivity extends HrvAlgorithms.HrvActivity {
 	function stop() {
 		HrvAlgorithms.HrvActivity.stop();
 		me.mVibeAlertsExecutor = null;
+		me.mBreathCuesExecutor = null;
 	}
 
 	function calculateSummaryFields() {
