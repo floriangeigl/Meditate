@@ -33,7 +33,7 @@ L’essentiel est de découvrir ce qui soutient **ton** système nerveux.
 ## Une Pratique Pensée Pour Toi
 
 - Crée des sessions adaptées à ton rythme et à ton attention
-- Observe la fréquence cardiaque, la HRV, le stress et la respiration en temps réel
+- Observe la fréquence cardiaque, l’HRV, le stress et la respiration en temps réel
 - Enregistre tes sessions dans Garmin Connect pour soutenir en douceur la régularité et la conscience au fil du temps
 
 Voir tes sessions dans la durée n’a rien à voir avec la discipline ou la performance.  
