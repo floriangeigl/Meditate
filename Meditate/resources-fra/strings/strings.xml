@@ -191,7 +191,9 @@
     <string id="restoreDeviceId">Restore From Device ID (leave empty to use this device):</string>
     <string id="pickMMSS">Choisir MM:SS</string>
     <string id="pickHMM">Choisir H:MM</string>
-    <string id="HRVwaiting">HRV en attente</string>
+    <string id="HRVstarting">HRV démarre</string>
+    <string id="HRVstartingAlt">Patientez</string>
+    <string id="HRVrestart">Redémarrer l'app</string>
     <string id="HRVready">HRV prêt</string>
     <string id="HRVweak">HRV faible</string>
     <string id="HRVoff">HRV désactivé</string>

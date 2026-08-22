@@ -191,7 +191,9 @@
     <string id="restoreDeviceId">Restore From Device ID (leave empty to use this device):</string>
     <string id="pickMMSS">Обрати ММ:СС</string>
     <string id="pickHMM">Обрати Г:ММ</string>
-    <string id="HRVwaiting">HRV очікує</string>
+    <string id="HRVstarting">HRV стартує</string>
+    <string id="HRVstartingAlt">Зачекайте</string>
+    <string id="HRVrestart">Перезап. додатка</string>
     <string id="HRVready">HRV готово</string>
     <string id="HRVweak">HRV слабкий</string>
     <string id="HRVoff">HRV вимк.</string>

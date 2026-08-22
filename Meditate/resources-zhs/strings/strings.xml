@@ -191,7 +191,9 @@
     <string id="restoreDeviceId">Restore From Device ID (leave empty to use this device):</string>
     <string id="pickMMSS">选择 MM:SS</string>
     <string id="pickHMM">选择 H:MM</string>
-    <string id="HRVwaiting">HRV等待中</string>
+    <string id="HRVstarting">HRV启动中</string>
+    <string id="HRVstartingAlt">请稍候</string>
+    <string id="HRVrestart">应用重启</string>
     <string id="HRVready">HRV就绪</string>
     <string id="HRVweak">HRV信号弱</string>
     <string id="HRVoff">HRV关闭</string>

@@ -191,7 +191,9 @@
     <string id="restoreDeviceId">デバイスIDから復元（空欄の場合はこのデバイスを使用）</string>
     <string id="pickMMSS">MM:SSを選択</string>
     <string id="pickHMM">H:MMを選択</string>
-    <string id="HRVwaiting">HRV待機中</string>
+    <string id="HRVstarting">HRV起動中</string>
+    <string id="HRVstartingAlt">お待ちください</string>
+    <string id="HRVrestart">アプリ再起動</string>
     <string id="HRVready">HRV準備完了</string>
     <string id="HRVweak">HRV微弱</string>
     <string id="HRVoff">HRVオフ</string>

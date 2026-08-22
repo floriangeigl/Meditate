@@ -191,7 +191,9 @@
     <string id="activityName">Nombre de la Actividad (usa [time] para reemplazarlo por el tiempo de la sesión y mantén el nombre corto):</string>
     <string id="pickMMSS">Elige MM:SS</string>
     <string id="pickHMM">Elige H:MM</string>
-    <string id="HRVwaiting">HRV esperando</string>
+    <string id="HRVstarting">HRV iniciando</string>
+    <string id="HRVstartingAlt">Espere</string>
+    <string id="HRVrestart">Reiniciar app</string>
     <string id="HRVready">HRV listo</string>
     <string id="HRVweak">HRV débil</string>
     <string id="HRVoff">HRV apagado</string>

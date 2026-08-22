@@ -192,7 +192,9 @@
     <string id="activityName">Nome da atividade (use [time] para substituir pelo tempo da sessão e mantenha pequeno o nome):</string>
     <string id="pickMMSS">Escolha MM:SS</string>
     <string id="pickHMM">Escolha H:MM</string>
-    <string id="HRVwaiting">VFC aguardando</string>
+    <string id="HRVstarting">VFC iniciando</string>
+    <string id="HRVstartingAlt">Aguarde</string>
+    <string id="HRVrestart">Reiniciar app</string>
     <string id="HRVready">VFC pronto</string>
     <string id="HRVweak">HRV fraco</string>
     <string id="HRVoff">VFC Deslig.</string>

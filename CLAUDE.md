@@ -17,6 +17,7 @@ Meditate/               Main watch-app (entry: source/MeditateApp.mc)
 HrvAlgorithms/          Barrel — HRV/HR/stress sensor algorithms
 ScreenPicker/           Barrel — carousel UI components (depends on StatusIconFonts)
 StatusIconFonts/        Barrel — Font Awesome icon fonts
+HrvProbe/               Standalone diagnostic app, not shipped — see "HRV cold start"
 ```
 
 **Dependency graph:** `Meditate` → `HrvAlgorithms`, `ScreenPicker` → `StatusIconFonts`, `StatusIconFonts`
@@ -133,6 +134,26 @@ Fixed with a `foreground` flag on `HeartbeatIntervalsSensor` (`setForeground()`,
 - Going inactive deliberately does **nothing** beyond setting the flag: sensor state must not be changed there.
 
 Known related exposure, unverified and not fixed: `MeditatePrepareView`'s countdown `Timer.Timer` calls `startMeditationSession()` → `createSession`. If a view's timer survives backgrounding (i.e. `onHide()` does *not* fire when a multitasking app loses the screen), backgrounding during a prepare countdown hits the same illegal call with a different backtrace.
+
+### HRV cold start: two-phase status text, restarting is the only real fix
+
+On a cold optical sensor `heartBeatIntervals` stays empty while `currentHeartRate` streams normally. The 1 Hz callback keeps firing with empty data, so the picker's hourglass animates forever. **Nothing done *within* a running app reliably unsticks it** — held session (180–320 s), `session.start()`, `setEnabledSensors`, `enableSensorType`, `enableSensorEvents`, and in-process `onStop`-style teardown+restart, all measured on a 10–12 h cold sensor, all nothing. It reproduces in ~100 lines that only register a listener, so it is not a Meditate bug, and the simulator cannot reproduce it at all.
+
+**Restarting the app does fix it, fast.** Two cold sensors (11.4 h, 13.1 h gap) that failed on first launch got RR within 2–3 s of a genuine relaunch — total time under 1.5 min, against 180–320 s of continuous holding producing nothing on comparably cold sensors. One confound is still open — restarting requires handling the watch, and motion is known to affect the optical sensor, so "the restart" vs "the motion of restarting" isn't separated by any test run — but it doesn't change the recommendation.
+
+**Fix shipped: two-phase status text, no new UI.** `getStatus()` must not call `System.exit()` itself — unsafe mid-session or mid-menu — and users already know how to restart the app, so the fix is wording only via the existing `HeartbeatIntervalsSensor.shouldSuggestRestart()` / `Utils.getHrvStatusText(status, suggestRestart)`/ `SessionPickerDelegate.updateHrvStatus()` path:
+
+- First ~18 s of Error status (`statusErrors <= restartHintAfterErrors`): alternates every 2 s between `HRVstarting` ("HRV starting") and `HRVstartingAlt` ("Please wait") via `HeartbeatIntervalsSensor.showAltStartingText()` — `((statusErrors - 1) / 2) % 2 == 1`, free-riding on the counter that already ticks once per second, no new timer. 18 is a multiple of the 2 s block size, so the handoff to `HRVrestart` lands right after a complete block, not mid-block — keep the threshold a multiple of the block size if either changes. Most successful runs resolve in 1–3 s, so this covers the common case without alarming anyone.
+- Beyond that (`shouldSuggestRestart()` true): `HRVrestart` — "Restart the app". Justified by the data: RR never once recovered mid-run past this point in any measured run (up to 320 s), only on the next launch — so there is no case where waiting past ~18 s helps and telling the user to restart does not.
+- The old `HRVwaiting` id and its "the app already ships a :sensorRestart setting" framing are superseded — the setting still exists but is no longer the documented answer; the status text itself now says what to do.
+- Non-English translations for `HRVstarting`/`HRVrestart` are best-effort, not native-reviewed — worth a spot-check per locale before release.
+
+
+**Do not re-propose `setEnabledSensors`/`enableSensorType`/ordering changes, and do not add more in-app retry logic** — all tested and rejected, several repeatedly across four years of git history.
+
+Useful facts: HR availability is **not** a proxy for RR availability; warm latency is ~2 s; spin-down is >45 s.
+
+Full investigation, all measurements, the six rejected hypotheses and the method mistakes that produced three wrong conclusions: **[`HrvProbe/FINDINGS.md`](HrvProbe/FINDINGS.md)**. The diagnostic app itself: [`HrvProbe/README.md`](HrvProbe/README.md) — use it before theorising about this again.
 
 ### Invariant: at most one open `ActivityRecording` session
 
@@ -310,8 +331,16 @@ Two PowerShell 5.1 scripts for deploying and debugging on a physical Garmin watc
 Deploys `bin/Meditate.prg` to the watch:
 
 1. Shows device and source path, asks for confirmation before deploying
-2. Copies `Meditate.prg` to `GARMIN/Apps/` and verifies it arrived
-3. Creates an empty `MEDITATE.TXT` in `GARMIN/Apps/LOGS/` to enable `System.println()` logging
+2. Copies the PRG to `GARMIN/Apps/` and verifies it arrived
+3. Creates an empty `<PRGNAME>.TXT` in `GARMIN/Apps/LOGS/` to enable `System.println()` logging
+
+An optional **second** parameter deploys a different PRG (relative paths resolve against `Meditate/`), used for `HrvProbe`:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\CopyBuildToDevice.ps1 fenix ..\HrvProbe\bin\HrvProbe.prg
+```
+
+The LOGS trigger is named after the PRG, so a probe build automatically gets `HRVPROBE.TXT`. The source path is canonicalized with `Resolve-Path` before copying — **Shell COM `CopyHere` fails silently on paths containing `..`** while `Test-Path` accepts them, so an uncanonicalized path copies nothing and only trips the verify step.
 
 ### PullDebugInfoFromDevice.ps1
 

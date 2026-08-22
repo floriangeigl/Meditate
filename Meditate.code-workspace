@@ -8,6 +8,9 @@
 			"path": "HrvAlgorithms"
 		},
 		{
+			"path": "HrvProbe"
+		},
+		{
 			"path": "Meditate"
 		},
 		{
@@ -22,6 +25,7 @@
 		"files.exclude": {
 			"**/bin/**": true,
 			"HrvAlgorithms/**": true,
+			"HrvProbe/**": true,
 			"Meditate/**": true,
 			"ScreenPicker/**": true,
 			"StatusIconFonts/**": true

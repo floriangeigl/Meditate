@@ -192,7 +192,9 @@
 	<string id="activityName">활동 이름 (세션 시간으로 대체하려면 [time] 을 사용하시고, 이름을 짧게 유지하세요):</string>
 	<string id="pickMMSS">MM:SS (분:초) 지정</string>
 	<string id="pickHMM">H:MM (시간:분) 지정</string>
-	<string id="HRVwaiting">HRV 대기중</string>
+	<string id="HRVstarting">HRV 시작중</string>
+	<string id="HRVstartingAlt">잠시만요</string>
+	<string id="HRVrestart">앱 재시작</string>
 	<string id="HRVready">HRV 준비됨</string>
 	<string id="HRVweak">HRV 약함</string>
 	<string id="HRVoff">HRV 꺼짐</string>

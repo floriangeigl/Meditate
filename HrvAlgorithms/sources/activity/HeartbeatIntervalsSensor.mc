@@ -7,16 +7,16 @@ using Toybox.Attention;
 module HrvAlgorithms {
 	class HeartbeatIntervalsSensor {
 		private const SessionSamplePeriodSeconds = 1;
-		private const resetSeconds = 30;
 		private const maxReadyFails = 4;
 		private const maxWeakFails = 8;
 		private const minWeakFails = maxReadyFails + 1;
+		private const ensureSessionAfterErrors = 60;
+		private const restartHintAfterErrors = 18; // ui hint threshold; see CLAUDE.md HRV cold start
 
 		private var mSensorListener;
 		private var numFails;
 		private var totalTime;
 		private var totalIntervals;
-		private var sensorRestarts;
 		private var running;
 		private var lastUpdateFailed;
 		private var statusErrors;
@@ -44,10 +44,10 @@ module HrvAlgorithms {
 		}
 
 		function startup() {
-			me.numFails = maxWeakFails + 1;
 			me.resetSensorQuality();
-			me.start();
+			// wake the sensor before registering; see CLAUDE.md hrv cold start
 			me.createWakeupSession();
+			me.start();
 		}
 
 		function createWakeupSession() {
@@ -78,11 +78,21 @@ module HrvAlgorithms {
 			me.discardWakeupeSession();
 		}
 
+		// callers must have the sensor awake already; see createWakeupSession
 		function start() {
 			if (!me.running) {
 				me.registerListener();
 				me.running = true;
 			}
+		}
+
+		// retrying cannot wake a cold sensor - see CLAUDE.md HRV cold start; all this does is
+		// guarantee a wakeup session exists, which matters after a meditation session discarded it
+		private function ensureWakeupSession() {
+			if (me.sensorWakeupSession == null) {
+				me.createWakeupSession();
+			}
+			me.statusErrors = 1;
 		}
 
 		function stop() {
@@ -129,9 +139,11 @@ module HrvAlgorithms {
 			if (!me.foreground) {
 				return status;
 			}
-			if (status == HeartbeatIntervalsSensorStatus.Good && me.statusErrors > 0) {
-				me.statusErrors = 0;
-				Vibe.vibrate(VibePattern.Blip);
+			if (status == HeartbeatIntervalsSensorStatus.Good) {
+				if (me.statusErrors > 0) {
+					me.statusErrors = 0;
+					Vibe.vibrate(VibePattern.Blip);
+				}
 			} else if (status == HeartbeatIntervalsSensorStatus.Error) {
 				me.statusErrors += 1;
 				if (me.statusErrors % 5 == 0) {
@@ -143,21 +155,26 @@ module HrvAlgorithms {
 						}
 					}
 				}
-				if (me.statusErrors > 20) {
-					me.discardWakeupeSession();
-					me.stop();
-					me.start();
-					me.createWakeupSession();
-					me.statusErrors = 1;
+				if (me.statusErrors > ensureSessionAfterErrors) {
+					me.ensureWakeupSession();
 				}
 			}
 			return status;
 		}
 
+		// true once the picker should stop implying patience helps and suggest a restart instead
+		function shouldSuggestRestart() {
+			return me.statusErrors > restartHintAfterErrors;
+		}
+
+		// alternates every 2s during phase 1 (HRVstarting shown first, then HRVstartingAlt)
+		function showAltStartingText() {
+			return ((me.statusErrors - 1) / 2) % 2 == 1;
+		}
+
 		function resetSensorQuality() {
 			me.totalTime = 0;
 			me.totalIntervals = 0.0;
-			me.sensorRestarts = 0;
 			me.numFails = maxWeakFails + 1;
 			me.statusErrors = 0;
 		}
@@ -206,10 +223,9 @@ module HrvAlgorithms {
 				me.mSensorListener.invoke(data);
 			}
 
+			// totalTime/totalIntervals are kept to report sensor quality back at some point
 			//if (me.totalTime > 60) {
-			// System.println(
-			// 	"HR sensor: Quality: " + me.totalIntervals / me.totalTime + " | restarts: " + me.sensorRestarts
-			// );
+			// System.println("HR sensor: Quality: " + me.totalIntervals / me.totalTime);
 			//}
 		}
 	}
