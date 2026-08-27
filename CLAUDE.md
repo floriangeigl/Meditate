@@ -124,6 +124,8 @@ On multitasking devices the app **keeps running when it leaves the screen** — 
 
 The authoritative device list is the **`onActive`/`onInactive` supported-devices list in the SDK docs** (`doc/Toybox/Application/AppBase.html`), API 4.2.3+: Approach S50, D2 Mach 2/Pro, Enduro 3, fēnix 8 (43/47/51/Pro/Solar), tactix 8, quatix 8, fēnix E, Venu 3/3S, Venu 4 41/45mm, D2 Air X15, Venu X1, vívoactive 5/6. Use that list, not "AMOLED" or "released after 2023" — fēnix 8 Solar 51mm is MIP and *is* multitasking.
 
+Caveat: the doc list lags the device definitions. SDK 9.2.0 ships fēnix 9 device defs but its docs never mention fēnix 9 (0 hits, vs 321 for fēnix 8 Pro), so the list neither confirms nor rules out fēnix 9 multitasking. Assume it is, and re-check the list after an SDK doc refresh. Either way the code is safe: `foreground` defaults `true`, and `onActive`/`onInactive` are simply never called on a non-multitasking device.
+
 This caused a production crash (24 reports, v10.7.10, backtrace `HeartbeatIntervalsSensor.createWakeupSession` ← `getStatus` ← `SessionPickerDelegate.updateHrvStatus` ← `update`): after ~40 s backgrounded on the session picker, `getStatus()`'s >20-error recovery path fired and called `ActivityRecording.createSession`, which is not permitted in that state. **Every crashing device was on the multitasking list; none of the other 81 supported devices appeared** — that 100% correlation is what identified the root cause, so check the device list against it before assuming a sport/spec problem.
 
 Fixed with a `foreground` flag on `HeartbeatIntervalsSensor` (`setForeground()`, driven by `MeditateApp.onActive`/`onInactive`):
@@ -188,6 +190,8 @@ $excludeExact = @(
 # NOTE: vivoactive4/4s and marqexpedition were sim-verified OK and re-added to all 4 manifests after the
 #       Apr-2025 bulk purge (46c1938 "tmp rm devices again"). vivoactive3m/3mlte still crash on finish.
 # NOTE: fr70 / fr170 / fr170m were added to all 4 manifests (CIQ 6.0, 768 KB); flow now skips them via $man.
+# NOTE: the 7 fenix 9 devices (fenix943mm/947mm, fenix9pro43/47/51mm, fenix9prosolar47/51mm) were added to
+#       all 4 manifests (CIQ 6.0.3, 768 KB, resolutions all match existing fenix 8 variants); flow skips them via $man.
 $man = Select-String -Path .\Meditate\manifest.xml -Pattern 'iq:product id="([^"]+)"' -AllMatches |
   ForEach-Object { $_.Matches } | ForEach-Object { $_.Groups[1].Value }
 Get-ChildItem "$env:APPDATA\Garmin\ConnectIQ\Devices" -Directory | ForEach-Object {
