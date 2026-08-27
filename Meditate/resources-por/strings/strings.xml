@@ -192,7 +192,9 @@
     <string id="activityName">Nome da atividade (use [time] para substituir pelo tempo da sessão e mantenha pequeno o nome):</string>
     <string id="pickMMSS">Escolha MM:SS</string>
     <string id="pickHMM">Escolha H:MM</string>
-    <string id="HRVwaiting">VFC aguardando</string>
+    <string id="HRVstarting">VFC iniciando</string>
+    <string id="HRVstartingAlt">Aguarde</string>
+    <string id="HRVrestart">Reiniciar app</string>
     <string id="HRVready">VFC pronto</string>
     <string id="HRVweak">HRV fraco</string>
     <string id="HRVoff">VFC Deslig.</string>
@@ -206,7 +208,7 @@
 
     <string id="restoreDeviceId">Restore From Device ID (leave empty to use this device):</string>
 
-    <string id="about_AppVersion">v10.7.12</string>
+    <string id="about_AppVersion">v10.7.14</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>
     <string id="about_falsetru">falsetru</string>

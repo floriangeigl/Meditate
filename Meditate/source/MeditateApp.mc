@@ -14,6 +14,21 @@ class MeditateApp extends App.AppBase {
 
 	// onStart() is called on application start up
 	function onStart(state) {}
+
+	// multitasking devices only; app is back on screen and sensors are re-enabled
+	function onActive(state) {
+		if (me.heartbeatIntervalsSensor != null) {
+			me.heartbeatIntervalsSensor.setForeground(true);
+		}
+	}
+
+	// app keeps running off screen; sensor state must not be touched here
+	function onInactive(state) {
+		if (me.heartbeatIntervalsSensor != null) {
+			me.heartbeatIntervalsSensor.setForeground(false);
+		}
+	}
+
 	// onStop() is called when your application is exiting
 	function onStop(state) {
 		// Disable and remove listeners for heatbeat sensor

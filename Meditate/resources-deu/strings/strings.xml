@@ -191,7 +191,9 @@
     <string id="activityName">Aktivitätsname (verwende [time], um durch die Sitzungszeit ersetzt zu werden und halte den Namen kurz):</string>
     <string id="pickMMSS">Wähle MM:SS</string>
     <string id="pickHMM">Wähle H:MM</string>
-    <string id="HRVwaiting">HRV warten</string>
+    <string id="HRVstarting">HRV startet</string>
+    <string id="HRVstartingAlt">Bitte warten</string>
+    <string id="HRVrestart">App neu starten</string>
     <string id="HRVready">HRV bereit</string>
     <string id="HRVweak">HRV schwach</string>
     <string id="HRVoff">HRV aus</string>
@@ -205,7 +207,7 @@
 
     <string id="restoreDeviceId">Restore From Device ID (leave empty to use this device):</string>
 
-    <string id="about_AppVersion">v10.7.12</string>
+    <string id="about_AppVersion">v10.7.14</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>
     <string id="about_falsetru">falsetru</string>

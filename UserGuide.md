@@ -81,6 +81,7 @@ You can:
 - control screen brightness via your watch buttons or touch
 
 When you stop, you can save or discard the session.  
+Pressing back on that prompt saves the session.  
 Saved sessions appear in Garmin Connect after syncing.
 
 ---
@@ -224,7 +225,8 @@ From the session picker you can scroll through available sessions and see:
 ### HRV Indicator
 
 - **Off** - HRV and stress tracking disabled
-- **Waiting** - sensor has not settled yet (stay still for a moment)
+- **HRV starting / Please wait** - the sensor is still coming online
+- **Restart the app** - shown if HRV has not started after about 20 seconds; see the FAQ below for why this happens and how to fix it
 - **Ready** - HRV tracking active  
   For reliable HRV data, minimize wrist movement.
 
@@ -447,18 +449,20 @@ Most issues are easy to resolve, and nothing here means you’re doing anything 
 ---
 
 <details>
-  <summary><strong>HRV does not work / shows “waiting”</strong></summary>
+  <summary><strong>HRV does not start / keeps showing “Restart the app”</strong></summary>
 
-  <p>This usually means the sensor has not yet settled or something is interfering with it.</p>
+  <p>This is almost always your watch’s heart-rate sensor taking time to warm up, not a problem with the app. The screen shows <strong>HRV starting</strong> while it is coming online, and switches to <strong>Restart the app</strong> if it has not started within about 20 seconds - waiting longer on the same screen rarely helps at that point.</p>
+
+  <p>It is most noticeable the first time you open the app in a while, such as first thing in the morning. The sensor that detects individual heartbeats (needed for HRV) is separate from the one that shows your regular heart rate, and after sitting unused it can take anywhere from a few seconds up to a few minutes to start reporting that detailed data. This is a limitation of the watch’s sensor, and the app cannot speed it up from the inside - closing and reopening the app is what actually gets it going faster.</p>
 
   <p>Try the following steps in order:</p>
 
   <ol>
-    <li>Close and reopen the app, then wait at least 30 seconds without moving your wrist.</li>
+    <li>Close and reopen the app. This is the most reliable fix and usually works within seconds.</li>
     <li>
-      Open <strong>Global Settings</strong> and select <strong>Sensor restart</strong>.<br>
+      If that does not help, open <strong>Global Settings</strong> and select <strong>Sensor restart</strong>.<br>
       The app will shut down all heart-rate sensors and exit so the watch firmware can reinitialize them cleanly.<br>
-      Reopen the app, stay still for about 30 seconds, then start your session.
+      Reopen the app and start your session - see the tip below, you do not need to wait for HRV first.
     </li>
     <li>
       If you are not using an external heart-rate sensor (like a chest strap), open your watch’s connectivity settings (not the app settings) and make sure all external sensors are disconnected.<br>
@@ -474,6 +478,8 @@ Most issues are easy to resolve, and nothing here means you’re doing anything 
       </ul>
     </li>
   </ol>
+
+  <p><strong>Tip:</strong> you don’t need to wait for HRV to be ready before starting your session. HRV tracking joins in automatically the moment the sensor comes online, so feel free to just begin meditating rather than waiting on the picker screen.</p>
 
 </details>
 
@@ -569,6 +575,86 @@ Most issues are easy to resolve, and nothing here means you’re doing anything 
   <p>This affects all activities started on your watch.</p>
 
   <p><strong>Advanced option:</strong> Create a custom Focus Mode that triggers only for Meditation, Yoga, and Breathwork activities.</p>
+
+</details>
+
+<details>
+  <summary><strong>How do I turn the sounds off and keep only the vibration?</strong></summary>
+
+  <p>Yes - but there are two different sound sources, and they are turned off in different places.</p>
+
+  <p><strong>1. The beeps when a session starts, stops, or is saved</strong></p>
+
+  <p>
+    These are Garmin’s built-in activity tones. Every activity on your watch plays them, and the app
+    cannot control or silence them - which is why you still hear them with
+    <strong>Global Settings → Vibration &amp; Sound</strong> set to <strong>Off</strong>.
+    You turn them off in your watch settings.
+  </p>
+
+  <p><em>On newer watches with Focus Modes</em> (fēnix 8, fēnix E, tactix 8, Enduro 3, Forerunner 570/970, Venu 3/4, vívoactive 5/6):</p>
+
+  <ol>
+    <li>From the watch face, hold the <strong>MENU</strong> button</li>
+    <li>Select <strong>Watch Settings → Focus Modes → Activity</strong></li>
+    <li>Select <strong>Sound &amp; Vibe</strong></li>
+    <li>Turn on <strong>Silent Mode</strong> - this disables all sounds</li>
+    <li>Leave <strong>Vibration</strong> on - it is a separate setting and is not affected</li>
+  </ol>
+
+  <p>
+    If your watch has no <strong>Silent Mode</strong> entry, set <strong>Alert Tones</strong> to
+    <strong>Off</strong> instead (and <strong>Button Tones</strong> if you like).
+  </p>
+
+  <p>
+    Important: the activity focus mode has its <em>own</em> sound settings that override your general
+    ones while an activity is running. That is why silencing tones under
+    <strong>Watch Settings → Sound &amp; Vibe</strong> alone often doesn’t help. If you still hear beeps,
+    apply the same change in <em>both</em> places.
+  </p>
+
+  <p>
+    <strong>Advanced option:</strong> instead of silencing every activity, create a focus mode just for
+    meditation: <strong>Watch Settings → Focus Modes → Add → Activity</strong>, give it a name, add
+    <strong>Sound &amp; Vibe</strong> with Silent Mode on, then set <strong>Auto-Triggered</strong> to
+    Meditation, Yoga and Breathwork. Now only your sessions are silent.
+  </p>
+
+  <p><em>On older watches without Focus Modes</em> (fēnix 6/7, epix Gen 2, Forerunner 245/255/265/955/965, Venu 2):</p>
+
+  <ol>
+    <li>From the watch face, hold <strong>MENU</strong> (or <strong>UP</strong>)</li>
+    <li>Select <strong>Settings → System → Sound and Vibration</strong> (on some models: <strong>Sounds</strong>)</li>
+    <li>Set <strong>Alert Tones</strong> to <strong>Off</strong></li>
+    <li>Leave <strong>Vibration</strong> on</li>
+  </ol>
+
+  <p>
+    Some models have no tone settings at all (for example the vívoactive 4, which lists only
+    <strong>Vibration</strong> under System) - those watches never beep in the first place.
+  </p>
+
+  <p><strong>2. The alerts from this app (session end and interval alerts)</strong></p>
+
+  <p>These you control fully inside the app, per session and per interval alert:</p>
+
+  <ul>
+    <li>Open <strong>Add New</strong> or <strong>Edit</strong> for a session, select <strong>Vibe / Sound</strong></li>
+    <li>Choose any pattern <em>except</em> <strong>Long Sound</strong> and <strong>Short Sound</strong></li>
+  </ul>
+
+  <p>
+    <strong>Long Sound</strong> and <strong>Short Sound</strong> play a tone and do <em>not</em> vibrate.
+    Every other pattern vibrates and makes no sound at all. The same choice is available for each
+    interval alert under <strong>Interval Alerts → Edit → Vibe / Sound</strong>.
+  </p>
+
+  <p>
+    Note: if you silence your watch as described above, the <strong>Long Sound</strong> /
+    <strong>Short Sound</strong> patterns may go silent too - so pick a vibration pattern for your
+    session alerts.
+  </p>
 
 </details>
 

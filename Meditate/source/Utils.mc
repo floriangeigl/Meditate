@@ -106,16 +106,21 @@ class Utils {
 				return Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_off);
 		}
 	}
-	static function getHrvStatusText(status) {
+	static function getHrvStatusText(status, suggestRestart, altStartingText) {
 		switch (status) {
 			case HeartbeatIntervalsSensorStatus.Good:
 				return Ui.loadResource(Rez.Strings.HRVready);
 			case HeartbeatIntervalsSensorStatus.Weak:
 				return Ui.loadResource(Rez.Strings.HRVweak);
 			case HeartbeatIntervalsSensorStatus.Error:
-				return Ui.loadResource(Rez.Strings.HRVwaiting);
+				if (suggestRestart) {
+					return Ui.loadResource(Rez.Strings.HRVrestart);
+				}
+				return altStartingText
+					? Ui.loadResource(Rez.Strings.HRVstartingAlt)
+					: Ui.loadResource(Rez.Strings.HRVstarting);
 			default:
-				return Ui.loadResource(Rez.Strings.HRVwaiting);
+				return Ui.loadResource(Rez.Strings.HRVstarting);
 		}
 	}
 

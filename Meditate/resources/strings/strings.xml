@@ -194,7 +194,9 @@
     <string id="restoreDeviceId">Restore From Device ID (leave empty to use this device):</string>
     <string id="pickMMSS">Pick MM:SS</string>
     <string id="pickHMM">Pick H:MM</string>
-    <string id="HRVwaiting">HRV waiting</string>
+    <string id="HRVstarting">HRV starting</string>
+    <string id="HRVstartingAlt">Please wait</string>
+    <string id="HRVrestart">Restart the app</string>
     <string id="HRVready">HRV ready</string>
     <string id="HRVweak">HRV weak</string>
     <string id="HRVoff">HRV off</string>
@@ -206,7 +208,7 @@
     <string id="finishMenu_discard">Discard</string>
     <string id="optionsMenuHelp">Press start for options</string>
 
-    <string id="about_AppVersion">v10.7.12</string>
+    <string id="about_AppVersion">v10.7.14</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>
     <string id="about_falsetru">falsetru</string>

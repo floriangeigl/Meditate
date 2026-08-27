@@ -75,7 +75,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		} else {
 			var summaryIndex = option;
 			var summaryModel = me.mSummaryRollupModel.getSummary(summaryIndex);
-			var summaryViewDelegate = new SummaryViewDelegate(summaryModel, null, null);
+			var summaryViewDelegate = new SummaryViewDelegate(summaryModel, null);
 			Ui.pushView(summaryViewDelegate.createScreenPickerView(), summaryViewDelegate, Ui.SLIDE_LEFT);
 		}
 	}
@@ -165,7 +165,8 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 	}
 
 	function updateHrvStatus(data) {
-		if (me.hrvStatusLineNum == null) {
+		// keep the hrv off presentation set by setInitialHrvStatus; getStatus has side effects
+		if (me.hrvStatusLineNum == null || me.mHrvTracking == HrvTracking.Off) {
 			return;
 		}
 		var hrvStatusLine = me.mSelectedSessionDetails.getLine(me.hrvStatusLineNum);
@@ -185,7 +186,11 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 			}
 			hrvStatusLine.icon.tick();
 		}
-		hrvStatusLine.value.text = Utils.getHrvStatusText(sensorStatus);
+		hrvStatusLine.value.text = Utils.getHrvStatusText(
+			sensorStatus,
+			me.mHeartbeatIntervalsSensor.shouldSuggestRestart(),
+			me.mHeartbeatIntervalsSensor.showAltStartingText()
+		);
 		Ui.requestUpdate();
 	}
 
@@ -198,7 +203,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 			hrvStatusLine.icon.setStatusOff();
 			hrvStatusLine.value.text = Ui.loadResource(Rez.Strings.HRVoff);
 		} else {
-			hrvStatusLine.value.text = Ui.loadResource(Rez.Strings.HRVwaiting);
+			hrvStatusLine.value.text = Ui.loadResource(Rez.Strings.HRVstarting);
 		}
 		me.updateHrvStatus([]);
 	}

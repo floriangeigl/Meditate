@@ -17,6 +17,7 @@ Meditate/               Main watch-app (entry: source/MeditateApp.mc)
 HrvAlgorithms/          Barrel — HRV/HR/stress sensor algorithms
 ScreenPicker/           Barrel — carousel UI components (depends on StatusIconFonts)
 StatusIconFonts/        Barrel — Font Awesome icon fonts
+HrvProbe/               Standalone diagnostic app, not shipped — see "HRV cold start"
 ```
 
 **Dependency graph:** `Meditate` → `HrvAlgorithms`, `ScreenPicker` → `StatusIconFonts`, `StatusIconFonts`
@@ -117,6 +118,53 @@ Fixed via `Utils.activityTypeOverridesByPartNumber` (keyed by `System.getDeviceS
 
 Note: `ActivityRecording.createSession` does **not** throw a catchable exception for this failure — a try/catch-and-retry safety net was considered and rejected because it wouldn't actually intercept it. Don't propose try/catch around a Toybox call without first confirming (via the API docs or existing repo precedent) that it's documented to throw.
 
+### Device quirk: multitasking devices suspend sensors off-screen
+
+On multitasking devices the app **keeps running when it leaves the screen** — no `onStop()`, just `AppBase.onInactive()`. While inactive the system suspends the app's sensors (`Toybox.Sensor` docs: *"Sensor states can not be changed while in inacitve mode and sensor enabled during active mode will be disabled when app becomes inactive"*), so the `heartBeatIntervals` callback keeps firing with **empty data** — indistinguishable from a dead HR sensor.
+
+The authoritative device list is the **`onActive`/`onInactive` supported-devices list in the SDK docs** (`doc/Toybox/Application/AppBase.html`), API 4.2.3+: Approach S50, D2 Mach 2/Pro, Enduro 3, fēnix 8 (43/47/51/Pro/Solar), tactix 8, quatix 8, fēnix E, Venu 3/3S, Venu 4 41/45mm, D2 Air X15, Venu X1, vívoactive 5/6. Use that list, not "AMOLED" or "released after 2023" — fēnix 8 Solar 51mm is MIP and *is* multitasking.
+
+Caveat: the doc list lags the device definitions. SDK 9.2.0 ships fēnix 9 device defs but its docs never mention fēnix 9 (0 hits, vs 321 for fēnix 8 Pro), so the list neither confirms nor rules out fēnix 9 multitasking. Assume it is, and re-check the list after an SDK doc refresh. Either way the code is safe: `foreground` defaults `true`, and `onActive`/`onInactive` are simply never called on a non-multitasking device.
+
+This caused a production crash (24 reports, v10.7.10, backtrace `HeartbeatIntervalsSensor.createWakeupSession` ← `getStatus` ← `SessionPickerDelegate.updateHrvStatus` ← `update`): after ~40 s backgrounded on the session picker, `getStatus()`'s >20-error recovery path fired and called `ActivityRecording.createSession`, which is not permitted in that state. **Every crashing device was on the multitasking list; none of the other 81 supported devices appeared** — that 100% correlation is what identified the root cause, so check the device list against it before assuming a sport/spec problem.
+
+Fixed with a `foreground` flag on `HeartbeatIntervalsSensor` (`setForeground()`, driven by `MeditateApp.onActive`/`onInactive`):
+
+- The gate lives in **`getStatus()`, not `update()`** — `getStatus()`'s only caller is the session picker, so gating there cannot touch in-session HRV capture. Early-returning in `update()` would suppress `mSensorListener.invoke(data)`, i.e. the HRV feed of a session recording in the background.
+- `setForeground(true)` calls `resetSensorQuality()` on the false→true edge only — the counters are meaningless after a suspended gap, and this gives the re-enabled sensor its full ~21 s grace instead of firing recovery on the first tick back.
+- `foreground` defaults `true` and the callbacks only exist on multitasking devices, so the other 81 devices are unchanged. Defining `onActive`/`onInactive` compiles fine down to CIQ 3.0.3 (verified on `d2deltapx`) — on older devices they're just methods that are never called.
+- Going inactive deliberately does **nothing** beyond setting the flag: sensor state must not be changed there.
+
+Known related exposure, unverified and not fixed: `MeditatePrepareView`'s countdown `Timer.Timer` calls `startMeditationSession()` → `createSession`. If a view's timer survives backgrounding (i.e. `onHide()` does *not* fire when a multitasking app loses the screen), backgrounding during a prepare countdown hits the same illegal call with a different backtrace.
+
+### HRV cold start: two-phase status text, restarting is the only real fix
+
+On a cold optical sensor `heartBeatIntervals` stays empty while `currentHeartRate` streams normally. The 1 Hz callback keeps firing with empty data, so the picker's hourglass animates forever. **Nothing done *within* a running app reliably unsticks it** — held session (180–320 s), `session.start()`, `setEnabledSensors`, `enableSensorType`, `enableSensorEvents`, and in-process `onStop`-style teardown+restart, all measured on a 10–12 h cold sensor, all nothing. It reproduces in ~100 lines that only register a listener, so it is not a Meditate bug, and the simulator cannot reproduce it at all.
+
+**Restarting the app does fix it, fast.** Two cold sensors (11.4 h, 13.1 h gap) that failed on first launch got RR within 2–3 s of a genuine relaunch — total time under 1.5 min, against 180–320 s of continuous holding producing nothing on comparably cold sensors. One confound is still open — restarting requires handling the watch, and motion is known to affect the optical sensor, so "the restart" vs "the motion of restarting" isn't separated by any test run — but it doesn't change the recommendation.
+
+**Fix shipped: two-phase status text, no new UI.** `getStatus()` must not call `System.exit()` itself — unsafe mid-session or mid-menu — and users already know how to restart the app, so the fix is wording only via the existing `HeartbeatIntervalsSensor.shouldSuggestRestart()` / `Utils.getHrvStatusText(status, suggestRestart)`/ `SessionPickerDelegate.updateHrvStatus()` path:
+
+- First ~18 s of Error status (`statusErrors <= restartHintAfterErrors`): alternates every 2 s between `HRVstarting` ("HRV starting") and `HRVstartingAlt` ("Please wait") via `HeartbeatIntervalsSensor.showAltStartingText()` — `((statusErrors - 1) / 2) % 2 == 1`, free-riding on the counter that already ticks once per second, no new timer. 18 is a multiple of the 2 s block size, so the handoff to `HRVrestart` lands right after a complete block, not mid-block — keep the threshold a multiple of the block size if either changes. Most successful runs resolve in 1–3 s, so this covers the common case without alarming anyone.
+- Beyond that (`shouldSuggestRestart()` true): `HRVrestart` — "Restart the app". Justified by the data: RR never once recovered mid-run past this point in any measured run (up to 320 s), only on the next launch — so there is no case where waiting past ~18 s helps and telling the user to restart does not.
+- The old `HRVwaiting` id and its "the app already ships a :sensorRestart setting" framing are superseded — the setting still exists but is no longer the documented answer; the status text itself now says what to do.
+- Non-English translations for `HRVstarting`/`HRVrestart` are best-effort, not native-reviewed — worth a spot-check per locale before release.
+
+
+**Do not re-propose `setEnabledSensors`/`enableSensorType`/ordering changes, and do not add more in-app retry logic** — all tested and rejected, several repeatedly across four years of git history.
+
+Useful facts: HR availability is **not** a proxy for RR availability; warm latency is ~2 s; spin-down is >45 s.
+
+Full investigation, all measurements, the six rejected hypotheses and the method mistakes that produced three wrong conclusions: **[`HrvProbe/FINDINGS.md`](HrvProbe/FINDINGS.md)**. The diagnostic app itself: [`HrvProbe/README.md`](HrvProbe/README.md) — use it before theorising about this again.
+
+### Invariant: at most one open `ActivityRecording` session
+
+`ActivityRecording.createSession` **returns the existing Session object** if one is open rather than creating a new one (documented, not an error). So any code path that leaves a stopped session unsaved/undiscarded silently corrupts the *next* session: `HrActivity.initialize` gets handed the old object, `createMinHrDataField()` re-adds `min_hr` to it, and the next meditation records into the previous session's file under its sport and name.
+
+`SaveDiscardMenuDelegate.onBack()` used to pop without saving or discarding, leaking exactly that. It now invokes the save callback — **back on the save/discard prompt saves**. `HrActivity.finish()`/`discard()` both null-check `mFitSession`, so a later close can't double-fire.
+
+`HrActivity.discardDanglingActivity()` was written for this but never wired up (`SummaryViewDelegate` stored the callback and never invoked it); both were deleted rather than left as dead code. Don't reintroduce a defensive discard in `HrvActivity.initialize` — that hides a leak instead of closing it. Close the session where it's created.
+
 ### Flow: check for new devices to support
 
 **Goal: surface only genuinely new watch releases.** A raw SDK-vs-manifest diff returns ~76 entries that are *not* new — they're non-wrist hardware and old watches already intentionally dropped. Folder timestamps can't distinguish new from old (they all reset to the SDK install date). So the diff is filtered against a curated baseline of known exclusions; anything left over is a genuinely new device to evaluate.
@@ -142,6 +190,8 @@ $excludeExact = @(
 # NOTE: vivoactive4/4s and marqexpedition were sim-verified OK and re-added to all 4 manifests after the
 #       Apr-2025 bulk purge (46c1938 "tmp rm devices again"). vivoactive3m/3mlte still crash on finish.
 # NOTE: fr70 / fr170 / fr170m were added to all 4 manifests (CIQ 6.0, 768 KB); flow now skips them via $man.
+# NOTE: the 7 fenix 9 devices (fenix943mm/947mm, fenix9pro43/47/51mm, fenix9prosolar47/51mm) were added to
+#       all 4 manifests (CIQ 6.0.3, 768 KB, resolutions all match existing fenix 8 variants); flow skips them via $man.
 $man = Select-String -Path .\Meditate\manifest.xml -Pattern 'iq:product id="([^"]+)"' -AllMatches |
   ForEach-Object { $_.Matches } | ForEach-Object { $_.Groups[1].Value }
 Get-ChildItem "$env:APPDATA\Garmin\ConnectIQ\Devices" -Directory | ForEach-Object {
@@ -218,6 +268,16 @@ MeditateApp.getInitialView()
     → [Multi-session: intermediate menu → next session or rollup exit]
 ```
 
+### Finish flow: `MeditateDelegate` outlives the session
+
+`MeditateDelegate` is passed as the input delegate for the post-session `DelayedFinishingView`s ("calculating results"), not just for `MeditateView`. So its in-session gestures stay reachable **after** the activity has been stopped and its FIT session saved or discarded — at which point `HrActivity.mFitSession` is `null` (nulled by `finish()`/`discard()`) and any `pauseResume()`/`stop()` on it throws **"Unexpected Type Error"**.
+
+Guarded by `mActivityStopped`, set once in `stopActivity()` (the single choke point — only `stopFromPauseMenu()` and `onSessionAutoComplete()` reach it) and checked in `onBack()` and `onKey()`. A fresh `MeditateDelegate` is built per session in `SessionPickerDelegate.startMeditationSession()`, so the flag is never reset.
+
+**Do not add in-session input handling to `MeditateDelegate` without checking that flag**, and do not add a null guard in `HrActivity` instead — that hides the stray pause menu rather than preventing it. Two production crashes came from this (v10.7.10): back on the post-save spinner → pause menu → back (`resumeFromPauseMenu`), and the same menu → "Stop" (`stopFromPauseMenu`). The stray menu also froze the flow, since `pushView` triggers `DelayedFinishingView.onHide()` which stops its 1 s timer.
+
+Related: `MeditatePrepareView` (prepare/finalize countdowns) uses `MeditatePrepareDelegate`, which swallows keys and maps back to "skip countdown" — that path is unaffected.
+
 ### Key Source Directories
 
 - `Meditate/source/activity/` — Core meditation activity, views, vibration alerts
@@ -275,8 +335,16 @@ Two PowerShell 5.1 scripts for deploying and debugging on a physical Garmin watc
 Deploys `bin/Meditate.prg` to the watch:
 
 1. Shows device and source path, asks for confirmation before deploying
-2. Copies `Meditate.prg` to `GARMIN/Apps/` and verifies it arrived
-3. Creates an empty `MEDITATE.TXT` in `GARMIN/Apps/LOGS/` to enable `System.println()` logging
+2. Copies the PRG to `GARMIN/Apps/` and verifies it arrived
+3. Creates an empty `<PRGNAME>.TXT` in `GARMIN/Apps/LOGS/` to enable `System.println()` logging
+
+An optional **second** parameter deploys a different PRG (relative paths resolve against `Meditate/`), used for `HrvProbe`:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\CopyBuildToDevice.ps1 fenix ..\HrvProbe\bin\HrvProbe.prg
+```
+
+The LOGS trigger is named after the PRG, so a probe build automatically gets `HRVPROBE.TXT`. The source path is canonicalized with `Resolve-Path` before copying — **Shell COM `CopyHere` fails silently on paths containing `..`** while `Test-Path` accepts them, so an uncanonicalized path copies nothing and only trips the verify step.
 
 ### PullDebugInfoFromDevice.ps1
 
