@@ -1,0 +1,3 @@
+<resources>
+    <bitmap id="launcherIcon" filename="images/launcher_icon.png" dithering="floyd_steinberg" compress="true"/>
+</resources>

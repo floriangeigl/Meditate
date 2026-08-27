@@ -7,7 +7,7 @@ share-title: Meditation & Atemübungen Garmin-App | Florian Geigl
 share-description: Meditation und Atemarbeit auf deiner Garmin Uhr – Achtsamkeit mit biometrischen Echtzeitdaten. Jetzt bei Garmin Connect IQ herunterladen.
 ---
 
-![Hero-Bild der App für Meditation und Atemarbeit](userGuideScreenshots/hero_meditate.png)
+![Hero-Bild der App für Meditation und Atemarbeit](/meditate_app_user_guide/userGuideScreenshots/hero_meditate.png)
 
 Wenn du dich schon einmal gleichzeitig ruhig und unruhig gefühlt hast, bist du nicht kaputt. Du bist menschlich.
 

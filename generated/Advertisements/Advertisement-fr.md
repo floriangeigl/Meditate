@@ -7,7 +7,7 @@ share-title: App Garmin Méditation & Respiration | Florian Geigl
 share-description: Méditation et respiration sur ta montre Garmin — pleine conscience et biométrie en temps réel. Télécharge l’app sur Garmin Connect IQ.
 ---
 
-![image principale de l’app Méditation & Respiration](userGuideScreenshots/hero_meditate.png)
+![image principale de l’app Méditation & Respiration](/meditate_app_user_guide/userGuideScreenshots/hero_meditate.png)
 
 Si tu t’es déjà senti calme et mal à l’aise en même temps, tu n’as rien de cassé. Tu es humain.
 
@@ -33,7 +33,7 @@ L’essentiel est de découvrir ce qui soutient **ton** système nerveux.
 ## Une Pratique Pensée Pour Toi
 
 - Crée des sessions adaptées à ton rythme et à ton attention
-- Observe la fréquence cardiaque, la HRV, le stress et la respiration en temps réel
+- Observe la fréquence cardiaque, l’HRV, le stress et la respiration en temps réel
 - Enregistre tes sessions dans Garmin Connect pour soutenir en douceur la régularité et la conscience au fil du temps
 
 Voir tes sessions dans la durée n’a rien à voir avec la discipline ou la performance.  
@@ -43,7 +43,7 @@ Cela t’aide simplement à repérer des schémas, à gagner en familiarité et 
 
 ## La régulation n’est pas toujours synonyme de calme
 
-La méditation et le breathwork ne servent pas à produire de "bons" indicateurs.
+La méditation et les exercices de respiration ne servent pas à produire de "bons" indicateurs.
 
 Une session calme a de la valeur, car elle permet à ton système nerveux de passer plus de temps dans un état régulé. Plus tu y restes, plus ces circuits neuronaux se renforcent, ce qui rend le calme et l’équilibre plus accessibles avec le temps.
 

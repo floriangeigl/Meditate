@@ -34,11 +34,11 @@ module HrvAlgorithms {
 		}
 
 		function stop() {
+			me.mRefreshActivityTimer.stop();
 			if (me.mFitSession.isRecording() == false) {
 				return;
 			}
 			me.mFitSession.stop();
-			me.mRefreshActivityTimer.stop();
 		}
 
 		// Pause/Resume session, returns true is session is now running
@@ -99,12 +99,6 @@ module HrvAlgorithms {
 				me.mFitSession.discard();
 			}
 			me.mFitSession = null;
-		}
-
-		function discardDanglingActivity() {
-			if (me.mFitSession != null && !me.mFitSession.isRecording()) {
-				me.discard();
-			}
 		}
 
 		static function getLoadTime() {

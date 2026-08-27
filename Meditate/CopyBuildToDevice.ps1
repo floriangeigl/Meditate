@@ -10,23 +10,39 @@ USAGE:
   powershell -NoProfile -ExecutionPolicy Bypass -File .\CopyBuildToDevice.ps1 "fenix 8 - 47mm"
   # or
   powershell -NoProfile -ExecutionPolicy Bypass -File .\CopyBuildToDevice.ps1 fenix
+
+  # deploy a different PRG (e.g. the HRV troubleshooting probe)
+  powershell -NoProfile -ExecutionPolicy Bypass -File .\CopyBuildToDevice.ps1 fenix ..\HrvProbe\bin\HrvProbe.prg
 #>
 
 [CmdletBinding()]
 param(
     [Parameter(Position=0)]
-    [string]$DeviceName = 'fenix'
+    [string]$DeviceName = 'fenix',
+
+    # Optional: deploy a different PRG (e.g. ..\HrvProbe\bin\HrvProbe.prg).
+    # The LOGS trigger file is named after the PRG, so println logging follows automatically.
+    [Parameter(Position=1)]
+    [string]$PrgPath
 )
 
 $ErrorActionPreference = 'Stop'
 
 # --- Settings ---------------------------------------------------------------
-$sourceFile = Join-Path $PSScriptRoot 'bin\Meditate.prg'
+if ($PrgPath) {
+    $sourceFile = if ([System.IO.Path]::IsPathRooted($PrgPath)) { $PrgPath } else { Join-Path $PSScriptRoot $PrgPath }
+} else {
+    $sourceFile = Join-Path $PSScriptRoot 'bin\Meditate.prg'
+}
 # ----------------------------------------------------------------------------
 
 if (-not (Test-Path $sourceFile)) {
     throw "Source file not found: $sourceFile"
 }
+
+# Shell COM CopyHere fails silently on paths containing '..' segments, so canonicalize.
+$sourceFile  = (Resolve-Path -LiteralPath $sourceFile).ProviderPath
+$prgFileName = [System.IO.Path]::GetFileName($sourceFile)
 
 # Create Shell COM (needed for MTP paths like 'Dieser PC\...')
 $shell      = New-Object -ComObject Shell.Application
@@ -85,7 +101,7 @@ Write-Host "  Device : $($deviceItem.Name)"
 Write-Host "  Source : $sourceFile"
 Write-Host "--------------------------------------------------"
 Write-Host ""
-$proceed = Read-Host "Deploy Meditate.prg to the watch? [Y/n]"
+$proceed = Read-Host "Deploy $prgFileName to the watch? [Y/n]"
 if ($proceed -in @('n','N','no','No')) {
     Write-Host "Aborted - no changes made to the watch."
     exit 0
@@ -106,17 +122,24 @@ if (-not $appsFolder) { throw "Couldn't create/find Apps folder." }
 $fof = 0x4 -bor 0x10 -bor 0x200 -bor 0x400
 $appsFolder.CopyHere($sourceFile, $fof)
 
-# Verify it arrived (poll briefly because MTP copies are async)
-$destItem = $appsFolder.ParseName('Meditate.prg')
+# Verify it arrived (poll briefly because MTP copies are async).
+# Re-acquire the Apps folder each round: the shell caches MTP listings and a stale
+# handle can keep reporting the file as missing after it has actually landed.
+$destItem = $appsFolder.ParseName($prgFileName)
 for ($i=0; $i -lt 40 -and -not $destItem; $i++) {
     Start-Sleep -Milliseconds 250
-    $destItem = $appsFolder.ParseName('Meditate.prg')
+    $appsFolder = Get-ChildFolder -ParentFolder $garminFolder -NamePatterns @('Apps','APPS')
+    if ($appsFolder) { $destItem = $appsFolder.ParseName($prgFileName) }
 }
 
 if ($destItem) {
-    Write-Host "[OK] Copied to: $($deviceItem.Name)\Internal Storage\GARMIN\Apps\Meditate.prg"
+    Write-Host "[OK] Copied to: $($deviceItem.Name)\Internal Storage\GARMIN\Apps\$prgFileName"
 } else {
-    throw "[ERROR] Copy did not verify. Open the Apps folder in Explorer to confirm."
+    Write-Host "[WARN] Could not verify $prgFileName in the Apps folder. Current contents:"
+    foreach ($item in $appsFolder.Items()) {
+        if (-not $item.IsFolder) { Write-Host "    $($item.Name)" }
+    }
+    throw "[ERROR] Copy did not verify. Check the Apps folder in Explorer."
 }
 
 # -- Create empty MEDITATE.TXT to enable System.println() logging ---------
