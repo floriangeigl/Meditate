@@ -478,12 +478,13 @@ music written for the breath, and journeys longer than a watch screen can carry,
 
 Two worth setting aside real time for:
 
-- _40 Min Release Trauma, Tension & Emotions Stuck in The Body | 5 Rounds | Guided Gratitude
+- _40 Min Release Trauma, Tension & Emotions Stuck in The Body \| 5 Rounds \| Guided Gratitude
   Meditation_
-- _Reconnect with Your Inner Child | 1 Hour Deep Breathwork Journey & Healing Meditation_
+- _Reconnect with Your Inner Child \| 1 Hour Deep Breathwork Journey & Healing Meditation_
 
-Find them on Sandy's app or Patreon. These run far longer and deeper than anything preset here. Do them lying down, somewhere you
-can stay put afterwards - and read the safety note below first. You can still record one on the
+Find them on Sandy's app or Patreon. These run far longer and deeper than anything preset here.
+Do them lying down, somewhere you can stay put afterwards - and read the safety note below
+first. You can still record one on the
 watch: start a plain session of roughly the same length with **Breath Program** off, so the app
 tracks your HR and HRV while the recording guides your breathing.
 
