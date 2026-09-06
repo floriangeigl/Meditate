@@ -4,12 +4,16 @@ using Toybox.Graphics as Gfx;
 class SessionStorage {
 	private var mSelectedSessionIndex;
 	private var mSessionKeys;
+	private var mFreshInstall;
 	private static var mStorageKeySessionPrefix = "sesssion_";
 	private static var mStorageKeySelectedSessionIndex = "selectedSessionIndex";
 	private static var mStorageKeySessionsKeys = "sessionsKeys";
 
 	function initialize() {
 		me.mSessionKeys = App.Storage.getValue(me.mStorageKeySessionsKeys);
+		// no key list at all means this launch is creating the store; deleting every session
+		// does not count, updateSessionStats has written the list back by then
+		me.mFreshInstall = me.mSessionKeys == null;
 		if (me.mSessionKeys == null) {
 			me.mSessionKeys = [];
 		}
@@ -19,6 +23,78 @@ class SessionStorage {
 		if (me.mSessionKeys.size() == 0){
 			me.restorePresets();
 			me.updateSessionStats();
+		}
+		me.migratePresets();
+	}
+
+	function isFreshInstall() {
+		return me.mFreshInstall;
+	}
+
+	// One-time upgrade for anyone coming from a version without guided breathwork. Keys 7-9
+	// shipped as alert-based breathwork sessions and are rewritten in place; 10-12 are new and
+	// simply added. A preset the user deleted stays deleted, and a renamed one is left alone.
+	private static const PresetsVersion = 2;
+	private static const LegacyBreathPresetKeys = [7, 8, 9];
+	private static const AddedBreathPresetKeys = [10, 11, 12];
+
+	private function migratePresets() {
+		if (GlobalSettings.loadPresetsVersion() >= SessionStorage.PresetsVersion) {
+			return;
+		}
+		for (var i = 0; i < SessionStorage.LegacyBreathPresetKeys.size(); i++) {
+			me.upgradeLegacyBreathPreset(SessionStorage.LegacyBreathPresetKeys[i]);
+		}
+		for (var i = 0; i < SessionStorage.AddedBreathPresetKeys.size(); i++) {
+			me.addMissingBreathPreset(SessionStorage.AddedBreathPresetKeys[i]);
+		}
+		GlobalSettings.savePresetsVersion(SessionStorage.PresetsVersion);
+	}
+
+	// keeps the stored session and changes only what the program owns, so colour, vibration and
+	// every other choice the user made survives
+	private function upgradeLegacyBreathPreset(key) {
+		if (me.mSessionKeys.indexOf(key) == -1) {
+			return;
+		}
+		var stored = me.loadSessionByKey(key);
+		if (stored == null || stored.hasBreathProgram()) {
+			return;
+		}
+		var preset = SessionPresets.createBreathworkPreset(key);
+		// equals() on the shipped name, so a null or non-string stored name just fails the match
+		if (preset == null || !preset.name.equals(stored.name)) {
+			return;
+		}
+		// the program now carries the rhythm the alerts used to; keeping both would double the cues
+		stored.setBreathProgram(preset.getBreathProgram());
+		stored.time = preset.time;
+		stored.setIntervalAlerts(new IntervalAlerts());
+		me.saveSession(stored);
+	}
+
+	private function addMissingBreathPreset(key) {
+		if (me.mSessionKeys.indexOf(key) != -1) {
+			return;
+		}
+		var preset = SessionPresets.createBreathworkPreset(key);
+		if (preset != null) {
+			me.addSession(preset);
+		}
+	}
+
+	// null for anything unreadable: a corrupt entry must skip the migration, never fail startup
+	private function loadSessionByKey(key) {
+		try {
+			var loadedSessionDictionary = App.Storage.getValue(me.mStorageKeySessionPrefix + key.toString());
+			if (loadedSessionDictionary == null) {
+				return null;
+			}
+			var session = new SessionModel();
+			session.fromDictionary(loadedSessionDictionary);
+			return session;
+		} catch (ex) {
+			return null;
 		}
 	}
 

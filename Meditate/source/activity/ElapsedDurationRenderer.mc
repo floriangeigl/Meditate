@@ -37,8 +37,9 @@ class ElapsedDurationRenderer {
 	function drawProgressPercentage(dc, progressPercentage) {
 		if (progressPercentage <= 0) {
 			progressPercentage = 0.01;
-		} else if (progressPercentage > 100) {
-			progressPercentage = 100;
+		} else if (progressPercentage > 99.9) {
+			// a full 360 deg arc has start == end and draws nothing; 99.9% leaves an invisible gap
+			progressPercentage = 99.9;
 		}
 		me.drawDuration(dc, progressPercentage);
 	}

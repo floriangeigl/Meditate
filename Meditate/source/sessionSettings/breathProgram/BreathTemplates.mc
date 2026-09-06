@@ -54,18 +54,19 @@ class BreathTemplates {
 	// These back the shipped breathwork sessions in SessionPresets; there is no
 	// separate template picker, so this is the only definition of each program.
 
+	// Repeats are counted in rounds, not duration, so a program never ends mid-breath.
+	// That makes some totals land a few seconds off the nominal length - 5:04 rather than 5:00.
 	static function createProgram(id) {
 		var program = new BreathProgram();
 		var nose = BreathRoute.Nose;
 		var mouth = BreathRoute.Mouth;
 		var unset = BreathRoute.Unset;
 		var rounds = BreathRepeat.Rounds;
-		var duration = BreathRepeat.Duration;
 
 		if (id == :coherence5) {
-			program.addNew(BreathTemplates.makeStep([6, 0, 6, 0], duration, 300, nose, nose));
+			program.addNew(BreathTemplates.makeStep([6, 0, 6, 0], rounds, 25, nose, nose)); // 5:00
 		} else if (id == :b4785) {
-			program.addNew(BreathTemplates.makeStep([4, 7, 8, 0], duration, 300, nose, mouth));
+			program.addNew(BreathTemplates.makeStep([4, 7, 8, 0], rounds, 16, nose, mouth)); // 5:04
 		} else if (id == :breathHolds) {
 			// power breaths, then a retention on empty lungs, then a recovery breath held full
 			for (var round = 0; round < 2; round++) {
@@ -77,11 +78,11 @@ class BreathTemplates {
 			program.addNew(BreathTemplates.makeStep([2, 0, 2, 0], rounds, 40, nose, mouth));
 			program.addNew(BreathTemplates.makeStep([4, 4, 4, 4], rounds, 10, nose, nose));
 		} else if (id == :windDown) {
-			program.addNew(BreathTemplates.makeStep([4, 0, 8, 0], duration, 180, nose, mouth));
-			program.addNew(BreathTemplates.makeStep([4, 7, 8, 0], rounds, 6, nose, mouth));
+			program.addNew(BreathTemplates.makeStep([4, 0, 8, 0], rounds, 15, nose, mouth)); // 3:00
+			program.addNew(BreathTemplates.makeStep([4, 7, 8, 0], rounds, 6, nose, mouth)); // 1:54
 		} else {
 			// :box5
-			program.addNew(BreathTemplates.makeStep([4, 4, 4, 4], duration, 300, nose, nose));
+			program.addNew(BreathTemplates.makeStep([4, 4, 4, 4], rounds, 19, nose, nose)); // 5:04
 		}
 		return program;
 	}

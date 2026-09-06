@@ -243,16 +243,22 @@ A breathing cycle can include:
 
 (Some techniques skip certain parts.)
 
+> **New to breathwork?** Don't start here. A watch can keep your rhythm, but it cannot explain
+> what you are doing or talk you through it. Follow along with a few guided videos first - see
+> [Going Further](#going-further) for where to find good ones. Come back to these presets once
+> you know how the rhythms are meant to feel; the watch is then the better tool for keeping
+> them.
+
 ### Included Sessions
 
-| Session | Rhythm | Length |
-| --- | --- | --- |
-| Box Breath | 4-4-4-4 | 5:00 |
-| B. Coherence | 6-6 | 5:00 |
-| B. 4-7-8 | 4-7-8 | 5:00 |
-| B. Energize | fast breathing, then box breathing | 5:20 |
-| B. Wind Down | long exhales, then 4-7-8 | 4:54 |
-| B. Holds | deep breaths, then breath holds | 7:16 |
+| Session      | Rhythm                             | Length |
+| ------------ | ---------------------------------- | ------ |
+| Box Breath   | 4-4-4-4                            | 5:04   |
+| B. Coherence | 6-6                                | 5:00   |
+| B. 4-7-8     | 4-7-8                              | 5:04   |
+| B. Energize  | fast breathing, then box breathing | 5:20   |
+| B. Wind Down | long exhales, then 4-7-8           | 4:54   |
+| B. Holds     | deep breaths, then breath holds    | 7:16   |
 
 **Box Breathing**  
 Equal inhale, hold, exhale, hold.  
@@ -296,6 +302,7 @@ Before the session starts, the preparation countdown shows what is coming.
 - The session tells you when to use the mouth - 4-7-8, for example, exhales through the mouth
 - If timed breathing feels stressful, choose a simple session and breathe naturally
 - Never practise breath holds in water, while driving, or while standing up
+- For guided sessions with a voice and music, see [Going Further](#going-further)
 
 ---
 
@@ -382,27 +389,27 @@ Adding a step always starts from a ready-made pattern (`4-4-4-4`, `4-7-8`, `6-6`
 
 Each step is a breath pattern plus a repeat rule:
 
-| Field | Meaning |
-| --- | --- |
-| Inhale | seconds breathing in (`0:00` skips this phase) |
-| Hold | seconds holding with full lungs |
-| Exhale | seconds breathing out |
-| Hold empty | seconds holding with empty lungs |
-| Breathe in via | nose, mouth, or not set |
-| Breathe out via | nose, mouth, or not set |
-| Repeat | either a number of rounds, or a duration |
+| Field           | Meaning                                        |
+| --------------- | ---------------------------------------------- |
+| Inhale          | seconds breathing in (`0:00` skips this phase) |
+| Hold            | seconds holding with full lungs                |
+| Exhale          | seconds breathing out                          |
+| Hold empty      | seconds holding with empty lungs               |
+| Breathe in via  | nose, mouth, or not set                        |
+| Breathe out via | nose, mouth, or not set                        |
+| Repeat          | either a number of rounds, or a duration       |
 
 A pure breath-hold is just a step where only a hold is set. Steps are named automatically
 from their numbers, so `4-7-8` means inhale 4, hold 7, exhale 8.
 
 Example - `4 rounds of 5-5-5, then a 2:00 hold, then 6-6 for 3 minutes`:
 
-| Step | Pattern | Repeat | Length |
-| --- | --- | --- | --- |
-| 1 | 5-5-5 | 4 rounds | 1:00 |
-| 2 | Hold 2:00 | once | 2:00 |
-| 3 | 6-6 | for 3:00 | 3:00 |
-| | | **total** | **6:00** |
+| Step | Pattern   | Repeat    | Length   |
+| ---- | --------- | --------- | -------- |
+| 1    | 5-5-5     | 4 rounds  | 1:00     |
+| 2    | Hold 2:00 | once      | 2:00     |
+| 3    | 6-6       | for 3:00  | 3:00     |
+|      |           | **total** | **6:00** |
 
 **The program sets the session length.** With a program in place the Time row shows the
 computed total and opens the program editor instead of a duration picker.
@@ -429,11 +436,11 @@ step specifies one, the breathing route for the phase you are in.
 Each phase change fires its own vibration, so a session works with your eyes closed and the
 screen off:
 
-| Phase | Vibration | Tone |
-| --- | --- | --- |
-| Inhale | ascending | rising two notes |
-| Hold (full or empty) | short blip | one short note |
-| Exhale | descending | falling two notes |
+| Phase                | Vibration  | Tone              |
+| -------------------- | ---------- | ----------------- |
+| Inhale               | ascending  | rising two notes  |
+| Hold (full or empty) | short blip | one short note    |
+| Exhale               | descending | falling two notes |
 
 Both holds share the same cue. A hold always follows an inhale or an exhale, so you already
 know whether your lungs are full or empty without a fourth pattern to learn.
@@ -453,6 +460,36 @@ Programs longer than four steps are summarised as `+N more`.
 
 > Interval alerts still work exactly as before and can be combined with a breath program -
 > they are best used for periodic reminders rather than for breathing patterns.
+
+<a id="going-further"></a>
+
+### Going Further
+
+The app paces your breath, it does not talk you through it. If you want a voice guiding you,
+music written for the breath, and journeys longer than a watch screen can carry,
+**Breathe With Sandy** is a genuinely good place to start - warmly recommended:
+
+- **App and website:** [breathewithsandy.com](https://www.breathewithsandy.com/) - the fullest
+  collection, with original music composed to pace your breath
+- **YouTube:** [youtube.com/breathewithsandy](https://www.youtube.com/breathewithsandy) - free
+  guided sessions, an easy place to try one
+- **Patreon:** [patreon.com/cw/breathewithsandy](https://www.patreon.com/cw/breathewithsandy) -
+  the long-form journeys
+
+Two worth setting aside real time for:
+
+- _40 Min Release Trauma, Tension & Emotions Stuck in The Body | 5 Rounds | Guided Gratitude
+  Meditation_
+- _Reconnect with Your Inner Child | 1 Hour Deep Breathwork Journey & Healing Meditation_
+
+Find them on Sandy's app or Patreon. These run far longer and deeper than anything preset here. Do them lying down, somewhere you
+can stay put afterwards - and read the safety note below first. You can still record one on the
+watch: start a plain session of roughly the same length with **Breath Program** off, so the app
+tracks your HR and HRV while the recording guides your breathing.
+
+> Long, continuous breathwork can bring on strong physical and emotional reactions. Never
+> practise it in water, while driving, or standing up, and skip it entirely if you are pregnant
+> or have a cardiovascular or seizure condition without clearing it with a doctor first.
 
 ---
 

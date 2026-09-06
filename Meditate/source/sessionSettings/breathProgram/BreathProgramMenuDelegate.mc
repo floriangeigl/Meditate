@@ -2,12 +2,14 @@ using Toybox.WatchUi as Ui;
 using Toybox.Lang;
 
 // Root of the breath program editor: the step list, plus add step and delete all.
-// The step rows are dynamic, so the whole item list is rebuilt after every change.
+// Step rows are rewritten in place; the list is only rebuilt when the row count changes.
 class BreathProgramMenuDelegate extends Ui.Menu2InputDelegate {
 	private var mProgram;
 	private var mOnProgramChanged;
 	private var mMenu;
 	private var mItemCount;
+	private var mStepCount;
+	private var mChanged;
 
 	function initialize(breathProgram, onProgramChanged, menu) {
 		Ui.Menu2InputDelegate.initialize();
@@ -15,6 +17,8 @@ class BreathProgramMenuDelegate extends Ui.Menu2InputDelegate {
 		me.mOnProgramChanged = onProgramChanged;
 		me.mMenu = menu;
 		me.mItemCount = 0;
+		me.mStepCount = 0;
+		me.mChanged = false;
 	}
 
 	function rebuildMenuItems() {
@@ -30,9 +34,25 @@ class BreathProgramMenuDelegate extends Ui.Menu2InputDelegate {
 			var step = me.mProgram.get(i);
 			me.addItem(new Ui.MenuItem(Utils.getBreathStepName(step), Utils.getBreathStepDetail(step), i, {}));
 		}
+		me.mStepCount = me.mProgram.size();
 		me.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.breathProgramMenu_addStep), "", :addStep, {}));
 		me.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.breathProgramMenu_deleteAll), "", :deleteAll, {}));
+		me.updateTitle();
+	}
 
+	// rewrites the step rows in place; a rebuild would drop the focus back to the first row
+	private function refreshStepItems() {
+		for (var i = 0; i < me.mStepCount; i++) {
+			var step = me.mProgram.get(i);
+			me.mMenu.updateItem(
+				new Ui.MenuItem(Utils.getBreathStepName(step), Utils.getBreathStepDetail(step), i, {}),
+				i
+			);
+		}
+		me.updateTitle();
+	}
+
+	private function updateTitle() {
 		if (me.mMenu has :setTitle) {
 			me.mMenu.setTitle(
 				Ui.loadResource(Rez.Strings.addEditSessionMenu_breathProgram) +
@@ -83,14 +103,15 @@ class BreathProgramMenuDelegate extends Ui.Menu2InputDelegate {
 		if (newIndex < 0) {
 			return;
 		}
-		me.notifyChanged();
+		// focus the new step so backing out of its editor lands on it
+		me.notifyChanged(newIndex);
 		me.editStep(newIndex);
 	}
 
 	function onConfirmedDeleteAll() {
 		Ui.popView(Ui.SLIDE_IMMEDIATE);
 		me.mProgram.reset();
-		me.notifyChanged();
+		me.notifyChanged(null);
 	}
 
 	function editStep(stepIndex) {
@@ -108,13 +129,36 @@ class BreathProgramMenuDelegate extends Ui.Menu2InputDelegate {
 		Ui.pushView(menu, stepDelegate, Ui.SLIDE_LEFT);
 	}
 
-	function notifyChanged() {
-		me.rebuildMenuItems();
+	// focusRow is the row to land on afterwards, or null to leave the focus alone
+	function notifyChanged(focusRow) {
+		me.mChanged = true;
+		if (me.mMenu != null && me.mProgram.size() == me.mStepCount) {
+			// edits and reorders keep the row count, so keep the list and the focus put
+			me.refreshStepItems();
+		} else {
+			me.rebuildMenuItems();
+		}
+		me.setFocusRow(focusRow);
 		me.mOnProgramChanged.invoke(me.mProgram);
 	}
 
+	private function setFocusRow(focusRow) {
+		if (focusRow == null || me.mMenu == null || !(me.mMenu has :setFocus)) {
+			return;
+		}
+		if (focusRow < 0) {
+			focusRow = 0;
+		} else if (focusRow >= me.mItemCount) {
+			focusRow = me.mItemCount - 1;
+		}
+		me.mMenu.setFocus(focusRow);
+	}
+
 	function onBack() {
-		me.mOnProgramChanged.invoke(me.mProgram);
+		// opening the editor and leaving it untouched must not attach an empty program
+		if (me.mChanged) {
+			me.mOnProgramChanged.invoke(me.mProgram);
+		}
 		Menu2InputDelegate.onBack();
 		return false;
 	}

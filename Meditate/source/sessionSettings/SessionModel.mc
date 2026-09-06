@@ -127,7 +127,9 @@ class SessionModel {
 
 	function toDictionary() {
 		var serializedAlerts = me.intervalAlerts != null ? me.intervalAlerts.toArray() : null;
-		var serializedProgram = me.breathProgram != null ? me.breathProgram.toDictionary() : null;
+		// an emptied program is stored as no program at all, so it never grows the session dict
+		var serializedProgram =
+			me.breathProgram != null && !me.breathProgram.isEmpty() ? me.breathProgram.toDictionary() : null;
 		return {
 			"time" => me.time,
 			"color" => me.color,

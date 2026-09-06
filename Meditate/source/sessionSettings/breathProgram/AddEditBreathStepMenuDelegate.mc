@@ -3,12 +3,19 @@ using Toybox.Lang;
 
 // Editor for one breath step. Durations use the existing MM:SS two-column picker;
 // changes are written straight through (no debounce timer, to stay clear of the 3-timer cap).
+//
+// Two rules keep this editor honest, because a picker can always be backed out of:
+//   1. nothing mutates the step before a picker returns - a seed value goes in, and the step
+//      changes only in the accept callback, so backing out is a real cancel;
+//   2. no state is parked across a push - whatever is being edited is carried by its own
+//      callback, never by a field that outlives the picker.
+// Every mutation ends in publishStepChange(), the one place that refreshes and notifies.
 class AddEditBreathStepMenuDelegate extends Ui.Menu2InputDelegate {
 	private var mProgram;
 	private var mStepIndex;
 	private var mOnStepChanged;
 	private var mMenu;
-	private var mPendingPhase;
+	private var mChanged;
 
 	// updateMenuItems() rewrites rows by index, so createMenu() below is the only
 	// place allowed to define the order; keep the two in step
@@ -45,7 +52,7 @@ class AddEditBreathStepMenuDelegate extends Ui.Menu2InputDelegate {
 		me.mStepIndex = stepIndex;
 		me.mOnStepChanged = onStepChanged;
 		me.mMenu = menu;
-		me.mPendingPhase = null;
+		me.mChanged = false;
 	}
 
 	private function getStep() {
@@ -132,13 +139,13 @@ class AddEditBreathStepMenuDelegate extends Ui.Menu2InputDelegate {
 	function onSelect(item) {
 		var id = item.getId();
 		if (id == :inhale) {
-			me.pushPhasePicker(BreathPhase.Inhale);
+			me.pushPhasePicker(BreathPhase.Inhale, method(:onInhalePicked));
 		} else if (id == :holdFull) {
-			me.pushPhasePicker(BreathPhase.HoldFull);
+			me.pushPhasePicker(BreathPhase.HoldFull, method(:onHoldFullPicked));
 		} else if (id == :exhale) {
-			me.pushPhasePicker(BreathPhase.Exhale);
+			me.pushPhasePicker(BreathPhase.Exhale, method(:onExhalePicked));
 		} else if (id == :holdEmpty) {
-			me.pushPhasePicker(BreathPhase.HoldEmpty);
+			me.pushPhasePicker(BreathPhase.HoldEmpty, method(:onHoldEmptyPicked));
 		} else if (id == :inRoute) {
 			me.pushRouteMenu(BreathPhase.Inhale);
 		} else if (id == :outRoute) {
@@ -158,14 +165,13 @@ class AddEditBreathStepMenuDelegate extends Ui.Menu2InputDelegate {
 		}
 	}
 
-	private function pushPhasePicker(phase) {
+	// one callback per phase, so a picked value can never land on the wrong slot
+	private function pushPhasePicker(phase, callback) {
 		var step = me.getStep();
 		if (step == null) {
 			return;
 		}
-		me.mPendingPhase = phase;
-		var seconds = step.durations[phase];
-		me.pushMinSecPicker(seconds, method(:onPhasePicked));
+		me.pushMinSecPicker(step.durations[phase], callback);
 	}
 
 	private function pushMinSecPicker(seconds, callback) {
@@ -188,23 +194,37 @@ class AddEditBreathStepMenuDelegate extends Ui.Menu2InputDelegate {
 		Ui.pushView(view, new TwoColumnPickerDelegate(view, callback, false), Ui.SLIDE_LEFT);
 	}
 
-	function onPhasePicked(totalSeconds) {
+	function onInhalePicked(totalSeconds) {
+		me.applyPhase(BreathPhase.Inhale, totalSeconds);
+	}
+
+	function onHoldFullPicked(totalSeconds) {
+		me.applyPhase(BreathPhase.HoldFull, totalSeconds);
+	}
+
+	function onExhalePicked(totalSeconds) {
+		me.applyPhase(BreathPhase.Exhale, totalSeconds);
+	}
+
+	function onHoldEmptyPicked(totalSeconds) {
+		me.applyPhase(BreathPhase.HoldEmpty, totalSeconds);
+	}
+
+	private function applyPhase(phase, totalSeconds) {
 		var step = me.getStep();
-		if (step == null || me.mPendingPhase == null) {
+		if (step == null) {
 			return;
 		}
-		var previous = step.durations[me.mPendingPhase];
-		step.durations[me.mPendingPhase] = Utils.clampToRange(totalSeconds, 0, BreathStep.MaxPhaseTime);
+		var previous = step.durations[phase];
+		step.durations[phase] = Utils.clampToRange(totalSeconds, 0, BreathStep.MaxPhaseTime);
 		// a step with every phase at zero has no duration and would stall the session
 		if (!step.isValid()) {
-			step.durations[me.mPendingPhase] = previous;
+			step.durations[phase] = previous;
 			if (Ui has :showToast) {
 				Ui.showToast(Ui.loadResource(Rez.Strings.breathStepMenu_invalid), null);
 			}
 		}
-		me.mPendingPhase = null;
-		me.updateMenuItems();
-		me.mOnStepChanged.invoke();
+		me.publishStepChange();
 	}
 
 	private function pushRouteMenu(phase) {
@@ -250,8 +270,7 @@ class AddEditBreathStepMenuDelegate extends Ui.Menu2InputDelegate {
 			route = BreathRoute.Mouth;
 		}
 		step.setRoute(phase, route);
-		me.updateMenuItems();
-		me.mOnStepChanged.invoke();
+		me.publishStepChange();
 	}
 
 	private function pushRepeatTypeMenu() {
@@ -266,24 +285,29 @@ class AddEditBreathStepMenuDelegate extends Ui.Menu2InputDelegate {
 		Ui.pushView(menu, new MenuOptionsDelegate(method(:onRepeatTypePicked)), Ui.SLIDE_LEFT);
 	}
 
+	// seeds the value picker for the chosen type; the accept callbacks write both type and
+	// value together, so picking a type and then backing out changes nothing
 	function onRepeatTypePicked(item) {
 		var step = me.getStep();
 		if (step == null) {
 			return;
 		}
 		if (item == :duration) {
-			if (step.repeatType != BreathRepeat.Duration) {
-				step.repeatType = BreathRepeat.Duration;
-				step.repeatValue = Utils.clampToRange(step.cycleTime() * 4, 1, BreathStep.MaxDuration);
-			}
-			me.pushMinSecPicker(step.repeatValue, method(:onRepeatDurationPicked));
+			var seconds =
+				step.repeatType == BreathRepeat.Duration
+					? step.repeatValue
+					: Utils.clampToRange(step.cycleTime() * 4, 1, BreathStep.MaxDuration);
+			me.pushMinSecPicker(seconds, method(:onRepeatDurationPicked));
 		} else {
-			if (step.repeatType != BreathRepeat.Rounds) {
-				step.repeatType = BreathRepeat.Rounds;
-				step.repeatValue = 4;
-			}
-			me.pushRoundsPicker(step.repeatValue);
+			var rounds = step.repeatType == BreathRepeat.Rounds ? step.repeatValue : 4;
+			me.pushRoundsPicker(rounds);
 		}
+	}
+
+	private function publishStepChange() {
+		me.mChanged = true;
+		me.updateMenuItems();
+		me.mOnStepChanged.invoke(null);
 	}
 
 	private function pushRoundsPicker(rounds) {
@@ -308,8 +332,7 @@ class AddEditBreathStepMenuDelegate extends Ui.Menu2InputDelegate {
 		}
 		step.repeatType = BreathRepeat.Rounds;
 		step.repeatValue = Utils.clampToRange(rounds, 1, BreathStep.MaxRounds);
-		me.updateMenuItems();
-		me.mOnStepChanged.invoke();
+		me.publishStepChange();
 	}
 
 	function onRepeatDurationPicked(totalSeconds) {
@@ -319,10 +342,10 @@ class AddEditBreathStepMenuDelegate extends Ui.Menu2InputDelegate {
 		}
 		step.repeatType = BreathRepeat.Duration;
 		step.repeatValue = Utils.clampToRange(totalSeconds, 1, BreathStep.MaxDuration);
-		me.updateMenuItems();
-		me.mOnStepChanged.invoke();
+		me.publishStepChange();
 	}
 
+	// the step list is left focused on the row the step moved to
 	private function moveStep(delta) {
 		var target = me.mStepIndex + delta;
 		if (target < 0 || target >= me.mProgram.size()) {
@@ -330,19 +353,22 @@ class AddEditBreathStepMenuDelegate extends Ui.Menu2InputDelegate {
 		}
 		me.mProgram.move(me.mStepIndex, delta);
 		me.mStepIndex = target;
-		me.mOnStepChanged.invoke();
+		me.mOnStepChanged.invoke(target);
 		Ui.popView(Ui.SLIDE_RIGHT);
 	}
 
+	// the confirmation pops itself, so this single pop leaves the step menu for the step list,
+	// which is left focused on the step before the deleted one
 	function onConfirmedDelete() {
-		Ui.popView(Ui.SLIDE_IMMEDIATE);
-		me.mProgram.delete(me.mStepIndex);
-		me.mOnStepChanged.invoke();
 		Ui.popView(Ui.SLIDE_RIGHT);
+		me.mProgram.delete(me.mStepIndex);
+		me.mOnStepChanged.invoke(me.mStepIndex - 1);
 	}
 
 	function onBack() {
-		me.mOnStepChanged.invoke();
+		if (me.mChanged) {
+			me.mOnStepChanged.invoke(null);
+		}
 		Menu2InputDelegate.onBack();
 		return false;
 	}

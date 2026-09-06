@@ -244,4 +244,9 @@
     <string id="menuGlobalSettings_breathCues">Breath Cues</string>
     <string id="menuBreathCuesOptions_vibration">Vibration</string>
     <string id="menuBreathCuesOptions_vibrationTone">Vibration + Tone</string>
+    <string id="whatsNew_title">What's New</string>
+    <string id="whatsNew_line1">Guided breathwork</string>
+    <string id="whatsNew_line2">Follow the breath cues</string>
+    <string id="whatsNew_line3">3 new sessions added</string>
+    <string id="whatsNew_line4">Easy customization</string>
 </strings>

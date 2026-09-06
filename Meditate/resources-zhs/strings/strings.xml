@@ -241,4 +241,9 @@
     <string id="menuGlobalSettings_breathCues">呼吸提示</string>
     <string id="menuBreathCuesOptions_vibration">振动</string>
     <string id="menuBreathCuesOptions_vibrationTone">振动 + 提示音</string>
+    <string id="whatsNew_title">新功能</string>
+    <string id="whatsNew_line1">呼吸引导</string>
+    <string id="whatsNew_line2">跟随提示呼吸</string>
+    <string id="whatsNew_line3">新增3个课程</string>
+    <string id="whatsNew_line4">轻松自定义</string>
 </strings>

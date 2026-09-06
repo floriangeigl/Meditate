@@ -27,6 +27,8 @@ class CloudBackup extends Ui.BehaviorDelegate {
 		"globalSettings_hrvWindowTime",
 		"globalSettings_useSessionName",
 		"globalSettings_breathCues",
+		"globalSettings_presetsVersion",
+		"globalSettings_lastSeenNewsId",
 	];
 
 	function initialize() {

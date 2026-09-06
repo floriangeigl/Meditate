@@ -244,4 +244,9 @@
     <string id="menuGlobalSettings_breathCues">Sinais de respiração</string>
     <string id="menuBreathCuesOptions_vibration">Vibração</string>
     <string id="menuBreathCuesOptions_vibrationTone">Vibração + Som</string>
+    <string id="whatsNew_title">Novidades</string>
+    <string id="whatsNew_line1">Respiração guiada</string>
+    <string id="whatsNew_line2">Siga os sinais</string>
+    <string id="whatsNew_line3">3 novas sessões</string>
+    <string id="whatsNew_line4">Fácil de ajustar</string>
 </strings>

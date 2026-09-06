@@ -241,4 +241,9 @@
     <string id="menuGlobalSettings_breathCues">呼吸の合図</string>
     <string id="menuBreathCuesOptions_vibration">バイブレーション</string>
     <string id="menuBreathCuesOptions_vibrationTone">バイブ + 音</string>
+    <string id="whatsNew_title">新機能</string>
+    <string id="whatsNew_line1">呼吸ガイド</string>
+    <string id="whatsNew_line2">合図に合わせて呼吸</string>
+    <string id="whatsNew_line3">新しいセッション3件</string>
+    <string id="whatsNew_line4">簡単カスタマイズ</string>
 </strings>

@@ -241,4 +241,9 @@
     <string id="menuGlobalSettings_breathCues">Дихальні сигнали</string>
     <string id="menuBreathCuesOptions_vibration">Вібрація</string>
     <string id="menuBreathCuesOptions_vibrationTone">Вібрація + звук</string>
+    <string id="whatsNew_title">Що нового</string>
+    <string id="whatsNew_line1">Кероване дихання</string>
+    <string id="whatsNew_line2">Стежте за сигналами</string>
+    <string id="whatsNew_line3">3 нові сесії</string>
+    <string id="whatsNew_line4">Просте налаштування</string>
 </strings>

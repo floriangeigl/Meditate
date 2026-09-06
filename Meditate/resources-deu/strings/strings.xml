@@ -243,4 +243,9 @@
     <string id="menuGlobalSettings_breathCues">Atem-Signale</string>
     <string id="menuBreathCuesOptions_vibration">Vibration</string>
     <string id="menuBreathCuesOptions_vibrationTone">Vibration + Ton</string>
+    <string id="whatsNew_title">Was ist neu</string>
+    <string id="whatsNew_line1">Geführte Atemübungen</string>
+    <string id="whatsNew_line2">Folge den Atem-Signalen</string>
+    <string id="whatsNew_line3">3 neue Sessions</string>
+    <string id="whatsNew_line4">Leicht anpassbar</string>
 </strings>

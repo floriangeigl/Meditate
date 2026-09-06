@@ -181,6 +181,38 @@ class GlobalSettings {
 		App.Storage.setValue(BreathCuesKey, breathCues);
 	}
 
+	// marker, not a user setting: the newest WhatsNewDelegate.NewsId this user has dismissed
+	private static const LastSeenNewsIdKey = "globalSettings_lastSeenNewsId";
+
+	static function loadLastSeenNewsId() {
+		var lastSeenNewsId = App.Storage.getValue(LastSeenNewsIdKey);
+		if (lastSeenNewsId == null) {
+			return 0;
+		} else {
+			return lastSeenNewsId;
+		}
+	}
+
+	static function saveLastSeenNewsId(lastSeenNewsId) {
+		App.Storage.setValue(LastSeenNewsIdKey, lastSeenNewsId);
+	}
+
+	// schema marker, not a user setting: which one-time preset migrations have already run
+	private static const PresetsVersionKey = "globalSettings_presetsVersion";
+
+	static function loadPresetsVersion() {
+		var presetsVersion = App.Storage.getValue(PresetsVersionKey);
+		if (presetsVersion == null) {
+			return 0;
+		} else {
+			return presetsVersion;
+		}
+	}
+
+	static function savePresetsVersion(presetsVersion) {
+		App.Storage.setValue(PresetsVersionKey, presetsVersion);
+	}
+
 	private static const UseSessionNameKey = "globalSettings_useSessionName";
 
 	static function loadUseSessionName() {

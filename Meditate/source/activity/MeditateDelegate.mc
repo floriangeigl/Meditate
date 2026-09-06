@@ -40,7 +40,8 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 	// up/down (keys or swipe) flips guidance <-> metrics; unused during a session otherwise.
 	// Returns false without a breath program so meditation behaviour is unchanged.
 	private function switchBreathPage() {
-		if (me.mMeditateView == null || !me.mMeditateView.toggleBreathPage()) {
+		// finishing views reuse this delegate; the meditate view is gone by then
+		if (me.mActivityStopped || me.mMeditateView == null || !me.mMeditateView.toggleBreathPage()) {
 			return false;
 		}
 		Ui.requestUpdate();

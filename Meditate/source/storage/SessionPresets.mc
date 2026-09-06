@@ -2,8 +2,34 @@ using Toybox.Application as App;
 using Toybox.Graphics as Gfx;
 
 class SessionPresets {
+	// Session keys are persistent ids - a stored session is matched back to its preset by key,
+	// so these must never be renumbered. A new preset takes the next free key at the end.
+	static const FirstBreathworkKey = 7;
+
+	// key = FirstBreathworkKey + index; the first three keep the names existing users know
+	private static function breathworkPresetDefs() {
+		return [
+			["Box Breath", :box5],
+			["B. Coherence", :coherence5],
+			["B. 4-7-8", :b4785],
+			["B. Energize", :energize],
+			["B. Wind Down", :windDown],
+			["B. Holds", :breathHolds],
+		];
+	}
+
+	// the shipped breathwork session for one key, or null when the key is not one of them
+	static function createBreathworkPreset(key) {
+		var defs = SessionPresets.breathworkPresetDefs();
+		var index = key - SessionPresets.FirstBreathworkKey;
+		if (index < 0 || index >= defs.size()) {
+			return null;
+		}
+		return SessionPresets.makeBreathworkSession(defs[index][0], defs[index][1], key);
+	}
+
 	// BreathTemplates owns the program data; this only wraps it in a session
-	private static function createBreathworkPreset(name, templateId, sessionKey) {
+	private static function makeBreathworkSession(name, templateId, sessionKey) {
 		var program = BreathTemplates.createProgram(templateId);
 		var session = new SessionModel();
 		session.fromDictionary({
@@ -146,20 +172,17 @@ class SessionPresets {
 		sessionKey++;
 
 		// Breathwork presets are guided breath programs; the program defines the length.
-		// The first three keep their original names so existing users still recognise them.
-		var breathworkPresets = [
-			["Box Breath", :box5],
-			["B. Coherence", :coherence5],
-			["B. 4-7-8", :b4785],
-			["B. Energize", :energize],
-			["B. Wind Down", :windDown],
-			["B. Holds", :breathHolds],
-		];
-		for (var i = 0; i < breathworkPresets.size(); i++) {
+		// sessionKey is FirstBreathworkKey here - keys are addressed directly so the migration
+		// in SessionStorage can rebuild any single preset from its key.
+		var breathworkDefs = SessionPresets.breathworkPresetDefs();
+		for (var i = 0; i < breathworkDefs.size(); i++) {
 			sessions.add(
-				SessionPresets.createBreathworkPreset(breathworkPresets[i][0], breathworkPresets[i][1], sessionKey)
+				SessionPresets.makeBreathworkSession(
+					breathworkDefs[i][0],
+					breathworkDefs[i][1],
+					SessionPresets.FirstBreathworkKey + i
+				)
 			);
-			sessionKey++;
 		}
 
 		return sessions;

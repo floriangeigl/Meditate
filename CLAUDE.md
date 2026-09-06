@@ -46,6 +46,11 @@ project.typecheck = 0       # Type checking disabled
 project.optimization = 3pz  # Maximum optimization
 ```
 
+**Judge PRG size from a release build, never a debug one** — they differ by roughly 2.4x. Same
+tree on `fr255s`: debug 415 KB vs release 172 KB (with a pre-breathwork baseline of 145 KB). A
+debug PRG looks alarmingly close to a 512 KB device budget while the shipped artifact uses a
+third of it.
+
 ### Deploy to Device
 
 ```powershell
@@ -73,6 +78,11 @@ echo "10.7.7" | ./makeRelease.sh   # non-interactive: pipes the version into the
 
 Notes:
 - The version sed is idempotent — safe to re-run.
+- **Announcing a release on the watch is opt-in per release.** Most releases ship silently. When
+  one is worth a word, bump `WhatsNewDelegate.NewsId` and rewrite the `whatsNew_*` strings in
+  **all** locales *before* running `makeRelease.sh`. Existing users then see one screen on their
+  next launch, dismissed with back/select/tap; new installs are marked caught-up so they never
+  see it. The rows are drawn unwrapped, so keep each line About-screen short.
 - **Before every release, check whether any of the changes since the last release require an update to `UserGuide.md`** (e.g. renamed/added/removed settings, menus, or features the guide documents). Update it and stage the edit *before* running `makeRelease.sh` so it lands in the bump commit.
 - Stage any other intended changes (e.g. doc edits) **before** running; step 3's `git add .` sweeps the whole tree into the bump commit.
 - The final `git push` uses SSH (`git@github.com:...`). If the agent has no loaded key / a passphrase-protected key, push fails *after* the local commit+tag succeed — finish with a manual `git push origin dev && git push origin tag vX.X.X`.
@@ -327,6 +337,45 @@ a hold — there is no special case for it.
   power breathing (the `:breathHolds` template) is **nose in / mouth out** with the retention on
   empty lungs followed by a recovery breath held full.
 - Avoid naming templates after living people; `:breathHolds` is deliberately generic.
+- **Preset session keys are persistent ids and must never be renumbered.** Breathwork owns
+  keys 7-12 (`SessionPresets.FirstBreathworkKey`); 7-9 shipped before guided programs existed,
+  10-12 came with them. A stored session is matched back to its preset by key alone, so a new
+  preset of any kind takes the next free key at the end. `SessionStorage.migratePresets()` runs
+  once (gated by `globalSettings_presetsVersion`) and depends on this: it rewrites 7-9 in place
+  when the stored name still matches the shipped one and there is no program yet, and adds
+  10-12 when absent. Deleted presets stay deleted - 7-9 are never re-added, 10-12 never
+  overwritten. The upgrade edits the *stored* session (program, time, cleared alerts) rather
+  than replacing it, so colour, vibration and everything else the user chose survives.
+- **Shipped programs repeat in rounds, never by duration**, so a session never cuts off
+  mid-breath. That is why some totals are a few seconds off the nominal length (Box and 4-7-8
+  are 5:04, not 5:00) — don't "round them back" to a duration repeat. Duration repeat stays
+  available to users; it just isn't what the presets use.
+
+**The breath step editor's two rules** (see the header comment in
+`AddEditBreathStepMenuDelegate`): nothing mutates the step before a picker returns — a seed
+value goes in and the accept callback writes type and value together, so backing out is a real
+cancel; and no state is parked across a `pushView` — what is being edited rides on its own
+callback, never on a field. Both existed as bugs first: a repeat-type switch that mutated up
+front left a stale row and a stale session length when the picker was backed out.
+
+**Known rough edges, reviewed and knowingly left as-is** (don't "discover" them again):
+
+- **Session outliving the program**: with Auto Stop off, or after `Resume` on the completed
+  pause menu, `elapsedTime` passes the program total. The runner clamps (`isDone` holds the
+  final phase), so the word/countdown freeze at `1`, the phase ring stays full and cues stop,
+  while the outer session ring wraps into a second lap. Not crashing, just confusing.
+- **Two vibes at session start**: `MeditatePrepareView` fires its closing `Blip` and the first
+  Inhale cue lands immediately after, from `BreathCuesExecutor`'s constructor.
+- **Phase picker offers up to 59:59** but `applyPhase` silently clamps to `MaxPhaseTime`
+  (9:59). Only the all-zero step gets a toast.
+- **`isHoldOnly()` names a both-ends hold by the sum**: `[0,30,0,30]` renders as `Hold 1:00`.
+
+Three gotchas that *were* fixed and must stay fixed: `ElapsedDurationRenderer`'s arc draws
+nothing at exactly 100% (start == end degree), so `drawProgressPercentage` caps at 99.9;
+`Ui.Confirmation` pops itself, so a confirmed delete needs exactly one `Ui.popView`; and an
+empty `BreathProgram` must never reach storage — `SessionModel.toDictionary` writes `null` for
+one, and `BreathProgramMenuDelegate.onBack` only notifies when something actually changed, so
+opening the editor and leaving cannot attach an empty program.
 
 Files: `Meditate/source/sessionSettings/breathProgram/` (model, templates, menus),
 `Meditate/source/activity/BreathProgramRunner.mc`, `BreathCuesExecutor.mc`,
@@ -445,7 +494,8 @@ growing `SessionModel` needs no cloud-backup change at all — only watch the 32
 
 ### Keys Currently Backed Up
 
-- `globalSettings_*` (13 keys) — app-wide settings
+- `globalSettings_*` (15 keys) — app-wide settings, plus the two schema markers
+  (`globalSettings_presetsVersion`, `globalSettings_lastSeenNewsId`) which are not user settings
 - `sessionsKeys` — list of session IDs
 - `selectedSessionIndex` — active session index
 - `sesssion_<key>` (per entry in `sessionsKeys`) — individual session data (note: triple-s typo is intentional)
@@ -476,4 +526,5 @@ growing `SessionModel` needs no cloud-backup change at all — only watch the 32
 - **"A critical error has occurred" is a compiler crash masking real errors.** Re-run with `--debug-log-level 2 --debug-log-output <file>.zip` to get `error.txt` inside the zip, which lists the actual `CompilerException` messages (e.g., assembler symbol errors, missing strings).
 - **Runtime device identification**: Monkey C does not expose the SDK's device-id string (e.g. `"vivoactive4"`) at runtime. The closest proxy is `System.getDeviceSettings().partNumber`, a hardware SKU string (e.g. `"006-B3225-00"`) matching the `partNumbers[].number` entries in that device's `compiler.json`. Each device model can have multiple part numbers (one per regional/firmware SKU), so device-specific checks need the full list, not a single value — see the vívoactive4/4s quirk above for a working example.
 - **Verify a Toybox API throws before wrapping it in try/catch.** `ActivityRecording.createSession` does not throw a catchable exception for an unsupported sport/subSport combo — confirmed via the vívoactive4/4s "Invalid Value" crash above. Check the API docs or existing repo precedent (e.g. `Sensor.TooManySensorDataListenersException`, `Attention.BacklightOnTooLongException`) before assuming a call is catchable.
+- **Finish a CLI verification with a release build (`-r`), not just a debug one.** Debug builds happily compile code that the release assembler rejects — the private/static symbol error above is the known case, and adding private statics is exactly when this bites. A clean debug build is not evidence the change ships.
 - **CLI builds outside the VS Code extension** need a private key (`-y`) even for unsigned debug builds — generate a throwaway one with `openssl genrsa` + `openssl pkcs8` if just verifying compilation. Jungle file paths in `-f` are resolved relative to the jungle file's own directory, not the invocation cwd — pass `Meditate/monkey.jungle;Meditate/barrels.jungle` together (the auto-generated `bin/combined.jungle` uses paths meant for the extension's own resolution and won't work standalone).
