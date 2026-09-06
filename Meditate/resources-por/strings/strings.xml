@@ -208,10 +208,45 @@
 
     <string id="restoreDeviceId">Restore From Device ID (leave empty to use this device):</string>
 
-    <string id="about_AppVersion">v10.7.14</string>
+    <string id="about_AppVersion">v11.0.0</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>
     <string id="about_falsetru">falsetru</string>
     <string id="about_floriangeigl">floriangeigl</string>
 
+
+    <string id="breathPhase_inhale">Inspire</string>
+    <string id="breathPhase_exhale">Expire</string>
+    <string id="breathPhase_hold">Segure</string>
+    <string id="addEditSessionMenu_breathProgram">Programa de respiração</string>
+    <string id="breathProgramMenu_addStep">Adicionar etapa</string>
+    <string id="breathProgramMenu_deleteAll">Excluir tudo</string>
+    <string id="breathProgramMenu_inRoute">Inspirar pelo</string>
+    <string id="breathProgramMenu_outRoute">Expirar pelo</string>
+    <string id="breathProgramMenu_steps">etapas</string>
+    <string id="breathProgramMenu_full">Máx. 10 etapas</string>
+    <string id="breathRouteMenu_unset">Não definido</string>
+    <string id="breathRouteMenu_nose">Nariz</string>
+    <string id="breathRouteMenu_mouth">Boca</string>
+    <string id="breathStepMenu_title">Etapa</string>
+    <string id="breathStepMenu_holdEmpty">Segurar vazio</string>
+    <string id="breathStepMenu_repeat">Repetição</string>
+    <string id="breathStepMenu_moveUp">Mover para cima</string>
+    <string id="breathStepMenu_moveDown">Mover para baixo</string>
+    <string id="breathStepMenu_invalid">Defina ao menos uma fase</string>
+    <string id="breathRepeatMenu_rounds">Rodadas</string>
+    <string id="breathRepeatMenu_duration">Duração MM:SS</string>
+    <string id="breathTemplate_custom">Personalizado</string>
+    <string id="breathBriefing_more">mais</string>
+    <string id="breathBriefing_belly">respire com a barriga</string>
+    <string id="breathBriefing_in">insp</string>
+    <string id="breathBriefing_out">exp</string>
+    <string id="menuGlobalSettings_breathCues">Sinais de respiração</string>
+    <string id="menuBreathCuesOptions_vibration">Vibração</string>
+    <string id="menuBreathCuesOptions_vibrationTone">Vibração + Som</string>
+    <string id="whatsNew_title">Novidades</string>
+    <string id="whatsNew_line1">Respiração guiada</string>
+    <string id="whatsNew_line2">Siga os sinais</string>
+    <string id="whatsNew_line3">3 novas sessões</string>
+    <string id="whatsNew_line4">Fácil de ajustar</string>
 </strings>

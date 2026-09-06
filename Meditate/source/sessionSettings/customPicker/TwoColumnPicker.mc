@@ -8,6 +8,7 @@ class TwoColumnPickerView extends Ui.View {
     private var mRightMin, mRightMax, mRightPad, mRightSuffix;
     private var mLeftValue, mRightValue; // current values (numbers)
     private var mSelectedCol; // 0 left, 1 right
+    private var mSingleColumn; // right column only, no ':' separator (e.g. round counts)
     private var backgroundColor, foregroundColor;
     private var mSelectedTextColor, mUnselectedTextColor;
     private var width, height;
@@ -16,8 +17,9 @@ class TwoColumnPickerView extends Ui.View {
         View.initialize();
         mTitle = options[:title];
         mIsHourMinute = options[:isHourMinute];
-        mLeftMin = options[:leftMin];
-        mLeftMax = options[:leftMax];
+        // single-column callers omit the left bounds entirely
+        mLeftMin = (options[:leftMin] == null) ? 0 : options[:leftMin];
+        mLeftMax = (options[:leftMax] == null) ? 0 : options[:leftMax];
         mLeftPad = options[:leftPad];
         mLeftSuffix = options[:leftSuffix];
         mRightMin = options[:rightMin];
@@ -34,7 +36,8 @@ class TwoColumnPickerView extends Ui.View {
         if (mLeftValue > mLeftMax) { mLeftValue = mLeftMax; }
         if (mRightValue < mRightMin) { mRightValue = mRightMin; }
         if (mRightValue > mRightMax) { mRightValue = mRightMax; }
-        mSelectedCol = 0;
+        mSingleColumn = (options[:singleColumn] == true);
+        mSelectedCol = mSingleColumn ? 1 : 0;
 
         var colorTheme = GlobalSettings.loadColorTheme();
         if (colorTheme == ColorTheme.Dark) {
@@ -51,14 +54,21 @@ class TwoColumnPickerView extends Ui.View {
     }
 
     function setSelectedColumn(col) {
-        if (col < 0) { 
-            col = 0; 
+        if (mSingleColumn) {
+            return; // the right column is always the selected one
         }
-        if (col > 1) { 
-            col = 1; 
+        if (col < 0) {
+            col = 0;
+        }
+        if (col > 1) {
+            col = 1;
         }
         mSelectedCol = col;
         Ui.requestUpdate();
+    }
+
+    function isSingleColumn() {
+        return mSingleColumn;
     }
 
     function incrementSelected(delta) {
@@ -103,12 +113,19 @@ class TwoColumnPickerView extends Ui.View {
         var rightX = width * 0.73;
         var centerY = height * 0.55;
 
+        var rightText = padValue(mRightValue, mRightPad) + (mRightSuffix == null ? "" : mRightSuffix);
+
+        if (mSingleColumn) {
+            dc.setColor(mSelectedTextColor, Gfx.COLOR_TRANSPARENT);
+            dc.drawText(width/2, centerY, Gfx.FONT_LARGE, rightText, Gfx.TEXT_JUSTIFY_CENTER);
+            return;
+        }
+
         // Separator ':'
         dc.drawText(width/2, centerY, Gfx.FONT_SYSTEM_MEDIUM, ":", Gfx.TEXT_JUSTIFY_CENTER);
 
         // Values
         var leftText = padValue(mLeftValue, mLeftPad) + (mLeftSuffix == null ? "" : mLeftSuffix);
-        var rightText = padValue(mRightValue, mRightPad) + (mRightSuffix == null ? "" : mRightSuffix);
 
         // Left value (selected brighter)
         var leftColor = (mSelectedCol == 0) ? mSelectedTextColor : mUnselectedTextColor;
@@ -191,13 +208,16 @@ class TwoColumnPickerDelegate extends Ui.BehaviorDelegate {
 
     // Shared logic for advancing selection or accepting values.
     function _advanceOrAccept() {
-        if (mView.getSelectedColumn() == 0) {
+        if (!mView.isSingleColumn() && mView.getSelectedColumn() == 0) {
             mView.setSelectedColumn(1);
             return true;
         }
         var vals = mView.getValues();
         var totalSeconds;
-        if (mIsHourMinute) {
+        if (mView.isSingleColumn()) {
+            // raw value, not a duration
+            totalSeconds = vals[1];
+        } else if (mIsHourMinute) {
             var totalMinutes = vals[0] * 60 + vals[1];
             totalSeconds = totalMinutes * 60;
         } else {

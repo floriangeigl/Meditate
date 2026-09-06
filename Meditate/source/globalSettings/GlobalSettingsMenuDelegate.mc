@@ -286,6 +286,31 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			);
 			var notificationDelegate = new MenuOptionsDelegate(method(:onNotificationPicked));
 			Ui.pushView(notificationMenu, notificationDelegate, Ui.SLIDE_LEFT);
+		} else if (id == :breathCues) {
+			var cuesVal = GlobalSettings.loadBreathCues();
+			var focusIdx = 1;
+			if (cuesVal == BreathCues.Off) {
+				focusIdx = 0;
+			} else if (cuesVal == BreathCues.VibrationTone) {
+				focusIdx = 2;
+			}
+			var cuesMenu = new Ui.Menu2({
+				:title => Ui.loadResource(Rez.Strings.menuGlobalSettings_breathCues),
+				:focus => focusIdx,
+			});
+			cuesMenu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuNotificationOptions_off), "", :off, {}));
+			cuesMenu.addItem(
+				new Ui.MenuItem(
+					Ui.loadResource(Rez.Strings.menuBreathCuesOptions_vibration),
+					Ui.loadResource(Rez.Strings.menuLabelDefault),
+					:vibration,
+					{}
+				)
+			);
+			cuesMenu.addItem(
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuBreathCuesOptions_vibrationTone), "", :vibrationTone, {})
+			);
+			Ui.pushView(cuesMenu, new MenuOptionsDelegate(method(:onBreathCuesPicked)), Ui.SLIDE_LEFT);
 		} else if (id == :colorTheme) {
 			var focusIdx = GlobalSettings.loadColorTheme() == ColorTheme.Light ? 0 : 1;
 			var themeMenu = new Ui.Menu2({
@@ -395,7 +420,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 				:hrvTracking,
 				{}
 			),
-			8
+			9
 		);
 
 		// 1: newActivityType
@@ -417,7 +442,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 				:newActivityType,
 				{}
 			),
-			6
+			7
 		);
 
 		// 2: confirmSaveActivity
@@ -457,7 +482,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 				:multiSession,
 				{}
 			),
-			11
+			12
 		);
 
 		// 4: respirationRate
@@ -478,7 +503,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 				:respirationRate,
 				{}
 			),
-			10
+			11
 		);
 
 		// 5: prepareTime
@@ -529,6 +554,17 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			5
 		);
 
+		// breathCues
+		mMenu.updateItem(
+			new Ui.MenuItem(
+				Ui.loadResource(Rez.Strings.menuGlobalSettings_breathCues),
+				Utils.getBreathCuesText(GlobalSettings.loadBreathCues()),
+				:breathCues,
+				{}
+			),
+			6
+		);
+
 		// 9: colorTheme
 		var themeText =
 			GlobalSettings.loadColorTheme() == ColorTheme.Light
@@ -557,7 +593,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 		}
 		mMenu.updateItem(
 			new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuHrvWindowSizeOptions_title), hrvWindowText, :hrvWindow, {}),
-			9
+			10
 		);
 
 		// 11: useSessionName
@@ -571,7 +607,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 				:useSessionName,
 				{}
 			),
-			7
+			8
 		);
 	}
 
@@ -619,6 +655,17 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			GlobalSettings.saveAutoStop(AutoStop.On);
 		} else if (item == :off) {
 			GlobalSettings.saveAutoStop(AutoStop.Off);
+		}
+		onChangedNotify();
+	}
+
+	function onBreathCuesPicked(item) {
+		if (item == :off) {
+			GlobalSettings.saveBreathCues(BreathCues.Off);
+		} else if (item == :vibrationTone) {
+			GlobalSettings.saveBreathCues(BreathCues.VibrationTone);
+		} else {
+			GlobalSettings.saveBreathCues(BreathCues.Vibration);
 		}
 		onChangedNotify();
 	}

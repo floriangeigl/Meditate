@@ -9,6 +9,17 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 	private var mMenu;
 	private var mSessionModel;
 
+	// single source of truth for row order; SessionSettingsMenuDelegate.createAddEditSessionMenu
+	// must add items in exactly this order because updateMenuItems() rewrites them by index
+	static const RowName = 0;
+	static const RowTime = 1;
+	static const RowBreathProgram = 2;
+	static const RowColor = 3;
+	static const RowVibePattern = 4;
+	static const RowIntervalAlerts = 5;
+	static const RowActivityType = 6;
+	static const RowHrvTracking = 7;
+
 	function initialize(sessionModel, intervalAlerts, onChangeSession, menu) {
 		Menu2InputDelegate.initialize();
 		me.mSessionModel = sessionModel;
@@ -32,7 +43,16 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 			);
 			return;
 		}
+		if (id == :breathProgram) {
+			me.pushBreathProgramMenu();
+			return;
+		}
 		if (id == :time) {
+			// with a breath program the steps define the length, so Time leads there instead
+			if (me.mSessionModel.hasBreathProgram()) {
+				me.pushBreathProgramMenu();
+				return;
+			}
 			// Calculate initial hours and minutes from session time (stored in seconds)
 			var totalSeconds = me.mSessionModel != null && me.mSessionModel.time != null ? me.mSessionModel.time : 0;
 			var totalMinutes = totalSeconds / 60;
@@ -255,6 +275,29 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 		}
 	}
 
+	private function pushBreathProgramMenu() {
+		var menu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.addEditSessionMenu_breathProgram) });
+		var breathProgramDelegate = new BreathProgramMenuDelegate(
+			me.mSessionModel.getBreathProgram(),
+			method(:onBreathProgramChanged),
+			menu
+		);
+		breathProgramDelegate.rebuildMenuItems();
+		Ui.pushView(menu, breathProgramDelegate, Ui.SLIDE_LEFT);
+	}
+
+	function onBreathProgramChanged(breathProgram) {
+		var sessionModel = new SessionModel();
+		sessionModel.setBreathProgram(breathProgram);
+		// the program owns the session length once it has any steps
+		if (!breathProgram.isEmpty()) {
+			sessionModel.time = breathProgram.totalTime();
+		}
+		me.mSessionModel.copyNonNullFieldsFromSession(sessionModel);
+		me.mOnChangeSession.invoke(sessionModel);
+		me.updateMenuItems();
+	}
+
 	// Public: refresh Menu2 subtexts to show current session values
 	function updateMenuItems() {
 		if (me.mMenu == null || me.mSessionModel == null) {
@@ -268,14 +311,25 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 		}
 		me.mMenu.updateItem(
 			new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_name), nameText, :name, {}),
-			0
+			AddEditSessionMenuDelegate.RowName
 		);
 
 		// time
 		var timeText = TimeFormatter.format(me.mSessionModel.time);
 		me.mMenu.updateItem(
 			new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_time), timeText, :time, {}),
-			1
+			AddEditSessionMenuDelegate.RowTime
+		);
+
+		// breath program
+		me.mMenu.updateItem(
+			new Ui.MenuItem(
+				Ui.loadResource(Rez.Strings.addEditSessionMenu_breathProgram),
+				Utils.getBreathProgramText(me.mSessionModel.getActiveBreathProgram()),
+				:breathProgram,
+				{}
+			),
+			AddEditSessionMenuDelegate.RowBreathProgram
 		);
 
 		// color: show a textual placeholder; per-item text color isn't widely supported
@@ -290,7 +344,7 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 		}
 		me.mMenu.updateItem(
 			new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_color), colorText, :color, {}),
-			2
+			AddEditSessionMenuDelegate.RowColor
 		);
 
 		// vibePattern
@@ -301,7 +355,7 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 				:vibePattern,
 				{}
 			),
-			3
+			AddEditSessionMenuDelegate.RowVibePattern
 		);
 
 		// interval alerts - show count
@@ -314,7 +368,7 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 				:intervalAlerts,
 				{}
 			),
-			4
+			AddEditSessionMenuDelegate.RowIntervalAlerts
 		);
 
 		// activity type
@@ -326,14 +380,14 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 				:activityType,
 				{}
 			),
-			5
+			AddEditSessionMenuDelegate.RowActivityType
 		);
 
 		// hrv tracking
 		var hrvText = Utils.getHrvTrackingText(me.mSessionModel.getHrvTracking());
 		me.mMenu.updateItem(
 			new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_hrvTracking), hrvText, :hrvTracking, {}),
-			6
+			AddEditSessionMenuDelegate.RowHrvTracking
 		);
 	}
 

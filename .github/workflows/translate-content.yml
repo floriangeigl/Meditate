@@ -69,7 +69,6 @@ jobs:
         with:
           openai-api-key: ${{ secrets.CHATGPT_TOKEN }}
           prompt-file: .github/codex/prompts/translate-content.md
-          codex-args: --full-auto
           safety-strategy: drop-sudo
           sandbox: workspace-write
           model: gpt-5.5

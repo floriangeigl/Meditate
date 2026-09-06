@@ -11,12 +11,18 @@ class MeditatePrepareView extends Ui.View {
 	private var mTotalSeconds;
 	private var mPrepare;
 	private var mviewDrawnTimer;
+	private var mBreathProgram;
+	private var mBriefingLines;
 
-	function initialize(onShow, prepare) {
+	private const MaxBriefingSteps = 4;
+
+	function initialize(onShow, prepare, breathProgram) {
 		View.initialize();
 		me.mOnShow = onShow;
 		me.mPrepare = prepare;
 		me.mviewDrawnTimer = null;
+		me.mBriefingLines = null;
+		me.mBreathProgram = breathProgram;
 		mSeconds = 0;
 
 		if (prepare == 1) {
@@ -60,6 +66,44 @@ class MeditatePrepareView extends Ui.View {
 
 		// Configure the arc render for progress
 		me.mMainDurationRenderer = new ElapsedDurationRenderer(color, null, null);
+
+		// briefing is built once and stays up for the whole countdown
+		if (me.mPrepare == 1 && me.mBreathProgram != null) {
+			me.mBriefingLines = me.buildBriefingLines();
+		}
+	}
+
+	// program summary plus a technique hint, capped so it fits the smallest round screen
+	private function buildBriefingLines() {
+		var lines = [];
+		var stepCount = me.mBreathProgram.size();
+		var shown = stepCount > MaxBriefingSteps ? MaxBriefingSteps : stepCount;
+		for (var i = 0; i < shown; i++) {
+			var step = me.mBreathProgram.get(i);
+			lines.add(Utils.getBreathStepName(step) + "  " + Utils.getBreathStepDetail(step));
+		}
+		if (stepCount > shown) {
+			lines.add("+" + (stepCount - shown).toString() + " " + Ui.loadResource(Rez.Strings.breathBriefing_more));
+		}
+
+		// routes are per step; only summarise here when every step agrees
+		var inRoute = me.mBreathProgram.getCommonRoute(BreathPhase.Inhale);
+		var outRoute = me.mBreathProgram.getCommonRoute(BreathPhase.Exhale);
+		if (inRoute == BreathRoute.Unset && outRoute == BreathRoute.Unset) {
+			lines.add(Ui.loadResource(Rez.Strings.breathBriefing_belly));
+		} else {
+			if (inRoute != BreathRoute.Unset) {
+				lines.add(
+					Ui.loadResource(Rez.Strings.breathBriefing_in) + " " + Utils.getBreathRouteText(inRoute)
+				);
+			}
+			if (outRoute != BreathRoute.Unset) {
+				lines.add(
+					Ui.loadResource(Rez.Strings.breathBriefing_out) + " " + Utils.getBreathRouteText(outRoute)
+				);
+			}
+		}
+		return lines;
 	}
 
 	private function renderBackground(dc) {
@@ -98,13 +142,23 @@ class MeditatePrepareView extends Ui.View {
 
 		// Render main text with the remaining time in the format M:SS
 		dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
-		dc.drawText(
-			centerX,
-			centerY - centerY / 3,
-			Gfx.FONT_SYSTEM_TINY,
-			textString + " " + minutes + ":" + (seconds < 10 ? "0" : "") + seconds,
-			Graphics.TEXT_JUSTIFY_CENTER
-		);
+		var countdownText = textString + " " + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+		var countdownY = centerY - centerY / 3;
+
+		if (me.mBriefingLines != null && me.mBriefingLines.size() > 0) {
+			// stack the program summary above the countdown, keeping the whole block centred
+			var lineHeight = dc.getFontHeight(Gfx.FONT_XTINY);
+			var totalHeight = (me.mBriefingLines.size() + 1) * lineHeight;
+			var y = centerY - totalHeight / 2;
+			for (var i = 0; i < me.mBriefingLines.size(); i++) {
+				dc.drawText(centerX, y, Gfx.FONT_XTINY, me.mBriefingLines[i], Graphics.TEXT_JUSTIFY_CENTER);
+				y += lineHeight;
+			}
+			dc.drawText(centerX, y, Gfx.FONT_XTINY, countdownText, Graphics.TEXT_JUSTIFY_CENTER);
+			return;
+		}
+
+		dc.drawText(centerX, countdownY, Gfx.FONT_SYSTEM_TINY, countdownText, Graphics.TEXT_JUSTIFY_CENTER);
 	}
 
 	function onHide() {

@@ -55,6 +55,15 @@ class MeditateApp extends App.AppBase {
 		}
 		var sessionStorage = new SessionStorage();
 		var sessionPickerDelegate = new SessionPickerDelegate(sessionStorage, heartbeatIntervalsSensor);
+
+		// after the sensor startup above, which must not be delayed
+		if (sessionStorage.isFreshInstall()) {
+			// a first-time user has nothing to catch up on
+			WhatsNewDelegate.markSeen();
+		} else if (WhatsNewDelegate.hasUnseenNews()) {
+			var whatsNewDelegate = new WhatsNewDelegate(sessionPickerDelegate);
+			return [whatsNewDelegate.createView(), whatsNewDelegate];
+		}
 		return [sessionPickerDelegate.createScreenPickerView(), sessionPickerDelegate];
 	}
 }

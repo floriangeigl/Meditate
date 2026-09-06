@@ -30,6 +30,17 @@ class IntervalAlertsRenderer {
 		me.drawIntervalAlerts(dc, me.mIntervalAlerts, me.mPercentageTimes);
 	}
 
+	// same ring, arbitrary tick positions; used for breath program step boundaries
+	function drawTicksAt(dc, percentages, color) {
+		if (percentages == null) {
+			return;
+		}
+		dc.setPenWidth(me.mWidth);
+		for (var i = 0; i < percentages.size(); i++) {
+			me.drawIntervalAlert(dc, percentages[i], color);
+		}
+	}
+
 	private function createPercentageTimes(intervalAlerts) {
 		if (intervalAlerts.size() == 0) {
 			return [];

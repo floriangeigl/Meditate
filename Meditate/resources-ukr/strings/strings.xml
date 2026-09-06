@@ -205,10 +205,45 @@
     <string id="finishMenu_discard">Скасувати</string>
     <string id="optionsMenuHelp">Натисніть старт</string>
 
-    <string id="about_AppVersion">v10.7.14</string>
+    <string id="about_AppVersion">v11.0.0</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>
     <string id="about_falsetru">falsetru</string>
     <string id="about_floriangeigl">floriangeigl</string>
 
+
+    <string id="breathPhase_inhale">Вдих</string>
+    <string id="breathPhase_exhale">Видих</string>
+    <string id="breathPhase_hold">Затримка</string>
+    <string id="addEditSessionMenu_breathProgram">Дихальна програма</string>
+    <string id="breathProgramMenu_addStep">Додати крок</string>
+    <string id="breathProgramMenu_deleteAll">Видалити все</string>
+    <string id="breathProgramMenu_inRoute">Вдих через</string>
+    <string id="breathProgramMenu_outRoute">Видих через</string>
+    <string id="breathProgramMenu_steps">кроків</string>
+    <string id="breathProgramMenu_full">Макс. 10 кроків</string>
+    <string id="breathRouteMenu_unset">Не задано</string>
+    <string id="breathRouteMenu_nose">Ніс</string>
+    <string id="breathRouteMenu_mouth">Рот</string>
+    <string id="breathStepMenu_title">Крок</string>
+    <string id="breathStepMenu_holdEmpty">Затримка на видиху</string>
+    <string id="breathStepMenu_repeat">Повторення</string>
+    <string id="breathStepMenu_moveUp">Вгору</string>
+    <string id="breathStepMenu_moveDown">Вниз</string>
+    <string id="breathStepMenu_invalid">Задайте хоча б одну фазу</string>
+    <string id="breathRepeatMenu_rounds">Раунди</string>
+    <string id="breathRepeatMenu_duration">Тривалість ХХ:СС</string>
+    <string id="breathTemplate_custom">Власний</string>
+    <string id="breathBriefing_more">ще</string>
+    <string id="breathBriefing_belly">дихайте животом</string>
+    <string id="breathBriefing_in">вдих</string>
+    <string id="breathBriefing_out">видих</string>
+    <string id="menuGlobalSettings_breathCues">Дихальні сигнали</string>
+    <string id="menuBreathCuesOptions_vibration">Вібрація</string>
+    <string id="menuBreathCuesOptions_vibrationTone">Вібрація + звук</string>
+    <string id="whatsNew_title">Що нового</string>
+    <string id="whatsNew_line1">Кероване дихання</string>
+    <string id="whatsNew_line2">Стежте за сигналами</string>
+    <string id="whatsNew_line3">3 нові сесії</string>
+    <string id="whatsNew_line4">Просте налаштування</string>
 </strings>
