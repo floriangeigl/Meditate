@@ -149,6 +149,7 @@ class MeditateActivity extends HrvAlgorithms.HrvActivity {
 			me.mBreathCuesExecutor.firePendingCues();
 		}
 		me.mMeditateModel.hrvValue = me.getHrv();
+		me.mMeditateModel.updateSensorValues();
 
 		// Check if we need to pause when a multiple of the planned session duration elapsed.
 		// Edge-triggered on the round number so a skipped/jittered timer tick can't miss the boundary.

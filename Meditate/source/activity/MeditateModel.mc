@@ -12,6 +12,7 @@ class MeditateModel extends ScreenPicker.DetailsModel {
 		me.currentHr = null;
 		me.hrvValue = null;
 		me.respirationRate = null;
+		me.stressValue = null;
 		me.isTimerRunning = false;
 		me.rrActivity = new HrvAlgorithms.RrActivity();
 		me.stressActivity = new HrvAlgorithms.StressActivity();
@@ -35,6 +36,7 @@ class MeditateModel extends ScreenPicker.DetailsModel {
 	var elapsedTime;
 	var hrvValue;
 	var respirationRate;
+	var stressValue;
 	var isTimerRunning;
 
 	function isHrvOn() {
@@ -104,14 +106,6 @@ class MeditateModel extends ScreenPicker.DetailsModel {
 		}
 	}
 
-	function getRespirationRate() {
-		if (isTimerRunning) {
-			return rrActivity.getCurrentValue();
-		} else {
-			return null;
-		}
-	}
-
 	function isStressSupported() {
 		if (me.stressActivity != null) {
 			return stressActivity.isSupported();
@@ -120,12 +114,10 @@ class MeditateModel extends ScreenPicker.DetailsModel {
 		}
 	}
 
-	function getStress() {
-		if (me.isTimerRunning) {
-			return me.stressActivity.getCurrentValue();
-		} else {
-			return null;
-		}
+	// sampled on the activity tick, not in the view; the guidance page never draws the metrics
+	function updateSensorValues() {
+		me.respirationRate = me.isRespirationRateOn() ? me.rrActivity.getCurrentValue() : null;
+		me.stressValue = me.isStressSupported() ? me.stressActivity.getCurrentValue() : null;
 	}
 
 	function getRespirationActivity() {

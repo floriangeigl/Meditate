@@ -288,6 +288,16 @@ Guarded by `mActivityStopped`, set once in `stopActivity()` (the single choke po
 
 Related: `MeditatePrepareView` (prepare/finalize countdowns) uses `MeditatePrepareDelegate`, which swallows keys and maps back to "skip countdown" — that path is unaffected.
 
+### Per-second metrics are sampled on the activity tick, never in the view
+
+`MeditateActivity.refreshActivityStats()` (the 1 s `HrActivity` timer) is the single place that
+samples and pushes every live value into `MeditateModel` — `elapsedTime`, `currentHr`, `hrvValue`,
+`respirationRate`, `stressValue`, and the breath runner. `MeditateView.onUpdate()` only reads
+fields. Stress and respiration used to be sampled *inside* the view's metrics draw
+(`SensorActivity.getCurrentValue()` appends a sample as a side effect), so any session whose view
+skipped that draw — the breathwork guidance page — recorded no stress/RR at all. Don't call
+`getCurrentValue()` on `rrActivity`/`stressActivity` from a view again.
+
 ### Key Source Directories
 
 - `Meditate/source/activity/` — Core meditation activity, views, vibration alerts
