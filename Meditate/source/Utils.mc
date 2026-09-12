@@ -128,10 +128,30 @@ class Utils {
 		}
 	}
 
+	// largest font whose widest text still fits, falling back to the last one
+	static function fitFont(dc, fonts, texts, maxWidth) {
+		for (var f = 0; f < fonts.size() - 1; f++) {
+			var fits = true;
+			for (var i = 0; i < texts.size(); i++) {
+				if (dc.getTextWidthInPixels(texts[i], fonts[f]) > maxWidth) {
+					fits = false;
+				}
+			}
+			if (fits) {
+				return fonts[f];
+			}
+		}
+		return fonts[fonts.size() - 1];
+	}
+
 	// step names are derived from the numbers, never typed by the user
 	static function getBreathStepName(step) {
 		if (step == null) {
 			return "";
+		}
+		// duration comes from getBreathStepDetail
+		if (step.isRest()) {
+			return Ui.loadResource(Rez.Strings.breathStep_rest);
 		}
 		if (step.isHoldOnly()) {
 			return (

@@ -174,9 +174,9 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 				}
 
 				if (me.mMeditateModel.isRespirationRateOn()) {
-					currentRr = me.mMeditateModel.getRespirationRate();
+					currentRr = me.mMeditateModel.respirationRate;
 				}
-				currentStress = me.mMeditateModel.getStress();
+				currentStress = me.mMeditateModel.stressValue;
 			}
 
 			me.mMeditateModel.title = TimeFormatter.format(elapsedTime);

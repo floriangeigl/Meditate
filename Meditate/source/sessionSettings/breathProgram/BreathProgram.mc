@@ -7,6 +7,7 @@ module BreathPhase {
 		HoldFull = 1,
 		Exhale = 2,
 		HoldEmpty = 3,
+		Rest = 4, // runner-only, not a duration slot; PhaseCount stays 4
 	}
 }
 
@@ -75,13 +76,19 @@ class BreathStep {
 		return me.repeatValue;
 	}
 
+	// a zero cycle is valid only as a rest step
 	function isValid() {
-		return me.cycleTime() > 0 && me.totalTime() > 0;
+		return me.totalTime() > 0 && (me.cycleTime() > 0 || me.repeatType == BreathRepeat.Duration);
+	}
+
+	// no phases, just a duration: breathe freely while recording continues
+	function isRest() {
+		return me.cycleTime() == 0 && me.repeatType == BreathRepeat.Duration;
 	}
 
 	// true when only a hold slot is set; rendered as "Hold M:SS" instead of "a-b-c"
 	function isHoldOnly() {
-		return me.durations[BreathPhase.Inhale] == 0 && me.durations[BreathPhase.Exhale] == 0;
+		return !me.isRest() && me.durations[BreathPhase.Inhale] == 0 && me.durations[BreathPhase.Exhale] == 0;
 	}
 
 	// nose/mouth for a breathing phase; holds have no route

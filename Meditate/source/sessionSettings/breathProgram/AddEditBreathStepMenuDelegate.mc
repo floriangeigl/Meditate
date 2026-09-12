@@ -26,11 +26,18 @@ class AddEditBreathStepMenuDelegate extends Ui.Menu2InputDelegate {
 	static const RowInRoute = 4;
 	static const RowOutRoute = 5;
 	static const RowRepeat = 6;
+	// rest steps get a reduced menu: duration, move, delete
+	static const RowRestDuration = 0;
 
-	static function createMenu(stepIndex) {
+	static function createMenu(step, stepIndex) {
 		var menu = new Ui.Menu2({
 			:title => Ui.loadResource(Rez.Strings.breathStepMenu_title) + " " + (stepIndex + 1),
 		});
+		if (step.isRest()) {
+			menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.breathStep_rest), "", :restDuration, {}));
+			AddEditBreathStepMenuDelegate.addOrderItems(menu);
+			return menu;
+		}
 		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.breathPhase_inhale), "", :inhale, {}));
 		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.breathPhase_hold), "", :holdFull, {}));
 		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.breathPhase_exhale), "", :exhale, {}));
@@ -38,12 +45,16 @@ class AddEditBreathStepMenuDelegate extends Ui.Menu2InputDelegate {
 		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.breathProgramMenu_inRoute), "", :inRoute, {}));
 		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.breathProgramMenu_outRoute), "", :outRoute, {}));
 		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.breathStepMenu_repeat), "", :repeat, {}));
+		AddEditBreathStepMenuDelegate.addOrderItems(menu);
+		return menu;
+	}
+
+	private static function addOrderItems(menu) {
 		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.breathStepMenu_moveUp), "", :moveUp, {}));
 		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.breathStepMenu_moveDown), "", :moveDown, {}));
 		menu.addItem(
 			new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditIntervalAlertMenu_delete), "", :deleteStep, {})
 		);
-		return menu;
 	}
 
 	function initialize(breathProgram, stepIndex, onStepChanged, menu) {
@@ -62,6 +73,18 @@ class AddEditBreathStepMenuDelegate extends Ui.Menu2InputDelegate {
 	function updateMenuItems() {
 		var step = me.getStep();
 		if (me.mMenu == null || step == null) {
+			return;
+		}
+		if (step.isRest()) {
+			me.mMenu.updateItem(
+				new Ui.MenuItem(
+					Ui.loadResource(Rez.Strings.breathStep_rest),
+					TimeFormatter.formatMinSec(step.repeatValue),
+					:restDuration,
+					{}
+				),
+				AddEditBreathStepMenuDelegate.RowRestDuration
+			);
 			return;
 		}
 		me.mMenu.updateItem(
@@ -152,6 +175,8 @@ class AddEditBreathStepMenuDelegate extends Ui.Menu2InputDelegate {
 			me.pushRouteMenu(BreathPhase.Exhale);
 		} else if (id == :repeat) {
 			me.pushRepeatTypeMenu();
+		} else if (id == :restDuration) {
+			me.pushRestDurationPicker();
 		} else if (id == :moveUp) {
 			me.moveStep(-1);
 		} else if (id == :moveDown) {
@@ -217,8 +242,8 @@ class AddEditBreathStepMenuDelegate extends Ui.Menu2InputDelegate {
 		}
 		var previous = step.durations[phase];
 		step.durations[phase] = Utils.clampToRange(totalSeconds, 0, BreathStep.MaxPhaseTime);
-		// a step with every phase at zero has no duration and would stall the session
-		if (!step.isValid()) {
+		// all phases zero would stall a rounds step and silently turn a duration step into a rest step
+		if (step.cycleTime() == 0) {
 			step.durations[phase] = previous;
 			if (Ui has :showToast) {
 				Ui.showToast(Ui.loadResource(Rez.Strings.breathStepMenu_invalid), null);
@@ -271,6 +296,15 @@ class AddEditBreathStepMenuDelegate extends Ui.Menu2InputDelegate {
 		}
 		step.setRoute(phase, route);
 		me.publishStepChange();
+	}
+
+	// the accept callback writes duration type and value together, so a rest step stays a rest step
+	private function pushRestDurationPicker() {
+		var step = me.getStep();
+		if (step == null) {
+			return;
+		}
+		me.pushMinSecPicker(step.repeatValue, method(:onRepeatDurationPicked));
 	}
 
 	private function pushRepeatTypeMenu() {

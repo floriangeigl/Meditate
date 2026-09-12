@@ -205,7 +205,7 @@
     <string id="finishMenu_discard">放弃</string>
     <string id="optionsMenuHelp">按开始键查看选项</string>
 
-    <string id="about_AppVersion">v11.0.0</string>
+    <string id="about_AppVersion">v11.0.2</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>
     <string id="about_falsetru">falsetru</string>
@@ -215,6 +215,8 @@
     <string id="breathPhase_inhale">吸气</string>
     <string id="breathPhase_exhale">呼气</string>
     <string id="breathPhase_hold">屏息</string>
+    <string id="breathStep_rest">休息</string>
+    <string id="breathPhase_rest">自然呼吸</string>
     <string id="addEditSessionMenu_breathProgram">呼吸方案</string>
     <string id="breathProgramMenu_addStep">添加步骤</string>
     <string id="breathProgramMenu_deleteAll">全部删除</string>

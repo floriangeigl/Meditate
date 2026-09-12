@@ -383,7 +383,7 @@ The [included sessions](#breathwork-sessions) are ordinary programs, so you can 
 them and change it. To add guidance to another session, use its **Breath Program** row.
 
 Adding a step always starts from a ready-made pattern (`4-4-4-4`, `4-7-8`, `6-6`, `4-4-4`,
-`4-8`, `2-2`, a hold, or a custom one), so you rarely have to enter four numbers by hand.
+`4-8`, `2-2`, a hold, a rest, or a custom one), so you rarely have to enter four numbers by hand.
 
 ### Steps
 
@@ -402,14 +402,21 @@ Each step is a breath pattern plus a repeat rule:
 A pure breath-hold is just a step where only a hold is set. Steps are named automatically
 from their numbers, so `4-7-8` means inhale 4, hold 7, exhale 8.
 
-Example - `4 rounds of 5-5-5, then a 2:00 hold, then 6-6 for 3 minutes`:
+A **Rest** step has no pattern, only a duration: the app stops pacing you, shows
+_Breathe freely_ with a countdown, and keeps recording. Use it to breathe normally after a
+hold or a fast-breathing step, to settle for a minute before the first pattern, or as a quiet
+rest at the end of the session - put `Rest 10:00` last and the session runs ten more minutes
+before it stops.
+
+Example - `4 rounds of 5-5-5, then a 2:00 hold, a 1:00 rest, then 6-6 for 3 minutes`:
 
 | Step | Pattern   | Repeat    | Length   |
 | ---- | --------- | --------- | -------- |
 | 1    | 5-5-5     | 4 rounds  | 1:00     |
 | 2    | Hold 2:00 | once      | 2:00     |
-| 3    | 6-6       | for 3:00  | 3:00     |
-|      |           | **total** | **6:00** |
+| 3    | Rest      | for 1:00  | 1:00     |
+| 4    | 6-6       | for 3:00  | 3:00     |
+|      |           | **total** | **7:00** |
 
 **The program sets the session length.** With a program in place the Time row shows the
 computed total and opens the program editor instead of a duration picker.
@@ -419,13 +426,14 @@ Use **Move up** / **Move down** inside a step to reorder.
 The breathing route is set **per step**, so a program can switch between nose and mouth as it
 goes - for example fast breathing out through the mouth first, then slow nasal breathing to settle.
 
-Limits: 10 steps per program, 99 rounds per step, 9:59 per phase.
+Limits: 10 steps per program, 99 rounds per step, 9:59 per phase, 59:59 per rest.
 
 ### Reading the Guidance Screen
 
 Beyond the phase word and countdown, the screen carries two rings:
 
-- the **inner ring** fills over the current phase and is coloured by phase
+- the **inner ring** fills over the current phase and is coloured by phase (during a rest it
+  fills over the whole rest)
 - the **outer ring** is overall session progress, with tick marks where the steps change
 
 The line under the countdown shows your round within the current step (`3/4`) and, when the
@@ -441,9 +449,12 @@ screen off:
 | Inhale               | ascending  | rising two notes  |
 | Hold (full or empty) | short blip | one short note    |
 | Exhale               | descending | falling two notes |
+| Rest                 | short blip | one short note    |
 
 Both holds share the same cue. A hold always follows an inhale or an exhale, so you already
-know whether your lungs are full or empty without a fourth pattern to learn.
+know whether your lungs are full or empty without a fourth pattern to learn. A rest uses the
+same neutral cue: it marks that the pacing has stopped, and the next step opens with its own
+inhale cue.
 
 **Settings → Breath Cues** switches these between Off, Vibration, and Vibration + Tone.
 Tones only play on watches that support them. They also obey the global Vibration & Sound
@@ -478,12 +489,13 @@ music written for the breath, and journeys longer than a watch screen can carry,
 
 Two worth setting aside real time for:
 
-- _40 Min Release Trauma, Tension & Emotions Stuck in The Body | 5 Rounds | Guided Gratitude
+- _40 Min Release Trauma, Tension & Emotions Stuck in The Body \| 5 Rounds \| Guided Gratitude
   Meditation_
-- _Reconnect with Your Inner Child | 1 Hour Deep Breathwork Journey & Healing Meditation_
+- _Reconnect with Your Inner Child \| 1 Hour Deep Breathwork Journey & Healing Meditation_
 
-Find them on Sandy's app or Patreon. These run far longer and deeper than anything preset here. Do them lying down, somewhere you
-can stay put afterwards - and read the safety note below first. You can still record one on the
+Find them on Sandy's app or Patreon. These run far longer and deeper than anything preset here.
+Do them lying down, somewhere you can stay put afterwards - and read the safety note below
+first. You can still record one on the
 watch: start a plain session of roughly the same length with **Breath Program** off, so the app
 tracks your HR and HRV while the recording guides your breathing.
 

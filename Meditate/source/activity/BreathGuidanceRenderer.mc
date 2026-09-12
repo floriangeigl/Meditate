@@ -5,11 +5,11 @@ using Toybox.Math;
 // Draws the eyes-open breath guidance: phase ring, phase verb, phase countdown, round counter.
 class BreathGuidanceRenderer {
 	private var mInhaleRing, mExhaleRing, mHoldRing;
-	private var mInhaleText, mExhaleText, mHoldText;
+	private var mInhaleText, mExhaleText, mHoldText, mRestText;
 	private var mNoseText, mMouthText;
 	private var mCenterX, mCenterY;
-	private var mWordY, mNumberY, mSmallY;
-	private var mWordFont, mNumberFont;
+	private var mWordCenterY, mNumberY, mSmallY;
+	private var mWordFonts, mNumberFont; // word font per phase, indexed by BreathPhase
 	private var mForegroundColor;
 
 	static const InhaleColor = Gfx.COLOR_BLUE;
@@ -20,6 +20,7 @@ class BreathGuidanceRenderer {
 		me.mInhaleText = Ui.loadResource(Rez.Strings.breathPhase_inhale);
 		me.mExhaleText = Ui.loadResource(Rez.Strings.breathPhase_exhale);
 		me.mHoldText = Ui.loadResource(Rez.Strings.breathPhase_hold);
+		me.mRestText = Ui.loadResource(Rez.Strings.breathPhase_rest);
 		// cached so the 1 Hz redraw does not reload resources
 		me.mNoseText = Ui.loadResource(Rez.Strings.breathRouteMenu_nose);
 		me.mMouthText = Ui.loadResource(Rez.Strings.breathRouteMenu_mouth);
@@ -48,9 +49,8 @@ class BreathGuidanceRenderer {
 		var textRadius = minDim / 2 - Math.floor(minDim / 9.0) - ringWidth;
 		var spacing = Math.floor(minDim / 40.0).toNumber();
 
-		me.mWordFont = Gfx.FONT_MEDIUM;
 		me.mNumberFont = Gfx.FONT_NUMBER_MEDIUM;
-		var wordHeight = dc.getFontHeight(me.mWordFont);
+		var wordHeight = dc.getFontHeight(Gfx.FONT_MEDIUM);
 		var smallHeight = dc.getFontHeight(Gfx.FONT_XTINY);
 		// step down the countdown font when the three lines cannot fit inside the circle
 		if (wordHeight + dc.getFontHeight(me.mNumberFont) + smallHeight + 2 * spacing > 2 * textRadius) {
@@ -59,8 +59,32 @@ class BreathGuidanceRenderer {
 		var numberHeight = dc.getFontHeight(me.mNumberFont);
 
 		me.mNumberY = me.mCenterY - numberHeight / 2;
-		me.mWordY = me.mNumberY - wordHeight - spacing;
+		me.mWordCenterY = me.mNumberY - spacing - wordHeight / 2;
 		me.mSmallY = me.mNumberY + numberHeight + spacing;
+
+		// the word row sits above centre where the text circle is narrower than the screen;
+		// long words (de/uk verbs, "Breathe freely") step down to stay inside that chord
+		var wordDy = me.mCenterY - me.mWordCenterY;
+		var chordSquared = textRadius * textRadius - wordDy * wordDy;
+		var maxWordWidth = chordSquared > 0 ? 2 * Math.sqrt(chordSquared) : width * 0.5;
+		var wordFonts = [Gfx.FONT_MEDIUM, Gfx.FONT_SMALL, Gfx.FONT_TINY];
+		me.mWordFonts = new [BreathPhase.Rest + 1];
+		for (var phase = 0; phase <= BreathPhase.Rest; phase++) {
+			me.mWordFonts[phase] = Utils.fitFont(dc, wordFonts, [me.wordFor(phase)], maxWordWidth);
+		}
+	}
+
+	private function wordFor(phase) {
+		if (phase == BreathPhase.Inhale) {
+			return me.mInhaleText;
+		}
+		if (phase == BreathPhase.Exhale) {
+			return me.mExhaleText;
+		}
+		if (phase == BreathPhase.Rest) {
+			return me.mRestText;
+		}
+		return me.mHoldText;
 	}
 
 	private function foregroundColorOrDefault() {
@@ -87,19 +111,14 @@ class BreathGuidanceRenderer {
 
 		dc.setColor(me.foregroundColorOrDefault(), Gfx.COLOR_TRANSPARENT);
 
-		// phase verb
-		var word = me.mHoldText;
-		if (phase == BreathPhase.Inhale) {
-			word = me.mInhaleText;
-		} else if (phase == BreathPhase.Exhale) {
-			word = me.mExhaleText;
-		}
-		var wordFont = me.mWordFont;
-		// long localizations (de/uk) would otherwise run under the bezel
-		if (dc.getTextWidthInPixels(word, wordFont) > dc.getWidth() * 0.75) {
-			wordFont = Gfx.FONT_SMALL;
-		}
-		dc.drawText(me.mCenterX, me.mWordY, wordFont, word, Gfx.TEXT_JUSTIFY_CENTER);
+		// phase verb, centred on its row so a stepped-down font keeps the same place
+		dc.drawText(
+			me.mCenterX,
+			me.mWordCenterY,
+			me.mWordFonts[phase],
+			me.wordFor(phase),
+			Gfx.TEXT_JUSTIFY_CENTER | Gfx.TEXT_JUSTIFY_VCENTER
+		);
 
 		// phase countdown
 		var remaining = runner.phaseRemaining();

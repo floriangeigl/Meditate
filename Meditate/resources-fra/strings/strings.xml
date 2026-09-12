@@ -205,7 +205,7 @@
     <string id="finishMenu_discard">Annuler</string>
     <string id="optionsMenuHelp">Appuyez démarrer</string>
 
-    <string id="about_AppVersion">v11.0.0</string>
+    <string id="about_AppVersion">v11.0.2</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>
     <string id="about_falsetru">falsetru</string>
@@ -215,6 +215,8 @@
     <string id="breathPhase_inhale">Inspirez</string>
     <string id="breathPhase_exhale">Expirez</string>
     <string id="breathPhase_hold">Retenez</string>
+    <string id="breathStep_rest">Repos</string>
+    <string id="breathPhase_rest">Respirez</string>
     <string id="addEditSessionMenu_breathProgram">Programme respiratoire</string>
     <string id="breathProgramMenu_addStep">Ajouter une étape</string>
     <string id="breathProgramMenu_deleteAll">Tout supprimer</string>

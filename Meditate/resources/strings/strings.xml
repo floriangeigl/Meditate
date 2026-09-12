@@ -208,7 +208,7 @@
     <string id="finishMenu_discard">Discard</string>
     <string id="optionsMenuHelp">Press start for options</string>
 
-    <string id="about_AppVersion">v11.0.0</string>
+    <string id="about_AppVersion">v11.0.2</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>
     <string id="about_falsetru">falsetru</string>
@@ -218,6 +218,8 @@
     <string id="breathPhase_inhale">Inhale</string>
     <string id="breathPhase_exhale">Exhale</string>
     <string id="breathPhase_hold">Hold</string>
+    <string id="breathStep_rest">Rest</string>
+    <string id="breathPhase_rest">Breathe freely</string>
     <string id="addEditSessionMenu_breathProgram">Breath Program</string>
     <string id="breathProgramMenu_addStep">Add step</string>
     <string id="breathProgramMenu_deleteAll">Delete all</string>
