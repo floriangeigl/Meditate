@@ -218,6 +218,8 @@
     <string id="breathPhase_inhale">Inspire</string>
     <string id="breathPhase_exhale">Expire</string>
     <string id="breathPhase_hold">Segure</string>
+    <string id="breathStep_rest">Descanso</string>
+    <string id="breathPhase_rest">Respire livre</string>
     <string id="addEditSessionMenu_breathProgram">Programa de respiração</string>
     <string id="breathProgramMenu_addStep">Adicionar etapa</string>
     <string id="breathProgramMenu_deleteAll">Excluir tudo</string>

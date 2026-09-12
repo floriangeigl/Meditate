@@ -215,6 +215,8 @@
     <string id="breathPhase_inhale">Inspirez</string>
     <string id="breathPhase_exhale">Expirez</string>
     <string id="breathPhase_hold">Retenez</string>
+    <string id="breathStep_rest">Repos</string>
+    <string id="breathPhase_rest">Respirez</string>
     <string id="addEditSessionMenu_breathProgram">Programme respiratoire</string>
     <string id="breathProgramMenu_addStep">Ajouter une étape</string>
     <string id="breathProgramMenu_deleteAll">Tout supprimer</string>

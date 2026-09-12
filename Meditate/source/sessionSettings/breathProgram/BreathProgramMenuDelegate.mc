@@ -115,10 +115,11 @@ class BreathProgramMenuDelegate extends Ui.Menu2InputDelegate {
 	}
 
 	function editStep(stepIndex) {
-		if (me.mProgram.get(stepIndex) == null) {
+		var step = me.mProgram.get(stepIndex);
+		if (step == null) {
 			return;
 		}
-		var menu = AddEditBreathStepMenuDelegate.createMenu(stepIndex);
+		var menu = AddEditBreathStepMenuDelegate.createMenu(step, stepIndex);
 		var stepDelegate = new AddEditBreathStepMenuDelegate(
 			me.mProgram,
 			stepIndex,

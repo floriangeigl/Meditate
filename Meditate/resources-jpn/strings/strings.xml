@@ -215,6 +215,8 @@
     <string id="breathPhase_inhale">吸う</string>
     <string id="breathPhase_exhale">吐く</string>
     <string id="breathPhase_hold">止める</string>
+    <string id="breathStep_rest">休憩</string>
+    <string id="breathPhase_rest">自然に呼吸</string>
     <string id="addEditSessionMenu_breathProgram">呼吸プログラム</string>
     <string id="breathProgramMenu_addStep">ステップを追加</string>
     <string id="breathProgramMenu_deleteAll">すべて削除</string>

@@ -10,7 +10,7 @@ class BreathTemplates {
 	// --- steps -------------------------------------------------------------
 
 	static function stepIds() {
-		return [:box, :b478, :coherence, :triangle, :extExhale, :fast, :hold, :custom];
+		return [:box, :b478, :coherence, :triangle, :extExhale, :fast, :hold, :rest, :custom];
 	}
 
 	static function createStep(id) {
@@ -35,6 +35,9 @@ class BreathTemplates {
 		}
 		if (id == :hold) {
 			return BreathTemplates.makeStep([0, 60, 0, 0], BreathRepeat.Rounds, 1, unset, unset);
+		}
+		if (id == :rest) {
+			return BreathTemplates.makeStep([0, 0, 0, 0], BreathRepeat.Duration, 60, unset, unset);
 		}
 		if (id == :custom) {
 			return BreathTemplates.makeStep([4, 4, 4, 4], BreathRepeat.Rounds, 4, unset, unset);

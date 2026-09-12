@@ -315,6 +315,18 @@ A session may carry an optional **breath program**: an ordered list of steps, ea
 rule (N rounds, or a duration). A pure breath-hold is just a step whose only non-zero slot is
 a hold — there is no special case for it.
 
+- **A rest step ("breathe freely") is `[0,0,0,0]` + Duration repeat** — no extra field or
+  storage key; `BreathStep.isValid()` accepts exactly that zero-cycle shape and `isRest()`
+  names it. Older app versions reject it in `fromDictionary` and just drop the step. The
+  runner maps it to `BreathPhase.Rest` (value 4, runner-only — `PhaseCount` stays 4). The
+  pattern editor deliberately cannot produce one (`applyPhase` reverts a zero cycle); rest
+  steps get their own reduced menu (duration, move, delete) in `AddEditBreathStepMenuDelegate`.
+- **The guidance-page phase word is capped by the text circle's chord at the word row**, not by
+  a fraction of screen width (`BreathGuidanceRenderer.layout`, via `Utils.fitFont`). On
+  `fr255s` that chord is ~129 px: "Breathe freely" fits at `FONT_SMALL` (121 px), while
+  "Breathe normally" was 130 px even at `FONT_TINY` — which is why the rest word is "freely".
+  Measure new phase strings on a 218 px dc before shipping them; long ones need shorter
+  translations, not a wider cap.
 - **Gate on `SessionModel.hasBreathProgram()`, never on `ActivityType.Breathing`.** The stored
   activity type and `Utils.getEffectiveActivityType()` diverge on the 8 vívoactive4/venu part
   numbers, so gating on activity type would show breathwork UI in *meditation* sessions there.

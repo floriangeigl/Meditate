@@ -218,6 +218,8 @@
     <string id="breathPhase_inhale">들이쉬기</string>
     <string id="breathPhase_exhale">내쉬기</string>
     <string id="breathPhase_hold">멈춤</string>
+    <string id="breathStep_rest">휴식</string>
+    <string id="breathPhase_rest">편하게 호흡</string>
     <string id="addEditSessionMenu_breathProgram">호흡 프로그램</string>
     <string id="breathProgramMenu_addStep">단계 추가</string>
     <string id="breathProgramMenu_deleteAll">모두 삭제</string>

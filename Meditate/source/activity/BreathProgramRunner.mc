@@ -65,6 +65,17 @@ class BreathProgramRunner {
 			return;
 		}
 		me.roundsTotal = step.roundsCount();
+		var local = elapsedTime - me.mOffsets[index];
+
+		if (step.isRest()) {
+			// one unpaced phase spanning the whole step
+			me.phase = BreathPhase.Rest;
+			me.phaseElapsed = local;
+			me.phaseTotal = step.totalTime();
+			me.phaseStart = me.mOffsets[index];
+			me.roundIndex = 0;
+			return;
+		}
 
 		var cycle = step.cycleTime();
 		if (cycle < 1) {
@@ -72,7 +83,6 @@ class BreathProgramRunner {
 			return;
 		}
 
-		var local = elapsedTime - me.mOffsets[index];
 		me.roundIndex = local / cycle;
 		var withinCycle = local % cycle;
 

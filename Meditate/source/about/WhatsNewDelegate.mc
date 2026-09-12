@@ -85,8 +85,8 @@ class WhatsNewView extends Ui.View {
 		me.mCenterX = width / 2;
 		// a round screen narrows towards the edges; 0.82 keeps the longest line off the bezel
 		var maxWidth = width * 0.82;
-		me.mTitleFont = WhatsNewView.fitFont(dc, [Gfx.FONT_MEDIUM, Gfx.FONT_SMALL, Gfx.FONT_XTINY], [me.mTitle], maxWidth);
-		me.mLineFont = WhatsNewView.fitFont(dc, [Gfx.FONT_SMALL, Gfx.FONT_TINY, Gfx.FONT_XTINY], me.mLines, maxWidth);
+		me.mTitleFont = Utils.fitFont(dc, [Gfx.FONT_MEDIUM, Gfx.FONT_SMALL, Gfx.FONT_XTINY], [me.mTitle], maxWidth);
+		me.mLineFont = Utils.fitFont(dc, [Gfx.FONT_SMALL, Gfx.FONT_TINY, Gfx.FONT_XTINY], me.mLines, maxWidth);
 		me.mLineHeight = dc.getFontHeight(me.mLineFont);
 
 		// centre title and lines as one block, so no font combination can overlap them
@@ -95,22 +95,6 @@ class WhatsNewView extends Ui.View {
 		var blockHeight = titleHeight + gap + me.mLines.size() * me.mLineHeight;
 		me.mTitleY = (height - blockHeight) / 2;
 		me.mFirstLineY = me.mTitleY + titleHeight + gap;
-	}
-
-	// largest font whose widest text still fits, falling back to the last one
-	private static function fitFont(dc, fonts, texts, maxWidth) {
-		for (var f = 0; f < fonts.size() - 1; f++) {
-			var fits = true;
-			for (var i = 0; i < texts.size(); i++) {
-				if (dc.getTextWidthInPixels(texts[i], fonts[f]) > maxWidth) {
-					fits = false;
-				}
-			}
-			if (fits) {
-				return fonts[f];
-			}
-		}
-		return fonts[fonts.size() - 1];
 	}
 
 	function onUpdate(dc) {

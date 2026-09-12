@@ -215,6 +215,8 @@
     <string id="breathPhase_inhale">Вдих</string>
     <string id="breathPhase_exhale">Видих</string>
     <string id="breathPhase_hold">Затримка</string>
+    <string id="breathStep_rest">Відпочинок</string>
+    <string id="breathPhase_rest">Дихайте вільно</string>
     <string id="addEditSessionMenu_breathProgram">Дихальна програма</string>
     <string id="breathProgramMenu_addStep">Додати крок</string>
     <string id="breathProgramMenu_deleteAll">Видалити все</string>
