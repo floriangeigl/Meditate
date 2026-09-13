@@ -2,33 +2,35 @@ using Toybox.WatchUi as Ui;
 using Toybox.Graphics as Gfx;
 using Toybox.Application as App;
 using StatusIconFonts;
+using Toybox.Attention;
 
 class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 	private var mSessionStorage;
 	private var mSelectedSessionDetails;
 	private var mSummaryRollupModel;
-	private var mHeartbeatIntervalsSensor;
+	private var mFeed;
 	private var mHrvTracking;
 	private var hrvStatusLineNum;
 
-	function initialize(sessionStorage, heartbeatIntervalsSensor) {
+	function initialize(sessionStorage, beatIntervalFeed) {
 		ScreenPickerDelegate.initialize(sessionStorage.getSelectedSessionIndex(), sessionStorage.getSessionsCount());
 		me.mSessionStorage = sessionStorage;
 		me.mHrvTracking = null;
 		me.mSummaryRollupModel = new SummaryRollupModel();
 		me.mSelectedSessionDetails = new ScreenPicker.DetailsModel();
-		me.mHeartbeatIntervalsSensor = heartbeatIntervalsSensor;
+		me.mFeed = beatIntervalFeed;
 		me.setSelectedSessionDetails();
 		me.hrvStatusLineNum = null;
 	}
 
-	function setTestModeHeartbeatIntervalsSensor() {
+	// the feed has one listener slot; the picker holds it while browsing, the activity during a session
+	function updatePickerHrvListener() {
 		if (me.mHrvTracking != HrvTracking.Off) {
-			me.mHeartbeatIntervalsSensor.start();
-			me.mHeartbeatIntervalsSensor.setOneSecBeatToBeatIntervalsSensorListener(method(:updateHrvStatus));
+			me.mFeed.start();
+			me.mFeed.setListener(method(:updateHrvStatus));
 		} else {
-			me.mHeartbeatIntervalsSensor.stop();
-			me.mHeartbeatIntervalsSensor.setOneSecBeatToBeatIntervalsSensorListener(null);
+			me.mFeed.stop();
+			me.mFeed.setListener(null);
 		}
 	}
 
@@ -62,14 +64,14 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 			Ui.pushView(summaryRollupMenu, summaryRollupMenuDelegate, Ui.SLIDE_LEFT);
 			return true;
 		} else {
-			me.mHeartbeatIntervalsSensor.stop();
+			me.mFeed.stop();
 			return false;
 		}
 	}
 
 	function onSummaryRollupMenuOption(option) {
 		if (option == RollupExitOption) {
-			me.mHeartbeatIntervalsSensor.stop();
+			me.mFeed.stop();
 			System.exit();
 		} else {
 			var summaryIndex = option;
@@ -139,7 +141,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		var displayName = Utils.getSessionDisplayName(selectedSession, me.mSelectedPageIndex);
 		meditateModel.setDisplayName(displayName);
 		var meditateView = new MeditateView(meditateModel);
-		var mediateDelegate = new MeditateDelegate(meditateModel, me.mHeartbeatIntervalsSensor, me);
+		var mediateDelegate = new MeditateDelegate(meditateModel, me.mFeed, me);
 		mediateDelegate.setMeditateView(meditateView);
 		mediateDelegate.startActivity();
 		Ui.switchToView(meditateView, mediateDelegate, Ui.SLIDE_LEFT);
@@ -164,12 +166,20 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 	}
 
 	function updateHrvStatus(data) {
-		// keep the hrv off presentation set by setInitialHrvStatus; getStatus has side effects
+		// keep the hrv off presentation set by setInitialHrvStatus; pollStatus counts error seconds
 		if (me.hrvStatusLineNum == null || me.mHrvTracking == HrvTracking.Off) {
 			return;
 		}
 		var hrvStatusLine = me.mSelectedSessionDetails.getLine(me.hrvStatusLineNum);
-		var sensorStatus = me.mHeartbeatIntervalsSensor.getStatus();
+		var errorsBefore = me.mFeed.errorSeconds();
+		var sensorStatus = me.mFeed.pollStatus();
+		var errors = me.mFeed.errorSeconds();
+		// the counter only moves while on screen, so these are exactly the recovery and the fifth error second
+		if (sensorStatus == HeartbeatIntervalsSensorStatus.Good && errorsBefore > 0 && errors == 0) {
+			Vibe.vibrate(VibePattern.Blip);
+		} else if (sensorStatus == HeartbeatIntervalsSensorStatus.Error && errors > errorsBefore && errors % 5 == 0) {
+			me.pulseBacklight();
+		}
 		if (sensorStatus != HeartbeatIntervalsSensorStatus.Error) {
 			if (!(hrvStatusLine.icon instanceof ScreenPicker.HrvIcon)) {
 				hrvStatusLine.icon = new ScreenPicker.HrvIcon({});
@@ -185,12 +195,18 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 			}
 			hrvStatusLine.icon.tick();
 		}
-		hrvStatusLine.value.text = Utils.getHrvStatusText(
-			sensorStatus,
-			me.mHeartbeatIntervalsSensor.shouldSuggestRestart(),
-			me.mHeartbeatIntervalsSensor.showAltStartingText()
-		);
+		hrvStatusLine.value.text = Utils.getHrvStatusText(sensorStatus, errors);
 		Ui.requestUpdate();
+	}
+
+	private function pulseBacklight() {
+		if (Attention has :backlight) {
+			try {
+				Attention.backlight(true);
+			} catch (e instanceof Attention.BacklightOnTooLongException) {
+				// burn in protection kicked in; backlight disabled; ignore
+			}
+		}
 	}
 
 	private function setInitialHrvStatus(hrvStatusLine, session) {
@@ -260,7 +276,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		me.hrvStatusLineNum = lineNum;
 		var hrvStatusLine = details.getLine(me.hrvStatusLineNum);
 		me.setInitialHrvStatus(hrvStatusLine, session);
-		me.setTestModeHeartbeatIntervalsSensor();
+		me.updatePickerHrvListener();
 		// Ensure the screen updates immediately when session details change
 		Ui.requestUpdate();
 	}

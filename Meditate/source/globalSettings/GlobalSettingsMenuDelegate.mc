@@ -398,7 +398,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			Ui.pushView(useMenu, useDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :sensorRestart) {
 			// Disable all HR sensors and exit the app cleanly
-			App.getApp().heartbeatIntervalsSensor.shutdown();
+			App.getApp().beatIntervalFeed.shutdown();
 			System.exit();
 		}
 	}

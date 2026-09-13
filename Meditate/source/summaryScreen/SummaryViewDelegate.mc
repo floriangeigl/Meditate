@@ -52,7 +52,7 @@ class SummaryViewDelegate extends ScreenPicker.ScreenPickerDelegate {
 		var metric = me.mSummary.metrics[row[0]];
 		var kind = row[1];
 		if (kind == :graph || kind == :hrvGraph) {
-			return new GraphView(metric != null ? metric.history : null, me.mSummary.elapsedTime, row[2], row[3], row[4]);
+			return new GraphView(metric, me.mSummary.elapsedTime, row[2], row[3], row[4]);
 		}
 		var detailsModel;
 		if (kind == :details) {

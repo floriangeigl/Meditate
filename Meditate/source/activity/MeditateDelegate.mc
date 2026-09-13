@@ -5,7 +5,7 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 	private var mMeditateModel;
 	private var mMeditateActivity;
 	private var mSessionPickerDelegate;
-	private var mHeartbeatIntervalsSensor;
+	private var mFeed;
 	private var mSummaryModel;
 	private var mShouldAutoExit;
 	private var mPauseMenuVisible;
@@ -15,11 +15,11 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 	private const PauseReasonManual = 0;
 	private const PauseReasonCompleted = 1;
 
-	function initialize(meditateModel, heartbeatIntervalsSensor, sessionPickerDelegate) {
+	function initialize(meditateModel, beatIntervalFeed, sessionPickerDelegate) {
 		BehaviorDelegate.initialize();
 		me.mMeditateModel = meditateModel;
-		me.mHeartbeatIntervalsSensor = heartbeatIntervalsSensor;
-		me.mMeditateActivity = new MeditateActivity(meditateModel, heartbeatIntervalsSensor, me);
+		me.mFeed = beatIntervalFeed;
+		me.mMeditateActivity = new MeditateActivity(meditateModel, beatIntervalFeed, me);
 		me.mSessionPickerDelegate = sessionPickerDelegate;
 		me.mSummaryModel = null;
 		me.mPauseMenuVisible = false;
@@ -135,9 +135,9 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 			// In multi-session mode show an intermediate post-session menu
 			showPostSessionMenu(me.mSummaryModel);
 		} else {
-			if (me.mHeartbeatIntervalsSensor != null) {
-				me.mHeartbeatIntervalsSensor.stop();
-				me.mHeartbeatIntervalsSensor = null;
+			if (me.mFeed != null) {
+				me.mFeed.stop();
+				me.mFeed = null;
 			}
 			showSummaryView(me.mSummaryModel);
 		}

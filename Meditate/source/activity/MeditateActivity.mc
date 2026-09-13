@@ -9,8 +9,7 @@ class MeditateActivity {
 	private var mMeditateDelegate;
 	private var mFeed;
 	private var mRecorder;
-	private var mHrvTracking;
-	private var mHrvMonitor;
+	private var mHrv;
 	private var mVibeAlertsExecutor;
 	private var mBreathCuesExecutor;
 	private var mAutoStopEnabled;
@@ -18,7 +17,7 @@ class MeditateActivity {
 	private var mEffectiveWakeupSessionType;
 	private var mSummary;
 
-	function initialize(meditateModel, heartbeatIntervalsSensor, meditateDelegate) {
+	function initialize(meditateModel, beatIntervalFeed, meditateDelegate) {
 		var fitSessionSpec;
 		var sessionTime = meditateModel.getSessionTime();
 		// current hypothesis: mediation/yoga/breathwork only supported with api >= 3.3.6
@@ -65,35 +64,28 @@ class MeditateActivity {
 		}
 		me.mMeditateModel = meditateModel;
 		me.mMeditateDelegate = meditateDelegate;
-		me.mFeed = heartbeatIntervalsSensor;
+		me.mFeed = beatIntervalFeed;
 		// at most one open fit session: the wakeup session goes right before ours is created
-		me.mFeed.discardWakeupeSession();
+		me.mFeed.discardWakeupSession();
 		me.mRecorder = new ActivityRecorder(fitSessionSpec, me);
-		var metrics = MeditateActivity.createMetrics();
+		var metrics = MeditateActivity.createMetrics(meditateModel, me.mRecorder.fit);
 		me.mRecorder.setMetrics(metrics);
-		me.mHrvTracking = meditateModel.getHrvTracking();
-		me.mHrvMonitor = null;
-		var liveMetrics = [metrics[0]];
-		if (me.mHrvTracking == HrvTracking.OnDetailed) {
-			me.mHrvMonitor = new HrvMonitorDetailed(me.mRecorder.getFitSession(), GlobalSettings.loadHrvWindowTime());
-		} else if (me.mHrvTracking == HrvTracking.On) {
-			me.mHrvMonitor = new HrvMonitorDefault(me.mRecorder.getFitSession());
-		}
-		if (me.mHrvMonitor != null) {
-			liveMetrics.add(me.mHrvMonitor);
-		}
-		for (var i = 1; i < metrics.size(); i++) {
-			liveMetrics.add(metrics[i]);
-		}
-		meditateModel.liveMetrics = liveMetrics;
+		meditateModel.liveMetrics = metrics;
+		me.mHrv = meditateModel.getMetric(:hrv);
 		me.mSummary = null;
 		me.mAutoStopEnabled = GlobalSettings.loadAutoStop();
 		me.mAutoStopRoundsTriggered = 0;
 	}
 
 	// the one place deciding what is recorded; hr first, the rest in metrics page order
-	static function createMetrics() {
+	static function createMetrics(meditateModel, fitFields) {
 		var metrics = [new HrMetric()];
+		var hrvTracking = meditateModel.getHrvTracking();
+		if (hrvTracking != HrvTracking.Off) {
+			metrics.add(
+				new HrvMetric(fitFields, hrvTracking == HrvTracking.OnDetailed, GlobalSettings.loadHrvWindowTime())
+			);
+		}
 		if (StressMetric.isSupported()) {
 			metrics.add(new StressMetric());
 		}
@@ -146,13 +138,9 @@ class MeditateActivity {
 		return null;
 	}
 
-	private function isHrvOn() {
-		return me.mHrvTracking != HrvTracking.Off;
-	}
-
 	function start() {
-		if (me.isHrvOn()) {
-			me.mFeed.setOneSecBeatToBeatIntervalsSensorListener(method(:onOneSecBeatToBeatIntervals));
+		if (me.mHrv != null) {
+			me.mFeed.setListener(me.mHrv.method(:onIntervals));
 			// clear stale paused from prior session; else multi-session drops HRV after session 1
 			me.mFeed.resume();
 			me.mFeed.resetSensorQuality();
@@ -162,12 +150,6 @@ class MeditateActivity {
 		me.mVibeAlertsExecutor = new VibeAlertsExecutor(me.mMeditateModel);
 		if (me.mMeditateModel.hasBreathProgram()) {
 			me.mBreathCuesExecutor = new BreathCuesExecutor(me.mMeditateModel);
-		}
-	}
-
-	function onOneSecBeatToBeatIntervals(heartBeatIntervals) {
-		if (me.mHrvMonitor != null) {
-			me.mHrvMonitor.addOneSecBeatToBeatIntervals(heartBeatIntervals);
 		}
 	}
 
@@ -200,7 +182,7 @@ class MeditateActivity {
 	// Pause/Resume session, returns true if session is now running
 	function pauseResume() {
 		var running = me.mRecorder.pauseResume();
-		if (me.isHrvOn()) {
+		if (me.mHrv != null) {
 			if (running) {
 				me.mFeed.resume();
 			} else {
@@ -213,12 +195,9 @@ class MeditateActivity {
 	// the summary is taken before the recorder stops so session fields land in the fit file
 	function stop() {
 		me.mSummary = me.mRecorder.summary(me.mMeditateModel.getName());
-		if (me.mHrvMonitor != null) {
-			me.mSummary.metrics[:hrv] = me.mHrvMonitor.calculateHrvSummary();
-		}
 		me.mRecorder.stop();
-		if (me.isHrvOn()) {
-			me.mFeed.setOneSecBeatToBeatIntervalsSensorListener(null);
+		if (me.mHrv != null) {
+			me.mFeed.setListener(null);
 			// clear paused so picker live HRV status keeps updating between sessions
 			me.mFeed.resume();
 		}

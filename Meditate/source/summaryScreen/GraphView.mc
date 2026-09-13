@@ -22,14 +22,14 @@ class GraphView extends ScreenPicker.ScreenPickerBaseView {
 	var chartLines;
 	var chartLinesValues;
 
-	function initialize(data, elapsedTime, title, minCut, maxCut) {
+	// history, min, max and avg come from the metric; nothing is aggregated twice
+	function initialize(metric, elapsedTime, title, minCut, maxCut) {
 		me.minCut = minCut;
 		me.maxCut = maxCut;
-		me.data = data;
-		me.avg = null;
-		me.min = null;
-		me.max = null;
-		var val = null;
+		me.data = metric != null ? metric.history : null;
+		me.avg = metric != null ? metric.getAvg() : null;
+		me.min = metric != null ? metric.min : null;
+		me.max = metric != null ? metric.max : null;
 		me.titleText = null;
 		me.minTextE = null;
 		me.maxTextE = null;
@@ -43,27 +43,6 @@ class GraphView extends ScreenPicker.ScreenPickerBaseView {
 		me.lines = null;
 		me.chartLines = null;
 		me.chartLinesValues = null;
-
-		var total = 0;
-		var count = 0;
-		if (me.data != null) {
-			for (var i = 0; i < me.data.size(); i++) {
-				val = me.data[i];
-				if (val != null) {
-					if (me.min == null || val < me.min) {
-						me.min = val;
-					}
-					if (me.max == null || val > me.max) {
-						me.max = val;
-					}
-					total += val;
-					count++;
-				}
-			}
-		}
-		if (count > 0) {
-			me.avg = total / count;
-		}
 
 		me.elapsedTime = elapsedTime;
 		me.title = title;

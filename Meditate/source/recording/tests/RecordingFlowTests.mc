@@ -22,7 +22,7 @@ class RecordingFlowTests {
 
 	// at most one open session: the app booted by the test runner holds the wakeup session
 	private static function closeAppWakeupSession() {
-		App.getApp().heartbeatIntervalsSensor.discardWakeupeSession();
+		App.getApp().beatIntervalFeed.discardWakeupSession();
 	}
 
 	(:test)
@@ -73,7 +73,7 @@ class RecordingFlowTests {
 		session.vibePattern = VibePattern.NoNotification;
 		session.setHrvTracking(HrvTracking.OnDetailed);
 		var model = new MeditateModel(session);
-		var feed = new HeartbeatIntervalsSensor();
+		var feed = new BeatIntervalFeed();
 		var activity = new MeditateActivity(model, feed, new FlowListener());
 		// hr leads the metrics page, hrv follows, the rest depends on the device
 		if (model.liveMetrics[0].id != :hr || model.liveMetrics[1].id != :hrv) {
@@ -86,7 +86,8 @@ class RecordingFlowTests {
 		if (!model.isTimerRunning) {
 			return false;
 		}
-		activity.onOneSecBeatToBeatIntervals([1000, 1020, 990]);
+		model.getMetric(:hrv).onIntervals([1000, 1020, 990]);
+		model.getMetric(:hrv).sample(null);
 		activity.onTick();
 		if (activity.pauseResume() != false || activity.pauseResume() != true) {
 			return false;

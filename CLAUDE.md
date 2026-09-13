@@ -48,7 +48,8 @@ project.optimization = 3pz  # Maximum optimization
 ```
 
 **Judge PRG size from a release build, never a debug one** — they differ by roughly 2.4x. Same
-tree on `fr255s`: debug 415 KB vs release 172 KB (with a pre-breathwork baseline of 145 KB). A
+tree on `fr255s`: debug 415 KB vs release 172 KB (with a pre-breathwork baseline of 145 KB; the
+data acquisition rework then brought the release build down to 167 KB). A
 debug PRG looks alarmingly close to a 512 KB device budget while the shipped artifact uses a
 third of it.
 
@@ -125,7 +126,7 @@ So a new device passing the memory check still warrants a judgment call (CIQ ver
 
 vívoactive4/4s report Connect IQ API >= 3.3.6 (the `Utils.MonkeyVersionAtLeast([3,3,6])` gate in `MeditateActivity.mc` that's meant to guard Meditation/Yoga/Breathing FIT sport support), but `ActivityRecording.createSession` still throws **"Invalid Value"** for `SPORT_MEDITATION` (67) on this hardware — first seen as a production crash (backtrace `HrActivity.initialize` ← `HrvActivity.initialize` ← `MeditateActivity.initialize`, vívoactive4S firmware 8.30, app v10.7.8, 2026-07-03). Garmin's manuals confirm this device ships native Yoga and Breathwork activities but never got a native Meditation profile, so the API-level heuristic is a false positive specifically for this device family.
 
-Fixed via `Utils.activityTypeOverridesByPartNumber` (keyed by `System.getDeviceSettings().partNumber` — `006-B3225-00`/`006-B3388-00` = vivoactive4, `006-B3224-00`/`006-B3387-00` = vivoactive4s, `006-B3226-00`/`006-B3389-00` = venu, `006-B3740-00`/`006-B3737-00` = venud Mercedes-Benz Collection) and `Utils.getEffectiveActivityType()`, applied once where `MeditateActivity.mc` resolves `selectedActivityType` — remaps `ActivityType.Meditating` to `ActivityType.Breathing` on these devices. That single remap point also fixes wakeup-resume, since `mEffectiveWakeupSessionType` → `WakeupSessionStorage` → `HeartbeatIntervalsSensor` branches on the same enum. Add new devices/overrides to that table rather than writing new one-off boolean checks.
+Fixed via `Utils.activityTypeOverridesByPartNumber` (keyed by `System.getDeviceSettings().partNumber` — `006-B3225-00`/`006-B3388-00` = vivoactive4, `006-B3224-00`/`006-B3387-00` = vivoactive4s, `006-B3226-00`/`006-B3389-00` = venu, `006-B3740-00`/`006-B3737-00` = venud Mercedes-Benz Collection) and `Utils.getEffectiveActivityType()`, applied once where `MeditateActivity.mc` resolves `selectedActivityType` — remaps `ActivityType.Meditating` to `ActivityType.Breathing` on these devices. That single remap point also fixes wakeup-resume, since `mEffectiveWakeupSessionType` → `WakeupSessionStorage` → `BeatIntervalFeed` branches on the same enum. Add new devices/overrides to that table rather than writing new one-off boolean checks.
 
 Note: `ActivityRecording.createSession` does **not** throw a catchable exception for this failure — a try/catch-and-retry safety net was considered and rejected because it wouldn't actually intercept it. Don't propose try/catch around a Toybox call without first confirming (via the API docs or existing repo precedent) that it's documented to throw.
 
@@ -137,11 +138,11 @@ The authoritative device list is the **`onActive`/`onInactive` supported-devices
 
 Caveat: the doc list lags the device definitions. SDK 9.2.0 ships fēnix 9 device defs but its docs never mention fēnix 9 (0 hits, vs 321 for fēnix 8 Pro), so the list neither confirms nor rules out fēnix 9 multitasking. Assume it is, and re-check the list after an SDK doc refresh. Either way the code is safe: `foreground` defaults `true`, and `onActive`/`onInactive` are simply never called on a non-multitasking device.
 
-This caused a production crash (24 reports, v10.7.10, backtrace `HeartbeatIntervalsSensor.createWakeupSession` ← `getStatus` ← `SessionPickerDelegate.updateHrvStatus` ← `update`): after ~40 s backgrounded on the session picker, `getStatus()`'s >20-error recovery path fired and called `ActivityRecording.createSession`, which is not permitted in that state. **Every crashing device was on the multitasking list; none of the other 81 supported devices appeared** — that 100% correlation is what identified the root cause, so check the device list against it before assuming a sport/spec problem.
+This caused a production crash (24 reports, v10.7.10, backtrace `HeartbeatIntervalsSensor.createWakeupSession` ← `getStatus` ← `SessionPickerDelegate.updateHrvStatus` ← `update` — the class is `BeatIntervalFeed` and the method `pollStatus()` today): after ~40 s backgrounded on the session picker, the status poll's >20-error recovery path fired and called `ActivityRecording.createSession`, which is not permitted in that state. **Every crashing device was on the multitasking list; none of the other 81 supported devices appeared** — that 100% correlation is what identified the root cause, so check the device list against it before assuming a sport/spec problem.
 
-Fixed with a `foreground` flag on `HeartbeatIntervalsSensor` (`setForeground()`, driven by `MeditateApp.onActive`/`onInactive`):
+Fixed with a `foreground` flag on `BeatIntervalFeed` (`setForeground()`, driven by `MeditateApp.onActive`/`onInactive`):
 
-- The gate lives in **`getStatus()`, not `update()`** — `getStatus()`'s only caller is the session picker, so gating there cannot touch in-session HRV capture. Early-returning in `update()` would suppress `mSensorListener.invoke(data)`, i.e. the HRV feed of a session recording in the background.
+- The gate lives in **`pollStatus()`, not `update()`** — `pollStatus()`'s only caller is the session picker, so gating there cannot touch in-session HRV capture. Early-returning in `update()` would suppress `mListener.invoke(data)`, i.e. the HRV feed of a session recording in the background.
 - `setForeground(true)` calls `resetSensorQuality()` on the false→true edge only — the counters are meaningless after a suspended gap, and this gives the re-enabled sensor its full ~21 s grace instead of firing recovery on the first tick back.
 - `foreground` defaults `true` and the callbacks only exist on multitasking devices, so the other 81 devices are unchanged. Defining `onActive`/`onInactive` compiles fine down to CIQ 3.0.3 (verified on `d2deltapx`) — on older devices they're just methods that are never called.
 - Going inactive deliberately does **nothing** beyond setting the flag: sensor state must not be changed there.
@@ -154,13 +155,13 @@ On a cold optical sensor `heartBeatIntervals` stays empty while `currentHeartRat
 
 **Restarting the app does fix it, fast.** Two cold sensors (11.4 h, 13.1 h gap) that failed on first launch got RR within 2–3 s of a genuine relaunch — total time under 1.5 min, against 180–320 s of continuous holding producing nothing on comparably cold sensors. One confound is still open — restarting requires handling the watch, and motion is known to affect the optical sensor, so "the restart" vs "the motion of restarting" isn't separated by any test run — but it doesn't change the recommendation.
 
-**Fix shipped: two-phase status text, no new UI.** `getStatus()` must not call `System.exit()` itself — unsafe mid-session or mid-menu — and users already know how to restart the app, so the fix is wording only via the existing `HeartbeatIntervalsSensor.shouldSuggestRestart()` / `Utils.getHrvStatusText(status, suggestRestart)`/ `SessionPickerDelegate.updateHrvStatus()` path:
+**Fix shipped: two-phase status text, no new UI.** The status poll must not call `System.exit()` itself — unsafe mid-session or mid-menu — and users already know how to restart the app, so the fix is wording only. The feed knows nothing about UI: `BeatIntervalFeed.pollStatus()` returns the status and counts error seconds, `errorSeconds()` exposes the counter, and `SessionPickerDelegate.updateHrvStatus()` turns that into the text via `Utils.getHrvStatusText(status, errorSeconds)`, the recovery blip (`Good` while the counter drops from > 0 to 0) and the backlight pulse (every fifth counted error second):
 
-- First ~18 s of Error status (`statusErrors <= restartHintAfterErrors`): alternates every 2 s between `HRVstarting` ("HRV starting") and `HRVstartingAlt` ("Please wait") via `HeartbeatIntervalsSensor.showAltStartingText()` — `((statusErrors - 1) / 2) % 2 == 1`, free-riding on the counter that already ticks once per second, no new timer. 18 is a multiple of the 2 s block size, so the handoff to `HRVrestart` lands right after a complete block, not mid-block — keep the threshold a multiple of the block size if either changes. Most successful runs resolve in 1–3 s, so this covers the common case without alarming anyone.
-- Beyond that (`shouldSuggestRestart()` true): `HRVrestart` — "Restart the app". Justified by the data: RR never once recovered mid-run past this point in any measured run (up to 320 s), only on the next launch — so there is no case where waiting past ~18 s helps and telling the user to restart does not.
+- First ~18 s of Error status (`errorSeconds <= Utils.HrvRestartHintAfterErrorSeconds`): alternates every 2 s between `HRVstarting` ("HRV starting") and `HRVstartingAlt` ("Please wait") — `((errorSeconds - 1) / 2) % 2 == 1`, free-riding on the counter that already ticks once per second, no new timer. 18 is a multiple of the 2 s block size, so the handoff to `HRVrestart` lands right after a complete block, not mid-block — keep the threshold a multiple of the block size if either changes (both constants live in `Utils`). Most successful runs resolve in 1–3 s, so this covers the common case without alarming anyone.
+- Beyond that: `HRVrestart` — "Restart the app". Justified by the data: RR never once recovered mid-run past this point in any measured run (up to 320 s), only on the next launch — so there is no case where waiting past ~18 s helps and telling the user to restart does not.
 - The old `HRVwaiting` id and its "the app already ships a :sensorRestart setting" framing are superseded — the setting still exists but is no longer the documented answer; the status text itself now says what to do.
 - Non-English translations for `HRVstarting`/`HRVrestart` are best-effort, not native-reviewed — worth a spot-check per locale before release.
-- **The hint stays up until the sensor really delivers.** `statusErrors` is only reset on recovery
+- **The hint stays up until the sensor really delivers.** `errorSeconds()` is only reset on recovery
   (`Good` after errors → "Ready" + blip) or by `resetSensorQuality()`. It used to be set back to
   1 by `ensureWakeupSession()` once the counter passed 60, which flipped the text back to "HRV
   starting / Please wait" for 18 s every minute; `ensureWakeupSession()` now only recreates a
@@ -177,7 +178,7 @@ Full investigation, all measurements, the six rejected hypotheses and the method
 
 `ActivityRecording.createSession` **returns the existing Session object** if one is open rather than creating a new one (documented, not an error). So any code path that leaves a stopped session unsaved/undiscarded silently corrupts the *next* session: `ActivityRecorder.initialize` gets handed the old object, `FitFields.create` re-adds `min_hr` to it, and the next meditation records into the previous session's file under its sport and name.
 
-The invariant is two adjacent lines in `MeditateActivity.initialize`: `mFeed.discardWakeupeSession()` immediately followed by `new ActivityRecorder(spec, me)`. Keep them adjacent.
+The invariant is two adjacent lines in `MeditateActivity.initialize`: `mFeed.discardWakeupSession()` immediately followed by `new ActivityRecorder(spec, me)`. Keep them adjacent.
 
 `SaveDiscardMenuDelegate.onBack()` used to pop without saving or discarding, leaking exactly that. It now invokes the save callback — **back on the save/discard prompt saves**. `ActivityRecorder.finish()`/`discard()` both null-check `mFitSession`, so a later close can't double-fire.
 
@@ -228,13 +229,23 @@ Get-ChildItem "$env:APPDATA\Garmin\ConnectIQ\Devices" -Directory | ForEach-Objec
 
 ## Testing
 
-Unit tests live next to the code they cover: `Meditate/source/recording/tests/` (`MetricTests` — the window engine against a
-scripted `read()`; `RecordingFlowTests` — `ActivityRecorder` and `MeditateActivity` start → tick →
-pause/resume → stop → summary → every summary page, against a real simulator FIT session),
-`activity/tests/MetricLineTests` (metrics page row states), `summaryScreen/tests/SummaryPagesTests`
-(page set per HRV mode) and
-`Meditate/source/recording/hrv/tests/` (SDRR, still commented out until step 4 of the data
-acquisition rework ports them). They use Connect IQ's `(:test)` framework and return `true`/`false`.
+Unit tests live next to the code they cover, 40 of them, all live:
+
+- `recording/tests/MetricTests` — the window engine against a scripted `read()` (flush on the
+  completing tick, skipFirst, range, 90 % rule, keepHistory off, stats over window values).
+- `recording/tests/BeatIntervalFeedTests` — the sensor listener fed fake `SensorData`: cleaning,
+  pause, the Weak/Good/Error thresholds, error seconds on screen only, no reset past 60.
+- `recording/tests/RecordingFlowTests` — `ActivityRecorder` and `MeditateActivity` start → tick →
+  pause/resume → stop → summary → every summary page, against a real simulator FIT session.
+- `recording/hrv/tests/HrvMetricTests` — RMSSD 38.37 / pNN20 33.33 / pNN50 16.67 / SDRR 26.95 on
+  the six fixture intervals, rolling value per window, differences across windows, sticky `On`.
+- `recording/hrv/tests/HrvSdrrTests` — the original SDRR expectations (`HrvAlgorithmsSampleOutput.xlsx`)
+  ported to `HrvSdrr`, including the last-300-beats ring.
+- `activity/tests/MetricLineTests` — metrics page row states; `summaryScreen/tests/SummaryPagesTests`
+  — the page set per HRV mode.
+
+They use Connect IQ's `(:test)` framework and return `true`/`false`. Run them after touching
+anything in `recording/`; they take ~20 s.
 
 **Annotate the whole test and fixture classes `(:test)`, not just the functions** — a bare fixture
 class costs ~400 B in the release PRG, a `(:test)` class costs 0 B (measured on `fr255s`).
@@ -302,7 +313,7 @@ No CI pipeline builds or tests Monkey C code. GitHub Actions handle only image c
 
 ```
 MeditateApp.getInitialView()
-  → HeartbeatIntervalsSensor.startup()
+  → BeatIntervalFeed.startup()
   → SessionStorage (load sessions / presets)
   → SessionPickerDelegate (carousel)
     → [Start] → Preparation → MeditateActivity → Finalization → Save/Discard → Summary screens
@@ -312,8 +323,7 @@ MeditateApp.getInitialView()
 ### Recording: one engine, composition, one summary map
 
 `Meditate/source/recording/` never references `GlobalSettings`, `Rez`, `Vibe` or `Ui` — everything
-comes in through constructor arguments (the sensor feed is the one exception still being cleaned
-up in step 4 of the rework).
+comes in through constructor arguments. Keep it that way; it is what makes the tests possible.
 
 - **`Metric`** is the sampling engine for every live value: a fixed tick `window`, optional `lo`/`hi`
   range, `skipFirst`, `liveBeforeWindow` (HR shows the raw sample until the first window closes),
@@ -321,16 +331,28 @@ up in step 4 of the rework).
   it**; `flush()` at the end keeps a partial window only if ≥ 90 % filled or the history is empty.
   `min`/`max`/`first`/`last`/`getAvg()` are **over the window values**, the same numbers the graphs
   draw — the details pages can no longer disagree with the graph. `HrMetric` {10 s, live before
-  window}, `StressMetric` {30 s, 0..100}, `RrMetric` {30 s, 1..99, skipFirst}.
+  window}, `StressMetric` {30 s, 0..100}, `RrMetric` {30 s, 1..99, skipFirst}, `HrvMetric` below.
+- **HRV is a metric too, sampled on the tick.** `BeatIntervalFeed` has one listener slot; during a
+  session it is `HrvMetric.onIntervals`, which only *buffers* the second's cleaned intervals. The
+  recorder tick then consumes the buffer like any other sample (`read()` returns and clears it),
+  so every window, history and load time runs on recording seconds, frozen while paused. The
+  buffer is bounded because the feed is paused whenever the timer is. One previous-interval
+  tracker feeds everything: signed last difference (the `On` live value, FIT `hrv_successive`),
+  Σd²/pairs (session RMSSD), |d| > 20/50 counters (pNN, denominator = beats incl. the first), and
+  in `Detailed` the window Σd²/n (rolling RMSSD = live value + history + FIT `hrv_rmssd_rolling`),
+  the per-beat FIT records and the two `HrvSdrr` rings (first/last 300 beats, population sd, ≥ 2
+  beats). Differences continue across window boundaries. `flush()` writes the FIT session fields
+  and then drops the buffer, rings and `FitFields` reference — the rollup keeps only the light
+  object with `rmssd`, `pnn20`, `pnn50`, `sdrrFirst`, `sdrrLast`, `history`, `detailed`.
 - **`ActivityRecorder`** owns the FIT session, `FitFields`, the 1 s `Timer` and `elapsedTime`.
   `onTick()` samples every metric while recording, then calls `listener.onTick()`. `summary()`
   flushes each metric into `ActivitySummary.metrics[id]` and writes `min_hr` from the HR metric's
   window minimum — call it **before** `stop()` so session fields land in the file.
-- **`MeditateActivity`** composes the recorder (no inheritance chain any more): `createMetrics()` is
-  the one place deciding what is recorded; `start()`/`pauseResume()`/`stop()` wire the beat-interval
-  feed exactly as before (multi-session and picker invariants above). `stop()` caches the summary,
-  `getSummary()` hands it to `MeditateDelegate`. Until step 4 the HRV monitors are fed by the
-  sensor callback and added to the summary map as a transitional `HrvSummary`.
+- **`MeditateActivity`** composes the recorder (no inheritance chain any more):
+  `createMetrics(meditateModel, fitFields)` is the one place deciding what is recorded, in metrics
+  page order; `start()`/`pauseResume()`/`stop()` wire the feed exactly as before (multi-session and
+  picker invariants above). `stop()` caches the summary, `getSummary()` hands it to
+  `MeditateDelegate`.
 - **`MeditateModel.liveMetrics`** is the metrics page order (HR, HRV, stress, RR); the view reads
   `getMetric(id).getValue()` / `getLoadTime()` and never samples.
 - **`ActivitySummary`** = `elapsedTime`, `sessionName`, `metrics {id → flushed Metric}`; ids `:hr`,
@@ -377,7 +399,7 @@ view anything that mutates a metric.
 not providing data" and the app silently ran on the fallback for years). Below API 5 the fallback
 is the newest non-null `SensorHistory.getStressHistory` sample, i.e. the watch's logged snapshot
 that updates every few minutes; once the live read has delivered a value once the latch
-(`liveStressAvailable`) stops falling back. Whether the watch keeps computing `stressScore`
+(`StressMetric.mLiveSeen`) stops falling back. Whether the watch keeps computing `stressScore`
 *while a CIQ activity records* is a device question — verify on hardware; if it stays null there,
 the latch never sets and the snapshot fallback is what users keep.
 
@@ -526,7 +548,7 @@ CIQ 3.0 floor.
 
 ### Timers (`Timer.Timer` concurrency limit)
 
-Connect IQ caps the number of **concurrently active `Timer.Timer` objects per app**. The limit is **device-dependent with a default of 3** (and a default minimum interval of 50 ms); both "depend on the host system" per the API docs. Starting one more than the device allows throws the runtime **"Too Many Timers Error"**. A `Timer.Timer` is a native resource — its slot is held until you call `.stop()` (or, unreliably, until the object is garbage-collected). **Always `.stop()` a timer before dropping its reference; do not rely on GC, especially on slower watches.** `Sensor.registerSensorDataListener` (used by `HeartbeatIntervalsSensor`) is **not** a `Timer` and does not count toward this limit.
+Connect IQ caps the number of **concurrently active `Timer.Timer` objects per app**. The limit is **device-dependent with a default of 3** (and a default minimum interval of 50 ms); both "depend on the host system" per the API docs. Starting one more than the device allows throws the runtime **"Too Many Timers Error"**. A `Timer.Timer` is a native resource — its slot is held until you call `.stop()` (or, unreliably, until the object is garbage-collected). **Always `.stop()` a timer before dropping its reference; do not rely on GC, especially on slower watches.** `Sensor.registerSensorDataListener` (used by `BeatIntervalFeed`) is **not** a `Timer` and does not count toward this limit.
 
 **Timers in this app** (keep this list current when adding/removing timers):
 

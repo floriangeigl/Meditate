@@ -99,9 +99,4 @@ class ActivityRecorder {
 		}
 		me.mFitSession = null;
 	}
-
-	// transitional: the old hrv monitors create their own fields
-	function getFitSession() {
-		return me.mFitSession;
-	}
 }

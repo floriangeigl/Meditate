@@ -14,11 +14,11 @@ class SummaryPagesTests {
 	}
 
 	private static function hrvEntry(detailed) {
-		var hrv = new HrvSummary();
-		hrv.detailed = detailed;
-		hrv.rmssd = 30.0;
-		hrv.history = [30.0];
-		return hrv;
+		var hrv = new HrvMetric(new FitFields(null), detailed, 2);
+		hrv.onIntervals([1000, 1030, 990, 1010]);
+		hrv.sample(null);
+		hrv.sample(null);
+		return hrv.flush();
 	}
 
 	// page titles in order; the hr graph is unique and first, so its return marks the wrap

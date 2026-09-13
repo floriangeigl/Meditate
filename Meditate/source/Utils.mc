@@ -109,17 +109,22 @@ class Utils {
 				return Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_off);
 		}
 	}
-	static function getHrvStatusText(status, suggestRestart, altStartingText) {
+	// picker hrv line; see CLAUDE.md HRV cold start. the hint threshold stays a multiple of the 2s block
+	private static const HrvRestartHintAfterErrorSeconds = 18;
+	private static const HrvStartingTextBlockSeconds = 2;
+
+	static function getHrvStatusText(status, errorSeconds) {
 		switch (status) {
 			case HeartbeatIntervalsSensorStatus.Good:
 				return Ui.loadResource(Rez.Strings.HRVready);
 			case HeartbeatIntervalsSensorStatus.Weak:
 				return Ui.loadResource(Rez.Strings.HRVweak);
 			case HeartbeatIntervalsSensorStatus.Error:
-				if (suggestRestart) {
+				if (errorSeconds > HrvRestartHintAfterErrorSeconds) {
 					return Ui.loadResource(Rez.Strings.HRVrestart);
 				}
-				return altStartingText
+				// alternates every block: HRVstarting first, then HRVstartingAlt
+				return ((errorSeconds - 1) / HrvStartingTextBlockSeconds) % 2 == 1
 					? Ui.loadResource(Rez.Strings.HRVstartingAlt)
 					: Ui.loadResource(Rez.Strings.HRVstarting);
 			default:

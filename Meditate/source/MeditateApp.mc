@@ -5,11 +5,11 @@ using Toybox.Sensor;
 using Toybox.System;
 
 class MeditateApp extends App.AppBase {
-	var heartbeatIntervalsSensor;
+	var beatIntervalFeed;
 
 	function initialize() {
 		AppBase.initialize();
-		me.heartbeatIntervalsSensor = null;
+		me.beatIntervalFeed = null;
 	}
 
 	// onStart() is called on application start up
@@ -17,23 +17,23 @@ class MeditateApp extends App.AppBase {
 
 	// multitasking devices only; app is back on screen and sensors are re-enabled
 	function onActive(state) {
-		if (me.heartbeatIntervalsSensor != null) {
-			me.heartbeatIntervalsSensor.setForeground(true);
+		if (me.beatIntervalFeed != null) {
+			me.beatIntervalFeed.setForeground(true);
 		}
 	}
 
 	// app keeps running off screen; sensor state must not be touched here
 	function onInactive(state) {
-		if (me.heartbeatIntervalsSensor != null) {
-			me.heartbeatIntervalsSensor.setForeground(false);
+		if (me.beatIntervalFeed != null) {
+			me.beatIntervalFeed.setForeground(false);
 		}
 	}
 
 	// onStop() is called when your application is exiting
 	function onStop(state) {
 		// Disable and remove listeners for heatbeat sensor
-		if (me.heartbeatIntervalsSensor != null) {
-			me.heartbeatIntervalsSensor.shutdown();
+		if (me.beatIntervalFeed != null) {
+			me.beatIntervalFeed.shutdown();
 		}
 		// Defensive: work around firmware bug that can leave sensor callbacks
 		// alive after app exit, causing battery drain (Venu 2, FR955, FR265, etc.)
@@ -49,12 +49,12 @@ class MeditateApp extends App.AppBase {
 		// Retry monthly tip prompt if it was postponed due to missing phone connection.
 		UsageStats.tryOpenPendingTip();
 
-		if (me.heartbeatIntervalsSensor == null) {
-			me.heartbeatIntervalsSensor = new HeartbeatIntervalsSensor();
-			me.heartbeatIntervalsSensor.startup();
+		if (me.beatIntervalFeed == null) {
+			me.beatIntervalFeed = new BeatIntervalFeed();
+			me.beatIntervalFeed.startup();
 		}
 		var sessionStorage = new SessionStorage();
-		var sessionPickerDelegate = new SessionPickerDelegate(sessionStorage, heartbeatIntervalsSensor);
+		var sessionPickerDelegate = new SessionPickerDelegate(sessionStorage, me.beatIntervalFeed);
 
 		// after the sensor startup above, which must not be delayed
 		if (sessionStorage.isFreshInstall()) {

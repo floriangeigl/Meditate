@@ -1,18 +1,17 @@
 using Toybox.Sensor;
 using Toybox.Lang;
-using Toybox.Timer;
 using Toybox.ActivityRecording;
-using Toybox.Attention;
 
-class HeartbeatIntervalsSensor {
-	private const SessionSamplePeriodSeconds = 1;
+// the beat interval sensor listener: cleaning, pause, foreground gate, wakeup session and the
+// quality counters. no ui side effects; the picker turns pollStatus and errorSeconds into text
+class BeatIntervalFeed {
+	private const SamplePeriodSeconds = 1;
 	private const maxReadyFails = 4;
 	private const maxWeakFails = 8;
 	private const minWeakFails = maxReadyFails + 1;
 	private const ensureSessionAfterErrors = 60;
-	private const restartHintAfterErrors = 18; // ui hint threshold; see CLAUDE.md HRV cold start
 
-	private var mSensorListener;
+	private var mListener;
 	private var numFails;
 	private var running;
 	private var lastUpdateFailed;
@@ -22,7 +21,6 @@ class HeartbeatIntervalsSensor {
 	var sensorWakeupSession;
 
 	function initialize() {
-		// System.println("HR sensor: Init");
 		me.resetSensorQuality();
 		me.running = false;
 		me.lastUpdateFailed = false;
@@ -48,7 +46,7 @@ class HeartbeatIntervalsSensor {
 	}
 
 	function createWakeupSession() {
-		me.discardWakeupeSession();
+		me.discardWakeupSession();
 		var activityType = WakeupSessionStorage.loadActivityType();
 		var fitSessionSpec = null;
 		if (activityType == WakeupSessionType.Yoga) {
@@ -63,7 +61,7 @@ class HeartbeatIntervalsSensor {
 		me.sensorWakeupSession = ActivityRecording.createSession(fitSessionSpec);
 	}
 
-	function discardWakeupeSession() {
+	function discardWakeupSession() {
 		if (me.sensorWakeupSession != null) {
 			me.sensorWakeupSession.discard();
 			me.sensorWakeupSession = null;
@@ -72,7 +70,7 @@ class HeartbeatIntervalsSensor {
 
 	function shutdown() {
 		me.stop();
-		me.discardWakeupeSession();
+		me.discardWakeupSession();
 	}
 
 	// callers must have the sensor awake already; see createWakeupSession
@@ -109,7 +107,7 @@ class HeartbeatIntervalsSensor {
 	function registerListener() {
 		try {
 			Sensor.registerSensorDataListener(method(:update), {
-				:period => SessionSamplePeriodSeconds,
+				:period => SamplePeriodSeconds,
 				:heartBeatIntervals => {
 					:enabled => true,
 				},
@@ -120,11 +118,13 @@ class HeartbeatIntervalsSensor {
 		}
 	}
 
-	function setOneSecBeatToBeatIntervalsSensorListener(listener) {
-		me.mSensorListener = listener;
+	// one slot: the picker status while browsing, HrvMetric.onIntervals during a session
+	function setListener(listener) {
+		me.mListener = listener;
 	}
 
-	function getStatus() {
+	// picker only; counts error seconds while on screen, never call it from a session
+	function pollStatus() {
 		var status =
 			me.numFails <= maxReadyFails
 				? HeartbeatIntervalsSensorStatus.Good
@@ -136,21 +136,9 @@ class HeartbeatIntervalsSensor {
 			return status;
 		}
 		if (status == HeartbeatIntervalsSensorStatus.Good) {
-			if (me.statusErrors > 0) {
-				me.statusErrors = 0;
-				Vibe.vibrate(VibePattern.Blip);
-			}
+			me.statusErrors = 0;
 		} else if (status == HeartbeatIntervalsSensorStatus.Error) {
 			me.statusErrors += 1;
-			if (me.statusErrors % 5 == 0) {
-				if (Attention has :backlight) {
-					try {
-						Attention.backlight(true);
-					} catch (e instanceof Attention.BacklightOnTooLongException) {
-						// burn in protection kicked in; backlight disabled; ignore
-					}
-				}
-			}
 			if (me.statusErrors > ensureSessionAfterErrors) {
 				me.ensureWakeupSession();
 			}
@@ -158,14 +146,9 @@ class HeartbeatIntervalsSensor {
 		return status;
 	}
 
-	// true once the picker should stop implying patience helps and suggest a restart instead
-	function shouldSuggestRestart() {
-		return me.statusErrors > restartHintAfterErrors;
-	}
-
-	// alternates every 2s during phase 1 (HRVstarting shown first, then HRVstartingAlt)
-	function showAltStartingText() {
-		return ((me.statusErrors - 1) / 2) % 2 == 1;
+	// consecutive polled seconds without beat intervals; reset only by recovery or resetSensorQuality
+	function errorSeconds() {
+		return me.statusErrors;
 	}
 
 	function resetSensorQuality() {
@@ -210,9 +193,8 @@ class HeartbeatIntervalsSensor {
 			data = cleanData;
 		}
 
-		// System.println("HR sensor: Invoke index " + i + " with data: " + data);
-		if (me.mSensorListener != null) {
-			me.mSensorListener.invoke(data);
+		if (me.mListener != null) {
+			me.mListener.invoke(data);
 		}
 	}
 }
