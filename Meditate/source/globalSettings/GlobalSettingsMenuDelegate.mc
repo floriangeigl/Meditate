@@ -1,7 +1,6 @@
 using Toybox.WatchUi as Ui;
 using Toybox.Sensor;
 using Toybox.System;
-using HrvAlgorithms.HrvTracking;
 using Toybox.Application as App;
 
 class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
@@ -125,7 +124,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			var multiSessionDelegate = new MenuOptionsDelegate(method(:onMultiSessionPicked));
 			Ui.pushView(multiMenu, multiSessionDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :respirationRate) {
-			if (HrvAlgorithms.RrActivity.isSensorSupported()) {
+			if (RrActivity.isSensorSupported()) {
 				var focusIdx = GlobalSettings.loadRespirationRate() == RespirationRate.On ? 0 : 1;
 				var respirationMenu = new Ui.Menu2({
 					:title => Ui.loadResource(Rez.Strings.menuRespirationRateOptions_title),
@@ -487,7 +486,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 
 		// 4: respirationRate
 		var respirationText = "";
-		if (HrvAlgorithms.RrActivity.isSensorSupported()) {
+		if (RrActivity.isSensorSupported()) {
 			var rr = GlobalSettings.loadRespirationRate();
 			respirationText =
 				rr == RespirationRate.On

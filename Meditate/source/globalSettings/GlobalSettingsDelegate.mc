@@ -1,7 +1,6 @@
 using Toybox.WatchUi as Ui;
 using Toybox.Application as App;
 using Toybox.Graphics as Gfx;
-using HrvAlgorithms.HrvTracking;
 
 class GlobalSettingsDelegate {
 	private var mSessionPickerDelegate;

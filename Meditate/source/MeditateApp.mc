@@ -50,7 +50,7 @@ class MeditateApp extends App.AppBase {
 		UsageStats.tryOpenPendingTip();
 
 		if (me.heartbeatIntervalsSensor == null) {
-			me.heartbeatIntervalsSensor = new HrvAlgorithms.HeartbeatIntervalsSensor();
+			me.heartbeatIntervalsSensor = new HeartbeatIntervalsSensor();
 			me.heartbeatIntervalsSensor.startup();
 		}
 		var sessionStorage = new SessionStorage();

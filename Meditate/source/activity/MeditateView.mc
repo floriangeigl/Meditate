@@ -203,7 +203,7 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 					me.mHrvIcon.setColorInactive();
 				} else if (me.mHrvStatusLine.icon instanceof ScreenPicker.LoadingIcon) {
 					me.mHrvStatusLine.icon.tick();
-					me.setLoadTimeText(me.mHrvStatusLine, HrvAlgorithms.HrvMonitorDetailed.getLoadTime(), elapsedTime);
+					me.setLoadTimeText(me.mHrvStatusLine, HrvMonitorDetailed.getLoadTime(), elapsedTime);
 				}
 			}
 			if (me.mMeditateModel.isRespirationRateOn()) {
@@ -217,7 +217,7 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 					me.mBreathIcon.setColorInactive();
 				} else if (me.mRrStatusLine.icon instanceof ScreenPicker.LoadingIcon) {
 					me.mRrStatusLine.icon.tick();
-					me.setLoadTimeText(me.mRrStatusLine, HrvAlgorithms.RrActivity.getLoadTime(), elapsedTime);
+					me.setLoadTimeText(me.mRrStatusLine, RrActivity.getLoadTime(), elapsedTime);
 				}
 			}
 			if (me.mMeditateModel.isStressSupported()) {
@@ -231,7 +231,7 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 					me.mStressIcon.setColorInactive();
 				} else if (me.mStressStatusLine.icon instanceof ScreenPicker.LoadingIcon) {
 					me.mStressStatusLine.icon.tick();
-					me.setLoadTimeText(me.mStressStatusLine, HrvAlgorithms.StressActivity.getLoadTime(), elapsedTime);
+					me.setLoadTimeText(me.mStressStatusLine, StressActivity.getLoadTime(), elapsedTime);
 				}
 			}
 

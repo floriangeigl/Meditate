@@ -4,10 +4,9 @@ using Toybox.FitContributor;
 using Toybox.Timer;
 using Toybox.Math;
 using Toybox.Sensor;
-using HrvAlgorithms.HrvTracking;
 using Toybox.Application as App;
 
-class MeditateActivity extends HrvAlgorithms.HrvActivity {
+class MeditateActivity extends HrvActivity {
 	private var mMeditateModel;
 	private var mVibeAlertsExecutor;
 	private var mBreathCuesExecutor;
@@ -44,29 +43,29 @@ class MeditateActivity extends HrvAlgorithms.HrvActivity {
 		var selectedActivityType = Utils.getEffectiveActivityType(meditateModel.getActivityType());
 		if (selectedActivityType == ActivityType.Yoga) {
 			activityName = activityName.length() > 0 ? activityName : Ui.loadResource(Rez.Strings.sessionTitleYoga);
-			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createYoga(createSessionName(sessionTime, activityName));
-			me.mEffectiveWakeupSessionType = HrvAlgorithms.WakeupSessionType.Yoga;
+			fitSessionSpec = FitSessionSpec.createYoga(createSessionName(sessionTime, activityName));
+			me.mEffectiveWakeupSessionType = WakeupSessionType.Yoga;
 		} else if (selectedActivityType == ActivityType.Breathing) {
 			activityName =
 				activityName.length() > 0 ? activityName : Ui.loadResource(Rez.Strings.sessionTitleBreathing);
-			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createBreathing(createSessionName(sessionTime, activityName));
-			me.mEffectiveWakeupSessionType = HrvAlgorithms.WakeupSessionType.Breathing;
+			fitSessionSpec = FitSessionSpec.createBreathing(createSessionName(sessionTime, activityName));
+			me.mEffectiveWakeupSessionType = WakeupSessionType.Breathing;
 		} else {
 			activityName = activityName.length() > 0 ? activityName : Ui.loadResource(Rez.Strings.sessionTitleMeditate);
-			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createMeditation(
+			fitSessionSpec = FitSessionSpec.createMeditation(
 				createSessionName(sessionTime, activityName)
 			);
-			me.mEffectiveWakeupSessionType = HrvAlgorithms.WakeupSessionType.Meditation;
+			me.mEffectiveWakeupSessionType = WakeupSessionType.Meditation;
 		}
 		if (!supportsActivityTypes || selectedActivityType == ActivityType.Generic) {
-			fitSessionSpec = HrvAlgorithms.FitSessionSpec.createTraining(createSessionName(sessionTime, activityName));
-			me.mEffectiveWakeupSessionType = HrvAlgorithms.WakeupSessionType.Training;
+			fitSessionSpec = FitSessionSpec.createTraining(createSessionName(sessionTime, activityName));
+			me.mEffectiveWakeupSessionType = WakeupSessionType.Training;
 			// System.println("create generic activity as others are not supported");
 		}
 		var hrvWindowSize = GlobalSettings.loadHrvWindowTime();
 		me.mMeditateModel = meditateModel;
 		me.mMeditateDelegate = meditateDelegate;
-		HrvAlgorithms.HrvActivity.initialize(
+		HrvActivity.initialize(
 			fitSessionSpec,
 			meditateModel.getHrvTracking(),
 			heartbeatIntervalsSensor,
@@ -121,7 +120,7 @@ class MeditateActivity extends HrvAlgorithms.HrvActivity {
 
 	function start() {
 		// System.println("MeditateActivity: start");
-		HrvAlgorithms.HrvActivity.start();
+		HrvActivity.start();
 		me.mMeditateModel.isTimerRunning = true;
 		me.mVibeAlertsExecutor = new VibeAlertsExecutor(me.mMeditateModel);
 		if (me.mMeditateModel.hasBreathProgram()) {
@@ -130,7 +129,7 @@ class MeditateActivity extends HrvAlgorithms.HrvActivity {
 	}
 
 	function refreshActivityStats() {
-		HrvAlgorithms.HrvActivity.refreshActivityStats();
+		HrvActivity.refreshActivityStats();
 		if (me.activityInfo.timerTime != null) {
 			me.mMeditateModel.elapsedTime = me.activityInfo.timerTime / 1000;
 		}
@@ -166,7 +165,7 @@ class MeditateActivity extends HrvAlgorithms.HrvActivity {
 	}
 
 	function finish() {
-		HrvAlgorithms.HrvActivity.finish();
+		HrvActivity.finish();
 		me.persistWakeupSessionType();
 		var usageStats = new UsageStats(me.mMeditateModel.elapsedTime);
 		usageStats.sendCurrent();
@@ -174,24 +173,24 @@ class MeditateActivity extends HrvAlgorithms.HrvActivity {
 	}
 
 	function discard() {
-		HrvAlgorithms.HrvActivity.discard();
+		HrvActivity.discard();
 		me.persistWakeupSessionType();
 	}
 
 	private function persistWakeupSessionType() {
 		if (me.mEffectiveWakeupSessionType != null) {
-			HrvAlgorithms.WakeupSessionStorage.saveActivityType(me.mEffectiveWakeupSessionType);
+			WakeupSessionStorage.saveActivityType(me.mEffectiveWakeupSessionType);
 		}
 	}
 
 	function stop() {
-		HrvAlgorithms.HrvActivity.stop();
+		HrvActivity.stop();
 		me.mVibeAlertsExecutor = null;
 		me.mBreathCuesExecutor = null;
 	}
 
 	function calculateSummaryFields() {
-		var activitySummary = HrvAlgorithms.HrvActivity.calculateSummaryFields();
+		var activitySummary = HrvActivity.calculateSummaryFields();
 		var summaryModel = new SummaryModel(
 			activitySummary,
 			me.mMeditateModel.getRespirationActivity(),

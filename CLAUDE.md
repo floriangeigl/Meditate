@@ -10,19 +10,20 @@ Garmin Connect IQ meditation watch-app tracking HR, HRV, stress, and respiration
 
 ## Project Structure
 
-Multi-folder VS Code workspace (`Meditate.code-workspace`) with four sub-projects:
+Multi-folder VS Code workspace (`Meditate.code-workspace`) with three sub-projects:
 
 ```
-Meditate/               Main watch-app (entry: source/MeditateApp.mc)
-HrvAlgorithms/          Barrel — HRV/HR/stress sensor algorithms
+Meditate/               Main watch-app (entry: source/MeditateApp.mc); sensor/recording engine in source/recording/
 ScreenPicker/           Barrel — carousel UI components (depends on StatusIconFonts)
 StatusIconFonts/        Barrel — Font Awesome icon fonts
 HrvProbe/               Standalone diagnostic app, not shipped — see "HRV cold start"
 ```
 
-**Dependency graph:** `Meditate` → `HrvAlgorithms`, `ScreenPicker` → `StatusIconFonts`, `StatusIconFonts`
+**Dependency graph:** `Meditate` → `ScreenPicker` → `StatusIconFonts`, `StatusIconFonts`
 
 Barrels are Connect IQ reusable libraries, declared in `barrels.jungle` and compiled into the main app.
+The former `HrvAlgorithms` barrel was merged into the app as `Meditate/source/recording/` (plain
+top-level classes, no module wrapper) — it never was a real boundary, it called the app's `Vibe`.
 
 ## Build & Run
 
@@ -89,13 +90,13 @@ Notes:
 
 ## Supported Devices
 
-Each of the **4 `manifest.xml` files** lists supported watches as `<iq:product id="<deviceId>"/>` entries inside `<iq:products>`. The `<deviceId>` matches the folder name under the SDK's device-definition directory.
+Each of the **3 `manifest.xml` files** lists supported watches as `<iq:product id="<deviceId>"/>` entries inside `<iq:products>`. The `<deviceId>` matches the folder name under the SDK's device-definition directory.
 
 - **SDK device definitions (source of truth for available watches):**
   - Windows: `%APPDATA%\Garmin\ConnectIQ\Devices\` (= `C:\Users\<user>\AppData\Roaming\Garmin\ConnectIQ\Devices\`)
   - macOS/Linux: `~/.Garmin/ConnectIQ/Devices/`
   - One folder per device (`fenix8`, `vivoactive6`, …), each with `<deviceId>.bin`, `simulator.json`, `compiler.json`. The folder name **is** the manifest product id.
-- The 4 manifests are not identical: `Meditate/manifest.xml` is the actual app device list; the barrels (`HrvAlgorithms`, `ScreenPicker`, `StatusIconFonts`) typically list a superset. The app-facing list is `Meditate/manifest.xml`.
+- The 3 manifests are not identical: `Meditate/manifest.xml` is the actual app device list; the barrels (`ScreenPicker`, `StatusIconFonts`) typically list a superset. The app-facing list is `Meditate/manifest.xml`.
 
 ### Minimum memory requirement: 512 KB watch-app RAM
 
@@ -184,7 +185,7 @@ Trigger whenever Garmin releases new watches (or after an SDK update):
 1. List device ids in the SDK `Devices/` folder (folder names).
 2. Diff against `<iq:product id=...>` ids in `Meditate/manifest.xml`.
 3. Filter out non-wrist hardware, the dropped-watch baseline, and anything below the **512 KB** floor (see above). Whatever remains is **new and viable** — report it with its memory.
-4. For each candidate, propose adding `<iq:product id="<deviceId>"/>` to all 4 manifests (keep barrels a superset of `Meditate`). If a candidate is non-wrist or otherwise unwanted, add its id to `$excludeExact`.
+4. For each candidate, propose adding `<iq:product id="<deviceId>"/>` to all 3 manifests (keep barrels a superset of `Meditate`). If a candidate is non-wrist or otherwise unwanted, add its id to `$excludeExact`.
 5. Rebuild in the simulator against one new device to confirm it compiles.
 
 The memory gate auto-drops sub-512 KB devices (e.g. `instinct3solar45mm`), so the name baseline only needs non-wrist prefixes plus capable-but-unwanted old watches.
@@ -197,11 +198,11 @@ $excludeExact = @(
   'vivoactive3m','vivoactive3mlte',      # array-out-of-bounds crash on session finish (240x240 layout); kept in barrels only
   'system8preview'                       # SDK System-8 preview pseudo-device, not a real watch
 )
-# NOTE: vivoactive4/4s and marqexpedition were sim-verified OK and re-added to all 4 manifests after the
+# NOTE: vivoactive4/4s and marqexpedition were sim-verified OK and re-added to all manifests after the
 #       Apr-2025 bulk purge (46c1938 "tmp rm devices again"). vivoactive3m/3mlte still crash on finish.
-# NOTE: fr70 / fr170 / fr170m were added to all 4 manifests (CIQ 6.0, 768 KB); flow now skips them via $man.
+# NOTE: fr70 / fr170 / fr170m were added to all manifests (CIQ 6.0, 768 KB); flow now skips them via $man.
 # NOTE: the 7 fenix 9 devices (fenix943mm/947mm, fenix9pro43/47/51mm, fenix9prosolar47/51mm) were added to
-#       all 4 manifests (CIQ 6.0.3, 768 KB, resolutions all match existing fenix 8 variants); flow skips them via $man.
+#       all manifests (CIQ 6.0.3, 768 KB, resolutions all match existing fenix 8 variants); flow skips them via $man.
 $man = Select-String -Path .\Meditate\manifest.xml -Pattern 'iq:product id="([^"]+)"' -AllMatches |
   ForEach-Object { $_.Matches } | ForEach-Object { $_.Groups[1].Value }
 Get-ChildItem "$env:APPDATA\Garmin\ConnectIQ\Devices" -Directory | ForEach-Object {
@@ -218,7 +219,7 @@ Get-ChildItem "$env:APPDATA\Garmin\ConnectIQ\Devices" -Directory | ForEach-Objec
 
 ## Testing
 
-Unit tests exist in `HrvAlgorithms/sources/activity/hrv/tests/` but are **commented out** to reduce PRG binary size. They use Connect IQ's `(:test)` annotation framework and return `true`/`false`. To run: uncomment test files, then use the Monkey C extension test runner or Connect IQ simulator.
+Unit tests exist in `Meditate/source/recording/hrv/tests/` but are **commented out** to reduce PRG binary size. They use Connect IQ's `(:test)` annotation framework and return `true`/`false`. To run: uncomment test files, then use the Monkey C extension test runner or Connect IQ simulator.
 
 No CI pipeline builds or tests Monkey C code. GitHub Actions handle only image compression, content translation, and user guide publishing.
 
@@ -242,7 +243,7 @@ No CI pipeline builds or tests Monkey C code. GitHub Actions handle only image c
 - **Inheritance chain**: `MeditateActivity → HrvActivity → HrActivity → SensorActivity`.
 - **Dictionary serialization**: Models use `fromDictionary()` / `toDictionary()` for `App.Storage` persistence.
 - **Static load/save**: `GlobalSettings` uses static methods per setting key.
-- **Barrel modules**: Each barrel wraps code in a module (e.g., `module HrvAlgorithms { ... }`).
+- **Barrel modules**: Each barrel wraps code in a module (e.g., `module ScreenPicker { ... }`); the app itself uses top-level classes.
 
 ### Formatting
 
@@ -306,7 +307,8 @@ skipped that draw — the breathwork guidance page — recorded no stress/RR at 
 - `Meditate/source/globalSettings/` — App-wide settings (static load/save)
 - `Meditate/source/storage/` — Session CRUD, presets
 - `Meditate/source/com/` — GA4 analytics, donation prompts
-- `HrvAlgorithms/sources/activity/hrv/` — HRV algorithm implementations (RMSSD, SDRR, pNNx)
+- `Meditate/source/recording/` — Sensor feed, FIT session and HR/RR/stress sampling (former `HrvAlgorithms` barrel)
+- `Meditate/source/recording/hrv/` — HRV algorithm implementations (RMSSD, SDRR, pNNx)
 
 ### Breath Programs (guided breathwork)
 

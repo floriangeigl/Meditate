@@ -4,9 +4,6 @@
 StatusIconFonts = [..\StatusIconFonts\monkey.jungle]
 base.barrelPath = $(base.barrelPath);$(StatusIconFonts)
 
-HrvAlgorithms = [..\HrvAlgorithms\monkey.jungle]
-base.barrelPath = $(base.barrelPath);$(HrvAlgorithms)
-
 ScreenPicker = [..\ScreenPicker\monkey.jungle]
 base.barrelPath = $(base.barrelPath);$(ScreenPicker)
 

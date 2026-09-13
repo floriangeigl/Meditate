@@ -1,7 +1,6 @@
 using Toybox.Lang;
 using Toybox.System;
 using Toybox.WatchUi as Ui;
-using HrvAlgorithms.HrvTracking;
 
 class Utils {
 	// Clamp a numeric value to the inclusive [min, max] range

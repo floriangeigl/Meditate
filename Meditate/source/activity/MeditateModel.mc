@@ -1,5 +1,4 @@
 using Toybox.Application as App;
-using HrvAlgorithms.HrvTracking;
 
 class MeditateModel extends ScreenPicker.DetailsModel {
 	function initialize(sessionModel) {
@@ -14,8 +13,8 @@ class MeditateModel extends ScreenPicker.DetailsModel {
 		me.respirationRate = null;
 		me.stressValue = null;
 		me.isTimerRunning = false;
-		me.rrActivity = new HrvAlgorithms.RrActivity();
-		me.stressActivity = new HrvAlgorithms.StressActivity();
+		me.rrActivity = new RrActivity();
+		me.stressActivity = new StressActivity();
 		me.mHrvTracking = me.mSession.getHrvTracking();
 		me.mIsHrvOn = me.mHrvTracking != HrvTracking.Off;
 		me.mRespirationRateSetting = GlobalSettings.loadRespirationRate();

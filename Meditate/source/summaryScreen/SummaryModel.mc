@@ -1,6 +1,5 @@
 using Toybox.Time;
 using Toybox.System;
-using HrvAlgorithms.HrvTracking;
 using Toybox.ActivityMonitor;
 using Toybox.Time.Gregorian;
 

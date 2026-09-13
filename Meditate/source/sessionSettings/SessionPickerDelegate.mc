@@ -1,7 +1,6 @@
 using Toybox.WatchUi as Ui;
 using Toybox.Graphics as Gfx;
 using Toybox.Application as App;
-using HrvAlgorithms.HrvTracking;
 using StatusIconFonts;
 
 class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {

@@ -1,6 +1,5 @@
 using Toybox.WatchUi as Ui;
 using Toybox.Graphics as Gfx;
-using HrvAlgorithms.HrvTracking;
 using Toybox.Application as App;
 
 class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
