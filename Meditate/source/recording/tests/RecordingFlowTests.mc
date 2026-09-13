@@ -110,4 +110,28 @@ class RecordingFlowTests {
 		}
 		return summary.metrics[:hr] != null && summary.sessionName.equals("flow");
 	}
+
+	// hrv off: no hrv metric, no feed wiring, summary without an hrv entry
+	(:test)
+	static function activityWithHrvOffLeavesTheFeedAlone(logger) {
+		closeAppWakeupSession();
+		var session = new SessionModel();
+		session.time = 60;
+		session.setHrvTracking(HrvTracking.Off);
+		var model = new MeditateModel(session);
+		var feed = new BeatIntervalFeed();
+		var capture = new IntervalsCapture();
+		feed.setListener(capture.method(:onIntervals));
+		var activity = new MeditateActivity(model, feed, new FlowListener());
+		if (model.getMetric(:hrv) != null || model.liveMetrics[0].id != :hr) {
+			return false;
+		}
+		activity.start();
+		activity.stop();
+		var summary = activity.getSummary();
+		activity.discard();
+		// the picker listener is still in place
+		feed.update(new FakeSensorData([1000]));
+		return summary.metrics[:hrv] == null && summary.metrics[:hr] != null && capture.calls == 1;
+	}
 }
