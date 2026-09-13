@@ -128,6 +128,9 @@ class HrvMetric extends Metric {
 
 	// session numbers and fit session fields; then only the light object stays for the rollup
 	function flush() {
+		if (me.mFit == null) {
+			return me;
+		}
 		Metric.flush();
 		me.rmssd = me.mPairs > 0 ? Math.sqrt(me.mSquareDiffs / me.mPairs) : null;
 		me.mFit.set(:rmssd, me.rmssd);

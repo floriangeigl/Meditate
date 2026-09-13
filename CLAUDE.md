@@ -124,7 +124,7 @@ So a new device passing the memory check still warrants a judgment call (CIQ ver
 
 ### Device quirk: vívoactive4/4s reject SPORT_MEDITATION
 
-vívoactive4/4s report Connect IQ API >= 3.3.6 (the `Utils.MonkeyVersionAtLeast([3,3,6])` gate in `MeditateActivity.mc` that's meant to guard Meditation/Yoga/Breathing FIT sport support), but `ActivityRecording.createSession` still throws **"Invalid Value"** for `SPORT_MEDITATION` (67) on this hardware — first seen as a production crash (backtrace `HrActivity.initialize` ← `HrvActivity.initialize` ← `MeditateActivity.initialize`, vívoactive4S firmware 8.30, app v10.7.8, 2026-07-03). Garmin's manuals confirm this device ships native Yoga and Breathwork activities but never got a native Meditation profile, so the API-level heuristic is a false positive specifically for this device family.
+vívoactive4/4s report Connect IQ API >= 3.3.6 (the `Utils.MonkeyVersionAtLeast([3,3,6])` gate in `MeditateActivity.mc` that's meant to guard Meditation/Yoga/Breathing FIT sport support), but `ActivityRecording.createSession` still throws **"Invalid Value"** for `SPORT_MEDITATION` (67) on this hardware — first seen as a production crash (backtrace `HrActivity.initialize` ← `HrvActivity.initialize` ← `MeditateActivity.initialize` — pre-rework names, today `ActivityRecorder.initialize` ← `MeditateActivity.initialize`; vívoactive4S firmware 8.30, app v10.7.8, 2026-07-03). Garmin's manuals confirm this device ships native Yoga and Breathwork activities but never got a native Meditation profile, so the API-level heuristic is a false positive specifically for this device family.
 
 Fixed via `Utils.activityTypeOverridesByPartNumber` (keyed by `System.getDeviceSettings().partNumber` — `006-B3225-00`/`006-B3388-00` = vivoactive4, `006-B3224-00`/`006-B3387-00` = vivoactive4s, `006-B3226-00`/`006-B3389-00` = venu, `006-B3740-00`/`006-B3737-00` = venud Mercedes-Benz Collection) and `Utils.getEffectiveActivityType()`, applied once where `MeditateActivity.mc` resolves `selectedActivityType` — remaps `ActivityType.Meditating` to `ActivityType.Breathing` on these devices. That single remap point also fixes wakeup-resume, since `mEffectiveWakeupSessionType` → `WakeupSessionStorage` → `BeatIntervalFeed` branches on the same enum. Add new devices/overrides to that table rather than writing new one-off boolean checks.
 
@@ -229,7 +229,7 @@ Get-ChildItem "$env:APPDATA\Garmin\ConnectIQ\Devices" -Directory | ForEach-Objec
 
 ## Testing
 
-Unit tests live next to the code they cover, 40 of them, all live:
+Unit tests live next to the code they cover, 41 of them, all live:
 
 - `recording/tests/MetricTests` — the window engine against a scripted `read()` (flush on the
   completing tick, skipFirst, range, 90 % rule, keepHistory off, stats over window values).
@@ -242,7 +242,8 @@ Unit tests live next to the code they cover, 40 of them, all live:
 - `recording/hrv/tests/HrvSdrrTests` — the original SDRR expectations (`HrvAlgorithmsSampleOutput.xlsx`)
   ported to `HrvSdrr`, including the last-300-beats ring.
 - `activity/tests/MetricLineTests` — metrics page row states; `summaryScreen/tests/SummaryPagesTests`
-  — the page set per HRV mode.
+  — the page set per HRV mode; `sessionSettings/tests/SessionPickerHrvStatusTests` — the picker's
+  HRV line through the real delegate: starting texts, restart hint that stays past 60 s, weak, ready.
 
 They use Connect IQ's `(:test)` framework and return `true`/`false`. Run them after touching
 anything in `recording/`; they take ~20 s.
@@ -331,7 +332,8 @@ comes in through constructor arguments. Keep it that way; it is what makes the t
   it**; `flush()` at the end keeps a partial window only if ≥ 90 % filled or the history is empty.
   `min`/`max`/`first`/`last`/`getAvg()` are **over the window values**, the same numbers the graphs
   draw — the details pages can no longer disagree with the graph. `HrMetric` {10 s, live before
-  window}, `StressMetric` {30 s, 0..100}, `RrMetric` {30 s, 1..99, skipFirst}, `HrvMetric` below.
+  window}, `StressMetric` {30 s, 0..100}, `RrMetric` {30 s, 1..99, skipFirst — its `getLoadTime()` is 31, the
+  skipped tick counts}, `HrvMetric` below.
 - **HRV is a metric too, sampled on the tick.** `BeatIntervalFeed` has one listener slot; during a
   session it is `HrvMetric.onIntervals`, which only *buffers* the second's cleaned intervals. The
   recorder tick then consumes the buffer like any other sample (`read()` returns and clears it),

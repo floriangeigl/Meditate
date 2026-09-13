@@ -227,6 +227,7 @@ From the session picker you can scroll through available sessions and see:
 - **Off** - HRV tracking disabled
 - **HRV starting / Please wait** - the sensor is still coming online
 - **Restart the app** - shown if HRV has not started after about 20 seconds; see the FAQ below for why this happens and how to fix it
+- **HRV weak** - heartbeat data is arriving intermittently; hold still for a moment
 - **Ready** - HRV tracking active  
   For reliable HRV data, minimize wrist movement.
 

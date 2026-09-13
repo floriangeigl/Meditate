@@ -13,7 +13,13 @@ class FitFields {
 		:sdrrLast => ["hrv_sdrr_last5min", 10, FitContributor.DATA_TYPE_FLOAT, FitContributor.MESG_TYPE_SESSION, "ms"],
 		:pnn50 => ["hrv_pnn50", 11, FitContributor.DATA_TYPE_FLOAT, FitContributor.MESG_TYPE_SESSION, "%"],
 		:pnn20 => ["hrv_pnn20", 12, FitContributor.DATA_TYPE_FLOAT, FitContributor.MESG_TYPE_SESSION, "%"],
-		:rmssdRolling => ["hrv_rmssd_rolling", 13, FitContributor.DATA_TYPE_FLOAT, FitContributor.MESG_TYPE_RECORD, "ms"],
+		:rmssdRolling => [
+			"hrv_rmssd_rolling",
+			13,
+			FitContributor.DATA_TYPE_FLOAT,
+			FitContributor.MESG_TYPE_RECORD,
+			"ms",
+		],
 		:hrFromBeat => ["hrv_hr", 16, FitContributor.DATA_TYPE_UINT16, FitContributor.MESG_TYPE_RECORD, "bpm"],
 	};
 

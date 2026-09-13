@@ -26,6 +26,7 @@ class Metric {
 	private var mWinCount;
 	private var mSum;
 	private var mCount;
+	private var mSkipped;
 
 	function initialize(id) {
 		me.id = id;
@@ -41,6 +42,7 @@ class Metric {
 		me.mWinCount = 0;
 		me.mSum = 0.0;
 		me.mCount = 0;
+		me.mSkipped = false;
 	}
 
 	// hook: this tick's raw sample
@@ -67,8 +69,8 @@ class Metric {
 
 	// recording tick; null samples count towards the window
 	function sample(info) {
-		if (me.skipFirst) {
-			me.skipFirst = false;
+		if (me.skipFirst && !me.mSkipped) {
+			me.mSkipped = true;
 			return;
 		}
 		me.accept(me.read(info));
@@ -127,7 +129,11 @@ class Metric {
 		return me.mCount > 0;
 	}
 
+	// ticks until the first window value; the skipped tick counts
 	function getLoadTime() {
-		return me.liveBeforeWindow ? 0 : me.window;
+		if (me.liveBeforeWindow) {
+			return 0;
+		}
+		return me.skipFirst ? me.window + 1 : me.window;
 	}
 }

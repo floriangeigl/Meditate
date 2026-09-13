@@ -62,7 +62,12 @@ class MetricTests {
 		tick(m, 6);
 		// windows: 20, 70, 30
 		return (
-			near(m.first, 20) && near(m.last, 30) && near(m.min, 20) && near(m.max, 70) && near(m.getAvg(), 40) && m.hasData()
+			near(m.first, 20) &&
+			near(m.last, 30) &&
+			near(m.min, 20) &&
+			near(m.max, 70) &&
+			near(m.getAvg(), 40) &&
+			m.hasData()
 		);
 	}
 
@@ -70,8 +75,12 @@ class MetricTests {
 	static function skipFirstDropsTheFirstSampleEntirely(logger) {
 		// the skipped tick reads nothing, so 10 is the second tick's sample
 		var m = new ScriptedMetric([10, 20], 2).configure(null, null, true, false, true);
+		// the countdown includes the skipped tick
+		if (m.getLoadTime() != 3) {
+			return false;
+		}
 		tick(m, 2);
-		if (m.getValue() != null || m.history.size() != 0) {
+		if (m.getValue() != null || m.history.size() != 0 || m.getLoadTime() != 3) {
 			return false;
 		}
 		m.sample(null);
@@ -131,12 +140,19 @@ class MetricTests {
 	static function keepHistoryOffStillTracksValueAndStats(logger) {
 		var m = new ScriptedMetric([10, 20, 30], 1).configure(null, null, false, false, false);
 		tick(m, 3);
-		return m.history.size() == 0 && near(m.getValue(), 30) && near(m.min, 10) && near(m.max, 30) && near(m.getAvg(), 20);
+		return (
+			m.history.size() == 0 &&
+			near(m.getValue(), 30) &&
+			near(m.min, 10) &&
+			near(m.max, 30) &&
+			near(m.getAvg(), 20)
+		);
 	}
 
 	(:test)
 	static function liveBeforeWindowShowsTheRawSample(logger) {
-		var m = new ScriptedMetric([70, 72, 74, null, null, null, 80], 3).configure(null, null, false, true, true);
+		var m = new ScriptedMetric([70, 72, 74, null, null, null, 80], 3);
+		m.configure(null, null, false, true, true);
 		if (m.getLoadTime() != 0) {
 			return false;
 		}

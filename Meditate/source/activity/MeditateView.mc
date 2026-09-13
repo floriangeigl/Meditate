@@ -90,7 +90,8 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 			me.mLines = [];
 			var metrics = me.mMeditateModel.liveMetrics;
 			for (var i = 0; i < metrics.size(); i++) {
-				me.mLines.add(new MetricLine(metrics[i], me.mMeditateModel.getLine(i), MeditateView.createIcon(metrics[i].id)));
+				var icon = MeditateView.createIcon(metrics[i].id);
+				me.mLines.add(new MetricLine(metrics[i], me.mMeditateModel.getLine(i), icon));
 			}
 		}
 
