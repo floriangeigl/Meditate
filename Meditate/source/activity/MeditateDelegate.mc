@@ -57,9 +57,8 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 	public function stopActivity() {
 		// one-way; finishing views reuse this delegate, so in-session gestures must go inert
 		me.mActivityStopped = true;
-		// Compute summary BEFORE stopping recording so session-level fields (e.g., RMSSD) are written safely.
-		me.mSummaryModel = me.mMeditateActivity.calculateSummaryFields();
 		me.mMeditateActivity.stop();
+		me.mSummaryModel = me.mMeditateActivity.getSummary();
 
 		// Store auto-exit state as class member
 		var confirmSaveActivity = GlobalSettings.loadConfirmSaveActivity();

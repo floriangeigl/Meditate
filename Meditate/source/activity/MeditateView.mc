@@ -76,20 +76,20 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 		me.mHrIcon.setColorLoading();
 		lineNum++;
 
-		if (me.mMeditateModel.isHrvOn()) {
+		if (me.mMeditateModel.getMetric(:hrv) != null) {
 			me.mHrvStatusLine = me.mMeditateModel.getLine(lineNum);
 			me.mHrvStatusLine.icon = new ScreenPicker.LoadingIcon({});
 			me.mHrvIcon.setColorLoading();
 			lineNum++;
 		}
-		if (me.mMeditateModel.isStressSupported()) {
+		if (me.mMeditateModel.getMetric(:stress) != null) {
 			me.mStressStatusLine = me.mMeditateModel.getLine(lineNum);
 			me.mStressStatusLine.icon = new ScreenPicker.LoadingIcon({});
 			me.mStressIcon.setColorLoading();
 			lineNum++;
 		}
 
-		if (me.mMeditateModel.isRespirationRateOn()) {
+		if (me.mMeditateModel.getMetric(:rr) != null) {
 			me.mRrStatusLine = me.mMeditateModel.getLine(lineNum);
 			me.mRrStatusLine.icon = new ScreenPicker.LoadingIcon({});
 			me.mBreathIcon.setColorLoading();
@@ -166,17 +166,14 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 			var currentHrv = null;
 			var currentRr = null;
 			var currentStress = null;
+			var hrvMetric = me.mMeditateModel.getMetric(:hrv);
+			var rrMetric = me.mMeditateModel.getMetric(:rr);
+			var stressMetric = me.mMeditateModel.getMetric(:stress);
 			if (me.mMeditateModel.isTimerRunning) {
-				currentHr = me.mMeditateModel.currentHr;
-
-				if (me.mMeditateModel.isHrvOn() == true) {
-					currentHrv = me.mMeditateModel.hrvValue;
-				}
-
-				if (me.mMeditateModel.isRespirationRateOn()) {
-					currentRr = me.mMeditateModel.respirationRate;
-				}
-				currentStress = me.mMeditateModel.stressValue;
+				currentHr = me.mMeditateModel.getMetric(:hr).getValue();
+				currentHrv = hrvMetric != null ? hrvMetric.getValue() : null;
+				currentRr = rrMetric != null ? rrMetric.getValue() : null;
+				currentStress = stressMetric != null ? stressMetric.getValue() : null;
 			}
 
 			me.mMeditateModel.title = TimeFormatter.format(elapsedTime);
@@ -192,9 +189,9 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 				me.mHrStatusLine.icon.tick();
 			}
 
-			if (me.mMeditateModel.isHrvOn()) {
+			if (hrvMetric != null) {
 				me.mHrvStatusLine.value.text = me.formatValue(currentHrv);
-				if (me.mMeditateModel.isHrvOn() == true && currentHrv != null) {
+				if (currentHrv != null) {
 					me.hrvLoaded = true;
 					me.mHrvStatusLine.icon = me.mHrvIcon;
 					me.mHrvIcon.setColor(Graphics.COLOR_RED);
@@ -203,10 +200,10 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 					me.mHrvIcon.setColorInactive();
 				} else if (me.mHrvStatusLine.icon instanceof ScreenPicker.LoadingIcon) {
 					me.mHrvStatusLine.icon.tick();
-					me.setLoadTimeText(me.mHrvStatusLine, HrvMonitorDetailed.getLoadTime(), elapsedTime);
+					me.setLoadTimeText(me.mHrvStatusLine, hrvMetric.getLoadTime(), elapsedTime);
 				}
 			}
-			if (me.mMeditateModel.isRespirationRateOn()) {
+			if (rrMetric != null) {
 				me.mRrStatusLine.value.text = me.formatValue(currentRr);
 				if (currentRr != null) {
 					me.rrLoaded = true;
@@ -217,10 +214,10 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 					me.mBreathIcon.setColorInactive();
 				} else if (me.mRrStatusLine.icon instanceof ScreenPicker.LoadingIcon) {
 					me.mRrStatusLine.icon.tick();
-					me.setLoadTimeText(me.mRrStatusLine, RrActivity.getLoadTime(), elapsedTime);
+					me.setLoadTimeText(me.mRrStatusLine, rrMetric.getLoadTime(), elapsedTime);
 				}
 			}
-			if (me.mMeditateModel.isStressSupported()) {
+			if (stressMetric != null) {
 				me.mStressStatusLine.value.text = me.formatValue(currentStress);
 				if (currentStress != null) {
 					me.stressLoaded = true;
@@ -231,7 +228,7 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 					me.mStressIcon.setColorInactive();
 				} else if (me.mStressStatusLine.icon instanceof ScreenPicker.LoadingIcon) {
 					me.mStressStatusLine.icon.tick();
-					me.setLoadTimeText(me.mStressStatusLine, StressActivity.getLoadTime(), elapsedTime);
+					me.setLoadTimeText(me.mStressStatusLine, stressMetric.getLoadTime(), elapsedTime);
 				}
 			}
 

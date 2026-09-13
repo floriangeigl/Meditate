@@ -175,11 +175,15 @@ Full investigation, all measurements, the six rejected hypotheses and the method
 
 ### Invariant: at most one open `ActivityRecording` session
 
-`ActivityRecording.createSession` **returns the existing Session object** if one is open rather than creating a new one (documented, not an error). So any code path that leaves a stopped session unsaved/undiscarded silently corrupts the *next* session: `HrActivity.initialize` gets handed the old object, `createMinHrDataField()` re-adds `min_hr` to it, and the next meditation records into the previous session's file under its sport and name.
+`ActivityRecording.createSession` **returns the existing Session object** if one is open rather than creating a new one (documented, not an error). So any code path that leaves a stopped session unsaved/undiscarded silently corrupts the *next* session: `ActivityRecorder.initialize` gets handed the old object, `FitFields.create` re-adds `min_hr` to it, and the next meditation records into the previous session's file under its sport and name.
 
-`SaveDiscardMenuDelegate.onBack()` used to pop without saving or discarding, leaking exactly that. It now invokes the save callback — **back on the save/discard prompt saves**. `HrActivity.finish()`/`discard()` both null-check `mFitSession`, so a later close can't double-fire.
+The invariant is two adjacent lines in `MeditateActivity.initialize`: `mFeed.discardWakeupeSession()` immediately followed by `new ActivityRecorder(spec, me)`. Keep them adjacent.
 
-`HrActivity.discardDanglingActivity()` was written for this but never wired up (`SummaryViewDelegate` stored the callback and never invoked it); both were deleted rather than left as dead code. Don't reintroduce a defensive discard in `HrvActivity.initialize` — that hides a leak instead of closing it. Close the session where it's created.
+`SaveDiscardMenuDelegate.onBack()` used to pop without saving or discarding, leaking exactly that. It now invokes the save callback — **back on the save/discard prompt saves**. `ActivityRecorder.finish()`/`discard()` both null-check `mFitSession`, so a later close can't double-fire.
+
+A `discardDanglingActivity()` was once written for this but never wired up (`SummaryViewDelegate` stored the callback and never invoked it); both were deleted rather than left as dead code. Don't reintroduce a defensive discard before creating the recorder — that hides a leak instead of closing it. Close the session where it's created.
+
+The unit tests hit this too: the test runner boots the app, whose `getInitialView()` opens the sensor wakeup session, so a test that creates a session gets *that* one. `RecordingFlowTests.closeAppWakeupSession()` discards it first; without that, `MeditateApp.onStop()` dies on an invalid session after the tests.
 
 ### Flow: check for new devices to support
 
@@ -224,7 +228,26 @@ Get-ChildItem "$env:APPDATA\Garmin\ConnectIQ\Devices" -Directory | ForEach-Objec
 
 ## Testing
 
-Unit tests exist in `Meditate/source/recording/hrv/tests/` but are **commented out** to reduce PRG binary size. They use Connect IQ's `(:test)` annotation framework and return `true`/`false`. To run: uncomment test files, then use the Monkey C extension test runner or Connect IQ simulator.
+Unit tests live in `Meditate/source/recording/tests/` (`MetricTests` — the window engine against a
+scripted `read()`; `RecordingFlowTests` — `ActivityRecorder` and `MeditateActivity` start → tick →
+pause/resume → stop → summary → every summary page, against a real simulator FIT session) and
+`Meditate/source/recording/hrv/tests/` (SDRR, still commented out until step 4 of the data
+acquisition rework ports them). They use Connect IQ's `(:test)` framework and return `true`/`false`.
+
+**Annotate the whole test and fixture classes `(:test)`, not just the functions** — a bare fixture
+class costs ~400 B in the release PRG, a `(:test)` class costs 0 B (measured on `fr255s`).
+
+Run from the CLI (the simulator is started if it isn't running; VS Code's "Run Tests" does the same):
+
+```bash
+SDK="$APPDATA/Garmin/ConnectIQ/Sdks/<current sdk>"
+cd Meditate && "$SDK/bin/monkeyc.bat" -o /tmp/test.prg -f "monkey.jungle;barrels.jungle" -d fr255s -y <developer_key> -t -w
+"$SDK/bin/simulator.exe" &   # once
+"$SDK/bin/monkeydo.bat" /tmp/test.prg fr255s /t     # prints PASS/FAIL per test and a summary
+```
+
+`monkeydo` blocks until the simulator answers, so wrap it in a timeout (e.g. a PowerShell job
+with `Wait-Job -Timeout`) when scripting it.
 
 No CI pipeline builds or tests Monkey C code. GitHub Actions handle only image compression, content translation, and user guide publishing.
 
@@ -245,7 +268,7 @@ No CI pipeline builds or tests Monkey C code. GitHub Actions handle only image c
 
 - **MVC-like**: Model (data) → View (render) → Delegate (input). Example: `MeditateModel` / `MeditateView` / `MeditateDelegate`.
 - **`me.` prefix** used consistently for instance member access.
-- **Inheritance chain**: `MeditateActivity → HrvActivity → HrActivity → SensorActivity`.
+- **Composition over inheritance**: `MeditateActivity` owns an `ActivityRecorder`, which owns the `Metric` list — there is no activity class chain any more.
 - **Dictionary serialization**: Models use `fromDictionary()` / `toDictionary()` for `App.Storage` persistence.
 - **Static load/save**: `GlobalSettings` uses static methods per setting key.
 - **Barrel modules**: Each barrel wraps code in a module (e.g., `module ScreenPicker { ... }`); the app itself uses top-level classes.
@@ -284,25 +307,52 @@ MeditateApp.getInitialView()
     → [Multi-session: intermediate menu → next session or rollup exit]
 ```
 
+### Recording: one engine, composition, one summary map
+
+`Meditate/source/recording/` never references `GlobalSettings`, `Rez`, `Vibe` or `Ui` — everything
+comes in through constructor arguments (the sensor feed is the one exception still being cleaned
+up in step 4 of the rework).
+
+- **`Metric`** is the sampling engine for every live value: a fixed tick `window`, optional `lo`/`hi`
+  range, `skipFirst`, `liveBeforeWindow` (HR shows the raw sample until the first window closes),
+  `keepHistory`. `sample(info)` → `accept(read(info))` → window closes **on the tick that completes
+  it**; `flush()` at the end keeps a partial window only if ≥ 90 % filled or the history is empty.
+  `min`/`max`/`first`/`last`/`getAvg()` are **over the window values**, the same numbers the graphs
+  draw — the details pages can no longer disagree with the graph. `HrMetric` {10 s, live before
+  window}, `StressMetric` {30 s, 0..100}, `RrMetric` {30 s, 1..99, skipFirst}.
+- **`ActivityRecorder`** owns the FIT session, `FitFields`, the 1 s `Timer` and `elapsedTime`.
+  `onTick()` samples every metric while recording, then calls `listener.onTick()`. `summary()`
+  flushes each metric into `ActivitySummary.metrics[id]` and writes `min_hr` from the HR metric's
+  window minimum — call it **before** `stop()` so session fields land in the file.
+- **`MeditateActivity`** composes the recorder (no inheritance chain any more): `createMetrics()` is
+  the one place deciding what is recorded; `start()`/`pauseResume()`/`stop()` wire the beat-interval
+  feed exactly as before (multi-session and picker invariants above). `stop()` caches the summary,
+  `getSummary()` hands it to `MeditateDelegate`. Until step 4 the HRV monitors are fed by the
+  sensor callback and added to the summary map as a transitional `HrvSummary`.
+- **`MeditateModel.liveMetrics`** is the metrics page order (HR, HRV, stress, RR); the view reads
+  `getMetric(id).getValue()` / `getLoadTime()` and never samples.
+- **`ActivitySummary`** = `elapsedTime`, `sessionName`, `metrics {id → flushed Metric}`; ids `:hr`,
+  `:hrv`, `:stress`, `:rr` are the join key for the live page, the summary pages and the rollup.
+
 ### Finish flow: `MeditateDelegate` outlives the session
 
-`MeditateDelegate` is passed as the input delegate for the post-session `DelayedFinishingView`s ("calculating results"), not just for `MeditateView`. So its in-session gestures stay reachable **after** the activity has been stopped and its FIT session saved or discarded — at which point `HrActivity.mFitSession` is `null` (nulled by `finish()`/`discard()`) and any `pauseResume()`/`stop()` on it throws **"Unexpected Type Error"**.
+`MeditateDelegate` is passed as the input delegate for the post-session `DelayedFinishingView`s ("calculating results"), not just for `MeditateView`. So its in-session gestures stay reachable **after** the activity has been stopped and its FIT session saved or discarded — at which point `ActivityRecorder.mFitSession` is `null` (nulled by `finish()`/`discard()`) and any `pauseResume()`/`stop()` on it throws **"Unexpected Type Error"**.
 
 Guarded by `mActivityStopped`, set once in `stopActivity()` (the single choke point — only `stopFromPauseMenu()` and `onSessionAutoComplete()` reach it) and checked in `onBack()` and `onKey()`. A fresh `MeditateDelegate` is built per session in `SessionPickerDelegate.startMeditationSession()`, so the flag is never reset.
 
-**Do not add in-session input handling to `MeditateDelegate` without checking that flag**, and do not add a null guard in `HrActivity` instead — that hides the stray pause menu rather than preventing it. Two production crashes came from this (v10.7.10): back on the post-save spinner → pause menu → back (`resumeFromPauseMenu`), and the same menu → "Stop" (`stopFromPauseMenu`). The stray menu also froze the flow, since `pushView` triggers `DelayedFinishingView.onHide()` which stops its 1 s timer.
+**Do not add in-session input handling to `MeditateDelegate` without checking that flag**, and do not add a null guard in `ActivityRecorder.pauseResume()` instead — that hides the stray pause menu rather than preventing it. Two production crashes came from this (v10.7.10): back on the post-save spinner → pause menu → back (`resumeFromPauseMenu`), and the same menu → "Stop" (`stopFromPauseMenu`). The stray menu also froze the flow, since `pushView` triggers `DelayedFinishingView.onHide()` which stops its 1 s timer.
 
 Related: `MeditatePrepareView` (prepare/finalize countdowns) uses `MeditatePrepareDelegate`, which swallows keys and maps back to "skip countdown" — that path is unaffected.
 
 ### Per-second metrics are sampled on the activity tick, never in the view
 
-`MeditateActivity.refreshActivityStats()` (the 1 s `HrActivity` timer) is the single place that
-samples and pushes every live value into `MeditateModel` — `elapsedTime`, `currentHr`, `hrvValue`,
-`respirationRate`, `stressValue`, and the breath runner. `MeditateView.onUpdate()` only reads
-fields. Stress and respiration used to be sampled *inside* the view's metrics draw
-(`SensorActivity.getCurrentValue()` appends a sample as a side effect), so any session whose view
-skipped that draw — the breathwork guidance page — recorded no stress/RR at all. Don't call
-`getCurrentValue()` on `rrActivity`/`stressActivity` from a view again.
+`ActivityRecorder.onTick()` (the 1 s timer) is the single place that samples every metric
+(`Metric.sample(info)`), then `MeditateActivity.onTick()` updates `elapsedTime` and the breath
+runner and fires alerts/cues. `MeditateView.onUpdate()` only reads `getMetric(id).getValue()` — a
+pure read of the last sampled state. Stress and respiration used to be sampled *inside* the view's
+metrics draw (the old `getCurrentValue()` appended a sample as a side effect), so any session whose
+view skipped that draw — the breathwork guidance page — recorded no stress/RR at all. Never give a
+view anything that mutates a metric.
 
 ### Stress: live score on API ≥ 5, logged snapshot below
 
@@ -317,7 +367,7 @@ that updates every few minutes; once the live read has delivered a value once th
 the latch never sets and the snapshot fallback is what users keep.
 
 Stress summary pages (graph + details) are shown whenever the stress history holds a non-null
-window value (`SummaryModel.hasStressData()`), independent of the HRV setting — stress is sampled
+window value (`metrics[:stress].hasData()`), independent of the HRV setting — stress is sampled
 and shown live regardless of HRV, so hiding its summary with HRV Off was an accident.
 
 ### FIT fields: code and `hrvFitContributions.xml` must agree
@@ -467,13 +517,13 @@ Connect IQ caps the number of **concurrently active `Timer.Timer` objects per ap
 
 | Timer | Where | Repeating | Released by |
 | --- | --- | --- | --- |
-| `mRefreshActivityTimer` | `HrActivity` (1 s session refresh) | yes | `stop()` / `pauseResume()` |
+| `mTimer` | `ActivityRecorder` (1 s recording tick) | yes | `stop()` / `pauseResume()` |
 | `mviewDrawnTimer` | `MeditatePrepareView` (prepare/finalize countdown) | yes | `onHide()` → `stop()` |
 | `viewDrawnTimer` | `DelayedFinishingView` (1 s finish delay) | no (one-shot) | `onHide()` → `stop()` |
 | `mTimer` | `IdleReminderTimer` (10 min idle vibe) | yes | `stop()` |
 | `notifyChangeTimer` | `AddEditIntervalAlertMenuDelegate` (500 ms debounce, settings only) | no (one-shot) | fires then nulls |
 
-Steady state holds ≤2 of these at once (session refresh + an idle-reminder while a menu is up), well under the 3-timer floor. The finish flow is the tight spot: it chains two `DelayedFinishingView` instances and then starts the `IdleReminderTimer`, so any leaked finishing-view timer slot can tip a 3-timer device over. This is exactly the historical **"Too Many Timers Error"** (backtrace `IdleReminderTimer.start` ← `showSummaryView` ← `DelayedFinishingView.onViewDrawn`): fixed by having `DelayedFinishingView.onHide()` call `.stop()` instead of only nulling the reference, matching `MeditatePrepareView`.
+Steady state holds ≤2 of these at once (recording tick + an idle-reminder while a menu is up), well under the 3-timer floor. The finish flow is the tight spot: it chains two `DelayedFinishingView` instances and then starts the `IdleReminderTimer`, so any leaked finishing-view timer slot can tip a 3-timer device over. This is exactly the historical **"Too Many Timers Error"** (backtrace `IdleReminderTimer.start` ← `showSummaryView` ← `DelayedFinishingView.onViewDrawn`): fixed by having `DelayedFinishingView.onHide()` call `.stop()` instead of only nulling the reference, matching `MeditatePrepareView`.
 
 ## Secrets
 

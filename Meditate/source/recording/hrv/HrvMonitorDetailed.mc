@@ -3,7 +3,7 @@ using Toybox.Math;
 using Toybox.Application as App;
 
 class HrvMonitorDetailed extends HrvMonitorDefault {
-	private static var HrvRmssdWindowSize = 60;
+	private var mWindowSize;
 	private static const Buffer5MinLength = 300;
 
 	private var mHrvSdrrFirst5Min;
@@ -19,7 +19,7 @@ class HrvMonitorDetailed extends HrvMonitorDefault {
 	private static const HrFromHeartbeatField = 16;
 
 	function initialize(activitySession, HrvWindowSize) {
-		HrvMonitorDetailed.HrvRmssdWindowSize = HrvWindowSize;
+		me.mWindowSize = HrvWindowSize;
 		HrvMonitorDefault.initialize(activitySession);
 
 		me.mHrvBeatToBeatIntervalsDataField =
@@ -31,7 +31,7 @@ class HrvMonitorDetailed extends HrvMonitorDefault {
 
 		me.mHrvPnn50 = new HrvPnnx(activitySession, 50, 11);
 		me.mHrvPnn20 = new HrvPnnx(activitySession, 20, 12);
-		me.mHrvRmssdRolling = new HrvRmssdRolling(activitySession, HrvRmssdWindowSize);
+		me.mHrvRmssdRolling = new HrvRmssdRolling(activitySession, me.mWindowSize);
 	}
 
 	private static function createHrvBeatToBeatIntervalsDataField(activitySession) {
@@ -72,7 +72,7 @@ class HrvMonitorDetailed extends HrvMonitorDefault {
 		me.mHrvPnn20.addBeatToBeatInterval(beatToBeatInterval);
 	}
 
-	public function getHrv() {
+	public function getValue() {
 		return mHrvRmssdRolling.getLastCalcValue();
 	}
 
@@ -80,14 +80,15 @@ class HrvMonitorDetailed extends HrvMonitorDefault {
 		var hrvSummary = HrvMonitorDefault.calculateHrvSummary();
 		hrvSummary.pnn50 = me.mHrvPnn50.calculate();
 		hrvSummary.pnn20 = me.mHrvPnn20.calculate();
-		hrvSummary.first5MinSdrr = me.mHrvSdrrFirst5Min.calculate();
-		hrvSummary.last5MinSdrr = me.mHrvSdrrLast5Min.calculate();
+		hrvSummary.sdrrFirst = me.mHrvSdrrFirst5Min.calculate();
+		hrvSummary.sdrrLast = me.mHrvSdrrLast5Min.calculate();
 		me.mHrvRmssdRolling.finalize();
-		hrvSummary.rmssdHistory = me.mHrvRmssdRolling.getHistory();
+		hrvSummary.history = me.mHrvRmssdRolling.getHistory();
+		hrvSummary.detailed = true;
 		return hrvSummary;
 	}
 
-	static function getLoadTime() {
-		return HrvMonitorDetailed.HrvRmssdWindowSize;
+	function getLoadTime() {
+		return me.mWindowSize;
 	}
 }

@@ -1,19 +1,22 @@
 using Toybox.WatchUi as Ui;
-using Toybox.Timer;
-using Toybox.FitContributor;
-using Toybox.Timer;
+using Toybox.Lang;
 using Toybox.Math;
-using Toybox.Sensor;
 using Toybox.Application as App;
 
-class MeditateActivity extends HrvActivity {
+// owns the recorder, the sensor feed wiring and everything that fires on the session tick
+class MeditateActivity {
 	private var mMeditateModel;
+	private var mMeditateDelegate;
+	private var mFeed;
+	private var mRecorder;
+	private var mHrvTracking;
+	private var mHrvMonitor;
 	private var mVibeAlertsExecutor;
 	private var mBreathCuesExecutor;
-	private var mMeditateDelegate;
 	private var mAutoStopEnabled;
 	private var mAutoStopRoundsTriggered;
 	private var mEffectiveWakeupSessionType;
+	private var mSummary;
 
 	function initialize(meditateModel, heartbeatIntervalsSensor, meditateDelegate) {
 		var fitSessionSpec;
@@ -52,9 +55,7 @@ class MeditateActivity extends HrvActivity {
 			me.mEffectiveWakeupSessionType = WakeupSessionType.Breathing;
 		} else {
 			activityName = activityName.length() > 0 ? activityName : Ui.loadResource(Rez.Strings.sessionTitleMeditate);
-			fitSessionSpec = FitSessionSpec.createMeditation(
-				createSessionName(sessionTime, activityName)
-			);
+			fitSessionSpec = FitSessionSpec.createMeditation(createSessionName(sessionTime, activityName));
 			me.mEffectiveWakeupSessionType = WakeupSessionType.Meditation;
 		}
 		if (!supportsActivityTypes || selectedActivityType == ActivityType.Generic) {
@@ -62,17 +63,44 @@ class MeditateActivity extends HrvActivity {
 			me.mEffectiveWakeupSessionType = WakeupSessionType.Training;
 			// System.println("create generic activity as others are not supported");
 		}
-		var hrvWindowSize = GlobalSettings.loadHrvWindowTime();
 		me.mMeditateModel = meditateModel;
 		me.mMeditateDelegate = meditateDelegate;
-		HrvActivity.initialize(
-			fitSessionSpec,
-			meditateModel.getHrvTracking(),
-			heartbeatIntervalsSensor,
-			hrvWindowSize
-		);
+		me.mFeed = heartbeatIntervalsSensor;
+		// at most one open fit session: the wakeup session goes right before ours is created
+		me.mFeed.discardWakeupeSession();
+		me.mRecorder = new ActivityRecorder(fitSessionSpec, me);
+		var metrics = MeditateActivity.createMetrics();
+		me.mRecorder.setMetrics(metrics);
+		me.mHrvTracking = meditateModel.getHrvTracking();
+		me.mHrvMonitor = null;
+		var liveMetrics = [metrics[0]];
+		if (me.mHrvTracking == HrvTracking.OnDetailed) {
+			me.mHrvMonitor = new HrvMonitorDetailed(me.mRecorder.getFitSession(), GlobalSettings.loadHrvWindowTime());
+		} else if (me.mHrvTracking == HrvTracking.On) {
+			me.mHrvMonitor = new HrvMonitorDefault(me.mRecorder.getFitSession());
+		}
+		if (me.mHrvMonitor != null) {
+			liveMetrics.add(me.mHrvMonitor);
+		}
+		for (var i = 1; i < metrics.size(); i++) {
+			liveMetrics.add(metrics[i]);
+		}
+		meditateModel.liveMetrics = liveMetrics;
+		me.mSummary = null;
 		me.mAutoStopEnabled = GlobalSettings.loadAutoStop();
 		me.mAutoStopRoundsTriggered = 0;
+	}
+
+	// the one place deciding what is recorded; hr first, the rest in metrics page order
+	static function createMetrics() {
+		var metrics = [new HrMetric()];
+		if (StressMetric.isSupported()) {
+			metrics.add(new StressMetric());
+		}
+		if (RrMetric.isSupported() && GlobalSettings.loadRespirationRate() == RespirationRate.On) {
+			metrics.add(new RrMetric());
+		}
+		return metrics;
 	}
 
 	private function createSessionName(sessionTime, activityName) {
@@ -118,9 +146,18 @@ class MeditateActivity extends HrvActivity {
 		return null;
 	}
 
+	private function isHrvOn() {
+		return me.mHrvTracking != HrvTracking.Off;
+	}
+
 	function start() {
-		// System.println("MeditateActivity: start");
-		HrvActivity.start();
+		if (me.isHrvOn()) {
+			me.mFeed.setOneSecBeatToBeatIntervalsSensorListener(method(:onOneSecBeatToBeatIntervals));
+			// clear stale paused from prior session; else multi-session drops HRV after session 1
+			me.mFeed.resume();
+			me.mFeed.resetSensorQuality();
+		}
+		me.mRecorder.start();
 		me.mMeditateModel.isTimerRunning = true;
 		me.mVibeAlertsExecutor = new VibeAlertsExecutor(me.mMeditateModel);
 		if (me.mMeditateModel.hasBreathProgram()) {
@@ -128,16 +165,15 @@ class MeditateActivity extends HrvActivity {
 		}
 	}
 
-	function refreshActivityStats() {
-		HrActivity.refreshActivityStats();
-		if (me.activityInfo.timerTime != null) {
-			me.mMeditateModel.elapsedTime = me.activityInfo.timerTime / 1000;
+	function onOneSecBeatToBeatIntervals(heartBeatIntervals) {
+		if (me.mHrvMonitor != null) {
+			me.mHrvMonitor.addOneSecBeatToBeatIntervals(heartBeatIntervals);
 		}
-		me.mMeditateModel.currentHr = me.getLastValue();
-		if (me.mMeditateModel.currentHr == null) {
-			// use live heart rate before the first tumbling window is done
-			me.mMeditateModel.currentHr = me.activityInfo.currentHeartRate;
-		}
+	}
+
+	// recorder tick; the metrics are already sampled
+	function onTick() {
+		me.mMeditateModel.elapsedTime = me.mRecorder.elapsedTime;
 		// advance the breath phase before anything reads it
 		me.mMeditateModel.updateBreathRunner();
 		if (me.mVibeAlertsExecutor != null) {
@@ -146,8 +182,6 @@ class MeditateActivity extends HrvActivity {
 		if (me.mBreathCuesExecutor != null) {
 			me.mBreathCuesExecutor.firePendingCues();
 		}
-		me.mMeditateModel.hrvValue = me.getHrv();
-		me.mMeditateModel.updateSensorValues();
 
 		// Check if we need to pause when a multiple of the planned session duration elapsed.
 		// Edge-triggered on the round number so a skipped/jittered timer tick can't miss the boundary.
@@ -163,8 +197,41 @@ class MeditateActivity extends HrvActivity {
 		Ui.requestUpdate();
 	}
 
+	// Pause/Resume session, returns true if session is now running
+	function pauseResume() {
+		var running = me.mRecorder.pauseResume();
+		if (me.isHrvOn()) {
+			if (running) {
+				me.mFeed.resume();
+			} else {
+				me.mFeed.pause();
+			}
+		}
+		return running;
+	}
+
+	// the summary is taken before the recorder stops so session fields land in the fit file
+	function stop() {
+		me.mSummary = me.mRecorder.summary(me.mMeditateModel.getName());
+		if (me.mHrvMonitor != null) {
+			me.mSummary.metrics[:hrv] = me.mHrvMonitor.calculateHrvSummary();
+		}
+		me.mRecorder.stop();
+		if (me.isHrvOn()) {
+			me.mFeed.setOneSecBeatToBeatIntervalsSensorListener(null);
+			// clear paused so picker live HRV status keeps updating between sessions
+			me.mFeed.resume();
+		}
+		me.mVibeAlertsExecutor = null;
+		me.mBreathCuesExecutor = null;
+	}
+
+	function getSummary() {
+		return me.mSummary;
+	}
+
 	function finish() {
-		HrvActivity.finish();
+		me.mRecorder.finish();
 		me.persistWakeupSessionType();
 		var usageStats = new UsageStats(me.mMeditateModel.elapsedTime);
 		usageStats.sendCurrent();
@@ -172,7 +239,7 @@ class MeditateActivity extends HrvActivity {
 	}
 
 	function discard() {
-		HrvActivity.discard();
+		me.mRecorder.discard();
 		me.persistWakeupSessionType();
 	}
 
@@ -180,24 +247,5 @@ class MeditateActivity extends HrvActivity {
 		if (me.mEffectiveWakeupSessionType != null) {
 			WakeupSessionStorage.saveActivityType(me.mEffectiveWakeupSessionType);
 		}
-	}
-
-	function stop() {
-		HrvActivity.stop();
-		me.mVibeAlertsExecutor = null;
-		me.mBreathCuesExecutor = null;
-	}
-
-	function calculateSummaryFields() {
-		var activitySummary = HrvActivity.calculateSummaryFields();
-		var summaryModel = new SummaryModel(
-			activitySummary,
-			me.mMeditateModel.getRespirationActivity(),
-			me.mMeditateModel.getStressActivity(),
-			me.mMeditateModel.getHrvTracking(),
-			me.mMeditateModel.isRespirationRateOn(),
-			me.mMeditateModel.getName()
-		);
-		return summaryModel;
 	}
 }

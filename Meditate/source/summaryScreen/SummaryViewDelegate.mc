@@ -5,7 +5,7 @@ using Toybox.Application as App;
 using Toybox.Lang;
 
 class SummaryViewDelegate extends ScreenPicker.ScreenPickerDelegate {
-	private var mSummaryModel;
+	private var mSummary;
 	private var mIdleReminderTimer;
 	private var pages;
 	private static const pageHeartRateGraph = "HeartRateGraph";
@@ -17,35 +17,45 @@ class SummaryViewDelegate extends ScreenPicker.ScreenPickerDelegate {
 	private static const pageHrvSdrr = "HrvSdrr";
 	private static const pageHrvRmssdGraph = "HrvRmssdGraph";
 
-	function initialize(summaryModel, idleReminderTimer) {
-		me.setPageIndexes(summaryModel.hrvTracking, summaryModel.rrOn, summaryModel.hasStressData());
+	function initialize(summary, idleReminderTimer) {
+		me.mSummary = summary;
+		me.setPageIndexes();
 		me.mPagesCount = me.pages.size();
 
 		ScreenPickerDelegate.initialize(0, me.mPagesCount);
-		me.mSummaryModel = summaryModel;
 		me.mIdleReminderTimer = idleReminderTimer;
 	}
 
-	private function setPageIndexes(hrvTracking, isRespirationRateOn, hasStressData) {
+	// page order is fixed; a page exists when its data does
+	private function setPageIndexes() {
+		var metrics = me.mSummary.metrics;
+		var hrv = metrics[:hrv];
+		var detailed = hrv != null && hrv.detailed;
+		var stress = metrics[:stress];
 		me.pages = new [0];
 		me.pages.add(me.pageHeartRateGraph);
-		if (hrvTracking == HrvTracking.OnDetailed) {
+		if (detailed) {
 			me.pages.add(me.pageHrvRmssdGraph);
 		}
-		if (hasStressData) {
+		if (stress != null && stress.hasData()) {
 			me.pages.add(me.pageStressGraph);
 			me.pages.add(me.pageStress);
 		}
-		if (hrvTracking != HrvTracking.Off) {
+		if (hrv != null) {
 			me.pages.add(me.pageHrvRmssd);
-			if (hrvTracking == HrvTracking.OnDetailed) {
+			if (detailed) {
 				me.pages.add(me.pageHrvPnnx);
 				me.pages.add(me.pageHrvSdrr);
 			}
 		}
-		if (isRespirationRateOn) {
+		if (metrics[:rr] != null) {
 			me.pages.add(me.pageRespirationRateGraph);
 		}
+	}
+
+	private function createGraphView(id, title, minCut, maxCut) {
+		var metric = me.mSummary.metrics[id];
+		return new GraphView(metric != null ? metric.history : null, me.mSummary.elapsedTime, title, minCut, maxCut);
 	}
 
 	function createScreenPickerView() {
@@ -54,29 +64,11 @@ class SummaryViewDelegate extends ScreenPicker.ScreenPickerDelegate {
 		if (me.mSelectedPageIndex < me.mPagesCount) {
 			var page = me.pages[me.mSelectedPageIndex];
 			if (page.equals(me.pageHeartRateGraph)) {
-				return new GraphView(
-					me.mSummaryModel.hrHistory,
-					me.mSummaryModel.elapsedTime,
-					Rez.Strings.SummaryHR,
-					20,
-					150
-				);
+				return me.createGraphView(:hr, Rez.Strings.SummaryHR, 20, 150);
 			} else if (page.equals(me.pageRespirationRateGraph)) {
-				return new GraphView(
-					me.mSummaryModel.rrHistory,
-					me.mSummaryModel.elapsedTime,
-					Rez.Strings.SummaryRespiration,
-					1,
-					60
-				);
+				return me.createGraphView(:rr, Rez.Strings.SummaryRespiration, 1, 60);
 			} else if (page.equals(me.pageStressGraph)) {
-				return new GraphView(
-					me.mSummaryModel.stHistory,
-					me.mSummaryModel.elapsedTime,
-					Rez.Strings.SummaryStress,
-					0,
-					100
-				);
+				return me.createGraphView(:stress, Rez.Strings.SummaryStress, 0, 100);
 			} else if (page.equals(me.pageStress)) {
 				detailsModel = me.createDetailsPageStress();
 			} else if (page.equals(me.pageHrvRmssd)) {
@@ -86,73 +78,56 @@ class SummaryViewDelegate extends ScreenPicker.ScreenPickerDelegate {
 			} else if (page.equals(me.pageHrvSdrr)) {
 				detailsModel = me.createDetailsPageHrvSdrr();
 			} else if (page.equals(me.pageHrvRmssdGraph)) {
-				return new GraphView(
-					me.mSummaryModel.hrvRmssdHistory,
-					me.mSummaryModel.elapsedTime,
-					Rez.Strings.SummaryHRVRMSSD,
-					0,
-					250
-				);
+				return me.createGraphView(:hrv, Rez.Strings.SummaryHRVRMSSD, 0, 250);
 			} else {
-				return new GraphView(
-					me.mSummaryModel.hrHistory,
-					me.mSummaryModel.elapsedTime,
-					Rez.Strings.SummaryHR,
-					20,
-					150
-				);
+				return me.createGraphView(:hr, Rez.Strings.SummaryHR, 20, 150);
 			}
 		} else {
-			return new GraphView(
-				me.mSummaryModel.hrHistory,
-				me.mSummaryModel.elapsedTime,
-				Rez.Strings.SummaryHR,
-				20,
-				150
-			);
+			return me.createGraphView(:hr, Rez.Strings.SummaryHR, 20, 150);
 		}
 		return new ScreenPicker.ScreenPickerDetailsView(detailsModel, me.mPagesCount > 1);
 	}
 
 	private function createDetailsPageStress() {
+		var stress = me.mSummary.metrics[:stress];
 		var detailsModel = new ScreenPicker.DetailsModel();
 		detailsModel.title = Ui.loadResource(Rez.Strings.SummaryStress);
 
 		var line = null;
 		var lowStressIcon = new ScreenPicker.StressIcon({});
-		lowStressIcon.setStress(me.mSummaryModel.avgSt);
+		lowStressIcon.setStress(stress.getAvg());
 
 		line = detailsModel.getLine(0);
 		line.icon = lowStressIcon;
 		line.value.text = Lang.format("$1$  $2$", [
 			Ui.loadResource(Rez.Strings.SummaryAvg),
-			ScreenPicker.ScreenPickerBaseView.formatValue(me.mSummaryModel.avgSt),
+			ScreenPicker.ScreenPickerBaseView.formatValue(stress.getAvg()),
 		]);
 		var offset = 0;
-		if (me.mSummaryModel.firstSt != null && me.mSummaryModel.lastSt != null) {
+		if (stress.first != null && stress.last != null) {
 			line = detailsModel.getLine(1);
 			line.value.text = Lang.format("$1$ $2$", [
 				Ui.loadResource(Rez.Strings.SummaryStart),
-				ScreenPicker.ScreenPickerBaseView.formatValue(me.mSummaryModel.firstSt),
+				ScreenPicker.ScreenPickerBaseView.formatValue(stress.first),
 			]);
 			line = detailsModel.getLine(2);
 			line.value.text = Lang.format("$1$ $2$", [
 				Ui.loadResource(Rez.Strings.SummaryEnd),
-				ScreenPicker.ScreenPickerBaseView.formatValue(me.mSummaryModel.lastSt),
+				ScreenPicker.ScreenPickerBaseView.formatValue(stress.last),
 			]);
 			offset = 2;
 		}
 
-		if (me.mSummaryModel.minSt != null && me.mSummaryModel.maxSt != null) {
+		if (stress.min != null && stress.max != null) {
 			line = detailsModel.getLine(1 + offset);
 			line.value.text = Lang.format("$1$ $2$", [
 				Ui.loadResource(Rez.Strings.SummaryMin),
-				ScreenPicker.ScreenPickerBaseView.formatValue(me.mSummaryModel.minSt),
+				ScreenPicker.ScreenPickerBaseView.formatValue(stress.min),
 			]);
 			line = detailsModel.getLine(2 + offset);
 			line.value.text = Lang.format("$1$ $2$", [
 				Ui.loadResource(Rez.Strings.SummaryMax),
-				ScreenPicker.ScreenPickerBaseView.formatValue(me.mSummaryModel.maxSt),
+				ScreenPicker.ScreenPickerBaseView.formatValue(stress.max),
 			]);
 		}
 		return detailsModel;
@@ -164,12 +139,13 @@ class SummaryViewDelegate extends ScreenPicker.ScreenPickerDelegate {
 		var line = detailsModel.getLine(0);
 		line.icon = new ScreenPicker.HrvIcon({});
 		line.value.text = Lang.format("$1$ ms", [
-			ScreenPicker.ScreenPickerBaseView.formatValue(me.mSummaryModel.hrvRmssd),
+			ScreenPicker.ScreenPickerBaseView.formatValue(me.mSummary.metrics[:hrv].rmssd),
 		]);
 		return detailsModel;
 	}
 
 	private function createDetailsPageHrvPnnx() {
+		var hrv = me.mSummary.metrics[:hrv];
 		var detailsModel = new ScreenPicker.DetailsModel();
 		detailsModel.title = Ui.loadResource(Rez.Strings.SummaryHRVpNNx);
 
@@ -179,23 +155,20 @@ class SummaryViewDelegate extends ScreenPicker.ScreenPickerDelegate {
 		line.value.text = "HRV > 20";
 
 		line = detailsModel.getLine(1);
-		line.value.text = Lang.format("$1$% of time", [
-			ScreenPicker.ScreenPickerBaseView.formatValue(me.mSummaryModel.hrvPnn20),
-		]);
+		line.value.text = Lang.format("$1$% of time", [ScreenPicker.ScreenPickerBaseView.formatValue(hrv.pnn20)]);
 
 		line = detailsModel.getLine(2);
 		line.icon = hrvIcon;
 		line.value.text = "HRV > 50";
 
 		line = detailsModel.getLine(3);
-		line.value.text = Lang.format("$1$% of time", [
-			ScreenPicker.ScreenPickerBaseView.formatValue(me.mSummaryModel.hrvPnn50),
-		]);
+		line.value.text = Lang.format("$1$% of time", [ScreenPicker.ScreenPickerBaseView.formatValue(hrv.pnn50)]);
 
 		return detailsModel;
 	}
 
 	private function createDetailsPageHrvSdrr() {
+		var hrv = me.mSummary.metrics[:hrv];
 		var detailsModel = new ScreenPicker.DetailsModel();
 		detailsModel.title = Ui.loadResource(Rez.Strings.SummaryHRVSDRR);
 
@@ -205,17 +178,13 @@ class SummaryViewDelegate extends ScreenPicker.ScreenPickerDelegate {
 		line.value.text = Ui.loadResource(Rez.Strings.SummaryHRVRMSSDFirst5min);
 
 		line = detailsModel.getLine(1);
-		line.value.text = Lang.format("$1$ ms", [
-			ScreenPicker.ScreenPickerBaseView.formatValue(me.mSummaryModel.hrvFirst5Min),
-		]);
+		line.value.text = Lang.format("$1$ ms", [ScreenPicker.ScreenPickerBaseView.formatValue(hrv.sdrrFirst)]);
 
 		line = detailsModel.getLine(2);
 		line.icon = hrvIcon;
 		line.value.text = Ui.loadResource(Rez.Strings.SummaryHRVRMSSDLast5min);
 		line = detailsModel.getLine(3);
-		line.value.text = Lang.format("$1$ ms", [
-			ScreenPicker.ScreenPickerBaseView.formatValue(me.mSummaryModel.hrvLast5Min),
-		]);
+		line.value.text = Lang.format("$1$ ms", [ScreenPicker.ScreenPickerBaseView.formatValue(hrv.sdrrLast)]);
 		return detailsModel;
 	}
 
