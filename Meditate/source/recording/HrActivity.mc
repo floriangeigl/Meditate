@@ -10,14 +10,11 @@ class HrActivity extends SensorActivityTumbling {
 	private const MinHrFieldId = 0;
 	private var mMinHrField;
 	protected var activityInfo;
-	protected var minHr;
 	protected var currentHr;
 	private static const windowSize = 10;
-	var sessionSaved = false;
 
 	function initialize(fitSessionSpec) {
 		SensorActivityTumbling.initialize(new HrSummary(), null, HrActivity.windowSize);
-		me.minHr = null;
 		me.currentHr = null;
 		me.mFitSession = ActivityRecording.createSession(fitSessionSpec);
 		me.createMinHrDataField();
@@ -25,7 +22,6 @@ class HrActivity extends SensorActivityTumbling {
 	}
 
 	function start() {
-		me.minHr = null;
 		me.currentHr = null;
 		me.mFitSession.start();
 		me.mRefreshActivityTimer.start(method(:refreshActivityStats), RefreshActivityInterval, true);
@@ -73,9 +69,6 @@ class HrActivity extends SensorActivityTumbling {
 		} else {
 			me.currentHr = null;
 		}
-		if (me.currentHr != null && (me.minHr == null || me.currentHr < me.minHr)) {
-			me.minHr = me.currentHr;
-		}
 	}
 
 	function getSummary() {
@@ -88,7 +81,6 @@ class HrActivity extends SensorActivityTumbling {
 	function finish() {
 		if (me.mFitSession != null) {
 			me.mFitSession.save();
-			me.sessionSaved = true;
 		}
 		me.mFitSession = null;
 	}

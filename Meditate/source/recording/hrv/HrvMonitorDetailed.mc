@@ -73,7 +73,6 @@ class HrvMonitorDetailed extends HrvMonitorDefault {
 	}
 
 	public function getHrv() {
-		HrvMonitorDefault.getHrv();
 		return mHrvRmssdRolling.getLastCalcValue();
 	}
 

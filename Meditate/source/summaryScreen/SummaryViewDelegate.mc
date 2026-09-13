@@ -18,7 +18,7 @@ class SummaryViewDelegate extends ScreenPicker.ScreenPickerDelegate {
 	private static const pageHrvRmssdGraph = "HrvRmssdGraph";
 
 	function initialize(summaryModel, idleReminderTimer) {
-		me.setPageIndexes(summaryModel.hrvTracking, summaryModel.rrOn);
+		me.setPageIndexes(summaryModel.hrvTracking, summaryModel.rrOn, summaryModel.hasStressData());
 		me.mPagesCount = me.pages.size();
 
 		ScreenPickerDelegate.initialize(0, me.mPagesCount);
@@ -26,13 +26,13 @@ class SummaryViewDelegate extends ScreenPicker.ScreenPickerDelegate {
 		me.mIdleReminderTimer = idleReminderTimer;
 	}
 
-	private function setPageIndexes(hrvTracking, isRespirationRateOn) {
+	private function setPageIndexes(hrvTracking, isRespirationRateOn, hasStressData) {
 		me.pages = new [0];
 		me.pages.add(me.pageHeartRateGraph);
 		if (hrvTracking == HrvTracking.OnDetailed) {
 			me.pages.add(me.pageHrvRmssdGraph);
 		}
-		if (hrvTracking != HrvTracking.Off) {
+		if (hasStressData) {
 			me.pages.add(me.pageStressGraph);
 			me.pages.add(me.pageStress);
 		}

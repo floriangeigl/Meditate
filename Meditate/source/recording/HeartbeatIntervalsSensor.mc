@@ -14,8 +14,6 @@ class HeartbeatIntervalsSensor {
 
 	private var mSensorListener;
 	private var numFails;
-	private var totalTime;
-	private var totalIntervals;
 	private var running;
 	private var lastUpdateFailed;
 	private var statusErrors;
@@ -91,7 +89,6 @@ class HeartbeatIntervalsSensor {
 		if (me.sensorWakeupSession == null) {
 			me.createWakeupSession();
 		}
-		me.statusErrors = 1;
 	}
 
 	function stop() {
@@ -172,8 +169,6 @@ class HeartbeatIntervalsSensor {
 	}
 
 	function resetSensorQuality() {
-		me.totalTime = 0;
-		me.totalIntervals = 0.0;
 		me.numFails = maxWeakFails + 1;
 		me.statusErrors = 0;
 	}
@@ -182,7 +177,6 @@ class HeartbeatIntervalsSensor {
 		if (me.paused) {
 			return;
 		}
-		me.totalTime += 1;
 		var data =
 			sensorData has :heartRateData &&
 			sensorData.heartRateData != null &&
@@ -211,7 +205,6 @@ class HeartbeatIntervalsSensor {
 				val = data[j];
 				if (val != null && val >= 250 && val <= 2000) {
 					cleanData.add(val);
-					me.totalIntervals = me.totalIntervals + val / 1000.0;
 				}
 			}
 			data = cleanData;
@@ -221,11 +214,6 @@ class HeartbeatIntervalsSensor {
 		if (me.mSensorListener != null) {
 			me.mSensorListener.invoke(data);
 		}
-
-		// totalTime/totalIntervals are kept to report sensor quality back at some point
-		//if (me.totalTime > 60) {
-		// System.println("HR sensor: Quality: " + me.totalIntervals / me.totalTime);
-		//}
 	}
 }
 

@@ -2,7 +2,6 @@
     <string id="minHrField">HR Mínima</string>
     <string id="hrUnits">bpm</string>
 
-    <string id="hrvSdrrFieldLabel">HRV SDRR</string>
     <string id="hrvSdrrFirst5MinFieldLabel">HRV SDRR Primeros 5 min</string>
     <string id="hrvSdrrLast5MinFieldLabel">HRV SDRR Últimos 5 min</string>
 
@@ -16,11 +15,8 @@
     <string id="hrvRmssdWindowField">HRV RMSSD Vent. (ms)</string>
 
     <string id="percentUnits">%</string>
-    <string id="stressUnits">%</string>
 
     <string id="hrvRrIntervalsField">Intervalo lat. a lat. HRV (ms)</string>
 
-    <string id="hrPeaksWindow10Field">Picos HR Vent. 10 Seg (bpm)</string>
-    <string id="stressField">Estrés</string>
     <string id="hrFromHeartbeatField">HR a partir del latido (bpm)</string>
 </strings>

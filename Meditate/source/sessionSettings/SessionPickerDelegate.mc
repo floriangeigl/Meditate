@@ -140,12 +140,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		meditateModel.setDisplayName(displayName);
 		var meditateView = new MeditateView(meditateModel);
 		me.mHeartbeatIntervalsSensor.setOneSecBeatToBeatIntervalsSensorListener(null);
-		var mediateDelegate = new MeditateDelegate(
-			meditateModel,
-			me.mSummaryRollupModel,
-			me.mHeartbeatIntervalsSensor,
-			me
-		);
+		var mediateDelegate = new MeditateDelegate(meditateModel, me.mHeartbeatIntervalsSensor, me);
 		mediateDelegate.setMeditateView(meditateView);
 		mediateDelegate.startActivity();
 		Ui.switchToView(meditateView, mediateDelegate, Ui.SLIDE_LEFT);

@@ -13,11 +13,8 @@ class StressActivity extends SensorActivityTumbling {
 	}
 
 	static function isSensorSupported() {
-		if (
-			Toybox has :ActivityMonitor &&
-			Toybox.ActivityMonitor has :Info &&
-			Toybox.ActivityMonitor.Info has :stressScore
-		) {
+		// live 30s score is an instance attribute of getInfo(), not of the Info class
+		if (Toybox has :ActivityMonitor && ActivityMonitor.getInfo() has :stressScore) {
 			me.apiV5Plus = true;
 			return true;
 		} else if (Toybox has :SensorHistory && Toybox.SensorHistory has :getStressHistory) {
@@ -32,8 +29,7 @@ class StressActivity extends SensorActivityTumbling {
 		var val = null;
 		if (me.sensorSupported) {
 			if (me.apiV5Plus) {
-				val = Toybox.ActivityMonitor.Info.stressScore;
-				// System.println("StressActivity: got live stress value: " + val);
+				val = ActivityMonitor.getInfo().stressScore;
 			}
 			if (val == null && !me.liveStressAvailable) {
 				var iter = Toybox.SensorHistory.getStressHistory({
@@ -48,7 +44,6 @@ class StressActivity extends SensorActivityTumbling {
 					}
 					sample = iter.next();
 				}
-				// System.println("StressActivity: fallback: " + val);
 			} else {
 				// force to use live stress if it provides values once
 				me.liveStressAvailable = true;

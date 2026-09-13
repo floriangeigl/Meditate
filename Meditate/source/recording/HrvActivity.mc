@@ -75,15 +75,6 @@ class HrvActivity extends HrActivity {
 		return running;
 	}
 
-	private var mHrvValue;
-
-	function refreshActivityStats() {
-		HrActivity.refreshActivityStats();
-		if (me.isHrvOn() && me.mFitSession != null && me.mFitSession.isRecording()) {
-			me.mHrvValue = me.mHrvMonitor.getHrv();
-		}
-	}
-
 	function calculateSummaryFields() {
 		var hrSummary = HrActivity.getSummary();
 		var activitySummary = new ActivitySummary();

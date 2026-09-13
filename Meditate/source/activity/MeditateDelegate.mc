@@ -4,7 +4,6 @@ using Toybox.System;
 class MeditateDelegate extends Ui.BehaviorDelegate {
 	private var mMeditateModel;
 	private var mMeditateActivity;
-	private var mSummaryModels;
 	private var mSessionPickerDelegate;
 	private var mHeartbeatIntervalsSensor;
 	private var mSummaryModel;
@@ -16,10 +15,9 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 	private const PauseReasonManual = 0;
 	private const PauseReasonCompleted = 1;
 
-	function initialize(meditateModel, summaryModels, heartbeatIntervalsSensor, sessionPickerDelegate) {
+	function initialize(meditateModel, heartbeatIntervalsSensor, sessionPickerDelegate) {
 		BehaviorDelegate.initialize();
 		me.mMeditateModel = meditateModel;
-		me.mSummaryModels = summaryModels;
 		me.mHeartbeatIntervalsSensor = heartbeatIntervalsSensor;
 		me.mMeditateActivity = new MeditateActivity(meditateModel, heartbeatIntervalsSensor, me);
 		me.mSessionPickerDelegate = sessionPickerDelegate;

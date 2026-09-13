@@ -6,16 +6,10 @@ using Toybox.Time.Gregorian;
 class SummaryModel {
 	function initialize(activitySummary, rrActivity, stressActivity, hrvTracking, rrOn, sessionName) {
 		me.elapsedTime = activitySummary.hrSummary.elapsedTimeSeconds;
-		me.maxHr = activitySummary.hrSummary.max;
-		me.avgHr = activitySummary.hrSummary.avg;
-		me.minHr = activitySummary.hrSummary.min;
 		me.hrHistory = activitySummary.hrSummary.data;
 
 		var rrSummary = rrActivity.getSummary();
 		if (rrSummary != null) {
-			me.maxRr = rrSummary.max;
-			me.avgRr = rrSummary.avg;
-			me.minRr = rrSummary.min;
 			me.rrHistory = rrSummary.data;
 		}
 
@@ -45,13 +39,6 @@ class SummaryModel {
 
 	var elapsedTime;
 
-	var maxHr;
-	var avgHr;
-	var minHr;
-
-	var maxRr;
-	var avgRr;
-	var minRr;
 	var rrOn;
 	var rrHistory;
 
@@ -72,4 +59,17 @@ class SummaryModel {
 	var hrvTracking;
 	var hrHistory;
 	var sessionName; // name of session for rollup menu subtext
+
+	// stress pages exist whenever a window produced a value, independent of the hrv setting
+	function hasStressData() {
+		if (me.stHistory == null) {
+			return false;
+		}
+		for (var i = 0; i < me.stHistory.size(); i++) {
+			if (me.stHistory[i] != null) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

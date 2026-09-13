@@ -7,7 +7,6 @@ class MeditateModel extends ScreenPicker.DetailsModel {
 		me.titleColor = me.mSession.color;
 		me.mDisplayName = null;
 		me.elapsedTime = 0;
-		me.minHr = null;
 		me.currentHr = null;
 		me.hrvValue = null;
 		me.respirationRate = null;
@@ -31,7 +30,6 @@ class MeditateModel extends ScreenPicker.DetailsModel {
 	private var mBreathRunner;
 
 	var currentHr;
-	var minHr;
 	var elapsedTime;
 	var hrvValue;
 	var respirationRate;

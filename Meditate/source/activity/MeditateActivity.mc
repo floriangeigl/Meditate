@@ -129,7 +129,7 @@ class MeditateActivity extends HrvActivity {
 	}
 
 	function refreshActivityStats() {
-		HrvActivity.refreshActivityStats();
+		HrActivity.refreshActivityStats();
 		if (me.activityInfo.timerTime != null) {
 			me.mMeditateModel.elapsedTime = me.activityInfo.timerTime / 1000;
 		}
@@ -138,7 +138,6 @@ class MeditateActivity extends HrvActivity {
 			// use live heart rate before the first tumbling window is done
 			me.mMeditateModel.currentHr = me.activityInfo.currentHeartRate;
 		}
-		me.mMeditateModel.minHr = me.minHr;
 		// advance the breath phase before anything reads it
 		me.mMeditateModel.updateBreathRunner();
 		if (me.mVibeAlertsExecutor != null) {

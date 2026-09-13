@@ -160,6 +160,11 @@ On a cold optical sensor `heartBeatIntervals` stays empty while `currentHeartRat
 - Beyond that (`shouldSuggestRestart()` true): `HRVrestart` — "Restart the app". Justified by the data: RR never once recovered mid-run past this point in any measured run (up to 320 s), only on the next launch — so there is no case where waiting past ~18 s helps and telling the user to restart does not.
 - The old `HRVwaiting` id and its "the app already ships a :sensorRestart setting" framing are superseded — the setting still exists but is no longer the documented answer; the status text itself now says what to do.
 - Non-English translations for `HRVstarting`/`HRVrestart` are best-effort, not native-reviewed — worth a spot-check per locale before release.
+- **The hint stays up until the sensor really delivers.** `statusErrors` is only reset on recovery
+  (`Good` after errors → "Ready" + blip) or by `resetSensorQuality()`. It used to be set back to
+  1 by `ensureWakeupSession()` once the counter passed 60, which flipped the text back to "HRV
+  starting / Please wait" for 18 s every minute; `ensureWakeupSession()` now only recreates a
+  missing wakeup session and touches nothing else.
 
 
 **Do not re-propose `setEnabledSensors`/`enableSensorType`/ordering changes, and do not add more in-app retry logic** — all tested and rejected, several repeatedly across four years of git history.
@@ -298,6 +303,30 @@ fields. Stress and respiration used to be sampled *inside* the view's metrics dr
 (`SensorActivity.getCurrentValue()` appends a sample as a side effect), so any session whose view
 skipped that draw — the breathwork guidance page — recorded no stress/RR at all. Don't call
 `getCurrentValue()` on `rrActivity`/`stressActivity` from a view again.
+
+### Stress: live score on API ≥ 5, logged snapshot below
+
+`ActivityMonitor.Info.stressScore` (API 5.0.0, "rolling average of the last 30 seconds") is an
+**instance** attribute — read it from `ActivityMonitor.getInfo()`, never from the `Info` class
+(`Toybox.ActivityMonitor.Info.stressScore` compiles and is always null; commit 44a4251 noted "seems
+not providing data" and the app silently ran on the fallback for years). Below API 5 the fallback
+is the newest non-null `SensorHistory.getStressHistory` sample, i.e. the watch's logged snapshot
+that updates every few minutes; once the live read has delivered a value once the latch
+(`liveStressAvailable`) stops falling back. Whether the watch keeps computing `stressScore`
+*while a CIQ activity records* is a device question — verify on hardware; if it stays null there,
+the latch never sets and the snapshot fallback is what users keep.
+
+Stress summary pages (graph + details) are shown whenever the stress history holds a non-null
+window value (`SummaryModel.hasStressData()`), independent of the HRV setting — stress is sampled
+and shown live regardless of HRV, so hiding its summary with HRV Off was an accident.
+
+### FIT fields: code and `hrvFitContributions.xml` must agree
+
+Every field id created in code has a `<fitField id=…>` row in `Meditate/resources/hrvFitContributions.xml`
+and label strings in `hrvFitContributionsStrings.xml` for **all 9 locales**, and nothing else:
+ids 0, 6–13, 16. Ids 1, 15, 17 were declared for years with no code writing them and were
+dropped. Check `bin/Meditate-fit_contributions.json` after a build — it lists exactly the
+declared set. Field ids are FIT compatibility — never renumber.
 
 ### Key Source Directories
 

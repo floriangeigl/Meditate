@@ -224,7 +224,7 @@ From the session picker you can scroll through available sessions and see:
 
 ### HRV Indicator
 
-- **Off** - HRV and stress tracking disabled
+- **Off** - HRV tracking disabled
 - **HRV starting / Please wait** - the sensor is still coming online
 - **Restart the app** - shown if HRV has not started after about 20 seconds; see the FAQ below for why this happens and how to fix it
 - **Ready** - HRV tracking active  
