@@ -27,6 +27,7 @@ class Metric {
 	private var mSum;
 	private var mCount;
 	private var mSkipped;
+	private var mFlushed;
 
 	function initialize(id) {
 		me.id = id;
@@ -43,6 +44,7 @@ class Metric {
 		me.mSum = 0.0;
 		me.mCount = 0;
 		me.mSkipped = false;
+		me.mFlushed = false;
 	}
 
 	// hook: this tick's raw sample
@@ -67,8 +69,11 @@ class Metric {
 		return me.mWinCount > 0 ? me.mWinSum / me.mWinCount.toFloat() : null;
 	}
 
-	// recording tick; null samples count towards the window
+	// recording tick; null samples count towards the window. inert once flushed
 	function sample(info) {
+		if (me.mFlushed) {
+			return;
+		}
 		if (me.skipFirst && !me.mSkipped) {
 			me.mSkipped = true;
 			return;
@@ -105,8 +110,12 @@ class Metric {
 		me.mWinCount = 0;
 	}
 
-	// end of recording; a partial window counts only if nearly complete or it is all there is
+	// end of recording, once; a partial window counts only if nearly complete or it is all there is
 	function flush() {
+		if (me.mFlushed) {
+			return me;
+		}
+		me.mFlushed = true;
 		if (me.mWinTicks > 0 && (me.mWinTicks >= me.window * 0.9 || me.history.size() == 0)) {
 			me.flushWindow();
 		}

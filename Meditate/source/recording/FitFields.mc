@@ -31,12 +31,16 @@ class FitFields {
 		me.mFields = {};
 	}
 
+	// unknown ids and ids created before are skipped
 	function create(ids) {
 		if (me.mSession == null) {
 			return;
 		}
 		for (var i = 0; i < ids.size(); i++) {
 			var spec = FitFields.Specs[ids[i]];
+			if (spec == null || me.mFields[ids[i]] != null) {
+				continue;
+			}
 			me.mFields[ids[i]] = me.mSession.createField(spec[0], spec[1], spec[2], {
 				:mesgType => spec[3],
 				:units => spec[4],
@@ -44,7 +48,8 @@ class FitFields {
 		}
 	}
 
-	// null values and ids that were not created are ignored; uint16 fields get a rounded number
+	// null values and ids that were not created are ignored; the value is converted to the field type,
+	// setData throws on a mismatch
 	function set(id, value) {
 		var field = me.mFields[id];
 		if (field == null || value == null) {
@@ -52,6 +57,8 @@ class FitFields {
 		}
 		if (FitFields.Specs[id][2] == FitContributor.DATA_TYPE_UINT16) {
 			value = Math.round(value).toNumber();
+		} else {
+			value = value.toFloat();
 		}
 		field.setData(value);
 	}

@@ -40,6 +40,8 @@ class RecordingFlowTests {
 			metrics.add(new RrMetric());
 		}
 		recorder.setMetrics(metrics);
+		// a repeated or unknown id creates nothing and does not throw
+		recorder.fit.create([:minHr, :noSuchField]);
 		recorder.start();
 		if (!recorder.isRecording()) {
 			return false;

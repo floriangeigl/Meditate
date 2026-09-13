@@ -136,6 +136,17 @@ class MetricTests {
 		return m.flush() == m && m.history.size() == 1;
 	}
 
+	// a tick that lands after the summary must not change what the rollup shows
+	(:test)
+	static function flushedMetricIgnoresFurtherSamples(logger) {
+		var m = new ScriptedMetric([50, 60, 70, 80], 1);
+		tick(m, 2);
+		m.flush();
+		tick(m, 2);
+		m.flush();
+		return m.history.size() == 2 && near(m.getValue(), 60) && near(m.max, 60);
+	}
+
 	(:test)
 	static function keepHistoryOffStillTracksValueAndStats(logger) {
 		var m = new ScriptedMetric([10, 20, 30], 1).configure(null, null, false, false, false);

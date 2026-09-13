@@ -229,7 +229,7 @@ Get-ChildItem "$env:APPDATA\Garmin\ConnectIQ\Devices" -Directory | ForEach-Objec
 
 ## Testing
 
-Unit tests live next to the code they cover, 42 of them, all live:
+Unit tests live next to the code they cover, 44 of them, all live:
 
 - `recording/tests/MetricTests` — the window engine against a scripted `read()` (flush on the
   completing tick, skipFirst, range, 90 % rule, keepHistory off, stats over window values).
@@ -331,7 +331,10 @@ comes in through constructor arguments. Keep it that way; it is what makes the t
   `keepHistory`. `sample(info)` → `accept(read(info))` → window closes **on the tick that completes
   it**; `flush()` at the end keeps a partial window only if ≥ 90 % filled or the history is empty.
   `min`/`max`/`first`/`last`/`getAvg()` are **over the window values**, the same numbers the graphs
-  draw — the details pages can no longer disagree with the graph. `HrMetric` {10 s, live before
+  draw — the details pages can no longer disagree with the graph. `flush()` runs once and makes the
+  metric inert: a tick that lands after the summary can neither change the rollup nor touch a FIT
+  field. `FitFields.set` converts to the field type (UINT16 → rounded Number, else Float) because
+  `Field.setData` throws on a type mismatch; `create` skips unknown and repeated ids. `HrMetric` {10 s, live before
   window}, `StressMetric` {30 s, 0..100}, `RrMetric` {30 s, 1..99, skipFirst — its `getLoadTime()` is 31, the
   skipped tick counts}, `HrvMetric` below.
 - **HRV is a metric too, sampled on the tick.** `BeatIntervalFeed` has one listener slot; during a

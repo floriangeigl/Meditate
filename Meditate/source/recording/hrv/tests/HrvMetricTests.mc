@@ -87,6 +87,19 @@ class HrvMetricTests {
 	}
 
 	(:test)
+	static function flushedHrvMetricIsInert(logger) {
+		var hrv = detailedAfterTwoTicks(1);
+		hrv.flush();
+		var entries = hrv.history.size();
+		// beats and ticks after the summary, including a window close, change nothing and touch no fit field
+		hrv.onIntervals([1000, 1100]);
+		hrv.sample(null);
+		hrv.sample(null);
+		hrv.flush();
+		return hrv.history.size() == entries && near(hrv.rmssd, 38.37) && near(hrv.pnn20, 33.33);
+	}
+
+	(:test)
 	static function noBeatsAtAllLeavesNulls(logger) {
 		var hrv = new HrvMetric(new FitFields(null), true, 2);
 		hrv.sample(null);
