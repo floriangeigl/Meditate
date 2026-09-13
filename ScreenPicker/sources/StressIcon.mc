@@ -27,6 +27,10 @@ module ScreenPicker {
 			}
 		}
 
+		function setLive(value) {
+			me.setStress(value);
+		}
+
 		function setStressInvalid() {
 			me.setColorInactive();
 		}

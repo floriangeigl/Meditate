@@ -228,9 +228,11 @@ Get-ChildItem "$env:APPDATA\Garmin\ConnectIQ\Devices" -Directory | ForEach-Objec
 
 ## Testing
 
-Unit tests live in `Meditate/source/recording/tests/` (`MetricTests` — the window engine against a
+Unit tests live next to the code they cover: `Meditate/source/recording/tests/` (`MetricTests` — the window engine against a
 scripted `read()`; `RecordingFlowTests` — `ActivityRecorder` and `MeditateActivity` start → tick →
-pause/resume → stop → summary → every summary page, against a real simulator FIT session) and
+pause/resume → stop → summary → every summary page, against a real simulator FIT session),
+`activity/tests/MetricLineTests` (metrics page row states), `summaryScreen/tests/SummaryPagesTests`
+(page set per HRV mode) and
 `Meditate/source/recording/hrv/tests/` (SDRR, still commented out until step 4 of the data
 acquisition rework ports them). They use Connect IQ's `(:test)` framework and return `true`/`false`.
 
@@ -333,6 +335,19 @@ up in step 4 of the rework).
   `getMetric(id).getValue()` / `getLoadTime()` and never samples.
 - **`ActivitySummary`** = `elapsedTime`, `sessionName`, `metrics {id → flushed Metric}`; ids `:hr`,
   `:hrv`, `:stress`, `:rr` are the join key for the live page, the summary pages and the rollup.
+- **The metrics page is a loop, the summary is a table.** `MeditateView.onLayout` builds one
+  `MetricLine` per entry of `liveMetrics` (icon from `MeditateView.createIcon(id)`, the only
+  id → icon mapping, also used by the summary details page); `MetricLine.update(value, elapsed)`
+  is the whole per-row state machine — hourglass + countdown until the first value, "--" once the
+  load time has passed, the metric icon once loaded, grey after a loss or while paused.
+  `SummaryViewDelegate.initialize` holds the page table `[id, kind, title, yMin, yMax]` in today's
+  page order; presence by kind: `:graph`/`:details` need `metrics[id].hasData()` (the `:hr` graph
+  is always there so the picker never has zero pages), `:hrvRmssd` needs `metrics[:hrv]`,
+  `:hrvGraph`/`:hrvPnnx`/`:hrvSdrr` need `metrics[:hrv].detailed`. Build the table in
+  `initialize()` — resource ids are not safe in static initialisers.
+- **Adding a metric** = one `XxxMetric` class (~15 lines), one line in
+  `MeditateActivity.createMetrics`, one case in `MeditateView.createIcon`, one row in the summary
+  page table. `SummaryPagesTests` pins the page set per HRV mode; `MetricLineTests` the row states.
 
 ### Finish flow: `MeditateDelegate` outlives the session
 

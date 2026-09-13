@@ -53,6 +53,11 @@ module ScreenPicker {
 			me.setColor(Gfx.COLOR_LT_GRAY);
 		}
 
+		// a live value arrived; back to the constructor colour, which setColor never overwrites
+		function setLive(value) {
+			me.setColor(me.color);
+		}
+
 		protected function setSymbol(symbol) {
 			me.mIconDrawable.setText(symbol);
 		}
