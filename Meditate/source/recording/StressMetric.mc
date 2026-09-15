@@ -12,6 +12,7 @@ class StressMetric extends Metric {
 		me.window = 30;
 		me.lo = 0;
 		me.hi = 100;
+		me.liveBeforeWindow = true;
 		me.mLive = StressMetric.hasLiveScore();
 		me.mHistory = StressMetric.hasStressHistory();
 		me.mLiveSeen = false;

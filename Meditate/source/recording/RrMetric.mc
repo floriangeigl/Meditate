@@ -6,7 +6,7 @@ class RrMetric extends Metric {
 		me.window = 30;
 		me.lo = 1;
 		me.hi = 99;
-		me.skipFirst = true;
+		me.liveBeforeWindow = true;
 	}
 
 	static function isSupported() {

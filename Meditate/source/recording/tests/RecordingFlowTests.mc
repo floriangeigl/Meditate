@@ -113,6 +113,19 @@ class RecordingFlowTests {
 		return summary.metrics[:hr] != null && summary.sessionName.equals("flow");
 	}
 
+	// hr, stress and respiration show the watch value from the first tick; only hrv counts down
+	(:test)
+	static function onlyHrvCountsDown(logger) {
+		var fit = new FitFields(null);
+		return (
+			new HrMetric().getLoadTime() == 0 &&
+			new StressMetric().getLoadTime() == 0 &&
+			new RrMetric().getLoadTime() == 0 &&
+			new HrvMetric(fit, false, 60).getLoadTime() == 1 &&
+			new HrvMetric(fit, true, 60).getLoadTime() == 60
+		);
+	}
+
 	// hrv off: no hrv metric, no feed wiring, summary without an hrv entry
 	(:test)
 	static function activityWithHrvOffLeavesTheFeedAlone(logger) {

@@ -334,9 +334,15 @@ comes in through constructor arguments. Keep it that way; it is what makes the t
   draw — the details pages can no longer disagree with the graph. `flush()` runs once and makes the
   metric inert: a tick that lands after the summary can neither change the rollup nor touch a FIT
   field. `FitFields.set` converts to the field type (UINT16 → rounded Number, else Float) because
-  `Field.setData` throws on a type mismatch; `create` skips unknown and repeated ids. `HrMetric` {10 s, live before
-  window}, `StressMetric` {30 s, 0..100}, `RrMetric` {30 s, 1..99, skipFirst — its `getLoadTime()` is 31, the
-  skipped tick counts}, `HrvMetric` below.
+  `Field.setData` throws on a type mismatch; `create` skips unknown and repeated ids.
+  **Configs shipped:** `HrMetric` {10 s, live before window}, `StressMetric` {30 s, 0..100, live
+  before window}, `RrMetric` {30 s, 1..99, live before window}, `HrvMetric` below. So only the HRV
+  row counts down; HR, stress and respiration show the watch's own value from the first tick and
+  switch to the window mean once the first window closes (`RecordingFlowTests.onlyHrvCountsDown`
+  pins this). `skipFirst` is engine-only since 2026-09: respiration used to skip its first tick
+  because the 2025 `RrActivity` noted *"device returns 15 or 14 incorrectly as first mesure"*; if
+  that placeholder shows up again on a device, `me.skipFirst = true` in `RrMetric` is the fix and
+  `getLoadTime()` already accounts for it.
 - **HRV is a metric too, sampled on the tick.** `BeatIntervalFeed` has one listener slot; during a
   session it is `HrvMetric.onIntervals`, which only *buffers* the second's cleaned intervals. The
   recorder tick then consumes the buffer like any other sample (`read()` returns and clears it),
@@ -404,9 +410,29 @@ view anything that mutates a metric.
 not providing data" and the app silently ran on the fallback for years). Below API 5 the fallback
 is the newest non-null `SensorHistory.getStressHistory` sample, i.e. the watch's logged snapshot
 that updates every few minutes; once the live read has delivered a value once the latch
-(`StressMetric.mLiveSeen`) stops falling back. Whether the watch keeps computing `stressScore`
-*while a CIQ activity records* is a device question — verify on hardware; if it stays null there,
-the latch never sets and the snapshot fallback is what users keep.
+(`StressMetric.mLiveSeen`) stops falling back. **Verified on hardware (2026-09-15): the watch keeps
+computing `stressScore` while a CIQ activity records** — the live value moves during the session.
+If a device ever leaves it null, the latch never sets and the snapshot fallback is what it keeps.
+Because the score is already a 30 s rolling mean from the watch, the app's own 30 s window is a
+second smoothing layer that exists for the graph buckets; the live row shows the raw score
+(`liveBeforeWindow`) — there is nothing to wait for.
+
+### Respiration rate: what Garmin actually provides
+
+`ActivityMonitor.Info.respirationRate` (API 3.3.0) is "the current respiration rate for the user"
+— the watch's *latest* estimate, not something computed for our session. Garmin/Firstbeat derive
+it from the heartbeat rhythm: respiratory sinus arrhythmia (beat intervals shorten on inhale,
+lengthen on exhale), extracted from the optical beat-interval signal at rest and, in activities,
+from a chest strap. Documented limits that matter for this app (support pages + Garmin forums,
+2026-09): **with the wrist sensor alone, respiration is only produced for the Breathwork, Yoga and
+Health Snapshot profiles; every other activity profile needs a chest strap** (HRM-Pro/Pro Plus/
+Run/Tri/Dual). Update cadence and averaging are undocumented; wrist accuracy is quoted at
+~0.5–1.5 brpm at rest and degrades with motion — fit and stillness are the dominant error sources.
+Consequences: a session recorded under the Meditation sport may only see the slowly updated
+all-day value; the 2025 `RrActivity` observation of a first reading of 14/15 brpm fits a stale
+all-day value being handed out until the activity's own estimate exists. The README's "only works
+fine for Yoga" note is the same effect seen from the outside. No range/averaging tricks fix this —
+it is what the watch hands over.
 
 Stress summary pages (graph + details) are shown whenever the stress history holds a non-null
 window value (`metrics[:stress].hasData()`), independent of the HRV setting — stress is sampled

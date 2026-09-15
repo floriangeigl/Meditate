@@ -701,7 +701,9 @@ Most issues are easy to resolve, and nothing here means you’re doing anything 
 
   <p>This is not specific to this app.</p>
 
-  <p>The app uses whatever respiration signal Garmin provides. Respiration rate can be less reliable during very calm, still practices.</p>
+  <p>The app uses whatever respiration signal Garmin provides. Garmin derives it from the rhythm of your heartbeats - the time between beats shortens a little as you inhale and lengthens as you exhale - so it needs a clean heartbeat signal: a snug fit and a still wrist help more than anything else. Respiration rate can be less reliable during very calm, still practices.</p>
+
+  <p>Garmin only computes wrist-based respiration for its Breathwork and Yoga activity profiles. With other activity types the watch may hand over its last all-day value, which updates only every few minutes, so if respiration matters to you set the session activity type to Yoga or Breathwork.</p>
 
   <p>If accurate respiration data is important to you, a chest strap that supports HRV and respiration reporting (for example HRM-600) may improve results.</p>
 
