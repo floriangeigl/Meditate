@@ -422,17 +422,17 @@ second smoothing layer that exists for the graph buckets; the live row shows the
 `ActivityMonitor.Info.respirationRate` (API 3.3.0) is "the current respiration rate for the user"
 — the watch's *latest* estimate, not something computed for our session. Garmin/Firstbeat derive
 it from the heartbeat rhythm: respiratory sinus arrhythmia (beat intervals shorten on inhale,
-lengthen on exhale), extracted from the optical beat-interval signal at rest and, in activities,
-from a chest strap. Documented limits that matter for this app (support pages + Garmin forums,
-2026-09): **with the wrist sensor alone, respiration is only produced for the Breathwork, Yoga and
-Health Snapshot profiles; every other activity profile needs a chest strap** (HRM-Pro/Pro Plus/
-Run/Tri/Dual). Update cadence and averaging are undocumented; wrist accuracy is quoted at
-~0.5–1.5 brpm at rest and degrades with motion — fit and stillness are the dominant error sources.
-Consequences: a session recorded under the Meditation sport may only see the slowly updated
-all-day value; the 2025 `RrActivity` observation of a first reading of 14/15 brpm fits a stale
-all-day value being handed out until the activity's own estimate exists. The README's "only works
-fine for Yoga" note is the same effect seen from the outside. No range/averaging tricks fix this —
-it is what the watch hands over.
+lengthen on exhale), extracted from the optical beat-interval signal. Update cadence and averaging
+are undocumented; wrist accuracy is quoted at ~0.5–1.5 brpm at rest and degrades with motion — fit
+and stillness are the dominant error sources.
+
+Garmin documents that its **native** activity profiles record wrist-based respiration only for
+Breathwork, Yoga and Health Snapshot (others need a chest strap). **That rule does not gate the
+CIQ value: verified on hardware (2026-09-15), a session recorded under `SPORT_MEDITATION` shows
+respiration values on the metrics page.** Don't tell users to switch to Yoga for respiration. The
+README's 2025 "only works fine for Yoga … bug for Breathing activity" note concerns the Breathing
+sub-sport specifically and is unverified today. The 2025 `RrActivity` observation of a first
+reading of 14/15 brpm is why `skipFirst` existed; its cause is unknown.
 
 Stress summary pages (graph + details) are shown whenever the stress history holds a non-null
 window value (`metrics[:stress].hasData()`), independent of the HRV setting — stress is sampled
