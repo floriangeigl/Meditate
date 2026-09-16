@@ -26,7 +26,7 @@ A Garmin Connect IQ meditation app that tracks as an activity the heart rate, HR
   - the live stress score where the watch provides one during activities (Connect IQ API 5 and up), otherwise the watch's logged stress
   - summary with average, start, end, min and max stress of the session
 - respiration rate
-  - Breathes per minute real time in watches that supports it (only works fine for Yoga activity due to bug in Connect IQ API for Breathing activity)
+  - Breaths per minute in real time, on watches that provide respiration data. Accuracy depends on a clean heartbeat signal - a snug fit and a still wrist give the best readings
 - configurable preparation time before the meditation session
 - configurable finalization time after the meditation session
 - summary stats at the end of the session
