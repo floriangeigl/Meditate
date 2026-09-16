@@ -1,5 +1,4 @@
 using Toybox.Graphics as Gfx;
-using HrvAlgorithms.HrvTracking;
 
 module VibePattern {
 	enum {

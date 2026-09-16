@@ -1,5 +1,4 @@
 using Toybox.Application as App;
-using HrvAlgorithms.HrvTracking;
 
 class GlobalSettings {
 	private static const HrvTrackingKey = "globalSettings_hrvTracking";

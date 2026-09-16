@@ -208,6 +208,12 @@ Rules that follow, for any future variant of this experiment:
   RR never once recovered mid-run — only warm/lucky runs succeeded, always within 1–3 s. There is no
   observed case where waiting past ~18 s helps, so there is no case where the switch fires too early.
 
+  Names since the data acquisition rework (2026-09): the sensor class is `BeatIntervalFeed`,
+  `pollStatus()` replaces `getStatus()` and only counts, `errorSeconds()` exposes the counter, and
+  the wording, the ready blip and the backlight pulse live in `SessionPickerDelegate.updateHrvStatus()`
+  / `Utils.getHrvStatusText(status, errorSeconds)`; the 18 s threshold and the 2 s alternation block
+  are `Utils` constants. `ensureWakeupSession()` no longer resets the counter, so the hint stays up.
+
   No new UI element, no tip, no one-tap action, no auto-restart — users already know how to restart
   the app; the `:sensorRestart` global setting still exists for the rare case they don't, it just
   isn't specifically pointed at anymore. Non-English translations for `HRVstarting`/`HRVrestart` are

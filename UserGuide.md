@@ -224,9 +224,10 @@ From the session picker you can scroll through available sessions and see:
 
 ### HRV Indicator
 
-- **Off** - HRV and stress tracking disabled
+- **Off** - HRV tracking disabled
 - **HRV starting / Please wait** - the sensor is still coming online
 - **Restart the app** - shown if HRV has not started after about 20 seconds; see the FAQ below for why this happens and how to fix it
+- **HRV weak** - heartbeat data is arriving intermittently; hold still for a moment
 - **Ready** - HRV tracking active  
   For reliable HRV data, minimize wrist movement.
 
@@ -700,7 +701,7 @@ Most issues are easy to resolve, and nothing here means you’re doing anything 
 
   <p>This is not specific to this app.</p>
 
-  <p>The app uses whatever respiration signal Garmin provides. Respiration rate can be less reliable during very calm, still practices.</p>
+  <p>The app uses whatever respiration signal Garmin provides. Garmin derives it from the rhythm of your heartbeats - the time between beats shortens a little as you inhale and lengthens as you exhale - so it needs a clean heartbeat signal: a snug fit and a still wrist help more than anything else. Respiration rate can be less reliable during very calm, still practices.</p>
 
   <p>If accurate respiration data is important to you, a chest strap that supports HRV and respiration reporting (for example HRM-600) may improve results.</p>
 
