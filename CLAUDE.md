@@ -51,7 +51,9 @@ project.optimization = 3pz  # Maximum optimization
 tree on `fr255s`: debug 415 KB vs release 172 KB (with a pre-breathwork baseline of 145 KB; the
 data acquisition rework then brought the release build down to 167 KB). A
 debug PRG looks alarmingly close to a 512 KB device budget while the shipped artifact uses a
-third of it.
+third of it. **Compare sizes in bytes** (`stat -c %s`, or `(Get-Item).Length`) against a
+baseline build of the same tree — 166 860 B reads as "163 KB" in KiB and "167 KB" in kB, which
+once turned a +48 B change into an imaginary 4 KB saving.
 
 ### Deploy to Device
 
@@ -229,7 +231,7 @@ Get-ChildItem "$env:APPDATA\Garmin\ConnectIQ\Devices" -Directory | ForEach-Objec
 
 ## Testing
 
-Unit tests live next to the code they cover, 44 of them, all live:
+Unit tests live next to the code they cover, 40 of them, all live:
 
 - `recording/tests/MetricTests` — the window engine against a scripted `read()` (flush on the
   completing tick, skipFirst, range, 90 % rule, keepHistory off, stats over window values).
@@ -238,9 +240,10 @@ Unit tests live next to the code they cover, 44 of them, all live:
 - `recording/tests/RecordingFlowTests` — `ActivityRecorder` and `MeditateActivity` start → tick →
   pause/resume → stop → summary → every summary page, against a real simulator FIT session.
 - `recording/hrv/tests/HrvMetricTests` — RMSSD 38.37 / pNN20 33.33 / pNN50 16.67 / SDRR 26.95 on
-  the six fixture intervals, rolling value per window, differences across windows, sticky `On`.
+  the six fixture intervals, rolling value per window, differences across windows, sticky `On`,
+  SDRR first = ticks 1-300 and last = the final 300 ticks (identical below 300).
 - `recording/hrv/tests/HrvSdrrTests` — the original SDRR expectations (`HrvAlgorithmsSampleOutput.xlsx`)
-  ported to `HrvSdrr`, including the last-300-beats ring.
+  ported to the ring of seconds: several beats in one second, empty seconds that push beats out.
 - `activity/tests/MetricLineTests` — metrics page row states; `summaryScreen/tests/SummaryPagesTests`
   — the page set per HRV mode; `sessionSettings/tests/SessionPickerHrvStatusTests` — the picker's
   HRV line through the real delegate: starting texts, restart hint that stays past 60 s, weak, ready.
@@ -350,12 +353,24 @@ comes in through constructor arguments. Keep it that way; it is what makes the t
   so every window, history and load time runs on recording seconds, frozen while paused. The
   buffer is bounded because the feed is paused whenever the timer is. One previous-interval
   tracker feeds everything: signed last difference (the `On` live value, FIT `hrv_successive`),
-  Σd²/pairs (session RMSSD), |d| > 20/50 counters (pNN, denominator = beats incl. the first), and
+  Σd²/pairs (session RMSSD), |d| > 20/50 counters (pNN, denominator = beats incl. the first, per the
+  1996 Task Force / Mietus 2002 definition — N−1 pairs is an alternative convention, deliberately
+  not used; the (N−1)/N gap is invisible over a real session, don't re-propose it), and
   in `Detailed` the window Σd²/n (rolling RMSSD = live value + history + FIT `hrv_rmssd_rolling`),
-  the per-beat FIT records and the two `HrvSdrr` rings (first/last 300 beats, population sd, ≥ 2
-  beats). Differences continue across window boundaries. `flush()` writes the FIT session fields
-  and then drops the buffer, rings and `FitFields` reference — the rollup keeps only the light
-  object with `rmssd`, `pnn20`, `pnn50`, `sdrrFirst`, `sdrrLast`, `history`, `detailed`.
+  the per-beat FIT records and the `HrvSdrr` ring (population sd, ≥ 2 beats). **SDRR windows
+  are 300 recording seconds, not 300 beats** — the old ring counted beats, so "5 min" was only
+  true at 60 bpm. One ring holds the last 300 ticks, each slot the interval array `read()`
+  handed over that tick (owned by the caller once `read()` swapped in a fresh buffer, so no
+  copy); `sdrrFirst` is snapshotted on the tick the ring first fills, `sdrrLast` computed at
+  `flush()`, and a session shorter than 300 ticks gets the same value for both. The tick is the
+  clock (frozen while paused) — don't switch it to `info.timerTime`, and don't reintroduce a
+  second `keepFirst` ring. Cost: 11.75 KB for a full ring (~360 beats) vs 3 KB for the old two
+  float rings, released at flush; if that ever matters, the flat variant is a ring of intervals
+  plus a ring of per-second counts (~4.6 KB) at the price of overflow bookkeeping when a second
+  holds more beats than the free slots. Differences continue across window boundaries. `flush()` writes the
+  FIT session fields and then drops the buffer, ring and `FitFields` reference — the rollup
+  keeps only the light object with `rmssd`, `pnn20`, `pnn50`, `sdrrFirst`, `sdrrLast`,
+  `history`, `detailed`.
 - **`ActivityRecorder`** owns the FIT session, `FitFields`, the 1 s `Timer` and `elapsedTime`.
   `onTick()` samples every metric while recording, then calls `listener.onTick()`. `summary()`
   flushes each metric into `ActivitySummary.metrics[id]` and writes `min_hr` from the HR metric's
@@ -690,6 +705,14 @@ growing `SessionModel` needs no cloud-backup change at all — only watch the 32
 
 - **`properties.xml` is only needed for properties referenced by `settings.xml`** (via `@Properties.<id>`). Secrets used only in code (e.g. Firebase URL/secret, GA4 credentials) need only a `secrets.xml` entry — `properties.xml` is not required for them and should be omitted to avoid redundancy.
 - **Firebase RTDB has no native TTL** — that feature exists only in Firestore (via Cloud Functions). For a dev tool, trimming the displayed list to the N most recent entries after sorting is sufficient; no Firebase config or cleanup code needed.
+
+### Key Learnings (Monkey C runtime memory)
+
+- **Every object costs ~28 B on top of its content; array slots ~5 B.** Measured on `fr255s`:
+  300 one- or two-element arrays = 11.75 KB, two flat `new [300]` of floats = 3 KB. Prefer one
+  flat array over many small ones when the count is in the hundreds.
+- **Measure, don't estimate:** a throwaway `(:test)` that diffs `System.getSystemStats().usedMemory`
+  around the allocation and `logger.debug`s it takes two minutes and is exact; delete it afterwards.
 
 ### Key Learnings (Monkey C compiler)
 

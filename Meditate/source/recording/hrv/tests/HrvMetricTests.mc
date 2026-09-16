@@ -86,6 +86,40 @@ class HrvMetricTests {
 		return !hrv.detailed && near(hrv.rmssd, 25.495) && hrv.pnn20 == null && hrv.sdrrFirst == null;
 	}
 
+	// fixture beats on tick 1, an outlier pair on the last tick, empty ticks between
+	private static function detailedOverTicks(ticks) {
+		var hrv = new HrvMetric(new FitFields(null), true, 60);
+		hrv.onIntervals([1090.9, 1016.9, 1016.9, 1034.4, 1016.9, 1052.6]);
+		hrv.sample(null);
+		for (var i = 2; i < ticks; i++) {
+			hrv.sample(null);
+		}
+		hrv.onIntervals([1000.0, 1400.0]);
+		hrv.sample(null);
+		hrv.flush();
+		return hrv;
+	}
+
+	// sdrr first is the first 300 seconds, sdrr last the last 300; both when the session is shorter
+	(:test)
+	static function sdrrWindowsAreFiveMinutes(logger) {
+		var hrv = detailedOverTicks(301);
+		if (!near(hrv.sdrrFirst, 26.95) || !near(hrv.sdrrLast, 200.0)) {
+			return false;
+		}
+		// exactly the window, and shorter: snapshot and flush see the same eight beats
+		hrv = detailedOverTicks(300);
+		if (!sameAndNotTheLastPair(hrv)) {
+			return false;
+		}
+		hrv = detailedOverTicks(299);
+		return sameAndNotTheLastPair(hrv);
+	}
+
+	private static function sameAndNotTheLastPair(hrv) {
+		return hrv.sdrrLast != null && near(hrv.sdrrFirst, hrv.sdrrLast) && !near(hrv.sdrrFirst, 200.0);
+	}
+
 	(:test)
 	static function flushedHrvMetricIsInert(logger) {
 		var hrv = detailedAfterTwoTicks(1);

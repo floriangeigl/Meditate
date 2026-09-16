@@ -2,8 +2,8 @@ using Toybox.Math;
 
 // hrv as a metric: the feed buffers this second's beats, the recording tick consumes them.
 // On: window 1, live value is the last successive difference, session rmssd.
-// Detailed: window = setting, live value and history are the rolling rmssd, plus pnn, sdrr and
-// the per beat fit records
+// Detailed: window = setting, live value and history are the rolling rmssd, plus pnn, sdrr over
+// the first and last 5 min and the per beat fit records
 class HrvMetric extends Metric {
 	private var mFit;
 	private var mBuffer;
@@ -16,9 +16,9 @@ class HrvMetric extends Metric {
 	private var mOver50;
 	private var mWinSquareDiffs;
 	private var mWinPairs;
-	private var mSdrrFirst;
-	private var mSdrrLast;
-	private static const SdrrBeats = 300;
+	private var mSdrr;
+	private var mSeconds;
+	private static const SdrrSeconds = 300;
 
 	var detailed;
 	var rmssd;
@@ -41,10 +41,10 @@ class HrvMetric extends Metric {
 		me.mOver50 = 0;
 		me.mWinSquareDiffs = 0.0;
 		me.mWinPairs = 0;
+		me.mSeconds = 0;
 		if (detailed) {
 			me.window = windowSize;
-			me.mSdrrFirst = new HrvSdrr(SdrrBeats, true);
-			me.mSdrrLast = new HrvSdrr(SdrrBeats, false);
+			me.mSdrr = new HrvSdrr(SdrrSeconds);
 			fitFields.create([
 				:hrvSuccessive,
 				:rmssd,
@@ -76,10 +76,17 @@ class HrvMetric extends Metric {
 		return beats;
 	}
 
-	// differences continue across window boundaries
+	// one ring slot per tick; sdrr first is the ring on the tick it first fills, last at flush
 	function accept(beats) {
 		if (beats == null) {
 			return;
+		}
+		if (me.detailed) {
+			me.mSeconds++;
+			me.mSdrr.addSecond(beats);
+			if (me.mSeconds == SdrrSeconds) {
+				me.sdrrFirst = me.mSdrr.calculate();
+			}
 		}
 		for (var i = 0; i < beats.size(); i++) {
 			var v = beats[i];
@@ -105,8 +112,6 @@ class HrvMetric extends Metric {
 			if (me.detailed) {
 				me.mFit.set(:beat2beat, v);
 				me.mFit.set(:hrFromBeat, 60000.0 / v);
-				me.mSdrrFirst.add(v);
-				me.mSdrrLast.add(v);
 			}
 		}
 	}
@@ -135,10 +140,14 @@ class HrvMetric extends Metric {
 		me.rmssd = me.mPairs > 0 ? Math.sqrt(me.mSquareDiffs / me.mPairs) : null;
 		me.mFit.set(:rmssd, me.rmssd);
 		if (me.detailed) {
+			// task force 1996: nn50 / total nn intervals, not pairs
 			me.pnn20 = me.mBeats > 0 ? (me.mOver20 * 100.0) / me.mBeats : null;
 			me.pnn50 = me.mBeats > 0 ? (me.mOver50 * 100.0) / me.mBeats : null;
-			me.sdrrFirst = me.mSdrrFirst.calculate();
-			me.sdrrLast = me.mSdrrLast.calculate();
+			me.sdrrLast = me.mSdrr.calculate();
+			if (me.mSeconds < SdrrSeconds) {
+				// shorter than the window; both are the whole session
+				me.sdrrFirst = me.sdrrLast;
+			}
 			me.mFit.set(:pnn20, me.pnn20);
 			me.mFit.set(:pnn50, me.pnn50);
 			me.mFit.set(:sdrrFirst, me.sdrrFirst);
@@ -146,8 +155,7 @@ class HrvMetric extends Metric {
 		}
 		me.mFit = null;
 		me.mBuffer = null;
-		me.mSdrrFirst = null;
-		me.mSdrrLast = null;
+		me.mSdrr = null;
 		return me;
 	}
 }

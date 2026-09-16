@@ -1,7 +1,8 @@
 using Toybox.Test;
 using Toybox.Math;
 
-// six intervals of a calm sensor and one outlier; expectations from HrvAlgorithmsSampleOutput.xlsx
+// six intervals of a calm sensor and one outlier, one beat per second unless stated;
+// expectations from HrvAlgorithmsSampleOutput.xlsx
 (:test)
 class HrvSdrrFixture {
 	const Expected6NormalIntervals = 26.95;
@@ -16,16 +17,22 @@ class HrvSdrrFixture {
 	}
 
 	function add1NormalInterval() {
-		me.mSdrr.add(1090.9);
+		me.mSdrr.addSecond([1090.9]);
 	}
 
 	function add6NormalIntervals() {
-		me.mSdrr.add(1090.9);
-		me.mSdrr.add(1016.9);
-		me.mSdrr.add(1016.9);
-		me.mSdrr.add(1034.4);
-		me.mSdrr.add(1016.9);
-		me.mSdrr.add(1052.6);
+		me.mSdrr.addSecond([1090.9]);
+		me.mSdrr.addSecond([1016.9]);
+		me.mSdrr.addSecond([1016.9]);
+		me.mSdrr.addSecond([1034.4]);
+		me.mSdrr.addSecond([1016.9]);
+		me.mSdrr.addSecond([1052.6]);
+	}
+
+	// the same six beats in two seconds
+	function add6NormalIntervalsIn2Seconds() {
+		me.mSdrr.addSecond([1090.9, 1016.9, 1016.9]);
+		me.mSdrr.addSecond([1034.4, 1016.9, 1052.6]);
 	}
 
 	function add5MinNormalIntervals() {
@@ -34,8 +41,14 @@ class HrvSdrrFixture {
 		}
 	}
 
+	function addEmptySeconds(count) {
+		for (var i = 0; i < count; i++) {
+			me.mSdrr.addSecond([]);
+		}
+	}
+
 	function addOutlierInterval() {
-		me.mSdrr.add(1400.0);
+		me.mSdrr.addSecond([1400.0]);
 	}
 
 	function calculate() {
@@ -51,105 +64,52 @@ class HrvSdrrFixture {
 }
 
 (:test)
-class HrvSdrrFirstTests {
+class HrvSdrrTests {
 	(:test)
 	static function noIntervalIsNull(logger) {
-		return new HrvSdrrFixture(new HrvSdrr(10, true)).calculate() == null;
+		return new HrvSdrrFixture(new HrvSdrr(10)).calculate() == null;
 	}
 
 	(:test)
 	static function oneIntervalIsNull(logger) {
-		var fixture = new HrvSdrrFixture(new HrvSdrr(10, true));
+		var fixture = new HrvSdrrFixture(new HrvSdrr(10));
 		fixture.add1NormalInterval();
 		return fixture.calculate() == null;
 	}
 
 	(:test)
-	static function fiveMinNormalIntervals(logger) {
-		var fixture = new HrvSdrrFixture(new HrvSdrr(5 * 60, true));
-		fixture.add5MinNormalIntervals();
-		return fixture.isResultExpected(fixture.calculate(), fixture.Expected5MinNormalIntervals);
-	}
-
-	(:test)
-	static function fiveMinNormalIntervalsInALargerWindow(logger) {
-		var fixture = new HrvSdrrFixture(new HrvSdrr(3 * 5 * 60, true));
-		fixture.add5MinNormalIntervals();
-		return fixture.isResultExpected(fixture.calculate(), fixture.Expected5MinNormalIntervals);
-	}
-
-	(:test)
-	static function tenMinNormalIntervals(logger) {
-		var fixture = new HrvSdrrFixture(new HrvSdrr(10 * 5 * 60, true));
-		fixture.add5MinNormalIntervals();
-		fixture.add5MinNormalIntervals();
-		return fixture.isResultExpected(fixture.calculate(), fixture.Expected5MinNormalIntervals);
-	}
-
-	(:test)
-	static function sixNormalIntervals(logger) {
-		var fixture = new HrvSdrrFixture(new HrvSdrr(6, true));
+	static function fewerSecondsThanTheWindowStillCount(logger) {
+		var fixture = new HrvSdrrFixture(new HrvSdrr(7));
 		fixture.add6NormalIntervals();
 		return fixture.isResultExpected(fixture.calculate(), fixture.Expected6NormalIntervals);
 	}
 
 	(:test)
-	static function outlierAfterAFullWindowIsIgnored(logger) {
-		var fixture = new HrvSdrrFixture(new HrvSdrr(6, true));
-		fixture.add6NormalIntervals();
-		fixture.addOutlierInterval();
-		return fixture.isResultExpected(fixture.calculate(), fixture.Expected6NormalIntervals);
-	}
-
-	(:test)
-	static function outlierInsideTheWindowCounts(logger) {
-		var fixture = new HrvSdrrFixture(new HrvSdrr(7, true));
-		fixture.add6NormalIntervals();
-		fixture.addOutlierInterval();
-		return fixture.isResultExpected(fixture.calculate(), fixture.Expected6NormalIntervals1Outlier);
-	}
-}
-
-(:test)
-class HrvSdrrLastTests {
-	(:test)
-	static function noIntervalIsNull(logger) {
-		return new HrvSdrrFixture(new HrvSdrr(10, false)).calculate() == null;
-	}
-
-	(:test)
-	static function oneIntervalIsNull(logger) {
-		var fixture = new HrvSdrrFixture(new HrvSdrr(10, false));
-		fixture.add1NormalInterval();
-		return fixture.calculate() == null;
-	}
-
-	(:test)
-	static function fewerIntervalsThanTheWindowStillCount(logger) {
-		var fixture = new HrvSdrrFixture(new HrvSdrr(7, false));
-		fixture.add6NormalIntervals();
+	static function severalBeatsInOneSecondAllCount(logger) {
+		var fixture = new HrvSdrrFixture(new HrvSdrr(7));
+		fixture.add6NormalIntervalsIn2Seconds();
 		return fixture.isResultExpected(fixture.calculate(), fixture.Expected6NormalIntervals);
 	}
 
 	(:test)
 	static function fiveMinNormalIntervals(logger) {
-		var fixture = new HrvSdrrFixture(new HrvSdrr(5 * 60, false));
+		var fixture = new HrvSdrrFixture(new HrvSdrr(5 * 60));
 		fixture.add5MinNormalIntervals();
 		return fixture.isResultExpected(fixture.calculate(), fixture.Expected5MinNormalIntervals);
 	}
 
 	(:test)
 	static function outlierBeforeTheLastFiveMinIsForgotten(logger) {
-		var fixture = new HrvSdrrFixture(new HrvSdrr(5 * 60, false));
+		var fixture = new HrvSdrrFixture(new HrvSdrr(5 * 60));
 		fixture.addOutlierInterval();
 		fixture.add5MinNormalIntervals();
 		return fixture.isResultExpected(fixture.calculate(), fixture.Expected5MinNormalIntervals);
 	}
 
-	// the ring keeps the last 300 beats of a longer session, not total mod 300
+	// the ring keeps the last 300 seconds of a longer session, not total mod 300
 	(:test)
 	static function tenMinNormalIntervalsKeepTheLastFive(logger) {
-		var fixture = new HrvSdrrFixture(new HrvSdrr(5 * 60, false));
+		var fixture = new HrvSdrrFixture(new HrvSdrr(5 * 60));
 		fixture.add5MinNormalIntervals();
 		fixture.add5MinNormalIntervals();
 		return fixture.isResultExpected(fixture.calculate(), fixture.Expected5MinNormalIntervals);
@@ -157,16 +117,34 @@ class HrvSdrrLastTests {
 
 	(:test)
 	static function sixNormalIntervals(logger) {
-		var fixture = new HrvSdrrFixture(new HrvSdrr(6, false));
+		var fixture = new HrvSdrrFixture(new HrvSdrr(6));
 		fixture.add6NormalIntervals();
 		return fixture.isResultExpected(fixture.calculate(), fixture.Expected6NormalIntervals);
 	}
 
 	(:test)
-	static function outlierPushesTheFirstIntervalOut(logger) {
-		var fixture = new HrvSdrrFixture(new HrvSdrr(6, false));
+	static function outlierPushesTheFirstSecondOut(logger) {
+		var fixture = new HrvSdrrFixture(new HrvSdrr(6));
 		fixture.add6NormalIntervals();
 		fixture.addOutlierInterval();
 		return fixture.isResultExpected(fixture.calculate(), fixture.Expected5NormalIntervals1Outlier);
+	}
+
+	// time moves without beats; a sensor gap as long as the window empties it
+	(:test)
+	static function emptySecondsPushBeatsOut(logger) {
+		var fixture = new HrvSdrrFixture(new HrvSdrr(5 * 60));
+		fixture.add6NormalIntervals();
+		fixture.addEmptySeconds(5 * 60 - 6);
+		if (!fixture.isResultExpected(fixture.calculate(), fixture.Expected6NormalIntervals)) {
+			return false;
+		}
+		// two beats left in the window, then one
+		fixture.addEmptySeconds(4);
+		if (fixture.calculate() == null) {
+			return false;
+		}
+		fixture.addEmptySeconds(1);
+		return fixture.calculate() == null;
 	}
 }
