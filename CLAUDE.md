@@ -307,6 +307,7 @@ No CI pipeline builds or tests Monkey C code. GitHub Actions handle only image c
 
 - **Always customer-facing, value-focused, super concise.** Describe what the user gets, not how it was built.
 - No internal/technical detail (file names, refactors, SDK plumbing) — that belongs in commit messages only.
+- **Always hand them over as a fenced ```markdown code block, ready to paste** into the store listing or GitHub release — never as rendered prose in the reply.
 
 ## Architecture
 
