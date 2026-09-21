@@ -677,6 +677,24 @@ Most issues are easy to resolve, and nothing here means you’re doing anything 
 </details>
 
 <details>
+  <summary><strong>GPS turns on during my session, my location is added to the activity name, or the battery drains afterwards (Venu 2 / Venu 2S / Venu Sq 2)</strong></summary>
+
+  <p>This is a firmware bug on the Venu 2, Venu 2S and Venu Sq 2. It has not been reported on any other watch model.</p>
+
+  <p>On these watches, the watch switches GPS on for every activity type the app offers (Meditation, Breathwork, Yoga, Generic). The activity then gets your location added to its name (for example <code>&lt;My City&gt; Breathwork</code>) and shows a map in Garmin Connect. GPS may also stay on after you close the app, which drains the battery until the watch is restarted.</p>
+
+  <p>The app cannot cause or fix this: it does not have GPS permission at all, so it is not able to switch GPS on, and the watch would block it if it tried. This behavior depends on the watch firmware, not the app. The issue has been reported to Garmin: <a href="https://forums.garmin.com/developer/connect-iq/i/bug-reports/app-activates-tracks-gps-despite-missing-permissions">Connect IQ bug report</a>.</p>
+
+  <p>Until Garmin fixes it, this is what you can do:</p>
+
+  <ul>
+    <li>Restart your watch after your session if the battery drains (see “How do I restart (reboot) my Garmin watch?” below).</li>
+    <li>Add a comment to the Garmin bug report above - more reports help Garmin prioritize the fix.</li>
+  </ul>
+
+</details>
+
+<details>
   <summary><strong>The app does not track stress</strong></summary>
 
   <p>Not all Garmin devices support continuous stress tracking.</p>
