@@ -4,9 +4,8 @@ using Toybox.System;
 class MeditateDelegate extends Ui.BehaviorDelegate {
 	private var mMeditateModel;
 	private var mMeditateActivity;
-	private var mSummaryModels;
 	private var mSessionPickerDelegate;
-	private var mHeartbeatIntervalsSensor;
+	private var mFeed;
 	private var mSummaryModel;
 	private var mShouldAutoExit;
 	private var mPauseMenuVisible;
@@ -16,12 +15,11 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 	private const PauseReasonManual = 0;
 	private const PauseReasonCompleted = 1;
 
-	function initialize(meditateModel, summaryModels, heartbeatIntervalsSensor, sessionPickerDelegate) {
+	function initialize(meditateModel, beatIntervalFeed, sessionPickerDelegate) {
 		BehaviorDelegate.initialize();
 		me.mMeditateModel = meditateModel;
-		me.mSummaryModels = summaryModels;
-		me.mHeartbeatIntervalsSensor = heartbeatIntervalsSensor;
-		me.mMeditateActivity = new MeditateActivity(meditateModel, heartbeatIntervalsSensor, me);
+		me.mFeed = beatIntervalFeed;
+		me.mMeditateActivity = new MeditateActivity(meditateModel, beatIntervalFeed, me);
 		me.mSessionPickerDelegate = sessionPickerDelegate;
 		me.mSummaryModel = null;
 		me.mPauseMenuVisible = false;
@@ -59,9 +57,8 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 	public function stopActivity() {
 		// one-way; finishing views reuse this delegate, so in-session gestures must go inert
 		me.mActivityStopped = true;
-		// Compute summary BEFORE stopping recording so session-level fields (e.g., RMSSD) are written safely.
-		me.mSummaryModel = me.mMeditateActivity.calculateSummaryFields();
 		me.mMeditateActivity.stop();
+		me.mSummaryModel = me.mMeditateActivity.getSummary();
 
 		// Store auto-exit state as class member
 		var confirmSaveActivity = GlobalSettings.loadConfirmSaveActivity();
@@ -138,9 +135,9 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 			// In multi-session mode show an intermediate post-session menu
 			showPostSessionMenu(me.mSummaryModel);
 		} else {
-			if (me.mHeartbeatIntervalsSensor != null) {
-				me.mHeartbeatIntervalsSensor.stop();
-				me.mHeartbeatIntervalsSensor = null;
+			if (me.mFeed != null) {
+				me.mFeed.stop();
+				me.mFeed = null;
 			}
 			showSummaryView(me.mSummaryModel);
 		}

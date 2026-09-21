@@ -1,6 +1,6 @@
 using Toybox.Application as App;
-using HrvAlgorithms.HrvTracking;
 
+// view model of a running session: elapsed time, the live metrics and the session facts
 class MeditateModel extends ScreenPicker.DetailsModel {
 	function initialize(sessionModel) {
 		ScreenPicker.DetailsModel.initialize();
@@ -8,43 +8,32 @@ class MeditateModel extends ScreenPicker.DetailsModel {
 		me.titleColor = me.mSession.color;
 		me.mDisplayName = null;
 		me.elapsedTime = 0;
-		me.minHr = null;
-		me.currentHr = null;
-		me.hrvValue = null;
-		me.respirationRate = null;
-		me.stressValue = null;
 		me.isTimerRunning = false;
-		me.rrActivity = new HrvAlgorithms.RrActivity();
-		me.stressActivity = new HrvAlgorithms.StressActivity();
-		me.mHrvTracking = me.mSession.getHrvTracking();
-		me.mIsHrvOn = me.mHrvTracking != HrvTracking.Off;
-		me.mRespirationRateSetting = GlobalSettings.loadRespirationRate();
+		me.liveMetrics = [];
 		var breathProgram = me.mSession.getActiveBreathProgram();
 		me.mBreathRunner = breathProgram == null ? null : new BreathProgramRunner(breathProgram);
 	}
 
 	private var mSession;
 	private var mDisplayName;
-	private var rrActivity;
-	private var stressActivity;
-	private var mIsHrvOn, mHrvTracking;
-	private var mRespirationRateSetting;
 	private var mBreathRunner;
 
-	var currentHr;
-	var minHr;
 	var elapsedTime;
-	var hrvValue;
-	var respirationRate;
-	var stressValue;
 	var isTimerRunning;
+	// metrics page order; set by MeditateActivity before the view lays out
+	var liveMetrics;
 
-	function isHrvOn() {
-		return me.mIsHrvOn;
+	function getMetric(id) {
+		for (var i = 0; i < me.liveMetrics.size(); i++) {
+			if (me.liveMetrics[i].id == id) {
+				return me.liveMetrics[i];
+			}
+		}
+		return null;
 	}
 
 	function getHrvTracking() {
-		return me.mHrvTracking;
+		return me.mSession.getHrvTracking();
 	}
 
 	function getSessionTime() {
@@ -95,35 +84,5 @@ class MeditateModel extends ScreenPicker.DetailsModel {
 
 	function getActivityType() {
 		return me.mSession.getActivityType();
-	}
-
-	function isRespirationRateOn() {
-		// Check if watch supports respiration rate & Check if global option is enabled
-		if (me.rrActivity != null && me.rrActivity.isSupported() && me.mRespirationRateSetting == RespirationRate.On) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	function isStressSupported() {
-		if (me.stressActivity != null) {
-			return stressActivity.isSupported();
-		} else {
-			return null;
-		}
-	}
-
-	// sampled on the activity tick, not in the view; the guidance page never draws the metrics
-	function updateSensorValues() {
-		me.respirationRate = me.isRespirationRateOn() ? me.rrActivity.getCurrentValue() : null;
-		me.stressValue = me.isStressSupported() ? me.stressActivity.getCurrentValue() : null;
-	}
-
-	function getRespirationActivity() {
-		return rrActivity;
-	}
-	function getStressActivity() {
-		return stressActivity;
 	}
 }

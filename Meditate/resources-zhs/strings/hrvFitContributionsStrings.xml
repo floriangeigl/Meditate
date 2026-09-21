@@ -2,7 +2,6 @@
     <string id="minHrField">最低心率</string>
     <string id="hrUnits">bpm</string>
 
-    <string id="hrvSdrrFieldLabel">HRV SDRR</string>
     <string id="hrvSdrrFirst5MinFieldLabel">HRV SDRR 前5分钟</string>
     <string id="hrvSdrrLast5MinFieldLabel">HRV SDRR 后5分钟</string>
 
@@ -16,11 +15,8 @@
     <string id="hrvRmssdWindowField">HRV RMSSD 窗口 (ms)</string>
 
     <string id="percentUnits">%</string>
-    <string id="stressUnits">%</string>
 
     <string id="hrvRrIntervalsField">HRV 心跳间隔 (ms)</string>
 
-    <string id="hrPeaksWindow10Field">10秒窗口心率峰值 (bpm)</string>
-    <string id="stressField">压力</string>
     <string id="hrFromHeartbeatField">心跳推算心率 (bpm)</string>
 </strings>

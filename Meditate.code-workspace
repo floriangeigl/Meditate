@@ -5,9 +5,6 @@
 			"path": "./"
 		},
 		{
-			"path": "HrvAlgorithms"
-		},
-		{
 			"path": "HrvProbe"
 		},
 		{
@@ -24,7 +21,6 @@
 		"editor.formatOnSave": true,
 		"files.exclude": {
 			"**/bin/**": true,
-			"HrvAlgorithms/**": true,
 			"HrvProbe/**": true,
 			"Meditate/**": true,
 			"ScreenPicker/**": true,
