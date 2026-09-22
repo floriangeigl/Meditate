@@ -88,6 +88,7 @@ Notes:
   next launch, dismissed with back/select/tap; new installs are marked caught-up so they never
   see it. The rows are drawn unwrapped, so keep each line About-screen short.
 - **Before every release, check whether any of the changes since the last release require an update to `UserGuide.md`** (e.g. renamed/added/removed settings, menus, or features the guide documents). Update it and stage the edit *before* running `makeRelease.sh` so it lands in the bump commit.
+- **Before every release, check whether the `codex-action@v1.11` pin can be lifted** — see "GitHub Actions: codex-action is pinned to v1.11" under Testing.
 - Stage any other intended changes (e.g. doc edits) **before** running; step 3's `git add .` sweeps the whole tree into the bump commit.
 - The final `git push` uses SSH (`git@github.com:...`). If the agent has no loaded key / a passphrase-protected key, push fails *after* the local commit+tag succeed — finish with a manual `git push origin dev && git push origin tag vX.X.X`.
 
@@ -267,6 +268,30 @@ cd Meditate && "$SDK/bin/monkeyc.bat" -o /tmp/test.prg -f "monkey.jungle;barrels
 with `Wait-Job -Timeout`) when scripting it.
 
 No CI pipeline builds or tests Monkey C code. GitHub Actions handle only image compression, content translation, and user guide publishing.
+
+### GitHub Actions: codex-action is pinned to v1.11 — check upstream before every release
+
+`.github/workflows/translate-content.yml` runs `openai/codex-action@v1.11`, deliberately **not**
+the floating `@v1`. Since v1.12 (2026-08-21) the default `safety-strategy: drop-sudo` chmods the
+runner's D-Bus socket, `systemd-resolved` crash-loops, DNS on the VM dies, Codex hangs unable to
+reach the API and GitHub kills the job ~60 min later with *"The hosted runner lost communication
+with the server"* — the only annotation on the job, no step error. Runs 47–49 (Sep 2026) all died
+that way; the last green run took 2 min. Upstream: [openai/codex-action#160](https://github.com/openai/codex-action/issues/160).
+`main` is branch-protected — workflow fixes go through a PR, and merging one retriggers the
+translation run because the workflow file is in its own `paths` filter, so the merge is the test.
+
+**Before every release**, and whenever this workflow fails again, check whether a better
+mitigation exists (`curl -s https://api.github.com/repos/openai/codex-action/tags | grep name`,
+plus the issue above):
+
+- Issue closed / a release newer than v1.12 fixes `drop-sudo` → move back to `@v1` (or the fixed
+  tag), merge, and confirm the Codex step finishes in minutes, not an hour.
+- v1.11 stops working (API change, model no longer accepted, CLI too old) → next best is
+  `@v1` with `safety-strategy: unsafe` (the bwrap `workspace-write` sandbox still applies). Not
+  `read-only` — it cannot write `generated/`.
+- Diagnosis without a token: job annotations are public,
+  `curl -s https://api.github.com/repos/floriangeigl/Meditate/check-runs/<jobId>/annotations`
+  (the job id from the Actions URL is the check-run id); the `/logs` endpoint needs auth.
 
 ## Code Style & Conventions
 
