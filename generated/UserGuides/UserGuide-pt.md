@@ -9,7 +9,7 @@ share-description: Configuração, recursos, FAQs, solução de problemas e supo
 
 Este guia foi feito para te apoiar - não para te sobrecarregar :)
 
-Você não precisa entender tudo para começar.  
+Você não precisa entender tudo para começar.
 Comece pelo **Guia para Iniciantes** e volte ao **Guia Avançado** quando tiver curiosidade.
 
 ### Conteúdo
@@ -23,7 +23,7 @@ Comece pelo **Guia para Iniciantes** e volte ao **Guia Avançado** quando tiver 
   - [Entendendo os dados da sessão](#understanding-your-session-data)
 - [Guia Avançado](#advanced-guide)
   - [Personalização de sessão](#session-customization)
-  - [Padrões de respiração personalizados](#custom-breathwork-patterns)
+  - [Respiração guiada](#custom-breathwork-patterns)
   - [Métricas avançadas de HRV](#advanced-hrv-metrics)
   - [Configurações globais (padrões para todas as sessões)](#global-settings-defaults-for-all-sessions)
 - [FAQs & Solução de Problemas](#faqs-troubleshooting)
@@ -80,7 +80,7 @@ Você pode:
 - parar a sessão com o **botão start/stop**
 - controlar o brilho da tela pelos botões do relógio ou toque
 
-Ao parar, você pode salvar ou descartar a sessão.  
+Ao parar, você pode salvar ou descartar a sessão.
 As sessões salvas aparecem no Garmin Connect após sincronizar.
 
 ---
@@ -89,12 +89,12 @@ As sessões salvas aparecem no Garmin Connect após sincronizar.
 
 ## Um jeito simples de meditar
 
-Se você não sabe como meditar, você não está sozinho - e não está atrasado.  
+Se você não sabe como meditar, você não está sozinho - e não está atrasado.
 Você já está fazendo o mais importante: aparecendo.
 
 Meditar não é parar pensamentos, esvaziar a mente ou fazer tudo “certo”. Mesmo pessoas com muita experiência percebem a mente vagando a cada poucos segundos. Isso é normal.
 
-A prática não é ficar focado o tempo todo.  
+A prática não é ficar focado o tempo todo.
 A prática é perceber quando você saiu do foco - e voltar com gentileza.
 
 Se no seu primeiro ano você fizesse só o que está abaixo, já seria suficiente. De verdade.
@@ -119,7 +119,7 @@ Você pode notar:
 
 Isso basta. Não há mais nada para alcançar.
 
-Se ajudar, você pode nomear em silêncio: _“entra”_ … _“sai”_.  
+Se ajudar, você pode nomear em silêncio: _“entra”_ … _“sai”_.
 Simples e suave.
 
 ---
@@ -137,7 +137,7 @@ Você pode começar a pensar em:
 
 Isso não significa que você é ruim em meditação. Só significa que sua mente está fazendo o que mentes fazem.
 
-Às vezes a mente tenta puxar você de volta para atividade, tensão ou um pouco de caos - porque isso parece familiar e seguro. O sistema nervoso pode se agarrar a um inferno familiar antes de confiar num céu desconhecido. E esses pensamentos podem soar bem convincentes, como intuição, ou até como “quem você é”. Ela pode trazer ideias “muito urgentes” tipo:  
+Às vezes a mente tenta puxar você de volta para atividade, tensão ou um pouco de caos - porque isso parece familiar e seguro. O sistema nervoso pode se agarrar a um inferno familiar antes de confiar num céu desconhecido. E esses pensamentos podem soar bem convincentes, como intuição, ou até como “quem você é”. Ela pode trazer ideias “muito urgentes” tipo:
 _“A gente precisa reorganizar a vida inteira agora.”_
 
 Você pode receber esse momento com um sorriso e cuidado:
@@ -157,10 +157,10 @@ Quando perceber:
 - pergunte com carinho:
   _“Quero voltar para a respiração agora?”_
 
-Se a resposta for sim, volte para a sensação do ar no nariz.  
+Se a resposta for sim, volte para a sensação do ar no nariz.
 Se for não, tudo bem também - você pode perguntar de novo depois.
 
-Cada retorno é um pequeno treino.  
+Cada retorno é um pequeno treino.
 E toda vez que perceber, você pode comemorar em silêncio: _“Ah - eu percebi.”_ Isso é consciência acordando.
 
 ---
@@ -175,10 +175,10 @@ Cada vez que você percebe e volta:
 - desenvolve paciência
 - ensina ao seu sistema nervoso que a calma é segura
 
-Se notar rigidez com você mesmo, tente suavizar um pouco:  
+Se notar rigidez com você mesmo, tente suavizar um pouco:
 _“Claro que minha mente vagou. É isso que mentes fazem. Vamos voltar.”_
 
-Gentileza funciona melhor que força. Curiosidade funciona melhor que disciplina.  
+Gentileza funciona melhor que força. Curiosidade funciona melhor que disciplina.
 E humor deixa tudo mais humano.
 
 ---
@@ -201,7 +201,7 @@ Sem pressa. Esse conteúdo está aqui quando a curiosidade aparecer.
 
 Não há mais nada que você precise fazer.
 
-Se sua mente vagou 100 vezes e você voltou 100 vezes - foi uma boa sessão.  
+Se sua mente vagou 100 vezes e você voltou 100 vezes - foi uma boa sessão.
 Se ficou na respiração só por alguns segundos de cada vez - foi uma boa sessão.
 
 Meditar não é ficar calmo o tempo todo. É aprender a voltar.
@@ -214,98 +214,139 @@ E você pode fazer isso com gentileza - com calor humano, humor e respeito por s
 
 ## Escolhendo uma sessão
 
-No seletor de sessões, você pode rolar as opções e ver:
+No seletor de sessões, você pode rolar pelas sessões disponíveis e ver:
 
 - duração da sessão
 - padrão de vibração
-- tempo dos alertas de intervalo
+- momento dos alertas de intervalo
 - indicador de HRV
 
 ### Indicador de HRV
 
-- **Off** - HRV e monitoramento de estresse desativados
-- **Waiting** - sensor ainda não estabilizou (fique parado por um momento)
-- **Ready** - monitoramento de HRV ativo  
-  Para dados confiáveis de HRV, minimize movimentos do pulso.
+- **Off** - monitoramento de HRV desativado
+- **HRV starting / Please wait** - o sensor ainda está iniciando
+- **Restart the app** - aparece se a HRV não começar depois de cerca de 20 segundos; veja a FAQ abaixo para entender por que isso acontece e como resolver
+- **HRV weak** - os dados dos batimentos estão chegando de forma irregular; fique parado por um momento
+- **Ready** - monitoramento de HRV ativo
+  Para dados de HRV confiáveis, mova o pulso o mínimo possível.
 
 ---
 
 <a id="breathwork-sessions"></a>
 
-## Sessões de Respiração
+## Sessões de respiração
 
-O app inclui sessões de respiração pré-configuradas.  
+O app inclui sessões de respiração pré-configuradas que guiam você respiração por respiração.
 Um ciclo respiratório pode incluir:
 
 **Inspirar → Segurar → Expirar → Segurar**
 
 (Algumas técnicas pulam certas partes.)
 
-### Padrões incluídos
+> **Está começando com exercícios de respiração?** Não comece por aqui. Um relógio consegue manter seu ritmo, mas não consegue explicar
+> o que você está fazendo nem conduzir você com uma voz. Acompanhe primeiro alguns vídeos guiados; veja
+> [Indo mais fundo](#going-further) para encontrar boas opções. Volte para estes presets quando você já souber
+> como os ritmos devem se sentir; aí o relógio passa a ser a melhor ferramenta para mantê-los.
 
-**Box Breathing**  
-Inspirar, segurar, expirar, segurar em tempos iguais (ex.: 4–4–4–4).  
-Muito usado para acalmar o sistema nervoso.
+### Sessões incluídas
 
-**Coherence Breathing**  
-Inspirar 5 segundos, expirar 5 segundos.  
-Frequentemente associado a aumento de HRV.
+| Sessão       | Ritmo                               | Duração |
+| ------------ | ----------------------------------- | ------- |
+| Box Breath   | 4-4-4-4                             | 5:04    |
+| B. Coherence | 6-6                                 | 5:00    |
+| B. 4-7-8     | 4-7-8                               | 5:04    |
+| B. Energize  | respiração rápida, depois box breathing | 5:20 |
+| B. Wind Down | expirações longas, depois 4-7-8     | 4:54    |
+| B. Holds     | respirações profundas, depois pausas | 7:16   |
 
-**4-7-8 Breathing**  
-Inspirar 4, segurar 7, expirar 8.  
-Comum antes de dormir.
+**Box Breathing**
+Inspirar, segurar, expirar e segurar pelo mesmo tempo.
+Costuma ser usada para acalmar o sistema nervoso.
 
-### Dicas suaves
+**Coherence Breathing**
+Inspiração e expiração lentas, com a mesma duração.
+Costuma estar associada ao aumento da HRV.
+
+**Respiração 4-7-8**
+Inspire por 4, segure por 7, expire por 8.
+Muito usada antes de dormir.
+
+Você pode editar qualquer uma delas ou criar a sua própria; veja [Respiração guiada](#custom-breathwork-patterns).
+
+### O que acontece durante uma sessão
+
+Cada mudança de fase tem sua própria vibração:
+
+- **crescente** - inspire
+- **um toque curto** - segure
+- **decrescente** - expire
+
+Só isso já basta para seguir uma sessão inteira de olhos fechados.
+
+Se você olhar para o relógio, ele mostra:
+
+- a fase atual (**Inhale**, **Hold**, **Exhale**) e uma contagem regressiva até a próxima mudança
+- um anel que se preenche conforme a fase avança
+- a via da respiração, quando a sessão define nariz ou boca
+
+Pressione **para cima** ou **para baixo** (ou deslize) para alternar para frequência cardíaca, HRV, stress e respiração, e voltar.
+As vibrações continuam de qualquer forma.
+
+Antes da sessão começar, a contagem regressiva de preparação mostra o que vem pela frente.
+
+### Dicas gentis
 
 - Inspire pelo nariz, se possível
-- Expire pela boca
-- Expirações mais longas que inspirações costumam acalmar
-- Se respiração guiada por tempo gerar estresse, escolha uma sessão simples e respire naturalmente
+- Expirações mais longas que inspirações costumam ajudar a acalmar
+- A sessão indica quando usar a boca; no 4-7-8, por exemplo, a expiração é pela boca
+- Se respirar com tempo marcado parecer estressante, escolha uma sessão simples e respire naturalmente
+- Nunca pratique pausas respiratórias na água, dirigindo ou em pé
+- Para sessões guiadas com voz e música, veja [Indo mais fundo](#going-further)
 
 ---
 
 <a id="understanding-your-session-data"></a>
 
-## Entendendo os dados da sessão
+## Entendendo os dados da sua sessão
 
-### HRV (Variabilidade da Frequência Cardíaca)
+### HRV (variabilidade da frequência cardíaca)
 
-A HRV mostra o quanto o tempo entre batimentos varia.
+A HRV reflete o quanto o tempo entre batimentos varia.
 
 - HRV mais alta → estados mais calmos e regulados
-- HRV mais baixa → ativação ou estresse
+- HRV mais baixa → ativação ou stress
 
-Variabilidade é **saudável** - não é algo para “consertar”.
+Variabilidade é **saudável**; não é algo a corrigir.
 
-### Estresse
+### Stress
 
-Valores menores de estresse costumam ser agradáveis, mas valores altos **não** significam sessão ruim.
+Valores mais baixos de stress são agradáveis, mas stress mais alto **não** significa uma sessão ruim.
 
-Às vezes a sessão é justamente ficar presente no desconforto.
+Às vezes, uma sessão é sobre permanecer presente com o desconforto.
 
-### Frequência Cardíaca
+### Frequência cardíaca
 
-A frequência cardíaca costuma diminuir quando o corpo se ajusta e geralmente acompanha HRV e estresse.
+A frequência cardíaca costuma desacelerar conforme o corpo se acomoda e geralmente acompanha HRV e stress.
 
 ### Respiração
 
-Os dados de respiração vêm dos sensores Garmin e são melhores para tendências, não para precisão absoluta.
+Os dados de respiração vêm dos sensores Garmin e são mais úteis para observar tendências do que para precisão.
 
 ---
 
 <a id="advanced-guide"></a>
 
-# Guia Avançado
+# Guia avançado
 
-_(Para personalização, visão mais profunda e usuários avançados)_
+_(Para personalização, insights mais profundos e usuários avançados)_
 
 <a id="session-customization"></a>
 
-## Personalização de sessão
+## Personalização da sessão
 
 No seletor de sessões:
 
-- Segure o **botão de menu** (ou toque e segure a tela)
+- Mantenha pressionado o **botão de menu** (ou toque e segure a tela)
 - Abra **Add New** ou **Edit**
 
 Você pode configurar:
@@ -317,39 +358,117 @@ Você pode configurar:
 - Padrão de vibração
 - Tipo de atividade (Meditação / Yoga / Respiração)
 - Nível de monitoramento de HRV
-- Nome personalizado da sessão (suporta placeholder `[time]`)
+- Nome personalizado da sessão (aceita o marcador `[time]`)
 
 ### Alertas de intervalo
 
 - Alertas únicos ou repetidos
 - Durações de segundos a horas
-- Offset (atraso antes do primeiro disparo)
-- Cor por alerta (ou transparente para esconder)
+- Deslocamento (atraso antes do primeiro acionamento)
+- Cor por alerta (ou transparente para ocultar)
 - Padrão de vibração ou som
 
-Só um alerta roda por vez.  
+Apenas um alerta roda por vez.
 Ordem de prioridade: alerta final → último alerta único → último alerta repetido.
 
 ---
 
 <a id="custom-breathwork-patterns"></a>
 
-## Padrões de respiração personalizados
+## Respiração guiada
 
-Padrões de respiração são criados com **alertas de intervalo paralelos** usando offsets.
+Toda sessão de respiração guiada é criada a partir de um **Breath Program**: uma lista ordenada de passos. As [sessões incluídas](#breathwork-sessions) são programas comuns, então você pode abrir qualquer uma delas e modificá-la. Para adicionar orientação a outra sessão, use a linha **Breath Program** dela.
 
-Exemplo: **respiração 4–7–8**
+Ao adicionar um passo, você sempre começa por um padrão pronto (`4-4-4-4`, `4-7-8`, `6-6`, `4-4-4`, `4-8`, `2-2`, uma pausa, um descanso ou um padrão personalizado), então raramente precisa digitar quatro números à mão.
 
-- Ciclo total: 19 segundos
-- Inspirar: Time=19, Offset=0
-- Segurar: Time=19, Offset=4
-- Expirar: Time=19, Offset=11
+### Passos
 
-Padrões de vibração recomendados:
+Cada passo é um padrão respiratório mais uma regra de repetição:
 
-- Inspirar: ShortAscending
-- Segurar: ShortContinuous
-- Expirar: ShortDescending
+| Campo           | Significado                                    |
+| --------------- | ---------------------------------------------- |
+| Inhale          | segundos inspirando (`0:00` pula esta fase)    |
+| Hold            | segundos segurando com os pulmões cheios       |
+| Exhale          | segundos expirando                             |
+| Hold empty      | segundos segurando com os pulmões vazios       |
+| Breathe in via  | nariz, boca ou não definido                    |
+| Breathe out via | nariz, boca ou não definido                    |
+| Repeat          | um número de rodadas ou uma duração            |
+
+Uma pausa pura é apenas um passo em que só uma retenção foi definida. Os passos recebem nomes automaticamente a partir dos números, então `4-7-8` significa inspirar 4, segurar 7, expirar 8.
+
+Um passo **Rest** não tem padrão, apenas duração: o app para de marcar o ritmo, mostra _Breathe freely_ com uma contagem regressiva e continua gravando. Use para respirar normalmente depois de uma retenção ou de uma etapa de respiração rápida, para se acomodar por um minuto antes do primeiro padrão, ou como um descanso tranquilo no fim da sessão: coloque `Rest 10:00` por último e a sessão continua por mais dez minutos antes de parar.
+
+Exemplo: `4 rodadas de 5-5-5, depois uma retenção de 2:00, um descanso de 1:00, depois 6-6 por 3 minutos`:
+
+| Passo | Padrão    | Repetição | Duração  |
+| ----- | --------- | --------- | -------- |
+| 1     | 5-5-5     | 4 rodadas | 1:00     |
+| 2     | Hold 2:00 | uma vez   | 2:00     |
+| 3     | Rest      | por 1:00  | 1:00     |
+| 4     | 6-6       | por 3:00  | 3:00     |
+|       |           | **total** | **7:00** |
+
+**O programa define a duração da sessão.** Com um programa ativo, a linha Time mostra o total calculado e abre o editor do programa em vez do seletor de duração.
+
+Use **Move up** / **Move down** dentro de um passo para mudar a ordem.
+
+A via da respiração é definida **por passo**, então um programa pode alternar entre nariz e boca ao longo da sessão: por exemplo, primeiro respiração rápida expirando pela boca, depois respiração nasal lenta para acalmar.
+
+Limites: 10 passos por programa, 99 rodadas por passo, 9:59 por fase, 59:59 por descanso.
+
+### Lendo a tela de orientação
+
+Além da palavra da fase e da contagem regressiva, a tela mostra dois anéis:
+
+- o **anel interno** se preenche ao longo da fase atual e muda de cor conforme a fase (durante um descanso, ele se preenche ao longo de todo o descanso)
+- o **anel externo** mostra o progresso geral da sessão, com marcas nos pontos em que os passos mudam
+
+A linha abaixo da contagem mostra sua rodada dentro do passo atual (`3/4`) e, quando o passo define uma, a via da respiração para a fase em que você está.
+
+### Sinais
+
+Cada mudança de fase aciona sua própria vibração, então a sessão funciona com os olhos fechados e a tela apagada:
+
+| Fase                  | Vibração    | Tom                 |
+| --------------------- | ----------- | ------------------- |
+| Inhale                | crescente   | duas notas subindo  |
+| Hold (full or empty)  | toque curto | uma nota curta      |
+| Exhale                | decrescente | duas notas descendo |
+| Rest                  | toque curto | uma nota curta      |
+
+As duas retenções usam o mesmo sinal. Uma retenção sempre vem depois de uma inspiração ou expiração, então você já sabe se os pulmões estão cheios ou vazios sem precisar aprender um quarto padrão. Um descanso usa o mesmo sinal neutro: ele marca que o ritmo parou, e o próximo passo começa com seu próprio sinal de inspiração.
+
+**Settings → Breath Cues** alterna esses sinais entre Off, Vibration e Vibration + Tone. Os tons só tocam em relógios compatíveis. Eles também seguem a configuração global Vibration & Sound. Os sinais continuam enquanto você está na tela de métricas, para que possa olhar a frequência cardíaca sem perder o ritmo.
+
+### Antes da sessão começar
+
+A contagem regressiva de preparação mostra o resumo do programa, para você saber o que vem antes da primeira inspiração. Quando todos os passos usam a mesma via de respiração, ela também aparece aqui; quando os passos são diferentes, acompanhe pela tela de orientação.
+
+Programas com mais de quatro passos são resumidos como `+N more`.
+
+> Os alertas de intervalo continuam funcionando exatamente como antes e podem ser combinados com um programa de respiração;
+> eles são mais úteis para lembretes periódicos do que para padrões respiratórios.
+
+<a id="going-further"></a>
+
+### Indo mais fundo
+
+O app marca o ritmo da sua respiração; ele não conduz você com uma voz. Se você quer uma voz guiando, música feita para respirar e jornadas mais longas do que uma tela de relógio consegue comportar, **Breathe With Sandy** é um lugar realmente bom para começar, recomendado com carinho:
+
+- **App e site:** [breathewithsandy.com](https://www.breathewithsandy.com/) - a coleção mais completa, com músicas originais compostas para marcar o ritmo da respiração
+- **YouTube:** [youtube.com/breathewithsandy](https://www.youtube.com/breathewithsandy) - sessões guiadas gratuitas, um jeito fácil de experimentar
+- **Patreon:** [patreon.com/cw/breathewithsandy](https://www.patreon.com/cw/breathewithsandy) - as jornadas mais longas
+
+Vale reservar tempo de verdade para estas duas:
+
+- _40 Min Release Trauma, Tension & Emotions Stuck in The Body \| 5 Rounds \| Guided Gratitude
+  Meditation_
+- _Reconnect with Your Inner Child \| 1 Hour Deep Breathwork Journey & Healing Meditation_
+
+Encontre-as no app da Sandy ou no Patreon. Elas são muito mais longas e profundas do que qualquer preset daqui. Faça deitado, em um lugar onde você possa permanecer depois, e leia primeiro a nota de segurança abaixo. Você ainda pode gravar uma delas no relógio: inicie uma sessão simples com duração parecida e **Breath Program** desligado, para que o app registre sua HR e HRV enquanto a gravação guia sua respiração.
+
+> Exercícios de respiração longos e contínuos podem provocar reações físicas e emocionais fortes. Nunca pratique na água, dirigindo ou em pé, e evite completamente se estiver grávida ou tiver uma condição cardiovascular ou convulsiva sem conversar com um médico antes.
 
 ---
 
@@ -416,7 +535,7 @@ Acesse via:
 ### Janela de HRV
 
 - Janelas curtas mostram mudanças rápidas
-- 3–5 minutos recomendado para mais confiabilidade  
+- 3–5 minutos recomendado para mais confiabilidade
   (Padrão: 60 segundos)
 
 ### Notificações
@@ -441,7 +560,7 @@ Acesse via:
 
 # FAQs & Solução de Problemas
 
-Esta seção existe para ajudar quando algo parece confuso ou não funciona como esperado.  
+Esta seção existe para ajudar quando algo parece confuso ou não funciona como esperado.
 A maioria dos problemas é fácil de resolver, e nada aqui significa que você está fazendo algo errado.
 
 ---
@@ -712,6 +831,8 @@ A maioria dos problemas é fácil de resolver, e nada aqui significa que você e
 
 ---
 
+<a id="get-support--report-problem"></a>
+
 # Suporte / Relatar problema
 
 Se algo não funcionar, ou se você tiver feedback e sugestões, pode [me enviar um e-mail](mailto:florian.geigl+garmin@gmail.com?subject=User%20Feedback%20for%20Meditation%20and%20Breathwork%20-%20Connect%20IQ%20Notification).
@@ -722,5 +843,5 @@ Se algo não funcionar, ou se você tiver feedback e sugestões, pode [me enviar
 
 Seus dados continuam sendo seus.
 
-O app não armazena informações pessoais.  
+O app não armazena informações pessoais.
 Para detalhes, veja a [Política de Privacidade](/meditate_app_data_privacy/).

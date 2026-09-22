@@ -9,7 +9,7 @@ share-description: Installation, fonctionnalités, FAQ, dépannage et support po
 
 Ce guide est là pour t’aider - pas pour te submerger :)
 
-Tu n’as pas besoin de tout comprendre pour commencer.  
+Tu n’as pas besoin de tout comprendre pour commencer.
 Commence par le **Guide débutant**, puis reviens au **Guide avancé** quand tu es curieux.
 
 ### Sommaire
@@ -23,7 +23,7 @@ Commence par le **Guide débutant**, puis reviens au **Guide avancé** quand tu 
   - [Comprendre les données de session](#understanding-your-session-data)
 - [Guide avancé](#advanced-guide)
   - [Personnalisation des sessions](#session-customization)
-  - [Schémas de respiration personnalisés](#custom-breathwork-patterns)
+  - [Exercices de respiration guidés](#custom-breathwork-patterns)
   - [Métriques HRV avancées](#advanced-hrv-metrics)
   - [Paramètres globaux (par défaut pour toutes les sessions)](#global-settings-defaults-for-all-sessions)
 - [FAQ et dépannage](#faqs-troubleshooting)
@@ -80,7 +80,7 @@ Tu peux :
 - arrêter la session avec le **bouton start/stop**
 - ajuster la luminosité via les boutons de la montre ou le tactile
 
-Quand tu arrêtes, tu peux enregistrer ou ignorer la session.  
+Quand tu arrêtes, tu peux enregistrer ou ignorer la session.
 Les sessions enregistrées apparaissent dans Garmin Connect après synchronisation.
 
 ---
@@ -89,12 +89,12 @@ Les sessions enregistrées apparaissent dans Garmin Connect après synchronisati
 
 ## Une façon simple de méditer
 
-Si tu ne sais pas méditer, tu n’es pas seul - et tu n’es pas en retard.  
+Si tu ne sais pas méditer, tu n’es pas seul - et tu n’es pas en retard.
 Tu fais déjà l’essentiel : tu es là.
 
 Méditer, ce n’est pas arrêter les pensées, vider l’esprit ou tout faire “comme il faut”. Même les méditants expérimentés voient leur esprit partir toutes les quelques secondes. C’est normal.
 
-La pratique n’est pas de rester concentré en permanence.  
+La pratique n’est pas de rester concentré en permanence.
 La pratique, c’est de remarquer quand ce n’est plus le cas — puis revenir doucement.
 
 Si, pendant ta première année, tu ne faisais que ce qui est décrit ici, ce serait déjà largement suffisant.
@@ -119,7 +119,7 @@ Tu peux remarquer :
 
 C’est suffisant. Rien d’autre à atteindre.
 
-Si cela aide, tu peux nommer doucement : _« inspire »_ … _« expire »_.  
+Si cela aide, tu peux nommer doucement : _« inspire »_ … _« expire »_.
 Simple et doux.
 
 ---
@@ -137,7 +137,7 @@ Tu peux penser à :
 
 Cela ne veut pas dire que tu médites mal. Cela veut juste dire que l’esprit fait ce qu’un esprit fait.
 
-Parfois, l’esprit essaie même de te ramener vers l’activité, la tension ou un peu de chaos, parce que c’est familier et donc rassurant. Le système nerveux peut s’accrocher à un enfer familier avant d’apprendre à faire confiance à un paradis inconnu. Et ces pensées peuvent sembler très convaincantes, comme de l’intuition, voire comme ton identité. Il peut proposer des pensées “très urgentes” comme :  
+Parfois, l’esprit essaie même de te ramener vers l’activité, la tension ou un peu de chaos, parce que c’est familier et donc rassurant. Le système nerveux peut s’accrocher à un enfer familier avant d’apprendre à faire confiance à un paradis inconnu. Et ces pensées peuvent sembler très convaincantes, comme de l’intuition, voire comme ton identité. Il peut proposer des pensées “très urgentes” comme :
 _« Il faut absolument réorganiser toute notre vie maintenant. »_
 
 Tu peux accueillir ce moment avec un sourire :
@@ -157,10 +157,10 @@ Quand tu remarques :
 - demande-toi avec bienveillance :
   _« Est-ce que je veux revenir au souffle maintenant ? »_
 
-Si la réponse est oui, reviens à la sensation du souffle au nez.  
+Si la réponse est oui, reviens à la sensation du souffle au nez.
 Si la réponse est non, c’est ok aussi — tu pourras redemander plus tard.
 
-Chaque retour est un petit entraînement.  
+Chaque retour est un petit entraînement.
 Et chaque fois que tu remarques, tu peux célébrer doucement : _« Ah — j’ai remarqué. »_
 
 ---
@@ -175,10 +175,10 @@ Revenir encore et encore n’est pas un problème. C’est l’entraînement.
 - tu développes la patience
 - tu apprends à ton système nerveux que le calme est sûr
 
-Si tu sens de la dureté envers toi-même, essaie d’adoucir un peu :  
+Si tu sens de la dureté envers toi-même, essaie d’adoucir un peu :
 _« Bien sûr que mon esprit est parti. C’est normal. On revient. »_
 
-La douceur fonctionne mieux que la force. La curiosité fonctionne mieux que la discipline.  
+La douceur fonctionne mieux que la force. La curiosité fonctionne mieux que la discipline.
 Et l’humour rend la pratique plus humaine.
 
 ---
@@ -201,7 +201,7 @@ Aucune urgence. Ce contenu est là quand la curiosité se présente.
 
 Tu n’as rien d’autre à faire.
 
-Si ton esprit est parti 100 fois et que tu es revenu 100 fois, c’était une bonne session.  
+Si ton esprit est parti 100 fois et que tu es revenu 100 fois, c’était une bonne session.
 Si tu ne restais avec le souffle que quelques secondes à la fois, c’était une bonne session.
 
 La méditation ne consiste pas à rester calme en permanence. Elle consiste à apprendre à revenir.
@@ -214,82 +214,123 @@ Et tu as le droit de le faire avec douceur, chaleur, humour et respect de toi-m�
 
 ## Choisir une session
 
-Dans le sélecteur de sessions, tu vois :
+Depuis le sélecteur de sessions, tu peux parcourir les sessions disponibles et voir :
 
-- la durée de session
+- la durée de la session
 - le schéma de vibration
-- le timing des alertes d’intervalle
+- le moment des alertes d’intervalle
 - l’indicateur HRV
 
 ### Indicateur HRV
 
-- **Off** - suivi HRV et stress désactivé
-- **Waiting** - capteur pas encore stabilisé (reste immobile un moment)
-- **Ready** - suivi HRV actif  
-  Pour des données HRV fiables, limite les mouvements du poignet.
+- **Off** - suivi HRV désactivé
+- **HRV starting / Please wait** - le capteur est encore en train de se mettre en route
+- **Restart the app** - affiché si la HRV n’a pas démarré après environ 20 secondes ; consulte la FAQ ci-dessous pour comprendre pourquoi cela arrive et comment le corriger
+- **HRV weak** - les données de battements arrivent par intermittence ; reste immobile un instant
+- **Ready** - suivi HRV actif
+  Pour des données HRV fiables, bouge le moins possible le poignet.
 
 ---
 
 <a id="breathwork-sessions"></a>
 
-## Sessions de respiration
+## Sessions d’exercices de respiration
 
-L’app inclut des sessions de respiration préconfigurées.  
+L’app inclut des sessions d’exercices de respiration préconfigurées qui te guident respiration après respiration.
 Un cycle respiratoire peut inclure :
 
 **Inspiration → Rétention → Expiration → Rétention**
 
-(Certaines techniques sautent certaines étapes.)
+(Certaines techniques sautent certaines parties.)
 
-### Schémas inclus
+> **Tu débutes les exercices de respiration ?** Ne commence pas ici. Une montre peut garder le rythme, mais elle ne peut pas t’expliquer
+> ce que tu fais ni te guider avec une voix. Suis d’abord quelques vidéos guidées ; vois
+> [Aller plus loin](#going-further) pour de bonnes pistes. Reviens à ces préréglages quand tu sauras
+> comment les rythmes sont censés se ressentir ; la montre devient alors le meilleur outil pour les garder.
 
-**Box Breathing**  
-Inspire, retiens, expire, retiens en durées égales (ex. 4–4–4–4).  
-Souvent utilisé pour calmer le système nerveux.
+### Sessions incluses
 
-**Coherence Breathing**  
-Inspire 5 secondes, expire 5 secondes.  
-Souvent associé à une HRV plus élevée.
+| Session      | Rythme                              | Durée  |
+| ------------ | ----------------------------------- | ------ |
+| Box Breath   | 4-4-4-4                             | 5:04   |
+| B. Coherence | 6-6                                 | 5:00   |
+| B. 4-7-8     | 4-7-8                               | 5:04   |
+| B. Energize  | respiration rapide, puis box breathing | 5:20 |
+| B. Wind Down | longues expirations, puis 4-7-8     | 4:54   |
+| B. Holds     | respirations profondes, puis rétentions | 7:16 |
 
-**4-7-8 Breathing**  
-Inspire 4, retiens 7, expire 8.  
-Souvent utilisé avant le sommeil.
+**Box Breathing**
+Inspiration, rétention, expiration et rétention de durée égale.
+Souvent utilisée pour apaiser le système nerveux.
+
+**Coherence Breathing**
+Inspiration et expiration lentes, de durée égale.
+Souvent associée à une HRV plus élevée.
+
+**Respiration 4-7-8**
+Inspire 4, retiens 7, expire 8.
+Souvent utilisée avant de dormir.
+
+Tu peux modifier n’importe laquelle de ces sessions ou créer la tienne - voir [Exercices de respiration guidés](#custom-breathwork-patterns).
+
+### Ce qui se passe pendant une session
+
+Chaque changement de phase a sa propre vibration :
+
+- **montante** - inspire
+- **une brève impulsion** - retiens
+- **descendante** - expire
+
+Cela suffit à suivre toute une session les yeux fermés.
+
+Si tu regardes la montre, elle affiche :
+
+- la phase en cours (**Inhale**, **Hold**, **Exhale**) et un compte à rebours jusqu’au prochain changement
+- un anneau qui se remplit à mesure que la phase avance
+- la voie respiratoire, lorsque la session précise nez ou bouche
+
+Appuie sur **haut** ou **bas** (ou fais glisser) pour passer à la fréquence cardiaque, à la HRV, au stress et à la respiration, puis revenir.
+Les vibrations continuent dans tous les cas.
+
+Avant le début de la session, le compte à rebours de préparation montre ce qui va arriver.
 
 ### Conseils doux
 
-- Inspirez par le nez si possible
-- Expirez par la bouche
-- Des expirations plus longues que les inspirations calment souvent
-- Si la respiration rythmée te stresse, choisis une session simple et respire naturellement
+- Inspire par le nez si possible
+- Des expirations plus longues que les inspirations aident souvent à s’apaiser
+- La session t’indique quand utiliser la bouche - par exemple, le 4-7-8 expire par la bouche
+- Si la respiration chronométrée te stresse, choisis une session simple et respire naturellement
+- Ne pratique jamais les rétentions dans l’eau, en conduisant ou debout
+- Pour des sessions guidées avec voix et musique, vois [Aller plus loin](#going-further)
 
 ---
 
 <a id="understanding-your-session-data"></a>
 
-## Comprendre les données de session
+## Comprendre les données de ta session
 
 ### HRV (variabilité de la fréquence cardiaque)
 
-L’HRV reflète la variation du temps entre les battements.
+La HRV reflète la variation du temps entre les battements du cœur.
 
-- HRV plus élevée → états plus calmes et régulés
-- HRV plus faible → activation ou stress
+- HRV plus élevée → états plus calmes et mieux régulés
+- HRV plus basse → activation ou stress
 
 La variabilité est **saine** - ce n’est pas quelque chose à corriger.
 
 ### Stress
 
-Des valeurs basses de stress sont agréables, mais des valeurs élevées **ne** signifient **pas** une mauvaise session.
+Des valeurs de stress basses sont agréables, mais un stress plus élevé ne veut **pas** dire que la session était mauvaise.
 
-Parfois, la session consiste à rester présent dans l’inconfort.
+Parfois, une session consiste simplement à rester présent avec l’inconfort.
 
 ### Fréquence cardiaque
 
-La fréquence cardiaque baisse souvent quand le corps se pose, et s’aligne généralement avec l’HRV et le stress.
+La fréquence cardiaque ralentit souvent lorsque le corps se pose, et elle s’aligne généralement avec la HRV et le stress.
 
 ### Respiration
 
-Les données de respiration viennent des capteurs Garmin et servent surtout à observer des tendances.
+Les données de respiration viennent des capteurs Garmin et servent surtout à suivre des tendances, pas une précision absolue.
 
 ---
 
@@ -297,7 +338,7 @@ Les données de respiration viennent des capteurs Garmin et servent surtout à o
 
 # Guide avancé
 
-_(Pour la personnalisation, l’exploration et les utilisateurs avancés)_
+_(Pour personnaliser, approfondir et aller plus loin)_
 
 <a id="session-customization"></a>
 
@@ -305,7 +346,7 @@ _(Pour la personnalisation, l’exploration et les utilisateurs avancés)_
 
 Depuis le sélecteur de sessions :
 
-- Maintenez le **bouton menu** (ou appui long sur l’écran)
+- Maintiens le **bouton menu** (ou touche l’écran et garde le doigt appuyé)
 - Ouvre **Add New** ou **Edit**
 
 Tu peux configurer :
@@ -315,41 +356,119 @@ Tu peux configurer :
 - Durée (H:MM)
 - Couleur (utilisée dans les indicateurs visuels)
 - Schéma de vibration
-- Type d’activité (Méditation / Yoga / Respiration)
+- Type d’activité (Méditation / Yoga / Exercices de respiration)
 - Niveau de suivi HRV
-- Nom de session personnalisé (prend en charge `[time]`)
+- Nom de session personnalisé (prend en charge le marqueur `[time]`)
 
 ### Alertes d’intervalle
 
-- Alertes uniques ou répétées
+- Alertes ponctuelles ou répétées
 - Durées de quelques secondes à plusieurs heures
-- Offset (délai avant le premier déclenchement)
-- Couleur par alerte (ou transparent pour cacher)
-- Schéma de vibration ou son
+- Décalage (délai avant le premier déclenchement)
+- Couleur par alerte (ou transparent pour masquer)
+- Schéma de vibration ou de son
 
-Une seule alerte est active à la fois.  
-Ordre de priorité : alerte finale → dernière alerte unique → dernière alerte répétée.
+Une seule alerte fonctionne à la fois.
+Ordre de priorité : alerte finale → dernière alerte ponctuelle → dernière alerte répétée.
 
 ---
 
 <a id="custom-breathwork-patterns"></a>
 
-## Schémas de respiration personnalisés
+## Exercices de respiration guidés
 
-Les schémas de respiration se créent avec des **alertes d’intervalle parallèles** et des offsets.
+Chaque session guidée est construite à partir d’un **Breath Program** : une liste ordonnée d’étapes. Les [sessions incluses](#breathwork-sessions) sont des programmes ordinaires, tu peux donc en ouvrir une et la modifier. Pour ajouter un guidage à une autre session, utilise sa ligne **Breath Program**.
 
-Exemple : **respiration 4–7–8**
+L’ajout d’une étape commence toujours par un modèle prêt à l’emploi (`4-4-4-4`, `4-7-8`, `6-6`, `4-4-4`, `4-8`, `2-2`, une rétention, un repos ou un modèle personnalisé), donc tu as rarement besoin de saisir quatre chiffres à la main.
 
-- Cycle total : 19 secondes
-- Inspire : Time=19, Offset=0
-- Rétention : Time=19, Offset=4
-- Expire : Time=19, Offset=11
+### Étapes
 
-Schémas de vibration recommandés :
+Chaque étape est un schéma respiratoire avec une règle de répétition :
 
-- Inspire : ShortAscending
-- Rétention : ShortContinuous
-- Expire : ShortDescending
+| Champ           | Signification                                  |
+| --------------- | ---------------------------------------------- |
+| Inhale          | secondes d’inspiration (`0:00` saute cette phase) |
+| Hold            | secondes de rétention poumons pleins           |
+| Exhale          | secondes d’expiration                          |
+| Hold empty      | secondes de rétention poumons vides            |
+| Breathe in via  | nez, bouche ou non défini                      |
+| Breathe out via | nez, bouche ou non défini                      |
+| Repeat          | soit un nombre de tours, soit une durée        |
+
+Une rétention pure est simplement une étape où seule une rétention est définie. Les étapes sont nommées automatiquement à partir de leurs chiffres, donc `4-7-8` signifie inspire 4, retiens 7, expire 8.
+
+Une étape **Rest** n’a pas de schéma, seulement une durée : l’app arrête de rythmer ta respiration, affiche _Breathe freely_ avec un compte à rebours et continue d’enregistrer. Utilise-la pour respirer normalement après une rétention ou une étape de respiration rapide, pour te poser une minute avant le premier schéma, ou comme repos calme en fin de session - mets `Rest 10:00` en dernier et la session continue dix minutes de plus avant de s’arrêter.
+
+Exemple - `4 tours de 5-5-5, puis une rétention de 2:00, un repos de 1:00, puis 6-6 pendant 3 minutes` :
+
+| Étape | Schéma    | Répétition   | Durée    |
+| ----- | --------- | ------------ | -------- |
+| 1     | 5-5-5     | 4 tours      | 1:00     |
+| 2     | Hold 2:00 | une fois     | 2:00     |
+| 3     | Rest      | pendant 1:00 | 1:00     |
+| 4     | 6-6       | pendant 3:00 | 3:00     |
+|       |           | **total**    | **7:00** |
+
+**Le programme définit la durée de la session.** Quand un programme est en place, la ligne Time affiche le total calculé et ouvre l’éditeur de programme au lieu du sélecteur de durée.
+
+Utilise **Move up** / **Move down** dans une étape pour changer l’ordre.
+
+La voie respiratoire se définit **par étape** ; un programme peut donc alterner entre nez et bouche au fil de la session, par exemple respiration rapide avec expiration par la bouche au début, puis respiration nasale lente pour s’apaiser.
+
+Limites : 10 étapes par programme, 99 tours par étape, 9:59 par phase, 59:59 par repos.
+
+### Lire l’écran de guidage
+
+En plus du mot de phase et du compte à rebours, l’écran affiche deux anneaux :
+
+- l’**anneau intérieur** se remplit pendant la phase en cours et sa couleur dépend de la phase (pendant un repos, il se remplit sur toute la durée du repos)
+- l’**anneau extérieur** montre la progression globale de la session, avec des marques là où les étapes changent
+
+La ligne sous le compte à rebours indique ton tour dans l’étape actuelle (`3/4`) et, lorsque l’étape en précise une, la voie respiratoire pour la phase dans laquelle tu te trouves.
+
+### Signaux
+
+Chaque changement de phase déclenche sa propre vibration, donc une session fonctionne les yeux fermés et écran éteint :
+
+| Phase                 | Vibration       | Ton                    |
+| --------------------- | --------------- | ---------------------- |
+| Inhale                | montante        | deux notes montantes   |
+| Hold (full or empty)  | brève impulsion | une note courte        |
+| Exhale                | descendante     | deux notes descendantes |
+| Rest                  | brève impulsion | une note courte        |
+
+Les deux rétentions partagent le même signal. Une rétention suit toujours une inspiration ou une expiration, donc tu sais déjà si tes poumons sont pleins ou vides sans devoir apprendre un quatrième schéma. Un repos utilise le même signal neutre : il marque l’arrêt du rythme, et l’étape suivante s’ouvre avec son propre signal d’inspiration.
+
+**Settings → Breath Cues** permet de choisir Off, Vibration ou Vibration + Tone. Les sons ne jouent que sur les montres qui les prennent en charge. Ils respectent aussi le réglage global Vibration & Sound. Les signaux continuent lorsque tu es sur l’écran des métriques, donc tu peux regarder ta fréquence cardiaque sans perdre le rythme.
+
+### Avant le début de la session
+
+Le compte à rebours de préparation affiche le résumé du programme, pour que tu saches ce qui arrive avant la première inspiration. Lorsque toutes les étapes utilisent la même voie respiratoire, elle s’affiche ici aussi ; lorsque les étapes diffèrent, regarde plutôt l’écran de guidage.
+
+Les programmes de plus de quatre étapes sont résumés sous la forme `+N more`.
+
+> Les alertes d’intervalle fonctionnent toujours exactement comme avant et peuvent être combinées avec un programme respiratoire -
+> elles sont surtout utiles comme rappels périodiques, plutôt que comme schémas respiratoires.
+
+<a id="going-further"></a>
+
+### Aller plus loin
+
+L’app rythme ta respiration, elle ne te guide pas avec une voix. Si tu veux une voix pour t’accompagner, de la musique écrite pour la respiration et des voyages plus longs que ce qu’un écran de montre peut porter, **Breathe With Sandy** est un très bon point de départ - chaleureusement recommandé :
+
+- **App et site web :** [breathewithsandy.com](https://www.breathewithsandy.com/) - la collection la plus complète, avec de la musique originale composée pour rythmer ta respiration
+- **YouTube :** [youtube.com/breathewithsandy](https://www.youtube.com/breathewithsandy) - des sessions guidées gratuites, un endroit simple pour essayer
+- **Patreon :** [patreon.com/cw/breathewithsandy](https://www.patreon.com/cw/breathewithsandy) - les voyages longs formats
+
+Deux sessions pour lesquelles il vaut vraiment la peine de réserver du temps :
+
+- _40 Min Release Trauma, Tension & Emotions Stuck in The Body \| 5 Rounds \| Guided Gratitude
+  Meditation_
+- _Reconnect with Your Inner Child \| 1 Hour Deep Breathwork Journey & Healing Meditation_
+
+Tu les trouveras dans l’app de Sandy ou sur Patreon. Elles vont bien plus loin et durent bien plus longtemps que tout ce qui est préconfiguré ici. Fais-les allongé, quelque part où tu peux rester tranquille ensuite - et lis d’abord la note de sécurité ci-dessous. Tu peux quand même en enregistrer une sur la montre : lance une session simple d’une durée à peu près équivalente avec **Breath Program** désactivé, pour que l’app suive ta HR et ta HRV pendant que l’enregistrement guide ta respiration.
+
+> Les exercices de respiration longs et continus peuvent provoquer de fortes réactions physiques et émotionnelles. Ne les pratique jamais dans l’eau, en conduisant ou debout, et évite-les complètement si tu es enceinte ou si tu as une maladie cardiovasculaire ou des antécédents de convulsions sans avis médical préalable.
 
 ---
 
@@ -416,7 +535,7 @@ Accès :
 ### Fenêtre HRV
 
 - Les fenêtres courtes montrent les changements rapides
-- 3 à 5 minutes recommandées pour la fiabilité  
+- 3 à 5 minutes recommandées pour la fiabilité
   (Par défaut : 60 secondes)
 
 ### Notifications
@@ -441,7 +560,7 @@ Accès :
 
 # FAQ et dépannage
 
-Cette section est là pour t’aider si quelque chose semble confus ou ne fonctionne pas comme prévu.  
+Cette section est là pour t’aider si quelque chose semble confus ou ne fonctionne pas comme prévu.
 La plupart des problèmes se résolvent facilement.
 
 ---
@@ -709,6 +828,8 @@ La plupart des problèmes se résolvent facilement.
 
 ---
 
+<a id="get-support--report-problem"></a>
+
 # Support / Signaler un problème
 
 Si quelque chose ne fonctionne pas, ou pour tout retour et demande de fonctionnalité, tu peux [m’envoyer un e-mail](mailto:florian.geigl+garmin@gmail.com?subject=User%20Feedback%20for%20Meditation%20and%20Breathwork%20-%20Connect%20IQ%20Notification).
@@ -719,5 +840,5 @@ Si quelque chose ne fonctionne pas, ou pour tout retour et demande de fonctionna
 
 Tes données restent les tiennes.
 
-L’app ne stocke pas d’informations personnelles.  
+L’app ne stocke pas d’informations personnelles.
 Voir la [Politique de confidentialité](/meditate_app_data_privacy/).
