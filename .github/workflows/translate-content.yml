@@ -65,7 +65,7 @@ jobs:
           ref: release-translation
       - name: Translate via Codex
         id: codex_translate
-        uses: openai/codex-action@v1
+        uses: openai/codex-action@v1.11
         with:
           openai-api-key: ${{ secrets.CHATGPT_TOKEN }}
           prompt-file: .github/codex/prompts/translate-content.md
