@@ -345,7 +345,7 @@ plus the issue above):
 - **`me.` prefix** used consistently for instance member access.
 - **Composition over inheritance**: `MeditateActivity` owns an `ActivityRecorder`, which owns the `Metric` list — there is no activity class chain any more.
 - **Dictionary serialization**: Models use `fromDictionary()` / `toDictionary()` for `App.Storage` persistence.
-- **Settings**: `GlobalSettings.load(key)` / `save(key, value)` over one table of key → default (`XxxKey` constants). Key strings and defaults are stored data; `GlobalSettingsTests` types them all out, so a rename or a changed default fails a test instead of silently changing every user's app.
+- **Settings**: `GlobalSettings.load(key)` / `save(key, value)` with `XxxKey` constants; the defaults are an if-chain (`defaultFor`) and `keys()` lists the same keys. No cached table, by decision (see runtime memory learnings). Key strings and defaults are stored data; `GlobalSettingsTests` types them all out, so a rename or a changed default fails a test instead of silently changing every user's app.
 - **Top-level classes, no modules**: the one exception is `module StatusIconFonts`, which only holds the icon font loaded at startup.
 
 ### Formatting
@@ -753,10 +753,13 @@ In-app developer tool accessible via **long-press on the About screen** → "Dev
 ### Sync Rule
 
 **A new global setting needs no backup change.** `CloudBackup` backs up every key of
-`GlobalSettings.keys()`, the same table `load()`/`save()` use, so adding a setting there is all it
-takes. (It used to be a hand-kept `GLOBAL_SETTINGS_KEYS` array that silently dropped any key it
-lacked.) Backup copies the *stored* value only; a setting still at its default is not in the
-backup and falls back to the same default after a restore.
+`GlobalSettings.keys()`. A new setting is four lines in two files: an `XxxKey` constant, an entry in
+`keys()`, a branch in `defaultFor()`, and a row in `GlobalSettingsTests`' table. The test fails when
+`keys()` and its table disagree or a listed key has no default. It cannot see a branch added to
+`defaultFor()` alone; that setting would work but be missing from backups. (Backup used to read a
+hand-kept `GLOBAL_SETTINGS_KEYS` array in `CloudBackup` that silently dropped any key it lacked.)
+Backup copies the *stored* value only; a setting still at its default is not in the backup and
+falls back to the same default after a restore.
 
 `CloudRestore.onRestoreResponse()` needs **no change for new global settings** — it iterates
 whatever keys came back (`gs.keys()`) and writes them straight to storage. It only needs
@@ -797,6 +800,25 @@ growing `SessionModel` needs no cloud-backup change at all — only watch the 32
 - **Every object costs ~28 B on top of its content; array slots ~5 B.** Measured on `fr255s`:
   300 one- or two-element arrays = 11.75 KB, two flat `new [300]` of floats = 3 KB. Prefer one
   flat array over many small ones when the count is in the hundreds.
+- **A string constant becomes a new String object whenever it's stored:** 48 B for a 26-character
+  key on `fr255s`. Constants are not interned: `var x = GlobalSettings.HrvTrackingKey` allocates
+  again even while an equal string is held elsewhere. So in a cached table of string keys the
+  strings dominate. The 15 setting keys with their defaults cost 1,104 B as a Dictionary, 904 B as
+  a flat `[key, value, …]` array and 1,432 B as 15 pairs. `key.equals(Constant)` only makes a
+  temporary string that is freed at once.
+- **What a session holds, for scale** (`fr255s`, HRV Detailed, stress and respiration, 60 bpm):
+  - 4.1 KB once the metrics exist;
+  - the HRV SDRR ring fills over the first 5 minutes, ~2.4 KB/min up to ~10 KB, released at
+    `flush()`;
+  - after that the histories grow ~55 B/min: 11 values a minute (6 HR, 2 stress, 2 respiration,
+    1 HRV at the 60 s window), about 19 KB after an hour.
+
+  Use this to size anything the app keeps for its whole lifetime.
+- **Decision (2026-09-25): settings defaults are an if-chain, not a cached table.** A cached
+  Dictionary held 1,104 B for the app's whole lifetime, about 20 minutes of recording history or
+  6–7 % of a session's recording memory. `GlobalSettings.defaultFor` keeps nothing in memory and
+  costs 176 B more code. Small either way; taken because it was nearly free. Don't reintroduce a
+  cached key table for settings.
 - **Measure, don't estimate:** a throwaway `(:test)` that diffs `System.getSystemStats().usedMemory`
   around the allocation and `logger.debug`s it takes two minutes and is exact; delete it afterwards.
 

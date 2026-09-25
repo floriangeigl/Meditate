@@ -1,7 +1,7 @@
 using Toybox.Application as App;
 
-// every globalSettings_* value: one table of key and default, read with load and written with save.
-// CloudBackup backs up exactly keys(). key strings and defaults are stored data, never change them
+// every globalSettings_* value, read with load and written with save; CloudBackup backs up exactly
+// keys(). key strings and defaults are stored data, never change them
 class GlobalSettings {
 	static const HrvTrackingKey = "globalSettings_hrvTracking";
 	static const ActivityTypeKey = "globalSettings_activityType";
@@ -20,43 +20,84 @@ class GlobalSettings {
 	static const LastSeenNewsIdKey = "globalSettings_lastSeenNewsId";
 	static const PresetsVersionKey = "globalSettings_presetsVersion";
 
-	private static var sDefaults = null;
-
-	// built on first use instead of in a static initialiser
-	private static function defaults() {
-		if (sDefaults == null) {
-			sDefaults = {
-				HrvTrackingKey => HrvTracking.OnDetailed,
-				ActivityTypeKey => ActivityType.Meditating,
-				ConfirmSaveActivityKey => ConfirmSaveActivity.Ask,
-				MultiSessionKey => MultiSession.No,
-				RespirationRateKey => RespirationRate.On,
-				AutoStopKey => AutoStop.On,
-				NotificationKey => Notification.On,
-				ColorThemeKey => ColorTheme.Dark,
-				PrepareTimeKey => 15,
-				FinalizeTimeKey => 0,
-				HrvWindowTimeKey => 60,
-				BreathCuesKey => BreathCues.Vibration,
-				UseSessionNameKey => false,
-				LastSeenNewsIdKey => 0,
-				PresetsVersionKey => 0,
-			};
-		}
-		return sDefaults;
-	}
-
 	static function load(key) {
 		var value = App.Storage.getValue(key);
-		return value == null ? GlobalSettings.defaults()[key] : value;
+		return value == null ? GlobalSettings.defaultFor(key) : value;
 	}
 
 	static function save(key, value) {
 		App.Storage.setValue(key, value);
 	}
 
+	// keep in step with defaultFor and the table in GlobalSettingsTests
 	static function keys() {
-		return GlobalSettings.defaults().keys();
+		return [
+			HrvTrackingKey,
+			ActivityTypeKey,
+			ConfirmSaveActivityKey,
+			MultiSessionKey,
+			RespirationRateKey,
+			AutoStopKey,
+			NotificationKey,
+			ColorThemeKey,
+			PrepareTimeKey,
+			FinalizeTimeKey,
+			HrvWindowTimeKey,
+			BreathCuesKey,
+			UseSessionNameKey,
+			LastSeenNewsIdKey,
+			PresetsVersionKey,
+		];
+	}
+
+	// an if chain, not a cached table: nothing stays in memory (see CLAUDE.md runtime memory)
+	private static function defaultFor(key) {
+		if (key.equals(HrvTrackingKey)) {
+			return HrvTracking.OnDetailed;
+		}
+		if (key.equals(ActivityTypeKey)) {
+			return ActivityType.Meditating;
+		}
+		if (key.equals(ConfirmSaveActivityKey)) {
+			return ConfirmSaveActivity.Ask;
+		}
+		if (key.equals(MultiSessionKey)) {
+			return MultiSession.No;
+		}
+		if (key.equals(RespirationRateKey)) {
+			return RespirationRate.On;
+		}
+		if (key.equals(AutoStopKey)) {
+			return AutoStop.On;
+		}
+		if (key.equals(NotificationKey)) {
+			return Notification.On;
+		}
+		if (key.equals(ColorThemeKey)) {
+			return ColorTheme.Dark;
+		}
+		if (key.equals(PrepareTimeKey)) {
+			return 15;
+		}
+		if (key.equals(FinalizeTimeKey)) {
+			return 0;
+		}
+		if (key.equals(HrvWindowTimeKey)) {
+			return 60;
+		}
+		if (key.equals(BreathCuesKey)) {
+			return BreathCues.Vibration;
+		}
+		if (key.equals(UseSessionNameKey)) {
+			return false;
+		}
+		if (key.equals(LastSeenNewsIdKey)) {
+			return 0;
+		}
+		if (key.equals(PresetsVersionKey)) {
+			return 0;
+		}
+		return null;
 	}
 }
 
