@@ -1,14 +1,7 @@
 using Toybox.Application as App;
 
-module WakeupSessionType {
-	enum {
-		Training = 0,
-		Meditation = 1,
-		Yoga = 2,
-		Breathing = 3,
-	}
-}
-
+// the FitSessionKind of the last saved or discarded session, so the next sensor wakeup session
+// is created with the same sport; null until the first session
 class WakeupSessionStorage {
 	static const ActivityTypeKey = "wakeupSession_activityType";
 
@@ -16,7 +9,7 @@ class WakeupSessionStorage {
 		return App.Storage.getValue(ActivityTypeKey);
 	}
 
-	static function saveActivityType(activityType) {
-		App.Storage.setValue(ActivityTypeKey, activityType);
+	static function saveActivityType(fitSessionKind) {
+		App.Storage.setValue(ActivityTypeKey, fitSessionKind);
 	}
 }

@@ -1,7 +1,4 @@
 using Toybox.WatchUi as Ui;
-using Toybox.Lang;
-using Toybox.Math;
-using Toybox.Application as App;
 
 // owns the recorder, the sensor feed wiring and everything that fires on the session tick
 class MeditateActivity {
@@ -14,54 +11,19 @@ class MeditateActivity {
 	private var mBreathCuesExecutor;
 	private var mAutoStopEnabled;
 	private var mAutoStopRoundsTriggered;
-	private var mEffectiveWakeupSessionType;
+	private var mFitKind;
 	private var mSummary;
 
 	function initialize(meditateModel, beatIntervalFeed, meditateDelegate) {
-		var fitSessionSpec;
-		var sessionTime = meditateModel.getSessionTime();
+		var selectedActivityType = Utils.getEffectiveActivityType(meditateModel.getActivityType());
 		// current hypothesis: mediation/yoga/breathwork only supported with api >= 3.3.6
 		// device to version: https://github.com/flocsy/garmin-dev-tools/blob/main/csv/device2all-versions.csv
-		var supportsActivityTypes = Utils.MonkeyVersionAtLeast([3, 3, 6]);
-		// System.println(version + " " + supportsActivityTypes);
-
-		// Determine activity name: prefer using the session's custom name if the global setting enables it,
-		// otherwise fall back to the Garmin Connect property or default titles.
-		var activityName = "";
-		if (
-			GlobalSettings.load(GlobalSettings.UseSessionNameKey) &&
-			meditateModel.getName() != null &&
-			meditateModel.getName().length() > 0
-		) {
-			activityName = meditateModel.getName().toString();
-		} else {
-			var storedActivityName = App.Properties.getValue("activityName");
-			if (storedActivityName != null && storedActivityName.length() > 0) {
-				activityName = storedActivityName.toString();
-			} else {
-				activityName = "";
-			}
-		}
-		var selectedActivityType = Utils.getEffectiveActivityType(meditateModel.getActivityType());
-		if (selectedActivityType == ActivityType.Yoga) {
-			activityName = activityName.length() > 0 ? activityName : Ui.loadResource(Rez.Strings.sessionTitleYoga);
-			fitSessionSpec = FitSessionSpec.createYoga(createSessionName(sessionTime, activityName));
-			me.mEffectiveWakeupSessionType = WakeupSessionType.Yoga;
-		} else if (selectedActivityType == ActivityType.Breathing) {
-			activityName =
-				activityName.length() > 0 ? activityName : Ui.loadResource(Rez.Strings.sessionTitleBreathing);
-			fitSessionSpec = FitSessionSpec.createBreathing(createSessionName(sessionTime, activityName));
-			me.mEffectiveWakeupSessionType = WakeupSessionType.Breathing;
-		} else {
-			activityName = activityName.length() > 0 ? activityName : Ui.loadResource(Rez.Strings.sessionTitleMeditate);
-			fitSessionSpec = FitSessionSpec.createMeditation(createSessionName(sessionTime, activityName));
-			me.mEffectiveWakeupSessionType = WakeupSessionType.Meditation;
-		}
-		if (!supportsActivityTypes || selectedActivityType == ActivityType.Generic) {
-			fitSessionSpec = FitSessionSpec.createTraining(createSessionName(sessionTime, activityName));
-			me.mEffectiveWakeupSessionType = WakeupSessionType.Training;
-			// System.println("create generic activity as others are not supported");
-		}
+		me.mFitKind = MeditateActivity.fitKindFor(selectedActivityType, Utils.MonkeyVersionAtLeast([3, 3, 6]));
+		var name = FitSessionName.format(
+			FitSessionName.resolve(meditateModel.getName(), selectedActivityType),
+			meditateModel.getSessionTime()
+		);
+		var fitSessionSpec = FitSessionSpec.create(me.mFitKind, name);
 		me.mMeditateModel = meditateModel;
 		me.mMeditateDelegate = meditateDelegate;
 		me.mFeed = beatIntervalFeed;
@@ -95,47 +57,18 @@ class MeditateActivity {
 		return metrics;
 	}
 
-	private function createSessionName(sessionTime, activityName) {
-		// Calculate session minutes and hours
-		var sessionTimeMinutes = Math.round(sessionTime / 60.0).toNumber();
-		var sessionTimeHours = sessionTimeMinutes / 60;
-		var sessionTimeString;
-
-		// Create the Connect activity name showing the number of hours/minutes for the meditate session
-		if (sessionTimeHours < 1) {
-			sessionTimeString = Lang.format("$1$min", [sessionTimeMinutes]);
-		} else {
-			sessionTimeMinutes = sessionTimeMinutes % 60;
-			if (sessionTimeMinutes == 0) {
-				sessionTimeString = Lang.format("$1$h", [sessionTimeHours]);
-			} else {
-				sessionTimeString = Lang.format("$1$h $2$min", [sessionTimeHours, sessionTimeMinutes]);
-			}
+	// the fit sport of a session: generic, or any type below api 3.3.6, records as training
+	static function fitKindFor(activityType, supportsActivityTypes) {
+		if (!supportsActivityTypes || activityType == ActivityType.Generic) {
+			return FitSessionKind.Training;
 		}
-
-		// Replace "[time]" string with the activity time
-		activityName = stringReplace(activityName, "[time]", sessionTimeString);
-
-		// If the generated name is too big, cut if off
-		if (activityName.length() > 21) {
-			activityName = activityName.substring(0, 21);
+		if (activityType == ActivityType.Yoga) {
+			return FitSessionKind.Yoga;
 		}
-		return activityName;
-	}
-
-	private function stringReplace(str, oldString, newString) {
-		var result = str;
-
-		while (true) {
-			var index = result.find(oldString);
-			if (index != null) {
-				var index2 = index + oldString.length();
-				result = result.substring(0, index) + newString + result.substring(index2, result.length());
-			} else {
-				return result;
-			}
+		if (activityType == ActivityType.Breathing) {
+			return FitSessionKind.Breathing;
 		}
-		return null;
+		return FitSessionKind.Meditation;
 	}
 
 	function start() {
@@ -223,8 +156,8 @@ class MeditateActivity {
 	}
 
 	private function persistWakeupSessionType() {
-		if (me.mEffectiveWakeupSessionType != null) {
-			WakeupSessionStorage.saveActivityType(me.mEffectiveWakeupSessionType);
+		if (me.mFitKind != null) {
+			WakeupSessionStorage.saveActivityType(me.mFitKind);
 		}
 	}
 }

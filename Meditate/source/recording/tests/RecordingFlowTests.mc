@@ -29,7 +29,7 @@ class RecordingFlowTests {
 	static function recorderSamplesOnTheTickAndSummarises(logger) {
 		closeAppWakeupSession();
 		var listener = new FlowListener();
-		var recorder = new ActivityRecorder(FitSessionSpec.createTraining("test"), listener);
+		var recorder = new ActivityRecorder(FitSessionSpec.create(FitSessionKind.Training, "test"), listener);
 		var hr = new ScriptedMetric([60, 70, 80, 90], 2).configure(null, null, false, true, true);
 		hr.id = :hr;
 		var metrics = [hr];
