@@ -23,11 +23,11 @@ class ScreenPickerDelegate extends Ui.BehaviorDelegate {
 	}
 
 	function onNextPage() {
-		me.changePage(+1);
+		return me.changePage(+1);
 	}
 
 	function onPreviousPage() {
-		me.changePage(-1);
+		return me.changePage(-1);
 	}
 
 	private function changePage(change) {

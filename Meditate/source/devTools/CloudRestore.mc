@@ -181,10 +181,10 @@ class CloudRestore extends Ui.BehaviorDelegate {
 			var monthlyStats = data["monthlyStats"];
 			if (monthlyStats != null) {
 				if (monthlyStats["monthly"] != null) {
-					App.Storage.setValue(UsageStats.MonthlyKey, monthlyStats["monthly"]);
+					App.Storage.setValue(MonthlyStats.MonthlyKey, monthlyStats["monthly"]);
 				}
 				if (monthlyStats["tipPending"] != null) {
-					App.Storage.setValue(UsageStats.TipPendingKey, monthlyStats["tipPending"]);
+					App.Storage.setValue(MonthlyStats.TipPendingKey, monthlyStats["tipPending"]);
 				}
 			}
 

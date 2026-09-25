@@ -145,9 +145,9 @@ class MeditateActivity {
 	function finish() {
 		me.mRecorder.finish();
 		me.persistWakeupSessionType();
-		var usageStats = new UsageStats(me.mMeditateModel.elapsedTime);
-		usageStats.sendCurrent();
-		UsageStats.tryOpenPendingTip();
+		MonthlyStats.add(me.mMeditateModel.elapsedTime);
+		new UsageStats(me.mMeditateModel.elapsedTime).sendCurrent();
+		MonthlyStats.tryOpenPendingTip();
 	}
 
 	function discard() {

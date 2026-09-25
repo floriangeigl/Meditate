@@ -143,8 +143,8 @@ class GlobalSettingsTests {
 			SessionStorage.SessionKeysKey.equals("sessionsKeys") &&
 			SessionStorage.SelectedIndexKey.equals("selectedSessionIndex") &&
 			WakeupSessionStorage.ActivityTypeKey.equals("wakeupSession_activityType") &&
-			UsageStats.MonthlyKey.equals("usageStats_monthly") &&
-			UsageStats.TipPendingKey.equals("usageStats_tipPending")
+			MonthlyStats.MonthlyKey.equals("usageStats_monthly") &&
+			MonthlyStats.TipPendingKey.equals("usageStats_tipPending")
 		);
 	}
 }

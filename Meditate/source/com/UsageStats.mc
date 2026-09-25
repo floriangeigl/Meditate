@@ -1,13 +1,11 @@
 using Toybox.Application as App;
 using Toybox.System;
 using Toybox.WatchUi as Ui;
-using Toybox.Cryptography;
 using Toybox.Communications;
-using Toybox.StringUtil;
 using Toybox.Time;
-using Toybox.Time.Gregorian;
-using Toybox.Math;
 
+// optional GA4 analytics: one event per saved session, queued until a request gets through.
+// the monthly minutes and the tip prompt live in MonthlyStats
 class UsageStats {
 	private var gMeasurmentID;
 	private var gApiSecret;
@@ -17,10 +15,7 @@ class UsageStats {
 	private static const usageStatsQueueMaxItems = 10;
 	private static var sFlushInProgress = false;
 	private static var sQueueIdCounter = 0;
-	static const MonthlyKey = "usageStats_monthly";
-	static const TipPendingKey = "usageStats_tipPending";
 	private var currentParams;
-	private var lastMonthStats;
 	private var mInFlightEntry;
 	private var mLastLocation;
 
@@ -34,14 +29,14 @@ class UsageStats {
 				return;
 			}
 			var stats = new UsageStats(null);
-			stats.flushQueueWithLocationLookup();
+			stats.requestLocationThenFlush();
 		} catch (ex) {
 			// Never break the app due to optional usage stats.
 		}
 	}
 
-	function flushQueueWithLocationLookup() {
-		// Trigger the same location lookup; callback decides whether to flush.
+	// looks up the location, then sendCurrentWithLocation queues the current event and flushes
+	function requestLocationThenFlush() {
 		var options = {
 			:method => Communications.HTTP_REQUEST_METHOD_GET,
 		};
@@ -49,47 +44,15 @@ class UsageStats {
 		Communications.makeWebRequest(url, null, options, method(:sendCurrentWithLocation));
 	}
 
-	static function tryOpenPendingTip() {
-		try {
-			var pending = App.Storage.getValue(TipPendingKey);
-			if (pending == null) {
-				return;
-			}
-			// pending: [month_when_should_show, lastMonthStatsSeconds]
-			if (pending.size() < 2 || pending[0] == null || pending[1] == null) {
-				App.Storage.setValue(TipPendingKey, null);
-				return;
-			}
-			var month_today = Gregorian.info(Time.now(), Time.FORMAT_SHORT).month;
-			var pendingMonth = pending[0];
-			if (month_today != pendingMonth) {
-				// Next month started; drop the request so we don't show stale stats.
-				App.Storage.setValue(TipPendingKey, null);
-				return;
-			}
-			var devSettings = System.getDeviceSettings();
-			if (devSettings != null && devSettings has :phoneConnected && !devSettings.phoneConnected) {
-				// Phone not connected; keep pending and retry later.
-				return;
-			}
-			var mins = Math.ceil(pending[1] / 60.0);
-			TipMe.openTipMe(mins);
-			App.Storage.setValue(TipPendingKey, null);
-		} catch (ex) {
-			// Never break the app due to optional tip prompt logic.
-		}
-	}
-
+	// no side effects: the monthly minutes are MonthlyStats.add, called by whoever saves the session
 	function initialize(sessionTime) {
 		me.gMeasurmentID = App.Properties.getValue("gMeasurmentID");
 		me.gApiSecret = App.Properties.getValue("gApiSecret");
-		me.lastMonthStats = 0;
 		me.mInFlightEntry = null;
 		me.mLastLocation = null;
 		me.currentParams = null;
 		if (sessionTime != null) {
 			me.currentParams = me.createParams(sessionTime);
-			me.addToMonthly(sessionTime);
 		}
 	}
 
@@ -196,11 +159,7 @@ class UsageStats {
 		if (me.currentParams == null) {
 			return;
 		}
-		var options = {
-			:method => Communications.HTTP_REQUEST_METHOD_GET,
-		};
-		var url = "https://ipapi.co/json/";
-		Communications.makeWebRequest(url, null, options, method(:sendCurrentWithLocation));
+		me.requestLocationThenFlush();
 	}
 
 	function createParams(sessionTime) {
@@ -455,33 +414,5 @@ class UsageStats {
 			queue = me.capQueue(queue);
 			me.saveQueue(queue);
 		} catch (ex) {}
-	}
-
-	function addToMonthly(sessionTime) {
-		var monthlyStats = App.Storage.getValue(MonthlyKey);
-		var current = 0;
-		var month_today = Gregorian.info(Time.now(), Time.FORMAT_SHORT).month;
-		if (monthlyStats == null) {
-			monthlyStats = [];
-		} else {
-			var month_last_entry = monthlyStats[0];
-			if (month_today != month_last_entry) {
-				// reset monthly stats if the month has changed
-				me.lastMonthStats = monthlyStats[1];
-				if (me.lastMonthStats / 60 >= 30) {
-					var existingPending = App.Storage.getValue(TipPendingKey);
-					if (existingPending == null || existingPending.size() < 1 || existingPending[0] != month_today) {
-						App.Storage.setValue(TipPendingKey, [month_today, me.lastMonthStats]);
-					}
-				}
-				monthlyStats = [];
-			} else {
-				current = monthlyStats[1];
-			}
-		}
-		current += sessionTime;
-		monthlyStats = [month_today, current];
-		App.Storage.setValue(MonthlyKey, monthlyStats);
-		// System.println("Set monthly stats: " + monthlyStats);
 	}
 }

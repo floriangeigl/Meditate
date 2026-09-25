@@ -47,7 +47,7 @@ class MeditateApp extends App.AppBase {
 		UsageStats.flushQueuedOnStartup();
 
 		// Retry monthly tip prompt if it was postponed due to missing phone connection.
-		UsageStats.tryOpenPendingTip();
+		MonthlyStats.tryOpenPendingTip();
 
 		if (me.beatIntervalFeed == null) {
 			me.beatIntervalFeed = new BeatIntervalFeed();

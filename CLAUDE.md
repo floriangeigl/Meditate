@@ -234,7 +234,7 @@ Get-ChildItem "$env:APPDATA\Garmin\ConnectIQ\Devices" -Directory | ForEach-Objec
 
 ## Testing
 
-Unit tests live next to the code they cover, 71 of them, all live:
+Unit tests live next to the code they cover, 72 of them, all live:
 
 - `recording/tests/MetricTests` — the window engine against a scripted `read()` (flush on the
   completing tick, skipFirst, range, 90 % rule, keepHistory off, stats over window values).
@@ -273,6 +273,8 @@ Unit tests live next to the code they cover, 71 of them, all live:
   with and without API 3.3.6, sport and sub-sport per kind as FIT profile numbers (a missing stored
   kind records as training), the `[time]` formatting and 21-character cut, and which name wins
   (session name, the phone's `activityName`, the type's title).
+- `com/tests/MonthlyStatsTests` — the monthly minutes add up within a month, a new month after
+  30 minutes starts over and leaves the tip prompt pending, no session time changes nothing.
   `StorageSnapshot` saves the simulator's own store before each test and restores it after, and
   its key strings are literals on purpose: they are the stored format. A test that writes a
   session list must also write a dict for every key in it, or `loadSelectedSession()` takes its
@@ -525,7 +527,7 @@ declared set. Field ids are FIT compatibility — never renumber.
 - `Meditate/source/summaryScreen/` — Post-session summary with HR/HRV/stress/respiration graphs
 - `Meditate/source/globalSettings/` — App-wide settings (one key → default table)
 - `Meditate/source/storage/` — Session CRUD, presets
-- `Meditate/source/com/` — GA4 analytics, donation prompts
+- `Meditate/source/com/` — GA4 analytics (`UsageStats`), the monthly minutes and the tip prompt they lead to (`MonthlyStats`)
 - `Meditate/source/recording/` — Sensor feed, FIT session and HR/RR/stress sampling (former `HrvAlgorithms` barrel)
 - `Meditate/source/recording/hrv/` — HRV algorithm implementations (RMSSD, SDRR, pNNx)
 - `Meditate/source/screenPicker/` — Page carousel delegate, details views, status icons and the icon font (former `ScreenPicker`/`StatusIconFonts` barrels)

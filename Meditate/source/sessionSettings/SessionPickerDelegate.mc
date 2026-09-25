@@ -130,10 +130,10 @@ class SessionPickerDelegate extends ScreenPickerDelegate {
 		var displayName = Utils.getSessionDisplayName(selectedSession, me.mSelectedPageIndex);
 		meditateModel.setDisplayName(displayName);
 		var meditateView = new MeditateView(meditateModel);
-		var mediateDelegate = new MeditateDelegate(meditateModel, me.mFeed, me);
-		mediateDelegate.setMeditateView(meditateView);
-		mediateDelegate.startActivity();
-		Ui.switchToView(meditateView, mediateDelegate, Ui.SLIDE_LEFT);
+		var meditateDelegate = new MeditateDelegate(meditateModel, me.mFeed, me);
+		meditateDelegate.setMeditateView(meditateView);
+		meditateDelegate.startActivity();
+		Ui.switchToView(meditateView, meditateDelegate, Ui.SLIDE_LEFT);
 	}
 
 	function onKey(keyEvent) {

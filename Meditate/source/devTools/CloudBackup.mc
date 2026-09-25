@@ -71,8 +71,8 @@ class CloudBackup extends Ui.BehaviorDelegate {
 
 			// --- Monthly meditation stats ---
 			var monthlyStats = {
-				"monthly" => App.Storage.getValue(UsageStats.MonthlyKey),
-				"tipPending" => App.Storage.getValue(UsageStats.TipPendingKey),
+				"monthly" => App.Storage.getValue(MonthlyStats.MonthlyKey),
+				"tipPending" => App.Storage.getValue(MonthlyStats.TipPendingKey),
 			};
 
 			// --- Full payload ---
