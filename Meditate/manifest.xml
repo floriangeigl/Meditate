@@ -126,9 +126,5 @@
             <iq:language>ukr</iq:language>
             <iq:language>zhs</iq:language>
         </iq:languages>
-        <iq:barrels>
-            <iq:depends name="ScreenPicker" version="1.0.0"/>
-            <iq:depends name="StatusIconFonts" version="1.0.0"/>
-        </iq:barrels>
     </iq:application>
 </iq:manifest>

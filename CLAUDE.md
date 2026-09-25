@@ -10,20 +10,23 @@ Garmin Connect IQ meditation watch-app tracking HR, HRV, stress, and respiration
 
 ## Project Structure
 
-Multi-folder VS Code workspace (`Meditate.code-workspace`) with three sub-projects:
+Multi-folder VS Code workspace (`Meditate.code-workspace`) with two projects:
 
 ```
 Meditate/               Main watch-app (entry: source/MeditateApp.mc); sensor/recording engine in source/recording/
-ScreenPicker/           Barrel — carousel UI components (depends on StatusIconFonts)
-StatusIconFonts/        Barrel — Font Awesome icon fonts
 HrvProbe/               Standalone diagnostic app, not shipped — see "HRV cold start"
 ```
 
-**Dependency graph:** `Meditate` → `ScreenPicker` → `StatusIconFonts`, `StatusIconFonts`
+The app uses no barrels. The three it once had were merged in as plain top-level classes, because
+none was a real boundary: `HrvAlgorithms` → `source/recording/` (it called the app's `Vibe`),
+`ScreenPicker` and `StatusIconFonts` → `source/screenPicker/` (app-specific icons, the app's
+settings, two extra 158-device manifests to keep in sync).
 
-Barrels are Connect IQ reusable libraries, declared in `barrels.jungle` and compiled into the main app.
-The former `HrvAlgorithms` barrel was merged into the app as `Meditate/source/recording/` (plain
-top-level classes, no module wrapper) — it never was a real boundary, it called the app's `Vibe`.
+**Icon glyphs look empty but aren't.** `resources/strings/iconGlyphs.xml` holds Font Awesome code
+points from the private use area (e.g. `IconStress` is U+E0B7), which terminals and most editors
+render as blank. Move or edit that file only byte-safely, never retype a glyph, and keep
+`translatable="false"` on every entry. `IconGlyphTests` fails if a used glyph stops being exactly
+one private-use character.
 
 ## Build & Run
 
@@ -40,7 +43,7 @@ top-level classes, no module wrapper) — it never was a real boundary, it calle
 
 Use Monkey C extension: `Ctrl+Shift+P → Monkey C: Build`. Output: `Meditate/bin/Meditate.prg`.
 
-Build config in each `monkey.jungle`:
+Build config in `Meditate/monkey.jungle`:
 
 ```jungle
 project.typecheck = 0       # Type checking disabled
@@ -94,13 +97,12 @@ Notes:
 
 ## Supported Devices
 
-Each of the **3 `manifest.xml` files** lists supported watches as `<iq:product id="<deviceId>"/>` entries inside `<iq:products>`. The `<deviceId>` matches the folder name under the SDK's device-definition directory.
+`Meditate/manifest.xml` lists supported watches as `<iq:product id="<deviceId>"/>` entries inside `<iq:products>`. The `<deviceId>` matches the folder name under the SDK's device-definition directory.
 
 - **SDK device definitions (source of truth for available watches):**
   - Windows: `%APPDATA%\Garmin\ConnectIQ\Devices\` (= `C:\Users\<user>\AppData\Roaming\Garmin\ConnectIQ\Devices\`)
   - macOS/Linux: `~/.Garmin/ConnectIQ/Devices/`
   - One folder per device (`fenix8`, `vivoactive6`, …), each with `<deviceId>.bin`, `simulator.json`, `compiler.json`. The folder name **is** the manifest product id.
-- The 3 manifests are not identical: `Meditate/manifest.xml` is the actual app device list; the barrels (`ScreenPicker`, `StatusIconFonts`) typically list a superset. The app-facing list is `Meditate/manifest.xml`.
 
 ### Minimum memory requirement: 512 KB watch-app RAM
 
@@ -121,7 +123,7 @@ else { "$id: $([int]($wa/1024)) KB — meets 512 KB minimum" }
 
 - **CIQ API below 3.0** — `epix` gen 1 is CIQ 1.2.1, below the app's floor. Gate new devices on `connectIQVersion` too (in `compiler.json`), not just memory.
 - **App broke on the device** — `vivoactive4`/`vivoactive4s` (1024 KB) were removed in v8.5: commit `30af8d0` *"Removed support for Vivoactive 4(s) - app no longer working in these devices"*. Needs a code fix, not just a manifest line.
-- **Parked, revisit later** — `vivoactive3m`/`vivoactive3mlte`, `marqexpedition` were temporarily removed (commit `46c1938` *"tmp rm devices again; try to support later"*); still in the barrel manifests.
+- **Parked, revisit later** — `vivoactive3m`/`vivoactive3mlte`, `marqexpedition` were temporarily removed (commit `46c1938` *"tmp rm devices again; try to support later"*). `marqexpedition` has since been re-added; the two `vivoactive3m` ids are in no manifest (they crash on session finish, see `$excludeExact` below).
 
 So a new device passing the memory check still warrants a judgment call (CIQ version, form factor, and a sim build) before adding.
 
@@ -198,7 +200,7 @@ Trigger whenever Garmin releases new watches (or after an SDK update):
 1. List device ids in the SDK `Devices/` folder (folder names).
 2. Diff against `<iq:product id=...>` ids in `Meditate/manifest.xml`.
 3. Filter out non-wrist hardware, the dropped-watch baseline, and anything below the **512 KB** floor (see above). Whatever remains is **new and viable** — report it with its memory.
-4. For each candidate, propose adding `<iq:product id="<deviceId>"/>` to all 3 manifests (keep barrels a superset of `Meditate`). If a candidate is non-wrist or otherwise unwanted, add its id to `$excludeExact`.
+4. For each candidate, propose adding `<iq:product id="<deviceId>"/>` to `Meditate/manifest.xml`. If a candidate is non-wrist or otherwise unwanted, add its id to `$excludeExact`.
 5. Rebuild in the simulator against one new device to confirm it compiles.
 
 The memory gate auto-drops sub-512 KB devices (e.g. `instinct3solar45mm`), so the name baseline only needs non-wrist prefixes plus capable-but-unwanted old watches.
@@ -208,7 +210,7 @@ The memory gate auto-drops sub-512 KB devices (e.g. `instinct3solar45mm`), so th
 $excludePrefixes = 'approach','edge','gpsmap','oregon','montana','rino','etrex','descent'
 # Capable (>=512 KB, CIQ >= 3.0) but intentionally excluded — see "Minimum memory requirement" above
 $excludeExact = @(
-  'vivoactive3m','vivoactive3mlte',      # array-out-of-bounds crash on session finish (240x240 layout); kept in barrels only
+  'vivoactive3m','vivoactive3mlte',      # array-out-of-bounds crash on session finish (240x240 layout); in no manifest
   'system8preview'                       # SDK System-8 preview pseudo-device, not a real watch
 )
 # NOTE: vivoactive4/4s and marqexpedition were sim-verified OK and re-added to all manifests after the
@@ -232,7 +234,7 @@ Get-ChildItem "$env:APPDATA\Garmin\ConnectIQ\Devices" -Directory | ForEach-Objec
 
 ## Testing
 
-Unit tests live next to the code they cover, 40 of them, all live:
+Unit tests live next to the code they cover, 42 of them, all live:
 
 - `recording/tests/MetricTests` — the window engine against a scripted `read()` (flush on the
   completing tick, skipFirst, range, 90 % rule, keepHistory off, stats over window values).
@@ -248,6 +250,8 @@ Unit tests live next to the code they cover, 40 of them, all live:
 - `activity/tests/MetricLineTests` — metrics page row states; `summaryScreen/tests/SummaryPagesTests`
   — the page set per HRV mode; `sessionSettings/tests/SessionPickerHrvStatusTests` — the picker's
   HRV line through the real delegate: starting texts, restart hint that stays past 60 s, weak, ready.
+- `screenPicker/tests/IconGlyphTests` — the icon font loads and every glyph the code uses is one
+  private-use character (catches a blanked or retyped glyph).
 
 They use Connect IQ's `(:test)` framework and return `true`/`false`. Run them after touching
 anything in `recording/`; they take ~20 s.
@@ -259,13 +263,15 @@ Run from the CLI (the simulator is started if it isn't running; VS Code's "Run T
 
 ```bash
 SDK="$APPDATA/Garmin/ConnectIQ/Sdks/<current sdk>"
-cd Meditate && "$SDK/bin/monkeyc.bat" -o /tmp/test.prg -f "monkey.jungle;barrels.jungle" -d fr255s -y <developer_key> -t -w
+cd Meditate && "$SDK/bin/monkeyc.bat" -o /tmp/test.prg -f monkey.jungle -d fr255s -y <developer_key> -t -w
 "$SDK/bin/simulator.exe" &   # once
-"$SDK/bin/monkeydo.bat" /tmp/test.prg fr255s /t     # prints PASS/FAIL per test and a summary
+MSYS_NO_PATHCONV=1 "$(cygpath -w "$SDK/bin/monkeydo.bat")" "$(cygpath -w /tmp/test.prg)" fr255s /t
 ```
 
 `monkeydo` blocks until the simulator answers, so wrap it in a timeout (e.g. a PowerShell job
-with `Wait-Job -Timeout`) when scripting it.
+with `Wait-Job -Timeout`, or `timeout 300` in Git Bash) when scripting it. **In Git Bash, `/t`
+gets rewritten into a file path** and monkeydo only prints its usage text; hence the
+`MSYS_NO_PATHCONV=1` above, which in turn means every path must already be a Windows path.
 
 No CI pipeline builds or tests Monkey C code. GitHub Actions handle only image compression, content translation, and user guide publishing.
 
@@ -313,7 +319,7 @@ plus the issue above):
 - **Composition over inheritance**: `MeditateActivity` owns an `ActivityRecorder`, which owns the `Metric` list — there is no activity class chain any more.
 - **Dictionary serialization**: Models use `fromDictionary()` / `toDictionary()` for `App.Storage` persistence.
 - **Static load/save**: `GlobalSettings` uses static methods per setting key.
-- **Barrel modules**: Each barrel wraps code in a module (e.g., `module ScreenPicker { ... }`); the app itself uses top-level classes.
+- **Top-level classes, no modules**: the one exception is `module StatusIconFonts`, which only holds the icon font loaded at startup.
 
 ### Formatting
 
@@ -497,6 +503,7 @@ declared set. Field ids are FIT compatibility — never renumber.
 - `Meditate/source/com/` — GA4 analytics, donation prompts
 - `Meditate/source/recording/` — Sensor feed, FIT session and HR/RR/stress sampling (former `HrvAlgorithms` barrel)
 - `Meditate/source/recording/hrv/` — HRV algorithm implementations (RMSSD, SDRR, pNNx)
+- `Meditate/source/screenPicker/` — Page carousel delegate, details views, status icons and the icon font (former `ScreenPicker`/`StatusIconFonts` barrels)
 
 ### Breath Programs (guided breathwork)
 
@@ -747,4 +754,4 @@ growing `SessionModel` needs no cloud-backup change at all — only watch the 32
 - **Runtime device identification**: Monkey C does not expose the SDK's device-id string (e.g. `"vivoactive4"`) at runtime. The closest proxy is `System.getDeviceSettings().partNumber`, a hardware SKU string (e.g. `"006-B3225-00"`) matching the `partNumbers[].number` entries in that device's `compiler.json`. Each device model can have multiple part numbers (one per regional/firmware SKU), so device-specific checks need the full list, not a single value — see the vívoactive4/4s quirk above for a working example.
 - **Verify a Toybox API throws before wrapping it in try/catch.** `ActivityRecording.createSession` does not throw a catchable exception for an unsupported sport/subSport combo — confirmed via the vívoactive4/4s "Invalid Value" crash above. Check the API docs or existing repo precedent (e.g. `Sensor.TooManySensorDataListenersException`, `Attention.BacklightOnTooLongException`) before assuming a call is catchable.
 - **Finish a CLI verification with a release build (`-r`), not just a debug one.** Debug builds happily compile code that the release assembler rejects — the private/static symbol error above is the known case, and adding private statics is exactly when this bites. A clean debug build is not evidence the change ships.
-- **CLI builds outside the VS Code extension** need a private key (`-y`) even for unsigned debug builds — generate a throwaway one with `openssl genrsa` + `openssl pkcs8` if just verifying compilation. Jungle file paths in `-f` are resolved relative to the jungle file's own directory, not the invocation cwd — pass `Meditate/monkey.jungle;Meditate/barrels.jungle` together (the auto-generated `bin/combined.jungle` uses paths meant for the extension's own resolution and won't work standalone).
+- **CLI builds outside the VS Code extension** need a private key (`-y`) even for unsigned debug builds — generate a throwaway one with `openssl genrsa` + `openssl pkcs8` if just verifying compilation. Jungle file paths in `-f` are resolved relative to the jungle file's own directory, not the invocation cwd — pass `Meditate/monkey.jungle` (the auto-generated `bin/combined.jungle` uses paths meant for the extension's own resolution and won't work standalone).

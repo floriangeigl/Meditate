@@ -5,6 +5,6 @@
 			use https://libgdx.com/wiki/tools/hiero to convert /webfonts/*.ttf to .fnt format
 			<font id="garmin" filename="fonts/garmin/garmin-connect-icons.fnt" />
 		-->
-   	    <font id="fontAwesomeFreeSolid" filename="fonts/fontAwesome/fontAwesomeFreeSolid.fnt" />		
+   	    <font id="fontAwesomeFreeSolid" filename="fontAwesome/fontAwesomeFreeSolid.fnt" />		
     </fonts>
 </resources>

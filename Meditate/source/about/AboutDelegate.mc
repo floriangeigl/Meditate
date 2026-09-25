@@ -1,14 +1,13 @@
 using Toybox.WatchUi as Ui;
 using Toybox.Graphics as Gfx;
-using StatusIconFonts;
 
-class AboutDelegate extends ScreenPicker.ScreenPickerDelegate {
+class AboutDelegate extends ScreenPickerDelegate {
 	private var mSessionPickerDelegate;
 
 	function initialize(sessionPickerDelegate) {
 		ScreenPickerDelegate.initialize(0, 1);
 		me.mGlobalSettingsTitle = Ui.loadResource(Rez.Strings.menuSessionSettings_about);
-		me.mGlobalSettingsDetailsModel = new ScreenPicker.DetailsModel();
+		me.mGlobalSettingsDetailsModel = new DetailsModel();
 		me.mSessionPickerDelegate = sessionPickerDelegate;
 		updateAboutDetails();
 	}
@@ -17,7 +16,7 @@ class AboutDelegate extends ScreenPicker.ScreenPickerDelegate {
 	private var mGlobalSettingsDetailsModel;
 
 	function createScreenPickerView() {
-		return new ScreenPicker.ScreenPickerDetailsView(me.mGlobalSettingsDetailsModel, false);
+		return new ScreenPickerDetailsView(me.mGlobalSettingsDetailsModel, false);
 	}
 
 	private function updateAboutDetails() {
@@ -27,9 +26,9 @@ class AboutDelegate extends ScreenPicker.ScreenPickerDelegate {
 		// Application version and developers
 		var line = details.getLine(0);
 		line.value.text = Ui.loadResource(Rez.Strings.about_AppVersion);
-		line.icon = new ScreenPicker.Icon({
+		line.icon = new Icon({
 			:font => StatusIconFonts.fontAwesomeFreeSolid,
-			:symbol => StatusIconFonts.Rez.Strings.IconSpa,
+			:symbol => Rez.Strings.IconSpa,
 			:color => Gfx.COLOR_BLUE,
 		});
 		line = details.getLine(1);

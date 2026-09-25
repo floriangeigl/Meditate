@@ -9,12 +9,6 @@
 		},
 		{
 			"path": "Meditate"
-		},
-		{
-			"path": "ScreenPicker"
-		},
-		{
-			"path": "StatusIconFonts"
 		}
 	],
 	"settings": {
@@ -22,9 +16,7 @@
 		"files.exclude": {
 			"**/bin/**": true,
 			"HrvProbe/**": true,
-			"Meditate/**": true,
-			"ScreenPicker/**": true,
-			"StatusIconFonts/**": true
+			"Meditate/**": true
 		},
 		"explorer.excludeGitIgnore": true,
 		"files.eol": "\n"

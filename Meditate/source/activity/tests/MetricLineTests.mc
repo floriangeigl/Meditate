@@ -5,11 +5,11 @@ using Toybox.Graphics as Gfx;
 class MetricLineTests {
 	(:test)
 	static function hourglassCountsDownThenShowsTheValue(logger) {
-		var line = new ScreenPicker.DetailsModel().getLine(0);
+		var line = new DetailsModel().getLine(0);
 		var metric = new ScriptedMetric([60, 70, 80, null, null, null], 3);
 		var icon = MeditateView.createIcon(:hr);
 		var metricLine = new MetricLine(metric, line, icon);
-		if (!(line.icon instanceof ScreenPicker.LoadingIcon)) {
+		if (!(line.icon instanceof LoadingIcon)) {
 			return false;
 		}
 		metric.sample(null);
@@ -19,7 +19,7 @@ class MetricLineTests {
 		}
 		metric.sample(null);
 		metricLine.update(metric.getValue(), 2);
-		if (!line.value.text.equals("1") || !(line.icon instanceof ScreenPicker.LoadingIcon)) {
+		if (!line.value.text.equals("1") || !(line.icon instanceof LoadingIcon)) {
 			return false;
 		}
 		// the window completes on this tick
@@ -38,7 +38,7 @@ class MetricLineTests {
 
 	(:test)
 	static function pastTheLoadTimeWithoutDataShowsDashes(logger) {
-		var line = new ScreenPicker.DetailsModel().getLine(0);
+		var line = new DetailsModel().getLine(0);
 		var metric = new ScriptedMetric([null, null, null], 2);
 		var metricLine = new MetricLine(metric, line, MeditateView.createIcon(:rr));
 		for (var i = 1; i <= 3; i++) {
@@ -46,7 +46,7 @@ class MetricLineTests {
 			metricLine.update(metric.getValue(), i);
 		}
 		return (
-			line.icon instanceof ScreenPicker.LoadingIcon &&
+			line.icon instanceof LoadingIcon &&
 			line.value.text.equals(" --") &&
 			line.value.color == Gfx.COLOR_LT_GRAY
 		);
@@ -54,7 +54,7 @@ class MetricLineTests {
 
 	(:test)
 	static function pausedReadsAsNoValue(logger) {
-		var line = new ScreenPicker.DetailsModel().getLine(0);
+		var line = new DetailsModel().getLine(0);
 		var metric = new ScriptedMetric([50], 1).configure(null, null, false, true, true);
 		var icon = MeditateView.createIcon(:stress);
 		var metricLine = new MetricLine(metric, line, icon);

@@ -1,7 +1,7 @@
 using Toybox.WatchUi as Ui;
 using Toybox.Graphics as Gfx;
 
-class ColorPickerView extends ScreenPicker.ScreenPickerBaseView {
+class ColorPickerView extends ScreenPickerBaseView {
 	private var mColor;
 	
 	function initialize(color) {

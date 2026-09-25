@@ -1,0 +1,58 @@
+<strings>
+	<!--
+      Find icon here: https://fontawesome.com/icons
+	  Copy name and "Glyph" (top right corner of winow) down below
+	  all icons to generate png: 
+	  make sure also generate the *.png with snowb or Hiero (is generated when save bmf file)
+	  	use rendering java and size 23, no padding, sharp 100%, color white, bg black
+	  use online: https://snowb.org/ || offline: https://libgdx.com/wiki/tools/hiero
+	  for snowb.org you can load the file stored in this folder named: snowb.org.sbf
+	-->
+	<string id="IconSave" translatable="false"></string>
+	<string id="IconRepeat" translatable="false"></string>
+	<string id="IconTimeHalf" translatable="false"></string>
+	<string id="IconTimeEnd" translatable="false"></string>
+	<string id="IconClock" translatable="false"></string>
+	<string id="IconTimeline" translatable="false"></string>
+	<string id="IconStop" translatable="false"></string>
+	<string id="IconHeartBeat" translatable="false"></string>
+	<string id="IconPieChart" translatable="false"></string>
+	<string id="IconHeart" translatable="false"></string>
+	<string id="IconCheckCircle" translatable="false"></string>
+	<string id="IconCheck" translatable="false"></string>
+	<string id="IconUp" translatable="false"></string>
+	<string id="IconDown" translatable="false"></string>
+	<string id="IconLeft" translatable="false"></string>
+	<string id="IconRight" translatable="false"></string>
+	<string id="IconSettings" translatable="false"></string>
+	<string id="IconBell" translatable="false"></string>
+	<string id="IconOm" translatable="false"></string>
+	<string id="IconVihara" translatable="false"></string>
+	<string id="IconBreath" translatable="false"></string>
+	<string id="IconStress" translatable="false"></string>
+	<string id="IconInfo" translatable="false"></string>
+	<string id="IconGrowth" translatable="false"></string>
+	<string id="IconSpa" translatable="false"></string>
+	<string id="IconSpinner" translatable="false"></string>
+	<string id="IconHourGlassStart" translatable="false"></string>
+	<string id="IconHourGlassHalf" translatable="false"></string>
+	<string id="IconHourGlassEnd" translatable="false"></string>
+	
+	<!--
+		custom set of icons
+	-->
+	
+	<!--
+		<string id="meditateFontYoga" translatable="false">8</string>
+
+		garmin icons
+		use the following page to convert char-id to symbol;
+		paste the char id in the decimal field
+		https://r12a.github.io/app-conversion/
+	
+		<string id="IconStopWatch" translatable="false">Ð</string>
+		<string id="IconHeartGarmin" translatable="false">m</string>
+		<string id="IconStress" translatable="false">È</string>
+	-->
+	
+</strings>

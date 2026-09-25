@@ -1,10 +1,9 @@
 using Toybox.WatchUi as Ui;
 using Toybox.Graphics as Gfx;
 using Toybox.Application as App;
-using StatusIconFonts;
 using Toybox.Attention;
 
-class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
+class SessionPickerDelegate extends ScreenPickerDelegate {
 	private var mSessionStorage;
 	private var mSelectedSessionDetails;
 	private var mSummaryRollupModel;
@@ -17,7 +16,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		me.mSessionStorage = sessionStorage;
 		me.mHrvTracking = null;
 		me.mSummaryRollupModel = new SummaryRollupModel();
-		me.mSelectedSessionDetails = new ScreenPicker.DetailsModel();
+		me.mSelectedSessionDetails = new DetailsModel();
 		me.mFeed = beatIntervalFeed;
 		me.setSelectedSessionDetails();
 		me.hrvStatusLineNum = null;
@@ -181,8 +180,8 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 			me.pulseBacklight();
 		}
 		if (sensorStatus != HeartbeatIntervalsSensorStatus.Error) {
-			if (!(hrvStatusLine.icon instanceof ScreenPicker.HrvIcon)) {
-				hrvStatusLine.icon = new ScreenPicker.HrvIcon({});
+			if (!(hrvStatusLine.icon instanceof HrvIcon)) {
+				hrvStatusLine.icon = new HrvIcon({});
 			}
 			if (me.mHrvTracking == HrvTracking.On) {
 				hrvStatusLine.icon.setStatusOn();
@@ -190,8 +189,8 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 				hrvStatusLine.icon.setStatusOnDetailed();
 			}
 		} else {
-			if (!(hrvStatusLine.icon instanceof ScreenPicker.LoadingIcon)) {
-				hrvStatusLine.icon = new ScreenPicker.LoadingIcon({});
+			if (!(hrvStatusLine.icon instanceof LoadingIcon)) {
+				hrvStatusLine.icon = new LoadingIcon({});
 			}
 			hrvStatusLine.icon.tick();
 		}
@@ -211,7 +210,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 
 	private function setInitialHrvStatus(hrvStatusLine, session) {
 		if (hrvStatusLine.icon == null) {
-			hrvStatusLine.icon = new ScreenPicker.HrvIcon({});
+			hrvStatusLine.icon = new HrvIcon({});
 			hrvStatusLine.icon.setStatusWarning();
 		}
 		if (session.getHrvTracking() == HrvTracking.Off) {
@@ -229,7 +228,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 
 	function updateSelectedSessionDetails(session) {
 		if (me.mSelectedSessionDetails == null) {
-			me.mSelectedSessionDetails = new ScreenPicker.DetailsModel();
+			me.mSelectedSessionDetails = new DetailsModel();
 		}
 		var details = me.mSelectedSessionDetails;
 		// Reset the details model in-place
@@ -245,27 +244,27 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		var lineNum = 0;
 		var line = details.getLine(lineNum);
 
-		var timeIcon = new ScreenPicker.Icon({
+		var timeIcon = new Icon({
 			:font => StatusIconFonts.fontAwesomeFreeSolid,
-			:symbol => StatusIconFonts.Rez.Strings.IconTimeHalf,
+			:symbol => Rez.Strings.IconTimeHalf,
 		});
 		line.icon = timeIcon;
 		line.value.text = TimeFormatter.format(session.time);
 		lineNum++;
 
 		line = details.getLine(lineNum);
-		var vibePatternIcon = new ScreenPicker.Icon({
+		var vibePatternIcon = new Icon({
 			:font => StatusIconFonts.fontAwesomeFreeSolid,
-			:symbol => StatusIconFonts.Rez.Strings.IconBell,
+			:symbol => Rez.Strings.IconBell,
 		});
 		line.icon = vibePatternIcon;
 		line.value.text = Utils.getVibePatternText(session.vibePattern);
 		lineNum++;
 
 		line = details.getLine(lineNum);
-		var alertsLineIcon = new ScreenPicker.Icon({
+		var alertsLineIcon = new Icon({
 			:font => StatusIconFonts.fontAwesomeFreeSolid,
-			:symbol => StatusIconFonts.Rez.Strings.IconTimeline,
+			:symbol => Rez.Strings.IconTimeline,
 		});
 		line.icon = alertsLineIcon;
 		var alertsToHighlightsLine = new AlertsToHighlightsLine(session);
@@ -283,7 +282,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 
 	function createScreenPickerView() {
 		me.setSelectedSessionDetails();
-		return new ScreenPicker.ScreenPickerDetailsView(me.mSelectedSessionDetails, true);
+		return new ScreenPickerDetailsView(me.mSelectedSessionDetails, true);
 	}
 
 	class AlertsToHighlightsLine {
@@ -294,7 +293,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		private var mSession;
 
 		function getAlertsLine() {
-			var alertsLine = new ScreenPicker.PercentageHighlightLine(me.mSession.getIntervalAlerts().size());
+			var alertsLine = new PercentageHighlightLine(me.mSession.getIntervalAlerts().size());
 
 			alertsLine.backgroundColor = me.mSession.color;
 

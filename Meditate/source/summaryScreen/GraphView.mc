@@ -3,7 +3,7 @@ using Toybox.System;
 using Toybox.WatchUi as Ui;
 using Toybox.Graphics as Gfx;
 
-class GraphView extends ScreenPicker.ScreenPickerBaseView {
+class GraphView extends ScreenPickerBaseView {
 	var positionX, positionY;
 	var chartToLabelOffset;
 	var graphWidth, graphHeight;

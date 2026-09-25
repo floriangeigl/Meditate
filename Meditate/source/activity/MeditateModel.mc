@@ -1,9 +1,9 @@
 using Toybox.Application as App;
 
 // view model of a running session: elapsed time, the live metrics and the session facts
-class MeditateModel extends ScreenPicker.DetailsModel {
+class MeditateModel extends DetailsModel {
 	function initialize(sessionModel) {
-		ScreenPicker.DetailsModel.initialize();
+		DetailsModel.initialize();
 		me.mSession = sessionModel;
 		me.titleColor = me.mSession.color;
 		me.mDisplayName = null;

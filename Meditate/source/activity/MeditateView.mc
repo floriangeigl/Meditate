@@ -2,7 +2,6 @@ using Toybox.WatchUi as Ui;
 using Toybox.Lang;
 using Toybox.Graphics as Gfx;
 using Toybox.Application as App;
-using StatusIconFonts;
 
 // one metrics page row: hourglass with countdown until the first value, then the metric icon
 class MetricLine {
@@ -16,13 +15,13 @@ class MetricLine {
 		me.metric = metric;
 		me.mLine = line;
 		me.mIcon = icon;
-		me.mLoadingIcon = new ScreenPicker.LoadingIcon({});
+		me.mLoadingIcon = new LoadingIcon({});
 		me.mLoaded = false;
 		me.mLine.icon = me.mLoadingIcon;
 	}
 
 	function update(value, elapsed) {
-		me.mLine.value.text = ScreenPicker.ScreenPickerBaseView.formatValue(value);
+		me.mLine.value.text = ScreenPickerBaseView.formatValue(value);
 		if (value != null) {
 			me.mLoaded = true;
 			me.mLine.icon = me.mIcon;
@@ -41,7 +40,7 @@ class MetricLine {
 	}
 }
 
-class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
+class MeditateView extends ScreenPickerDetailsCenterView {
 	private var mMeditateModel;
 	private var mMainDurationRenderer;
 	private var mIntervalAlertsRenderer;
@@ -53,7 +52,7 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 
 	function initialize(meditateModel) {
 		// the up/down chevrons are the affordance for the guidance <-> metrics toggle
-		ScreenPicker.ScreenPickerDetailsCenterView.initialize(meditateModel, meditateModel.hasBreathProgram());
+		ScreenPickerDetailsCenterView.initialize(meditateModel, meditateModel.hasBreathProgram());
 		me.mMeditateModel = meditateModel;
 		me.mMainDurationRenderer = null;
 		me.mIntervalAlertsRenderer = null;
@@ -68,22 +67,22 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 	// the one icon per metric id, shared with the summary details page
 	static function createIcon(id) {
 		if (id == :hrv) {
-			return new ScreenPicker.HrvIcon({});
+			return new HrvIcon({});
 		} else if (id == :stress) {
-			return new ScreenPicker.StressIcon({});
+			return new StressIcon({});
 		} else if (id == :rr) {
-			return new ScreenPicker.BreathIcon({});
+			return new BreathIcon({});
 		}
-		return new ScreenPicker.Icon({
+		return new Icon({
 			:font => StatusIconFonts.fontAwesomeFreeSolid,
-			:symbol => StatusIconFonts.Rez.Strings.IconHeart,
+			:symbol => Rez.Strings.IconHeart,
 			:color => Gfx.COLOR_RED,
 		});
 	}
 
 	// Load your resources here
 	function onLayout(dc) {
-		ScreenPicker.ScreenPickerDetailsCenterView.onLayout(dc);
+		ScreenPickerDetailsCenterView.onLayout(dc);
 
 		// lines survive a re-layout so a loaded metric does not fall back to the hourglass
 		if (me.mLines == null) {
@@ -169,7 +168,7 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 				line.update(running ? line.metric.getValue() : null, elapsedTime);
 			}
 
-			ScreenPicker.ScreenPickerDetailsCenterView.onUpdate(dc);
+			ScreenPickerDetailsCenterView.onUpdate(dc);
 			me.mMainDurationRenderer.drawOverallElapsedTime(dc, elapsedTime, me.mMeditateModel.getSessionTime());
 			if (me.mIntervalAlertsRenderer != null) {
 				me.mIntervalAlertsRenderer.drawAllIntervalAlerts(dc);
