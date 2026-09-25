@@ -198,6 +198,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 				// sensor restart: disable all HR sensors and exit the app cleanly
 				App.getApp().beatIntervalFeed.shutdown();
 				System.exit();
+				return; // the row has no values; never fall through to an options menu
 			}
 			var labels = row[ColLabels] == null ? GlobalSettingsMenuDelegate.durationLabels(row[ColValues]) : row[ColLabels];
 			OptionMenu.push(
