@@ -89,18 +89,7 @@
     <string id="menuColorThemeOptions_light">Light</string>
     <string id="menuColorThemeOptions_dark">Dark</string>
 
-    <string id="menuPrepareTimeOptions_title">Preparation</string>
     <string id="menuFinalizeTimeOptions_title">Finalization</string>
-    <string id="menuPrepareTimeOptions_0s">0 secs</string>
-    <string id="menuPrepareTimeOptions_15s">15 secs</string>
-    <string id="menuPrepareTimeOptions_30s">30 secs</string>
-    <string id="menuPrepareTimeOptions_45s">45 secs</string>
-    <string id="menuPrepareTimeOptions_1m">1 min</string>
-    <string id="menuPrepareTimeOptions_2m">2 min</string>
-    <string id="menuPrepareTimeOptions_3m">3 min</string>
-    <string id="menuPrepareTimeOptions_4m">4 min</string>
-    <string id="menuPrepareTimeOptions_5m">5 min</string>
-    <string id="menuPrepareTimeOptions_10m">10 min</string>
 
     <string id="menuHrvWindowSizeOptions_title">HRV Window</string>
     <string id="menuLabelDefault">Default</string>

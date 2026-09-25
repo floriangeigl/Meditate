@@ -63,8 +63,7 @@ class SessionSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			Ui.pushView(confirmDeleteSessionDialog, new YesDelegate(method(:onConfirmedDeleteSession)), Ui.SLIDE_LEFT);
 		} else if (id == :globalSettings) {
 			Ui.popView(Ui.SLIDE_IMMEDIATE);
-			var globalSettingsDelegate = new GlobalSettingsDelegate(me.mSessionPickerDelegate);
-			globalSettingsDelegate.showGlobalSettingsMenu();
+			GlobalSettingsMenuDelegate.show();
 		} else if (id == :help) {
 			Communications.openWebPage(
 				"https://geigl.online/meditate_app_user_guide/",

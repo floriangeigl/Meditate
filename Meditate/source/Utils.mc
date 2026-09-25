@@ -218,17 +218,6 @@ class Utils {
 		);
 	}
 
-	static function getBreathCuesText(breathCues) {
-		switch (breathCues) {
-			case BreathCues.Off:
-				return Ui.loadResource(Rez.Strings.menuNotificationOptions_off);
-			case BreathCues.VibrationTone:
-				return Ui.loadResource(Rez.Strings.menuBreathCuesOptions_vibrationTone);
-			default:
-				return Ui.loadResource(Rez.Strings.menuBreathCuesOptions_vibration);
-		}
-	}
-
 	static function getSessionDisplayName(sessionModel, ordinalIndex) {
 		if (sessionModel == null) { return ""; }
 		if (sessionModel.name != null && sessionModel.name.length() > 0) {

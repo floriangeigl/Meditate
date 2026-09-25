@@ -87,18 +87,7 @@
     <string id="menuColorThemeOptions_light">Світла</string>
     <string id="menuColorThemeOptions_dark">Темна</string>
 
-    <string id="menuPrepareTimeOptions_title">Підготовка</string>
     <string id="menuFinalizeTimeOptions_title">Завершення</string>
-    <string id="menuPrepareTimeOptions_0s">0 с</string>
-    <string id="menuPrepareTimeOptions_15s">15 с</string>
-    <string id="menuPrepareTimeOptions_30s">30 с</string>
-    <string id="menuPrepareTimeOptions_45s">45 с</string>
-    <string id="menuPrepareTimeOptions_1m">1 хв</string>
-    <string id="menuPrepareTimeOptions_2m">2 хв</string>
-    <string id="menuPrepareTimeOptions_3m">3 хв</string>
-    <string id="menuPrepareTimeOptions_4m">4 хв</string>
-    <string id="menuPrepareTimeOptions_5m">5 хв</string>
-    <string id="menuPrepareTimeOptions_10m">10 хв</string>
 
     <string id="menuHrvWindowSizeOptions_title">Вікно HRV</string>
     <string id="menuLabelDefault">за замовч.</string>

@@ -89,18 +89,7 @@
 	<string id="menuColorThemeOptions_light">밝은 화면</string>
 	<string id="menuColorThemeOptions_dark">어두운 화면</string>
 
-	<string id="menuPrepareTimeOptions_title">준비</string>
 	<string id="menuFinalizeTimeOptions_title">마무리</string>
-	<string id="menuPrepareTimeOptions_0s">0 초</string>
-	<string id="menuPrepareTimeOptions_15s">15 초</string>
-	<string id="menuPrepareTimeOptions_30s">30 초</string>
-	<string id="menuPrepareTimeOptions_45s">45 초</string>
-	<string id="menuPrepareTimeOptions_1m">1 분</string>
-	<string id="menuPrepareTimeOptions_2m">2 분</string>
-	<string id="menuPrepareTimeOptions_3m">3 분</string>
-	<string id="menuPrepareTimeOptions_4m">4 분</string>
-	<string id="menuPrepareTimeOptions_5m">5 분</string>
-	<string id="menuPrepareTimeOptions_10m">10 min</string>
 
 	<string id="menuHrvWindowSizeOptions_title">HRV Window</string>
 	<string id="menuLabelDefault">기본값</string>

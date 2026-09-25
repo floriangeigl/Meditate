@@ -87,18 +87,7 @@
     <string id="menuColorThemeOptions_light">浅色</string>
     <string id="menuColorThemeOptions_dark">深色</string>
 
-    <string id="menuPrepareTimeOptions_title">准备</string>
     <string id="menuFinalizeTimeOptions_title">收尾</string>
-    <string id="menuPrepareTimeOptions_0s">0秒</string>
-    <string id="menuPrepareTimeOptions_15s">15秒</string>
-    <string id="menuPrepareTimeOptions_30s">30秒</string>
-    <string id="menuPrepareTimeOptions_45s">45秒</string>
-    <string id="menuPrepareTimeOptions_1m">1分钟</string>
-    <string id="menuPrepareTimeOptions_2m">2分钟</string>
-    <string id="menuPrepareTimeOptions_3m">3分钟</string>
-    <string id="menuPrepareTimeOptions_4m">4分钟</string>
-    <string id="menuPrepareTimeOptions_5m">5分钟</string>
-    <string id="menuPrepareTimeOptions_10m">10分钟</string>
 
     <string id="menuHrvWindowSizeOptions_title">HRV窗口</string>
     <string id="menuLabelDefault">默认</string>

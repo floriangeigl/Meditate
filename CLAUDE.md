@@ -234,7 +234,7 @@ Get-ChildItem "$env:APPDATA\Garmin\ConnectIQ\Devices" -Directory | ForEach-Objec
 
 ## Testing
 
-Unit tests live next to the code they cover, 60 of them, all live:
+Unit tests live next to the code they cover, 62 of them, all live:
 
 - `recording/tests/MetricTests` — the window engine against a scripted `read()` (flush on the
   completing tick, skipFirst, range, 90 % rule, keepHistory off, stats over window values).
@@ -262,6 +262,9 @@ Unit tests live next to the code they cover, 60 of them, all live:
 - `tests/OptionMenuTests` — the shared option lists keep the old menus' values and order (vibe
   patterns for sessions and alerts, activity type, HRV tracking with its Default hint), a null vibe
   pattern reads as no notification, `indexOf` matches by value.
+- `globalSettings/tests/GlobalSettingsMenuTests` — the settings table matches the old hand-built
+  menus row by row (order, stored key, option values, hint positions), and the subtitles show the
+  stored value (`00:45`, `05:00`, labels) through the real `updateMenuItems()`.
   `StorageSnapshot` saves the simulator's own store before each test and restores it after, and
   its key strings are literals on purpose: they are the stored format. A test that writes a
   session list must also write a dict for every key in it, or `loadSelectedSession()` takes its
@@ -614,15 +617,26 @@ Files: `Meditate/source/sessionSettings/breathProgram/` (model, templates, menus
 `Meditate/source/activity/BreathProgramRunner.mc`, `BreathCuesExecutor.mc`,
 `BreathGuidanceRenderer.mc`.
 
-### Menu row indices are load-bearing
+### Menus are built from one row list
 
-`Ui.Menu2.updateItem(item, index)` replaces label, sublabel **and** id together, so the
-construction order and the `updateMenuItems()` indices must agree. `AddEditSessionMenuDelegate`
-declares `Row*` constants for this; `SessionSettingsMenuDelegate.createAddEditSessionMenu` must
-add items in exactly that order. `GlobalSettingsDelegate.showGlobalSettingsMenu` and
-`GlobalSettingsMenuDelegate.updateMenuItems` have the same coupling by raw index — inserting a
-row there means renumbering every later one. `Ui.Menu2.findItemById` is not safe at the app's
-CIQ 3.0 floor.
+`Ui.Menu2.updateItem(item, index)` replaces label, sublabel **and** id together, and
+`Ui.Menu2.findItemById` is not safe at the app's CIQ 3.0 floor. So a menu that refreshes its
+subtitles builds and refreshes from the **same** row list, and a row's index is simply its position
+in that list; there are no hand-typed row numbers to drift.
+
+- **Global settings** (`GlobalSettingsMenuDelegate.rows()`): one row per setting,
+  `[id, row title, options title, setting key, values, labels, hints]`. `labels == null` marks a
+  duration in seconds, shown as `mm:ss` both in the options and in the row subtitle. A new setting
+  = one entry in `GlobalSettings`' defaults plus one row here. `GlobalSettingsMenuTests` pins the
+  rows to the old hand-built menus.
+- **Choose-one menus** go through `OptionMenu.push(title, values, labels, current, hints, onPicked,
+  tag)`. The item id is the position in `values`, but `onPicked(tag, value)` always gets the
+  **value**, so what is stored never depends on list order. The shared lists (vibe patterns for
+  sessions and alerts, activity type, HRV tracking) live in `OptionMenu` too.
+- **Duration pickers** go through `DurationPicker.pushHourMin` / `pushMinSec`, drawn `00:00` style
+  (no h/m/s letters); the rounds picker (`12x`) is a count, not a duration, and stays separate.
+- `AddEditSessionMenuDelegate` still declares `Row*` constants;
+  `SessionSettingsMenuDelegate.createAddEditSessionMenu` must add items in exactly that order.
 
 ### `ElapsedDurationRenderer` gotchas
 
