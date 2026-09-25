@@ -138,6 +138,11 @@ class Metric {
 		return me.mCount > 0;
 	}
 
+	// ticks per history entry
+	function getWindow() {
+		return me.window;
+	}
+
 	// ticks until the first window value; the skipped tick counts
 	function getLoadTime() {
 		if (me.liveBeforeWindow) {

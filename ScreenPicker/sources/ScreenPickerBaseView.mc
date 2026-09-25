@@ -20,6 +20,15 @@ module ScreenPicker {
 
 		function initialize(multiPage) {
 			View.initialize();
+			// colours first; the arrows copy the foreground when they are built
+			colorTheme = GlobalSettings.loadColorTheme();
+			if (colorTheme == ColorTheme.Dark) {
+				backgroundColor = Gfx.COLOR_BLACK;
+				foregroundColor = Gfx.COLOR_WHITE;
+			} else {
+				backgroundColor = Gfx.COLOR_WHITE;
+				foregroundColor = Gfx.COLOR_BLACK;
+			}
 			if (multiPage != null && multiPage) {
 				me.multiPage = true;
 				me.mUpArrow = new Icon({
@@ -36,16 +45,6 @@ module ScreenPicker {
 				});
 			} else {
 				me.multiPage = false;
-			}
-			colorTheme = GlobalSettings.loadColorTheme();
-			// Dark results theme
-			if (colorTheme == ColorTheme.Dark) {
-				backgroundColor = Gfx.COLOR_BLACK;
-				foregroundColor = Gfx.COLOR_WHITE;
-			} else {
-				// Light results theme
-				backgroundColor = Gfx.COLOR_WHITE;
-				foregroundColor = Gfx.COLOR_BLACK;
 			}
 		}
 

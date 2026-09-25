@@ -232,7 +232,7 @@ Get-ChildItem "$env:APPDATA\Garmin\ConnectIQ\Devices" -Directory | ForEach-Objec
 
 ## Testing
 
-Unit tests live next to the code they cover, 40 of them, all live:
+Unit tests live next to the code they cover, 47 of them, all live:
 
 - `recording/tests/MetricTests` — the window engine against a scripted `read()` (flush on the
   completing tick, skipFirst, range, 90 % rule, keepHistory off, stats over window values).
@@ -248,6 +248,9 @@ Unit tests live next to the code they cover, 40 of them, all live:
 - `activity/tests/MetricLineTests` — metrics page row states; `summaryScreen/tests/SummaryPagesTests`
   — the page set per HRV mode; `sessionSettings/tests/SessionPickerHrvStatusTests` — the picker's
   HRV line through the real delegate: starting texts, restart hint that stays past 60 s, weak, ready.
+- `summaryScreen/tests/GraphViewTests` — the graph maths: round grid inside the caps, flat data
+  widened to the minimum span, one value per column (stretch and average), bars only over the
+  recorded time, a layout that runs twice.
 
 They use Connect IQ's `(:test)` framework and return `true`/`false`. Run them after touching
 anything in `recording/`; they take ~20 s.
@@ -414,11 +417,25 @@ comes in through constructor arguments. Keep it that way; it is what makes the t
   id → icon mapping, also used by the summary details page); `MetricLine.update(value, elapsed)`
   is the whole per-row state machine — hourglass + countdown until the first value, "--" once the
   load time has passed, the metric icon once loaded, grey after a loss or while paused.
-  `SummaryViewDelegate.initialize` holds the page table `[id, kind, title, yMin, yMax]` in today's
+  `SummaryViewDelegate.initialize` holds the page table `[id, kind, title, lo, hi, minSpan]` in today's
   page order; presence by kind: `:graph`/`:details` need `metrics[id].hasData()` (the `:hr` graph
   is always there so the picker never has zero pages), `:hrvRmssd` needs `metrics[:hrv]`,
   `:hrvGraph`/`:hrvPnnx`/`:hrvSdrr` need `metrics[:hrv].detailed`. Build the table in
   `initialize()` — resource ids are not safe in static initialisers.
+- **`GraphView` draws one metric's window history** and rebuilds everything in `onLayout` from
+  the metric, consuming nothing, so a second layout is safe. The grid is the tightest of 2 or 3
+  round steps holding the data (`gridRange`, floor below the data), after `widen` has grown a
+  near-flat range to the row's `minSpan` (HR 6, stress 6, RR 4, HRV 10) — without it a 2 bpm
+  drift filled 90 % of the height where the old axis showed 30 %; each pixel column is the mean
+  of its share of the history (`columns`); the bars span only the recorded time (`coveredColumns`
+  — the partial window `flush()` drops shows as an empty right edge, visible with 5–10 min HRV
+  windows). Values are not rounded before plotting; `lo`/`hi` cap the bars, not the Avg/Min/Max
+  texts. `onUpdate` must draw the whole page on every call: skipping repeat calls once left the
+  screen black on some devices.
+- **`ScreenPickerBaseView` sets the theme colours before it builds the page arrows** — the arrow
+  icons copy the foreground at construction; built first, they fell back to white and were
+  invisible in the Light theme. `ColorPickerView` paints the swatch as its background, so it
+  sets its own arrow colour per swatch (white, black on white, the theme colour on transparent).
 - **Adding a metric** = one `XxxMetric` class (~15 lines), one line in
   `MeditateActivity.createMetrics`, one case in `MeditateView.createIcon`, one row in the summary
   page table. `SummaryPagesTests` pins the page set per HRV mode; `MetricLineTests` the row states.

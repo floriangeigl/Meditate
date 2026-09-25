@@ -6,21 +6,22 @@ using Toybox.Lang;
 class SummaryViewDelegate extends ScreenPicker.ScreenPickerDelegate {
 	private var mSummary;
 	private var mIdleReminderTimer;
-	// rows of [metric id, kind, title, yMin, yMax] in page order; a page exists when its data does
+	// rows of [metric id, kind, title, lo, hi, minSpan] in page order; lo/hi cap the graph, minSpan is its
+	// flattest scale; a page exists when its data does
 	private var pages;
 
 	function initialize(summary, idleReminderTimer) {
 		me.mSummary = summary;
 		// resource ids are not safe in static initialisers
 		var table = [
-			[:hr, :graph, Rez.Strings.SummaryHR, 20, 150],
-			[:hrv, :hrvGraph, Rez.Strings.SummaryHRVRMSSD, 0, 250],
-			[:stress, :graph, Rez.Strings.SummaryStress, 0, 100],
+			[:hr, :graph, Rez.Strings.SummaryHR, 20, 150, 6],
+			[:hrv, :hrvGraph, Rez.Strings.SummaryHRVRMSSD, 0, 250, 10],
+			[:stress, :graph, Rez.Strings.SummaryStress, 0, 100, 6],
 			[:stress, :details, Rez.Strings.SummaryStress],
 			[:hrv, :hrvRmssd],
 			[:hrv, :hrvPnnx],
 			[:hrv, :hrvSdrr],
-			[:rr, :graph, Rez.Strings.SummaryRespiration, 1, 60],
+			[:rr, :graph, Rez.Strings.SummaryRespiration, 1, 60, 4],
 		];
 		me.pages = [];
 		for (var i = 0; i < table.size(); i++) {
@@ -52,7 +53,7 @@ class SummaryViewDelegate extends ScreenPicker.ScreenPickerDelegate {
 		var metric = me.mSummary.metrics[row[0]];
 		var kind = row[1];
 		if (kind == :graph || kind == :hrvGraph) {
-			return new GraphView(metric, me.mSummary.elapsedTime, row[2], row[3], row[4]);
+			return new GraphView(metric, me.mSummary.elapsedTime, row[2], row[3], row[4], row[5]);
 		}
 		var detailsModel;
 		if (kind == :details) {
