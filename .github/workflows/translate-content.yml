@@ -4,48 +4,47 @@ concurrency:
   group: translate-content
   cancel-in-progress: true
 on:
-  push:
-    branches:
-      - "main"
-    paths:
-      - "UserGuide.md"
-      - "Advertisement.md"
-      - "ConnectIQStore/MeditateStoreDescription-en.txt"
-      - "userGuideScreenshots/hero_meditate.png"
-      - ".github/codex/prompts/translate-content.md"
-      - ".github/workflows/translate-content.yml"
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      scope:
+        description: "What to translate (changed only = what changed since the last translation, like a release)"
+        type: choice
+        options:
+          - changed only
+          - everything
+          - text only
+          - hero images only
+        default: changed only
+env:
+  SCOPE: ${{ inputs.scope || 'changed only' }}
 jobs:
-  detect-changes:
+  plan:
     name: Detect changes
     runs-on: ubuntu-latest
     outputs:
-      text_changed: ${{ steps.filter.outputs.text }}
-      image_changed: ${{ steps.filter.outputs.image }}
+      text: ${{ steps.plan.outputs.text }}
+      images: ${{ steps.plan.outputs.images }}
     steps:
       - uses: actions/checkout@v7
-      - uses: dorny/paths-filter@v4
-        id: filter
         with:
-          filters: |
-            text:
-              - "UserGuide.md"
-              - "Advertisement.md"
-              - "ConnectIQStore/MeditateStoreDescription-en.txt"
-              - ".github/codex/prompts/translate-content.md"
-              - ".github/workflows/translate-content.yml"
-            image:
-              - "userGuideScreenshots/hero_meditate.png"
-              - ".github/workflows/translate-content.yml"
+          ref: main
+      - name: Find outdated translations
+        id: plan
+        run: python3 .github/scripts/translate.py plan --scope "$SCOPE" >> "$GITHUB_OUTPUT"
 
   prepare-branch:
     name: Prepare translation branch
-    needs: detect-changes
-    if: needs.detect-changes.outputs.text_changed == 'true' || needs.detect-changes.outputs.image_changed == 'true'
+    needs: plan
+    if: needs.plan.outputs.text == 'true' || needs.plan.outputs.images == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: main
       - name: cleanup and create release-translation branch
         run: |
           git push -d origin release-translation || echo "no remote branch to cleanup"
@@ -54,25 +53,24 @@ jobs:
 
   translate-text:
     name: Translate text
-    needs: [detect-changes, prepare-branch]
-    if: needs.detect-changes.outputs.text_changed == 'true'
+    needs: [plan, prepare-branch]
+    if: needs.plan.outputs.text == 'true'
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v7
         with:
           ref: release-translation
-      - name: Translate via Codex
-        id: codex_translate
-        uses: openai/codex-action@v1.11
-        with:
-          openai-api-key: ${{ secrets.CHATGPT_TOKEN }}
-          prompt-file: .github/codex/prompts/translate-content.md
-          safety-strategy: drop-sudo
-          sandbox: workspace-write
-          model: gpt-5.5
+      - name: Install OpenAI SDK
+        run: pip install --quiet -r .github/scripts/requirements.txt
+      - name: Translate text files
+        env:
+          OPENAI_API_KEY: ${{ secrets.CHATGPT_TOKEN }}
+        run: python3 .github/scripts/translate.py text --scope "$SCOPE"
       - name: Commit text translations
+        if: ${{ !cancelled() }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -83,120 +81,35 @@ jobs:
 
   translate-images:
     name: Translate hero image
-    needs: [detect-changes, prepare-branch]
-    if: needs.detect-changes.outputs.image_changed == 'true'
+    needs: [plan, prepare-branch]
+    if: needs.plan.outputs.images == 'true'
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v7
         with:
           ref: release-translation
+      - name: Install OpenAI SDK
+        run: pip install --quiet -r .github/scripts/requirements.txt
       - name: Translate hero image for each language
-        shell: bash
         env:
           OPENAI_API_KEY: ${{ secrets.CHATGPT_TOKEN }}
-        run: |
-          pip install Pillow --quiet
-
-          declare -A LANG_FULL=([de]="German" [pt]="Brazilian Portuguese" [ko]="Korean" [es]="Spanish" [zh]="Chinese Simplified" [uk]="Ukrainian" [ja]="Japanese" [fr]="French")
-
-          SRC="userGuideScreenshots/hero_meditate.png"
-          mkdir -p generated/HeroImages
-
-          # Pad 1440x720 to 1536x1024 by extending edge pixels (no black bars)
-          python3 -c "
-          from PIL import Image
-          img = Image.open('${SRC}').convert('RGB')
-          tw, th = 1536, 1024
-          padded = Image.new('RGB', (tw, th))
-          ox = (tw - img.width) // 2
-          oy = (th - img.height) // 2
-          padded.paste(img, (ox, oy))
-          # Extend top edge
-          top_row = img.crop((0, 0, img.width, 1))
-          for y in range(oy):
-              padded.paste(top_row, (ox, y))
-          # Extend bottom edge
-          bot_row = img.crop((0, img.height - 1, img.width, img.height))
-          for y in range(oy + img.height, th):
-              padded.paste(bot_row, (ox, y))
-          # Extend left edge (full height now)
-          left_col = padded.crop((ox, 0, ox + 1, th))
-          for x in range(ox):
-              padded.paste(left_col, (x, 0))
-          # Extend right edge (full height now)
-          right_col = padded.crop((ox + img.width - 1, 0, ox + img.width, th))
-          for x in range(ox + img.width, tw):
-              padded.paste(right_col, (x, 0))
-          padded.save('/tmp/hero_padded.png')
-          "
-
-          for lang in "${!LANG_FULL[@]}"; do
-            lang_name="${LANG_FULL[$lang]}"
-            echo "Translating hero image to ${lang_name} (${lang})..."
-
-            prompt="Edit this hero banner image for a Garmin watch meditation app. Translate ONLY the text outside the watch into ${lang_name}.
-
-          DO NOT MODIFY THE WATCH AT ALL:
-          - The Garmin watch, its screen, and all text on the watch screen (\"Meditation 7\", \"01:00:00\", \"Long continuous\", \"HRV ready\", icons, bar chart) must remain COMPLETELY UNCHANGED. Do not redraw, translate, or touch any pixel inside the watch face circle.
-
-          TRANSLATE THESE TEXT AREAS:
-          1. The italic tagline on the light blue background above/left of the watch. Translate both lines naturally.
-          2. ALL text on the dark rounded-rectangle panel on the right side: the bold heading, the subtitle, the bullet points, the closing sentence, and the button label.
-          - Translate the app name naturally (e.g. for German: \"Meditation & Atemübungen\"). Keep the & separator.
-
-          PRESERVATION RULES:
-          - Do NOT change any colors, backgrounds, gradients, clouds, watch body, decorative elements, layout, or positioning.
-          - Do NOT add, remove, or move any visual elements.
-          - Keep the exact same font style, size, weight, and positioning for all translated text.
-          - The result must be pixel-identical to the original except for the translated text outside the watch."
-
-            response=$(curl -s -X POST "https://api.openai.com/v1/images/edits" \
-              -H "Authorization: Bearer ${OPENAI_API_KEY}" \
-              -F "model=gpt-image-1" \
-              -F "image[]=@/tmp/hero_padded.png" \
-              -F "prompt=${prompt}" \
-              -F "size=1536x1024" \
-              -F "quality=high" \
-              -F "input_fidelity=high")
-
-            # Check for errors
-            error=$(echo "$response" | jq -r '.error.message // empty')
-            if [ -n "$error" ]; then
-              echo "::warning::Failed to translate hero image to ${lang_name}: ${error}"
-              continue
-            fi
-
-            # Decode and crop back to original 1440x720 from center
-            echo "$response" | jq -r '.data[0].b64_json' | base64 -d > "/tmp/hero_${lang}_raw.png"
-
-            python3 -c "
-          from PIL import Image
-          img = Image.open('/tmp/hero_${lang}_raw.png').convert('RGB')
-          # Crop back to the original region (remove edge-extension padding)
-          left = (img.width - 1440) // 2
-          top = (img.height - 720) // 2
-          img = img.crop((left, top, left + 1440, top + 720))
-          img.save('generated/HeroImages/hero_meditate-${lang}.png')
-          "
-            rm -f "/tmp/hero_${lang}_raw.png"
-
-            echo "Done: generated/HeroImages/hero_meditate-${lang}.png"
-          done
-          rm -f /tmp/hero_padded.png
+        run: python3 .github/scripts/translate.py images --scope "$SCOPE"
       - name: Commit image translations
+        if: ${{ !cancelled() }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add ./generated/HeroImages/
+          git add ./generated/
           git commit -m "Update hero image translations" || echo "No image translation changes to commit"
           git pull --rebase origin release-translation || true
           git push origin release-translation
 
   create-pr:
     name: Create or update PR
-    needs: [detect-changes, translate-text, translate-images]
+    needs: [plan, translate-text, translate-images]
     if: always() && (needs.translate-text.result == 'success' || needs.translate-images.result == 'success')
     runs-on: ubuntu-latest
     permissions:

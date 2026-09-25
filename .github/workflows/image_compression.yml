@@ -6,6 +6,9 @@ jobs:
   build:
     name: calibreapp/image-actions
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v7
@@ -13,7 +16,6 @@ jobs:
         id: calibre
         uses: calibreapp/image-actions@1.5.0
         with:
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
           compressOnly: true
           jpegQuality: "100"
           jpegProgressive: true
@@ -21,12 +23,25 @@ jobs:
           webpQuality: "100"
       - name: debug
         run: git status && git diff && git branch
-      - name: git commit && push
+      - name: Open a PR with the compressed images
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BASE: ${{ github.ref_name }}
+          REPORT: ${{ steps.calibre.outputs.markdown }}
         run: |
-          git config --global user.name "${GITHUB_ACTOR}[bot]"
-          git config --global user.email "${GITHUB_ACTOR}[bot]@users.noreply.github.com"
-          git add .
-          git commit -am"
-          ${{ steps.calibre.outputs.markdown }}
-          " || echo "compression good already - no changes."
-          git push || echo "nothing to push"
+          if git diff --quiet; then
+            echo "compression good already - no changes."
+            exit 0
+          fi
+          branch="compress-images-${BASE}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B "$branch"
+          git commit -am "Compress images" -m "$REPORT"
+          git push -f origin "$branch"
+          pr=$(gh pr list --head "$branch" --base "$BASE" --state open --json url -q '.[0].url')
+          if [ -n "$pr" ]; then
+            echo "PR already exists: $pr"
+          else
+            gh pr create --head "$branch" --base "$BASE" --title "Compress images" --body "${REPORT:-Compressed images.}"
+          fi

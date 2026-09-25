@@ -88,7 +88,7 @@ Notes:
   next launch, dismissed with back/select/tap; new installs are marked caught-up so they never
   see it. The rows are drawn unwrapped, so keep each line About-screen short.
 - **Before every release, check whether any of the changes since the last release require an update to `UserGuide.md`** (e.g. renamed/added/removed settings, menus, or features the guide documents). Update it and stage the edit *before* running `makeRelease.sh` so it lands in the bump commit.
-- **Before every release, check whether the `codex-action@v1.11` pin can be lifted** — see "GitHub Actions: codex-action is pinned to v1.11" under Testing.
+- **Publish the GitHub release only after the release PR is merged to `main`** — publishing it starts the translation workflow, which translates what is on `main` then (see "GitHub Actions: translations" under Testing). Merge the "Update translations" PR it opens to update the store texts and the user guide site.
 - Stage any other intended changes (e.g. doc edits) **before** running; step 3's `git add .` sweeps the whole tree into the bump commit.
 - The final `git push` uses SSH (`git@github.com:...`). If the agent has no loaded key / a passphrase-protected key, push fails *after* the local commit+tag succeed — finish with a manual `git push origin dev && git push origin tag vX.X.X`.
 
@@ -272,26 +272,41 @@ with `Wait-Job -Timeout`) when scripting it.
 
 No CI pipeline builds or tests Monkey C code. GitHub Actions handle only image compression, content translation, and user guide publishing.
 
-### GitHub Actions: codex-action is pinned to v1.11 — check upstream before every release
+### GitHub Actions: translations run on a published release, changed files only
 
-`.github/workflows/translate-content.yml` runs `openai/codex-action@v1.11`, deliberately **not**
-the floating `@v1`. Since v1.12 (2026-08-21) the default `safety-strategy: drop-sudo` chmods the
-runner's D-Bus socket, `systemd-resolved` crash-loops, DNS on the VM dies, Codex hangs unable to
-reach the API and GitHub kills the job ~60 min later with *"The hosted runner lost communication
-with the server"* — the only annotation on the job, no step error. Runs 47–49 (Sep 2026) all died
-that way; the last green run took 2 min. Upstream: [openai/codex-action#160](https://github.com/openai/codex-action/issues/160).
-`main` is branch-protected — workflow fixes go through a PR, and merging one retriggers the
-translation run because the workflow file is in its own `paths` filter, so the merge is the test.
+`.github/workflows/translate-content.yml` fires on **`release: published`** — a GitHub release,
+not a tag push (`makeRelease.sh` tags on the branch before the merge) — and on manual dispatch.
+It always translates what is on `main` and hands the result over as an "Update translations" PR
+from `release-translation`. For a release event GitHub runs the workflow file at the **tag's**
+commit, so a workflow change applies to releases tagged after it.
 
-**Before every release**, and whenever this workflow fails again, check whether a better
-mitigation exists (`curl -s https://api.github.com/repos/openai/codex-action/tags | grep name`,
-plus the issue above):
-
-- Issue closed / a release newer than v1.12 fixes `drop-sudo` → move back to `@v1` (or the fixed
-  tag), merge, and confirm the Codex step finishes in minutes, not an hour.
-- v1.11 stops working (API change, model no longer accepted, CLI too old) → next best is
-  `@v1` with `safety-strategy: unsafe` (the bwrap `workspace-write` sandbox still applies). Not
-  `read-only` — it cannot write `generated/`.
+- **No agent, one script.** `.github/scripts/translate.py` calls the OpenAI API directly: one
+  Responses request per file and language (`gpt-6-sol`, effort `low`, `service_tier: flex` at
+  Batch price, standard tier on a flex 429) and one image edit per language
+  (`gpt-image-2.5-sunburst`, `high`, at the banner's native 1440×720 — both sides must stay
+  divisible by 16). Models are constants at the top of the script. `openai/codex-action` was
+  dropped in 2026-09 after breaking the workflow twice in two months: a removed CLI flag, then
+  the v1.12 `drop-sudo` DNS hang that killed runs 47–49 after ~60 min
+  ([codex-action#160](https://github.com/openai/codex-action/issues/160)).
+- **Changed files only, always whole files.** `generated/translation-state-text.json` and
+  `-images.json` record, per target, the hashes of its source and of its prompt
+  (`.github/prompts/translate-content.md`, `translate-hero.txt`). A target is redone when either
+  differs or the file is missing, so editing a prompt re-translates everything it covers
+  (line-ending-only changes don't count). Two files because both jobs push to the same branch in
+  parallel.
+- **Manual run:** Actions → *Translate texts, guides, etc* → Run workflow → `changed only` (what a
+  release does) / `everything` / `text only` / `hero images only`.
+- **Skipping a re-translation** (e.g. an English typo fix): `python3 .github/scripts/translate.py
+  mark-current` records every existing target as current — commit the two state files.
+- **Replies are checked before they are written:** Markdown must keep the source's heading,
+  `<a id=` and link counts and its `layout`/`permalink` lines, the store text its paragraph
+  count — every translation up to 2026-09 passes. A rejected target fails the job, the rest are
+  still committed and recorded, so the next run redoes only the failures. The step summary lists
+  the tokens per file.
+- `translate.py` stays Python 3.8-compatible (the runner has 3.12) so `plan`/`mark-current` run on
+  the WSL Ubuntu of this machine; the SDK is pinned in `.github/scripts/requirements.txt`.
+- `Compress Images` (manual) opens a PR from `compress-images-<branch>` into the branch it ran on;
+  pushing directly failed silently on the protected `main`.
 - Diagnosis without a token: job annotations are public,
   `curl -s https://api.github.com/repos/floriangeigl/Meditate/check-runs/<jobId>/annotations`
   (the job id from the Actions URL is the check-run id); the `/logs` endpoint needs auth.
