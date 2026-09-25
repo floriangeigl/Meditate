@@ -679,6 +679,7 @@ export
 Meditate/resources/secrets.xml
 Meditate/backup
 Meditate/debug-pulls
+reviews
 ```
 
 ## Device Scripts (Meditate/)
