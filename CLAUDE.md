@@ -234,7 +234,7 @@ Get-ChildItem "$env:APPDATA\Garmin\ConnectIQ\Devices" -Directory | ForEach-Objec
 
 ## Testing
 
-Unit tests live next to the code they cover, 42 of them, all live:
+Unit tests live next to the code they cover, 50 of them, all live:
 
 - `recording/tests/MetricTests` — the window engine against a scripted `read()` (flush on the
   completing tick, skipFirst, range, 90 % rule, keepHistory off, stats over window values).
@@ -252,6 +252,13 @@ Unit tests live next to the code they cover, 42 of them, all live:
   HRV line through the real delegate: starting texts, restart hint that stays past 60 s, weak, ready.
 - `screenPicker/tests/IconGlyphTests` — the icon font loads and every glyph the code uses is one
   private-use character (catches a blanked or retyped glyph).
+- `storage/tests/SessionStorageTests` — the stored session format round-trips unchanged, the enum
+  numbers inside stored sessions, fresh-store presets, the one-time breathwork preset migration,
+  index wrapping, delete-all restoring presets, and new keys never reusing a used one.
+  `StorageSnapshot` saves the simulator's own store before each test and restores it after, and
+  its key strings are literals on purpose: they are the stored format. A test that writes a
+  session list must also write a dict for every key in it, or `loadSelectedSession()` takes its
+  destructive recovery path.
 
 They use Connect IQ's `(:test)` framework and return `true`/`false`. Run them after touching
 anything in `recording/`; they take ~20 s.

@@ -100,11 +100,9 @@ class SessionStorage {
 
 	function generateSessionKey() {
 		var key = 100; // 100: offset for presets
-		// find smallest not used session key
-		for (var i = 0; i < mSessionKeys.size(); i++){
-			if (key == mSessionKeys[i]){
-				key++;
-			}
+		// smallest unused key; the list is in creation order, not sorted
+		while (me.mSessionKeys.indexOf(key) != -1) {
+			key++;
 		}
 		return key;
 	}
