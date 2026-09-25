@@ -7,29 +7,11 @@ using Toybox.WatchUi as Ui;
 // Serializes all Application.Storage user data and PUTs it to Firebase RTDB.
 // Called from DevToolsDelegate. Manages its own StatusView for progress display.
 //
-// When adding/removing Application.Storage keys in the app, update the
-// GLOBAL_SETTINGS_KEYS array and restore logic in CloudRestore.mc accordingly.
+// Global settings are every key of GlobalSettings.keys(); a new kind of stored data needs its own
+// payload section here and in CloudRestore.mc.
 class CloudBackup extends Ui.BehaviorDelegate {
 	private var mStatusView;
 	private var mActive;
-
-	private static const GLOBAL_SETTINGS_KEYS = [
-		"globalSettings_hrvTracking",
-		"globalSettings_activityType",
-		"globalSettings_confirmSaveActivity",
-		"globalSettings_multiSession",
-		"globalSettings_respirationRate",
-		"globalSettings_autoStop",
-		"globalSettings_notification",
-		"globalSettings_colorTheme",
-		"globalSettings_prapareTime",
-		"globalSettings_finalizeTime",
-		"globalSettings_hrvWindowTime",
-		"globalSettings_useSessionName",
-		"globalSettings_breathCues",
-		"globalSettings_presetsVersion",
-		"globalSettings_lastSeenNewsId",
-	];
 
 	function initialize() {
 		BehaviorDelegate.initialize();
@@ -52,10 +34,11 @@ class CloudBackup extends Ui.BehaviorDelegate {
 			var timestamp = Time.now().value();
 			var appVersion = Ui.loadResource(Rez.Strings.about_AppVersion);
 
-			// --- Global settings ---
+			// --- Global settings: stored values only, a default is not backed up ---
 			var globalSettings = {};
-			for (var i = 0; i < GLOBAL_SETTINGS_KEYS.size(); i++) {
-				var key = GLOBAL_SETTINGS_KEYS[i];
+			var settingKeys = GlobalSettings.keys();
+			for (var i = 0; i < settingKeys.size(); i++) {
+				var key = settingKeys[i];
 				var val = App.Storage.getValue(key);
 				if (val != null) {
 					globalSettings[key] = val;
@@ -63,13 +46,13 @@ class CloudBackup extends Ui.BehaviorDelegate {
 			}
 
 			// --- Sessions ---
-			var sessionKeys = App.Storage.getValue("sessionsKeys");
-			var selectedIndex = App.Storage.getValue("selectedSessionIndex");
+			var sessionKeys = App.Storage.getValue(SessionStorage.SessionKeysKey);
+			var selectedIndex = App.Storage.getValue(SessionStorage.SelectedIndexKey);
 			var sessionItems = {};
 			if (sessionKeys != null) {
 				for (var i = 0; i < sessionKeys.size(); i++) {
 					var k = sessionKeys[i];
-					var sessionData = App.Storage.getValue("sesssion_" + k.toString());
+					var sessionData = App.Storage.getValue(SessionStorage.SessionPrefixKey + k.toString());
 					if (sessionData != null) {
 						sessionItems[k.toString()] = sessionData;
 					}
@@ -83,13 +66,13 @@ class CloudBackup extends Ui.BehaviorDelegate {
 
 			// --- Wakeup ---
 			var wakeup = {
-				"activityType" => App.Storage.getValue("wakeupSession_activityType"),
+				"activityType" => App.Storage.getValue(WakeupSessionStorage.ActivityTypeKey),
 			};
 
 			// --- Monthly meditation stats ---
 			var monthlyStats = {
-				"monthly" => App.Storage.getValue("usageStats_monthly"),
-				"tipPending" => App.Storage.getValue("usageStats_tipPending"),
+				"monthly" => App.Storage.getValue(UsageStats.MonthlyKey),
+				"tipPending" => App.Storage.getValue(UsageStats.TipPendingKey),
 			};
 
 			// --- Full payload ---

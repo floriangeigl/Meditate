@@ -8,8 +8,8 @@ using Toybox.Time.Gregorian;
 // Fetches the list of available backups from Firebase, lets the user pick one,
 // then downloads it and writes all keys back to Application.Storage.
 //
-// When adding/removing Application.Storage keys in the app, update the restore
-// logic in onRestoreResponse() and GLOBAL_SETTINGS_KEYS in CloudBackup.mc.
+// Global settings are restored key by key as they came back, so a new setting needs no change;
+// a new kind of stored data needs its own payload section here and in CloudBackup.mc.
 class CloudRestore extends Ui.BehaviorDelegate {
 	private var mStatusView;
 	private var mActive;
@@ -145,10 +145,10 @@ class CloudRestore extends Ui.BehaviorDelegate {
 				var items = sessions["items"];
 
 				if (sessionKeys != null) {
-					App.Storage.setValue("sessionsKeys", sessionKeys);
+					App.Storage.setValue(SessionStorage.SessionKeysKey, sessionKeys);
 				}
 				if (selectedIndex != null) {
-					App.Storage.setValue("selectedSessionIndex", selectedIndex);
+					App.Storage.setValue(SessionStorage.SelectedIndexKey, selectedIndex);
 				}
 				if (items != null && sessionKeys != null) {
 					// Firebase coerces {"0":…,"1":…} with integer-like keys into a JSON
@@ -165,7 +165,7 @@ class CloudRestore extends Ui.BehaviorDelegate {
 							sessionData = i < items.size() ? items[i] : null;
 						}
 						if (sessionData != null) {
-							App.Storage.setValue("sesssion_" + k.toString(), sessionData);
+							App.Storage.setValue(SessionStorage.SessionPrefixKey + k.toString(), sessionData);
 						}
 					}
 				}
@@ -174,17 +174,17 @@ class CloudRestore extends Ui.BehaviorDelegate {
 			// --- Wakeup ---
 			var wakeup = data["wakeup"];
 			if (wakeup != null && wakeup["activityType"] != null) {
-				App.Storage.setValue("wakeupSession_activityType", wakeup["activityType"]);
+				App.Storage.setValue(WakeupSessionStorage.ActivityTypeKey, wakeup["activityType"]);
 			}
 
 			// --- Monthly meditation stats ---
 			var monthlyStats = data["monthlyStats"];
 			if (monthlyStats != null) {
 				if (monthlyStats["monthly"] != null) {
-					App.Storage.setValue("usageStats_monthly", monthlyStats["monthly"]);
+					App.Storage.setValue(UsageStats.MonthlyKey, monthlyStats["monthly"]);
 				}
 				if (monthlyStats["tipPending"] != null) {
-					App.Storage.setValue("usageStats_tipPending", monthlyStats["tipPending"]);
+					App.Storage.setValue(UsageStats.TipPendingKey, monthlyStats["tipPending"]);
 				}
 			}
 

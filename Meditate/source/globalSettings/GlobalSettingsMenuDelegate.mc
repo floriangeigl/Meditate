@@ -17,7 +17,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 	function onSelect(item) {
 		var id = item.getId();
 		if (id == :hrvTracking) {
-			var hrvVal = GlobalSettings.loadHrvTracking();
+			var hrvVal = GlobalSettings.load(GlobalSettings.HrvTrackingKey);
 			var focusIdx = 0;
 			if (hrvVal == HrvTracking.OnDetailed) {
 				focusIdx = 1;
@@ -41,7 +41,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			var hrvTrackingDelegate = new MenuOptionsDelegate(method(:onHrvTrackingPicked));
 			Ui.pushView(hrvMenu, hrvTrackingDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :newActivityType) {
-			var actVal = GlobalSettings.loadActivityType();
+			var actVal = GlobalSettings.load(GlobalSettings.ActivityTypeKey);
 			var focusIdx = 0;
 			if (actVal == ActivityType.Yoga) {
 				focusIdx = 1;
@@ -69,7 +69,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			var newActivityTypeDelegate = new MenuOptionsDelegate(method(:onNewActivityTypePicked));
 			Ui.pushView(actMenu, newActivityTypeDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :confirmSaveActivity) {
-			var csVal = GlobalSettings.loadConfirmSaveActivity();
+			var csVal = GlobalSettings.load(GlobalSettings.ConfirmSaveActivityKey);
 			var focusIdx = 0;
 			if (csVal == ConfirmSaveActivity.AutoYes) {
 				focusIdx = 1;
@@ -107,7 +107,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			var confirmSaveActivityDelegate = new MenuOptionsDelegate(method(:onConfirmSaveActivityPicked));
 			Ui.pushView(confirmMenu, confirmSaveActivityDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :multiSession) {
-			var focusIdx = GlobalSettings.loadMultiSession() == MultiSession.Yes ? 0 : 1;
+			var focusIdx = GlobalSettings.load(GlobalSettings.MultiSessionKey) == MultiSession.Yes ? 0 : 1;
 			var multiMenu = new Ui.Menu2({
 				:title => Ui.loadResource(Rez.Strings.menuMultiSessionOptions_title),
 				:focus => focusIdx,
@@ -125,7 +125,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			Ui.pushView(multiMenu, multiSessionDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :respirationRate) {
 			if (RrMetric.isSupported()) {
-				var focusIdx = GlobalSettings.loadRespirationRate() == RespirationRate.On ? 0 : 1;
+				var focusIdx = GlobalSettings.load(GlobalSettings.RespirationRateKey) == RespirationRate.On ? 0 : 1;
 				var respirationMenu = new Ui.Menu2({
 					:title => Ui.loadResource(Rez.Strings.menuRespirationRateOptions_title),
 					:focus => focusIdx,
@@ -154,7 +154,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 				Ui.pushView(respirationMenu, respirationRateDelegate, Ui.SLIDE_LEFT);
 			}
 		} else if (id == :prepareTime) {
-			var pt = GlobalSettings.loadPrepareTime();
+			var pt = GlobalSettings.load(GlobalSettings.PrepareTimeKey);
 			var focusIdx = 0;
 			if (pt == 15) {
 				focusIdx = 1;
@@ -207,7 +207,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			var prepareTimeDelegate = new MenuOptionsDelegate(method(:onPrepareTimePicked));
 			Ui.pushView(prepareMenu, prepareTimeDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :finalizeTime) {
-			var ft = GlobalSettings.loadFinalizeTime();
+			var ft = GlobalSettings.load(GlobalSettings.FinalizeTimeKey);
 			var focusIdx = 0;
 			if (ft == 15) {
 				focusIdx = 1;
@@ -250,7 +250,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			var finalizeTimeDelegate = new MenuOptionsDelegate(method(:onFinalizeTimePicked));
 			Ui.pushView(finalizeMenu, finalizeTimeDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :autoStop) {
-			var focusIdx = GlobalSettings.loadAutoStop() == AutoStop.On ? 0 : 1;
+			var focusIdx = GlobalSettings.load(GlobalSettings.AutoStopKey) == AutoStop.On ? 0 : 1;
 			var autoStopMenu = new Ui.Menu2({
 				:title => Ui.loadResource(Rez.Strings.menuGlobalSettings_autoStop),
 				:focus => focusIdx,
@@ -267,7 +267,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			var autoStopDelegate = new MenuOptionsDelegate(method(:onAutoStopPicked));
 			Ui.pushView(autoStopMenu, autoStopDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :notification) {
-			var focusIdx = GlobalSettings.loadNotification() == Notification.On ? 0 : 1;
+			var focusIdx = GlobalSettings.load(GlobalSettings.NotificationKey) == Notification.On ? 0 : 1;
 			var notificationMenu = new Ui.Menu2({
 				:title => Ui.loadResource(Rez.Strings.menuNotificationOptions_title),
 				:focus => focusIdx,
@@ -286,7 +286,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			var notificationDelegate = new MenuOptionsDelegate(method(:onNotificationPicked));
 			Ui.pushView(notificationMenu, notificationDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :breathCues) {
-			var cuesVal = GlobalSettings.loadBreathCues();
+			var cuesVal = GlobalSettings.load(GlobalSettings.BreathCuesKey);
 			var focusIdx = 1;
 			if (cuesVal == BreathCues.Off) {
 				focusIdx = 0;
@@ -311,7 +311,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			);
 			Ui.pushView(cuesMenu, new MenuOptionsDelegate(method(:onBreathCuesPicked)), Ui.SLIDE_LEFT);
 		} else if (id == :colorTheme) {
-			var focusIdx = GlobalSettings.loadColorTheme() == ColorTheme.Light ? 0 : 1;
+			var focusIdx = GlobalSettings.load(GlobalSettings.ColorThemeKey) == ColorTheme.Light ? 0 : 1;
 			var themeMenu = new Ui.Menu2({
 				:title => Ui.loadResource(Rez.Strings.menuGlobalSettings_colorTheme),
 				:focus => focusIdx,
@@ -330,7 +330,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			var colorThemeDelegate = new MenuOptionsDelegate(method(:onColorThemePicked));
 			Ui.pushView(themeMenu, colorThemeDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :hrvWindow) {
-			var w = GlobalSettings.loadHrvWindowTime();
+			var w = GlobalSettings.load(GlobalSettings.HrvWindowTimeKey);
 			var focusIdx = 0;
 			if (w == 60) {
 				focusIdx = 1;
@@ -378,7 +378,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			var hrvWindowSizeDelegate = new MenuOptionsDelegate(method(:onHrvWindowSizePicked));
 			Ui.pushView(windowMenu, hrvWindowSizeDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :useSessionName) {
-			var focusIdx = GlobalSettings.loadUseSessionName() ? 0 : 1;
+			var focusIdx = GlobalSettings.load(GlobalSettings.UseSessionNameKey) ? 0 : 1;
 			var useMenu = new Ui.Menu2({
 				:title => Ui.loadResource(Rez.Strings.menuGlobalSettings_useSessionName),
 				:focus => focusIdx,
@@ -410,7 +410,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 		}
 
 		// 0: hrvTracking
-		var hrvTracking = GlobalSettings.loadHrvTracking();
+		var hrvTracking = GlobalSettings.load(GlobalSettings.HrvTrackingKey);
 		var hrvTrackingText = Utils.getHrvTrackingText(hrvTracking);
 		mMenu.updateItem(
 			new Ui.MenuItem(
@@ -424,7 +424,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 
 		// 1: newActivityType
 		var newActivityTypeText = "";
-		var newActivityType = GlobalSettings.loadActivityType();
+		var newActivityType = GlobalSettings.load(GlobalSettings.ActivityTypeKey);
 		if (newActivityType == ActivityType.Meditating) {
 			newActivityTypeText = Ui.loadResource(Rez.Strings.menuNewActivityTypeOptions_meditating);
 		} else if (newActivityType == ActivityType.Yoga) {
@@ -446,7 +446,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 
 		// 2: confirmSaveActivity
 		var confirmSaveText = "";
-		var saveActivityConfirmation = GlobalSettings.loadConfirmSaveActivity();
+		var saveActivityConfirmation = GlobalSettings.load(GlobalSettings.ConfirmSaveActivityKey);
 		if (saveActivityConfirmation == ConfirmSaveActivity.AutoYes) {
 			confirmSaveText = Ui.loadResource(Rez.Strings.menuConfirmSaveActivityOptions_autoYes);
 		} else if (saveActivityConfirmation == ConfirmSaveActivity.AutoYesExit) {
@@ -468,7 +468,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 
 		// 3: multiSession
 		var multiSessionText = "";
-		var multi = GlobalSettings.loadMultiSession();
+		var multi = GlobalSettings.load(GlobalSettings.MultiSessionKey);
 		if (multi == MultiSession.Yes) {
 			multiSessionText = Ui.loadResource(Rez.Strings.menuMultiSessionOptions_yes);
 		} else {
@@ -487,7 +487,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 		// 4: respirationRate
 		var respirationText = "";
 		if (RrMetric.isSupported()) {
-			var rr = GlobalSettings.loadRespirationRate();
+			var rr = GlobalSettings.load(GlobalSettings.RespirationRateKey);
 			respirationText =
 				rr == RespirationRate.On
 					? Ui.loadResource(Rez.Strings.menuRespirationRateOptions_on)
@@ -506,7 +506,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 		);
 
 		// 5: prepareTime
-		var prepareTimeSeconds = GlobalSettings.loadPrepareTime();
+		var prepareTimeSeconds = GlobalSettings.load(GlobalSettings.PrepareTimeKey);
 		var prepareText = TimeFormatter.formatMinSec(prepareTimeSeconds);
 		mMenu.updateItem(
 			new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuGlobalSettings_prepareTime), prepareText, :prepareTime, {}),
@@ -514,7 +514,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 		);
 
 		// 6: finalizeTime
-		var finalizeTimeSeconds = GlobalSettings.loadFinalizeTime();
+		var finalizeTimeSeconds = GlobalSettings.load(GlobalSettings.FinalizeTimeKey);
 		var finalizeText = TimeFormatter.formatMinSec(finalizeTimeSeconds);
 		mMenu.updateItem(
 			new Ui.MenuItem(
@@ -528,7 +528,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 
 		// 7: autoStop
 		var autoStopText = "";
-		var autoStop = GlobalSettings.loadAutoStop();
+		var autoStop = GlobalSettings.load(GlobalSettings.AutoStopKey);
 		autoStopText =
 			autoStop == AutoStop.On
 				? Ui.loadResource(Rez.Strings.menuAutoStopOptions_on)
@@ -540,7 +540,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 
 		// 8: notification
 		var notificationText =
-			GlobalSettings.loadNotification() == Notification.On
+			GlobalSettings.load(GlobalSettings.NotificationKey) == Notification.On
 				? Ui.loadResource(Rez.Strings.menuNotificationOptions_on)
 				: Ui.loadResource(Rez.Strings.menuNotificationOptions_off);
 		mMenu.updateItem(
@@ -557,7 +557,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 		mMenu.updateItem(
 			new Ui.MenuItem(
 				Ui.loadResource(Rez.Strings.menuGlobalSettings_breathCues),
-				Utils.getBreathCuesText(GlobalSettings.loadBreathCues()),
+				Utils.getBreathCuesText(GlobalSettings.load(GlobalSettings.BreathCuesKey)),
 				:breathCues,
 				{}
 			),
@@ -566,7 +566,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 
 		// 9: colorTheme
 		var themeText =
-			GlobalSettings.loadColorTheme() == ColorTheme.Light
+			GlobalSettings.load(GlobalSettings.ColorThemeKey) == ColorTheme.Light
 				? Ui.loadResource(Rez.Strings.menuColorThemeOptions_light)
 				: Ui.loadResource(Rez.Strings.menuColorThemeOptions_dark);
 		mMenu.updateItem(
@@ -576,7 +576,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 
 		// 10: hrvWindow
 		var hrvWindowText = "";
-		var w = GlobalSettings.loadHrvWindowTime();
+		var w = GlobalSettings.load(GlobalSettings.HrvWindowTimeKey);
 		if (w == 30) {
 			hrvWindowText = Ui.loadResource(Rez.Strings.menuPrepareTimeOptions_30s);
 		} else if (w == 60) {
@@ -596,7 +596,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 		);
 
 		// 11: useSessionName
-		var useSessionNameText = GlobalSettings.loadUseSessionName()
+		var useSessionNameText = GlobalSettings.load(GlobalSettings.UseSessionNameKey)
 			? Ui.loadResource(Rez.Strings.menuGlobalSettings_useSessionName_on)
 			: Ui.loadResource(Rez.Strings.menuGlobalSettings_useSessionName_off);
 		mMenu.updateItem(
@@ -620,115 +620,115 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 
 	function onConfirmSaveActivityPicked(item) {
 		if (item == :ask) {
-			GlobalSettings.saveConfirmSaveActivity(ConfirmSaveActivity.Ask);
+			GlobalSettings.save(GlobalSettings.ConfirmSaveActivityKey, ConfirmSaveActivity.Ask);
 		} else if (item == :autoYes) {
-			GlobalSettings.saveConfirmSaveActivity(ConfirmSaveActivity.AutoYes);
+			GlobalSettings.save(GlobalSettings.ConfirmSaveActivityKey, ConfirmSaveActivity.AutoYes);
 		} else if (item == :autoYesExit) {
-			GlobalSettings.saveConfirmSaveActivity(ConfirmSaveActivity.AutoYesExit);
+			GlobalSettings.save(GlobalSettings.ConfirmSaveActivityKey, ConfirmSaveActivity.AutoYesExit);
 		} else if (item == :autoNo) {
-			GlobalSettings.saveConfirmSaveActivity(ConfirmSaveActivity.AutoNo);
+			GlobalSettings.save(GlobalSettings.ConfirmSaveActivityKey, ConfirmSaveActivity.AutoNo);
 		}
 		onChangedNotify();
 	}
 
 	function onMultiSessionPicked(item) {
 		if (item == :yes) {
-			GlobalSettings.saveMultiSession(MultiSession.Yes);
+			GlobalSettings.save(GlobalSettings.MultiSessionKey, MultiSession.Yes);
 		} else if (item == :no) {
-			GlobalSettings.saveMultiSession(MultiSession.No);
+			GlobalSettings.save(GlobalSettings.MultiSessionKey, MultiSession.No);
 		}
 		onChangedNotify();
 	}
 
 	function onRespirationRatePicked(item) {
 		if (item == :on) {
-			GlobalSettings.saveRespirationRate(RespirationRate.On);
+			GlobalSettings.save(GlobalSettings.RespirationRateKey, RespirationRate.On);
 		} else if (item == :off) {
-			GlobalSettings.saveRespirationRate(RespirationRate.Off);
+			GlobalSettings.save(GlobalSettings.RespirationRateKey, RespirationRate.Off);
 		}
 		onChangedNotify();
 	}
 
 	function onAutoStopPicked(item) {
 		if (item == :on) {
-			GlobalSettings.saveAutoStop(AutoStop.On);
+			GlobalSettings.save(GlobalSettings.AutoStopKey, AutoStop.On);
 		} else if (item == :off) {
-			GlobalSettings.saveAutoStop(AutoStop.Off);
+			GlobalSettings.save(GlobalSettings.AutoStopKey, AutoStop.Off);
 		}
 		onChangedNotify();
 	}
 
 	function onBreathCuesPicked(item) {
 		if (item == :off) {
-			GlobalSettings.saveBreathCues(BreathCues.Off);
+			GlobalSettings.save(GlobalSettings.BreathCuesKey, BreathCues.Off);
 		} else if (item == :vibrationTone) {
-			GlobalSettings.saveBreathCues(BreathCues.VibrationTone);
+			GlobalSettings.save(GlobalSettings.BreathCuesKey, BreathCues.VibrationTone);
 		} else {
-			GlobalSettings.saveBreathCues(BreathCues.Vibration);
+			GlobalSettings.save(GlobalSettings.BreathCuesKey, BreathCues.Vibration);
 		}
 		onChangedNotify();
 	}
 
 	function onNotificationPicked(item) {
 		if (item == :on) {
-			GlobalSettings.saveNotification(Notification.On);
+			GlobalSettings.save(GlobalSettings.NotificationKey, Notification.On);
 		} else if (item == :off) {
-			GlobalSettings.saveNotification(Notification.Off);
+			GlobalSettings.save(GlobalSettings.NotificationKey, Notification.Off);
 		}
 		onChangedNotify();
 	}
 
 	function onColorThemePicked(item) {
 		if (item == :Light) {
-			GlobalSettings.saveColorTheme(ColorTheme.Light);
+			GlobalSettings.save(GlobalSettings.ColorThemeKey, ColorTheme.Light);
 		} else if (item == :Dark) {
-			GlobalSettings.saveColorTheme(ColorTheme.Dark);
+			GlobalSettings.save(GlobalSettings.ColorThemeKey, ColorTheme.Dark);
 		}
 		onChangedNotify();
 	}
 
 	function onPrepareTimePicked(item) {
 		if (item == :time_0s) {
-			GlobalSettings.savePrepareTime(0);
+			GlobalSettings.save(GlobalSettings.PrepareTimeKey, 0);
 		} else if (item == :time_15s) {
-			GlobalSettings.savePrepareTime(15);
+			GlobalSettings.save(GlobalSettings.PrepareTimeKey, 15);
 		} else if (item == :time_30s) {
-			GlobalSettings.savePrepareTime(30);
+			GlobalSettings.save(GlobalSettings.PrepareTimeKey, 30);
 		} else if (item == :time_45s) {
-			GlobalSettings.savePrepareTime(45);
+			GlobalSettings.save(GlobalSettings.PrepareTimeKey, 45);
 		} else if (item == :time_1m) {
-			GlobalSettings.savePrepareTime(60);
+			GlobalSettings.save(GlobalSettings.PrepareTimeKey, 60);
 		} else if (item == :time_2m) {
-			GlobalSettings.savePrepareTime(120);
+			GlobalSettings.save(GlobalSettings.PrepareTimeKey, 120);
 		} else if (item == :time_3m) {
-			GlobalSettings.savePrepareTime(180);
+			GlobalSettings.save(GlobalSettings.PrepareTimeKey, 180);
 		} else if (item == :time_4m) {
-			GlobalSettings.savePrepareTime(240);
+			GlobalSettings.save(GlobalSettings.PrepareTimeKey, 240);
 		} else if (item == :time_5m) {
-			GlobalSettings.savePrepareTime(300);
+			GlobalSettings.save(GlobalSettings.PrepareTimeKey, 300);
 		}
 		onChangedNotify();
 	}
 
 	function onFinalizeTimePicked(item) {
 		if (item == :time_0s) {
-			GlobalSettings.saveFinalizeTime(0);
+			GlobalSettings.save(GlobalSettings.FinalizeTimeKey, 0);
 		} else if (item == :time_15s) {
-			GlobalSettings.saveFinalizeTime(15);
+			GlobalSettings.save(GlobalSettings.FinalizeTimeKey, 15);
 		} else if (item == :time_30s) {
-			GlobalSettings.saveFinalizeTime(30);
+			GlobalSettings.save(GlobalSettings.FinalizeTimeKey, 30);
 		} else if (item == :time_45s) {
-			GlobalSettings.saveFinalizeTime(45);
+			GlobalSettings.save(GlobalSettings.FinalizeTimeKey, 45);
 		} else if (item == :time_1m) {
-			GlobalSettings.saveFinalizeTime(60);
+			GlobalSettings.save(GlobalSettings.FinalizeTimeKey, 60);
 		} else if (item == :time_2m) {
-			GlobalSettings.saveFinalizeTime(120);
+			GlobalSettings.save(GlobalSettings.FinalizeTimeKey, 120);
 		} else if (item == :time_3m) {
-			GlobalSettings.saveFinalizeTime(180);
+			GlobalSettings.save(GlobalSettings.FinalizeTimeKey, 180);
 		} else if (item == :time_4m) {
-			GlobalSettings.saveFinalizeTime(240);
+			GlobalSettings.save(GlobalSettings.FinalizeTimeKey, 240);
 		} else if (item == :time_5m) {
-			GlobalSettings.saveFinalizeTime(300);
+			GlobalSettings.save(GlobalSettings.FinalizeTimeKey, 300);
 		}
 		onChangedNotify();
 	}
@@ -740,50 +740,50 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 
 	function onNewActivityTypePicked(item) {
 		if (item == :meditating) {
-			GlobalSettings.saveActivityType(ActivityType.Meditating);
+			GlobalSettings.save(GlobalSettings.ActivityTypeKey, ActivityType.Meditating);
 		} else if (item == :yoga) {
-			GlobalSettings.saveActivityType(ActivityType.Yoga);
+			GlobalSettings.save(GlobalSettings.ActivityTypeKey, ActivityType.Yoga);
 		} else if (item == :breathing) {
-			GlobalSettings.saveActivityType(ActivityType.Breathing);
+			GlobalSettings.save(GlobalSettings.ActivityTypeKey, ActivityType.Breathing);
 		} else if (item == :generic) {
-			GlobalSettings.saveActivityType(ActivityType.Generic);
+			GlobalSettings.save(GlobalSettings.ActivityTypeKey, ActivityType.Generic);
 		}
 		onChangedNotify();
 	}
 
 	function onHrvTrackingPicked(item) {
 		if (item == :on) {
-			GlobalSettings.saveHrvTracking(HrvTracking.On);
+			GlobalSettings.save(GlobalSettings.HrvTrackingKey, HrvTracking.On);
 		} else if (item == :onDetailed) {
-			GlobalSettings.saveHrvTracking(HrvTracking.OnDetailed);
+			GlobalSettings.save(GlobalSettings.HrvTrackingKey, HrvTracking.OnDetailed);
 		} else if (item == :off) {
-			GlobalSettings.saveHrvTracking(HrvTracking.Off);
+			GlobalSettings.save(GlobalSettings.HrvTrackingKey, HrvTracking.Off);
 		}
 		onChangedNotify();
 	}
 
 	function onHrvWindowSizePicked(item) {
 		if (item == :time_30s) {
-			GlobalSettings.saveHrvWindowTime(30);
+			GlobalSettings.save(GlobalSettings.HrvWindowTimeKey, 30);
 		} else if (item == :time_1m) {
-			GlobalSettings.saveHrvWindowTime(60);
+			GlobalSettings.save(GlobalSettings.HrvWindowTimeKey, 60);
 		} else if (item == :time_2m) {
-			GlobalSettings.saveHrvWindowTime(60 * 2);
+			GlobalSettings.save(GlobalSettings.HrvWindowTimeKey, 60 * 2);
 		} else if (item == :time_3m) {
-			GlobalSettings.saveHrvWindowTime(60 * 3);
+			GlobalSettings.save(GlobalSettings.HrvWindowTimeKey, 60 * 3);
 		} else if (item == :time_5m) {
-			GlobalSettings.saveHrvWindowTime(60 * 5);
+			GlobalSettings.save(GlobalSettings.HrvWindowTimeKey, 60 * 5);
 		} else if (item == :time_10m) {
-			GlobalSettings.saveHrvWindowTime(60 * 10);
+			GlobalSettings.save(GlobalSettings.HrvWindowTimeKey, 60 * 10);
 		}
 		onChangedNotify();
 	}
 
 	function onUseSessionNamePicked(item) {
 		if (item == :on) {
-			GlobalSettings.saveUseSessionName(true);
+			GlobalSettings.save(GlobalSettings.UseSessionNameKey, true);
 		} else if (item == :off) {
-			GlobalSettings.saveUseSessionName(false);
+			GlobalSettings.save(GlobalSettings.UseSessionNameKey, false);
 		}
 		onChangedNotify();
 	}

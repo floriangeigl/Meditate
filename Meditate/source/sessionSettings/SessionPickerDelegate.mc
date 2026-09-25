@@ -118,7 +118,7 @@ class SessionPickerDelegate extends ScreenPickerDelegate {
 
 	function startActivity() {
 		// If there is no preparation time, start the meditate activity
-		if (GlobalSettings.loadPrepareTime() == 0) {
+		if (GlobalSettings.load(GlobalSettings.PrepareTimeKey) == 0) {
 			startMeditationSession();
 			return;
 		}

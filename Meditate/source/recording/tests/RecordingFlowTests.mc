@@ -81,7 +81,7 @@ class RecordingFlowTests {
 		if (model.liveMetrics[0].id != :hr || model.liveMetrics[1].id != :hrv) {
 			return false;
 		}
-		if (model.getMetric(:hrv).getLoadTime() != GlobalSettings.loadHrvWindowTime()) {
+		if (model.getMetric(:hrv).getLoadTime() != GlobalSettings.load(GlobalSettings.HrvWindowTimeKey)) {
 			return false;
 		}
 		activity.start();

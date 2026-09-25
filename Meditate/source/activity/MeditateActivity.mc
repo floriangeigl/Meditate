@@ -29,7 +29,7 @@ class MeditateActivity {
 		// otherwise fall back to the Garmin Connect property or default titles.
 		var activityName = "";
 		if (
-			GlobalSettings.loadUseSessionName() &&
+			GlobalSettings.load(GlobalSettings.UseSessionNameKey) &&
 			meditateModel.getName() != null &&
 			meditateModel.getName().length() > 0
 		) {
@@ -73,7 +73,7 @@ class MeditateActivity {
 		meditateModel.liveMetrics = metrics;
 		me.mHrv = meditateModel.getMetric(:hrv);
 		me.mSummary = null;
-		me.mAutoStopEnabled = GlobalSettings.loadAutoStop();
+		me.mAutoStopEnabled = GlobalSettings.load(GlobalSettings.AutoStopKey);
 		me.mAutoStopRoundsTriggered = 0;
 	}
 
@@ -83,13 +83,13 @@ class MeditateActivity {
 		var hrvTracking = meditateModel.getHrvTracking();
 		if (hrvTracking != HrvTracking.Off) {
 			metrics.add(
-				new HrvMetric(fitFields, hrvTracking == HrvTracking.OnDetailed, GlobalSettings.loadHrvWindowTime())
+				new HrvMetric(fitFields, hrvTracking == HrvTracking.OnDetailed, GlobalSettings.load(GlobalSettings.HrvWindowTimeKey))
 			);
 		}
 		if (StressMetric.isSupported()) {
 			metrics.add(new StressMetric());
 		}
-		if (RrMetric.isSupported() && GlobalSettings.loadRespirationRate() == RespirationRate.On) {
+		if (RrMetric.isSupported() && GlobalSettings.load(GlobalSettings.RespirationRateKey) == RespirationRate.On) {
 			metrics.add(new RrMetric());
 		}
 		return metrics;

@@ -10,13 +10,13 @@ module WakeupSessionType {
 }
 
 class WakeupSessionStorage {
-	private static const WakeupActivityTypeKey = "wakeupSession_activityType";
+	static const ActivityTypeKey = "wakeupSession_activityType";
 
 	static function loadActivityType() {
-		return App.Storage.getValue(WakeupActivityTypeKey);
+		return App.Storage.getValue(ActivityTypeKey);
 	}
 
 	static function saveActivityType(activityType) {
-		App.Storage.setValue(WakeupActivityTypeKey, activityType);
+		App.Storage.setValue(ActivityTypeKey, activityType);
 	}
 }

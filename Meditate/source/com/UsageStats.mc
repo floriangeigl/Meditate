@@ -17,8 +17,8 @@ class UsageStats {
 	private static const usageStatsQueueMaxItems = 10;
 	private static var sFlushInProgress = false;
 	private static var sQueueIdCounter = 0;
-	private static const usageStatsMonthlyKey = "usageStats_monthly";
-	private static const usageStatsTipPendingKey = "usageStats_tipPending";
+	static const MonthlyKey = "usageStats_monthly";
+	static const TipPendingKey = "usageStats_tipPending";
 	private var currentParams;
 	private var lastMonthStats;
 	private var mInFlightEntry;
@@ -51,20 +51,20 @@ class UsageStats {
 
 	static function tryOpenPendingTip() {
 		try {
-			var pending = App.Storage.getValue(usageStatsTipPendingKey);
+			var pending = App.Storage.getValue(TipPendingKey);
 			if (pending == null) {
 				return;
 			}
 			// pending: [month_when_should_show, lastMonthStatsSeconds]
 			if (pending.size() < 2 || pending[0] == null || pending[1] == null) {
-				App.Storage.setValue(usageStatsTipPendingKey, null);
+				App.Storage.setValue(TipPendingKey, null);
 				return;
 			}
 			var month_today = Gregorian.info(Time.now(), Time.FORMAT_SHORT).month;
 			var pendingMonth = pending[0];
 			if (month_today != pendingMonth) {
 				// Next month started; drop the request so we don't show stale stats.
-				App.Storage.setValue(usageStatsTipPendingKey, null);
+				App.Storage.setValue(TipPendingKey, null);
 				return;
 			}
 			var devSettings = System.getDeviceSettings();
@@ -74,7 +74,7 @@ class UsageStats {
 			}
 			var mins = Math.ceil(pending[1] / 60.0);
 			TipMe.openTipMe(mins);
-			App.Storage.setValue(usageStatsTipPendingKey, null);
+			App.Storage.setValue(TipPendingKey, null);
 		} catch (ex) {
 			// Never break the app due to optional tip prompt logic.
 		}
@@ -458,7 +458,7 @@ class UsageStats {
 	}
 
 	function addToMonthly(sessionTime) {
-		var monthlyStats = App.Storage.getValue(usageStatsMonthlyKey);
+		var monthlyStats = App.Storage.getValue(MonthlyKey);
 		var current = 0;
 		var month_today = Gregorian.info(Time.now(), Time.FORMAT_SHORT).month;
 		if (monthlyStats == null) {
@@ -469,9 +469,9 @@ class UsageStats {
 				// reset monthly stats if the month has changed
 				me.lastMonthStats = monthlyStats[1];
 				if (me.lastMonthStats / 60 >= 30) {
-					var existingPending = App.Storage.getValue(usageStatsTipPendingKey);
+					var existingPending = App.Storage.getValue(TipPendingKey);
 					if (existingPending == null || existingPending.size() < 1 || existingPending[0] != month_today) {
-						App.Storage.setValue(usageStatsTipPendingKey, [month_today, me.lastMonthStats]);
+						App.Storage.setValue(TipPendingKey, [month_today, me.lastMonthStats]);
 					}
 				}
 				monthlyStats = [];
@@ -481,7 +481,7 @@ class UsageStats {
 		}
 		current += sessionTime;
 		monthlyStats = [month_today, current];
-		App.Storage.setValue(usageStatsMonthlyKey, monthlyStats);
+		App.Storage.setValue(MonthlyKey, monthlyStats);
 		// System.println("Set monthly stats: " + monthlyStats);
 	}
 }

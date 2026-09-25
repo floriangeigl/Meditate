@@ -61,11 +61,11 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 		me.mSummaryModel = me.mMeditateActivity.getSummary();
 
 		// Store auto-exit state as class member
-		var confirmSaveActivity = GlobalSettings.loadConfirmSaveActivity();
+		var confirmSaveActivity = GlobalSettings.load(GlobalSettings.ConfirmSaveActivityKey);
 		me.mShouldAutoExit = confirmSaveActivity == ConfirmSaveActivity.AutoYesExit;
 
 		// If there is no finalize time, proceed directly to finishing flow
-		if (GlobalSettings.loadFinalizeTime() == 0) {
+		if (GlobalSettings.load(GlobalSettings.FinalizeTimeKey) == 0) {
 			onShowDelayedFinishedView();
 			return;
 		}
@@ -83,7 +83,7 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 	}
 
 	function onFinishActivity() {
-		var confirmSaveActivity = GlobalSettings.loadConfirmSaveActivity();
+		var confirmSaveActivity = GlobalSettings.load(GlobalSettings.ConfirmSaveActivityKey);
 		var nextView = null;
 
 		if (
@@ -130,7 +130,7 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 	}
 
 	function onShowNextView() {
-		var continueAfterFinishingSession = GlobalSettings.loadMultiSession();
+		var continueAfterFinishingSession = GlobalSettings.load(GlobalSettings.MultiSessionKey);
 		if (continueAfterFinishingSession == MultiSession.Yes) {
 			// In multi-session mode show an intermediate post-session menu
 			showPostSessionMenu(me.mSummaryModel);
@@ -224,7 +224,7 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 		// When any auto-save variant is set, skip the stop/resume menu and proceed
 		// directly to stopping. Only show the menu when the user wants to be asked
 		// (Ask), so they still have a chance to resume.
-		var confirmSaveActivity = GlobalSettings.loadConfirmSaveActivity();
+		var confirmSaveActivity = GlobalSettings.load(GlobalSettings.ConfirmSaveActivityKey);
 		if (confirmSaveActivity == ConfirmSaveActivity.Ask) {
 			me.showPauseMenu(PauseReasonCompleted);
 		} else {

@@ -234,7 +234,7 @@ Get-ChildItem "$env:APPDATA\Garmin\ConnectIQ\Devices" -Directory | ForEach-Objec
 
 ## Testing
 
-Unit tests live next to the code they cover, 52 of them, all live:
+Unit tests live next to the code they cover, 56 of them, all live:
 
 - `recording/tests/MetricTests` — the window engine against a scripted `read()` (flush on the
   completing tick, skipFirst, range, 90 % rule, keepHistory off, stats over window values).
@@ -256,6 +256,9 @@ Unit tests live next to the code they cover, 52 of them, all live:
   numbers inside stored sessions, fresh-store presets, the one-time breathwork preset migration,
   index wrapping, delete-all restoring presets, new keys never reusing a used one, and the selection
   after a delete (through the real settings menu, with a `PickerSpy` for the picker).
+- `globalSettings/tests/GlobalSettingsTests` — the 15 setting keys and defaults typed out as the
+  released app stores them (missing → default, stored value → back unchanged, same type), the
+  numbers of every setting enum, and the session/wakeup/usage-stats key strings.
   `StorageSnapshot` saves the simulator's own store before each test and restores it after, and
   its key strings are literals on purpose: they are the stored format. A test that writes a
   session list must also write a dict for every key in it, or `loadSelectedSession()` takes its
@@ -326,7 +329,7 @@ plus the issue above):
 - **`me.` prefix** used consistently for instance member access.
 - **Composition over inheritance**: `MeditateActivity` owns an `ActivityRecorder`, which owns the `Metric` list — there is no activity class chain any more.
 - **Dictionary serialization**: Models use `fromDictionary()` / `toDictionary()` for `App.Storage` persistence.
-- **Static load/save**: `GlobalSettings` uses static methods per setting key.
+- **Settings**: `GlobalSettings.load(key)` / `save(key, value)` over one table of key → default (`XxxKey` constants). Key strings and defaults are stored data; `GlobalSettingsTests` types them all out, so a rename or a changed default fails a test instead of silently changing every user's app.
 - **Top-level classes, no modules**: the one exception is `module StatusIconFonts`, which only holds the icon font loaded at startup.
 
 ### Formatting
@@ -506,7 +509,7 @@ declared set. Field ids are FIT compatibility — never renumber.
 - `Meditate/source/activity/` — Core meditation activity, views, vibration alerts
 - `Meditate/source/sessionSettings/` — Session config, color/custom pickers, interval alerts
 - `Meditate/source/summaryScreen/` — Post-session summary with HR/HRV/stress/respiration graphs
-- `Meditate/source/globalSettings/` — App-wide settings (static load/save)
+- `Meditate/source/globalSettings/` — App-wide settings (one key → default table)
 - `Meditate/source/storage/` — Session CRUD, presets
 - `Meditate/source/com/` — GA4 analytics, donation prompts
 - `Meditate/source/recording/` — Sensor feed, FIT session and HR/RR/stress sampling (former `HrvAlgorithms` barrel)
@@ -715,9 +718,11 @@ In-app developer tool accessible via **long-press on the About screen** → "Dev
 
 ### Sync Rule
 
-**Whenever a `globalSettings_*` key is added, renamed, or removed**, add it to
-`Meditate/source/devTools/CloudBackup.mc` — `GLOBAL_SETTINGS_KEYS`. That array is the only
-allowlist; a missing key is silently dropped from the backup.
+**A new global setting needs no backup change.** `CloudBackup` backs up every key of
+`GlobalSettings.keys()`, the same table `load()`/`save()` use, so adding a setting there is all it
+takes. (It used to be a hand-kept `GLOBAL_SETTINGS_KEYS` array that silently dropped any key it
+lacked.) Backup copies the *stored* value only; a setting still at its default is not in the
+backup and falls back to the same default after a restore.
 
 `CloudRestore.onRestoreResponse()` needs **no change for new global settings** — it iterates
 whatever keys came back (`gs.keys()`) and writes them straight to storage. It only needs

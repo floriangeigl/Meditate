@@ -12,7 +12,6 @@ class ScreenPickerBaseView extends Ui.View {
 	var backgroundColor, foregroundColor;
 	var spaceXSmall, spaceYSmall, spaceXMed, spaceYMed;
 	private static const InvalidValueString = " --";
-	private static const colorThemeKey = "globalSettings_colorTheme";
 	protected var height, width;
 	protected var yOffsetTitle;
 
@@ -35,7 +34,7 @@ class ScreenPickerBaseView extends Ui.View {
 		} else {
 			me.multiPage = false;
 		}
-		colorTheme = GlobalSettings.loadColorTheme();
+		colorTheme = GlobalSettings.load(GlobalSettings.ColorThemeKey);
 		// Dark results theme
 		if (colorTheme == ColorTheme.Dark) {
 			backgroundColor = Gfx.COLOR_BLACK;

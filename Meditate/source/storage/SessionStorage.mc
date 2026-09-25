@@ -5,12 +5,12 @@ class SessionStorage {
 	private var mSelectedSessionIndex;
 	private var mSessionKeys;
 	private var mFreshInstall;
-	private static var mStorageKeySessionPrefix = "sesssion_";
-	private static var mStorageKeySelectedSessionIndex = "selectedSessionIndex";
-	private static var mStorageKeySessionsKeys = "sessionsKeys";
+	static const SessionPrefixKey = "sesssion_"; // historical triple-s typo, do not fix
+	static const SelectedIndexKey = "selectedSessionIndex";
+	static const SessionKeysKey = "sessionsKeys";
 
 	function initialize() {
-		me.mSessionKeys = App.Storage.getValue(me.mStorageKeySessionsKeys);
+		me.mSessionKeys = App.Storage.getValue(SessionKeysKey);
 		// no key list at all means this launch is creating the store; deleting every session
 		// does not count, updateSessionStats has written the list back by then
 		me.mFreshInstall = me.mSessionKeys == null;
@@ -18,7 +18,7 @@ class SessionStorage {
 			me.mSessionKeys = [];
 		}
 		// restore last selected session
-		me.setSelectedSessionIndex(App.Storage.getValue(me.mStorageKeySelectedSessionIndex));		
+		me.setSelectedSessionIndex(App.Storage.getValue(SelectedIndexKey));		
 
 		if (me.mSessionKeys.size() == 0){
 			me.restorePresets();
@@ -39,7 +39,7 @@ class SessionStorage {
 	private static const AddedBreathPresetKeys = [10, 11, 12];
 
 	private function migratePresets() {
-		if (GlobalSettings.loadPresetsVersion() >= SessionStorage.PresetsVersion) {
+		if (GlobalSettings.load(GlobalSettings.PresetsVersionKey) >= SessionStorage.PresetsVersion) {
 			return;
 		}
 		for (var i = 0; i < SessionStorage.LegacyBreathPresetKeys.size(); i++) {
@@ -48,7 +48,7 @@ class SessionStorage {
 		for (var i = 0; i < SessionStorage.AddedBreathPresetKeys.size(); i++) {
 			me.addMissingBreathPreset(SessionStorage.AddedBreathPresetKeys[i]);
 		}
-		GlobalSettings.savePresetsVersion(SessionStorage.PresetsVersion);
+		GlobalSettings.save(GlobalSettings.PresetsVersionKey, SessionStorage.PresetsVersion);
 	}
 
 	// keeps the stored session and changes only what the program owns, so colour, vibration and
@@ -86,7 +86,7 @@ class SessionStorage {
 	// null for anything unreadable: a corrupt entry must skip the migration, never fail startup
 	private function loadSessionByKey(key) {
 		try {
-			var loadedSessionDictionary = App.Storage.getValue(me.mStorageKeySessionPrefix + key.toString());
+			var loadedSessionDictionary = App.Storage.getValue(SessionPrefixKey + key.toString());
 			if (loadedSessionDictionary == null) {
 				return null;
 			}
@@ -112,7 +112,7 @@ class SessionStorage {
 		var before = me.mSelectedSessionIndex;
 		me.setSelectedSessionIndex(index);
 		if (me.mSelectedSessionIndex != before) {
-			App.Storage.setValue(mStorageKeySelectedSessionIndex, me.mSelectedSessionIndex);
+			App.Storage.setValue(SelectedIndexKey, me.mSelectedSessionIndex);
 		}
 	}
 
@@ -126,11 +126,11 @@ class SessionStorage {
 	}
 
 	function getSessionStorageKey(session) {
-		return me.mStorageKeySessionPrefix + session.key.toString();
+		return SessionPrefixKey + session.key.toString();
 	}
 
 	function getSelectedSessionStorageKey(){
-		return me.mStorageKeySessionPrefix + me.getSelectedSessionKey().toString();
+		return SessionPrefixKey + me.getSelectedSessionKey().toString();
 	}
 
 	function loadSelectedSession() {
@@ -163,8 +163,8 @@ class SessionStorage {
 	}
 
 	private function updateSessionStats() {
-		App.Storage.setValue(me.mStorageKeySelectedSessionIndex, me.mSelectedSessionIndex);
-		App.Storage.setValue(me.mStorageKeySessionsKeys, me.mSessionKeys);
+		App.Storage.setValue(SelectedIndexKey, me.mSelectedSessionIndex);
+		App.Storage.setValue(SessionKeysKey, me.mSessionKeys);
 	}
 
 	function restorePresets() {

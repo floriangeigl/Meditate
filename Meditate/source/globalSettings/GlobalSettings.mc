@@ -1,230 +1,62 @@
 using Toybox.Application as App;
 
+// every globalSettings_* value: one table of key and default, read with load and written with save.
+// CloudBackup backs up exactly keys(). key strings and defaults are stored data, never change them
 class GlobalSettings {
-	private static const HrvTrackingKey = "globalSettings_hrvTracking";
+	static const HrvTrackingKey = "globalSettings_hrvTracking";
+	static const ActivityTypeKey = "globalSettings_activityType";
+	static const ConfirmSaveActivityKey = "globalSettings_confirmSaveActivity";
+	static const MultiSessionKey = "globalSettings_multiSession";
+	static const RespirationRateKey = "globalSettings_respirationRate";
+	static const AutoStopKey = "globalSettings_autoStop";
+	static const NotificationKey = "globalSettings_notification";
+	static const ColorThemeKey = "globalSettings_colorTheme";
+	static const PrepareTimeKey = "globalSettings_prapareTime"; // historical typo, do not fix
+	static const FinalizeTimeKey = "globalSettings_finalizeTime";
+	static const HrvWindowTimeKey = "globalSettings_hrvWindowTime";
+	static const BreathCuesKey = "globalSettings_breathCues";
+	static const UseSessionNameKey = "globalSettings_useSessionName";
+	// markers, not user settings: the newest WhatsNewDelegate.NewsId dismissed, the preset migrations run
+	static const LastSeenNewsIdKey = "globalSettings_lastSeenNewsId";
+	static const PresetsVersionKey = "globalSettings_presetsVersion";
 
-	static function loadHrvTracking() {
-		var hrvTracking = App.Storage.getValue(HrvTrackingKey);
-		if (hrvTracking == null) {
-			hrvTracking = HrvTracking.OnDetailed;
+	private static var sDefaults = null;
+
+	// built on first use instead of in a static initialiser
+	private static function defaults() {
+		if (sDefaults == null) {
+			sDefaults = {
+				HrvTrackingKey => HrvTracking.OnDetailed,
+				ActivityTypeKey => ActivityType.Meditating,
+				ConfirmSaveActivityKey => ConfirmSaveActivity.Ask,
+				MultiSessionKey => MultiSession.No,
+				RespirationRateKey => RespirationRate.On,
+				AutoStopKey => AutoStop.On,
+				NotificationKey => Notification.On,
+				ColorThemeKey => ColorTheme.Dark,
+				PrepareTimeKey => 15,
+				FinalizeTimeKey => 0,
+				HrvWindowTimeKey => 60,
+				BreathCuesKey => BreathCues.Vibration,
+				UseSessionNameKey => false,
+				LastSeenNewsIdKey => 0,
+				PresetsVersionKey => 0,
+			};
 		}
-		return hrvTracking;
+		return sDefaults;
 	}
 
-	static function saveHrvTracking(hrvTracking) {
-		App.Storage.setValue(HrvTrackingKey, hrvTracking);
+	static function load(key) {
+		var value = App.Storage.getValue(key);
+		return value == null ? GlobalSettings.defaults()[key] : value;
 	}
 
-	private static const ActivityTypeKey = "globalSettings_activityType";
-
-	static function loadActivityType() {
-		var activityType = App.Storage.getValue(ActivityTypeKey);
-		if (activityType == null) {
-			return ActivityType.Meditating;
-		} else {
-			return activityType;
-		}
+	static function save(key, value) {
+		App.Storage.setValue(key, value);
 	}
 
-	static function saveActivityType(activityType) {
-		App.Storage.setValue(ActivityTypeKey, activityType);
-	}
-
-	private static const ConfirmSaveActivityKey = "globalSettings_confirmSaveActivity";
-
-	static function loadConfirmSaveActivity() {
-		var confirmSaveActivity = App.Storage.getValue(ConfirmSaveActivityKey);
-		if (confirmSaveActivity == null) {
-			return ConfirmSaveActivity.Ask;
-		} else {
-			return confirmSaveActivity;
-		}
-	}
-
-	static function saveConfirmSaveActivity(confirmSaveActivity) {
-		App.Storage.setValue(ConfirmSaveActivityKey, confirmSaveActivity);
-	}
-
-	private static const MultiSessionKey = "globalSettings_multiSession";
-
-	static function loadMultiSession() {
-		var multiSession = App.Storage.getValue(MultiSessionKey);
-		if (multiSession == null) {
-			return MultiSession.No;
-		} else {
-			return multiSession;
-		}
-	}
-
-	static function saveMultiSession(multiSession) {
-		App.Storage.setValue(MultiSessionKey, multiSession);
-	}
-
-	private static const RespirationRateKey = "globalSettings_respirationRate";
-
-	static function loadRespirationRate() {
-		var respirationRate = App.Storage.getValue(RespirationRateKey);
-		if (respirationRate == null) {
-			return RespirationRate.On;
-		} else {
-			return respirationRate;
-		}
-	}
-
-	static function saveRespirationRate(respirationRate) {
-		App.Storage.setValue(RespirationRateKey, respirationRate);
-	}
-
-	private static const AutoStopKey = "globalSettings_autoStop";
-
-	static function loadAutoStop() {
-		var autoStop = App.Storage.getValue(AutoStopKey);
-		if (autoStop == null) {
-			return AutoStop.On; // 'On' the default value for AutoStop
-		} else {
-			return autoStop;
-		}
-	}
-
-	static function saveAutoStop(autoStop) {
-		App.Storage.setValue(AutoStopKey, autoStop);
-	}
-
-	private static const NotificationKey = "globalSettings_notification";
-
-	static function loadNotification() {
-		var notification = App.Storage.getValue(NotificationKey);
-		if (notification == null) {
-			return Notification.On; // 'On' is the default value for Notification
-		} else {
-			return notification;
-		}
-	}
-
-	static function saveNotification(notification) {
-		App.Storage.setValue(NotificationKey, notification);
-	}
-
-	private static const ColorThemeKey = "globalSettings_colorTheme";
-
-	static function loadColorTheme() {
-		var colorTheme = App.Storage.getValue(ColorThemeKey);
-		if (colorTheme == null) {
-			return ColorTheme.Dark; // 'Dark' is the default color theme
-		} else {
-			return colorTheme;
-		}
-	}
-
-	static function saveColorTheme(colorTheme) {
-		App.Storage.setValue(ColorThemeKey, colorTheme);
-	}
-
-	private static const PrepareTimeKey = "globalSettings_prapareTime";
-
-	static function loadPrepareTime() {
-		var prepareTime = App.Storage.getValue(PrepareTimeKey);
-		if (prepareTime == null) {
-			//DEBUG - no prepare time for debugging faster
-			//return 0;
-			return 15;
-		} else {
-			return prepareTime;
-		}
-	}
-
-	static function savePrepareTime(prepareTime) {
-		App.Storage.setValue(PrepareTimeKey, prepareTime);
-	}
-
-	private static const FinalizeTimeKey = "globalSettings_finalizeTime";
-
-	static function loadFinalizeTime() {
-		var finalizeTime = App.Storage.getValue(FinalizeTimeKey);
-		if (finalizeTime == null) {
-			return 0;
-		} else {
-			return finalizeTime;
-		}
-	}
-
-	static function saveFinalizeTime(finalizeTime) {
-		App.Storage.setValue(FinalizeTimeKey, finalizeTime);
-	}
-
-	private static const HrvWindowTimeKey = "globalSettings_hrvWindowTime";
-	static function loadHrvWindowTime() {
-		var hrvWindowTime = App.Storage.getValue(HrvWindowTimeKey);
-		if (hrvWindowTime == null) {
-			return 60;
-		} else {
-			return hrvWindowTime;
-		}
-	}
-	static function saveHrvWindowTime(hrvWindowTime) {
-		App.Storage.setValue(HrvWindowTimeKey, hrvWindowTime);
-	}
-
-	private static const BreathCuesKey = "globalSettings_breathCues";
-
-	static function loadBreathCues() {
-		var breathCues = App.Storage.getValue(BreathCuesKey);
-		if (breathCues == null) {
-			return BreathCues.Vibration;
-		} else {
-			return breathCues;
-		}
-	}
-
-	static function saveBreathCues(breathCues) {
-		App.Storage.setValue(BreathCuesKey, breathCues);
-	}
-
-	// marker, not a user setting: the newest WhatsNewDelegate.NewsId this user has dismissed
-	private static const LastSeenNewsIdKey = "globalSettings_lastSeenNewsId";
-
-	static function loadLastSeenNewsId() {
-		var lastSeenNewsId = App.Storage.getValue(LastSeenNewsIdKey);
-		if (lastSeenNewsId == null) {
-			return 0;
-		} else {
-			return lastSeenNewsId;
-		}
-	}
-
-	static function saveLastSeenNewsId(lastSeenNewsId) {
-		App.Storage.setValue(LastSeenNewsIdKey, lastSeenNewsId);
-	}
-
-	// schema marker, not a user setting: which one-time preset migrations have already run
-	private static const PresetsVersionKey = "globalSettings_presetsVersion";
-
-	static function loadPresetsVersion() {
-		var presetsVersion = App.Storage.getValue(PresetsVersionKey);
-		if (presetsVersion == null) {
-			return 0;
-		} else {
-			return presetsVersion;
-		}
-	}
-
-	static function savePresetsVersion(presetsVersion) {
-		App.Storage.setValue(PresetsVersionKey, presetsVersion);
-	}
-
-	private static const UseSessionNameKey = "globalSettings_useSessionName";
-
-	static function loadUseSessionName() {
-		var use = App.Storage.getValue(UseSessionNameKey);
-		if (use == null) {
-			return false;
-		} else {
-			return use;
-		}
-	}
-
-	static function saveUseSessionName(use) {
-		App.Storage.setValue(UseSessionNameKey, use);
+	static function keys() {
+		return GlobalSettings.defaults().keys();
 	}
 }
 

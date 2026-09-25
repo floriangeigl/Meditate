@@ -55,8 +55,8 @@ class SessionModel {
 		me.breathProgram = null;
 		me.activityType = null;
 		me.hrvTracking = null;
-		me.defaultActivityType = GlobalSettings.loadActivityType();
-		me.defaultHrvTracking = GlobalSettings.loadHrvTracking();
+		me.defaultActivityType = GlobalSettings.load(GlobalSettings.ActivityTypeKey);
+		me.defaultHrvTracking = GlobalSettings.load(GlobalSettings.HrvTrackingKey);
 	}
 
 	function getName() {
