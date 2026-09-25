@@ -234,7 +234,7 @@ Get-ChildItem "$env:APPDATA\Garmin\ConnectIQ\Devices" -Directory | ForEach-Objec
 
 ## Testing
 
-Unit tests live next to the code they cover, 56 of them, all live:
+Unit tests live next to the code they cover, 60 of them, all live:
 
 - `recording/tests/MetricTests` — the window engine against a scripted `read()` (flush on the
   completing tick, skipFirst, range, 90 % rule, keepHistory off, stats over window values).
@@ -259,6 +259,9 @@ Unit tests live next to the code they cover, 56 of them, all live:
 - `globalSettings/tests/GlobalSettingsTests` — the 15 setting keys and defaults typed out as the
   released app stores them (missing → default, stored value → back unchanged, same type), the
   numbers of every setting enum, and the session/wakeup/usage-stats key strings.
+- `tests/OptionMenuTests` — the shared option lists keep the old menus' values and order (vibe
+  patterns for sessions and alerts, activity type, HRV tracking with its Default hint), a null vibe
+  pattern reads as no notification, `indexOf` matches by value.
   `StorageSnapshot` saves the simulator's own store before each test and restores it after, and
   its key strings are literals on purpose: they are the stored format. A test that writes a
   session list must also write a dict for every key in it, or `loadSelectedSession()` takes its
@@ -768,6 +771,7 @@ growing `SessionModel` needs no cloud-backup change at all — only watch the 32
 
 ### Key Learnings (Monkey C compiler)
 
+- **A `switch` on `null` throws** `Unexpected Type Error` ("Failed invoking <symbol>") at runtime; a `default:` branch does not catch it. Any switch over a value that can be null (a session's `vibePattern`, a stored enum that may be missing) needs a null check first. `Utils.vibePatternLabel` keeps one; dropping it crashed the session picker for sessions without a stored pattern, caught by `SessionPickerHrvStatusTests`.
 - **`settings.xml` string IDs must be defined in ALL locale resource folders.** Any string referenced via `@Strings.<id>` in `settings.xml` (e.g. as a `title=`) must exist in every `resources-<lang>/strings/strings.xml`, not just the base `resources/` folder. A missing locale string produces a `WARNING: String id '...' undefined for language '...'` and triggers the generic "A critical error has occurred" compiler crash.
 - **Static methods cannot access `private` instance members or call `private` instance methods**, even on a freshly created instance of their own class. Doing so causes the assembler error `Trying to add undefined symbol: <memberName>` during release builds. The fix is to move all initialization that touches private members into `initialize()`, so the `static run()` factory simply calls `new MyClass()`.
 - **"A critical error has occurred" is a compiler crash masking real errors.** Re-run with `--debug-log-level 2 --debug-log-output <file>.zip` to get `error.txt` inside the zip, which lists the actual `CompilerException` messages (e.g., assembler symbol errors, missing strings).

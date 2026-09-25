@@ -38,48 +38,52 @@ class Utils {
 	}
 
 	static function getVibePatternText(vibePattern) {
+		return Ui.loadResource(Utils.vibePatternLabel(vibePattern));
+	}
+
+	// the Rez id of a vibe pattern name; null and unknown read as no notification
+	static function vibePatternLabel(vibePattern) {
+		// a switch on null throws, so null never reaches it
 		if (vibePattern == null) {
-			vibePattern = VibePattern.NoNotification;
+			return Rez.Strings.vibePatternMenu_noNotification;
 		}
 		switch (vibePattern) {
 			case VibePattern.LongPulsating:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_longPulsating);
+				return Rez.Strings.vibePatternMenu_longPulsating;
 			case VibePattern.LongSound:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_longSound);
+				return Rez.Strings.vibePatternMenu_longSound;
 			case VibePattern.LongAscending:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_longAscending);
+				return Rez.Strings.vibePatternMenu_longAscending;
 			case VibePattern.LongContinuous:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_longContinuous);
+				return Rez.Strings.vibePatternMenu_longContinuous;
 			case VibePattern.LongDescending:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_longDescending);
+				return Rez.Strings.vibePatternMenu_longDescending;
 			case VibePattern.MediumAscending:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_mediumAscending);
+				return Rez.Strings.vibePatternMenu_mediumAscending;
 			case VibePattern.MediumContinuous:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_mediumContinuous);
+				return Rez.Strings.vibePatternMenu_mediumContinuous;
 			case VibePattern.MediumPulsating:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_mediumPulsating);
+				return Rez.Strings.vibePatternMenu_mediumPulsating;
 			case VibePattern.MediumDescending:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_mediumDescending);
+				return Rez.Strings.vibePatternMenu_mediumDescending;
 			case VibePattern.ShortAscending:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_shortAscending);
+				return Rez.Strings.vibePatternMenu_shortAscending;
 			case VibePattern.ShortContinuous:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_shortContinuous);
+				return Rez.Strings.vibePatternMenu_shortContinuous;
 			case VibePattern.ShortPulsating:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_shortPulsating);
+				return Rez.Strings.vibePatternMenu_shortPulsating;
 			case VibePattern.ShortDescending:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_shortDescending);
+				return Rez.Strings.vibePatternMenu_shortDescending;
 			case VibePattern.ShorterAscending:
-				return Ui.loadResource(Rez.Strings.intervalVibePatternMenu_shorterAscending);
+				return Rez.Strings.intervalVibePatternMenu_shorterAscending;
 			case VibePattern.ShorterContinuous:
-				return Ui.loadResource(Rez.Strings.intervalVibePatternMenu_shorterContinuous);
+				return Rez.Strings.intervalVibePatternMenu_shorterContinuous;
 			case VibePattern.Blip:
-				return Ui.loadResource(Rez.Strings.intervalVibePatternMenu_blip);
+				return Rez.Strings.intervalVibePatternMenu_blip;
 			case VibePattern.ShortSound:
-				return Ui.loadResource(Rez.Strings.intervalVibePatternMenu_shortSound);
-			case VibePattern.NoNotification:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_noNotification);
+				return Rez.Strings.intervalVibePatternMenu_shortSound;
 			default:
-				return Ui.loadResource(Rez.Strings.vibePatternMenu_noNotification);
+				return Rez.Strings.vibePatternMenu_noNotification;
 		}
 	}
 

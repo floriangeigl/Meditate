@@ -196,27 +196,7 @@ class AddEditBreathStepMenuDelegate extends Ui.Menu2InputDelegate {
 		if (step == null) {
 			return;
 		}
-		me.pushMinSecPicker(step.durations[phase], callback);
-	}
-
-	private function pushMinSecPicker(seconds, callback) {
-		var minutes = Utils.clampToRange(seconds / 60, 0, 59);
-		var secs = Utils.clampToRange(seconds % 60, 0, 59);
-		var view = new TwoColumnPickerView({
-			:title => Ui.loadResource(Rez.Strings.pickMMSS),
-			:isHourMinute => false,
-			:leftMin => 0,
-			:leftMax => 59,
-			:leftPad => 1,
-			:leftSuffix => "m",
-			:rightMin => 0,
-			:rightMax => 59,
-			:rightPad => 2,
-			:rightSuffix => "s",
-			:leftValue => minutes,
-			:rightValue => secs,
-		});
-		Ui.pushView(view, new TwoColumnPickerDelegate(view, callback, false), Ui.SLIDE_LEFT);
+		DurationPicker.pushMinSec(step.durations[phase], callback, Ui.SLIDE_LEFT);
 	}
 
 	function onInhalePicked(totalSeconds) {
@@ -304,7 +284,7 @@ class AddEditBreathStepMenuDelegate extends Ui.Menu2InputDelegate {
 		if (step == null) {
 			return;
 		}
-		me.pushMinSecPicker(step.repeatValue, method(:onRepeatDurationPicked));
+		DurationPicker.pushMinSec(step.repeatValue, method(:onRepeatDurationPicked), Ui.SLIDE_LEFT);
 	}
 
 	private function pushRepeatTypeMenu() {
@@ -331,7 +311,7 @@ class AddEditBreathStepMenuDelegate extends Ui.Menu2InputDelegate {
 				step.repeatType == BreathRepeat.Duration
 					? step.repeatValue
 					: Utils.clampToRange(step.cycleTime() * 4, 1, BreathStep.MaxDuration);
-			me.pushMinSecPicker(seconds, method(:onRepeatDurationPicked));
+			DurationPicker.pushMinSec(seconds, method(:onRepeatDurationPicked), Ui.SLIDE_LEFT);
 		} else {
 			var rounds = step.repeatType == BreathRepeat.Rounds ? step.repeatValue : 4;
 			me.pushRoundsPicker(rounds);

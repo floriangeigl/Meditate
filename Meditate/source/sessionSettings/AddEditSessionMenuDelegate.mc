@@ -52,36 +52,7 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 				me.pushBreathProgramMenu();
 				return;
 			}
-			// Calculate initial hours and minutes from session time (stored in seconds)
-			var totalSeconds = me.mSessionModel != null && me.mSessionModel.time != null ? me.mSessionModel.time : 0;
-			var totalMinutes = totalSeconds / 60;
-			var hours = totalMinutes / 60;
-			var minutes = totalMinutes % 60;
-			// Clamp to picker ranges
-			hours = Utils.clampToRange(hours, 0, 9);
-			minutes = Utils.clampToRange(minutes, 0, 59);
-
-			// Use custom two-column picker with themed background
-			var titleString = Ui.loadResource(Rez.Strings.pickHMM);
-			if (titleString == null) {
-				titleString = "Duration";
-			}
-			var view = new TwoColumnPickerView({
-				:title => titleString,
-				:isHourMinute => true,
-				:leftMin => 0,
-				:leftMax => 9,
-				:leftPad => 1,
-				:leftSuffix => "h",
-				:rightMin => 0,
-				:rightMax => 59,
-				:rightPad => 2,
-				:rightSuffix => "m",
-				:leftValue => hours,
-				:rightValue => minutes,
-			});
-			var delegate = new TwoColumnPickerDelegate(view, method(:onTimePicked), true);
-			Ui.pushView(view, delegate, Ui.SLIDE_LEFT);
+			DurationPicker.pushHourMin(me.mSessionModel.time, method(:onTimePicked), Ui.SLIDE_LEFT);
 		} else if (id == :color) {
 			var colors = [
 				Gfx.COLOR_BLUE,
@@ -104,96 +75,16 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 				Ui.SLIDE_LEFT
 			);
 		} else if (id == :vibePattern) {
-			// Programmatic Menu2 for vibe patterns so the delegate gets Menu2.MenuItems
-			var vp = me.mSessionModel.vibePattern;
-			var focusIdx = 0;
-			if (vp == VibePattern.LongContinuous) {
-				focusIdx = 1;
-			} else if (vp == VibePattern.LongSound) {
-				focusIdx = 2;
-			} else if (vp == VibePattern.LongPulsating) {
-				focusIdx = 3;
-			} else if (vp == VibePattern.LongAscending) {
-				focusIdx = 4;
-			} else if (vp == VibePattern.LongDescending) {
-				focusIdx = 5;
-			} else if (vp == VibePattern.MediumContinuous) {
-				focusIdx = 6;
-			} else if (vp == VibePattern.MediumPulsating) {
-				focusIdx = 7;
-			} else if (vp == VibePattern.MediumAscending) {
-				focusIdx = 8;
-			} else if (vp == VibePattern.MediumDescending) {
-				focusIdx = 9;
-			} else if (vp == VibePattern.ShortContinuous) {
-				focusIdx = 10;
-			} else if (vp == VibePattern.ShortPulsating) {
-				focusIdx = 11;
-			} else if (vp == VibePattern.ShortAscending) {
-				focusIdx = 12;
-			} else if (vp == VibePattern.ShortDescending) {
-				focusIdx = 13;
-			}
-			var vibeMenu = new Ui.Menu2({
-				:title => Ui.loadResource(Rez.Strings.vibePatternMenu_title),
-				:focus => focusIdx,
-			});
-			vibeMenu.addItem(
-				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_noNotification), "", :noNotification, {})
+			var vibes = OptionMenu.sessionVibePatterns();
+			OptionMenu.push(
+				Rez.Strings.vibePatternMenu_title,
+				vibes[0],
+				vibes[1],
+				me.mSessionModel.vibePattern,
+				vibes[2],
+				method(:onVibePatternPicked),
+				null
 			);
-			vibeMenu.addItem(
-				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_longContinuous), "", :longContinuous, {})
-			);
-			vibeMenu.addItem(
-				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_longSound), "", :longSound, {})
-			);
-			vibeMenu.addItem(
-				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_longPulsating), "", :longPulsating, {})
-			);
-			vibeMenu.addItem(
-				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_longAscending), "", :longAscending, {})
-			);
-			vibeMenu.addItem(
-				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_longDescending), "", :longDescending, {})
-			);
-			vibeMenu.addItem(
-				new Ui.MenuItem(
-					Ui.loadResource(Rez.Strings.vibePatternMenu_mediumContinuous),
-					"",
-					:mediumContinuous,
-					{}
-				)
-			);
-			vibeMenu.addItem(
-				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_mediumPulsating), "", :mediumPulsating, {})
-			);
-			vibeMenu.addItem(
-				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_mediumAscending), "", :mediumAscending, {})
-			);
-			vibeMenu.addItem(
-				new Ui.MenuItem(
-					Ui.loadResource(Rez.Strings.vibePatternMenu_mediumDescending),
-					"",
-					:mediumDescending,
-					{}
-				)
-			);
-			vibeMenu.addItem(
-				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_shortContinuous), "", :shortContinuous, {})
-			);
-			vibeMenu.addItem(
-				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_shortPulsating), "", :shortPulsating, {})
-			);
-			vibeMenu.addItem(
-				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_shortAscending), "", :shortAscending, {})
-			);
-			vibeMenu.addItem(
-				new Ui.MenuItem(Ui.loadResource(Rez.Strings.vibePatternMenu_shortDescending), "", :shortDescending, {})
-			);
-			// Interval-only patterns (blip/shortSound/shorter*) are not part of the general session vibe menu
-
-			var vibePatternMenuDelegate = new VibePatternMenuDelegate(method(:onVibePatternPicked));
-			Ui.pushView(vibeMenu, vibePatternMenuDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :intervalAlerts) {
 			// Build Menu2 root for interval alert settings so delegate can update subtexts
 			var intervalAlertSettingsMenu = new Ui.Menu2({
@@ -459,7 +350,7 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 		me.updateMenuItems();
 	}
 
-	function onVibePatternPicked(vibePattern) {
+	function onVibePatternPicked(tag, vibePattern) {
 		var sessionModel = new SessionModel();
 		sessionModel.vibePattern = vibePattern;
 		me.mSessionModel.copyNonNullFieldsFromSession(sessionModel);
