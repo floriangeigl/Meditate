@@ -234,7 +234,7 @@ Get-ChildItem "$env:APPDATA\Garmin\ConnectIQ\Devices" -Directory | ForEach-Objec
 
 ## Testing
 
-Unit tests live next to the code they cover, 62 of them, all live:
+Unit tests live next to the code they cover, 66 of them, all live:
 
 - `recording/tests/MetricTests` — the window engine against a scripted `read()` (flush on the
   completing tick, skipFirst, range, 90 % rule, keepHistory off, stats over window values).
@@ -265,6 +265,10 @@ Unit tests live next to the code they cover, 62 of them, all live:
 - `globalSettings/tests/GlobalSettingsMenuTests` — the settings table matches the old hand-built
   menus row by row (order, stored key, option values, hint positions), and the subtitles show the
   stored value (`00:45`, `05:00`, labels) through the real `updateMenuItems()`.
+- `sessionSettings/tests/SessionEditorTests` — the session editor through the real settings menu:
+  an edit changes only that field, a null activity type / HRV stays null (never filled with the
+  global default), picking one stores it, an emptied program is stored as null, and opening the
+  editor writes nothing.
   `StorageSnapshot` saves the simulator's own store before each test and restores it after, and
   its key strings are literals on purpose: they are the stored format. A test that writes a
   session list must also write a dict for every key in it, or `loadSelectedSession()` takes its
@@ -635,8 +639,15 @@ in that list; there are no hand-typed row numbers to drift.
   sessions and alerts, activity type, HRV tracking) live in `OptionMenu` too.
 - **Duration pickers** go through `DurationPicker.pushHourMin` / `pushMinSec`, drawn `00:00` style
   (no h/m/s letters); the rounds picker (`12x`) is a count, not a duration, and stays separate.
-- `AddEditSessionMenuDelegate` still declares `Row*` constants;
-  `SessionSettingsMenuDelegate.createAddEditSessionMenu` must add items in exactly that order.
+- **Session editor** (`AddEditSessionMenuDelegate.rows()` / `createMenu()` / `updateMenuItems()`):
+  same pattern, one `subtitleFor(id)`. Every edit changes the session in place and goes through
+  one `publish()`: `onChangeSession` saves the **whole** session under its own key. Activity type
+  and HRV tracking show the effective value (the global default when the field is null) but never
+  write it; a null field means "follow the global default" and must stay null until the user picks
+  a value. `SessionEditorTests` pins both.
+- **Session settings root** (`SessionSettingsMenuDelegate.createMenu(storage)`) is built with its
+  subtitles in one go; nothing refreshes it by index.
+- The breath step editor keeps its own `Row*` constants next to its `createMenu()`.
 
 ### `ElapsedDurationRenderer` gotchas
 

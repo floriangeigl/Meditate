@@ -103,16 +103,6 @@ class Utils {
 		}
 	}
 
-	static function getHrvTrackingText(hrvTracking) {
-		switch (hrvTracking) {
-			case HrvTracking.On:
-				return Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_on);
-			case HrvTracking.OnDetailed:
-				return Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_onDetailed);
-			default:
-				return Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_off);
-		}
-	}
 	// picker hrv line; see CLAUDE.md HRV cold start. the hint threshold stays a multiple of the 2s block
 	private static const HrvRestartHintAfterErrorSeconds = 18;
 	private static const HrvStartingTextBlockSeconds = 2;

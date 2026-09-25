@@ -4,13 +4,30 @@ using Toybox.Communications;
 class SessionSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 	private var mSessionStorage;
 	private var mSessionPickerDelegate;
-	private var mMenu;
 
-	function initialize(sessionStorage, sessionPickerDelegate, menu) {
+	// the root settings menu; start shows the session length, add new the session count
+	static function createMenu(sessionStorage) {
+		var selected = sessionStorage.loadSelectedSession();
+		var items = [
+			[:start, Rez.Strings.menuSessionSettings_start, selected != null ? TimeFormatter.format(selected.time) : ""],
+			[:edit, Rez.Strings.menuSessionSettings_edit, ""],
+			[:delete, Rez.Strings.menuSessionSettings_delete, ""],
+			[:addNew, Rez.Strings.menuSessionSettings_addNew, sessionStorage.getSessionsCount().toString()],
+			[:globalSettings, Rez.Strings.menuSessionSettings_globalSettings, ""],
+			[:help, Rez.Strings.menuSessionSettings_help, ""],
+			[:about, Rez.Strings.menuSessionSettings_about, ""],
+		];
+		var menu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.menuSessionSettings_Title) });
+		for (var i = 0; i < items.size(); i++) {
+			menu.addItem(new Ui.MenuItem(Ui.loadResource(items[i][1]), items[i][2], items[i][0], {}));
+		}
+		return menu;
+	}
+
+	function initialize(sessionStorage, sessionPickerDelegate) {
 		Menu2InputDelegate.initialize();
 		me.mSessionStorage = sessionStorage;
 		me.mSessionPickerDelegate = sessionPickerDelegate;
-		me.mMenu = menu;
 	}
 
 	// handle selections via Menu2's MenuItem
@@ -24,7 +41,7 @@ class SessionSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			me.mSessionPickerDelegate.startActivity();
 		} else if (id == :addNew) {
 			var newSession = me.mSessionStorage.newSession();
-			var menu = me.createAddEditSessionMenu(me.mSessionStorage.getSessionsCount() - 1);
+			var menu = AddEditSessionMenuDelegate.createMenu(me.mSessionStorage.getSessionsCount());
 
 			var addEditDelegate = new AddEditSessionMenuDelegate(
 				newSession,
@@ -42,7 +59,7 @@ class SessionSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 				return;
 			}
 			var existingSession = me.mSessionStorage.loadSelectedSession();
-			var menu = me.createAddEditSessionMenu(me.mSessionStorage.getSelectedSessionIndex());
+			var menu = AddEditSessionMenuDelegate.createMenu(me.mSessionStorage.getSelectedSessionIndex() + 1);
 
 			var addEditDelegate = new AddEditSessionMenuDelegate(
 				existingSession,
@@ -88,91 +105,15 @@ class SessionSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 		}
 	}
 
-	// update the root session settings menu subtexts (if a Menu2 was provided)
-	function updateMenuItems() {
-		if (me.mMenu == null) {
-			return;
-		}
-		// Build subtexts: we'll show counts and selection hints where possible
-		// Item indices correspond to the original menu resource order
-
-		// 0: start - show duration as subtext if available
-		var selectedSession = me.mSessionStorage.loadSelectedSession();
-		var startSubtext = "";
-		if (selectedSession != null) {
-			startSubtext = TimeFormatter.format(selectedSession.time);
-		}
-		me.mMenu.updateItem(
-			new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_start), startSubtext, :start, {}),
-			0
-		);
-
-		// 1: edit - no subtext
-		me.mMenu.updateItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_edit), "", :edit, {}), 1);
-
-		// 2: delete - no subtext
-		me.mMenu.updateItem(
-			new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_delete), "", :delete, {}),
-			2
-		);
-
-		// 3: addNew - show total sessions count
-		var sessionsCountText = me.mSessionStorage.getSessionsCount() + "";
-		me.mMenu.updateItem(
-			new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_addNew), sessionsCountText, :addNew, {}),
-			3
-		);
-
-		// 4: globalSettings - no subtext
-		me.mMenu.updateItem(
-			new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_globalSettings), "", :globalSettings, {}),
-			4
-		);
-
-		// 5: help - no subtext
-		me.mMenu.updateItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_help), "", :help, {}), 5);
-
-		// 6: about - no subtext
-		me.mMenu.updateItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_about), "", :about, {}), 6);
-	}
-
-	private function createAddEditSessionMenu(selectedSessionIndex) {
-		// Build a Menu2 programmatically for compatibility with Menu2 delegates
-		var sessionNumber = selectedSessionIndex + 1;
-		var menu = new Ui.Menu2({
-			:title => Ui.loadResource(Rez.Strings.addEditSessionMenu_title) + " " + sessionNumber,
-		});
-		// order must match the Row* constants in AddEditSessionMenuDelegate, which
-		// rewrites every row by index in updateMenuItems()
-		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_name), "", :name, {}));
-		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_time), "", :time, {}));
-		menu.addItem(
-			new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_breathProgram), "", :breathProgram, {})
-		);
-		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_color), "", :color, {}));
-		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_vibeSound), "", :vibePattern, {}));
-		menu.addItem(
-			new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_intervalAlerts), "", :intervalAlerts, {})
-		);
-		menu.addItem(
-			new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_activityType), "", :activityType, {})
-		);
-		menu.addItem(
-			new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_hrvTracking), "", :hrvTracking, {})
-		);
-		return menu;
-	}
-
 	function onConfirmedDeleteSession() {
 		me.mSessionStorage.deleteSelectedSession();
 		me.mSessionPickerDelegate.setPagesCount(me.mSessionStorage.getSessionsCount());
 		me.mSessionPickerDelegate.select(me.mSessionStorage.getSelectedSessionIndex());
 	}
 
-	function onChangeSession(changedSessionModel) {
-		var existingSession = me.mSessionStorage.loadSelectedSession();
-		existingSession.copyNonNullFieldsFromSession(changedSessionModel);
-		me.mSessionStorage.saveSession(existingSession);
-		me.mSessionPickerDelegate.updateSelectedSessionDetails(existingSession);
+	// the editor hands over the whole session; it is saved under its own key
+	function onChangeSession(session) {
+		me.mSessionStorage.saveSession(session);
+		me.mSessionPickerDelegate.updateSelectedSessionDetails(session);
 	}
 }

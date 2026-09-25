@@ -7,6 +7,7 @@ using Toybox.Graphics as Gfx;
 class PickerSpy {
 	var pagesCount = null;
 	var selected = null;
+	var shown = null;
 
 	function setPagesCount(count) {
 		me.pagesCount = count;
@@ -15,6 +16,10 @@ class PickerSpy {
 	function select(index) {
 		me.selected = index;
 	}
+
+	function updateSelectedSessionDetails(session) {
+		me.shown = session;
+	}
 }
 
 // the only code that can lose user data: stored format, presets, migration, keys and selection.
@@ -22,7 +27,7 @@ class PickerSpy {
 (:test)
 class SessionStorageTests {
 	// a session as the released app stores it, every field set away from its default
-	private static function storedSession(key, activityType, hrvTracking) {
+	static function storedSession(key, activityType, hrvTracking) {
 		return {
 			"time" => 754,
 			"color" => Gfx.COLOR_PURPLE,
@@ -68,7 +73,7 @@ class SessionStorageTests {
 		};
 	}
 
-	private static function plainSession(key, name) {
+	static function plainSession(key, name) {
 		return {
 			"time" => 300,
 			"color" => Gfx.COLOR_BLUE,
@@ -83,7 +88,7 @@ class SessionStorageTests {
 	}
 
 	// a dict for every listed key; version 2 so the preset migration stays out of the way
-	private static function writeStore(sessions, selectedIndex) {
+	static function writeStore(sessions, selectedIndex) {
 		StorageSnapshot.clearSessions();
 		var keys = [];
 		for (var i = 0; i < sessions.size(); i++) {
@@ -96,11 +101,11 @@ class SessionStorageTests {
 		App.Storage.setValue("globalSettings_presetsVersion", 2);
 	}
 
-	private static function stored(key) {
+	static function stored(key) {
 		return App.Storage.getValue("sesssion_" + key.toString());
 	}
 
-	private static function storedKeys() {
+	static function storedKeys() {
 		return App.Storage.getValue("sessionsKeys");
 	}
 
@@ -306,7 +311,7 @@ class SessionStorageTests {
 		SessionStorageTests.writeStore(sessions, position);
 		var storage = new SessionStorage();
 		var picker = new PickerSpy();
-		new SessionSettingsMenuDelegate(storage, picker, null).onConfirmedDeleteSession();
+		new SessionSettingsMenuDelegate(storage, picker).onConfirmedDeleteSession();
 		var index = storage.getSelectedSessionIndex();
 		return [index, picker.selected, SessionStorageTests.storedKeys()[index], picker.pagesCount];
 	}

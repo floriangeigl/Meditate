@@ -98,21 +98,11 @@ class SessionPickerDelegate extends ScreenPickerDelegate {
 	}
 
 	private function showSessionSettingsMenu() {
-		// Build a Menu2 root so the delegate can update subtexts (counts, selected index)
-		var menu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.menuSessionSettings_Title) });
-		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_start), "", :start, {}));
-		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_edit), "", :edit, {}));
-		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_delete), "", :delete, {}));
-		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_addNew), "", :addNew, {}));
-		menu.addItem(
-			new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_globalSettings), "", :globalSettings, {})
+		Ui.pushView(
+			SessionSettingsMenuDelegate.createMenu(me.mSessionStorage),
+			new SessionSettingsMenuDelegate(me.mSessionStorage, me),
+			Ui.SLIDE_UP
 		);
-		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_help), "", :help, {}));
-		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_about), "", :about, {}));
-
-		var sessionSettingsMenuDelegate = new SessionSettingsMenuDelegate(me.mSessionStorage, me, menu);
-		sessionSettingsMenuDelegate.updateMenuItems();
-		Ui.pushView(menu, sessionSettingsMenuDelegate, Ui.SLIDE_UP);
 		return true;
 	}
 

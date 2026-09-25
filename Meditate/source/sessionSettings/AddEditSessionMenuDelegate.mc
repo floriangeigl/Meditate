@@ -1,23 +1,38 @@
 using Toybox.WatchUi as Ui;
 using Toybox.Graphics as Gfx;
-using Toybox.Application as App;
 
+// the session editor. createMenu() and updateMenuItems() both walk rows(), so a row's menu index
+// is its position there. every edit changes the session in place and hands the whole session on
 class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 	private var mOnChangeSession;
 	private var mIntervalAlerts;
 	private var mMenu;
 	private var mSessionModel;
 
-	// single source of truth for row order; SessionSettingsMenuDelegate.createAddEditSessionMenu
-	// must add items in exactly this order because updateMenuItems() rewrites them by index
-	static const RowName = 0;
-	static const RowTime = 1;
-	static const RowBreathProgram = 2;
-	static const RowColor = 3;
-	static const RowVibePattern = 4;
-	static const RowIntervalAlerts = 5;
-	static const RowActivityType = 6;
-	static const RowHrvTracking = 7;
+	// [id, title] in menu order
+	private static function rows() {
+		return [
+			[:name, Rez.Strings.addEditSessionMenu_name],
+			[:time, Rez.Strings.addEditSessionMenu_time],
+			[:breathProgram, Rez.Strings.addEditSessionMenu_breathProgram],
+			[:color, Rez.Strings.addEditSessionMenu_color],
+			[:vibePattern, Rez.Strings.addEditSessionMenu_vibeSound],
+			[:intervalAlerts, Rez.Strings.addEditSessionMenu_intervalAlerts],
+			[:activityType, Rez.Strings.addEditSessionMenu_activityType],
+			[:hrvTracking, Rez.Strings.addEditSessionMenu_hrvTracking],
+		];
+	}
+
+	static function createMenu(sessionNumber) {
+		var menu = new Ui.Menu2({
+			:title => Ui.loadResource(Rez.Strings.addEditSessionMenu_title) + " " + sessionNumber,
+		});
+		var rows = AddEditSessionMenuDelegate.rows();
+		for (var i = 0; i < rows.size(); i++) {
+			menu.addItem(new Ui.MenuItem(Ui.loadResource(rows[i][1]), "", rows[i][0], {}));
+		}
+		return menu;
+	}
 
 	function initialize(sessionModel, intervalAlerts, onChangeSession, menu) {
 		Menu2InputDelegate.initialize();
@@ -27,26 +42,18 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 		me.mMenu = menu;
 	}
 
-	// Menu2 selection handler
 	function onSelect(item) {
 		var id = item.getId();
 		if (id == :name) {
-			var initial = "";
-			if (me.mSessionModel.name != null) {
-				initial = me.mSessionModel.name;
-			}
+			var initial = me.mSessionModel.name != null ? me.mSessionModel.name : "";
 			Ui.pushView(
 				new Ui.TextPicker(initial),
 				new SessionNamePickerDelegate(method(:onNamePicked)),
 				Ui.SLIDE_LEFT
 			);
-			return;
-		}
-		if (id == :breathProgram) {
+		} else if (id == :breathProgram) {
 			me.pushBreathProgramMenu();
-			return;
-		}
-		if (id == :time) {
+		} else if (id == :time) {
 			// with a breath program the steps define the length, so Time leads there instead
 			if (me.mSessionModel.hasBreathProgram()) {
 				me.pushBreathProgramMenu();
@@ -86,7 +93,6 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 				null
 			);
 		} else if (id == :intervalAlerts) {
-			// Build Menu2 root for interval alert settings so delegate can update subtexts
 			var intervalAlertSettingsMenu = new Ui.Menu2({
 				:title => Ui.loadResource(Rez.Strings.menuIntervalAlertSettings_Title),
 			});
@@ -99,69 +105,35 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 			intervalAlertSettingsMenu.addItem(
 				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuIntervalAlertSettings_deleteAll), "", :deleteAll, {})
 			);
-
 			var intervalAlertsMenuDelegate = new IntervalAlertsMenuDelegate(
 				me.mIntervalAlerts,
 				method(:onIntervalAlertsChanged),
 				intervalAlertSettingsMenu
 			);
-			if (intervalAlertsMenuDelegate.updateMenuItems != null) {
-				intervalAlertsMenuDelegate.updateMenuItems();
-			}
+			intervalAlertsMenuDelegate.updateMenuItems();
 			Ui.pushView(intervalAlertSettingsMenu, intervalAlertsMenuDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :activityType) {
-			// Programmatic Menu2 for activity type
-			var atVal = me.mSessionModel.getActivityType();
-			var focusIdx = 0;
-			if (atVal == ActivityType.Yoga) {
-				focusIdx = 1;
-			} else if (atVal == ActivityType.Breathing) {
-				focusIdx = 2;
-			} else if (atVal == ActivityType.Generic) {
-				focusIdx = 3;
-			}
-			var activityMenu = new Ui.Menu2({
-				:title => Ui.loadResource(Rez.Strings.menuNewActivityTypeOptions_title),
-				:focus => focusIdx,
-			});
-			activityMenu.addItem(
-				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuNewActivityTypeOptions_meditating), "", :meditating, {})
+			var activity = OptionMenu.activityTypes();
+			OptionMenu.push(
+				Rez.Strings.menuNewActivityTypeOptions_title,
+				activity[0],
+				activity[1],
+				me.mSessionModel.getActivityType(),
+				activity[2],
+				method(:onActivityTypePicked),
+				null
 			);
-			activityMenu.addItem(
-				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuNewActivityTypeOptions_yoga), "", :yoga, {})
-			);
-			activityMenu.addItem(
-				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuNewActivityTypeOptions_breathing), "", :breathing, {})
-			);
-			activityMenu.addItem(
-				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuNewActivityTypeOptions_generic), "", :generic, {})
-			);
-			var activityTypeDelegate = new MenuOptionsDelegate(method(:onActivityTypePicked));
-			Ui.pushView(activityMenu, activityTypeDelegate, Ui.SLIDE_LEFT);
 		} else if (id == :hrvTracking) {
-			var hrvVal = me.mSessionModel.getHrvTracking();
-			var focusIdx = 0;
-			if (hrvVal == HrvTracking.OnDetailed) {
-				focusIdx = 1;
-			} else if (hrvVal == HrvTracking.Off) {
-				focusIdx = 2;
-			}
-			var hrvMenu = new Ui.Menu2({
-				:title => Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_title),
-				:focus => focusIdx,
-			});
-			hrvMenu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_on), "", :on, {}));
-			hrvMenu.addItem(
-				new Ui.MenuItem(
-					Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_onDetailed),
-					Ui.loadResource(Rez.Strings.menuLabelDefault),
-					:onDetailed,
-					{}
-				)
+			var hrv = OptionMenu.hrvTracking();
+			OptionMenu.push(
+				Rez.Strings.menuHrvTrackingOptions_title,
+				hrv[0],
+				hrv[1],
+				me.mSessionModel.getHrvTracking(),
+				hrv[2],
+				method(:onHrvTrackingPicked),
+				null
 			);
-			hrvMenu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuHrvTrackingOptions_off), "", :off, {}));
-			var hrvTrackingDelegate = new MenuOptionsDelegate(method(:onHrvTrackingPicked));
-			Ui.pushView(hrvMenu, hrvTrackingDelegate, Ui.SLIDE_LEFT);
 		}
 	}
 
@@ -176,121 +148,114 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 		Ui.pushView(menu, breathProgramDelegate, Ui.SLIDE_LEFT);
 	}
 
-	function onBreathProgramChanged(breathProgram) {
-		var sessionModel = new SessionModel();
-		sessionModel.setBreathProgram(breathProgram);
-		// the program owns the session length once it has any steps
-		if (!breathProgram.isEmpty()) {
-			sessionModel.time = breathProgram.totalTime();
-		}
-		me.mSessionModel.copyNonNullFieldsFromSession(sessionModel);
-		me.mOnChangeSession.invoke(sessionModel);
-		me.updateMenuItems();
-	}
-
-	// Public: refresh Menu2 subtexts to show current session values
+	// refresh every row's subtitle to the current session values
 	function updateMenuItems() {
 		if (me.mMenu == null || me.mSessionModel == null) {
 			return;
 		}
-
-		// 0: name
-		var nameText = "";
-		if (me.mSessionModel.name != null && me.mSessionModel.name != "") {
-			nameText = me.mSessionModel.name;
+		var rows = AddEditSessionMenuDelegate.rows();
+		for (var i = 0; i < rows.size(); i++) {
+			me.mMenu.updateItem(
+				new Ui.MenuItem(Ui.loadResource(rows[i][1]), me.subtitleFor(rows[i][0]), rows[i][0], {}),
+				i
+			);
 		}
-		me.mMenu.updateItem(
-			new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_name), nameText, :name, {}),
-			AddEditSessionMenuDelegate.RowName
-		);
-
-		// time
-		var timeText = TimeFormatter.format(me.mSessionModel.time);
-		me.mMenu.updateItem(
-			new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_time), timeText, :time, {}),
-			AddEditSessionMenuDelegate.RowTime
-		);
-
-		// breath program
-		me.mMenu.updateItem(
-			new Ui.MenuItem(
-				Ui.loadResource(Rez.Strings.addEditSessionMenu_breathProgram),
-				Utils.getBreathProgramText(me.mSessionModel.getActiveBreathProgram()),
-				:breathProgram,
-				{}
-			),
-			AddEditSessionMenuDelegate.RowBreathProgram
-		);
-
-		// color: show a textual placeholder; per-item text color isn't widely supported
-		var colorText = "";
-		if (me.mSessionModel.color == null) {
-			colorText = "";
-		} else if (me.mSessionModel.color == Gfx.COLOR_TRANSPARENT) {
-			colorText = Ui.loadResource(Rez.Strings.intervalAlertTransparentColorText);
-		} else {
-			// no localized name for colors; show empty so the color is implied in other UI
-			colorText = "";
-		}
-		me.mMenu.updateItem(
-			new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_color), colorText, :color, {}),
-			AddEditSessionMenuDelegate.RowColor
-		);
-
-		// vibePattern
-		me.mMenu.updateItem(
-			new Ui.MenuItem(
-				Ui.loadResource(Rez.Strings.addEditSessionMenu_vibeSound),
-				Utils.getVibePatternText(me.mSessionModel.vibePattern),
-				:vibePattern,
-				{}
-			),
-			AddEditSessionMenuDelegate.RowVibePattern
-		);
-
-		// interval alerts - show count
-		var alertsCount = me.mSessionModel.getIntervalAlerts().size();
-		var alertsText = alertsCount == 0 ? "0" : alertsCount + "";
-		me.mMenu.updateItem(
-			new Ui.MenuItem(
-				Ui.loadResource(Rez.Strings.addEditSessionMenu_intervalAlerts),
-				alertsText,
-				:intervalAlerts,
-				{}
-			),
-			AddEditSessionMenuDelegate.RowIntervalAlerts
-		);
-
-		// activity type
-		var activityText = Utils.getActivityTypeText(me.mSessionModel.getActivityType());
-		me.mMenu.updateItem(
-			new Ui.MenuItem(
-				Ui.loadResource(Rez.Strings.addEditSessionMenu_activityType),
-				activityText,
-				:activityType,
-				{}
-			),
-			AddEditSessionMenuDelegate.RowActivityType
-		);
-
-		// hrv tracking
-		var hrvText = Utils.getHrvTrackingText(me.mSessionModel.getHrvTracking());
-		me.mMenu.updateItem(
-			new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditSessionMenu_hrvTracking), hrvText, :hrvTracking, {}),
-			AddEditSessionMenuDelegate.RowHrvTracking
-		);
 	}
 
-	// Text picker callback for the session name
-	function onNamePicked(text) {
-		var sessionModel = new SessionModel();
-		sessionModel.name = text;
-		me.mSessionModel.copyNonNullFieldsFromSession(sessionModel);
-		me.mOnChangeSession.invoke(sessionModel);
+	// activity type and hrv read the effective value (the global default when unset) but never store it
+	private function subtitleFor(id) {
+		var session = me.mSessionModel;
+		if (id == :name) {
+			return session.name != null ? session.name : "";
+		}
+		if (id == :time) {
+			return TimeFormatter.format(session.time);
+		}
+		if (id == :breathProgram) {
+			return Utils.getBreathProgramText(session.getActiveBreathProgram());
+		}
+		if (id == :color) {
+			// no localized colour names; only transparent gets a word
+			return session.color == Gfx.COLOR_TRANSPARENT
+				? Ui.loadResource(Rez.Strings.intervalAlertTransparentColorText)
+				: "";
+		}
+		if (id == :vibePattern) {
+			return Utils.getVibePatternText(session.vibePattern);
+		}
+		if (id == :intervalAlerts) {
+			return session.getIntervalAlerts().size().toString();
+		}
+		if (id == :activityType) {
+			return AddEditSessionMenuDelegate.labelOf(OptionMenu.activityTypes(), session.getActivityType());
+		}
+		return AddEditSessionMenuDelegate.labelOf(OptionMenu.hrvTracking(), session.getHrvTracking());
+	}
+
+	private static function labelOf(options, value) {
+		var index = OptionMenu.indexOf(options[0], value);
+		return index < 0 ? "" : OptionMenu.text(options[1][index]);
+	}
+
+	// the one write path: the whole session goes to storage, then the subtitles refresh
+	private function publish() {
+		me.mOnChangeSession.invoke(me.mSessionModel);
 		me.updateMenuItems();
 	}
 
-	// Small TextPickerDelegate that forwards the entered text to a callback
+	function onNamePicked(text) {
+		me.mSessionModel.name = text;
+		me.publish();
+	}
+
+	function onTimePicked(value) {
+		me.mSessionModel.time = value;
+		me.publish();
+	}
+
+	function onBreathProgramChanged(breathProgram) {
+		me.mSessionModel.setBreathProgram(breathProgram);
+		// the program owns the session length once it has any steps
+		if (!breathProgram.isEmpty()) {
+			me.mSessionModel.time = breathProgram.totalTime();
+		}
+		me.publish();
+	}
+
+	function onColorSelected(color) {
+		me.mSessionModel.color = color;
+		me.publish();
+	}
+
+	function onVibePatternPicked(tag, vibePattern) {
+		me.mSessionModel.vibePattern = vibePattern;
+		me.publish();
+		Vibe.vibrate(vibePattern);
+	}
+
+	function onIntervalAlertsChanged(intervalAlerts) {
+		me.mSessionModel.setIntervalAlerts(intervalAlerts);
+		me.publish();
+	}
+
+	function onActivityTypePicked(tag, activityType) {
+		me.mSessionModel.setActivityType(activityType);
+		me.publish();
+	}
+
+	function onHrvTrackingPicked(tag, hrvTracking) {
+		me.mSessionModel.setHrvTracking(hrvTracking);
+		me.publish();
+	}
+
+	// back sends the session once more so the picker shows the final state, then pops as usual
+	function onBack() {
+		me.mOnChangeSession.invoke(me.mSessionModel);
+		Menu2InputDelegate.onBack();
+		return false;
+	}
+
+	// forwards the entered text; cancel changes nothing
 	class SessionNamePickerDelegate extends Ui.TextPickerDelegate {
 		private var mOnTextEntered;
 
@@ -305,86 +270,6 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 			}
 		}
 
-		function onCancel() {
-			// No-op
-		}
-	}
-
-	function onHrvTrackingPicked(item) {
-		var sessionModel = new SessionModel();
-		if (item == :on) {
-			sessionModel.setHrvTracking(HrvTracking.On);
-		} else if (item == :onDetailed) {
-			sessionModel.setHrvTracking(HrvTracking.OnDetailed);
-		} else if (item == :off) {
-			sessionModel.setHrvTracking(HrvTracking.Off);
-		}
-		// Update local model so the menu subtext can be refreshed immediately
-		me.mSessionModel.copyNonNullFieldsFromSession(sessionModel);
-		me.mOnChangeSession.invoke(sessionModel);
-		me.updateMenuItems();
-	}
-
-	function onActivityTypePicked(item) {
-		var sessionModel = new SessionModel();
-		if (item == :meditating) {
-			sessionModel.setActivityType(ActivityType.Meditating);
-		} else if (item == :yoga) {
-			sessionModel.setActivityType(ActivityType.Yoga);
-		} else if (item == :breathing) {
-			sessionModel.setActivityType(ActivityType.Breathing);
-		} else if (item == :generic) {
-			sessionModel.setActivityType(ActivityType.Generic);
-		}
-		// Update local model so the menu subtext can be refreshed immediately
-		me.mSessionModel.copyNonNullFieldsFromSession(sessionModel);
-		me.mOnChangeSession.invoke(sessionModel);
-		me.updateMenuItems();
-	}
-
-	function onIntervalAlertsChanged(intervalAlerts) {
-		var sessionModel = new SessionModel();
-		sessionModel.setIntervalAlerts(intervalAlerts);
-		me.mSessionModel.copyNonNullFieldsFromSession(sessionModel);
-		me.mOnChangeSession.invoke(sessionModel);
-		me.updateMenuItems();
-	}
-
-	function onVibePatternPicked(tag, vibePattern) {
-		var sessionModel = new SessionModel();
-		sessionModel.vibePattern = vibePattern;
-		me.mSessionModel.copyNonNullFieldsFromSession(sessionModel);
-		me.mOnChangeSession.invoke(sessionModel);
-		me.updateMenuItems();
-		Vibe.vibrate(vibePattern);
-	}
-
-	function onTimePicked(value) {
-		var sessionModel = new SessionModel();
-		// value is total seconds from TwoColumnPicker
-		sessionModel.time = value;
-		me.mSessionModel.copyNonNullFieldsFromSession(sessionModel);
-		me.mOnChangeSession.invoke(sessionModel);
-		me.updateMenuItems();
-	}
-
-	function onColorSelected(color) {
-		var sessionModel = new SessionModel();
-		sessionModel.color = color;
-		me.mSessionModel.copyNonNullFieldsFromSession(sessionModel);
-		me.mOnChangeSession.invoke(sessionModel);
-		me.updateMenuItems();
-	}
-
-	// Ensure any pending changes are applied when the user presses Back to leave
-	// this Add/Edit menu. We invoke the change callback with the current local
-	// session model so the session picker can immediately refresh.
-	function onBack() {
-		me.mOnChangeSession.invoke(me.mSessionModel);
-		Menu2InputDelegate.onBack();
-		// Return false to let the default back pop behavior proceed.
-		return false;
+		function onCancel() {}
 	}
 }
-
-// (Removed) SessionDurationPickerDelegate: superseded by TwoColumnPickerDelegate

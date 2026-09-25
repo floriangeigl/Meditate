@@ -141,34 +141,4 @@ class SessionModel {
 			"hrvTracking" => me.hrvTracking,
 		};
 	}
-
-	function copyNonNullFieldsFromSession(otherSession) {
-		if (otherSession.time != null) {
-			me.time = otherSession.time;
-		}
-		if (otherSession.color != null) {
-			me.color = otherSession.color;
-		}
-		if (otherSession.name != null) {
-			me.name = otherSession.name;
-		}
-		if (otherSession.key != null) {
-			me.key = otherSession.key;
-		}
-		if (otherSession.vibePattern != null) {
-			me.vibePattern = otherSession.vibePattern;
-		}
-		if (otherSession.intervalAlerts != null) {
-			me.intervalAlerts = otherSession.intervalAlerts;
-		}
-		if (otherSession.breathProgram != null) {
-			me.breathProgram = otherSession.breathProgram;
-		}
-		if (otherSession.activityType != null) {
-			me.activityType = otherSession.activityType;
-		}
-		if (otherSession.hrvTracking != null) {
-			me.hrvTracking = otherSession.hrvTracking;
-		}
-	}
 }
