@@ -333,7 +333,7 @@ plus the issue above):
 | Element           | Convention            | Example                           |
 | ----------------- | --------------------- | --------------------------------- |
 | Classes / Modules | PascalCase            | `MeditateActivity`, `VibePattern` |
-| Methods           | camelCase             | `loadHrvTracking()`               |
+| Methods           | camelCase             | `loadSelectedSession()`           |
 | Private fields    | `m` prefix            | `mSessionStorage`, `mHrvTracking` |
 | Public fields     | camelCase (no prefix) | `elapsedTime`, `currentHr`        |
 | Enum values       | PascalCase            | `NoNotification = 0`              |
