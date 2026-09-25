@@ -2,6 +2,21 @@ using Toybox.Test;
 using Toybox.Application as App;
 using Toybox.Graphics as Gfx;
 
+// stands in for the session picker: records what the settings menu hands it, switches no view
+(:test)
+class PickerSpy {
+	var pagesCount = null;
+	var selected = null;
+
+	function setPagesCount(count) {
+		me.pagesCount = count;
+	}
+
+	function select(index) {
+		me.selected = index;
+	}
+}
+
 // the only code that can lose user data: stored format, presets, migration, keys and selection.
 // every test writes its own store and restores the simulator's afterwards
 (:test)
@@ -276,6 +291,71 @@ class SessionStorageTests {
 				SessionStorageTests.stored(100) == null;
 			snapshot.restore();
 			return ok;
+		} catch (ex) {
+			snapshot.restore();
+			throw ex;
+		}
+	}
+
+	// deletes through the settings menu at [position, of count]; returns [storage index, picker index, key there]
+	private static function deleteAt(position, count) {
+		var sessions = [];
+		for (var i = 0; i < count; i++) {
+			sessions.add(SessionStorageTests.plainSession(100 + i, "s" + i));
+		}
+		SessionStorageTests.writeStore(sessions, position);
+		var storage = new SessionStorage();
+		var picker = new PickerSpy();
+		new SessionSettingsMenuDelegate(storage, picker, null).onConfirmedDeleteSession();
+		var index = storage.getSelectedSessionIndex();
+		return [index, picker.selected, SessionStorageTests.storedKeys()[index], picker.pagesCount];
+	}
+
+	// the next session moves into view; deleting the last one selects the new last
+	(:test)
+	static function deleteSelectsTheSessionThatMovesIn(logger) {
+		var snapshot = new StorageSnapshot();
+		try {
+			var third = SessionStorageTests.deleteAt(2, 4);
+			var first = SessionStorageTests.deleteAt(0, 4);
+			var last = SessionStorageTests.deleteAt(3, 4);
+			var ok =
+				third[0] == 2 && third[1] == 2 && third[2] == 103 && third[3] == 3 &&
+				first[0] == 0 && first[1] == 0 && first[2] == 101 &&
+				last[0] == 2 && last[1] == 2 && last[2] == 102 &&
+				App.Storage.getValue("selectedSessionIndex") == 2;
+			if (!ok) {
+				logger.debug("third " + third + ", first " + first + ", last " + last);
+			}
+			snapshot.restore();
+			return ok;
+		} catch (ex) {
+			snapshot.restore();
+			throw ex;
+		}
+	}
+
+	// the picker reselects on every rebuild; only a change may write
+	(:test)
+	static function selectingTheSameSessionWritesNothing(logger) {
+		var snapshot = new StorageSnapshot();
+		try {
+			SessionStorageTests.writeStore(
+				[
+					SessionStorageTests.plainSession(100, "a"),
+					SessionStorageTests.plainSession(101, "b"),
+					SessionStorageTests.plainSession(102, "c"),
+				],
+				1
+			);
+			var storage = new SessionStorage();
+			App.Storage.setValue("selectedSessionIndex", 7);
+			storage.selectSession(1);
+			var unchanged = App.Storage.getValue("selectedSessionIndex") == 7;
+			storage.selectSession(2);
+			var changed = App.Storage.getValue("selectedSessionIndex") == 2;
+			snapshot.restore();
+			return unchanged && changed;
 		} catch (ex) {
 			snapshot.restore();
 			throw ex;

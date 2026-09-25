@@ -234,7 +234,7 @@ Get-ChildItem "$env:APPDATA\Garmin\ConnectIQ\Devices" -Directory | ForEach-Objec
 
 ## Testing
 
-Unit tests live next to the code they cover, 50 of them, all live:
+Unit tests live next to the code they cover, 52 of them, all live:
 
 - `recording/tests/MetricTests` — the window engine against a scripted `read()` (flush on the
   completing tick, skipFirst, range, 90 % rule, keepHistory off, stats over window values).
@@ -254,7 +254,8 @@ Unit tests live next to the code they cover, 50 of them, all live:
   private-use character (catches a blanked or retyped glyph).
 - `storage/tests/SessionStorageTests` — the stored session format round-trips unchanged, the enum
   numbers inside stored sessions, fresh-store presets, the one-time breathwork preset migration,
-  index wrapping, delete-all restoring presets, and new keys never reusing a used one.
+  index wrapping, delete-all restoring presets, new keys never reusing a used one, and the selection
+  after a delete (through the real settings menu, with a `PickerSpy` for the picker).
   `StorageSnapshot` saves the simulator's own store before each test and restores it after, and
   its key strings are literals on purpose: they are the stored format. A test that writes a
   session list must also write a dict for every key in it, or `loadSelectedSession()` takes its
@@ -630,6 +631,13 @@ CIQ 3.0 floor.
 - **`App.Storage`** — Key-value persistence for sessions, settings, analytics queue.
   - Session keys: `"sesssion_<key>"` (historical triple-s typo — **do not fix**)
   - Settings keys: `"globalSettings_<name>"`
+  - `selectedSessionIndex`: the picker reselects on every rebuild, so `selectSession()` writes only
+    when the index actually changes. After a delete, storage keeps the position (the next session
+    moves in, the last one falls back to the new last) and the picker takes that index as is. The
+    `- 1` the menu used to add on top of storage's own decrement jumped two sessions back.
+  - New session keys are the smallest unused number ≥ 100. The key list is in creation order, not
+    sorted, so a single pass over it isn't enough: that once gave a new session an existing key and
+    overwrote that session.
 - **`App.Properties`** — Device-configurable properties (activity name, GA4 credentials)
 
 ### Timers (`Timer.Timer` concurrency limit)

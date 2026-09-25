@@ -107,9 +107,13 @@ class SessionStorage {
 		return key;
 	}
 
+	// the picker calls this on every rebuild; only a real change is written
 	function selectSession(index) {
+		var before = me.mSelectedSessionIndex;
 		me.setSelectedSessionIndex(index);
-		App.Storage.setValue(mStorageKeySelectedSessionIndex, me.mSelectedSessionIndex);
+		if (me.mSelectedSessionIndex != before) {
+			App.Storage.setValue(mStorageKeySelectedSessionIndex, me.mSelectedSessionIndex);
+		}
 	}
 
 	private function getSelectedSessionKey() {
@@ -216,7 +220,8 @@ class SessionStorage {
 			// if all deleted, automatically restore presets
 			me.restorePresets();
 		}
-		me.setSelectedSessionIndex(me.mSelectedSessionIndex - 1);
+		// the next session moves into view; clamp, since the setter would wrap past the last to the first
+		me.setSelectedSessionIndex(Utils.clampToRange(me.mSelectedSessionIndex, 0, me.mSessionKeys.size() - 1));
 		me.updateSessionStats();
 	}
 

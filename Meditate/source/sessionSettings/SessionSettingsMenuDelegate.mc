@@ -167,7 +167,7 @@ class SessionSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 	function onConfirmedDeleteSession() {
 		me.mSessionStorage.deleteSelectedSession();
 		me.mSessionPickerDelegate.setPagesCount(me.mSessionStorage.getSessionsCount());
-		me.mSessionPickerDelegate.select(me.mSessionStorage.getSelectedSessionIndex() - 1);
+		me.mSessionPickerDelegate.select(me.mSessionStorage.getSelectedSessionIndex());
 	}
 
 	function onChangeSession(changedSessionModel) {
