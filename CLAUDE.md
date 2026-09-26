@@ -485,6 +485,19 @@ Guarded by `mActivityStopped`, set once in `stopActivity()` (the single choke po
 
 Related: `MeditatePrepareView` (prepare/finalize countdowns) uses `MeditatePrepareDelegate`, which swallows keys and maps back to "skip countdown" — that path is unaffected.
 
+**Auto save & exit relies on `System.exit()` letting the current function finish.** The first
+`DelayedFinishingView` already carries the exit flag, and its `onViewDrawn` calls `System.exit()`
+*before* `mOnShow.invoke()` → `onFinishActivity()` → `finish()` saves. The docs don't say whether code
+after `exit()` runs; verified on hardware (fēnix, 2026-09-26) that it does and the activity is saved.
+If a device ever loses Auto save & exit activities, pass `false` to the first finishing view so only
+the second one, after `finish()`, exits.
+
+**Storage next to the FIT save is proven safe.** The 2019 fix (`7bf00ca`) keeps next-session storage
+work and the save apart by a 1 s finishing view, yet `MeditateActivity.finish()` has written the
+wakeup type, monthly minutes and analytics queue in the same call as `save()` for years without a
+corrupted activity. The comment in `onFinishActivity` still describes the 2019 order (settings first);
+auto-save now saves first and builds the next view a second later.
+
 ### Per-second metrics are sampled on the activity tick, never in the view
 
 `ActivityRecorder.onTick()` (the 1 s timer) is the single place that samples every metric
