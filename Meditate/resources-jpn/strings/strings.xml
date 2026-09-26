@@ -96,6 +96,7 @@
     <string id="menuGlobalSettings_useSessionName">セッション名=活動名</string>
     <string id="menuGlobalSettings_useSessionName_on">はい</string>
     <string id="menuGlobalSettings_useSessionName_off">いいえ</string>
+    <string id="menuGlobalSettings_learnRoutine">習慣を学習</string>
 
     <string id="menuNotificationOptions_title">振動と音</string>
     <string id="menuNotificationOptions_on">オン</string>

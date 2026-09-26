@@ -222,6 +222,12 @@ From the session picker you can scroll through available sessions and see:
 - interval alert timing
 - HRV indicator
 
+The app learns which session you start at which time of day. It opens where you left it; if you
+didn't touch it since your last session, it opens on the session you usually start around now.
+Being up to about three hours late or early still counts, and a new routine takes over from its
+first use. To
+turn this off, see [Learn Routine](#global-settings-defaults-for-all-sessions).
+
 ### HRV Indicator
 
 - **Off** - HRV tracking disabled
@@ -551,6 +557,9 @@ Access via:
 
 - Yes - app stays open for multiple sessions
 - No - app exits after each session
+- With Learn Routine on, once you have a regular sequence (e.g. breathwork, then silent sitting),
+  "Next session" shows the name of the session you usually do next and opens it, so the sequence
+  runs without scrolling. Sequences are only learned in Multi-Session Mode.
 
 ### Preparation Time
 
@@ -581,6 +590,13 @@ Access via:
 - Uses custom session name in Garmin Connect
 - Supports `[time]` placeholder
 - Activity names limited to 21 characters
+
+### Learn Routine
+
+- On (default) - the session picker opens on the session you usually start at this time, and
+  Multi-Session Mode offers the session that usually comes next
+- Off - the picker always opens on the last selected session; what was learned is forgotten the
+  next time you open the app
 
 ### Sensor Restart
 

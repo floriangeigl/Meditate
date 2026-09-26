@@ -160,6 +160,15 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 				[Rez.Strings.menuMultiSessionOptions_yes, Rez.Strings.menuMultiSessionOptions_no],
 				{ 1 => Rez.Strings.menuLabelDefault },
 			],
+			[
+				:learnRoutine,
+				Rez.Strings.menuGlobalSettings_learnRoutine,
+				Rez.Strings.menuGlobalSettings_learnRoutine,
+				GlobalSettings.LearnRoutineKey,
+				[true, false],
+				[Rez.Strings.menuNotificationOptions_on, Rez.Strings.menuNotificationOptions_off],
+				{ 0 => Rez.Strings.menuLabelDefault },
+			],
 			// an action, not a setting
 			[:sensorRestart, Rez.Strings.menuGlobalSettings_sensorRestart, null, null, null, null, null],
 		];

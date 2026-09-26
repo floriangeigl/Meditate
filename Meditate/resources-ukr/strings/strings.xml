@@ -96,6 +96,7 @@
     <string id="menuGlobalSettings_useSessionName">Назва сеансу = назва актив.</string>
     <string id="menuGlobalSettings_useSessionName_on">Так</string>
     <string id="menuGlobalSettings_useSessionName_off">Ні</string>
+    <string id="menuGlobalSettings_learnRoutine">Вивчати розпорядок</string>
 
     <string id="menuNotificationOptions_title">Вібрація та звук</string>
     <string id="menuNotificationOptions_on">Увімк.</string>

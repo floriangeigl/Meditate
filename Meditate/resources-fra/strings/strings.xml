@@ -96,6 +96,7 @@
     <string id="menuGlobalSettings_useSessionName">Nom session = nom activité</string>
     <string id="menuGlobalSettings_useSessionName_on">Oui</string>
     <string id="menuGlobalSettings_useSessionName_off">Non</string>
+    <string id="menuGlobalSettings_learnRoutine">Apprendre la routine</string>
 
     <string id="menuNotificationOptions_title">Vibration &amp; son</string>
     <string id="menuNotificationOptions_on">Activé</string>

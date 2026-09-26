@@ -12,6 +12,8 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 	private var mActivityStopped;
 	private var mIdleReminderTimer;
 	private var mMeditateView;
+	// looked up once with the post-session menu, so its label and where "next session" lands agree
+	private var mNextSessionKey;
 	private const PauseReasonManual = 0;
 	private const PauseReasonCompleted = 1;
 
@@ -25,6 +27,7 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 		me.mPauseMenuVisible = false;
 		me.mActivityStopped = false;
 		me.mIdleReminderTimer = new IdleReminderTimer();
+		me.mNextSessionKey = null;
 	}
 
 	public function setMeditateView(meditateView) {
@@ -153,8 +156,14 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 			:title => Ui.loadResource(Rez.Strings.multiSessionPostMenu_title),
 			:footer => footerTime,
 		});
+		me.mNextSessionKey = me.mSessionPickerDelegate.nextSessionKey();
 		menu.addItem(
-			new Ui.MenuItem(Ui.loadResource(Rez.Strings.multiSessionPostMenu_nextSession), "", :nextSession, {})
+			new Ui.MenuItem(
+				Ui.loadResource(Rez.Strings.multiSessionPostMenu_nextSession),
+				me.mSessionPickerDelegate.sessionName(me.mNextSessionKey),
+				:nextSession,
+				{}
+			)
 		);
 		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.multiSessionPostMenu_summary), "", :summary, {}));
 		menu.addItem(
@@ -168,6 +177,7 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 	// Called when user picks "Next session" from the post-session menu
 	function proceedToNextSession() {
 		me.mIdleReminderTimer.stop();
+		me.mSessionPickerDelegate.moveTo(me.mNextSessionKey);
 		showSessionPickerView(me.mSummaryModel);
 	}
 

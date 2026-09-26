@@ -261,6 +261,10 @@ on `d2deltapx` (CIQ 3.0.3, the app's API floor), where a call newer than the flo
   an edit changes only that field, a null activity type / HRV stays null (never filled with the
   global default), picking one stores it, an emptied program is stored as null, and opening the
   editor writes nothing.
+- `storage/tests/SessionHistoryTests` — the session suggestion lookup as pure functions (newest
+  within the hour, nearest routine re-centred, 3 h reach, midnight, first starts vs followers,
+  followers by time, drop, append cap) and through real storage: launch moves only a picker the
+  user left alone, a delete is not a user move, a deleted key is forgotten, Off forgets.
 - `storage/tests/SessionStorageTests` — the stored session format round-trips unchanged, the enum
   numbers inside stored sessions, fresh-store presets, the one-time breathwork preset migration,
   index wrapping, delete-all restoring presets, new keys never reusing a used one, and the selection
@@ -280,7 +284,7 @@ on `d2deltapx` (CIQ 3.0.3, the app's API floor), where a call newer than the flo
   private-use character (catches a blanked or retyped glyph).
 
 **Tests run against the developer's own simulator data**, so a test that writes `App.Storage` or
-`App.Properties` restores it. `StorageSnapshot` does this for sessions (its key strings are
+`App.Properties` restores it. `StorageSnapshot` does this for sessions and the session history (its key strings are
 literals on purpose: they are the stored format); the settings tests save and restore their keys.
 A test that writes a session list must also write a dict for every key in it, or
 `loadSelectedSession()` takes its destructive recovery path.
@@ -646,6 +650,47 @@ Files: `Meditate/source/sessionSettings/breathProgram/` (model, templates, menus
 `Meditate/source/activity/BreathProgramRunner.mc`, `BreathCuesExecutor.mc`,
 `BreathGuidanceRenderer.mc`.
 
+### Session suggestion: the picker opens on the routine
+
+`SessionHistory` (`storage/`) makes the picker open on the session usually started at this time
+of day, and "Next session" in a multi-session on what usually follows. Setting "Learn routine"
+(`GlobalSettings.LearnRoutineKey`, default on). User model: *opens where you left it; if you didn't
+touch it, on the session you usually start now.* Principle: rarely worse than today (last selected),
+never against the user's own choice.
+
+- **Data:** `sessionHistory`, a flat array of the last 50 starts, 3 ints each:
+  `[sessionKey, minuteOfDay, prevKey]`; `prevKey` is the session started before it in the same
+  launch, null for a first start. Recorded in `startMeditationSession()` **before** the
+  `MeditateDelegate` opens the FIT session (storage writes and FIT saves must not overlap).
+- **One lookup** (`pick(log, prevKey, minute)`) for launch (prevKey null) and followers: newest
+  start with that prevKey within ±60 min, else re-centre on the closest one within 180 min and take
+  the newest there, else null (don't move). Last used wins by design (the user chose immediate
+  adaptation); re-centring stops an abandoned session a minute closer from winning. Followers are
+  matched by time too: one opener can lead to different sessions morning and evening.
+- **"You moved it, it stays":** `sessionAutoKey` is the key the app last put the picker on (a
+  start, an applied suggestion, the neighbour after a delete). `pickAtLaunch` only moves the picker
+  when the selection still equals it. Scrolling is the signal, not editing: tweaking the session you
+  just did must not pin it for the next morning. A delete re-marks the new selection as the app's.
+- **Off forgets lazily:** `pickAtLaunch` clears both keys when the setting is off, so the generic
+  settings menu needs no special case.
+- **Multi-session:** `MeditateDelegate` looks up `nextSessionKey()` once, when it builds the
+  post-session menu, and keeps it in `mNextSessionKey`. The "Next session" sublabel names it only
+  when a follower is learned (Off and "nothing learned" look exactly like before), and the tap
+  moves there via `moveTo()`, so the label and where the tap lands cannot disagree however long the
+  menu stays open. Nothing moves before the tap, so "End multi-session" leaves selection and auto
+  key consistent.
+- **Storage writes:** `markAuto` writes only on a change (the picker marks on nearly every launch,
+  same rule as `selectSession`); `append` trims to the cap, not by one.
+- **Deleted keys are forgotten** (`forget`, entries with that key or that prevKey), because
+  `generateSessionKey()` hands a freed key to the next new session.
+- **Known and accepted:** recency-driven users (no fixed times) who switch their go-to session see
+  the old one at some hours (the one regression vs today; Off restores today); weekday/weekend
+  routines within an hour of each other miss twice a week (same as today; a weekday flag would fix
+  it); two sessions in two separate launches are not learned as a sequence; a one-off at an unusual
+  hour becomes that hour's pick. Rejected: a toast on jump (fires at nearly every launch for
+  two-routine users), reordering the carousel (breaks spatial memory), a 15-min sticky timer (hid
+  sessions prepared the evening before).
+
 ### Menus are built from one row list
 
 `Ui.Menu2.updateItem(item, index)` replaces label, sublabel **and** id together, and
@@ -713,7 +758,10 @@ holds an update needs no migration. The only one-time migration so far is
     `- 1` the menu used to add on top of storage's own decrement jumped two sessions back.
   - New session keys are the smallest unused number ≥ 100. The key list is in creation order, not
     sorted, so a single pass over it isn't enough: that once gave a new session an existing key and
-    overwrote that session.
+    overwrote that session. A deleted session's key is reused, so anything keyed by session key must
+    forget it on delete (as `SessionHistory.forget` does).
+  - `SessionHistory.StorageKey` / `AutoKey` — `"sessionHistory"` (flat array, 3 ints per start) /
+    `"sessionAutoKey"`; see "Session suggestion" under Architecture
 - **`App.Properties`** — `activityName` and `restoreDeviceId` (Garmin Connect settings), plus the
   secrets from `secrets.xml`.
 
@@ -817,7 +865,9 @@ growing `SessionModel` needs no cloud-backup change at all — only watch the 32
 - `wakeupSession_activityType`
 - `usageStats_monthly` and `usageStats_tipPending` (the `monthlyStats` section)
 
-**Not backed up:** `usageStats_queue_v2` (too large, auto-rebuilds).
+**Not backed up:** `usageStats_queue_v2` (too large, auto-rebuilds); `sessionHistory` and
+`sessionAutoKey` (relearned from the next starts; `CloudRestore` clears them, since restored keys
+may name other sessions).
 
 ### Architecture Notes
 

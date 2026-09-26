@@ -97,6 +97,7 @@
     <string id="menuGlobalSettings_useSessionName">Sitzungsname = Aktivitätsname</string>
     <string id="menuGlobalSettings_useSessionName_on">Ja</string>
     <string id="menuGlobalSettings_useSessionName_off">Nein</string>
+    <string id="menuGlobalSettings_learnRoutine">Routine lernen</string>
 
     <string id="menuNotificationOptions_title">Vibration &amp; Ton</string>
     <string id="menuNotificationOptions_on">Ein</string>

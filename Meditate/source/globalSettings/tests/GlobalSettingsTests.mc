@@ -21,6 +21,7 @@ class GlobalSettingsTests {
 			[GlobalSettings.HrvWindowTimeKey, "globalSettings_hrvWindowTime", 60, 300],
 			[GlobalSettings.BreathCuesKey, "globalSettings_breathCues", 1, 2],
 			[GlobalSettings.UseSessionNameKey, "globalSettings_useSessionName", false, true],
+			[GlobalSettings.LearnRoutineKey, "globalSettings_learnRoutine", true, false],
 			[GlobalSettings.LastSeenNewsIdKey, "globalSettings_lastSeenNewsId", 0, 7],
 			[GlobalSettings.PresetsVersionKey, "globalSettings_presetsVersion", 0, 2],
 		];
@@ -144,7 +145,9 @@ class GlobalSettingsTests {
 			SessionStorage.SelectedIndexKey.equals("selectedSessionIndex") &&
 			WakeupSessionStorage.ActivityTypeKey.equals("wakeupSession_activityType") &&
 			MonthlyStats.MonthlyKey.equals("usageStats_monthly") &&
-			MonthlyStats.TipPendingKey.equals("usageStats_tipPending")
+			MonthlyStats.TipPendingKey.equals("usageStats_tipPending") &&
+			SessionHistory.StorageKey.equals("sessionHistory") &&
+			SessionHistory.AutoKey.equals("sessionAutoKey")
 		);
 	}
 }

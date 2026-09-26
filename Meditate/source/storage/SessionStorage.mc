@@ -84,7 +84,7 @@ class SessionStorage {
 	}
 
 	// null for anything unreadable: a corrupt entry must skip the migration, never fail startup
-	private function loadSessionByKey(key) {
+	function loadSessionByKey(key) {
 		try {
 			var loadedSessionDictionary = App.Storage.getValue(SessionPrefixKey + key.toString());
 			if (loadedSessionDictionary == null) {
@@ -116,13 +116,18 @@ class SessionStorage {
 		}
 	}
 
-	private function getSelectedSessionKey() {
+	function getSelectedSessionKey() {
 		if (me.mSelectedSessionIndex < mSessionKeys.size()){
 			return me.mSessionKeys[me.mSelectedSessionIndex];
 		}
 		else {
 			return null;
 		}
+	}
+
+	// -1 for a key that is null or gone
+	function indexOfKey(key) {
+		return key == null ? -1 : me.mSessionKeys.indexOf(key);
 	}
 
 	function getSessionStorageKey(session) {
@@ -143,8 +148,10 @@ class SessionStorage {
 		} catch (ex) {
 			me.setSelectedSessionIndex(0);
 			me.mSessionKeys = [];
+			// the keys are gone without a delete, so new sessions would inherit their routines
+			SessionHistory.clear();
 			me.restorePresets();
-			
+
 			throw ex;
 		}
 	}
@@ -214,8 +221,10 @@ class SessionStorage {
 	}
 
 	function deleteSelectedSession() {
+		var deletedKey = me.getSelectedSessionKey();
 		App.Storage.deleteValue(me.getSelectedSessionStorageKey());
-		me.mSessionKeys.removeAll(me.getSelectedSessionKey());
+		me.mSessionKeys.removeAll(deletedKey);
+		SessionHistory.forget(deletedKey);
 		if (me.mSessionKeys.size() == 0) {
 			// if all deleted, automatically restore presets
 			me.restorePresets();
@@ -223,6 +232,8 @@ class SessionStorage {
 		// the next session moves into view; clamp, since the setter would wrap past the last to the first
 		me.setSelectedSessionIndex(Utils.clampToRange(me.mSelectedSessionIndex, 0, me.mSessionKeys.size() - 1));
 		me.updateSessionStats();
+		// the session that moved in is not the user's choice, so the routine may move the picker again
+		SessionHistory.markAuto(me.getSelectedSessionKey());
 	}
 
 	function setSelectedSessionIndex(index) {

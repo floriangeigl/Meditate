@@ -98,6 +98,7 @@
 	<string id="menuGlobalSettings_useSessionName">세션 이름 = 활동 이름</string>
 	<string id="menuGlobalSettings_useSessionName_on">예</string>
 	<string id="menuGlobalSettings_useSessionName_off">아니오</string>
+	<string id="menuGlobalSettings_learnRoutine">루틴 학습</string>
 
 	<string id="menuNotificationOptions_title">진동 및 소리</string>
 	<string id="menuNotificationOptions_on">켜기</string>

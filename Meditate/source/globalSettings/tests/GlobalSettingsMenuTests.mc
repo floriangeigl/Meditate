@@ -22,6 +22,8 @@ class GlobalSettingsMenuTests {
 			[:hrvWindow, "globalSettings_hrvWindowTime", [30, 60, 120, 180, 300, 600], [1, 4]],
 			[:respirationRate, "globalSettings_respirationRate", RrMetric.isSupported() ? [1, 0] : [0], RrMetric.isSupported() ? [0] : []],
 			[:multiSession, "globalSettings_multiSession", [1, 0], [1]],
+			// added after the table replaced the old menus
+			[:learnRoutine, "globalSettings_learnRoutine", [true, false], [0]],
 			[:sensorRestart, null, null, []],
 		];
 	}
@@ -96,7 +98,7 @@ class GlobalSettingsMenuTests {
 				menu.getItem(3).getSubLabel().equals("00:45") &&
 				menu.getItem(8).getSubLabel().equals(Ui.loadResource(Rez.Strings.menuGlobalSettings_useSessionName_on)) &&
 				menu.getItem(10).getSubLabel().equals("05:00") &&
-				menu.getItem(13).getSubLabel().equals("") &&
+				menu.getItem(14).getSubLabel().equals("") &&
 				menu.getItem(3).getId() == :prepareTime;
 			var savedKeys = saved.keys();
 			for (var i = 0; i < savedKeys.size(); i++) {

@@ -10,6 +10,8 @@ class SessionPickerDelegate extends ScreenPickerDelegate {
 	private var mFeed;
 	private var mHrvTracking;
 	private var hrvStatusLineNum;
+	// the session started last in this launch; the predecessor of the next one in a multi-session
+	private var mLastStartedKey;
 
 	function initialize(sessionStorage, beatIntervalFeed) {
 		ScreenPickerDelegate.initialize(sessionStorage.getSelectedSessionIndex(), sessionStorage.getSessionsCount());
@@ -18,8 +20,32 @@ class SessionPickerDelegate extends ScreenPickerDelegate {
 		me.mSummaryRollupModel = new SummaryRollupModel();
 		me.mSelectedSessionDetails = new DetailsModel();
 		me.mFeed = beatIntervalFeed;
+		me.mLastStartedKey = null;
+		me.moveTo(SessionHistory.pickAtLaunch(sessionStorage.getSelectedSessionKey()));
 		me.setSelectedSessionDetails();
 		me.hrvStatusLineNum = null;
+	}
+
+	// a move the app makes, not the user; null or a key that is gone leaves the picker where it is
+	function moveTo(key) {
+		var index = me.mSessionStorage.indexOfKey(key);
+		if (index != -1) {
+			me.setPageIndex(index);
+			SessionHistory.markAuto(key);
+		}
+	}
+
+	// multi-session: what usually follows the session just done; null when nothing is learned
+	function nextSessionKey() {
+		var key = SessionHistory.suggest(me.mLastStartedKey);
+		return me.mSessionStorage.indexOfKey(key) != -1 ? key : null;
+	}
+
+	function sessionName(key) {
+		if (key == null) {
+			return "";
+		}
+		return Utils.getSessionDisplayName(me.mSessionStorage.loadSessionByKey(key), me.mSessionStorage.indexOfKey(key));
 	}
 
 	// the feed has one listener slot; the picker holds it while browsing, the activity during a session
@@ -126,6 +152,9 @@ class SessionPickerDelegate extends ScreenPickerDelegate {
 
 	function startMeditationSession() {
 		var selectedSession = me.mSessionStorage.loadSelectedSession();
+		// before the activity opens its fit session
+		SessionHistory.record(selectedSession.key, me.mLastStartedKey);
+		me.mLastStartedKey = selectedSession.key;
 		var meditateModel = new MeditateModel(selectedSession);
 		var displayName = Utils.getSessionDisplayName(selectedSession, me.mSelectedPageIndex);
 		meditateModel.setDisplayName(displayName);

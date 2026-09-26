@@ -9,11 +9,17 @@ class StorageSnapshot {
 	private var mIndex;
 	private var mPresetsVersion;
 	private var mSessions;
+	private var mHistory;
+	private var mAutoKey;
+	private var mLearnRoutine;
 
 	function initialize() {
 		me.mKeys = App.Storage.getValue("sessionsKeys");
 		me.mIndex = App.Storage.getValue("selectedSessionIndex");
 		me.mPresetsVersion = App.Storage.getValue("globalSettings_presetsVersion");
+		me.mHistory = App.Storage.getValue("sessionHistory");
+		me.mAutoKey = App.Storage.getValue("sessionAutoKey");
+		me.mLearnRoutine = App.Storage.getValue("globalSettings_learnRoutine");
 		me.mSessions = {};
 		if (me.mKeys != null) {
 			for (var i = 0; i < me.mKeys.size(); i++) {
@@ -47,6 +53,9 @@ class StorageSnapshot {
 		StorageSnapshot.put("sessionsKeys", me.mKeys);
 		StorageSnapshot.put("selectedSessionIndex", me.mIndex);
 		StorageSnapshot.put("globalSettings_presetsVersion", me.mPresetsVersion);
+		StorageSnapshot.put("sessionHistory", me.mHistory);
+		StorageSnapshot.put("sessionAutoKey", me.mAutoKey);
+		StorageSnapshot.put("globalSettings_learnRoutine", me.mLearnRoutine);
 	}
 
 	static function put(key, value) {

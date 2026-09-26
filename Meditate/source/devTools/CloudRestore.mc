@@ -169,6 +169,8 @@ class CloudRestore extends Ui.BehaviorDelegate {
 						}
 					}
 				}
+				// not backed up, and its keys may now name other sessions
+				SessionHistory.clear();
 			}
 
 			// --- Wakeup ---

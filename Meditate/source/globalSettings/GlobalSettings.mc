@@ -16,6 +16,7 @@ class GlobalSettings {
 	static const HrvWindowTimeKey = "globalSettings_hrvWindowTime";
 	static const BreathCuesKey = "globalSettings_breathCues";
 	static const UseSessionNameKey = "globalSettings_useSessionName";
+	static const LearnRoutineKey = "globalSettings_learnRoutine";
 	// markers, not user settings: the newest WhatsNewDelegate.NewsId dismissed, the preset migrations run
 	static const LastSeenNewsIdKey = "globalSettings_lastSeenNewsId";
 	static const PresetsVersionKey = "globalSettings_presetsVersion";
@@ -45,6 +46,7 @@ class GlobalSettings {
 			HrvWindowTimeKey,
 			BreathCuesKey,
 			UseSessionNameKey,
+			LearnRoutineKey,
 			LastSeenNewsIdKey,
 			PresetsVersionKey,
 		];
@@ -90,6 +92,9 @@ class GlobalSettings {
 		}
 		if (key.equals(UseSessionNameKey)) {
 			return false;
+		}
+		if (key.equals(LearnRoutineKey)) {
+			return true;
 		}
 		if (key.equals(LastSeenNewsIdKey)) {
 			return 0;

@@ -96,6 +96,7 @@
     <string id="menuGlobalSettings_useSessionName">会话名=活动名</string>
     <string id="menuGlobalSettings_useSessionName_on">是</string>
     <string id="menuGlobalSettings_useSessionName_off">否</string>
+    <string id="menuGlobalSettings_learnRoutine">学习习惯</string>
 
     <string id="menuNotificationOptions_title">振动与声音</string>
     <string id="menuNotificationOptions_on">开启</string>
