@@ -6,13 +6,14 @@
 
 ## Overview
 
-Garmin Connect IQ meditation watch-app tracking HR, HRV, stress, and respiration rate. Written in **Monkey C** using the **Toybox API**. Targets 90+ Garmin watches (Connect IQ ≥ 3.0). Licensed under MIT.
+Garmin Connect IQ meditation watch-app tracking HR, HRV, stress, and respiration rate. Written in **Monkey C** using the **Toybox API**. Targets 100+ Garmin watches (Connect IQ ≥ 3.0). Licensed under MIT.
 
 ## Project Structure
 
-Multi-folder VS Code workspace (`Meditate.code-workspace`) with two projects:
+Multi-folder VS Code workspace (`Meditate.code-workspace`): the repo root plus two projects.
 
 ```
+./                      README, UserGuide.md, store texts (ConnectIQStore/), translations (generated/), makeRelease.sh, .github/
 Meditate/               Main watch-app (entry: source/MeditateApp.mc); sensor/recording engine in source/recording/
 HrvProbe/               Standalone diagnostic app, not shipped — see "HRV cold start"
 ```
@@ -32,7 +33,7 @@ one private-use character.
 
 ### Prerequisites
 
-- **Connect IQ SDK** ≤ v4.1.5 (if using v4.1.6+, [disable Monkey C type checker](https://forums.garmin.com/developer/connect-iq/f/discussion/314861/sdk-4-1-6-generating-new-errors-and-warnings#pifragment-1298=1))
+- **Connect IQ SDK**, currently 9.2.0. Type checking stays off (`project.typecheck = 0`, and `monkeyC.typeCheckLevel: Off` in VS Code): SDKs since 4.1.6 [report new errors on this code base](https://forums.garmin.com/developer/connect-iq/f/discussion/314861/sdk-4-1-6-generating-new-errors-and-warnings#pifragment-1298=1) otherwise.
 - **VS Code** with [Monkey C extension](https://marketplace.visualstudio.com/items?itemName=garmin.monkey-c) and [Prettier Monkey C](https://marketplace.visualstudio.com/items?itemName=markw65.prettier-extension-monkeyc)
 
 ### Open Workspace
@@ -50,13 +51,13 @@ project.typecheck = 0       # Type checking disabled
 project.optimization = 3pz  # Maximum optimization
 ```
 
-**Judge PRG size from a release build, never a debug one** — they differ by roughly 2.4x. Same
-tree on `fr255s`: debug 415 KB vs release 172 KB (with a pre-breathwork baseline of 145 KB; the
-data acquisition rework then brought the release build down to 167 KB). A
-debug PRG looks alarmingly close to a 512 KB device budget while the shipped artifact uses a
-third of it. **Compare sizes in bytes** (`stat -c %s`, or `(Get-Item).Length`) against a
-baseline build of the same tree — 166 860 B reads as "163 KB" in KiB and "167 KB" in kB, which
-once turned a +48 B change into an imaginary 4 KB saving.
+**Judge PRG size from a release build (`-r`), never a debug one** — they differ by ~2.5x. Same
+tree on `fr255s` (2026-09-25): debug 366,380 B vs release 148,556 B. A debug PRG looks alarmingly
+close to a 512 KB device budget while the shipped artifact uses under a third of it. Release
+history on `fr255s`: 145 KB before breathwork, 172 KB with it, 167 KB after the data acquisition
+rework, 149 KB after the 2026-09 settings/menu cleanup. **Compare sizes in bytes** (`stat -c %s`,
+or `(Get-Item).Length`) against a baseline build of the same tree — 166 860 B reads as "163 KB" in
+KiB and "167 KB" in kB, which once turned a +48 B change into an imaginary 4 KB saving.
 
 ### Deploy to Device
 
@@ -80,10 +81,12 @@ The script (run from repo root) does the full flow in order:
 It is interactive, so feed the version on stdin via the Bash tool:
 
 ```bash
-echo "10.7.7" | ./makeRelease.sh   # non-interactive: pipes the version into the prompt
+echo "X.Y.Z" | ./makeRelease.sh   # non-interactive: pipes the version into the prompt
 ```
 
 Notes:
+- Run it on the branch that goes to `main` by PR. `main` is branch-protected, so the bump commit
+  and the tag ride on that branch and land with the merge.
 - The version sed is idempotent — safe to re-run.
 - **Announcing a release on the watch is opt-in per release.** Most releases ship silently. When
   one is worth a word, bump `WhatsNewDelegate.NewsId` and rewrite the `whatsNew_*` strings in
@@ -91,9 +94,9 @@ Notes:
   next launch, dismissed with back/select/tap; new installs are marked caught-up so they never
   see it. The rows are drawn unwrapped, so keep each line About-screen short.
 - **Before every release, check whether any of the changes since the last release require an update to `UserGuide.md`** (e.g. renamed/added/removed settings, menus, or features the guide documents). Update it and stage the edit *before* running `makeRelease.sh` so it lands in the bump commit.
-- **Before every release, check whether the `codex-action@v1.11` pin can be lifted** — see "GitHub Actions: codex-action is pinned to v1.11" under Testing.
-- Stage any other intended changes (e.g. doc edits) **before** running; step 3's `git add .` sweeps the whole tree into the bump commit.
-- The final `git push` uses SSH (`git@github.com:...`). If the agent has no loaded key / a passphrase-protected key, push fails *after* the local commit+tag succeed — finish with a manual `git push origin dev && git push origin tag vX.X.X`.
+- **Before every release, check whether the `codex-action@v1.11` pin can be lifted** — see "GitHub Actions" below.
+- Stage any other intended changes (e.g. doc edits) **before** running; step 3's `git add .` sweeps the whole tree into the bump commit, untracked files included — check `git status` first.
+- The final `git push` uses SSH (`git@github.com:...`). If the agent has no loaded key / a passphrase-protected key, push fails *after* the local commit+tag succeed — finish with a manual `git push origin HEAD && git push origin tag vX.X.X`.
 
 ## Supported Devices
 
@@ -122,8 +125,8 @@ else { "$id: $([int]($wa/1024)) KB — meets 512 KB minimum" }
 **Memory is necessary but not sufficient.** A device can have ≥512 KB and still be excluded. Known reasons (from git history), so they aren't re-evaluated blindly:
 
 - **CIQ API below 3.0** — `epix` gen 1 is CIQ 1.2.1, below the app's floor. Gate new devices on `connectIQVersion` too (in `compiler.json`), not just memory.
-- **App broke on the device** — `vivoactive4`/`vivoactive4s` (1024 KB) were removed in v8.5: commit `30af8d0` *"Removed support for Vivoactive 4(s) - app no longer working in these devices"*. Needs a code fix, not just a manifest line.
-- **Parked, revisit later** — `vivoactive3m`/`vivoactive3mlte`, `marqexpedition` were temporarily removed (commit `46c1938` *"tmp rm devices again; try to support later"*). `marqexpedition` has since been re-added; the two `vivoactive3m` ids are in no manifest (they crash on session finish, see `$excludeExact` below).
+- **Broke on the device, fixed later** — `vivoactive4`/`vivoactive4s` (1024 KB) were removed in v8.5 (`30af8d0` *"app no longer working in these devices"*), then re-added after a sim check; they still need the `SPORT_MEDITATION` remap below. A device that crashes needs a code fix, not just a manifest line.
+- **Parked** — `vivoactive3m`/`vivoactive3mlte` crash on session finish (240x240 layout) and are in no manifest (see `$excludeExact` below). `marqexpedition`, parked in the same purge (`46c1938`), is back.
 
 So a new device passing the memory check still warrants a judgment call (CIQ version, form factor, and a sim build) before adding.
 
@@ -213,11 +216,8 @@ $excludeExact = @(
   'vivoactive3m','vivoactive3mlte',      # array-out-of-bounds crash on session finish (240x240 layout); in no manifest
   'system8preview'                       # SDK System-8 preview pseudo-device, not a real watch
 )
-# NOTE: vivoactive4/4s and marqexpedition were sim-verified OK and re-added to all manifests after the
-#       Apr-2025 bulk purge (46c1938 "tmp rm devices again"). vivoactive3m/3mlte still crash on finish.
-# NOTE: fr70 / fr170 / fr170m were added to all manifests (CIQ 6.0, 768 KB); flow now skips them via $man.
-# NOTE: the 7 fenix 9 devices (fenix943mm/947mm, fenix9pro43/47/51mm, fenix9prosolar47/51mm) were added to
-#       all manifests (CIQ 6.0.3, 768 KB, resolutions all match existing fenix 8 variants); flow skips them via $man.
+# Recent additions, skipped via $man: vivoactive4/4s and marqexpedition (back after the Apr-2025 purge),
+# fr70/fr170/fr170m (CIQ 6.0, 768 KB), the 7 fenix 9 variants (CIQ 6.0.3, 768 KB, fenix 8 resolutions).
 $man = Select-String -Path .\Meditate\manifest.xml -Pattern 'iq:product id="([^"]+)"' -AllMatches |
   ForEach-Object { $_.Matches } | ForEach-Object { $_.Groups[1].Value }
 Get-ChildItem "$env:APPDATA\Garmin\ConnectIQ\Devices" -Directory | ForEach-Object {
@@ -234,7 +234,9 @@ Get-ChildItem "$env:APPDATA\Garmin\ConnectIQ\Devices" -Directory | ForEach-Objec
 
 ## Testing
 
-Unit tests live next to the code they cover, 72 of them, all live:
+Unit tests live next to the code they cover. They use Connect IQ's `(:test)` framework and
+return `true`/`false`; a full run takes ~30 s. Run them after any change, and before a release also
+on `d2deltapx` (CIQ 3.0.3, the app's API floor), where a call newer than the floor fails.
 
 - `recording/tests/MetricTests` — the window engine against a scripted `read()` (flush on the
   completing tick, skipFirst, range, 90 % rule, keepHistory off, stats over window values).
@@ -247,44 +249,47 @@ Unit tests live next to the code they cover, 72 of them, all live:
   SDRR first = ticks 1-300 and last = the final 300 ticks (identical below 300).
 - `recording/hrv/tests/HrvSdrrTests` — the original SDRR expectations (`HrvAlgorithmsSampleOutput.xlsx`)
   ported to the ring of seconds: several beats in one second, empty seconds that push beats out.
-- `activity/tests/MetricLineTests` — metrics page row states; `summaryScreen/tests/SummaryPagesTests`
-  — the page set per HRV mode; `sessionSettings/tests/SessionPickerHrvStatusTests` — the picker's
-  HRV line through the real delegate: starting texts, restart hint that stays past 60 s, weak, ready.
-- `screenPicker/tests/IconGlyphTests` — the icon font loads and every glyph the code uses is one
-  private-use character (catches a blanked or retyped glyph).
-- `storage/tests/SessionStorageTests` — the stored session format round-trips unchanged, the enum
-  numbers inside stored sessions, fresh-store presets, the one-time breathwork preset migration,
-  index wrapping, delete-all restoring presets, new keys never reusing a used one, and the selection
-  after a delete (through the real settings menu, with a `PickerSpy` for the picker).
-- `globalSettings/tests/GlobalSettingsTests` — the 15 setting keys and defaults typed out as the
-  released app stores them (missing → default, stored value → back unchanged, same type), the
-  numbers of every setting enum, and the session/wakeup/usage-stats key strings.
-- `tests/OptionMenuTests` — the shared option lists keep the old menus' values and order (vibe
-  patterns for sessions and alerts, activity type, HRV tracking with its Default hint), a null vibe
-  pattern reads as no notification, `indexOf` matches by value.
-- `globalSettings/tests/GlobalSettingsMenuTests` — the settings table matches the old hand-built
-  menus row by row (order, stored key, option values, hint positions), and the subtitles show the
-  stored value (`00:45`, `05:00`, labels) through the real `updateMenuItems()`.
-- `sessionSettings/tests/SessionEditorTests` — the session editor through the real settings menu:
-  an edit changes only that field, a null activity type / HRV stays null (never filled with the
-  global default), picking one stores it, an emptied program is stored as null, and opening the
-  editor writes nothing.
+- `activity/tests/MetricLineTests` — the metrics page row states.
 - `activity/tests/FitSessionTests` — `FitSessionKind` numbers (stored), the kind per activity type
   with and without API 3.3.6, sport and sub-sport per kind as FIT profile numbers (a missing stored
   kind records as training), the `[time]` formatting and 21-character cut, and which name wins
   (session name, the phone's `activityName`, the type's title).
+- `summaryScreen/tests/SummaryPagesTests` — the page set per HRV mode.
+- `sessionSettings/tests/SessionPickerHrvStatusTests` — the picker's HRV line through the real
+  delegate: starting texts, restart hint that stays past 60 s, weak, ready.
+- `sessionSettings/tests/SessionEditorTests` — the session editor through the real settings menu:
+  an edit changes only that field, a null activity type / HRV stays null (never filled with the
+  global default), picking one stores it, an emptied program is stored as null, and opening the
+  editor writes nothing.
+- `storage/tests/SessionStorageTests` — the stored session format round-trips unchanged, the enum
+  numbers inside stored sessions, fresh-store presets, the one-time breathwork preset migration,
+  index wrapping, delete-all restoring presets, new keys never reusing a used one, and the selection
+  after a delete (through the real settings menu, with a `PickerSpy` for the picker).
+- `globalSettings/tests/GlobalSettingsTests` — every setting key and default typed out as the
+  released app stores them (missing → default, stored value → back unchanged, same type), the
+  numbers of every setting enum, and the session/wakeup/usage-stats key strings.
+- `globalSettings/tests/GlobalSettingsMenuTests` — the settings table matches the old hand-built
+  menus row by row (order, stored key, option values, hint positions), and the subtitles show the
+  stored value (`00:45`, `05:00`, labels) through the real `updateMenuItems()`.
+- `tests/OptionMenuTests` — the shared option lists keep the old menus' values and order (vibe
+  patterns for sessions and alerts, activity type, HRV tracking with its Default hint), a null vibe
+  pattern reads as no notification, `indexOf` matches by value.
 - `com/tests/MonthlyStatsTests` — the monthly minutes add up within a month, a new month after
   30 minutes starts over and leaves the tip prompt pending, no session time changes nothing.
-  `StorageSnapshot` saves the simulator's own store before each test and restores it after, and
-  its key strings are literals on purpose: they are the stored format. A test that writes a
-  session list must also write a dict for every key in it, or `loadSelectedSession()` takes its
-  destructive recovery path.
+- `screenPicker/tests/IconGlyphTests` — the icon font loads and every glyph the code uses is one
+  private-use character (catches a blanked or retyped glyph).
 
-They use Connect IQ's `(:test)` framework and return `true`/`false`. Run them after touching
-anything in `recording/`; they take ~20 s.
+**Tests run against the developer's own simulator data**, so a test that writes `App.Storage` or
+`App.Properties` restores it. `StorageSnapshot` does this for sessions (its key strings are
+literals on purpose: they are the stored format); the settings tests save and restore their keys.
+A test that writes a session list must also write a dict for every key in it, or
+`loadSelectedSession()` takes its destructive recovery path.
 
 **Annotate the whole test and fixture classes `(:test)`, not just the functions** — a bare fixture
 class costs ~400 B in the release PRG, a `(:test)` class costs 0 B (measured on `fr255s`).
+
+**Check once that a new test can fail**: run it against the broken code (the fix reverted, a value
+swapped). A test that cannot fail proves nothing.
 
 Run from the CLI (the simulator is started if it isn't running; VS Code's "Run Tests" does the same):
 
@@ -293,16 +298,26 @@ SDK="$APPDATA/Garmin/ConnectIQ/Sdks/<current sdk>"
 cd Meditate && "$SDK/bin/monkeyc.bat" -o /tmp/test.prg -f monkey.jungle -d fr255s -y <developer_key> -t -w
 "$SDK/bin/simulator.exe" &   # once
 MSYS_NO_PATHCONV=1 "$(cygpath -w "$SDK/bin/monkeydo.bat")" "$(cygpath -w /tmp/test.prg)" fr255s /t
+# a single test: ... fr255s /t SessionStorageTests.newSessionNeverReusesAKey
 ```
 
-`monkeydo` blocks until the simulator answers, so wrap it in a timeout (e.g. a PowerShell job
-with `Wait-Job -Timeout`, or `timeout 300` in Git Bash) when scripting it. **In Git Bash, `/t`
-gets rewritten into a file path** and monkeydo only prints its usage text; hence the
-`MSYS_NO_PATHCONV=1` above, which in turn means every path must already be a Windows path.
+- **In Git Bash, `/t` gets rewritten into a file path** and monkeydo only prints its usage text;
+  hence `MSYS_NO_PATHCONV=1`, which in turn means every path must already be a Windows path.
+- `monkeydo` blocks until the simulator answers, so wrap it in a timeout (`timeout 300` in Git
+  Bash, or a PowerShell job with `Wait-Job -Timeout`). **A run that prints nothing until its
+  timeout usually means the simulator has exited** — check for `simulator.exe` and restart it.
+  Run one device per command so progress stays visible.
+- **Upgrade tests in the simulator:** it keeps the app's data in
+  `%TEMP%\com.garmin.connectiq\GARMIN\APPS\DATA\MEDITATE.DAT` (named after the app, not the build),
+  so running an older build and then a newer one over the same data is a real upgrade. Copy
+  `MEDITATE.DAT`/`.IDX` aside first and put them back afterwards.
 
-No CI pipeline builds or tests Monkey C code. GitHub Actions handle only image compression, content translation, and user guide publishing.
+## GitHub Actions
 
-### GitHub Actions: codex-action is pinned to v1.11 — check upstream before every release
+No CI pipeline builds or tests Monkey C code. GitHub Actions handle only image compression, content
+translation, and user guide publishing.
+
+### codex-action is pinned to v1.11 — check upstream before every release
 
 `.github/workflows/translate-content.yml` runs `openai/codex-action@v1.11`, deliberately **not**
 the floating `@v1`. Since v1.12 (2026-08-21) the default `safety-strategy: drop-sudo` chmods the
@@ -337,7 +352,7 @@ plus the issue above):
 | Private fields    | `m` prefix            | `mSessionStorage`, `mHrvTracking` |
 | Public fields     | camelCase (no prefix) | `elapsedTime`, `currentHr`        |
 | Enum values       | PascalCase            | `NoNotification = 0`              |
-| Storage keys      | snake_case strings    | `"globalSettings_hrvTracking"`    |
+| Storage keys      | `XxxKey` constant     | `"globalSettings_hrvTracking"`    |
 
 ### Patterns
 
@@ -360,8 +375,8 @@ plus the issue above):
 - **Always super concise.** Lead with the behavior change (what the user notices); add technical detail only if it's needed to understand the change.
 - Start with **user-facing release notes** (what changed for the user)
 - Follow with **technical details** below (implementation specifics, files changed, reasoning) — only when they add necessary context
-- **No special characters** that shells may misinterpret: avoid parentheses, colons, slashes, quotes, brackets, backticks, and dollar signs in the message text
-- When providing via terminal, use the temp-file approach: write to a file with `Set-Content`, then `git commit -a -F <file>`, then delete the file
+- **No special characters** that shells may misinterpret: avoid parentheses, colons, slashes, quotes (apostrophes too), brackets, backticks, and dollar signs in the message text. The `Co-Authored-By:` trailer is the one exception.
+- When providing via terminal, use the temp-file approach: write the message to a file, stage explicit paths (`git add <paths>`), `git commit -F <file>`, then delete the file. Avoid `git commit -a`: it sweeps in every modified tracked file, including someone else's work in progress in the same tree.
 - **After creating a commit, read the commit message back verbatim** in the reply — do not just assert that it follows the convention
 
 ### Release Notes
@@ -522,15 +537,18 @@ declared set. Field ids are FIT compatibility — never renumber.
 
 ### Key Source Directories
 
-- `Meditate/source/activity/` — Core meditation activity, views, vibration alerts
-- `Meditate/source/sessionSettings/` — Session config, color/custom pickers, interval alerts
-- `Meditate/source/summaryScreen/` — Post-session summary with HR/HRV/stress/respiration graphs
-- `Meditate/source/globalSettings/` — App-wide settings (one key → default table)
-- `Meditate/source/storage/` — Session CRUD, presets
-- `Meditate/source/com/` — GA4 analytics (`UsageStats`), the monthly minutes and the tip prompt they lead to (`MonthlyStats`)
-- `Meditate/source/recording/` — Sensor feed, FIT session and HR/RR/stress sampling (former `HrvAlgorithms` barrel)
-- `Meditate/source/recording/hrv/` — HRV algorithm implementations (RMSSD, SDRR, pNNx)
-- `Meditate/source/screenPicker/` — Page carousel delegate, details views, status icons and the icon font (former `ScreenPicker`/`StatusIconFonts` barrels)
+All under `Meditate/source/`:
+
+- `activity/` — the running session: `MeditateActivity`, views, delegates, vibration alerts, breath cues, FIT naming
+- `recording/` — sensor feed, FIT session, the `Metric` engine and HR/RR/stress metrics; `hrv/` — HRV (RMSSD, SDRR, pNNx)
+- `summaryScreen/` — post-session summary pages and graphs
+- `sessionSettings/` — session picker and editor, interval alerts, breath programs (`breathProgram/`), color and duration pickers (`colorPicker/`, `customPicker/`)
+- `globalSettings/` — `GlobalSettings` (`load`/`save` by key) and the settings menu
+- `storage/` — session CRUD, presets, the preset migration
+- `screenPicker/` — page carousel delegate, details views, status icons, the icon font
+- `OptionMenu.mc` — the shared choose-one menu and its option lists
+- `com/` — GA4 analytics (`UsageStats`), monthly minutes and the tip prompt (`MonthlyStats`)
+- `about/`, `help/` — About, What's New, the help pages; `devTools/` — the hidden cloud backup/restore
 
 ### Breath Programs (guided breathwork)
 
@@ -567,8 +585,9 @@ a hold — there is no special case for it.
   tick fires late instead of not at all. Same reasoning as `VibeAlertsExecutor.pointCrossed`.
 - **Interval alerts still work** and coexist with a program. Their tick ring is drawn on the
   metrics page; the guidance page draws step-boundary ticks on the same ring instead.
-- `restorePresets` only runs on new installs and explicit preset restore, so **existing users
-  keep their old alert-based breathwork presets** until they restore presets.
+- `restorePresets()` runs only on a fresh store, after the last session is deleted, and in the
+  corrupt-entry path of `loadSelectedSession()`. Existing users got the guided presets through
+  `migratePresets()` (below), not through a restore.
 - **`BreathTemplates.createProgram` is the single definition of each shipped program**;
   `SessionPresets` only wraps it in a session. There is no separate template-picker UI —
   `Add New` deliberately creates a plain empty session, exactly as it did before breathwork
@@ -636,9 +655,18 @@ in that list; there are no hand-typed row numbers to drift.
 
 - **Global settings** (`GlobalSettingsMenuDelegate.rows()`): one row per setting,
   `[id, row title, options title, setting key, values, labels, hints]`. `labels == null` marks a
-  duration in seconds, shown as `mm:ss` both in the options and in the row subtitle. A new setting
-  = one entry in `GlobalSettings`' defaults plus one row here. `GlobalSettingsMenuTests` pins the
-  rows to the old hand-built menus.
+  duration in seconds, shown as `mm:ss` both in the options and in the row subtitle.
+  `GlobalSettingsMenuTests` pins the rows to the old hand-built menus.
+- **Adding a global setting** touches:
+  - an `XxxKey` constant;
+  - an entry in `GlobalSettings.keys()`;
+  - a branch in `defaultFor()`;
+  - a row in `GlobalSettingsTests`' table;
+  - a row in `rows()` and in `GlobalSettingsMenuTests`;
+  - label strings in all 9 locales.
+
+  The tests fail when `keys()`, their tables and `rows()` disagree. They cannot see a `defaultFor()`
+  branch added alone: that setting would work but be missing from cloud backups.
 - **Choose-one menus** go through `OptionMenu.push(title, values, labels, current, hints, onPicked,
   tag)`. The item id is the position in `values`, but `onPicked(tag, value)` always gets the
   **value**, so what is stored never depends on list order. The shared lists (vibe patterns for
@@ -665,9 +693,20 @@ in that list; there are no hand-typed row numbers to drift.
 
 ## Storage
 
-- **`App.Storage`** — Key-value persistence for sessions, settings, analytics queue.
-  - Session keys: `"sesssion_<key>"` (historical triple-s typo — **do not fix**)
-  - Settings keys: `"globalSettings_<name>"`
+**Everything in `App.Storage` is user data that must survive an update.** Each key string is a
+public `XxxKey` constant on the class that owns it. The strings, their value formats and the enum
+numbers stored in them never change; the storage and settings tests pin them. As long as that
+holds an update needs no migration. The only one-time migration so far is
+`SessionStorage.migratePresets()`.
+
+- **`App.Storage`**:
+  - `GlobalSettings.XxxKey` — `"globalSettings_<name>"`, one per setting (including the historical
+    `prapareTime` typo)
+  - `SessionStorage.SessionPrefixKey` — `"sesssion_<key>"` (historical triple-s typo — **do not
+    fix**); `SessionKeysKey` = `"sessionsKeys"`, `SelectedIndexKey` = `"selectedSessionIndex"`
+  - `WakeupSessionStorage.ActivityTypeKey` — `"wakeupSession_activityType"`, a `FitSessionKind` (0–3)
+  - `MonthlyStats.MonthlyKey` / `TipPendingKey` — `"usageStats_monthly"` / `"usageStats_tipPending"`;
+    `UsageStats` keeps its GA4 queue in `"usageStats_queue_v2"`
   - `selectedSessionIndex`: the picker reselects on every rebuild, so `selectSession()` writes only
     when the index actually changes. After a delete, storage keeps the position (the next session
     moves in, the last one falls back to the new last) and the picker takes that index as is. The
@@ -675,7 +714,8 @@ in that list; there are no hand-typed row numbers to drift.
   - New session keys are the smallest unused number ≥ 100. The key list is in creation order, not
     sorted, so a single pass over it isn't enough: that once gave a new session an existing key and
     overwrote that session.
-- **`App.Properties`** — Device-configurable properties (activity name, GA4 credentials)
+- **`App.Properties`** — `activityName` and `restoreDeviceId` (Garmin Connect settings), plus the
+  secrets from `secrets.xml`.
 
 ### Timers (`Timer.Timer` concurrency limit)
 
@@ -695,7 +735,7 @@ Steady state holds ≤2 of these at once (recording tick + an idle-reminder whil
 
 ## Secrets
 
-`Meditate/resources/secrets.xml` is **gitignored**. Copy `secrets_template.xml` → `secrets.xml` and fill in GA4 credentials to enable usage analytics.
+`Meditate/resources/secrets.xml` is **gitignored**. Copy `secrets_template.xml` → `secrets.xml` and fill in the GA4 credentials (usage analytics) and the Firebase URL and secret (Dev Tools cloud backup).
 
 ## .gitignore
 
@@ -748,18 +788,19 @@ Pulls all debug-relevant files from the watch into a timestamped `debug-pulls/` 
 
 ## Cloud Backup & Restore (Dev Feature)
 
-In-app developer tool accessible via **long-press on the About screen** → "Dev Tools" menu. Backed by Firebase Realtime Database (`meditate-garmin` project).
+In-app developer tool reached by **long-press or Menu on the About screen** → "Dev Tools" menu. Backed by Firebase Realtime Database (`meditate-garmin` project).
 
 ### Sync Rule
 
 **A new global setting needs no backup change.** `CloudBackup` backs up every key of
-`GlobalSettings.keys()`. A new setting is four lines in two files: an `XxxKey` constant, an entry in
-`keys()`, a branch in `defaultFor()`, and a row in `GlobalSettingsTests`' table. The test fails when
-`keys()` and its table disagree or a listed key has no default. It cannot see a branch added to
-`defaultFor()` alone; that setting would work but be missing from backups. (Backup used to read a
-hand-kept `GLOBAL_SETTINGS_KEYS` array in `CloudBackup` that silently dropped any key it lacked.)
-Backup copies the *stored* value only; a setting still at its default is not in the backup and
-falls back to the same default after a restore.
+`GlobalSettings.keys()` (see "Adding a global setting" under Menus). It used to read a hand-kept
+`GLOBAL_SETTINGS_KEYS` array that silently dropped any key it lacked. Backup copies the *stored*
+value only; a setting still at its default is not in the backup and falls back to the same
+default after a restore.
+
+**A new kind of stored data does need one**: a new top-level storage key outside
+`GlobalSettings` belongs in a payload section here and in `CloudRestore`, or it is lost on a
+restore.
 
 `CloudRestore.onRestoreResponse()` needs **no change for new global settings** — it iterates
 whatever keys came back (`gs.keys()`) and writes them straight to storage. It only needs
@@ -770,14 +811,11 @@ growing `SessionModel` needs no cloud-backup change at all — only watch the 32
 
 ### Keys Currently Backed Up
 
-- `globalSettings_*` (15 keys) — app-wide settings, plus the two schema markers
-  (`globalSettings_presetsVersion`, `globalSettings_lastSeenNewsId`) which are not user settings
-- `sessionsKeys` — list of session IDs
-- `selectedSessionIndex` — active session index
-- `sesssion_<key>` (per entry in `sessionsKeys`) — individual session data (note: triple-s typo is intentional)
+- every `GlobalSettings.keys()` entry — the settings, plus the two markers
+  `globalSettings_presetsVersion` and `globalSettings_lastSeenNewsId`, which are not user settings
+- `sessionsKeys`, `selectedSessionIndex`, and `sesssion_<key>` for each listed key
 - `wakeupSession_activityType`
-- `usageStats_monthly` — current month meditation time (via `monthlyStats` section)
-- `usageStats_tipPending` — pending tip flag (via `monthlyStats` section)
+- `usageStats_monthly` and `usageStats_tipPending` (the `monthlyStats` section)
 
 **Not backed up:** `usageStats_queue_v2` (too large, auto-rebuilds).
 
@@ -822,7 +860,7 @@ growing `SessionModel` needs no cloud-backup change at all — only watch the 32
 - **Measure, don't estimate:** a throwaway `(:test)` that diffs `System.getSystemStats().usedMemory`
   around the allocation and `logger.debug`s it takes two minutes and is exact; delete it afterwards.
 
-### Key Learnings (Monkey C compiler)
+### Key Learnings (Monkey C language and compiler)
 
 - **A `switch` on `null` throws** `Unexpected Type Error` ("Failed invoking <symbol>") at runtime; a `default:` branch does not catch it. Any switch over a value that can be null (a session's `vibePattern`, a stored enum that may be missing) needs a null check first. `Utils.vibePatternLabel` keeps one; dropping it crashed the session picker for sessions without a stored pattern, caught by `SessionPickerHrvStatusTests`.
 - **`settings.xml` string IDs must be defined in ALL locale resource folders.** Any string referenced via `@Strings.<id>` in `settings.xml` (e.g. as a `title=`) must exist in every `resources-<lang>/strings/strings.xml`, not just the base `resources/` folder. A missing locale string produces a `WARNING: String id '...' undefined for language '...'` and triggers the generic "A critical error has occurred" compiler crash.
