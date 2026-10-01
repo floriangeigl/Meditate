@@ -8,7 +8,7 @@ class BreathCuesExecutor {
 
 	function initialize(meditateModel) {
 		me.mRunner = meditateModel.getBreathRunner();
-		me.mCues = GlobalSettings.loadBreathCues();
+		me.mCues = GlobalSettings.load(GlobalSettings.BreathCuesKey);
 		// -1 so the opening phase cues at session start instead of one tick late
 		me.mLastPhaseStart = -1;
 		me.firePendingCues();

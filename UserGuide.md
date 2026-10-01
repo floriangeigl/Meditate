@@ -79,6 +79,11 @@ You can:
 - pause or resume with the **back button**
 - stop the session with the **start/stop button**
 - control screen brightness via your watch buttons or touch
+- press **up** or **down** (or swipe) for the **zen screen**: a dark screen with only the progress
+  ring. The time shows for a few seconds after you switch, then fades. The session records exactly
+  the same either way.
+
+Your next session opens on the screen you ended this one on.
 
 When you stop, you can save or discard the session.  
 Pressing back on that prompt saves the session.  
@@ -222,6 +227,12 @@ From the session picker you can scroll through available sessions and see:
 - interval alert timing
 - HRV indicator
 
+The app learns which session you start at which time of day. It opens where you left it; if you
+didn't touch it since your last session, it opens on the session you usually start around now.
+Being up to about three hours late or early still counts, and a new routine takes over from its
+first use. To
+turn this off, see [Learn Routine](#global-settings-defaults-for-all-sessions).
+
 ### HRV Indicator
 
 - **Off** - HRV tracking disabled
@@ -260,6 +271,8 @@ A breathing cycle can include:
 | B. Energize  | fast breathing, then box breathing | 5:20   |
 | B. Wind Down | long exhales, then 4-7-8           | 4:54   |
 | B. Holds     | deep breaths, then breath holds    | 7:16   |
+| B. Sleep     | slowing down, then 10 min resting  | 23:08  |
+| B. Calm      | ever longer exhales, no holds      | 5:00   |
 
 **Box Breathing**  
 Equal inhale, hold, exhale, hold.  
@@ -272,6 +285,16 @@ Often associated with increased HRV.
 **4-7-8 Breathing**  
 Inhale 4, hold 7, exhale 8.  
 Commonly used before sleep.
+
+**Sleep**  
+Starts at an easy pace and slows your breath step by step to about two breaths a minute, eases
+back, then leaves you 10 minutes to breathe freely. It ends with a single soft blip. To let it
+finish and save on its own if you fall asleep, keep **Auto Stop** on and set **Confirm Save** to
+**Auto Yes & Exit**.
+
+**Calm**  
+Longer and longer exhales, with no breath holds at all.  
+For stress and anxious moments, any time of day.
 
 You can edit any of these, or build your own - see [Guided Breathwork](#custom-breathwork-patterns).
 
@@ -291,8 +314,16 @@ If you do look at the watch, it shows:
 - a ring that fills as the phase progresses
 - the breathing route, when the session specifies nose or mouth
 
-Press **up** or **down** (or swipe) to switch to your heart rate, HRV, stress and respiration - and back again.  
-The vibrations continue either way.
+Press **up** or **down** (or swipe) to move between four screens:
+
+- **Guidance** - the phase, countdown and route above
+- **Breath ball** - a ball that grows as you breathe in, shrinks as you breathe out and stays
+  still while you hold
+- **Zen** - a dark screen with only the session ring
+- **Metrics** - your heart rate, HRV, stress and respiration
+
+The vibrations continue on every screen. Your next breathwork session opens on the screen you
+ended this one on.
 
 Before the session starts, the preparation countdown shows what is coming.
 
@@ -440,6 +471,15 @@ Beyond the phase word and countdown, the screen carries two rings:
 The line under the countdown shows your round within the current step (`3/4`) and, when the
 step specifies one, the breathing route for the phase you are in.
 
+### The Breath Ball
+
+One screen down from the guidance screen. The ball grows through each inhale and shrinks through
+each exhale - blue in, green out - slow at the start and end of every breath, like a real one.
+During a hold it stays still in the colour of the breath before it - blue on full lungs, green on
+empty - and its outline counts the hold down second by second. A rest shows a mid-size grey ball
+and **Breathe freely**. The phase word sits in the middle; the outer
+ring and its step ticks are the same as on the guidance screen.
+
 ### Cues
 
 Each phase change fires its own vibration, so a session works with your eyes closed and the
@@ -551,6 +591,9 @@ Access via:
 
 - Yes - app stays open for multiple sessions
 - No - app exits after each session
+- With Learn Routine on, once you have a regular sequence (e.g. breathwork, then silent sitting),
+  "Next session" shows the name of the session you usually do next and opens it, so the sequence
+  runs without scrolling. Sequences are only learned in Multi-Session Mode.
 
 ### Preparation Time
 
@@ -581,6 +624,13 @@ Access via:
 - Uses custom session name in Garmin Connect
 - Supports `[time]` placeholder
 - Activity names limited to 21 characters
+
+### Learn Routine
+
+- On (default) - the session picker opens on the session you usually start at this time, and
+  Multi-Session Mode offers the session that usually comes next
+- Off - the picker always opens on the last selected session; what was learned is forgotten the
+  next time you open the app
 
 ### Sensor Restart
 

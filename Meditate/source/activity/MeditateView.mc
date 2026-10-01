@@ -2,7 +2,8 @@ using Toybox.WatchUi as Ui;
 using Toybox.Lang;
 using Toybox.Graphics as Gfx;
 using Toybox.Application as App;
-using StatusIconFonts;
+using Toybox.System;
+using Toybox.Timer;
 
 // one metrics page row: hourglass with countdown until the first value, then the metric icon
 class MetricLine {
@@ -16,13 +17,13 @@ class MetricLine {
 		me.metric = metric;
 		me.mLine = line;
 		me.mIcon = icon;
-		me.mLoadingIcon = new ScreenPicker.LoadingIcon({});
+		me.mLoadingIcon = new LoadingIcon({});
 		me.mLoaded = false;
 		me.mLine.icon = me.mLoadingIcon;
 	}
 
 	function update(value, elapsed) {
-		me.mLine.value.text = ScreenPicker.ScreenPickerBaseView.formatValue(value);
+		me.mLine.value.text = ScreenPickerBaseView.formatValue(value);
 		if (value != null) {
 			me.mLoaded = true;
 			me.mLine.icon = me.mIcon;
@@ -41,49 +42,79 @@ class MetricLine {
 	}
 }
 
-class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
+class MeditateView extends ScreenPickerDetailsCenterView {
 	private var mMeditateModel;
 	private var mMainDurationRenderer;
 	private var mIntervalAlertsRenderer;
 	private var mLines;
 	private var mBreathGuidanceRenderer;
 	private var mBreathStepPercentages;
-	private var mShowGuidancePage;
+	private var mBallRenderer;
+	private var mPages;
+	private var mPageIndex;
 	private var mForceRedraw;
+	private var mPeekUntil;
+	private var mTickElapsed;
+	private var mTickMs;
+	private var mZenDrawnStep;
+	private var mFrameTimer;
+	private var mFramesRunning;
+
+	private const PeekSeconds = 3;
+	// zen redraws once per percent of the session
+	private const ZenSteps = 100;
+	// the ball redraws only once it moved a whole pixel, so this caps the frame rate
+	private const FrameMs = 66;
 
 	function initialize(meditateModel) {
-		// the up/down chevrons are the affordance for the guidance <-> metrics toggle
-		ScreenPicker.ScreenPickerDetailsCenterView.initialize(meditateModel, meditateModel.hasBreathProgram());
+		// every session has a second page; the up/down chevrons are the affordance
+		ScreenPickerDetailsCenterView.initialize(meditateModel, true);
 		me.mMeditateModel = meditateModel;
 		me.mMainDurationRenderer = null;
 		me.mIntervalAlertsRenderer = null;
 		me.mLines = null;
 		me.mBreathGuidanceRenderer = null;
 		me.mBreathStepPercentages = null;
-		// guidance leads every breathwork session; metrics is one press away
-		me.mShowGuidancePage = meditateModel.hasBreathProgram();
+		me.mBallRenderer = null;
+		me.mPages = MeditateView.pagesFor(meditateModel.hasBreathProgram());
+		me.mPageIndex = 0;
 		me.mForceRedraw = false;
+		me.mPeekUntil = 0;
+		me.mTickElapsed = -1;
+		me.mTickMs = System.getTimer();
+		me.mZenDrawnStep = -1;
+		me.mFrameTimer = null;
+		me.mFramesRunning = false;
+		me.applyPage();
+	}
+
+	// the page cycle: down steps forward, up back, both wrap
+	static function pagesFor(hasProgram) {
+		if (hasProgram) {
+			return [SessionPage.Guidance, SessionPage.Ball, SessionPage.Zen, SessionPage.Metrics];
+		}
+		return [SessionPage.Metrics, SessionPage.Zen];
 	}
 
 	// the one icon per metric id, shared with the summary details page
 	static function createIcon(id) {
 		if (id == :hrv) {
-			return new ScreenPicker.HrvIcon({});
+			return new HrvIcon({});
 		} else if (id == :stress) {
-			return new ScreenPicker.StressIcon({});
+			return new StressIcon({});
 		} else if (id == :rr) {
-			return new ScreenPicker.BreathIcon({});
+			return new BreathIcon({});
 		}
-		return new ScreenPicker.Icon({
+		return new Icon({
 			:font => StatusIconFonts.fontAwesomeFreeSolid,
-			:symbol => StatusIconFonts.Rez.Strings.IconHeart,
+			:symbol => Rez.Strings.IconHeart,
 			:color => Gfx.COLOR_RED,
 		});
 	}
 
 	// Load your resources here
 	function onLayout(dc) {
-		ScreenPicker.ScreenPickerDetailsCenterView.onLayout(dc);
+		ScreenPickerDetailsCenterView.onLayout(dc);
 
 		// lines survive a re-layout so a loaded metric does not fall back to the hourglass
 		if (me.mLines == null) {
@@ -107,7 +138,6 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 		}
 
 		if (me.mMeditateModel.hasBreathProgram()) {
-			me.setArrowsColor(null);
 			me.mBreathGuidanceRenderer = new BreathGuidanceRenderer(dc, me.foregroundColor);
 			me.mBreathStepPercentages = me.buildStepPercentages();
 		}
@@ -136,47 +166,154 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 		return percentages;
 	}
 
-	function toggleBreathPage() {
-		if (!me.mMeditateModel.hasBreathProgram()) {
-			return false;
+	function getPage() {
+		return me.mPages[me.mPageIndex];
+	}
+
+	// the page to open on; one this session does not have (or nothing stored) opens the first
+	function setPage(page) {
+		me.mPageIndex = 0;
+		for (var i = 0; i < me.mPages.size(); i++) {
+			if (me.mPages[i] == page) {
+				me.mPageIndex = i;
+			}
 		}
-		me.mShowGuidancePage = !me.mShowGuidancePage;
+		me.applyPage();
+	}
+
+	function switchPage(step) {
+		var count = me.mPages.size();
+		me.mPageIndex = (me.mPageIndex + step + count) % count;
+		me.applyPage();
+		me.startPeek();
 		// the 1 Hz gate below would otherwise swallow a switch made within the same second
 		me.mForceRedraw = true;
-		return true;
+		if (me.getPage() == SessionPage.Ball) {
+			me.startFrames();
+		} else {
+			me.stopFrames();
+		}
+	}
+
+	// arrows readable on the always-black pages; the ball is only made once it is visited
+	private function applyPage() {
+		var page = me.getPage();
+		me.setArrowsColor(page == SessionPage.Ball || page == SessionPage.Zen ? Gfx.COLOR_LT_GRAY : null);
+		if (page == SessionPage.Ball && me.mBallRenderer == null) {
+			me.mBallRenderer = new BreathBallRenderer();
+		}
+	}
+
+	private function startPeek() {
+		me.mPeekUntil = me.mMeditateModel.elapsedTime + PeekSeconds;
+	}
+
+	function onShow() {
+		me.startPeek();
+		if (me.getPage() == SessionPage.Ball) {
+			me.startFrames();
+		}
+	}
+
+	// the pause menu and the finish flow both hide this view
+	function onHide() {
+		me.stopFrames();
+	}
+
+	// every recorder tick: note when the second began, and redraw unless zen shows nothing new
+	function onSessionTick() {
+		var elapsed = me.mMeditateModel.elapsedTime;
+		if (elapsed != me.mTickElapsed) {
+			me.mTickElapsed = elapsed;
+			me.mTickMs = System.getTimer();
+		}
+		if (me.needsTickRedraw(elapsed)) {
+			Ui.requestUpdate();
+		}
+	}
+
+	// zen redraws only when its ring crosses a whole percent or while the peek shows
+	function needsTickRedraw(elapsed) {
+		return me.getPage() != SessionPage.Zen || elapsed <= me.mPeekUntil || me.zenStep(elapsed) != me.mZenDrawnStep;
+	}
+
+	private function zenStep(elapsed) {
+		var total = me.mMeditateModel.getSessionTime();
+		return total < 1 ? elapsed : ((elapsed % total) * ZenSteps) / total;
+	}
+
+	private function startFrames() {
+		if (me.mFramesRunning) {
+			return;
+		}
+		if (me.mFrameTimer == null) {
+			me.mFrameTimer = new Timer.Timer();
+		}
+		me.mFrameTimer.start(method(:onFrame), FrameMs, true);
+		me.mFramesRunning = true;
+	}
+
+	private function stopFrames() {
+		if (me.mFramesRunning) {
+			me.mFrameTimer.stop();
+			me.mFramesRunning = false;
+		}
+	}
+
+	// ball page only; no frames while paused or while the display is off
+	function onFrame() {
+		if (!me.mMeditateModel.isTimerRunning) {
+			return;
+		}
+		if (System has :getDisplayMode && System.getDisplayMode() != System.DISPLAY_MODE_HIGH_POWER) {
+			return;
+		}
+		if (me.mBallRenderer.needsRedraw(me.mMeditateModel.getBreathRunner(), me.secondFraction())) {
+			Ui.requestUpdate();
+		}
+	}
+
+	// how far into the current recording second, so the ball moves between ticks
+	private function secondFraction() {
+		var fraction = (System.getTimer() - me.mTickMs) / 1000.0;
+		return fraction > 1 ? 1.0 : (fraction < 0 ? 0.0 : fraction);
 	}
 
 	var lastElapsedTime = -1;
 
-	// Update the view
+	// ball and zen gate their redraws where they are requested; the other pages redraw once a second
 	function onUpdate(dc) {
 		var elapsedTime = me.mMeditateModel.elapsedTime;
-		if (me.mShowGuidancePage) {
-			if (elapsedTime != lastElapsedTime || !me.mMeditateModel.isTimerRunning || me.mForceRedraw) {
+		var page = me.getPage();
+		if (page == SessionPage.Ball) {
+			me.drawBallPage(dc, elapsedTime);
+		} else if (page == SessionPage.Zen) {
+			me.drawZenPage(dc, elapsedTime);
+		} else if (elapsedTime != lastElapsedTime || !me.mMeditateModel.isTimerRunning || me.mForceRedraw) {
+			if (page == SessionPage.Guidance) {
 				me.drawGuidancePage(dc, elapsedTime);
-			}
-			lastElapsedTime = elapsedTime;
-			me.mForceRedraw = false;
-			return;
-		}
-		// Only update every second
-		if (elapsedTime != lastElapsedTime || !me.mMeditateModel.isTimerRunning || me.mForceRedraw) {
-			me.mMeditateModel.title = TimeFormatter.format(elapsedTime);
-			// paused reads as no value: every icon goes grey
-			var running = me.mMeditateModel.isTimerRunning;
-			for (var i = 0; i < me.mLines.size(); i++) {
-				var line = me.mLines[i];
-				line.update(running ? line.metric.getValue() : null, elapsedTime);
-			}
-
-			ScreenPicker.ScreenPickerDetailsCenterView.onUpdate(dc);
-			me.mMainDurationRenderer.drawOverallElapsedTime(dc, elapsedTime, me.mMeditateModel.getSessionTime());
-			if (me.mIntervalAlertsRenderer != null) {
-				me.mIntervalAlertsRenderer.drawAllIntervalAlerts(dc);
+			} else {
+				me.drawMetricsPage(dc, elapsedTime);
 			}
 		}
 		lastElapsedTime = elapsedTime;
 		me.mForceRedraw = false;
+	}
+
+	private function drawMetricsPage(dc, elapsedTime) {
+		me.mMeditateModel.title = TimeFormatter.format(elapsedTime);
+		// paused reads as no value: every icon goes grey
+		var running = me.mMeditateModel.isTimerRunning;
+		for (var i = 0; i < me.mLines.size(); i++) {
+			var line = me.mLines[i];
+			line.update(running ? line.metric.getValue() : null, elapsedTime);
+		}
+
+		ScreenPickerDetailsCenterView.onUpdate(dc);
+		me.mMainDurationRenderer.drawOverallElapsedTime(dc, elapsedTime, me.mMeditateModel.getSessionTime());
+		if (me.mIntervalAlertsRenderer != null) {
+			me.mIntervalAlertsRenderer.drawAllIntervalAlerts(dc);
+		}
 	}
 
 	// Drawn without the DetailsCenterView chain: the metrics lines are not wanted here, and
@@ -185,11 +322,50 @@ class MeditateView extends ScreenPicker.ScreenPickerDetailsCenterView {
 		dc.setColor(Gfx.COLOR_TRANSPARENT, me.backgroundColor);
 		dc.clear();
 		me.drawArrows(dc);
-
-		me.mMainDurationRenderer.drawOverallElapsedTime(dc, elapsedTime, me.mMeditateModel.getSessionTime());
-		if (me.mIntervalAlertsRenderer != null) {
-			me.mIntervalAlertsRenderer.drawTicksAt(dc, me.mBreathStepPercentages, me.mMeditateModel.getColor());
-		}
+		me.drawSessionRing(dc, elapsedTime);
 		me.mBreathGuidanceRenderer.draw(dc, me.mMeditateModel.getBreathRunner());
+	}
+
+	private function drawBallPage(dc, elapsedTime) {
+		me.drawDarkPage(dc, elapsedTime);
+		me.mBallRenderer.draw(dc, me.mMeditateModel.getBreathRunner(), me.secondFraction());
+	}
+
+	private function drawZenPage(dc, elapsedTime) {
+		me.drawDarkPage(dc, elapsedTime);
+		me.mZenDrawnStep = me.zenStep(elapsedTime);
+		if (elapsedTime < me.mPeekUntil) {
+			dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_TRANSPARENT);
+			dc.drawText(
+				me.centerXPos,
+				me.centerYPos,
+				Gfx.FONT_MEDIUM,
+				TimeFormatter.format(elapsedTime),
+				Gfx.TEXT_JUSTIFY_CENTER | Gfx.TEXT_JUSTIFY_VCENTER
+			);
+		}
+	}
+
+	// ball and zen stay black whatever the theme; the chevrons show only while peeking
+	private function drawDarkPage(dc, elapsedTime) {
+		dc.setColor(Gfx.COLOR_TRANSPARENT, Gfx.COLOR_BLACK);
+		dc.clear();
+		me.drawSessionRing(dc, elapsedTime);
+		if (elapsedTime < me.mPeekUntil) {
+			me.drawArrows(dc);
+		}
+	}
+
+	// session progress with step ticks for a program, else the interval alerts
+	private function drawSessionRing(dc, elapsedTime) {
+		me.mMainDurationRenderer.drawOverallElapsedTime(dc, elapsedTime, me.mMeditateModel.getSessionTime());
+		if (me.mIntervalAlertsRenderer == null) {
+			return;
+		}
+		if (me.mMeditateModel.hasBreathProgram()) {
+			me.mIntervalAlertsRenderer.drawTicksAt(dc, me.mBreathStepPercentages, me.mMeditateModel.getColor());
+		} else {
+			me.mIntervalAlertsRenderer.drawAllIntervalAlerts(dc);
+		}
 	}
 }

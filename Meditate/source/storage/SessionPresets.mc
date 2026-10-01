@@ -7,14 +7,18 @@ class SessionPresets {
 	static const FirstBreathworkKey = 7;
 
 	// key = FirstBreathworkKey + index; the first three keep the names existing users know
+	// [name, program, end vibe]; sleep ends with a blip so it doesn't wake anyone
 	private static function breathworkPresetDefs() {
+		var end = VibePattern.LongContinuous;
 		return [
-			["Box Breath", :box5],
-			["B. Coherence", :coherence5],
-			["B. 4-7-8", :b4785],
-			["B. Energize", :energize],
-			["B. Wind Down", :windDown],
-			["B. Holds", :breathHolds],
+			["Box Breath", :box5, end],
+			["B. Coherence", :coherence5, end],
+			["B. 4-7-8", :b4785, end],
+			["B. Energize", :energize, end],
+			["B. Wind Down", :windDown, end],
+			["B. Holds", :breathHolds, end],
+			["B. Sleep", :sleep, VibePattern.Blip],
+			["B. Calm", :calm, end],
 		];
 	}
 
@@ -25,18 +29,18 @@ class SessionPresets {
 		if (index < 0 || index >= defs.size()) {
 			return null;
 		}
-		return SessionPresets.makeBreathworkSession(defs[index][0], defs[index][1], key);
+		return SessionPresets.makeBreathworkSession(defs[index], key);
 	}
 
 	// BreathTemplates owns the program data; this only wraps it in a session
-	private static function makeBreathworkSession(name, templateId, sessionKey) {
-		var program = BreathTemplates.createProgram(templateId);
+	private static function makeBreathworkSession(def, sessionKey) {
+		var program = BreathTemplates.createProgram(def[1]);
 		var session = new SessionModel();
 		session.fromDictionary({
 			"time" => program.totalTime(),
 			"color" => Gfx.COLOR_GREEN,
-			"name" => name,
-			"vibePattern" => VibePattern.LongContinuous,
+			"name" => def[0],
+			"vibePattern" => def[2],
 			"breathProgram" => program.toDictionary(),
 			"activityType" => ActivityType.Breathing,
 			"key" => sessionKey,
@@ -177,11 +181,7 @@ class SessionPresets {
 		var breathworkDefs = SessionPresets.breathworkPresetDefs();
 		for (var i = 0; i < breathworkDefs.size(); i++) {
 			sessions.add(
-				SessionPresets.makeBreathworkSession(
-					breathworkDefs[i][0],
-					breathworkDefs[i][1],
-					SessionPresets.FirstBreathworkKey + i
-				)
+				SessionPresets.makeBreathworkSession(breathworkDefs[i], SessionPresets.FirstBreathworkKey + i)
 			);
 		}
 

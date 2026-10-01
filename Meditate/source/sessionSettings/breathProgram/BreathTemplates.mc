@@ -83,6 +83,20 @@ class BreathTemplates {
 		} else if (id == :windDown) {
 			program.addNew(BreathTemplates.makeStep([4, 0, 8, 0], rounds, 15, nose, mouth)); // 3:00
 			program.addNew(BreathTemplates.makeStep([4, 7, 8, 0], rounds, 6, nose, mouth)); // 1:54
+		} else if (id == :sleep) {
+			// slows down to ~2 breaths/min, comes back to an easy pace, then a long free rest
+			program.addNew(BreathTemplates.makeStep([4, 0, 6, 0], rounds, 6, nose, mouth)); // 1:00
+			program.addNew(BreathTemplates.makeStep([4, 0, 8, 0], rounds, 8, nose, mouth)); // 1:36
+			program.addNew(BreathTemplates.makeStep([4, 7, 8, 0], rounds, 6, nose, mouth)); // 1:54
+			program.addNew(BreathTemplates.makeStep([5, 8, 12, 0], rounds, 6, nose, mouth)); // 2:30
+			program.addNew(BreathTemplates.makeStep([6, 10, 15, 0], rounds, 8, nose, mouth)); // 4:08
+			program.addNew(BreathTemplates.makeStep([4, 0, 8, 0], rounds, 10, nose, mouth)); // 2:00
+			program.addNew(BreathTemplates.makeStep([0, 0, 0, 0], BreathRepeat.Duration, 600, unset, unset)); // 10:00
+		} else if (id == :calm) {
+			// no holds: CO2 build-up can feel like the start of panic
+			program.addNew(BreathTemplates.makeStep([4, 0, 6, 0], rounds, 6, nose, mouth)); // 1:00
+			program.addNew(BreathTemplates.makeStep([4, 0, 8, 0], rounds, 10, nose, mouth)); // 2:00
+			program.addNew(BreathTemplates.makeStep([5, 0, 10, 0], rounds, 8, nose, mouth)); // 2:00
 		} else {
 			// :box5
 			program.addNew(BreathTemplates.makeStep([4, 4, 4, 4], rounds, 19, nose, nose)); // 5:04

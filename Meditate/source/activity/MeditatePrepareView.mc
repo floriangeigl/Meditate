@@ -26,9 +26,9 @@ class MeditatePrepareView extends Ui.View {
 		mSeconds = 0;
 
 		if (prepare == 1) {
-			mTotalSeconds = GlobalSettings.loadPrepareTime();
+			mTotalSeconds = GlobalSettings.load(GlobalSettings.PrepareTimeKey);
 		} else {
-			mTotalSeconds = GlobalSettings.loadFinalizeTime();
+			mTotalSeconds = GlobalSettings.load(GlobalSettings.FinalizeTimeKey);
 		}
 	}
 

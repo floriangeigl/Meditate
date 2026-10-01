@@ -3,7 +3,7 @@ using Toybox.WatchUi as Ui;
 using Toybox.Graphics as Gfx;
 
 // one metric's window history as bars on a round-numbered grid; onLayout rebuilds everything
-class GraphView extends ScreenPicker.ScreenPickerBaseView {
+class GraphView extends ScreenPickerBaseView {
 	private static const GridSteps = [1, 2, 5, 10, 20, 25, 50, 100, 200, 500, 1000];
 	private static const BarColor = 0x27a0c4;
 
@@ -107,7 +107,7 @@ class GraphView extends ScreenPicker.ScreenPickerBaseView {
 	}
 
 	private static function valueText(label, value) {
-		return Ui.loadResource(label) + ScreenPicker.ScreenPickerBaseView.formatValue(value);
+		return Ui.loadResource(label) + ScreenPickerBaseView.formatValue(value);
 	}
 
 	function onLayout(dc) {

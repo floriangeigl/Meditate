@@ -34,19 +34,19 @@ class BreathGuidanceRenderer {
 		me.mCenterY = height / 2;
 		var minDim = width < height ? width : height;
 
-		// sits inside the interval-alert tick ring, which is the outermost element
 		var ringWidth = Math.floor(minDim / 40.0).toNumber();
 		if (ringWidth < 3) {
 			ringWidth = 3;
 		}
+		var phaseRadius = BreathGuidanceRenderer.phaseRadius(minDim);
 		// ElapsedDurationRenderer subtracts ceil(width/2) from the radius on first draw
-		var ringRadius = (minDim / 2 - Math.floor(minDim / 9.0)).toNumber() + Math.ceil(ringWidth / 2.0).toNumber();
+		var ringRadius = phaseRadius + Math.ceil(ringWidth / 2.0).toNumber();
 		me.mInhaleRing = new ElapsedDurationRenderer(BreathGuidanceRenderer.InhaleColor, ringRadius, ringWidth);
 		me.mExhaleRing = new ElapsedDurationRenderer(BreathGuidanceRenderer.ExhaleColor, ringRadius, ringWidth);
 		me.mHoldRing = new ElapsedDurationRenderer(me.foregroundColorOrDefault(), ringRadius, ringWidth);
 
 		// usable text circle sits just inside the phase ring
-		var textRadius = minDim / 2 - Math.floor(minDim / 9.0) - ringWidth;
+		var textRadius = phaseRadius - ringWidth;
 		var spacing = Math.floor(minDim / 40.0).toNumber();
 
 		me.mNumberFont = Gfx.FONT_NUMBER_MEDIUM;
@@ -72,6 +72,11 @@ class BreathGuidanceRenderer {
 		for (var phase = 0; phase <= BreathPhase.Rest; phase++) {
 			me.mWordFonts[phase] = Utils.fitFont(dc, wordFonts, [me.wordFor(phase)], maxWordWidth);
 		}
+	}
+
+	// the phase ring's radius, inside the interval-alert tick ring; the breath ball fills this circle
+	static function phaseRadius(minDim) {
+		return (minDim / 2 - Math.floor(minDim / 9.0)).toNumber();
 	}
 
 	private function wordFor(phase) {

@@ -12,6 +12,8 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 	private var mActivityStopped;
 	private var mIdleReminderTimer;
 	private var mMeditateView;
+	// looked up once with the post-session menu, so its label and where "next session" lands agree
+	private var mNextSessionKey;
 	private const PauseReasonManual = 0;
 	private const PauseReasonCompleted = 1;
 
@@ -25,33 +27,47 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 		me.mPauseMenuVisible = false;
 		me.mActivityStopped = false;
 		me.mIdleReminderTimer = new IdleReminderTimer();
+		me.mNextSessionKey = null;
 	}
 
+	// the view opens on the page the last session of its kind stopped on
 	public function setMeditateView(meditateView) {
 		me.mMeditateView = meditateView;
+		meditateView.setPage(GlobalSettings.load(me.pageKey()));
+	}
+
+	private function pageKey() {
+		return me.mMeditateModel.hasBreathProgram() ? GlobalSettings.BreathPageKey : GlobalSettings.MeditatePageKey;
 	}
 
 	public function startActivity() {
 		me.mMeditateActivity.start();
 	}
 
-	// up/down (keys or swipe) flips guidance <-> metrics; unused during a session otherwise.
-	// Returns false without a breath program so meditation behaviour is unchanged.
-	private function switchBreathPage() {
+	// recorder tick; the view decides whether it needs a redraw
+	function onSessionTick() {
+		if (me.mMeditateView != null) {
+			me.mMeditateView.onSessionTick();
+		}
+	}
+
+	// up/down (keys or swipe) steps through the session pages
+	private function switchPage(step) {
 		// finishing views reuse this delegate; the meditate view is gone by then
-		if (me.mActivityStopped || me.mMeditateView == null || !me.mMeditateView.toggleBreathPage()) {
+		if (me.mActivityStopped || me.mMeditateView == null) {
 			return false;
 		}
+		me.mMeditateView.switchPage(step);
 		Ui.requestUpdate();
 		return true;
 	}
 
 	function onNextPage() {
-		return me.switchBreathPage();
+		return me.switchPage(1);
 	}
 
 	function onPreviousPage() {
-		return me.switchBreathPage();
+		return me.switchPage(-1);
 	}
 
 	public function stopActivity() {
@@ -59,13 +75,14 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 		me.mActivityStopped = true;
 		me.mMeditateActivity.stop();
 		me.mSummaryModel = me.mMeditateActivity.getSummary();
+		me.rememberPage();
 
 		// Store auto-exit state as class member
-		var confirmSaveActivity = GlobalSettings.loadConfirmSaveActivity();
+		var confirmSaveActivity = GlobalSettings.load(GlobalSettings.ConfirmSaveActivityKey);
 		me.mShouldAutoExit = confirmSaveActivity == ConfirmSaveActivity.AutoYesExit;
 
 		// If there is no finalize time, proceed directly to finishing flow
-		if (GlobalSettings.loadFinalizeTime() == 0) {
+		if (GlobalSettings.load(GlobalSettings.FinalizeTimeKey) == 0) {
 			onShowDelayedFinishedView();
 			return;
 		}
@@ -77,13 +94,25 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 		Ui.switchToView(meditatePrepareView, meditatePrepareDelegate, Ui.SLIDE_IMMEDIATE);
 	}
 
+	// once per session and only on a change; never while recording
+	private function rememberPage() {
+		if (me.mMeditateView == null) {
+			return;
+		}
+		var key = me.pageKey();
+		var page = me.mMeditateView.getPage();
+		if (GlobalSettings.load(key) != page) {
+			GlobalSettings.save(key, page);
+		}
+	}
+
 	function onShowDelayedFinishedView() {
 		var calculatingResultsView = new DelayedFinishingView(method(:onFinishActivity), me.mShouldAutoExit);
 		Ui.switchToView(calculatingResultsView, me, Ui.SLIDE_IMMEDIATE);
 	}
 
 	function onFinishActivity() {
-		var confirmSaveActivity = GlobalSettings.loadConfirmSaveActivity();
+		var confirmSaveActivity = GlobalSettings.load(GlobalSettings.ConfirmSaveActivityKey);
 		var nextView = null;
 
 		if (
@@ -130,7 +159,7 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 	}
 
 	function onShowNextView() {
-		var continueAfterFinishingSession = GlobalSettings.loadMultiSession();
+		var continueAfterFinishingSession = GlobalSettings.load(GlobalSettings.MultiSessionKey);
 		if (continueAfterFinishingSession == MultiSession.Yes) {
 			// In multi-session mode show an intermediate post-session menu
 			showPostSessionMenu(me.mSummaryModel);
@@ -153,8 +182,14 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 			:title => Ui.loadResource(Rez.Strings.multiSessionPostMenu_title),
 			:footer => footerTime,
 		});
+		me.mNextSessionKey = me.mSessionPickerDelegate.nextSessionKey();
 		menu.addItem(
-			new Ui.MenuItem(Ui.loadResource(Rez.Strings.multiSessionPostMenu_nextSession), "", :nextSession, {})
+			new Ui.MenuItem(
+				Ui.loadResource(Rez.Strings.multiSessionPostMenu_nextSession),
+				me.mSessionPickerDelegate.sessionName(me.mNextSessionKey),
+				:nextSession,
+				{}
+			)
 		);
 		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.multiSessionPostMenu_summary), "", :summary, {}));
 		menu.addItem(
@@ -168,6 +203,7 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 	// Called when user picks "Next session" from the post-session menu
 	function proceedToNextSession() {
 		me.mIdleReminderTimer.stop();
+		me.mSessionPickerDelegate.moveTo(me.mNextSessionKey);
 		showSessionPickerView(me.mSummaryModel);
 	}
 
@@ -224,7 +260,7 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 		// When any auto-save variant is set, skip the stop/resume menu and proceed
 		// directly to stopping. Only show the menu when the user wants to be asked
 		// (Ask), so they still have a chance to resume.
-		var confirmSaveActivity = GlobalSettings.loadConfirmSaveActivity();
+		var confirmSaveActivity = GlobalSettings.load(GlobalSettings.ConfirmSaveActivityKey);
 		if (confirmSaveActivity == ConfirmSaveActivity.Ask) {
 			me.showPauseMenu(PauseReasonCompleted);
 		} else {

@@ -14,11 +14,11 @@ class WhatsNewDelegate extends Ui.BehaviorDelegate {
 	private var mSessionPickerDelegate;
 
 	static function hasUnseenNews() {
-		return GlobalSettings.loadLastSeenNewsId() < WhatsNewDelegate.NewsId;
+		return GlobalSettings.load(GlobalSettings.LastSeenNewsIdKey) < WhatsNewDelegate.NewsId;
 	}
 
 	static function markSeen() {
-		GlobalSettings.saveLastSeenNewsId(WhatsNewDelegate.NewsId);
+		GlobalSettings.save(GlobalSettings.LastSeenNewsIdKey, WhatsNewDelegate.NewsId);
 	}
 
 	function initialize(sessionPickerDelegate) {
@@ -70,7 +70,7 @@ class WhatsNewView extends Ui.View {
 		View.initialize();
 		me.mTitle = title;
 		me.mLines = lines;
-		if (GlobalSettings.loadColorTheme() == ColorTheme.Light) {
+		if (GlobalSettings.load(GlobalSettings.ColorThemeKey) == ColorTheme.Light) {
 			me.mBackgroundColor = Gfx.COLOR_WHITE;
 			me.mForegroundColor = Gfx.COLOR_BLACK;
 		} else {

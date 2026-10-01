@@ -6,30 +6,34 @@
 
 ## Overview
 
-Garmin Connect IQ meditation watch-app tracking HR, HRV, stress, and respiration rate. Written in **Monkey C** using the **Toybox API**. Targets 90+ Garmin watches (Connect IQ ≥ 3.0). Licensed under MIT.
+Garmin Connect IQ meditation watch-app tracking HR, HRV, stress, and respiration rate. Written in **Monkey C** using the **Toybox API**. Targets 100+ Garmin watches (Connect IQ ≥ 3.0). Licensed under MIT.
 
 ## Project Structure
 
-Multi-folder VS Code workspace (`Meditate.code-workspace`) with three sub-projects:
+Multi-folder VS Code workspace (`Meditate.code-workspace`): the repo root plus two projects.
 
 ```
+./                      README, UserGuide.md, store texts (ConnectIQStore/), translations (generated/), makeRelease.sh, .github/
 Meditate/               Main watch-app (entry: source/MeditateApp.mc); sensor/recording engine in source/recording/
-ScreenPicker/           Barrel — carousel UI components (depends on StatusIconFonts)
-StatusIconFonts/        Barrel — Font Awesome icon fonts
 HrvProbe/               Standalone diagnostic app, not shipped — see "HRV cold start"
 ```
 
-**Dependency graph:** `Meditate` → `ScreenPicker` → `StatusIconFonts`, `StatusIconFonts`
+The app uses no barrels. The three it once had were merged in as plain top-level classes, because
+none was a real boundary: `HrvAlgorithms` → `source/recording/` (it called the app's `Vibe`),
+`ScreenPicker` and `StatusIconFonts` → `source/screenPicker/` (app-specific icons, the app's
+settings, two extra 158-device manifests to keep in sync).
 
-Barrels are Connect IQ reusable libraries, declared in `barrels.jungle` and compiled into the main app.
-The former `HrvAlgorithms` barrel was merged into the app as `Meditate/source/recording/` (plain
-top-level classes, no module wrapper) — it never was a real boundary, it called the app's `Vibe`.
+**Icon glyphs look empty but aren't.** `resources/strings/iconGlyphs.xml` holds Font Awesome code
+points from the private use area (e.g. `IconStress` is U+E0B7), which terminals and most editors
+render as blank. Move or edit that file only byte-safely, never retype a glyph, and keep
+`translatable="false"` on every entry. `IconGlyphTests` fails if a used glyph stops being exactly
+one private-use character.
 
 ## Build & Run
 
 ### Prerequisites
 
-- **Connect IQ SDK** ≤ v4.1.5 (if using v4.1.6+, [disable Monkey C type checker](https://forums.garmin.com/developer/connect-iq/f/discussion/314861/sdk-4-1-6-generating-new-errors-and-warnings#pifragment-1298=1))
+- **Connect IQ SDK**, currently 9.2.0. Type checking stays off (`project.typecheck = 0`, and `monkeyC.typeCheckLevel: Off` in VS Code): SDKs since 4.1.6 [report new errors on this code base](https://forums.garmin.com/developer/connect-iq/f/discussion/314861/sdk-4-1-6-generating-new-errors-and-warnings#pifragment-1298=1) otherwise.
 - **VS Code** with [Monkey C extension](https://marketplace.visualstudio.com/items?itemName=garmin.monkey-c) and [Prettier Monkey C](https://marketplace.visualstudio.com/items?itemName=markw65.prettier-extension-monkeyc)
 
 ### Open Workspace
@@ -40,20 +44,20 @@ top-level classes, no module wrapper) — it never was a real boundary, it calle
 
 Use Monkey C extension: `Ctrl+Shift+P → Monkey C: Build`. Output: `Meditate/bin/Meditate.prg`.
 
-Build config in each `monkey.jungle`:
+Build config in `Meditate/monkey.jungle`:
 
 ```jungle
 project.typecheck = 0       # Type checking disabled
 project.optimization = 3pz  # Maximum optimization
 ```
 
-**Judge PRG size from a release build, never a debug one** — they differ by roughly 2.4x. Same
-tree on `fr255s`: debug 415 KB vs release 172 KB (with a pre-breathwork baseline of 145 KB; the
-data acquisition rework then brought the release build down to 167 KB). A
-debug PRG looks alarmingly close to a 512 KB device budget while the shipped artifact uses a
-third of it. **Compare sizes in bytes** (`stat -c %s`, or `(Get-Item).Length`) against a
-baseline build of the same tree — 166 860 B reads as "163 KB" in KiB and "167 KB" in kB, which
-once turned a +48 B change into an imaginary 4 KB saving.
+**Judge PRG size from a release build (`-r`), never a debug one** — they differ by ~2.5x. Same
+tree on `fr255s` (2026-09-25): debug 366,380 B vs release 148,556 B. A debug PRG looks alarmingly
+close to a 512 KB device budget while the shipped artifact uses under a third of it. Release
+history on `fr255s`: 145 KB before breathwork, 172 KB with it, 167 KB after the data acquisition
+rework, 149 KB after the 2026-09 settings/menu cleanup. **Compare sizes in bytes** (`stat -c %s`,
+or `(Get-Item).Length`) against a baseline build of the same tree — 166 860 B reads as "163 KB" in
+KiB and "167 KB" in kB, which once turned a +48 B change into an imaginary 4 KB saving.
 
 ### Deploy to Device
 
@@ -77,10 +81,12 @@ The script (run from repo root) does the full flow in order:
 It is interactive, so feed the version on stdin via the Bash tool:
 
 ```bash
-echo "10.7.7" | ./makeRelease.sh   # non-interactive: pipes the version into the prompt
+echo "X.Y.Z" | ./makeRelease.sh   # non-interactive: pipes the version into the prompt
 ```
 
 Notes:
+- Run it on the branch that goes to `main` by PR. `main` is branch-protected, so the bump commit
+  and the tag ride on that branch and land with the merge.
 - The version sed is idempotent — safe to re-run.
 - **Announcing a release on the watch is opt-in per release.** Most releases ship silently. When
   one is worth a word, bump `WhatsNewDelegate.NewsId` and rewrite the `whatsNew_*` strings in
@@ -88,19 +94,18 @@ Notes:
   next launch, dismissed with back/select/tap; new installs are marked caught-up so they never
   see it. The rows are drawn unwrapped, so keep each line About-screen short.
 - **Before every release, check whether any of the changes since the last release require an update to `UserGuide.md`** (e.g. renamed/added/removed settings, menus, or features the guide documents). Update it and stage the edit *before* running `makeRelease.sh` so it lands in the bump commit.
-- **Publish the GitHub release only after the release PR is merged to `main`** — publishing it starts the translation workflow, which translates what is on `main` then (see "GitHub Actions: translations" under Testing). Merge the "Update translations" PR it opens to update the store texts and the user guide site.
-- Stage any other intended changes (e.g. doc edits) **before** running; step 3's `git add .` sweeps the whole tree into the bump commit.
-- The final `git push` uses SSH (`git@github.com:...`). If the agent has no loaded key / a passphrase-protected key, push fails *after* the local commit+tag succeed — finish with a manual `git push origin dev && git push origin tag vX.X.X`.
+- **Publish the GitHub release only after the release PR is merged to `main`** — publishing it starts the translation workflow, which translates what is on `main` then (see "GitHub Actions" below). Merge the "Update translations" PR it opens to update the store texts and the user guide site.
+- Stage any other intended changes (e.g. doc edits) **before** running; step 3's `git add .` sweeps the whole tree into the bump commit, untracked files included — check `git status` first.
+- The final `git push` uses SSH (`git@github.com:...`). If the agent has no loaded key / a passphrase-protected key, push fails *after* the local commit+tag succeed — finish with a manual `git push origin HEAD && git push origin tag vX.X.X`.
 
 ## Supported Devices
 
-Each of the **3 `manifest.xml` files** lists supported watches as `<iq:product id="<deviceId>"/>` entries inside `<iq:products>`. The `<deviceId>` matches the folder name under the SDK's device-definition directory.
+`Meditate/manifest.xml` lists supported watches as `<iq:product id="<deviceId>"/>` entries inside `<iq:products>`. The `<deviceId>` matches the folder name under the SDK's device-definition directory.
 
 - **SDK device definitions (source of truth for available watches):**
   - Windows: `%APPDATA%\Garmin\ConnectIQ\Devices\` (= `C:\Users\<user>\AppData\Roaming\Garmin\ConnectIQ\Devices\`)
   - macOS/Linux: `~/.Garmin/ConnectIQ/Devices/`
   - One folder per device (`fenix8`, `vivoactive6`, …), each with `<deviceId>.bin`, `simulator.json`, `compiler.json`. The folder name **is** the manifest product id.
-- The 3 manifests are not identical: `Meditate/manifest.xml` is the actual app device list; the barrels (`ScreenPicker`, `StatusIconFonts`) typically list a superset. The app-facing list is `Meditate/manifest.xml`.
 
 ### Minimum memory requirement: 512 KB watch-app RAM
 
@@ -120,8 +125,8 @@ else { "$id: $([int]($wa/1024)) KB — meets 512 KB minimum" }
 **Memory is necessary but not sufficient.** A device can have ≥512 KB and still be excluded. Known reasons (from git history), so they aren't re-evaluated blindly:
 
 - **CIQ API below 3.0** — `epix` gen 1 is CIQ 1.2.1, below the app's floor. Gate new devices on `connectIQVersion` too (in `compiler.json`), not just memory.
-- **App broke on the device** — `vivoactive4`/`vivoactive4s` (1024 KB) were removed in v8.5: commit `30af8d0` *"Removed support for Vivoactive 4(s) - app no longer working in these devices"*. Needs a code fix, not just a manifest line.
-- **Parked, revisit later** — `vivoactive3m`/`vivoactive3mlte`, `marqexpedition` were temporarily removed (commit `46c1938` *"tmp rm devices again; try to support later"*); still in the barrel manifests.
+- **Broke on the device, fixed later** — `vivoactive4`/`vivoactive4s` (1024 KB) were removed in v8.5 (`30af8d0` *"app no longer working in these devices"*), then re-added after a sim check; they still need the `SPORT_MEDITATION` remap below. A device that crashes needs a code fix, not just a manifest line.
+- **Parked** — `vivoactive3m`/`vivoactive3mlte` crash on session finish (240x240 layout) and are in no manifest (see `$excludeExact` below). `marqexpedition`, parked in the same purge (`46c1938`), is back.
 
 So a new device passing the memory check still warrants a judgment call (CIQ version, form factor, and a sim build) before adding.
 
@@ -129,7 +134,7 @@ So a new device passing the memory check still warrants a judgment call (CIQ ver
 
 vívoactive4/4s report Connect IQ API >= 3.3.6 (the `Utils.MonkeyVersionAtLeast([3,3,6])` gate in `MeditateActivity.mc` that's meant to guard Meditation/Yoga/Breathing FIT sport support), but `ActivityRecording.createSession` still throws **"Invalid Value"** for `SPORT_MEDITATION` (67) on this hardware — first seen as a production crash (backtrace `HrActivity.initialize` ← `HrvActivity.initialize` ← `MeditateActivity.initialize` — pre-rework names, today `ActivityRecorder.initialize` ← `MeditateActivity.initialize`; vívoactive4S firmware 8.30, app v10.7.8, 2026-07-03). Garmin's manuals confirm this device ships native Yoga and Breathwork activities but never got a native Meditation profile, so the API-level heuristic is a false positive specifically for this device family.
 
-Fixed via `Utils.activityTypeOverridesByPartNumber` (keyed by `System.getDeviceSettings().partNumber` — `006-B3225-00`/`006-B3388-00` = vivoactive4, `006-B3224-00`/`006-B3387-00` = vivoactive4s, `006-B3226-00`/`006-B3389-00` = venu, `006-B3740-00`/`006-B3737-00` = venud Mercedes-Benz Collection) and `Utils.getEffectiveActivityType()`, applied once where `MeditateActivity.mc` resolves `selectedActivityType` — remaps `ActivityType.Meditating` to `ActivityType.Breathing` on these devices. That single remap point also fixes wakeup-resume, since `mEffectiveWakeupSessionType` → `WakeupSessionStorage` → `BeatIntervalFeed` branches on the same enum. Add new devices/overrides to that table rather than writing new one-off boolean checks.
+Fixed via `Utils.activityTypeOverridesByPartNumber` (keyed by `System.getDeviceSettings().partNumber` — `006-B3225-00`/`006-B3388-00` = vivoactive4, `006-B3224-00`/`006-B3387-00` = vivoactive4s, `006-B3226-00`/`006-B3389-00` = venu, `006-B3740-00`/`006-B3737-00` = venud Mercedes-Benz Collection) and `Utils.getEffectiveActivityType()`, applied once where `MeditateActivity.mc` resolves `selectedActivityType` — remaps `ActivityType.Meditating` to `ActivityType.Breathing` on these devices. That single remap point also fixes wakeup-resume: `MeditateActivity.fitKindFor` turns the effective type into a `FitSessionKind`, which `WakeupSessionStorage` stores and `BeatIntervalFeed` hands to the same `FitSessionSpec.create` for the next wakeup session. Add new devices/overrides to that table rather than writing new one-off boolean checks.
 
 Note: `ActivityRecording.createSession` does **not** throw a catchable exception for this failure — a try/catch-and-retry safety net was considered and rejected because it wouldn't actually intercept it. Don't propose try/catch around a Toybox call without first confirming (via the API docs or existing repo precedent) that it's documented to throw.
 
@@ -198,7 +203,7 @@ Trigger whenever Garmin releases new watches (or after an SDK update):
 1. List device ids in the SDK `Devices/` folder (folder names).
 2. Diff against `<iq:product id=...>` ids in `Meditate/manifest.xml`.
 3. Filter out non-wrist hardware, the dropped-watch baseline, and anything below the **512 KB** floor (see above). Whatever remains is **new and viable** — report it with its memory.
-4. For each candidate, propose adding `<iq:product id="<deviceId>"/>` to all 3 manifests (keep barrels a superset of `Meditate`). If a candidate is non-wrist or otherwise unwanted, add its id to `$excludeExact`.
+4. For each candidate, propose adding `<iq:product id="<deviceId>"/>` to `Meditate/manifest.xml`. If a candidate is non-wrist or otherwise unwanted, add its id to `$excludeExact`.
 5. Rebuild in the simulator against one new device to confirm it compiles.
 
 The memory gate auto-drops sub-512 KB devices (e.g. `instinct3solar45mm`), so the name baseline only needs non-wrist prefixes plus capable-but-unwanted old watches.
@@ -208,14 +213,11 @@ The memory gate auto-drops sub-512 KB devices (e.g. `instinct3solar45mm`), so th
 $excludePrefixes = 'approach','edge','gpsmap','oregon','montana','rino','etrex','descent'
 # Capable (>=512 KB, CIQ >= 3.0) but intentionally excluded — see "Minimum memory requirement" above
 $excludeExact = @(
-  'vivoactive3m','vivoactive3mlte',      # array-out-of-bounds crash on session finish (240x240 layout); kept in barrels only
+  'vivoactive3m','vivoactive3mlte',      # array-out-of-bounds crash on session finish (240x240 layout); in no manifest
   'system8preview'                       # SDK System-8 preview pseudo-device, not a real watch
 )
-# NOTE: vivoactive4/4s and marqexpedition were sim-verified OK and re-added to all manifests after the
-#       Apr-2025 bulk purge (46c1938 "tmp rm devices again"). vivoactive3m/3mlte still crash on finish.
-# NOTE: fr70 / fr170 / fr170m were added to all manifests (CIQ 6.0, 768 KB); flow now skips them via $man.
-# NOTE: the 7 fenix 9 devices (fenix943mm/947mm, fenix9pro43/47/51mm, fenix9prosolar47/51mm) were added to
-#       all manifests (CIQ 6.0.3, 768 KB, resolutions all match existing fenix 8 variants); flow skips them via $man.
+# Recent additions, skipped via $man: vivoactive4/4s and marqexpedition (back after the Apr-2025 purge),
+# fr70/fr170/fr170m (CIQ 6.0, 768 KB), the 7 fenix 9 variants (CIQ 6.0.3, 768 KB, fenix 8 resolutions).
 $man = Select-String -Path .\Meditate\manifest.xml -Pattern 'iq:product id="([^"]+)"' -AllMatches |
   ForEach-Object { $_.Matches } | ForEach-Object { $_.Groups[1].Value }
 Get-ChildItem "$env:APPDATA\Garmin\ConnectIQ\Devices" -Directory | ForEach-Object {
@@ -232,7 +234,9 @@ Get-ChildItem "$env:APPDATA\Garmin\ConnectIQ\Devices" -Directory | ForEach-Objec
 
 ## Testing
 
-Unit tests live next to the code they cover, 47 of them, all live:
+Unit tests live next to the code they cover. They use Connect IQ's `(:test)` framework and
+return `true`/`false`; a full run takes ~30 s. Run them after any change, and before a release also
+on `d2deltapx` (CIQ 3.0.3, the app's API floor), where a call newer than the floor fails.
 
 - `recording/tests/MetricTests` — the window engine against a scripted `read()` (flush on the
   completing tick, skipFirst, range, 90 % rule, keepHistory off, stats over window values).
@@ -245,34 +249,89 @@ Unit tests live next to the code they cover, 47 of them, all live:
   SDRR first = ticks 1-300 and last = the final 300 ticks (identical below 300).
 - `recording/hrv/tests/HrvSdrrTests` — the original SDRR expectations (`HrvAlgorithmsSampleOutput.xlsx`)
   ported to the ring of seconds: several beats in one second, empty seconds that push beats out.
-- `activity/tests/MetricLineTests` — metrics page row states; `summaryScreen/tests/SummaryPagesTests`
-  — the page set per HRV mode; `sessionSettings/tests/SessionPickerHrvStatusTests` — the picker's
-  HRV line through the real delegate: starting texts, restart hint that stays past 60 s, weak, ready.
+- `activity/tests/MetricLineTests` — the metrics page row states.
+- `activity/tests/SessionPagesTests` — the page cycles per session kind, the stored page kept only
+  when the session has it, up/down wrapping, zen drawing once per percent plus the peek (102 draws
+  in a 300 s session), and every page (the ball through each phase, a rest and past the program's
+  end) drawn into an off-screen bitmap without error.
+- `activity/tests/BreathBallTests` — the ball's eased size per phase, its progress between ticks,
+  and a finished program holding the ball still instead of pulsing every second.
+- `activity/tests/FitSessionTests` — `FitSessionKind` numbers (stored), the kind per activity type
+  with and without API 3.3.6, sport and sub-sport per kind as FIT profile numbers (a missing stored
+  kind records as training), the `[time]` formatting and 21-character cut, and which name wins
+  (session name, the phone's `activityName`, the type's title).
+- `summaryScreen/tests/SummaryPagesTests` — the page set per HRV mode.
 - `summaryScreen/tests/GraphViewTests` — the graph maths: round grid inside the caps, flat data
   widened to the minimum span, one value per column (stretch and average), bars only over the
   recorded time, a layout that runs twice.
+- `sessionSettings/tests/SessionPickerHrvStatusTests` — the picker's HRV line through the real
+  delegate: starting texts, restart hint that stays past 60 s, weak, ready.
+- `sessionSettings/tests/SessionEditorTests` — the session editor through the real settings menu:
+  an edit changes only that field, a null activity type / HRV stays null (never filled with the
+  global default), picking one stores it, an emptied program is stored as null, and opening the
+  editor writes nothing.
+- `storage/tests/SessionHistoryTests` — the session suggestion lookup as pure functions (newest
+  within the hour, nearest routine re-centred, 3 h reach, midnight, first starts vs followers,
+  followers by time, drop, append cap) and through real storage: launch moves only a picker the
+  user left alone, a delete is not a user move, a deleted key is forgotten, Off forgets.
+- `storage/tests/SessionStorageTests` — the stored session format round-trips unchanged, the enum
+  numbers inside stored sessions, fresh-store presets, the preset migration per version step
+  (from version 2 only 13-14 arrive, deletions stay), the Sleep and Calm programs,
+  index wrapping, delete-all restoring presets, new keys never reusing a used one, and the selection
+  after a delete (through the real settings menu, with a `PickerSpy` for the picker).
+- `globalSettings/tests/GlobalSettingsTests` — every setting key and default typed out as the
+  released app stores them (missing → default, stored value → back unchanged, same type), the
+  numbers of every setting enum, and the session/wakeup/usage-stats key strings.
+- `globalSettings/tests/GlobalSettingsMenuTests` — the settings table matches the old hand-built
+  menus row by row (order, stored key, option values, hint positions), and the subtitles show the
+  stored value (`00:45`, `05:00`, labels) through the real `updateMenuItems()`.
+- `tests/OptionMenuTests` — the shared option lists keep the old menus' values and order (vibe
+  patterns for sessions and alerts, activity type, HRV tracking with its Default hint), a null vibe
+  pattern reads as no notification, `indexOf` matches by value.
+- `com/tests/MonthlyStatsTests` — the monthly minutes add up within a month, a new month after
+  30 minutes starts over and leaves the tip prompt pending, no session time changes nothing.
+- `screenPicker/tests/IconGlyphTests` — the icon font loads and every glyph the code uses is one
+  private-use character (catches a blanked or retyped glyph).
 
-They use Connect IQ's `(:test)` framework and return `true`/`false`. Run them after touching
-anything in `recording/`; they take ~20 s.
+**Tests run against the developer's own simulator data**, so a test that writes `App.Storage` or
+`App.Properties` restores it. `StorageSnapshot` does this for sessions and the session history (its key strings are
+literals on purpose: they are the stored format); the settings tests save and restore their keys.
+A test that writes a session list must also write a dict for every key in it, or
+`loadSelectedSession()` takes its destructive recovery path.
 
 **Annotate the whole test and fixture classes `(:test)`, not just the functions** — a bare fixture
 class costs ~400 B in the release PRG, a `(:test)` class costs 0 B (measured on `fr255s`).
+
+**Check once that a new test can fail**: run it against the broken code (the fix reverted, a value
+swapped). A test that cannot fail proves nothing.
 
 Run from the CLI (the simulator is started if it isn't running; VS Code's "Run Tests" does the same):
 
 ```bash
 SDK="$APPDATA/Garmin/ConnectIQ/Sdks/<current sdk>"
-cd Meditate && "$SDK/bin/monkeyc.bat" -o /tmp/test.prg -f "monkey.jungle;barrels.jungle" -d fr255s -y <developer_key> -t -w
+cd Meditate && "$SDK/bin/monkeyc.bat" -o /tmp/test.prg -f monkey.jungle -d fr255s -y <developer_key> -t -w
 "$SDK/bin/simulator.exe" &   # once
-"$SDK/bin/monkeydo.bat" /tmp/test.prg fr255s /t     # prints PASS/FAIL per test and a summary
+MSYS_NO_PATHCONV=1 "$(cygpath -w "$SDK/bin/monkeydo.bat")" "$(cygpath -w /tmp/test.prg)" fr255s /t
+# a single test: ... fr255s /t SessionStorageTests.newSessionNeverReusesAKey
 ```
 
-`monkeydo` blocks until the simulator answers, so wrap it in a timeout (e.g. a PowerShell job
-with `Wait-Job -Timeout`) when scripting it.
+- **In Git Bash, `/t` gets rewritten into a file path** and monkeydo only prints its usage text;
+  hence `MSYS_NO_PATHCONV=1`, which in turn means every path must already be a Windows path.
+- `monkeydo` blocks until the simulator answers, so wrap it in a timeout (`timeout 300` in Git
+  Bash, or a PowerShell job with `Wait-Job -Timeout`). **A run that prints nothing until its
+  timeout usually means the simulator has exited** — check for `simulator.exe` and restart it.
+  Run one device per command so progress stays visible.
+- **Upgrade tests in the simulator:** it keeps the app's data in
+  `%TEMP%\com.garmin.connectiq\GARMIN\APPS\DATA\MEDITATE.DAT` (named after the app, not the build),
+  so running an older build and then a newer one over the same data is a real upgrade. Copy
+  `MEDITATE.DAT`/`.IDX` aside first and put them back afterwards.
 
-No CI pipeline builds or tests Monkey C code. GitHub Actions handle only image compression, content translation, and user guide publishing.
+## GitHub Actions
 
-### GitHub Actions: translations run on a published release, changed files only
+No CI pipeline builds or tests Monkey C code. GitHub Actions handle only image compression, content
+translation, and user guide publishing.
+
+### Translations run on a published release, changed files only
 
 `.github/workflows/translate-content.yml` fires on **`release: published`** — a GitHub release,
 not a tag push (`makeRelease.sh` tags on the branch before the merge) — and on manual dispatch.
@@ -318,11 +377,11 @@ commit, so a workflow change applies to releases tagged after it.
 | Element           | Convention            | Example                           |
 | ----------------- | --------------------- | --------------------------------- |
 | Classes / Modules | PascalCase            | `MeditateActivity`, `VibePattern` |
-| Methods           | camelCase             | `loadHrvTracking()`               |
+| Methods           | camelCase             | `loadSelectedSession()`           |
 | Private fields    | `m` prefix            | `mSessionStorage`, `mHrvTracking` |
 | Public fields     | camelCase (no prefix) | `elapsedTime`, `currentHr`        |
 | Enum values       | PascalCase            | `NoNotification = 0`              |
-| Storage keys      | snake_case strings    | `"globalSettings_hrvTracking"`    |
+| Storage keys      | `XxxKey` constant     | `"globalSettings_hrvTracking"`    |
 
 ### Patterns
 
@@ -330,8 +389,8 @@ commit, so a workflow change applies to releases tagged after it.
 - **`me.` prefix** used consistently for instance member access.
 - **Composition over inheritance**: `MeditateActivity` owns an `ActivityRecorder`, which owns the `Metric` list — there is no activity class chain any more.
 - **Dictionary serialization**: Models use `fromDictionary()` / `toDictionary()` for `App.Storage` persistence.
-- **Static load/save**: `GlobalSettings` uses static methods per setting key.
-- **Barrel modules**: Each barrel wraps code in a module (e.g., `module ScreenPicker { ... }`); the app itself uses top-level classes.
+- **Settings**: `GlobalSettings.load(key)` / `save(key, value)` with `XxxKey` constants; the defaults are an if-chain (`defaultFor`) and `keys()` lists the same keys. No cached table, by decision (see runtime memory learnings). Key strings and defaults are stored data; `GlobalSettingsTests` types them all out, so a rename or a changed default fails a test instead of silently changing every user's app.
+- **Top-level classes, no modules**: the one exception is `module StatusIconFonts`, which only holds the icon font loaded at startup.
 
 ### Formatting
 
@@ -345,8 +404,8 @@ commit, so a workflow change applies to releases tagged after it.
 - **Always super concise.** Lead with the behavior change (what the user notices); add technical detail only if it's needed to understand the change.
 - Start with **user-facing release notes** (what changed for the user)
 - Follow with **technical details** below (implementation specifics, files changed, reasoning) — only when they add necessary context
-- **No special characters** that shells may misinterpret: avoid parentheses, colons, slashes, quotes, brackets, backticks, and dollar signs in the message text
-- When providing via terminal, use the temp-file approach: write to a file with `Set-Content`, then `git commit -a -F <file>`, then delete the file
+- **No special characters** that shells may misinterpret: avoid parentheses, colons, slashes, quotes (apostrophes too), brackets, backticks, and dollar signs in the message text. The `Co-Authored-By:` trailer is the one exception.
+- When providing via terminal, use the temp-file approach: write the message to a file, stage explicit paths (`git add <paths>`), `git commit -F <file>`, then delete the file. Avoid `git commit -a`: it sweeps in every modified tracked file, including someone else's work in progress in the same tree.
 - **After creating a commit, read the commit message back verbatim** in the reply — do not just assert that it follows the convention
 
 ### Release Notes
@@ -459,11 +518,24 @@ comes in through constructor arguments. Keep it that way; it is what makes the t
 
 `MeditateDelegate` is passed as the input delegate for the post-session `DelayedFinishingView`s ("calculating results"), not just for `MeditateView`. So its in-session gestures stay reachable **after** the activity has been stopped and its FIT session saved or discarded — at which point `ActivityRecorder.mFitSession` is `null` (nulled by `finish()`/`discard()`) and any `pauseResume()`/`stop()` on it throws **"Unexpected Type Error"**.
 
-Guarded by `mActivityStopped`, set once in `stopActivity()` (the single choke point — only `stopFromPauseMenu()` and `onSessionAutoComplete()` reach it) and checked in `onBack()` and `onKey()`. A fresh `MeditateDelegate` is built per session in `SessionPickerDelegate.startMeditationSession()`, so the flag is never reset.
+Guarded by `mActivityStopped`, set once in `stopActivity()` (the single choke point — only `stopFromPauseMenu()` and `onSessionAutoComplete()` reach it) and checked in `onBack()`, `onKey()` and `switchPage()`. A fresh `MeditateDelegate` is built per session in `SessionPickerDelegate.startMeditationSession()`, so the flag is never reset.
 
 **Do not add in-session input handling to `MeditateDelegate` without checking that flag**, and do not add a null guard in `ActivityRecorder.pauseResume()` instead — that hides the stray pause menu rather than preventing it. Two production crashes came from this (v10.7.10): back on the post-save spinner → pause menu → back (`resumeFromPauseMenu`), and the same menu → "Stop" (`stopFromPauseMenu`). The stray menu also froze the flow, since `pushView` triggers `DelayedFinishingView.onHide()` which stops its 1 s timer.
 
 Related: `MeditatePrepareView` (prepare/finalize countdowns) uses `MeditatePrepareDelegate`, which swallows keys and maps back to "skip countdown" — that path is unaffected.
+
+**Auto save & exit relies on `System.exit()` letting the current function finish.** The first
+`DelayedFinishingView` already carries the exit flag, and its `onViewDrawn` calls `System.exit()`
+*before* `mOnShow.invoke()` → `onFinishActivity()` → `finish()` saves. The docs don't say whether code
+after `exit()` runs; verified on hardware (fēnix, 2026-09-26) that it does and the activity is saved.
+If a device ever loses Auto save & exit activities, pass `false` to the first finishing view so only
+the second one, after `finish()`, exits.
+
+**Storage next to the FIT save is proven safe.** The 2019 fix (`7bf00ca`) keeps next-session storage
+work and the save apart by a 1 s finishing view, yet `MeditateActivity.finish()` has written the
+wakeup type, monthly minutes and analytics queue in the same call as `save()` for years without a
+corrupted activity. The comment in `onFinishActivity` still describes the 2019 order (settings first);
+auto-save now saves first and builds the next view a second later.
 
 ### Per-second metrics are sampled on the activity tick, never in the view
 
@@ -473,7 +545,52 @@ runner and fires alerts/cues. `MeditateView.onUpdate()` only reads `getMetric(id
 pure read of the last sampled state. Stress and respiration used to be sampled *inside* the view's
 metrics draw (the old `getCurrentValue()` appended a sample as a side effect), so any session whose
 view skipped that draw — the breathwork guidance page — recorded no stress/RR at all. Never give a
-view anything that mutates a metric.
+view anything that mutates a metric. How often a page redraws therefore never affects recording.
+
+### Session pages: guidance, ball, zen, metrics
+
+Breathwork cycles `Guidance → Ball → Zen → Metrics`, meditation `Metrics ↔ Zen` (up/down wrap;
+`MeditateView.pagesFor`). A session opens on the page the last one of its kind stopped on
+(`GlobalSettings.BreathPageKey` / `MeditatePageKey`, markers without a menu row, holding a
+`SessionPage`). `MeditateDelegate` loads it in `setMeditateView` and saves it in `stopActivity`,
+only on a change, so storage is never written while recording. The stored value is only looked up
+in the page list, never switched on. Ball and zen are black whatever the theme.
+
+- **Redraws are decided where they are requested, not in `onUpdate`.** The recorder tick reaches
+  the view through `MeditateDelegate.onSessionTick()` → `MeditateView.onSessionTick()`, which asks
+  for a redraw on every tick except on zen, which asks only when the ring crosses a whole percent
+  of the session (100 redraws per session, whatever its length) or while the peek (time and
+  chevrons for 3 s after arriving) shows. `onUpdate` draws ball and zen in full whenever it runs:
+  skipping a draw there would leave stale pixels after a system overlay or a display wake.
+- **The ball** (`BreathBallRenderer`) is a pure renderer, made on the first visit to the page and
+  laid out on its first draw. The view schedules it: `mFrameTimer` runs only while the view is shown
+  and the ball page is current (`onShow`/`onHide`/`switchPage` start and stop it, `onFrame` never
+  does), and `onFrame` requests a redraw only when the ball moved a whole pixel, the session is
+  running and, on API 5 devices, the display is on. Holds, rests and a finished program therefore
+  cost no redraws beyond the tick; the hold countdown on the edge steps on the tick.
+- **Going inactive is not an `onHide` trigger** (the docs list push, pop and exit only), so
+  `MeditateApp.onInactive`/`onActive` pass it to the current `MeditateView` as `onHide`/`onShow`.
+  Both are idempotent, so this stays correct if a device fires them itself.
+- **Between ticks** the view records `System.getTimer()` whenever `elapsedTime` changes, on every
+  page, so the ball's fraction of a second is right even when switched to mid-second. The ball
+  changes phase on the same tick as the cue, since `updateBreathRunner()` stays the only place that
+  advances the runner. With Auto Stop off the session outlives the program: `isDone` pins progress
+  to 1, or the fraction restarting every second would make the ball pulse.
+- **Drawing the ball, checked in simulator screenshots:** a full rim is two filled discs (rim colour,
+  then fill), never a near-360° arc. A thick arc's two ends leave a visible notch at 12 o'clock,
+  which is what `ElapsedDurationRenderer`'s 99.9 % cap does on its thin rings. The hold countdown
+  is a real arc over a fill disc of the same outer radius, so the outline stays put while the rim
+  drains. The breath words share one font, fitted inside the smallest ball (40 % of the largest),
+  so no word ever crosses the rim; at 30 % "Hold" on empty lungs ran over it.
+- **Soft look:** the ball is drawn anti-aliased (API 3.2+, reset afterwards) with a 2 px rim while
+  breathing; the thick rim appears only as the hold countdown. A hold keeps the colour of the breath
+  before it: blue on full lungs, green on empty. On AMOLED only (`requiresBurnInProtection`, checked
+  on `fenix847mm` vs `fenix8solar51mm`) a 4-step glow in darker shades of the rim colour surrounds it.
+  On the 64-colour MIP screens that glow quantises into a hard dark band, and orb shading
+  (concentric lighter discs) looked banded on every screen, so both were rejected there.
+- `FrameMs` (66) is untuned: compare 50/66/100 on an AMOLED and a MIP watch.
+- Known and accepted: after a resume the ball can jump by up to a second of motion once, because
+  the next second starts on the first tick after the resume.
 
 ### Stress: live score on API ≥ 5, logged snapshot below
 
@@ -521,14 +638,18 @@ declared set. Field ids are FIT compatibility — never renumber.
 
 ### Key Source Directories
 
-- `Meditate/source/activity/` — Core meditation activity, views, vibration alerts
-- `Meditate/source/sessionSettings/` — Session config, color/custom pickers, interval alerts
-- `Meditate/source/summaryScreen/` — Post-session summary with HR/HRV/stress/respiration graphs
-- `Meditate/source/globalSettings/` — App-wide settings (static load/save)
-- `Meditate/source/storage/` — Session CRUD, presets
-- `Meditate/source/com/` — GA4 analytics, donation prompts
-- `Meditate/source/recording/` — Sensor feed, FIT session and HR/RR/stress sampling (former `HrvAlgorithms` barrel)
-- `Meditate/source/recording/hrv/` — HRV algorithm implementations (RMSSD, SDRR, pNNx)
+All under `Meditate/source/`:
+
+- `activity/` — the running session: `MeditateActivity`, views, delegates, vibration alerts, breath cues, FIT naming
+- `recording/` — sensor feed, FIT session, the `Metric` engine and HR/RR/stress metrics; `hrv/` — HRV (RMSSD, SDRR, pNNx)
+- `summaryScreen/` — post-session summary pages and graphs
+- `sessionSettings/` — session picker and editor, interval alerts, breath programs (`breathProgram/`), color and duration pickers (`colorPicker/`, `customPicker/`)
+- `globalSettings/` — `GlobalSettings` (`load`/`save` by key) and the settings menu
+- `storage/` — session CRUD, presets, the preset migration
+- `screenPicker/` — page carousel delegate, details views, status icons, the icon font
+- `OptionMenu.mc` — the shared choose-one menu and its option lists
+- `com/` — GA4 analytics (`UsageStats`), monthly minutes and the tip prompt (`MonthlyStats`)
+- `about/`, `help/` — About, What's New, the help pages; `devTools/` — the hidden cloud backup/restore
 
 ### Breath Programs (guided breathwork)
 
@@ -565,8 +686,9 @@ a hold — there is no special case for it.
   tick fires late instead of not at all. Same reasoning as `VibeAlertsExecutor.pointCrossed`.
 - **Interval alerts still work** and coexist with a program. Their tick ring is drawn on the
   metrics page; the guidance page draws step-boundary ticks on the same ring instead.
-- `restorePresets` only runs on new installs and explicit preset restore, so **existing users
-  keep their old alert-based breathwork presets** until they restore presets.
+- `restorePresets()` runs only on a fresh store, after the last session is deleted, and in the
+  corrupt-entry path of `loadSelectedSession()`. Existing users got the guided presets through
+  `migratePresets()` (below), not through a restore.
 - **`BreathTemplates.createProgram` is the single definition of each shipped program**;
   `SessionPresets` only wraps it in a session. There is no separate template-picker UI —
   `Add New` deliberately creates a plain empty session, exactly as it did before breathwork
@@ -582,14 +704,22 @@ a hold — there is no special case for it.
   empty lungs followed by a recovery breath held full.
 - Avoid naming templates after living people; `:breathHolds` is deliberately generic.
 - **Preset session keys are persistent ids and must never be renumbered.** Breathwork owns
-  keys 7-12 (`SessionPresets.FirstBreathworkKey`); 7-9 shipped before guided programs existed,
-  10-12 came with them. A stored session is matched back to its preset by key alone, so a new
-  preset of any kind takes the next free key at the end. `SessionStorage.migratePresets()` runs
-  once (gated by `globalSettings_presetsVersion`) and depends on this: it rewrites 7-9 in place
-  when the stored name still matches the shipped one and there is no program yet, and adds
-  10-12 when absent. Deleted presets stay deleted - 7-9 are never re-added, 10-12 never
-  overwritten. The upgrade edits the *stored* session (program, time, cleared alerts) rather
-  than replacing it, so colour, vibration and everything else the user chose survives.
+  keys 7-14 (`SessionPresets.FirstBreathworkKey`); 7-9 shipped before guided programs existed,
+  10-12 came with them, 13-14 (B. Sleep, B. Calm) with presets version 3. A stored session is
+  matched back to its preset by key alone, so a new preset of any kind takes the next free key
+  at the end. `SessionStorage.migratePresets()` depends on this and runs **one step per
+  version** of `globalSettings_presetsVersion`: below 2 it rewrites 7-9 in place when the stored
+  name still matches the shipped one and there is no program yet, and adds 10-12 when absent;
+  below 3 it adds 13-14. Deleted presets stay deleted - 7-9 are never re-added, 10-12 and later
+  never overwritten, and an install already on version 2 never sees 10-12 again. **A new preset
+  is a new version step, never appended to an old step's key list** — that would re-add what a
+  user on the old version deleted (`migrationFromVersion2AddsOnlyTheNewPresets` pins this). The
+  upgrade edits the *stored* session (program, time, cleared alerts) rather than replacing it,
+  so colour, vibration and everything else the user chose survives. `StorageSnapshot` covers
+  the preset key range explicitly; widen it with each new key.
+- **B. Sleep ends on a `Blip`, not `LongContinuous`**: it is meant to be fallen asleep to. The
+  end vibe is the third column of `SessionPresets.breathworkPresetDefs()`. B. Calm has no holds
+  on purpose (CO2 build-up feels like the start of panic); don't add one.
 - **Shipped programs repeat in rounds, never by duration**, so a session never cuts off
   mid-breath. That is why some totals are a few seconds off the nominal length (Box and 4-7-8
   are 5:04, not 5:00) — don't "round them back" to a duration repeat. Duration repeat stays
@@ -625,15 +755,83 @@ Files: `Meditate/source/sessionSettings/breathProgram/` (model, templates, menus
 `Meditate/source/activity/BreathProgramRunner.mc`, `BreathCuesExecutor.mc`,
 `BreathGuidanceRenderer.mc`.
 
-### Menu row indices are load-bearing
+### Session suggestion: the picker opens on the routine
 
-`Ui.Menu2.updateItem(item, index)` replaces label, sublabel **and** id together, so the
-construction order and the `updateMenuItems()` indices must agree. `AddEditSessionMenuDelegate`
-declares `Row*` constants for this; `SessionSettingsMenuDelegate.createAddEditSessionMenu` must
-add items in exactly that order. `GlobalSettingsDelegate.showGlobalSettingsMenu` and
-`GlobalSettingsMenuDelegate.updateMenuItems` have the same coupling by raw index — inserting a
-row there means renumbering every later one. `Ui.Menu2.findItemById` is not safe at the app's
-CIQ 3.0 floor.
+`SessionHistory` (`storage/`) makes the picker open on the session usually started at this time
+of day, and "Next session" in a multi-session on what usually follows. Setting "Learn routine"
+(`GlobalSettings.LearnRoutineKey`, default on). User model: *opens where you left it; if you didn't
+touch it, on the session you usually start now.* Principle: rarely worse than today (last selected),
+never against the user's own choice.
+
+- **Data:** `sessionHistory`, a flat array of the last 50 starts, 3 ints each:
+  `[sessionKey, minuteOfDay, prevKey]`; `prevKey` is the session started before it in the same
+  launch, null for a first start. Recorded in `startMeditationSession()` **before** the
+  `MeditateDelegate` opens the FIT session (storage writes and FIT saves must not overlap).
+- **One lookup** (`pick(log, prevKey, minute)`) for launch (prevKey null) and followers: newest
+  start with that prevKey within ±60 min, else re-centre on the closest one within 180 min and take
+  the newest there, else null (don't move). Last used wins by design (the user chose immediate
+  adaptation); re-centring stops an abandoned session a minute closer from winning. Followers are
+  matched by time too: one opener can lead to different sessions morning and evening.
+- **"You moved it, it stays":** `sessionAutoKey` is the key the app last put the picker on (a
+  start, an applied suggestion, the neighbour after a delete). `pickAtLaunch` only moves the picker
+  when the selection still equals it. Scrolling is the signal, not editing: tweaking the session you
+  just did must not pin it for the next morning. A delete re-marks the new selection as the app's.
+- **Off forgets lazily:** `pickAtLaunch` clears both keys when the setting is off, so the generic
+  settings menu needs no special case.
+- **Multi-session:** `MeditateDelegate` looks up `nextSessionKey()` once, when it builds the
+  post-session menu, and keeps it in `mNextSessionKey`. The "Next session" sublabel names it only
+  when a follower is learned (Off and "nothing learned" look exactly like before), and the tap
+  moves there via `moveTo()`, so the label and where the tap lands cannot disagree however long the
+  menu stays open. Nothing moves before the tap, so "End multi-session" leaves selection and auto
+  key consistent.
+- **Storage writes:** `markAuto` writes only on a change (the picker marks on nearly every launch,
+  same rule as `selectSession`); `append` trims to the cap, not by one.
+- **Deleted keys are forgotten** (`forget`, entries with that key or that prevKey), because
+  `generateSessionKey()` hands a freed key to the next new session.
+- **Known and accepted:** recency-driven users (no fixed times) who switch their go-to session see
+  the old one at some hours (the one regression vs today; Off restores today); weekday/weekend
+  routines within an hour of each other miss twice a week (same as today; a weekday flag would fix
+  it); two sessions in two separate launches are not learned as a sequence; a one-off at an unusual
+  hour becomes that hour's pick. Rejected: a toast on jump (fires at nearly every launch for
+  two-routine users), reordering the carousel (breaks spatial memory), a 15-min sticky timer (hid
+  sessions prepared the evening before).
+
+### Menus are built from one row list
+
+`Ui.Menu2.updateItem(item, index)` replaces label, sublabel **and** id together, and
+`Ui.Menu2.findItemById` is not safe at the app's CIQ 3.0 floor. So a menu that refreshes its
+subtitles builds and refreshes from the **same** row list, and a row's index is simply its position
+in that list; there are no hand-typed row numbers to drift.
+
+- **Global settings** (`GlobalSettingsMenuDelegate.rows()`): one row per setting,
+  `[id, row title, options title, setting key, values, labels, hints]`. `labels == null` marks a
+  duration in seconds, shown as `mm:ss` both in the options and in the row subtitle.
+  `GlobalSettingsMenuTests` pins the rows to the old hand-built menus.
+- **Adding a global setting** touches:
+  - an `XxxKey` constant;
+  - an entry in `GlobalSettings.keys()`;
+  - a branch in `defaultFor()`;
+  - a row in `GlobalSettingsTests`' table;
+  - a row in `rows()` and in `GlobalSettingsMenuTests`;
+  - label strings in all 9 locales.
+
+  The tests fail when `keys()`, their tables and `rows()` disagree. They cannot see a `defaultFor()`
+  branch added alone: that setting would work but be missing from cloud backups.
+- **Choose-one menus** go through `OptionMenu.push(title, values, labels, current, hints, onPicked,
+  tag)`. The item id is the position in `values`, but `onPicked(tag, value)` always gets the
+  **value**, so what is stored never depends on list order. The shared lists (vibe patterns for
+  sessions and alerts, activity type, HRV tracking) live in `OptionMenu` too.
+- **Duration pickers** go through `DurationPicker.pushHourMin` / `pushMinSec`, drawn `00:00` style
+  (no h/m/s letters); the rounds picker (`12x`) is a count, not a duration, and stays separate.
+- **Session editor** (`AddEditSessionMenuDelegate.rows()` / `createMenu()` / `updateMenuItems()`):
+  same pattern, one `subtitleFor(id)`. Every edit changes the session in place and goes through
+  one `publish()`: `onChangeSession` saves the **whole** session under its own key. Activity type
+  and HRV tracking show the effective value (the global default when the field is null) but never
+  write it; a null field means "follow the global default" and must stay null until the user picks
+  a value. `SessionEditorTests` pins both.
+- **Session settings root** (`SessionSettingsMenuDelegate.createMenu(storage)`) is built with its
+  subtitles in one go; nothing refreshes it by index.
+- The breath step editor keeps its own `Row*` constants next to its `createMenu()`.
 
 ### `ElapsedDurationRenderer` gotchas
 
@@ -645,10 +843,32 @@ CIQ 3.0 floor.
 
 ## Storage
 
-- **`App.Storage`** — Key-value persistence for sessions, settings, analytics queue.
-  - Session keys: `"sesssion_<key>"` (historical triple-s typo — **do not fix**)
-  - Settings keys: `"globalSettings_<name>"`
-- **`App.Properties`** — Device-configurable properties (activity name, GA4 credentials)
+**Everything in `App.Storage` is user data that must survive an update.** Each key string is a
+public `XxxKey` constant on the class that owns it. The strings, their value formats and the enum
+numbers stored in them never change; the storage and settings tests pin them. As long as that
+holds an update needs no migration. The only one-time migration so far is
+`SessionStorage.migratePresets()`.
+
+- **`App.Storage`**:
+  - `GlobalSettings.XxxKey` — `"globalSettings_<name>"`, one per setting (including the historical
+    `prapareTime` typo)
+  - `SessionStorage.SessionPrefixKey` — `"sesssion_<key>"` (historical triple-s typo — **do not
+    fix**); `SessionKeysKey` = `"sessionsKeys"`, `SelectedIndexKey` = `"selectedSessionIndex"`
+  - `WakeupSessionStorage.ActivityTypeKey` — `"wakeupSession_activityType"`, a `FitSessionKind` (0–3)
+  - `MonthlyStats.MonthlyKey` / `TipPendingKey` — `"usageStats_monthly"` / `"usageStats_tipPending"`;
+    `UsageStats` keeps its GA4 queue in `"usageStats_queue_v2"`
+  - `selectedSessionIndex`: the picker reselects on every rebuild, so `selectSession()` writes only
+    when the index actually changes. After a delete, storage keeps the position (the next session
+    moves in, the last one falls back to the new last) and the picker takes that index as is. The
+    `- 1` the menu used to add on top of storage's own decrement jumped two sessions back.
+  - New session keys are the smallest unused number ≥ 100. The key list is in creation order, not
+    sorted, so a single pass over it isn't enough: that once gave a new session an existing key and
+    overwrote that session. A deleted session's key is reused, so anything keyed by session key must
+    forget it on delete (as `SessionHistory.forget` does).
+  - `SessionHistory.StorageKey` / `AutoKey` — `"sessionHistory"` (flat array, 3 ints per start) /
+    `"sessionAutoKey"`; see "Session suggestion" under Architecture
+- **`App.Properties`** — `activityName` and `restoreDeviceId` (Garmin Connect settings), plus the
+  secrets from `secrets.xml`.
 
 ### Timers (`Timer.Timer` concurrency limit)
 
@@ -662,13 +882,14 @@ Connect IQ caps the number of **concurrently active `Timer.Timer` objects per ap
 | `mviewDrawnTimer` | `MeditatePrepareView` (prepare/finalize countdown) | yes | `onHide()` → `stop()` |
 | `viewDrawnTimer` | `DelayedFinishingView` (1 s finish delay) | no (one-shot) | `onHide()` → `stop()` |
 | `mTimer` | `IdleReminderTimer` (10 min idle vibe) | yes | `stop()` |
+| `mFrameTimer` | `MeditateView` (breath ball frames, 66 ms, only while the ball page is shown) | yes | `onHide()` / `switchPage()` → `stop()` |
 | `notifyChangeTimer` | `AddEditIntervalAlertMenuDelegate` (500 ms debounce, settings only) | no (one-shot) | fires then nulls |
 
-Steady state holds ≤2 of these at once (recording tick + an idle-reminder while a menu is up), well under the 3-timer floor. The finish flow is the tight spot: it chains two `DelayedFinishingView` instances and then starts the `IdleReminderTimer`, so any leaked finishing-view timer slot can tip a 3-timer device over. This is exactly the historical **"Too Many Timers Error"** (backtrace `IdleReminderTimer.start` ← `showSummaryView` ← `DelayedFinishingView.onViewDrawn`): fixed by having `DelayedFinishingView.onHide()` call `.stop()` instead of only nulling the reference, matching `MeditatePrepareView`.
+Steady state holds ≤2 of these at once (recording tick + either the ball frames or, while a menu such as the pause menu is up, an idle reminder; the menu hides the view, which stops the frames), well under the 3-timer floor. The finish flow is the tight spot: it chains two `DelayedFinishingView` instances and then starts the `IdleReminderTimer`, so any leaked finishing-view timer slot can tip a 3-timer device over. This is exactly the historical **"Too Many Timers Error"** (backtrace `IdleReminderTimer.start` ← `showSummaryView` ← `DelayedFinishingView.onViewDrawn`): fixed by having `DelayedFinishingView.onHide()` call `.stop()` instead of only nulling the reference, matching `MeditatePrepareView`.
 
 ## Secrets
 
-`Meditate/resources/secrets.xml` is **gitignored**. Copy `secrets_template.xml` → `secrets.xml` and fill in GA4 credentials to enable usage analytics.
+`Meditate/resources/secrets.xml` is **gitignored**. Copy `secrets_template.xml` → `secrets.xml` and fill in the GA4 credentials (usage analytics) and the Firebase URL and secret (Dev Tools cloud backup).
 
 ## .gitignore
 
@@ -722,13 +943,19 @@ Pulls all debug-relevant files from the watch into a timestamped `debug-pulls/` 
 
 ## Cloud Backup & Restore (Dev Feature)
 
-In-app developer tool accessible via **long-press on the About screen** → "Dev Tools" menu. Backed by Firebase Realtime Database (`meditate-garmin` project).
+In-app developer tool reached by **long-press or Menu on the About screen** → "Dev Tools" menu. Backed by Firebase Realtime Database (`meditate-garmin` project).
 
 ### Sync Rule
 
-**Whenever a `globalSettings_*` key is added, renamed, or removed**, add it to
-`Meditate/source/devTools/CloudBackup.mc` — `GLOBAL_SETTINGS_KEYS`. That array is the only
-allowlist; a missing key is silently dropped from the backup.
+**A new global setting needs no backup change.** `CloudBackup` backs up every key of
+`GlobalSettings.keys()` (see "Adding a global setting" under Menus). It used to read a hand-kept
+`GLOBAL_SETTINGS_KEYS` array that silently dropped any key it lacked. Backup copies the *stored*
+value only; a setting still at its default is not in the backup and falls back to the same
+default after a restore.
+
+**A new kind of stored data does need one**: a new top-level storage key outside
+`GlobalSettings` belongs in a payload section here and in `CloudRestore`, or it is lost on a
+restore.
 
 `CloudRestore.onRestoreResponse()` needs **no change for new global settings** — it iterates
 whatever keys came back (`gs.keys()`) and writes them straight to storage. It only needs
@@ -739,16 +966,16 @@ growing `SessionModel` needs no cloud-backup change at all — only watch the 32
 
 ### Keys Currently Backed Up
 
-- `globalSettings_*` (15 keys) — app-wide settings, plus the two schema markers
-  (`globalSettings_presetsVersion`, `globalSettings_lastSeenNewsId`) which are not user settings
-- `sessionsKeys` — list of session IDs
-- `selectedSessionIndex` — active session index
-- `sesssion_<key>` (per entry in `sessionsKeys`) — individual session data (note: triple-s typo is intentional)
+- every `GlobalSettings.keys()` entry — the settings, plus the markers
+  `globalSettings_presetsVersion`, `globalSettings_lastSeenNewsId`, `globalSettings_breathPage`
+  and `globalSettings_meditatePage`, which are not user settings
+- `sessionsKeys`, `selectedSessionIndex`, and `sesssion_<key>` for each listed key
 - `wakeupSession_activityType`
-- `usageStats_monthly` — current month meditation time (via `monthlyStats` section)
-- `usageStats_tipPending` — pending tip flag (via `monthlyStats` section)
+- `usageStats_monthly` and `usageStats_tipPending` (the `monthlyStats` section)
 
-**Not backed up:** `usageStats_queue_v2` (too large, auto-rebuilds).
+**Not backed up:** `usageStats_queue_v2` (too large, auto-rebuilds); `sessionHistory` and
+`sessionAutoKey` (relearned from the next starts; `CloudRestore` clears them, since restored keys
+may name other sessions).
 
 ### Architecture Notes
 
@@ -769,15 +996,35 @@ growing `SessionModel` needs no cloud-backup change at all — only watch the 32
 - **Every object costs ~28 B on top of its content; array slots ~5 B.** Measured on `fr255s`:
   300 one- or two-element arrays = 11.75 KB, two flat `new [300]` of floats = 3 KB. Prefer one
   flat array over many small ones when the count is in the hundreds.
+- **A string constant becomes a new String object whenever it's stored:** 48 B for a 26-character
+  key on `fr255s`. Constants are not interned: `var x = GlobalSettings.HrvTrackingKey` allocates
+  again even while an equal string is held elsewhere. So in a cached table of string keys the
+  strings dominate. The 15 setting keys with their defaults cost 1,104 B as a Dictionary, 904 B as
+  a flat `[key, value, …]` array and 1,432 B as 15 pairs. `key.equals(Constant)` only makes a
+  temporary string that is freed at once.
+- **What a session holds, for scale** (`fr255s`, HRV Detailed, stress and respiration, 60 bpm):
+  - 4.1 KB once the metrics exist;
+  - the HRV SDRR ring fills over the first 5 minutes, ~2.4 KB/min up to ~10 KB, released at
+    `flush()`;
+  - after that the histories grow ~55 B/min: 11 values a minute (6 HR, 2 stress, 2 respiration,
+    1 HRV at the 60 s window), about 19 KB after an hour.
+
+  Use this to size anything the app keeps for its whole lifetime.
+- **Decision (2026-09-25): settings defaults are an if-chain, not a cached table.** A cached
+  Dictionary held 1,104 B for the app's whole lifetime, about 20 minutes of recording history or
+  6–7 % of a session's recording memory. `GlobalSettings.defaultFor` keeps nothing in memory and
+  costs 176 B more code. Small either way; taken because it was nearly free. Don't reintroduce a
+  cached key table for settings.
 - **Measure, don't estimate:** a throwaway `(:test)` that diffs `System.getSystemStats().usedMemory`
   around the allocation and `logger.debug`s it takes two minutes and is exact; delete it afterwards.
 
-### Key Learnings (Monkey C compiler)
+### Key Learnings (Monkey C language and compiler)
 
+- **A `switch` on `null` throws** `Unexpected Type Error` ("Failed invoking <symbol>") at runtime; a `default:` branch does not catch it. Any switch over a value that can be null (a session's `vibePattern`, a stored enum that may be missing) needs a null check first. `Utils.vibePatternLabel` keeps one; dropping it crashed the session picker for sessions without a stored pattern, caught by `SessionPickerHrvStatusTests`.
 - **`settings.xml` string IDs must be defined in ALL locale resource folders.** Any string referenced via `@Strings.<id>` in `settings.xml` (e.g. as a `title=`) must exist in every `resources-<lang>/strings/strings.xml`, not just the base `resources/` folder. A missing locale string produces a `WARNING: String id '...' undefined for language '...'` and triggers the generic "A critical error has occurred" compiler crash.
 - **Static methods cannot access `private` instance members or call `private` instance methods**, even on a freshly created instance of their own class. Doing so causes the assembler error `Trying to add undefined symbol: <memberName>` during release builds. The fix is to move all initialization that touches private members into `initialize()`, so the `static run()` factory simply calls `new MyClass()`.
 - **"A critical error has occurred" is a compiler crash masking real errors.** Re-run with `--debug-log-level 2 --debug-log-output <file>.zip` to get `error.txt` inside the zip, which lists the actual `CompilerException` messages (e.g., assembler symbol errors, missing strings).
 - **Runtime device identification**: Monkey C does not expose the SDK's device-id string (e.g. `"vivoactive4"`) at runtime. The closest proxy is `System.getDeviceSettings().partNumber`, a hardware SKU string (e.g. `"006-B3225-00"`) matching the `partNumbers[].number` entries in that device's `compiler.json`. Each device model can have multiple part numbers (one per regional/firmware SKU), so device-specific checks need the full list, not a single value — see the vívoactive4/4s quirk above for a working example.
 - **Verify a Toybox API throws before wrapping it in try/catch.** `ActivityRecording.createSession` does not throw a catchable exception for an unsupported sport/subSport combo — confirmed via the vívoactive4/4s "Invalid Value" crash above. Check the API docs or existing repo precedent (e.g. `Sensor.TooManySensorDataListenersException`, `Attention.BacklightOnTooLongException`) before assuming a call is catchable.
 - **Finish a CLI verification with a release build (`-r`), not just a debug one.** Debug builds happily compile code that the release assembler rejects — the private/static symbol error above is the known case, and adding private statics is exactly when this bites. A clean debug build is not evidence the change ships.
-- **CLI builds outside the VS Code extension** need a private key (`-y`) even for unsigned debug builds — generate a throwaway one with `openssl genrsa` + `openssl pkcs8` if just verifying compilation. Jungle file paths in `-f` are resolved relative to the jungle file's own directory, not the invocation cwd — pass `Meditate/monkey.jungle;Meditate/barrels.jungle` together (the auto-generated `bin/combined.jungle` uses paths meant for the extension's own resolution and won't work standalone).
+- **CLI builds outside the VS Code extension** need a private key (`-y`) even for unsigned debug builds — generate a throwaway one with `openssl genrsa` + `openssl pkcs8` if just verifying compilation. Jungle file paths in `-f` are resolved relative to the jungle file's own directory, not the invocation cwd — pass `Meditate/monkey.jungle` (the auto-generated `bin/combined.jungle` uses paths meant for the extension's own resolution and won't work standalone).

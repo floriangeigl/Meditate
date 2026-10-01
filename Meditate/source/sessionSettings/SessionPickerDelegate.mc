@@ -1,26 +1,51 @@
 using Toybox.WatchUi as Ui;
 using Toybox.Graphics as Gfx;
 using Toybox.Application as App;
-using StatusIconFonts;
 using Toybox.Attention;
 
-class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
+class SessionPickerDelegate extends ScreenPickerDelegate {
 	private var mSessionStorage;
 	private var mSelectedSessionDetails;
 	private var mSummaryRollupModel;
 	private var mFeed;
 	private var mHrvTracking;
 	private var hrvStatusLineNum;
+	// the session started last in this launch; the predecessor of the next one in a multi-session
+	private var mLastStartedKey;
 
 	function initialize(sessionStorage, beatIntervalFeed) {
 		ScreenPickerDelegate.initialize(sessionStorage.getSelectedSessionIndex(), sessionStorage.getSessionsCount());
 		me.mSessionStorage = sessionStorage;
 		me.mHrvTracking = null;
 		me.mSummaryRollupModel = new SummaryRollupModel();
-		me.mSelectedSessionDetails = new ScreenPicker.DetailsModel();
+		me.mSelectedSessionDetails = new DetailsModel();
 		me.mFeed = beatIntervalFeed;
+		me.mLastStartedKey = null;
+		me.moveTo(SessionHistory.pickAtLaunch(sessionStorage.getSelectedSessionKey()));
 		me.setSelectedSessionDetails();
 		me.hrvStatusLineNum = null;
+	}
+
+	// a move the app makes, not the user; null or a key that is gone leaves the picker where it is
+	function moveTo(key) {
+		var index = me.mSessionStorage.indexOfKey(key);
+		if (index != -1) {
+			me.setPageIndex(index);
+			SessionHistory.markAuto(key);
+		}
+	}
+
+	// multi-session: what usually follows the session just done; null when nothing is learned
+	function nextSessionKey() {
+		var key = SessionHistory.suggest(me.mLastStartedKey);
+		return me.mSessionStorage.indexOfKey(key) != -1 ? key : null;
+	}
+
+	function sessionName(key) {
+		if (key == null) {
+			return "";
+		}
+		return Utils.getSessionDisplayName(me.mSessionStorage.loadSessionByKey(key), me.mSessionStorage.indexOfKey(key));
 	}
 
 	// the feed has one listener slot; the picker holds it while browsing, the activity during a session
@@ -99,27 +124,17 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 	}
 
 	private function showSessionSettingsMenu() {
-		// Build a Menu2 root so the delegate can update subtexts (counts, selected index)
-		var menu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.menuSessionSettings_Title) });
-		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_start), "", :start, {}));
-		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_edit), "", :edit, {}));
-		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_delete), "", :delete, {}));
-		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_addNew), "", :addNew, {}));
-		menu.addItem(
-			new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_globalSettings), "", :globalSettings, {})
+		Ui.pushView(
+			SessionSettingsMenuDelegate.createMenu(me.mSessionStorage),
+			new SessionSettingsMenuDelegate(me.mSessionStorage, me),
+			Ui.SLIDE_UP
 		);
-		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_help), "", :help, {}));
-		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuSessionSettings_about), "", :about, {}));
-
-		var sessionSettingsMenuDelegate = new SessionSettingsMenuDelegate(me.mSessionStorage, me, menu);
-		sessionSettingsMenuDelegate.updateMenuItems();
-		Ui.pushView(menu, sessionSettingsMenuDelegate, Ui.SLIDE_UP);
 		return true;
 	}
 
 	function startActivity() {
 		// If there is no preparation time, start the meditate activity
-		if (GlobalSettings.loadPrepareTime() == 0) {
+		if (GlobalSettings.load(GlobalSettings.PrepareTimeKey) == 0) {
 			startMeditationSession();
 			return;
 		}
@@ -137,14 +152,17 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 
 	function startMeditationSession() {
 		var selectedSession = me.mSessionStorage.loadSelectedSession();
+		// before the activity opens its fit session
+		SessionHistory.record(selectedSession.key, me.mLastStartedKey);
+		me.mLastStartedKey = selectedSession.key;
 		var meditateModel = new MeditateModel(selectedSession);
 		var displayName = Utils.getSessionDisplayName(selectedSession, me.mSelectedPageIndex);
 		meditateModel.setDisplayName(displayName);
 		var meditateView = new MeditateView(meditateModel);
-		var mediateDelegate = new MeditateDelegate(meditateModel, me.mFeed, me);
-		mediateDelegate.setMeditateView(meditateView);
-		mediateDelegate.startActivity();
-		Ui.switchToView(meditateView, mediateDelegate, Ui.SLIDE_LEFT);
+		var meditateDelegate = new MeditateDelegate(meditateModel, me.mFeed, me);
+		meditateDelegate.setMeditateView(meditateView);
+		meditateDelegate.startActivity();
+		Ui.switchToView(meditateView, meditateDelegate, Ui.SLIDE_LEFT);
 	}
 
 	function onKey(keyEvent) {
@@ -181,8 +199,8 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 			me.pulseBacklight();
 		}
 		if (sensorStatus != HeartbeatIntervalsSensorStatus.Error) {
-			if (!(hrvStatusLine.icon instanceof ScreenPicker.HrvIcon)) {
-				hrvStatusLine.icon = new ScreenPicker.HrvIcon({});
+			if (!(hrvStatusLine.icon instanceof HrvIcon)) {
+				hrvStatusLine.icon = new HrvIcon({});
 			}
 			if (me.mHrvTracking == HrvTracking.On) {
 				hrvStatusLine.icon.setStatusOn();
@@ -190,8 +208,8 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 				hrvStatusLine.icon.setStatusOnDetailed();
 			}
 		} else {
-			if (!(hrvStatusLine.icon instanceof ScreenPicker.LoadingIcon)) {
-				hrvStatusLine.icon = new ScreenPicker.LoadingIcon({});
+			if (!(hrvStatusLine.icon instanceof LoadingIcon)) {
+				hrvStatusLine.icon = new LoadingIcon({});
 			}
 			hrvStatusLine.icon.tick();
 		}
@@ -211,7 +229,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 
 	private function setInitialHrvStatus(hrvStatusLine, session) {
 		if (hrvStatusLine.icon == null) {
-			hrvStatusLine.icon = new ScreenPicker.HrvIcon({});
+			hrvStatusLine.icon = new HrvIcon({});
 			hrvStatusLine.icon.setStatusWarning();
 		}
 		if (session.getHrvTracking() == HrvTracking.Off) {
@@ -229,7 +247,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 
 	function updateSelectedSessionDetails(session) {
 		if (me.mSelectedSessionDetails == null) {
-			me.mSelectedSessionDetails = new ScreenPicker.DetailsModel();
+			me.mSelectedSessionDetails = new DetailsModel();
 		}
 		var details = me.mSelectedSessionDetails;
 		// Reset the details model in-place
@@ -245,27 +263,27 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		var lineNum = 0;
 		var line = details.getLine(lineNum);
 
-		var timeIcon = new ScreenPicker.Icon({
+		var timeIcon = new Icon({
 			:font => StatusIconFonts.fontAwesomeFreeSolid,
-			:symbol => StatusIconFonts.Rez.Strings.IconTimeHalf,
+			:symbol => Rez.Strings.IconTimeHalf,
 		});
 		line.icon = timeIcon;
 		line.value.text = TimeFormatter.format(session.time);
 		lineNum++;
 
 		line = details.getLine(lineNum);
-		var vibePatternIcon = new ScreenPicker.Icon({
+		var vibePatternIcon = new Icon({
 			:font => StatusIconFonts.fontAwesomeFreeSolid,
-			:symbol => StatusIconFonts.Rez.Strings.IconBell,
+			:symbol => Rez.Strings.IconBell,
 		});
 		line.icon = vibePatternIcon;
 		line.value.text = Utils.getVibePatternText(session.vibePattern);
 		lineNum++;
 
 		line = details.getLine(lineNum);
-		var alertsLineIcon = new ScreenPicker.Icon({
+		var alertsLineIcon = new Icon({
 			:font => StatusIconFonts.fontAwesomeFreeSolid,
-			:symbol => StatusIconFonts.Rez.Strings.IconTimeline,
+			:symbol => Rez.Strings.IconTimeline,
 		});
 		line.icon = alertsLineIcon;
 		var alertsToHighlightsLine = new AlertsToHighlightsLine(session);
@@ -283,7 +301,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 
 	function createScreenPickerView() {
 		me.setSelectedSessionDetails();
-		return new ScreenPicker.ScreenPickerDetailsView(me.mSelectedSessionDetails, true);
+		return new ScreenPickerDetailsView(me.mSelectedSessionDetails, true);
 	}
 
 	class AlertsToHighlightsLine {
@@ -294,7 +312,7 @@ class SessionPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
 		private var mSession;
 
 		function getAlertsLine() {
-			var alertsLine = new ScreenPicker.PercentageHighlightLine(me.mSession.getIntervalAlerts().size());
+			var alertsLine = new PercentageHighlightLine(me.mSession.getIntervalAlerts().size());
 
 			alertsLine.backgroundColor = me.mSession.color;
 
