@@ -50,9 +50,9 @@ class OptionMenu {
 		return [
 			[HrvTracking.On, HrvTracking.OnDetailed, HrvTracking.Off],
 			[
-				Rez.Strings.menuHrvTrackingOptions_on,
+				Rez.Strings.menuLabelOn,
 				Rez.Strings.menuHrvTrackingOptions_onDetailed,
-				Rez.Strings.menuHrvTrackingOptions_off,
+				Rez.Strings.menuLabelOff,
 			],
 			{ 1 => Rez.Strings.menuLabelDefault },
 		];

@@ -10,14 +10,14 @@ class SessionSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 		var selected = sessionStorage.loadSelectedSession();
 		var items = [
 			[:start, Rez.Strings.menuSessionSettings_start, selected != null ? TimeFormatter.format(selected.time) : ""],
-			[:edit, Rez.Strings.menuSessionSettings_edit, ""],
-			[:delete, Rez.Strings.menuSessionSettings_delete, ""],
+			[:edit, Rez.Strings.menuLabelEdit, ""],
+			[:delete, Rez.Strings.menuLabelDelete, ""],
 			[:addNew, Rez.Strings.menuSessionSettings_addNew, sessionStorage.getSessionsCount().toString()],
 			[:globalSettings, Rez.Strings.menuSessionSettings_globalSettings, ""],
 			[:help, Rez.Strings.menuSessionSettings_help, ""],
 			[:about, Rez.Strings.menuSessionSettings_about, ""],
 		];
-		var menu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.menuSessionSettings_Title) });
+		var menu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.menuLabelSession) });
 		for (var i = 0; i < items.size(); i++) {
 			menu.addItem(new Ui.MenuItem(Ui.loadResource(items[i][1]), items[i][2], items[i][0], {}));
 		}

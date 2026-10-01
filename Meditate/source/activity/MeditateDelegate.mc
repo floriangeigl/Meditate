@@ -179,7 +179,7 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 		var timeNow = System.getClockTime();
 		var footerTime = timeNow.hour.format("%02d") + ":" + timeNow.min.format("%02d");
 		var menu = new Ui.Menu2({
-			:title => Ui.loadResource(Rez.Strings.multiSessionPostMenu_title),
+			:title => Ui.loadResource(Rez.Strings.menuLabelMultiSession),
 			:footer => footerTime,
 		});
 		me.mNextSessionKey = me.mSessionPickerDelegate.nextSessionKey();

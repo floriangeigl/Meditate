@@ -53,7 +53,7 @@ class AddEditBreathStepMenuDelegate extends Ui.Menu2InputDelegate {
 		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.breathStepMenu_moveUp), "", :moveUp, {}));
 		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.breathStepMenu_moveDown), "", :moveDown, {}));
 		menu.addItem(
-			new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditIntervalAlertMenu_delete), "", :deleteStep, {})
+			new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuLabelDelete), "", :deleteStep, {})
 		);
 	}
 
@@ -183,7 +183,7 @@ class AddEditBreathStepMenuDelegate extends Ui.Menu2InputDelegate {
 			me.moveStep(1);
 		} else if (id == :deleteStep) {
 			Ui.pushView(
-				new Ui.Confirmation(Ui.loadResource(Rez.Strings.addEditIntervalAlertMenu_delete)),
+				new Ui.Confirmation(Ui.loadResource(Rez.Strings.menuLabelDelete)),
 				new YesDelegate(method(:onConfirmedDelete)),
 				Ui.SLIDE_IMMEDIATE
 			);

@@ -8,7 +8,6 @@
     <string id="SummaryStress">ストレス</string>
     <string id="SummaryStart">開始: </string>
     <string id="SummaryEnd">終了: </string>
-    <string id="SummaryRespiration">呼吸</string>
     <string id="SummaryMin">最小:</string>
     <string id="SummaryAvg">平均:</string>
     <string id="SummaryMax">最大:</string>
@@ -18,10 +17,10 @@
     <string id="SummaryHRVRMSSDFirst5min">最初の5分</string>
     <string id="SummaryHRVRMSSDLast5min">最後の5分</string>
 
-    <string id="menuSessionSettings_Title">セッション</string>
+    <string id="menuLabelSession">セッション</string>
     <string id="menuSessionSettings_addNew">新規追加</string>
-    <string id="menuSessionSettings_edit">編集</string>
-    <string id="menuSessionSettings_delete">削除</string>
+    <string id="menuLabelEdit">編集</string>
+    <string id="menuLabelDelete">削除</string>
     <string id="menuSessionSettings_globalSettings">全体設定</string>
     <string id="menuSessionSettings_help">ヘルプ</string>
     <string id="menuSessionSettings_about">アプリ情報</string>
@@ -29,10 +28,9 @@
     <string id="help_openingUserGuide">スマホでガイドを表示中</string>
 
     <string id="menuGlobalSettings_title">設定</string>
-    <string id="menuGlobalSettings_newHrvTracking">HRV計測</string>
     <string id="menuGlobalSettings_newActivityType">アクティビティ種別</string>
     <string id="menuGlobalSettings_confirmSaveActivity">保存確認</string>
-    <string id="menuGlobalSettings_multiSession">マルチセッション</string>
+    <string id="menuLabelMultiSession">マルチセッション</string>
     <string id="menuGlobalSettings_respirationRate">呼吸数</string>
     <string id="menuGlobalSettings_autoStop">自動停止</string>
     <string id="menuGlobalSettings_colorTheme">カラーテーマ</string>
@@ -48,26 +46,20 @@
 
 
 
-    <string id="menuHrvTrackingOptions_title">HRV計測</string>
     <string id="menuHrvTrackingOptions_onDetailed">詳細</string>
-    <string id="menuHrvTrackingOptions_on">オン</string>
-    <string id="menuHrvTrackingOptions_off">オフ</string>
 
     <string id="menuConfirmSaveActivityOptions_autoYes">自動保存</string>
     <string id="menuConfirmSaveActivityOptions_autoNo">自動破棄</string>
     <string id="menuConfirmSaveActivityOptions_askSimple">確認する</string>
     <string id="menuConfirmSaveActivityOptions_autoYesExit">自動保存して終了</string>
 
-    <string id="menuMultiSessionOptions_title">マルチセッション</string>
-    <string id="menuMultiSessionOptions_yes">はい</string>
-    <string id="menuMultiSessionOptions_no">いいえ</string>
+    <string id="menuLabelYes">はい</string>
+    <string id="menuLabelNo">いいえ</string>
 
-    <string id="menuRespirationRateOptions_title">呼吸</string>
-    <string id="menuRespirationRateOptions_on">オン</string>
-    <string id="menuRespirationRateOptions_off">オフ</string>
+    <string id="menuLabelRespiration">呼吸</string>
 
-    <string id="menuAutoStopOptions_on">オン</string>
-    <string id="menuAutoStopOptions_off">オフ</string>
+    <string id="menuLabelOn">オン</string>
+    <string id="menuLabelOff">オフ</string>
 
     <string id="menuColorThemeOptions_light">ライト</string>
     <string id="menuColorThemeOptions_dark">ダーク</string>
@@ -78,24 +70,17 @@
     <string id="menuLabelRecommended">推奨</string>
 
     <string id="menuGlobalSettings_useSessionName">セッション名=活動名</string>
-    <string id="menuGlobalSettings_useSessionName_on">はい</string>
-    <string id="menuGlobalSettings_useSessionName_off">いいえ</string>
     <string id="menuGlobalSettings_learnRoutine">習慣を学習</string>
 
     <string id="menuNotificationOptions_title">振動と音</string>
-    <string id="menuNotificationOptions_on">オン</string>
-    <string id="menuNotificationOptions_off">オフ</string>
 
-    <string id="menuIntervalAlertSettings_Title">間隔アラート</string>
     <string id="menuIntervalAlertSettings_addNew">新規追加</string>
-    <string id="menuIntervalAlertSettings_edit">編集</string>
     <string id="menuIntervalAlertSettings_deleteAll">全削除</string>
 
     <string id="summaryRollupMenu_title">セッション概要</string>
     <string id="summaryRollupMenuOption_exit">終了</string>
 
     <!-- Multi-session post-session menu -->
-    <string id="multiSessionPostMenu_title">マルチセッション</string>
     <string id="multiSessionPostMenu_nextSession">次のセッション</string>
     <string id="multiSessionPostMenu_summary">概要</string>
     <string id="multiSessionPostMenu_endMultiSession">マルチ終了</string>
@@ -103,25 +88,18 @@
     <string id="confirmDeleteIntervalAlertHeader">アラート削除？</string>
 
     <string id="addEditIntervalAlertMenu_title">アラート</string>
-    <string id="addEditIntervalAlertMenu_time">時間</string>
     <string id="addEditIntervalAlertMenu_offset">オフセット</string>
-    <string id="addEditIntervalAlertMenu_color">色</string>
-    <string id="addEditIntervalAlertMenu_vibeSound">振動 / 音</string>
-    <string id="addEditIntervalAlertMenu_delete">削除</string>
 
-    <string id="addEditSessionMenu_title">セッション</string>
     <string id="addEditSessionMenu_name">名前</string>
-    <string id="addEditSessionMenu_time">時間</string>
-    <string id="addEditSessionMenu_color">色</string>
-    <string id="addEditSessionMenu_vibeSound">振動 / 音</string>
-    <string id="addEditSessionMenu_intervalAlerts">間隔アラート</string>
+    <string id="menuLabelTime">時間</string>
+    <string id="menuLabelColor">色</string>
+    <string id="menuLabelVibeSound">振動 / 音</string>
+    <string id="menuLabelIntervalAlerts">間隔アラート</string>
     <string id="addEditSessionMenu_activityType">種別</string>
-    <string id="addEditSessionMenu_hrvTracking">HRV計測</string>
+    <string id="menuLabelHrvTracking">HRV計測</string>
 
     <string id="intervalAlertTransparentColorText">透明</string>
 
-    <string id="vibePatternMenu_title">振動 / 音</string>
-    <string id="vibePatternMenu_noNotification">オフ</string>
     <string id="vibePatternMenu_longPulsating">長い断続</string>
     <string id="vibePatternMenu_longSound">長い音</string>
     <string id="vibePatternMenu_longContinuous">長い連続</string>
@@ -136,7 +114,6 @@
     <string id="vibePatternMenu_mediumDescending">中下降</string>
     <string id="vibePatternMenu_longDescending">長い下降</string>
 
-    <string id="intervalVibePatternMenu_title">振動 / 音</string>
     <string id="intervalVibePatternMenu_shorterContinuous">極短連続</string>
     <string id="intervalVibePatternMenu_shorterAscending">極短上昇</string>
     <string id="intervalVibePatternMenu_blip">ピッ</string>

@@ -24,10 +24,10 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 		var respiration = RrMetric.isSupported()
 			? [
 				[RespirationRate.On, RespirationRate.Off],
-				[Rez.Strings.menuRespirationRateOptions_on, Rez.Strings.menuRespirationRateOptions_off],
+				[Rez.Strings.menuLabelOn, Rez.Strings.menuLabelOff],
 				{ 0 => Rez.Strings.menuLabelDefault },
 			]
-			: [[RespirationRate.Off], [Rez.Strings.menuRespirationRateOptions_off], null];
+			: [[RespirationRate.Off], [Rez.Strings.menuLabelOff], null];
 		return [
 			[
 				:colorTheme,
@@ -44,7 +44,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 				Rez.Strings.menuGlobalSettings_autoStop,
 				GlobalSettings.AutoStopKey,
 				[AutoStop.On, AutoStop.Off],
-				[Rez.Strings.menuAutoStopOptions_on, Rez.Strings.menuAutoStopOptions_off],
+				[Rez.Strings.menuLabelOn, Rez.Strings.menuLabelOff],
 				{ 0 => Rez.Strings.menuLabelDefault },
 			],
 			[
@@ -90,7 +90,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 				Rez.Strings.menuNotificationOptions_title,
 				GlobalSettings.NotificationKey,
 				[Notification.On, Notification.Off],
-				[Rez.Strings.menuNotificationOptions_on, Rez.Strings.menuNotificationOptions_off],
+				[Rez.Strings.menuLabelOn, Rez.Strings.menuLabelOff],
 				{ 0 => Rez.Strings.menuLabelDefault },
 			],
 			[
@@ -100,7 +100,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 				GlobalSettings.BreathCuesKey,
 				[BreathCues.Off, BreathCues.Vibration, BreathCues.VibrationTone],
 				[
-					Rez.Strings.menuNotificationOptions_off,
+					Rez.Strings.menuLabelOff,
 					Rez.Strings.menuBreathCuesOptions_vibration,
 					Rez.Strings.menuBreathCuesOptions_vibrationTone,
 				],
@@ -121,13 +121,13 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 				Rez.Strings.menuGlobalSettings_useSessionName,
 				GlobalSettings.UseSessionNameKey,
 				[true, false],
-				[Rez.Strings.menuGlobalSettings_useSessionName_on, Rez.Strings.menuGlobalSettings_useSessionName_off],
+				[Rez.Strings.menuLabelYes, Rez.Strings.menuLabelNo],
 				{ 1 => Rez.Strings.menuLabelDefault },
 			],
 			[
 				:hrvTracking,
-				Rez.Strings.menuGlobalSettings_newHrvTracking,
-				Rez.Strings.menuHrvTrackingOptions_title,
+				Rez.Strings.menuLabelHrvTracking,
+				Rez.Strings.menuLabelHrvTracking,
 				GlobalSettings.HrvTrackingKey,
 				hrv[0],
 				hrv[1],
@@ -145,7 +145,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			[
 				:respirationRate,
 				Rez.Strings.menuGlobalSettings_respirationRate,
-				Rez.Strings.menuRespirationRateOptions_title,
+				Rez.Strings.menuLabelRespiration,
 				GlobalSettings.RespirationRateKey,
 				respiration[0],
 				respiration[1],
@@ -153,11 +153,11 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 			],
 			[
 				:multiSession,
-				Rez.Strings.menuGlobalSettings_multiSession,
-				Rez.Strings.menuMultiSessionOptions_title,
+				Rez.Strings.menuLabelMultiSession,
+				Rez.Strings.menuLabelMultiSession,
 				GlobalSettings.MultiSessionKey,
 				[MultiSession.Yes, MultiSession.No],
-				[Rez.Strings.menuMultiSessionOptions_yes, Rez.Strings.menuMultiSessionOptions_no],
+				[Rez.Strings.menuLabelYes, Rez.Strings.menuLabelNo],
 				{ 1 => Rez.Strings.menuLabelDefault },
 			],
 			[
@@ -166,7 +166,7 @@ class GlobalSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 				Rez.Strings.menuGlobalSettings_learnRoutine,
 				GlobalSettings.LearnRoutineKey,
 				[true, false],
-				[Rez.Strings.menuNotificationOptions_on, Rez.Strings.menuNotificationOptions_off],
+				[Rez.Strings.menuLabelOn, Rez.Strings.menuLabelOff],
 				{ 0 => Rez.Strings.menuLabelDefault },
 			],
 			// an action, not a setting

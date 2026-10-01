@@ -10,7 +10,6 @@
 	<string id="SummaryStress">스트레스</string>
 	<string id="SummaryStart">시작: </string>
 	<string id="SummaryEnd">종료시: </string>
-	<string id="SummaryRespiration">호흡수</string>
 	<string id="SummaryMin">최소:</string>
 	<string id="SummaryAvg">평균:</string>
 	<string id="SummaryMax">최대:</string>
@@ -20,10 +19,10 @@
 	<string id="SummaryHRVRMSSDFirst5min">첫 5분</string>
 	<string id="SummaryHRVRMSSDLast5min">마지막 5분</string>
 
-	<string id="menuSessionSettings_Title">세션</string>
+	<string id="menuLabelSession">세션</string>
 	<string id="menuSessionSettings_addNew">새로 추가</string>
-	<string id="menuSessionSettings_edit">변경</string>
-	<string id="menuSessionSettings_delete">삭제</string>
+	<string id="menuLabelEdit">변경</string>
+	<string id="menuLabelDelete">삭제</string>
 	<string id="menuSessionSettings_globalSettings">전역 설정</string>
 	<string id="menuSessionSettings_help">도움말</string>
 	<string id="menuSessionSettings_about">이 앱에 관하여</string>
@@ -31,10 +30,9 @@
 	<string id="help_openingUserGuide">휴대폰에서 사용 가이드 열기</string>
 
 	<string id="menuGlobalSettings_title">설정</string>
-	<string id="menuGlobalSettings_newHrvTracking">HRV 추적</string>
 	<string id="menuGlobalSettings_newActivityType">새로운 활동 유형</string>
 	<string id="menuGlobalSettings_confirmSaveActivity">저장 확인</string>
-	<string id="menuGlobalSettings_multiSession">다중 세션</string>
+	<string id="menuLabelMultiSession">다중 세션</string>
 	<string id="menuGlobalSettings_respirationRate">호흡 수</string>
 	<string id="menuGlobalSettings_autoStop">자동 중단</string>
 	<string id="menuGlobalSettings_colorTheme">테마</string>
@@ -50,26 +48,20 @@
 
 
 
-	<string id="menuHrvTrackingOptions_title">Hrv 추적</string>
 	<string id="menuHrvTrackingOptions_onDetailed">상세하게</string>
-	<string id="menuHrvTrackingOptions_on">켜기</string>
-	<string id="menuHrvTrackingOptions_off">끄기</string>
 
 	<string id="menuConfirmSaveActivityOptions_autoYes">예 (자동 저장)</string>
 	<string id="menuConfirmSaveActivityOptions_autoNo">아니오 (저장 안함)</string>
 	<string id="menuConfirmSaveActivityOptions_askSimple">물어보기</string>
 	<string id="menuConfirmSaveActivityOptions_autoYesExit">자동 예 &amp; 종료</string>
 
-	<string id="menuMultiSessionOptions_title">다중 세션</string>
-	<string id="menuMultiSessionOptions_yes">예</string>
-	<string id="menuMultiSessionOptions_no">아니오</string>
+	<string id="menuLabelYes">예</string>
+	<string id="menuLabelNo">아니오</string>
 
-	<string id="menuRespirationRateOptions_title">호흡수 추적</string>
-	<string id="menuRespirationRateOptions_on">켜기</string>
-	<string id="menuRespirationRateOptions_off">끄기</string>
+	<string id="menuLabelRespiration">호흡수</string>
 
-	<string id="menuAutoStopOptions_on">켜기</string>
-	<string id="menuAutoStopOptions_off">끄기</string>
+	<string id="menuLabelOn">켜기</string>
+	<string id="menuLabelOff">끄기</string>
 
 	<string id="menuColorThemeOptions_light">밝은 화면</string>
 	<string id="menuColorThemeOptions_dark">어두운 화면</string>
@@ -80,24 +72,17 @@
 	<string id="menuLabelRecommended">권장</string>
 
 	<string id="menuGlobalSettings_useSessionName">세션 이름 = 활동 이름</string>
-	<string id="menuGlobalSettings_useSessionName_on">예</string>
-	<string id="menuGlobalSettings_useSessionName_off">아니오</string>
 	<string id="menuGlobalSettings_learnRoutine">루틴 학습</string>
 
 	<string id="menuNotificationOptions_title">진동 및 소리</string>
-	<string id="menuNotificationOptions_on">켜기</string>
-	<string id="menuNotificationOptions_off">끄기</string>
 
-	<string id="menuIntervalAlertSettings_Title">구간 알림</string>
 	<string id="menuIntervalAlertSettings_addNew">새로 추가</string>
-	<string id="menuIntervalAlertSettings_edit">변경</string>
 	<string id="menuIntervalAlertSettings_deleteAll">모두 제거</string>
 
 	<string id="summaryRollupMenu_title">세션 요약</string>
 	<string id="summaryRollupMenuOption_exit">나가기</string>
 
 	<!-- Multi-session post-session menu -->
-	<string id="multiSessionPostMenu_title">다중 세션</string>
 	<string id="multiSessionPostMenu_nextSession">다음 세션</string>
 	<string id="multiSessionPostMenu_summary">요약</string>
 	<string id="multiSessionPostMenu_endMultiSession">멀티 세션 종료</string>
@@ -105,25 +90,18 @@
 	<string id="confirmDeleteIntervalAlertHeader">알림을 제거합니까?</string>
 
 	<string id="addEditIntervalAlertMenu_title">알림</string>
-	<string id="addEditIntervalAlertMenu_time">시간</string>
 	<string id="addEditIntervalAlertMenu_offset">Offset</string>
-	<string id="addEditIntervalAlertMenu_color">색상</string>
-	<string id="addEditIntervalAlertMenu_vibeSound">진동 / 소리</string>
-	<string id="addEditIntervalAlertMenu_delete">삭제</string>
 
-	<string id="addEditSessionMenu_title">세션</string>
 	<string id="addEditSessionMenu_name">이름</string>
-	<string id="addEditSessionMenu_time">시간</string>
-	<string id="addEditSessionMenu_color">색상</string>
-	<string id="addEditSessionMenu_vibeSound">진동 / 소리</string>
-	<string id="addEditSessionMenu_intervalAlerts">구간 알림</string>
+	<string id="menuLabelTime">시간</string>
+	<string id="menuLabelColor">색상</string>
+	<string id="menuLabelVibeSound">진동 / 소리</string>
+	<string id="menuLabelIntervalAlerts">구간 알림</string>
 	<string id="addEditSessionMenu_activityType">활동 유형</string>
-	<string id="addEditSessionMenu_hrvTracking">HRV 추적</string>
+	<string id="menuLabelHrvTracking">HRV 추적</string>
 
 	<string id="intervalAlertTransparentColorText">투명</string>
 
-	<string id="vibePatternMenu_title">진동 / 소리</string>
-	<string id="vibePatternMenu_noNotification">끄기</string>
 	<string id="vibePatternMenu_longPulsating">긴 진동</string>
 	<string id="vibePatternMenu_longSound">긴 소리</string>
 	<string id="vibePatternMenu_longContinuous">길게 연속적</string>
@@ -138,7 +116,6 @@
 	<string id="vibePatternMenu_mediumDescending">중간 내림차순</string>
 	<string id="vibePatternMenu_longDescending">길게 내림차순</string>
 
-	<string id="intervalVibePatternMenu_title">진동 / 소리</string>
 	<string id="intervalVibePatternMenu_shorterContinuous">짧게 연속적</string>
 	<string id="intervalVibePatternMenu_shorterAscending">짧게 점점 커짐</string>
 	<string id="intervalVibePatternMenu_blip">삑</string>

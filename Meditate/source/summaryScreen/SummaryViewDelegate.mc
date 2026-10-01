@@ -21,7 +21,7 @@ class SummaryViewDelegate extends ScreenPickerDelegate {
 			[:hrv, :hrvRmssd],
 			[:hrv, :hrvPnnx],
 			[:hrv, :hrvSdrr],
-			[:rr, :graph, Rez.Strings.SummaryRespiration, 1, 60, 4],
+			[:rr, :graph, Rez.Strings.menuLabelRespiration, 1, 60, 4],
 		];
 		me.pages = [];
 		for (var i = 0; i < table.size(); i++) {

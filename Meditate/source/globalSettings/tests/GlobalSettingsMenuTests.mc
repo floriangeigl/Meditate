@@ -96,7 +96,7 @@ class GlobalSettingsMenuTests {
 			var ok =
 				menu.getItem(0).getSubLabel().equals(Ui.loadResource(Rez.Strings.menuColorThemeOptions_light)) &&
 				menu.getItem(3).getSubLabel().equals("00:45") &&
-				menu.getItem(8).getSubLabel().equals(Ui.loadResource(Rez.Strings.menuGlobalSettings_useSessionName_on)) &&
+				menu.getItem(8).getSubLabel().equals(Ui.loadResource(Rez.Strings.menuLabelYes)) &&
 				menu.getItem(10).getSubLabel().equals("05:00") &&
 				menu.getItem(14).getSubLabel().equals("") &&
 				menu.getItem(3).getId() == :prepareTime;

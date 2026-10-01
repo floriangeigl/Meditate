@@ -45,7 +45,7 @@ class Utils {
 	static function vibePatternLabel(vibePattern) {
 		// a switch on null throws, so null never reaches it
 		if (vibePattern == null) {
-			return Rez.Strings.vibePatternMenu_noNotification;
+			return Rez.Strings.menuLabelOff;
 		}
 		switch (vibePattern) {
 			case VibePattern.LongPulsating:
@@ -83,7 +83,7 @@ class Utils {
 			case VibePattern.ShortSound:
 				return Rez.Strings.intervalVibePatternMenu_shortSound;
 			default:
-				return Rez.Strings.vibePatternMenu_noNotification;
+				return Rez.Strings.menuLabelOff;
 		}
 	}
 
@@ -197,7 +197,7 @@ class Utils {
 	// subtitle for the session menu row: "3 steps 6:00", or "Off"
 	static function getBreathProgramText(breathProgram) {
 		if (breathProgram == null || breathProgram.isEmpty()) {
-			return Ui.loadResource(Rez.Strings.menuNotificationOptions_off);
+			return Ui.loadResource(Rez.Strings.menuLabelOff);
 		}
 		return (
 			breathProgram.size().toString() +

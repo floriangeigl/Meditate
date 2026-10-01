@@ -127,12 +127,12 @@ class IntervalAlertsMenuDelegate extends Ui.Menu2InputDelegate {
 			(selectedIntervalAlertIndex + 1),
 		});
 		menu.addItem(
-			new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditIntervalAlertMenu_vibeSound), "", :vibePattern, {})
+			new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuLabelVibeSound), "", :vibePattern, {})
 		);
-		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditIntervalAlertMenu_time), "", :time, {}));
+		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuLabelTime), "", :time, {}));
 		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditIntervalAlertMenu_offset), "", :offset, {}));
-		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditIntervalAlertMenu_color), "", :color, {}));
-		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditIntervalAlertMenu_delete), "", :delete, {}));
+		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuLabelColor), "", :color, {}));
+		menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuLabelDelete), "", :delete, {}));
 
 		var intervalAlertMenuDelegate = new AddEditIntervalAlertMenuDelegate(
 			selectedIntervalAlert,

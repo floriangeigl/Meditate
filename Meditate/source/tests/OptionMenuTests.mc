@@ -51,7 +51,7 @@ class OptionMenuTests {
 	// a session without a stored pattern; a switch on null throws, so the label must not reach one
 	(:test)
 	static function nullVibePatternReadsAsNoNotification(logger) {
-		return Utils.getVibePatternText(null).equals(Ui.loadResource(Rez.Strings.vibePatternMenu_noNotification));
+		return Utils.getVibePatternText(null).equals(Ui.loadResource(Rez.Strings.menuLabelOff));
 	}
 
 	(:test)

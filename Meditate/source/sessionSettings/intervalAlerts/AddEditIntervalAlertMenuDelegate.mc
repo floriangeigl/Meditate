@@ -32,7 +32,7 @@ class AddEditIntervalAlertMenuDelegate extends Ui.Menu2InputDelegate {
 		var vibeText = Utils.getVibePatternText(me.mIntervalAlert.vibePattern);
 		me.mMenu.updateItem(
 			new Ui.MenuItem(
-				Ui.loadResource(Rez.Strings.addEditIntervalAlertMenu_vibeSound),
+				Ui.loadResource(Rez.Strings.menuLabelVibeSound),
 				vibeText,
 				:vibePattern,
 				{}
@@ -46,7 +46,7 @@ class AddEditIntervalAlertMenuDelegate extends Ui.Menu2InputDelegate {
 			timeText = TimeFormatter.formatMinSec(me.mIntervalAlert.time);
 		}
 		me.mMenu.updateItem(
-			new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditIntervalAlertMenu_time), timeText, :time, {}),
+			new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuLabelTime), timeText, :time, {}),
 			1
 		);
 
@@ -63,13 +63,13 @@ class AddEditIntervalAlertMenuDelegate extends Ui.Menu2InputDelegate {
 			colorText = Ui.loadResource(Rez.Strings.intervalAlertTransparentColorText);
 		}
 		me.mMenu.updateItem(
-			new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditIntervalAlertMenu_color), colorText, :color, {}),
+			new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuLabelColor), colorText, :color, {}),
 			3
 		);
 
 		// 4: delete (no subtext)
 		me.mMenu.updateItem(
-			new Ui.MenuItem(Ui.loadResource(Rez.Strings.addEditIntervalAlertMenu_delete), "", :delete, {}),
+			new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuLabelDelete), "", :delete, {}),
 			4
 		);
 	}
@@ -79,7 +79,7 @@ class AddEditIntervalAlertMenuDelegate extends Ui.Menu2InputDelegate {
 		if (id == :vibePattern) {
 			var vibes = OptionMenu.intervalVibePatterns();
 			OptionMenu.push(
-				Rez.Strings.intervalVibePatternMenu_title,
+				Rez.Strings.menuLabelVibeSound,
 				vibes[0],
 				vibes[1],
 				me.mIntervalAlert.vibePattern,

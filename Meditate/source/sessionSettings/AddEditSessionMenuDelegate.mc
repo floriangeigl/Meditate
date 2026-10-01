@@ -13,19 +13,19 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 	private static function rows() {
 		return [
 			[:name, Rez.Strings.addEditSessionMenu_name],
-			[:time, Rez.Strings.addEditSessionMenu_time],
+			[:time, Rez.Strings.menuLabelTime],
 			[:breathProgram, Rez.Strings.addEditSessionMenu_breathProgram],
-			[:color, Rez.Strings.addEditSessionMenu_color],
-			[:vibePattern, Rez.Strings.addEditSessionMenu_vibeSound],
-			[:intervalAlerts, Rez.Strings.addEditSessionMenu_intervalAlerts],
+			[:color, Rez.Strings.menuLabelColor],
+			[:vibePattern, Rez.Strings.menuLabelVibeSound],
+			[:intervalAlerts, Rez.Strings.menuLabelIntervalAlerts],
 			[:activityType, Rez.Strings.addEditSessionMenu_activityType],
-			[:hrvTracking, Rez.Strings.addEditSessionMenu_hrvTracking],
+			[:hrvTracking, Rez.Strings.menuLabelHrvTracking],
 		];
 	}
 
 	static function createMenu(sessionNumber) {
 		var menu = new Ui.Menu2({
-			:title => Ui.loadResource(Rez.Strings.addEditSessionMenu_title) + " " + sessionNumber,
+			:title => Ui.loadResource(Rez.Strings.menuLabelSession) + " " + sessionNumber,
 		});
 		var rows = AddEditSessionMenuDelegate.rows();
 		for (var i = 0; i < rows.size(); i++) {
@@ -84,7 +84,7 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 		} else if (id == :vibePattern) {
 			var vibes = OptionMenu.sessionVibePatterns();
 			OptionMenu.push(
-				Rez.Strings.vibePatternMenu_title,
+				Rez.Strings.menuLabelVibeSound,
 				vibes[0],
 				vibes[1],
 				me.mSessionModel.vibePattern,
@@ -94,13 +94,13 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 			);
 		} else if (id == :intervalAlerts) {
 			var intervalAlertSettingsMenu = new Ui.Menu2({
-				:title => Ui.loadResource(Rez.Strings.menuIntervalAlertSettings_Title),
+				:title => Ui.loadResource(Rez.Strings.menuLabelIntervalAlerts),
 			});
 			intervalAlertSettingsMenu.addItem(
 				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuIntervalAlertSettings_addNew), "", :addNew, {})
 			);
 			intervalAlertSettingsMenu.addItem(
-				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuIntervalAlertSettings_edit), "", :edit, {})
+				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuLabelEdit), "", :edit, {})
 			);
 			intervalAlertSettingsMenu.addItem(
 				new Ui.MenuItem(Ui.loadResource(Rez.Strings.menuIntervalAlertSettings_deleteAll), "", :deleteAll, {})
@@ -126,7 +126,7 @@ class AddEditSessionMenuDelegate extends Ui.Menu2InputDelegate {
 		} else if (id == :hrvTracking) {
 			var hrv = OptionMenu.hrvTracking();
 			OptionMenu.push(
-				Rez.Strings.menuHrvTrackingOptions_title,
+				Rez.Strings.menuLabelHrvTracking,
 				hrv[0],
 				hrv[1],
 				me.mSessionModel.getHrvTracking(),
