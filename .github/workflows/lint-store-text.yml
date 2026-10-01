@@ -1,0 +1,25 @@
+name: Lint store text and guides
+run-name: Lint store text and guides by @${{ github.actor }}
+on:
+  push:
+    paths:
+      - "ConnectIQStore/*.txt"
+      - "UserGuide.md"
+      - "Advertisement.md"
+      - ".github/scripts/translate.py"
+      - ".github/workflows/lint-store-text.yml"
+  pull_request:
+    paths:
+      - "ConnectIQStore/*.txt"
+      - "UserGuide.md"
+      - "Advertisement.md"
+      - ".github/scripts/translate.py"
+      - ".github/workflows/lint-store-text.yml"
+  workflow_dispatch:
+jobs:
+  lint:
+    name: No typographic dashes, apostrophes or odd bullets
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - run: python3 .github/scripts/translate.py lint

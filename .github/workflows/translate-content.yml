@@ -30,6 +30,8 @@ jobs:
       - uses: actions/checkout@v7
         with:
           ref: main
+      - name: Lint English sources
+        run: python3 .github/scripts/translate.py lint
       - name: Find outdated translations
         id: plan
         run: python3 .github/scripts/translate.py plan --scope "$SCOPE" >> "$GITHUB_OUTPUT"
