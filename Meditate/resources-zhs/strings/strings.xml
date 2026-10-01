@@ -4,7 +4,6 @@
     <string id="confirmDeleteSessionHeader">删除？</string>
     <string id="confirmDeleteAllIntervalAlertsHeader">删除全部提醒？</string>
 
-    <string id="SummaryTitle">摘要</string>
     <string id="SummaryHR">心率</string>
     <string id="SummaryStress">压力</string>
     <string id="SummaryStart">开始: </string>
@@ -34,15 +33,12 @@
     <string id="menuGlobalSettings_newActivityType">活动类型</string>
     <string id="menuGlobalSettings_confirmSaveActivity">保存确认</string>
     <string id="menuGlobalSettings_multiSession">多段会话</string>
-    <string id="menuGlobalSettings_singleSession">单次会话</string>
     <string id="menuGlobalSettings_respirationRate">呼吸频率</string>
     <string id="menuGlobalSettings_autoStop">自动停止</string>
     <string id="menuGlobalSettings_colorTheme">主题颜色</string>
     <string id="menuGlobalSettings_prepareTime">准备时间</string>
     <string id="menuGlobalSettings_finalizeTime">收尾时间</string>
     <string id="menuGlobalSettings_sensorRestart">传感器重启</string>
-    <string id="menuGlobalSettings_respiration">呼吸: </string>
-    <string id="menuGlobalSettings_save">保存: </string>
 
     <string id="menuNewActivityTypeOptions_title">活动</string>
     <string id="menuNewActivityTypeOptions_meditating">冥想</string>
@@ -50,22 +46,13 @@
     <string id="menuNewActivityTypeOptions_breathing">呼吸</string>
     <string id="menuNewActivityTypeOptions_generic">通用</string>
 
-    <string id="activityTypeMenu_title">活动类型</string>
-    <string id="activityTypeMenu_yoga">瑜伽</string>
-    <string id="activityTypeMenu_meditating">冥想</string>
-    <string id="activityTypeMenu_breathing">呼吸</string>
-    <string id="activityTypeMenu_generic">通用</string>
 
-    <string id="menuNewHrvTrackingOptions_title">HRV追踪</string>
-    <string id="menuNewHrvTrackingOptions_on">开启</string>
-    <string id="menuNewHrvTrackingOptions_off">关闭</string>
 
     <string id="menuHrvTrackingOptions_title">HRV追踪</string>
     <string id="menuHrvTrackingOptions_onDetailed">详细</string>
     <string id="menuHrvTrackingOptions_on">开启</string>
     <string id="menuHrvTrackingOptions_off">关闭</string>
 
-    <string id="menuConfirmSaveActivityOptions_title">保存确认</string>
     <string id="menuConfirmSaveActivityOptions_autoYes">自动保存</string>
     <string id="menuConfirmSaveActivityOptions_autoNo">自动放弃</string>
     <string id="menuConfirmSaveActivityOptions_askSimple">询问</string>
@@ -79,15 +66,12 @@
     <string id="menuRespirationRateOptions_on">开启</string>
     <string id="menuRespirationRateOptions_off">关闭</string>
 
-    <string id="menuAutoStopOptions_title">自动停止</string>
     <string id="menuAutoStopOptions_on">开启</string>
     <string id="menuAutoStopOptions_off">关闭</string>
 
-    <string id="menuColorThemeOptions_title">主题颜色</string>
     <string id="menuColorThemeOptions_light">浅色</string>
     <string id="menuColorThemeOptions_dark">深色</string>
 
-    <string id="menuFinalizeTimeOptions_title">收尾</string>
 
     <string id="menuHrvWindowSizeOptions_title">HRV窗口</string>
     <string id="menuLabelDefault">默认</string>
@@ -153,7 +137,6 @@
     <string id="vibePatternMenu_longDescending">长渐弱</string>
 
     <string id="intervalVibePatternMenu_title">振动 / 声音</string>
-    <string id="intervalVibePatternMenu_noNotification">无通知</string>
     <string id="intervalVibePatternMenu_shorterContinuous">极短持续</string>
     <string id="intervalVibePatternMenu_shorterAscending">极短渐强</string>
     <string id="intervalVibePatternMenu_blip">提示音</string>
@@ -165,7 +148,6 @@
 
     <string id="editIntervalAlertsMenu_title">编辑提醒</string>
     <string id="activityDelayedFinishingText">结束中...</string>
-    <string id="meditateActivityPaused">[已暂停]</string>
     <string id="meditateActivityPrepare">放松准备\n开始会话\n倒计时</string>
     <string id="meditateActivityFinalize">会话\n即将结束\n倒计时</string>
 
@@ -193,7 +175,6 @@
     <string id="pauseMenu_stop">停止</string>
     <string id="finishMenu_save">保存</string>
     <string id="finishMenu_discard">放弃</string>
-    <string id="optionsMenuHelp">按开始键查看选项</string>
 
     <string id="about_AppVersion">v11.1.2</string>
     <string id="about_vtrifonov">vtrifonov</string>

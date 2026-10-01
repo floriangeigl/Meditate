@@ -4,7 +4,6 @@
     <string id="confirmDeleteSessionHeader">¿Eliminar sesión?</string>
     <string id="confirmDeleteAllIntervalAlertsHeader">¿Eliminar todas las alertas?</string>
 
-    <string id="SummaryTitle">Resumen</string>
     <string id="SummaryHR">Frec. Cardíaca</string>
     <string id="SummaryStress">Estrés</string>
     <string id="SummaryStart">Inicio: </string>
@@ -34,14 +33,11 @@
     <string id="menuGlobalSettings_newActivityType">Nuevo Tipo Actividad</string>
     <string id="menuGlobalSettings_confirmSaveActivity">Confirmar Guardado</string>
     <string id="menuGlobalSettings_multiSession">Multi-Sesión</string>
-    <string id="menuGlobalSettings_singleSession">Sesión Única</string>
     <string id="menuGlobalSettings_respirationRate">Tasa Respiración</string>
     <string id="menuGlobalSettings_autoStop">Parada Auto</string>
     <string id="menuGlobalSettings_colorTheme">Tema</string>
     <string id="menuGlobalSettings_prepareTime">Tiempo Preparación</string>
     <string id="menuGlobalSettings_finalizeTime">Tiempo Finalización</string>
-    <string id="menuGlobalSettings_respiration">Respiración: </string>
-    <string id="menuGlobalSettings_save">Guardar: </string>
     <string id="menuGlobalSettings_sensorRestart">Reinicio sensor</string>
 
     <string id="menuNewActivityTypeOptions_title">Actividad</string>
@@ -50,22 +46,13 @@
     <string id="menuNewActivityTypeOptions_breathing">Respiración</string>
     <string id="menuNewActivityTypeOptions_generic">Genérico</string>
 
-    <string id="activityTypeMenu_title">Tipo Actividad</string>
-    <string id="activityTypeMenu_yoga">Yoga</string>
-    <string id="activityTypeMenu_meditating">Meditando</string>
-    <string id="activityTypeMenu_breathing">Respiración</string>
-    <string id="activityTypeMenu_generic">Genérico</string>
 
-    <string id="menuNewHrvTrackingOptions_title">Seguimiento HRV</string>
-    <string id="menuNewHrvTrackingOptions_on">Activado</string>
-    <string id="menuNewHrvTrackingOptions_off">Desactivado</string>
 
     <string id="menuHrvTrackingOptions_title">Seguimiento HRV</string>
     <string id="menuHrvTrackingOptions_onDetailed">En Detalle</string>
     <string id="menuHrvTrackingOptions_on">Act.</string>
     <string id="menuHrvTrackingOptions_off">Desac.</string>
 
-    <string id="menuConfirmSaveActivityOptions_title">Confirmar Guardado</string>
     <string id="menuConfirmSaveActivityOptions_autoYes">Sí Auto</string>
     <string id="menuConfirmSaveActivityOptions_autoNo">No Auto</string>
     <string id="menuConfirmSaveActivityOptions_askSimple">Preguntar</string>
@@ -79,16 +66,13 @@
     <string id="menuRespirationRateOptions_on">Activado</string>
     <string id="menuRespirationRateOptions_off">Desactivado</string>
 
-    <string id="menuAutoStopOptions_title">Parada Auto</string>
     <string id="menuAutoStopOptions_on">Activ.</string>
     <string id="menuAutoStopOptions_off">Des.</string>
 
 
-    <string id="menuColorThemeOptions_title">Tema</string>
     <string id="menuColorThemeOptions_light">Claro</string>
     <string id="menuColorThemeOptions_dark">Oscuro</string>
 
-    <string id="menuFinalizeTimeOptions_title">Finalización</string>
 
     <string id="menuHrvWindowSizeOptions_title">HRV Window</string>
     <string id="menuLabelDefault">Predet.</string>
@@ -154,7 +138,6 @@
     <string id="vibePatternMenu_longDescending">Larga descendente</string>
 
     <string id="intervalVibePatternMenu_title">Vibración/Son.</string>
-    <string id="intervalVibePatternMenu_noNotification">Sin Notif.</string>
     <string id="intervalVibePatternMenu_shorterContinuous">Más corta continua</string>
     <string id="intervalVibePatternMenu_shorterAscending">Más corta ascendente</string>
     <string id="intervalVibePatternMenu_blip">Pitido</string>
@@ -166,7 +149,6 @@
 
     <string id="editIntervalAlertsMenu_title">Editar Alertas</string>
     <string id="activityDelayedFinishingText">Finalizando...</string>
-    <string id="meditateActivityPaused">[Pausada]</string>
     <string id="meditateActivityPrepare">Relájate para comenzar\nsesión de meditación\nen</string>
     <string id="meditateActivityFinalize">Finalizando\nsesión de meditación\nen</string>
 
@@ -193,7 +175,6 @@
     <string id="pauseMenu_stop">Detener</string>
     <string id="finishMenu_save">Guardar</string>
     <string id="finishMenu_discard">Descartar</string>
-    <string id="optionsMenuHelp">Pulsa iniciar para opciones</string>
 
     <string id="restoreDeviceId">Restore From Device ID (leave empty to use this device):</string>
 
