@@ -8,7 +8,6 @@
 	  use online: https://snowb.org/ || offline: https://libgdx.com/wiki/tools/hiero
 	  for snowb.org you can load the file stored in this folder named: snowb.org.sbf
 	-->
-	<string id="IconTimeHalf" translatable="false"></string>
 	<string id="IconTimeline" translatable="false"></string>
 	<string id="IconHeartBeat" translatable="false"></string>
 	<string id="IconHeart" translatable="false"></string>

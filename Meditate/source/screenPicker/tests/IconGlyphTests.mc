@@ -24,7 +24,6 @@ class IconGlyphTests {
 			Rez.Strings.IconInfo,
 			Rez.Strings.IconSpa,
 			Rez.Strings.IconStress,
-			Rez.Strings.IconTimeHalf,
 			Rez.Strings.IconTimeline,
 			Rez.Strings.IconUp,
 		];

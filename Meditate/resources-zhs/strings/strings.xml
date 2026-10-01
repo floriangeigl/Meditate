@@ -14,8 +14,8 @@
     <string id="SummaryHRVRMSSD">HRV RMSSD</string>
     <string id="SummaryHRVpNNx">HRV &gt; x</string>
     <string id="SummaryHRVSDRR">HRV SDRR</string>
-    <string id="SummaryHRVRMSSDFirst5min">前5分钟</string>
-    <string id="SummaryHRVRMSSDLast5min">后5分钟</string>
+    <string id="SummaryHRVSDRRFirst5min">前5分钟</string>
+    <string id="SummaryHRVSDRRLast5min">后5分钟</string>
 
     <string id="menuLabelSession">会话</string>
     <string id="menuSessionSettings_addNew">新建</string>

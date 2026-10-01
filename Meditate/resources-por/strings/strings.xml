@@ -14,8 +14,8 @@
     <string id="SummaryHRVRMSSD">VFC RMSSD</string>
     <string id="SummaryHRVpNNx">VFC &gt; x</string>
     <string id="SummaryHRVSDRR">VFC SDRR</string>
-    <string id="SummaryHRVRMSSDFirst5min">Primeiros 5 min</string>
-    <string id="SummaryHRVRMSSDLast5min">Últimos 5 min</string>
+    <string id="SummaryHRVSDRRFirst5min">Primeiros 5 min</string>
+    <string id="SummaryHRVSDRRLast5min">Últimos 5 min</string>
 
     <string id="menuLabelSession">Sessão</string>
     <string id="menuSessionSettings_addNew">Adicionar</string>

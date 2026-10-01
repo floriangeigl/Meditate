@@ -14,8 +14,8 @@
     <string id="SummaryHRVRMSSD">HRV RMSSD</string>
     <string id="SummaryHRVpNNx">HRV &gt; x</string>
     <string id="SummaryHRVSDRR">HRV SDRR</string>
-    <string id="SummaryHRVRMSSDFirst5min">Primeros 5 min</string>
-    <string id="SummaryHRVRMSSDLast5min">Últimos 5 min</string>
+    <string id="SummaryHRVSDRRFirst5min">Primeros 5 min</string>
+    <string id="SummaryHRVSDRRLast5min">Últimos 5 min</string>
 
     <string id="menuLabelSession">Sesión</string>
     <string id="menuSessionSettings_addNew">Agregar Nuevo</string>

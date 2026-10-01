@@ -265,7 +265,7 @@ class SessionPickerDelegate extends ScreenPickerDelegate {
 
 		var timeIcon = new Icon({
 			:font => StatusIconFonts.fontAwesomeFreeSolid,
-			:symbol => Rez.Strings.IconTimeHalf,
+			:symbol => Rez.Strings.IconHourGlassHalf,
 		});
 		line.icon = timeIcon;
 		line.value.text = TimeFormatter.format(session.time);

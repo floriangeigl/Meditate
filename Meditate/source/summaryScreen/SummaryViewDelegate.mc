@@ -134,14 +134,14 @@ class SummaryViewDelegate extends ScreenPickerDelegate {
 		var line = detailsModel.getLine(0);
 		var hrvIcon = new HrvIcon({});
 		line.icon = hrvIcon;
-		line.value.text = Ui.loadResource(Rez.Strings.SummaryHRVRMSSDFirst5min);
+		line.value.text = Ui.loadResource(Rez.Strings.SummaryHRVSDRRFirst5min);
 
 		line = detailsModel.getLine(1);
 		line.value.text = Lang.format("$1$ ms", [ScreenPickerBaseView.formatValue(hrv.sdrrFirst)]);
 
 		line = detailsModel.getLine(2);
 		line.icon = hrvIcon;
-		line.value.text = Ui.loadResource(Rez.Strings.SummaryHRVRMSSDLast5min);
+		line.value.text = Ui.loadResource(Rez.Strings.SummaryHRVSDRRLast5min);
 		line = detailsModel.getLine(3);
 		line.value.text = Lang.format("$1$ ms", [ScreenPickerBaseView.formatValue(hrv.sdrrLast)]);
 		return detailsModel;
