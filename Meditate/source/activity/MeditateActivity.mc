@@ -1,5 +1,3 @@
-using Toybox.WatchUi as Ui;
-
 // owns the recorder, the sensor feed wiring and everything that fires on the session tick
 class MeditateActivity {
 	private var mMeditateModel;
@@ -109,7 +107,7 @@ class MeditateActivity {
 				return;
 			}
 		}
-		Ui.requestUpdate();
+		me.mMeditateDelegate.onSessionTick();
 	}
 
 	// Pause/Resume session, returns true if session is now running

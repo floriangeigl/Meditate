@@ -17,9 +17,12 @@ class GlobalSettings {
 	static const BreathCuesKey = "globalSettings_breathCues";
 	static const UseSessionNameKey = "globalSettings_useSessionName";
 	static const LearnRoutineKey = "globalSettings_learnRoutine";
-	// markers, not user settings: the newest WhatsNewDelegate.NewsId dismissed, the preset migrations run
+	// markers, not user settings: the newest WhatsNewDelegate.NewsId dismissed, the preset migrations run,
+	// the SessionPage the last breathwork / meditation session stopped on
 	static const LastSeenNewsIdKey = "globalSettings_lastSeenNewsId";
 	static const PresetsVersionKey = "globalSettings_presetsVersion";
+	static const BreathPageKey = "globalSettings_breathPage";
+	static const MeditatePageKey = "globalSettings_meditatePage";
 
 	static function load(key) {
 		var value = App.Storage.getValue(key);
@@ -49,6 +52,8 @@ class GlobalSettings {
 			LearnRoutineKey,
 			LastSeenNewsIdKey,
 			PresetsVersionKey,
+			BreathPageKey,
+			MeditatePageKey,
 		];
 	}
 
@@ -101,6 +106,12 @@ class GlobalSettings {
 		}
 		if (key.equals(PresetsVersionKey)) {
 			return 0;
+		}
+		if (key.equals(BreathPageKey)) {
+			return SessionPage.Guidance;
+		}
+		if (key.equals(MeditatePageKey)) {
+			return SessionPage.Metrics;
 		}
 		return null;
 	}
@@ -155,5 +166,15 @@ module BreathCues {
 		Off = 0,
 		Vibration = 1,
 		VibrationTone = 2,
+	}
+}
+
+// the pages of a running session; stored as the page the next session opens on
+module SessionPage {
+	enum {
+		Metrics = 0,
+		Guidance = 1,
+		Ball = 2,
+		Zen = 3,
 	}
 }

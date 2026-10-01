@@ -20,12 +20,27 @@ class MeditateApp extends App.AppBase {
 		if (me.beatIntervalFeed != null) {
 			me.beatIntervalFeed.setForeground(true);
 		}
+		me.showSessionView(true);
 	}
 
 	// app keeps running off screen; sensor state must not be touched here
 	function onInactive(state) {
 		if (me.beatIntervalFeed != null) {
 			me.beatIntervalFeed.setForeground(false);
+		}
+		me.showSessionView(false);
+	}
+
+	// going inactive is not one of the onHide triggers (push, pop, exit); the session view must
+	// still stop its ball frames off screen. both calls are idempotent
+	private function showSessionView(shown) {
+		var view = Ui.getCurrentView()[0];
+		if (view instanceof MeditateView) {
+			if (shown) {
+				view.onShow();
+			} else {
+				view.onHide();
+			}
 		}
 	}
 

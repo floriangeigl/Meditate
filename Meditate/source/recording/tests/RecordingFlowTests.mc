@@ -11,6 +11,8 @@ class FlowListener {
 	}
 
 	function onSessionAutoComplete() {}
+
+	function onSessionTick() {}
 }
 
 // runs the recording core against a real simulator fit session, no timer and no ui

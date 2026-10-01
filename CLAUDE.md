@@ -250,6 +250,12 @@ on `d2deltapx` (CIQ 3.0.3, the app's API floor), where a call newer than the flo
 - `recording/hrv/tests/HrvSdrrTests` — the original SDRR expectations (`HrvAlgorithmsSampleOutput.xlsx`)
   ported to the ring of seconds: several beats in one second, empty seconds that push beats out.
 - `activity/tests/MetricLineTests` — the metrics page row states.
+- `activity/tests/SessionPagesTests` — the page cycles per session kind, the stored page kept only
+  when the session has it, up/down wrapping, zen drawing once per percent plus the peek (102 draws
+  in a 300 s session), and every page (the ball through each phase, a rest and past the program's
+  end) drawn into an off-screen bitmap without error.
+- `activity/tests/BreathBallTests` — the ball's eased size per phase, its progress between ticks,
+  and a finished program holding the ball still instead of pulsing every second.
 - `activity/tests/FitSessionTests` — `FitSessionKind` numbers (stored), the kind per activity type
   with and without API 3.3.6, sport and sub-sport per kind as FIT profile numbers (a missing stored
   kind records as training), the `[time]` formatting and 21-character cut, and which name wins
@@ -479,7 +485,7 @@ comes in through constructor arguments. Keep it that way; it is what makes the t
 
 `MeditateDelegate` is passed as the input delegate for the post-session `DelayedFinishingView`s ("calculating results"), not just for `MeditateView`. So its in-session gestures stay reachable **after** the activity has been stopped and its FIT session saved or discarded — at which point `ActivityRecorder.mFitSession` is `null` (nulled by `finish()`/`discard()`) and any `pauseResume()`/`stop()` on it throws **"Unexpected Type Error"**.
 
-Guarded by `mActivityStopped`, set once in `stopActivity()` (the single choke point — only `stopFromPauseMenu()` and `onSessionAutoComplete()` reach it) and checked in `onBack()` and `onKey()`. A fresh `MeditateDelegate` is built per session in `SessionPickerDelegate.startMeditationSession()`, so the flag is never reset.
+Guarded by `mActivityStopped`, set once in `stopActivity()` (the single choke point — only `stopFromPauseMenu()` and `onSessionAutoComplete()` reach it) and checked in `onBack()`, `onKey()` and `switchPage()`. A fresh `MeditateDelegate` is built per session in `SessionPickerDelegate.startMeditationSession()`, so the flag is never reset.
 
 **Do not add in-session input handling to `MeditateDelegate` without checking that flag**, and do not add a null guard in `ActivityRecorder.pauseResume()` instead — that hides the stray pause menu rather than preventing it. Two production crashes came from this (v10.7.10): back on the post-save spinner → pause menu → back (`resumeFromPauseMenu`), and the same menu → "Stop" (`stopFromPauseMenu`). The stray menu also froze the flow, since `pushView` triggers `DelayedFinishingView.onHide()` which stops its 1 s timer.
 
@@ -506,7 +512,52 @@ runner and fires alerts/cues. `MeditateView.onUpdate()` only reads `getMetric(id
 pure read of the last sampled state. Stress and respiration used to be sampled *inside* the view's
 metrics draw (the old `getCurrentValue()` appended a sample as a side effect), so any session whose
 view skipped that draw — the breathwork guidance page — recorded no stress/RR at all. Never give a
-view anything that mutates a metric.
+view anything that mutates a metric. How often a page redraws therefore never affects recording.
+
+### Session pages: guidance, ball, zen, metrics
+
+Breathwork cycles `Guidance → Ball → Zen → Metrics`, meditation `Metrics ↔ Zen` (up/down wrap;
+`MeditateView.pagesFor`). A session opens on the page the last one of its kind stopped on
+(`GlobalSettings.BreathPageKey` / `MeditatePageKey`, markers without a menu row, holding a
+`SessionPage`). `MeditateDelegate` loads it in `setMeditateView` and saves it in `stopActivity`,
+only on a change, so storage is never written while recording. The stored value is only looked up
+in the page list, never switched on. Ball and zen are black whatever the theme.
+
+- **Redraws are decided where they are requested, not in `onUpdate`.** The recorder tick reaches
+  the view through `MeditateDelegate.onSessionTick()` → `MeditateView.onSessionTick()`, which asks
+  for a redraw on every tick except on zen, which asks only when the ring crosses a whole percent
+  of the session (100 redraws per session, whatever its length) or while the peek (time and
+  chevrons for 3 s after arriving) shows. `onUpdate` draws ball and zen in full whenever it runs:
+  skipping a draw there would leave stale pixels after a system overlay or a display wake.
+- **The ball** (`BreathBallRenderer`) is a pure renderer, made on the first visit to the page and
+  laid out on its first draw. The view schedules it: `mFrameTimer` runs only while the view is shown
+  and the ball page is current (`onShow`/`onHide`/`switchPage` start and stop it, `onFrame` never
+  does), and `onFrame` requests a redraw only when the ball moved a whole pixel, the session is
+  running and, on API 5 devices, the display is on. Holds, rests and a finished program therefore
+  cost no redraws beyond the tick; the hold countdown on the edge steps on the tick.
+- **Going inactive is not an `onHide` trigger** (the docs list push, pop and exit only), so
+  `MeditateApp.onInactive`/`onActive` pass it to the current `MeditateView` as `onHide`/`onShow`.
+  Both are idempotent, so this stays correct if a device fires them itself.
+- **Between ticks** the view records `System.getTimer()` whenever `elapsedTime` changes, on every
+  page, so the ball's fraction of a second is right even when switched to mid-second. The ball
+  changes phase on the same tick as the cue, since `updateBreathRunner()` stays the only place that
+  advances the runner. With Auto Stop off the session outlives the program: `isDone` pins progress
+  to 1, or the fraction restarting every second would make the ball pulse.
+- **Drawing the ball, checked in simulator screenshots:** a full rim is two filled discs (rim colour,
+  then fill), never a near-360° arc. A thick arc's two ends leave a visible notch at 12 o'clock,
+  which is what `ElapsedDurationRenderer`'s 99.9 % cap does on its thin rings. The hold countdown
+  is a real arc over a fill disc of the same outer radius, so the outline stays put while the rim
+  drains. The breath words share one font, fitted inside the smallest ball (40 % of the largest),
+  so no word ever crosses the rim; at 30 % "Hold" on empty lungs ran over it.
+- **Soft look:** the ball is drawn anti-aliased (API 3.2+, reset afterwards) with a 2 px rim while
+  breathing; the thick rim appears only as the hold countdown. A hold keeps the colour of the breath
+  before it: blue on full lungs, green on empty. On AMOLED only (`requiresBurnInProtection`, checked
+  on `fenix847mm` vs `fenix8solar51mm`) a 4-step glow in darker shades of the rim colour surrounds it.
+  On the 64-colour MIP screens that glow quantises into a hard dark band, and orb shading
+  (concentric lighter discs) looked banded on every screen, so both were rejected there.
+- `FrameMs` (66) is untuned: compare 50/66/100 on an AMOLED and a MIP watch.
+- Known and accepted: after a resume the ball can jump by up to a second of motion once, because
+  the next second starts on the first tick after the resume.
 
 ### Stress: live score on API ≥ 5, logged snapshot below
 
@@ -790,9 +841,10 @@ Connect IQ caps the number of **concurrently active `Timer.Timer` objects per ap
 | `mviewDrawnTimer` | `MeditatePrepareView` (prepare/finalize countdown) | yes | `onHide()` → `stop()` |
 | `viewDrawnTimer` | `DelayedFinishingView` (1 s finish delay) | no (one-shot) | `onHide()` → `stop()` |
 | `mTimer` | `IdleReminderTimer` (10 min idle vibe) | yes | `stop()` |
+| `mFrameTimer` | `MeditateView` (breath ball frames, 66 ms, only while the ball page is shown) | yes | `onHide()` / `switchPage()` → `stop()` |
 | `notifyChangeTimer` | `AddEditIntervalAlertMenuDelegate` (500 ms debounce, settings only) | no (one-shot) | fires then nulls |
 
-Steady state holds ≤2 of these at once (recording tick + an idle-reminder while a menu is up), well under the 3-timer floor. The finish flow is the tight spot: it chains two `DelayedFinishingView` instances and then starts the `IdleReminderTimer`, so any leaked finishing-view timer slot can tip a 3-timer device over. This is exactly the historical **"Too Many Timers Error"** (backtrace `IdleReminderTimer.start` ← `showSummaryView` ← `DelayedFinishingView.onViewDrawn`): fixed by having `DelayedFinishingView.onHide()` call `.stop()` instead of only nulling the reference, matching `MeditatePrepareView`.
+Steady state holds ≤2 of these at once (recording tick + either the ball frames or, while a menu such as the pause menu is up, an idle reminder; the menu hides the view, which stops the frames), well under the 3-timer floor. The finish flow is the tight spot: it chains two `DelayedFinishingView` instances and then starts the `IdleReminderTimer`, so any leaked finishing-view timer slot can tip a 3-timer device over. This is exactly the historical **"Too Many Timers Error"** (backtrace `IdleReminderTimer.start` ← `showSummaryView` ← `DelayedFinishingView.onViewDrawn`): fixed by having `DelayedFinishingView.onHide()` call `.stop()` instead of only nulling the reference, matching `MeditatePrepareView`.
 
 ## Secrets
 
@@ -872,8 +924,9 @@ growing `SessionModel` needs no cloud-backup change at all — only watch the 32
 
 ### Keys Currently Backed Up
 
-- every `GlobalSettings.keys()` entry — the settings, plus the two markers
-  `globalSettings_presetsVersion` and `globalSettings_lastSeenNewsId`, which are not user settings
+- every `GlobalSettings.keys()` entry — the settings, plus the markers
+  `globalSettings_presetsVersion`, `globalSettings_lastSeenNewsId`, `globalSettings_breathPage`
+  and `globalSettings_meditatePage`, which are not user settings
 - `sessionsKeys`, `selectedSessionIndex`, and `sesssion_<key>` for each listed key
 - `wakeupSession_activityType`
 - `usageStats_monthly` and `usageStats_tipPending` (the `monthlyStats` section)

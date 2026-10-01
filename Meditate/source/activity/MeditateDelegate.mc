@@ -30,31 +30,44 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 		me.mNextSessionKey = null;
 	}
 
+	// the view opens on the page the last session of its kind stopped on
 	public function setMeditateView(meditateView) {
 		me.mMeditateView = meditateView;
+		meditateView.setPage(GlobalSettings.load(me.pageKey()));
+	}
+
+	private function pageKey() {
+		return me.mMeditateModel.hasBreathProgram() ? GlobalSettings.BreathPageKey : GlobalSettings.MeditatePageKey;
 	}
 
 	public function startActivity() {
 		me.mMeditateActivity.start();
 	}
 
-	// up/down (keys or swipe) flips guidance <-> metrics; unused during a session otherwise.
-	// Returns false without a breath program so meditation behaviour is unchanged.
-	private function switchBreathPage() {
+	// recorder tick; the view decides whether it needs a redraw
+	function onSessionTick() {
+		if (me.mMeditateView != null) {
+			me.mMeditateView.onSessionTick();
+		}
+	}
+
+	// up/down (keys or swipe) steps through the session pages
+	private function switchPage(step) {
 		// finishing views reuse this delegate; the meditate view is gone by then
-		if (me.mActivityStopped || me.mMeditateView == null || !me.mMeditateView.toggleBreathPage()) {
+		if (me.mActivityStopped || me.mMeditateView == null) {
 			return false;
 		}
+		me.mMeditateView.switchPage(step);
 		Ui.requestUpdate();
 		return true;
 	}
 
 	function onNextPage() {
-		return me.switchBreathPage();
+		return me.switchPage(1);
 	}
 
 	function onPreviousPage() {
-		return me.switchBreathPage();
+		return me.switchPage(-1);
 	}
 
 	public function stopActivity() {
@@ -62,6 +75,7 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 		me.mActivityStopped = true;
 		me.mMeditateActivity.stop();
 		me.mSummaryModel = me.mMeditateActivity.getSummary();
+		me.rememberPage();
 
 		// Store auto-exit state as class member
 		var confirmSaveActivity = GlobalSettings.load(GlobalSettings.ConfirmSaveActivityKey);
@@ -78,6 +92,18 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 		var meditatePrepareView = new MeditatePrepareView(method(:onShowDelayedFinishedView), 0, null);
 		var meditatePrepareDelegate = new MeditatePrepareDelegate(me, meditatePrepareView);
 		Ui.switchToView(meditatePrepareView, meditatePrepareDelegate, Ui.SLIDE_IMMEDIATE);
+	}
+
+	// once per session and only on a change; never while recording
+	private function rememberPage() {
+		if (me.mMeditateView == null) {
+			return;
+		}
+		var key = me.pageKey();
+		var page = me.mMeditateView.getPage();
+		if (GlobalSettings.load(key) != page) {
+			GlobalSettings.save(key, page);
+		}
 	}
 
 	function onShowDelayedFinishedView() {

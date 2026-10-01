@@ -79,6 +79,11 @@ You can:
 - pause or resume with the **back button**
 - stop the session with the **start/stop button**
 - control screen brightness via your watch buttons or touch
+- press **up** or **down** (or swipe) for the **zen screen**: a dark screen with only the progress
+  ring. The time shows for a few seconds after you switch, then fades. The session records exactly
+  the same either way.
+
+Your next session opens on the screen you ended this one on.
 
 When you stop, you can save or discard the session.  
 Pressing back on that prompt saves the session.  
@@ -297,8 +302,16 @@ If you do look at the watch, it shows:
 - a ring that fills as the phase progresses
 - the breathing route, when the session specifies nose or mouth
 
-Press **up** or **down** (or swipe) to switch to your heart rate, HRV, stress and respiration - and back again.  
-The vibrations continue either way.
+Press **up** or **down** (or swipe) to move between four screens:
+
+- **Guidance** - the phase, countdown and route above
+- **Breath ball** - a ball that grows as you breathe in, shrinks as you breathe out and stays
+  still while you hold
+- **Zen** - a dark screen with only the session ring
+- **Metrics** - your heart rate, HRV, stress and respiration
+
+The vibrations continue on every screen. Your next breathwork session opens on the screen you
+ended this one on.
 
 Before the session starts, the preparation countdown shows what is coming.
 
@@ -445,6 +458,15 @@ Beyond the phase word and countdown, the screen carries two rings:
 
 The line under the countdown shows your round within the current step (`3/4`) and, when the
 step specifies one, the breathing route for the phase you are in.
+
+### The Breath Ball
+
+One screen down from the guidance screen. The ball grows through each inhale and shrinks through
+each exhale - blue in, green out - slow at the start and end of every breath, like a real one.
+During a hold it stays still in the colour of the breath before it - blue on full lungs, green on
+empty - and its outline counts the hold down second by second. A rest shows a mid-size grey ball
+and **Breathe freely**. The phase word sits in the middle; the outer
+ring and its step ticks are the same as on the guidance screen.
 
 ### Cues
 

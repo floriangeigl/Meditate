@@ -24,6 +24,8 @@ class GlobalSettingsTests {
 			[GlobalSettings.LearnRoutineKey, "globalSettings_learnRoutine", true, false],
 			[GlobalSettings.LastSeenNewsIdKey, "globalSettings_lastSeenNewsId", 0, 7],
 			[GlobalSettings.PresetsVersionKey, "globalSettings_presetsVersion", 0, 2],
+			[GlobalSettings.BreathPageKey, "globalSettings_breathPage", 1, 2],
+			[GlobalSettings.MeditatePageKey, "globalSettings_meditatePage", 0, 3],
 		];
 	}
 
@@ -127,6 +129,10 @@ class GlobalSettingsTests {
 			[BreathCues.Off, 0],
 			[BreathCues.Vibration, 1],
 			[BreathCues.VibrationTone, 2],
+			[SessionPage.Metrics, 0],
+			[SessionPage.Guidance, 1],
+			[SessionPage.Ball, 2],
+			[SessionPage.Zen, 3],
 		];
 		for (var i = 0; i < pins.size(); i++) {
 			if (pins[i][0] != pins[i][1]) {
