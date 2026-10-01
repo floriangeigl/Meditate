@@ -75,6 +75,8 @@ The source text has a specific voice — warm, contemplative, gently encouraging
 - Preserve paragraph breaks and line breaks as in the original.
 - You may freely restructure sentences for natural reading flow.
 - The result should read like it was written by a native speaker for that app store — not like a translation.
+- The store mangles typographic punctuation. Never use em or en dashes (— – ― or a doubled ——): use a spaced hyphen ` - `, a comma or a colon instead. Never use typographic apostrophes (’ ‘): write words out where the language allows (e.g. "you are", not "you're"), otherwise use a plain `'`. The language's own quotation marks and full-width punctuation (。、，「」) are fine.
+- Keep section headings in capitals where the script has them (`A PRACTICE SHAPED AROUND YOU`), and keep bullet lists as lines starting with `- `, with no blank lines between the items.
 
 ## User guide rules
 

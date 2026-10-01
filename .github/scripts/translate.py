@@ -189,6 +189,10 @@ def check(path, source, text):
         want, got = paragraphs(source), paragraphs(text)
         if want != got:
             problems.append("%d paragraphs instead of %d" % (got, want))
+        # the store mangles these
+        found = sorted(set(re.findall("[–—―‘’]", text)))
+        if found:
+            problems.append("typographic dashes or apostrophes " + " ".join("U+%04X" % ord(c) for c in found))
     return problems
 
 
