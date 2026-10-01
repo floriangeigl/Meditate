@@ -87,7 +87,7 @@ class SessionStorageTests {
 		};
 	}
 
-	// a dict for every listed key; version 2 so the preset migration stays out of the way
+	// a dict for every listed key; the current version so the preset migration stays out of the way
 	static function writeStore(sessions, selectedIndex) {
 		StorageSnapshot.clearSessions();
 		var keys = [];
@@ -98,7 +98,7 @@ class SessionStorageTests {
 		}
 		App.Storage.setValue("sessionsKeys", keys);
 		App.Storage.setValue("selectedSessionIndex", selectedIndex);
-		App.Storage.setValue("globalSettings_presetsVersion", 2);
+		App.Storage.setValue("globalSettings_presetsVersion", 3);
 	}
 
 	static function stored(key) {
@@ -201,7 +201,7 @@ class SessionStorageTests {
 			var ok =
 				storage.isFreshInstall() &&
 				storage.getSessionsCount() == SessionPresets.getPresets().size() &&
-				App.Storage.getValue("globalSettings_presetsVersion") == 2;
+				App.Storage.getValue("globalSettings_presetsVersion") == 3;
 			snapshot.restore();
 			return ok;
 		} catch (ex) {
@@ -238,7 +238,9 @@ class SessionStorageTests {
 				keys.indexOf(10) != -1 &&
 				keys.indexOf(11) != -1 &&
 				keys.indexOf(12) != -1 &&
-				App.Storage.getValue("globalSettings_presetsVersion") == 2;
+				keys.indexOf(13) != -1 &&
+				keys.indexOf(14) != -1 &&
+				App.Storage.getValue("globalSettings_presetsVersion") == 3;
 
 			// the next start changes nothing
 			var added10 = SessionStorageTests.stored(10);
@@ -254,6 +256,61 @@ class SessionStorageTests {
 			snapshot.restore();
 			throw ex;
 		}
+	}
+
+	// an install on version 2 that deleted Wind Down (11) and changed Coherence (8): only 13-14 arrive
+	(:test)
+	static function migrationFromVersion2AddsOnlyTheNewPresets(logger) {
+		var snapshot = new StorageSnapshot();
+		try {
+			var own0 = SessionStorageTests.plainSession(0, "Quiet");
+			var changed8 = SessionStorageTests.plainSession(8, "B. Coherence");
+			var kept12 = SessionPresets.createBreathworkPreset(12).toDictionary();
+			SessionStorageTests.writeStore([own0, changed8, kept12], 0);
+			App.Storage.setValue("globalSettings_presetsVersion", 2);
+			new SessionStorage();
+
+			var keys = SessionStorageTests.storedKeys();
+			var ok =
+				StorageSnapshot.deepEquals(keys, [0, 8, 12, 13, 14]) &&
+				StorageSnapshot.deepEquals(SessionStorageTests.stored(8), changed8) &&
+				SessionStorageTests.stored(11) == null &&
+				SessionStorageTests.stored(13)["name"].equals("B. Sleep") &&
+				SessionStorageTests.stored(14)["name"].equals("B. Calm") &&
+				App.Storage.getValue("globalSettings_presetsVersion") == 3;
+			if (!ok) {
+				logger.debug("keys " + keys);
+			}
+			snapshot.restore();
+			return ok;
+		} catch (ex) {
+			snapshot.restore();
+			throw ex;
+		}
+	}
+
+	// sleep: 13:08 guided, then 10:00 free, ending on a blip; calm: 5:00 without a single hold
+	(:test)
+	static function sleepAndCalmPresets(logger) {
+		var sleep = SessionPresets.createBreathworkPreset(13);
+		var calm = SessionPresets.createBreathworkPreset(14);
+		var sleepSteps = sleep.getBreathProgram();
+		var calmSteps = calm.getBreathProgram();
+		var ok =
+			sleep.time == 1388 &&
+			sleep.vibePattern == VibePattern.Blip &&
+			sleepSteps.get(sleepSteps.size() - 1).isRest() &&
+			calm.time == 300 &&
+			calm.vibePattern == VibePattern.LongContinuous &&
+			SessionPresets.createBreathworkPreset(15) == null;
+		for (var i = 0; i < calmSteps.size(); i++) {
+			var d = calmSteps.get(i).durations;
+			ok = ok && d[1] == 0 && d[3] == 0;
+		}
+		if (!ok) {
+			logger.debug("sleep " + sleep.time + ", calm " + calm.time);
+		}
+		return ok;
 	}
 
 	(:test)

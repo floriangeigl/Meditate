@@ -272,7 +272,8 @@ on `d2deltapx` (CIQ 3.0.3, the app's API floor), where a call newer than the flo
   followers by time, drop, append cap) and through real storage: launch moves only a picker the
   user left alone, a delete is not a user move, a deleted key is forgotten, Off forgets.
 - `storage/tests/SessionStorageTests` — the stored session format round-trips unchanged, the enum
-  numbers inside stored sessions, fresh-store presets, the one-time breathwork preset migration,
+  numbers inside stored sessions, fresh-store presets, the preset migration per version step
+  (from version 2 only 13-14 arrive, deletions stay), the Sleep and Calm programs,
   index wrapping, delete-all restoring presets, new keys never reusing a used one, and the selection
   after a delete (through the real settings menu, with a `PickerSpy` for the picker).
 - `globalSettings/tests/GlobalSettingsTests` — every setting key and default typed out as the
@@ -671,14 +672,22 @@ a hold — there is no special case for it.
   empty lungs followed by a recovery breath held full.
 - Avoid naming templates after living people; `:breathHolds` is deliberately generic.
 - **Preset session keys are persistent ids and must never be renumbered.** Breathwork owns
-  keys 7-12 (`SessionPresets.FirstBreathworkKey`); 7-9 shipped before guided programs existed,
-  10-12 came with them. A stored session is matched back to its preset by key alone, so a new
-  preset of any kind takes the next free key at the end. `SessionStorage.migratePresets()` runs
-  once (gated by `globalSettings_presetsVersion`) and depends on this: it rewrites 7-9 in place
-  when the stored name still matches the shipped one and there is no program yet, and adds
-  10-12 when absent. Deleted presets stay deleted - 7-9 are never re-added, 10-12 never
-  overwritten. The upgrade edits the *stored* session (program, time, cleared alerts) rather
-  than replacing it, so colour, vibration and everything else the user chose survives.
+  keys 7-14 (`SessionPresets.FirstBreathworkKey`); 7-9 shipped before guided programs existed,
+  10-12 came with them, 13-14 (B. Sleep, B. Calm) with presets version 3. A stored session is
+  matched back to its preset by key alone, so a new preset of any kind takes the next free key
+  at the end. `SessionStorage.migratePresets()` depends on this and runs **one step per
+  version** of `globalSettings_presetsVersion`: below 2 it rewrites 7-9 in place when the stored
+  name still matches the shipped one and there is no program yet, and adds 10-12 when absent;
+  below 3 it adds 13-14. Deleted presets stay deleted - 7-9 are never re-added, 10-12 and later
+  never overwritten, and an install already on version 2 never sees 10-12 again. **A new preset
+  is a new version step, never appended to an old step's key list** — that would re-add what a
+  user on the old version deleted (`migrationFromVersion2AddsOnlyTheNewPresets` pins this). The
+  upgrade edits the *stored* session (program, time, cleared alerts) rather than replacing it,
+  so colour, vibration and everything else the user chose survives. `StorageSnapshot` covers
+  the preset key range explicitly; widen it with each new key.
+- **B. Sleep ends on a `Blip`, not `LongContinuous`**: it is meant to be fallen asleep to. The
+  end vibe is the third column of `SessionPresets.breathworkPresetDefs()`. B. Calm has no holds
+  on purpose (CO2 build-up feels like the start of panic); don't add one.
 - **Shipped programs repeat in rounds, never by duration**, so a session never cuts off
   mid-breath. That is why some totals are a few seconds off the nominal length (Box and 4-7-8
   are 5:04, not 5:00) — don't "round them back" to a duration repeat. Duration repeat stays

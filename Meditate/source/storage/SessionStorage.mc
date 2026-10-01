@@ -31,23 +31,26 @@ class SessionStorage {
 		return me.mFreshInstall;
 	}
 
-	// One-time upgrade for anyone coming from a version without guided breathwork. Keys 7-9
-	// shipped as alert-based breathwork sessions and are rewritten in place; 10-12 are new and
-	// simply added. A preset the user deleted stays deleted, and a renamed one is left alone.
-	private static const PresetsVersion = 2;
+	// One-time upgrades, one step per version, each run once. Version 2 (guided breathwork): keys
+	// 7-9 shipped as alert-based breathwork sessions and are rewritten in place, 10-12 are added.
+	// Version 3 adds 13-14. A preset the user deleted stays deleted, and a renamed one is left alone.
+	private static const PresetsVersion = 3;
 	private static const LegacyBreathPresetKeys = [7, 8, 9];
-	private static const AddedBreathPresetKeys = [10, 11, 12];
+	private static const AddedInVersion2 = [10, 11, 12];
+	private static const AddedInVersion3 = [13, 14];
 
 	private function migratePresets() {
-		if (GlobalSettings.load(GlobalSettings.PresetsVersionKey) >= SessionStorage.PresetsVersion) {
+		var version = GlobalSettings.load(GlobalSettings.PresetsVersionKey);
+		if (version >= SessionStorage.PresetsVersion) {
 			return;
 		}
-		for (var i = 0; i < SessionStorage.LegacyBreathPresetKeys.size(); i++) {
-			me.upgradeLegacyBreathPreset(SessionStorage.LegacyBreathPresetKeys[i]);
+		if (version < 2) {
+			for (var i = 0; i < SessionStorage.LegacyBreathPresetKeys.size(); i++) {
+				me.upgradeLegacyBreathPreset(SessionStorage.LegacyBreathPresetKeys[i]);
+			}
+			me.addMissingBreathPresets(SessionStorage.AddedInVersion2);
 		}
-		for (var i = 0; i < SessionStorage.AddedBreathPresetKeys.size(); i++) {
-			me.addMissingBreathPreset(SessionStorage.AddedBreathPresetKeys[i]);
-		}
+		me.addMissingBreathPresets(SessionStorage.AddedInVersion3);
 		GlobalSettings.save(GlobalSettings.PresetsVersionKey, SessionStorage.PresetsVersion);
 	}
 
@@ -73,13 +76,14 @@ class SessionStorage {
 		me.saveSession(stored);
 	}
 
-	private function addMissingBreathPreset(key) {
-		if (me.mSessionKeys.indexOf(key) != -1) {
-			return;
-		}
-		var preset = SessionPresets.createBreathworkPreset(key);
-		if (preset != null) {
-			me.addSession(preset);
+	private function addMissingBreathPresets(keys) {
+		for (var i = 0; i < keys.size(); i++) {
+			if (me.mSessionKeys.indexOf(keys[i]) == -1) {
+				var preset = SessionPresets.createBreathworkPreset(keys[i]);
+				if (preset != null) {
+					me.addSession(preset);
+				}
+			}
 		}
 	}
 

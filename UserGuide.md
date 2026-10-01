@@ -271,6 +271,8 @@ A breathing cycle can include:
 | B. Energize  | fast breathing, then box breathing | 5:20   |
 | B. Wind Down | long exhales, then 4-7-8           | 4:54   |
 | B. Holds     | deep breaths, then breath holds    | 7:16   |
+| B. Sleep     | slowing down, then 10 min resting  | 23:08  |
+| B. Calm      | ever longer exhales, no holds      | 5:00   |
 
 **Box Breathing**  
 Equal inhale, hold, exhale, hold.  
@@ -283,6 +285,16 @@ Often associated with increased HRV.
 **4-7-8 Breathing**  
 Inhale 4, hold 7, exhale 8.  
 Commonly used before sleep.
+
+**Sleep**  
+Starts at an easy pace and slows your breath step by step to about two breaths a minute, eases
+back, then leaves you 10 minutes to breathe freely. It ends with a single soft blip. To let it
+finish and save on its own if you fall asleep, keep **Auto Stop** on and set **Confirm Save** to
+**Auto Yes & Exit**.
+
+**Calm**  
+Longer and longer exhales, with no breath holds at all.  
+For stress and anxious moments, any time of day.
 
 You can edit any of these, or build your own - see [Guided Breathwork](#custom-breathwork-patterns).
 

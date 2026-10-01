@@ -29,13 +29,13 @@ class StorageSnapshot {
 	}
 
 	function restore() {
-		// presets use keys 0-12 and the tests keys from 100; drop whatever a test left behind
+		// presets use keys 0-14 and the tests keys from 100; drop whatever a test left behind
 		var candidates = [];
 		var current = App.Storage.getValue("sessionsKeys");
 		if (current != null) {
 			candidates.addAll(current);
 		}
-		for (var k = 0; k <= 12; k++) {
+		for (var k = 0; k <= 14; k++) {
 			candidates.add(k);
 		}
 		for (var k = 100; k < 120; k++) {
@@ -66,7 +66,7 @@ class StorageSnapshot {
 		}
 	}
 
-	// removes every session dict a test could meet: presets 0-12 and test keys from 100
+	// removes every session dict a test could meet: presets 0-14 and test keys from 100
 	static function clearSessions() {
 		for (var k = 0; k < 120; k++) {
 			App.Storage.deleteValue("sesssion_" + k.toString());
