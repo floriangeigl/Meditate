@@ -329,7 +329,15 @@ MSYS_NO_PATHCONV=1 "$(cygpath -w "$SDK/bin/monkeydo.bat")" "$(cygpath -w /tmp/te
 ## GitHub Actions
 
 No CI pipeline builds or tests Monkey C code. GitHub Actions handle only image compression, content
-translation, and user guide publishing.
+translation, user guide publishing, and a store text lint.
+
+**The store mangles typographic punctuation**, so the translated texts (store description, user
+guide, ad page), English and translated, use no em/en dashes (` - `, or `3-5` in ranges) and no
+curly apostrophes; contractions are written out, possessives take a plain `'`. The store text's
+bullets are also `- ` lines with no blank line between them. `translate.py`'s `style_problems()`
+is the one definition: the translation check rejects a reply that breaks it, and `Lint store text
+and guides` runs `translate.py lint` on every push and PR touching the English sources (locally:
+`wsl python3 -B .github/scripts/translate.py lint`). Headings in capitals are a prompt rule only.
 
 ### Translations run on a published release, changed files only
 
@@ -356,7 +364,14 @@ commit, so a workflow change applies to releases tagged after it.
 - **Manual run:** Actions → *Translate texts, guides, etc* → Run workflow → `changed only` (what a
   release does) / `everything` / `text only` / `hero images only`.
 - **Skipping a re-translation** (e.g. an English typo fix): `python3 .github/scripts/translate.py
-  mark-current` records every existing target as current — commit the two state files.
+  mark-current` records every existing target as current — commit the two state files. It also
+  swallows source changes still waiting for a release, so check `plan` first. To change only the
+  prompt (e.g. adding a language) without re-translating everything, set just the `prompt` hash of
+  the existing entries to the new digest and keep their `source` hashes.
+- **Adding a language:** a `LANGUAGES` entry in `translate.py`, the prompt's language list and
+  address rule (then the prompt-hash step above), a `resources-<ciq code>` folder and an
+  `<iq:language>` in the manifest. The guide site picks up new files by itself;
+  `host-user-guide.yml`'s `LANG_NAMES` only needs the display name if it is missing.
 - **Replies are checked before they are written:** Markdown must keep the source's heading,
   `<a id=` and link counts and its `layout`/`permalink` lines, the store text its paragraph
   count — every translation up to 2026-09 passes. A rejected target fails the job, the rest are
@@ -631,7 +646,7 @@ and shown live regardless of HRV, so hiding its summary with HRV Off was an acci
 ### FIT fields: code and `hrvFitContributions.xml` must agree
 
 Every field id created in code has a `<fitField id=…>` row in `Meditate/resources/hrvFitContributions.xml`
-and label strings in `hrvFitContributionsStrings.xml` for **all 9 locales**, and nothing else:
+and label strings in `hrvFitContributionsStrings.xml` for **all 10 locales**, and nothing else:
 ids 0, 6–13, 16. Ids 1, 15, 17 were declared for years with no code writing them and were
 dropped. Check `bin/Meditate-fit_contributions.json` after a build — it lists exactly the
 declared set. Field ids are FIT compatibility — never renumber.
@@ -813,7 +828,7 @@ in that list; there are no hand-typed row numbers to drift.
   - a branch in `defaultFor()`;
   - a row in `GlobalSettingsTests`' table;
   - a row in `rows()` and in `GlobalSettingsMenuTests`;
-  - label strings in all 9 locales.
+  - label strings in all 10 locales.
 
   The tests fail when `keys()`, their tables and `rows()` disagree. They cannot see a `defaultFor()`
   branch added alone: that setting would work but be missing from cloud backups.

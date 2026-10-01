@@ -1,0 +1,202 @@
+﻿<strings>
+    <string id="AppName">Meditazione</string>
+    <string id="ConfirmSaveHeader">Salvare?</string>
+    <string id="confirmDeleteSessionHeader">Eliminare?</string>
+    <string id="confirmDeleteAllIntervalAlertsHeader">Eliminare tutti?</string>
+
+    <string id="SummaryHR">Freq. card.</string>
+    <string id="SummaryStress">Stress</string>
+    <string id="SummaryStart">Inizio: </string>
+    <string id="SummaryEnd">Fine: </string>
+    <string id="SummaryMin">Min:</string>
+    <string id="SummaryAvg">Med:</string>
+    <string id="SummaryMax">Max:</string>
+    <string id="SummaryHRVRMSSD">HRV RMSSD</string>
+    <string id="SummaryHRVpNNx">HRV &gt; x</string>
+    <string id="SummaryHRVSDRR">HRV SDRR</string>
+    <string id="SummaryHRVSDRRFirst5min">Primi 5 min</string>
+    <string id="SummaryHRVSDRRLast5min">Ultimi 5 min</string>
+
+    <string id="menuLabelSession">Sessione</string>
+    <string id="menuSessionSettings_addNew">Aggiungi</string>
+    <string id="menuLabelEdit">Modifica</string>
+    <string id="menuLabelDelete">Elimina</string>
+    <string id="menuSessionSettings_globalSettings">Impostazioni</string>
+    <string id="menuSessionSettings_help">Aiuto</string>
+    <string id="menuSessionSettings_about">Info</string>
+
+    <string id="help_openingUserGuide">Guida aperta sul telefono</string>
+
+    <string id="menuGlobalSettings_title">Impostazioni</string>
+    <string id="menuGlobalSettings_newActivityType">Tipo attività</string>
+    <string id="menuGlobalSettings_confirmSaveActivity">Conferma salv.</string>
+    <string id="menuLabelMultiSession">Multi-sessione</string>
+    <string id="menuGlobalSettings_respirationRate">Freq. respir.</string>
+    <string id="menuGlobalSettings_autoStop">Stop auto</string>
+    <string id="menuGlobalSettings_colorTheme">Tema</string>
+    <string id="menuGlobalSettings_prepareTime">Tempo prep.</string>
+    <string id="menuGlobalSettings_finalizeTime">Tempo finale</string>
+    <string id="menuGlobalSettings_sensorRestart">Riavvio sensore</string>
+
+    <string id="menuNewActivityTypeOptions_title">Attività</string>
+    <string id="menuNewActivityTypeOptions_meditating">Meditazione</string>
+    <string id="menuNewActivityTypeOptions_yoga">Yoga</string>
+    <string id="menuNewActivityTypeOptions_breathing">Respirazione</string>
+    <string id="menuNewActivityTypeOptions_generic">Generico</string>
+
+
+
+
+    <string id="menuHrvTrackingOptions_onDetailed">Dettagliato</string>
+
+    <string id="menuConfirmSaveActivityOptions_autoYes">Auto sì</string>
+    <string id="menuConfirmSaveActivityOptions_autoNo">Auto no</string>
+    <string id="menuConfirmSaveActivityOptions_askSimple">Chiedi</string>
+    <string id="menuConfirmSaveActivityOptions_autoYesExit">Auto sì &amp; esci</string>
+
+    <string id="menuLabelYes">Sì</string>
+    <string id="menuLabelNo">No</string>
+
+    <string id="menuLabelRespiration">Respirazione</string>
+
+    <string id="menuLabelOn">On</string>
+    <string id="menuLabelOff">Off</string>
+
+
+    <string id="menuColorThemeOptions_light">Chiaro</string>
+    <string id="menuColorThemeOptions_dark">Scuro</string>
+
+
+    <string id="menuHrvWindowSizeOptions_title">Finestra HRV</string>
+    <string id="menuLabelDefault">Predefinito</string>
+    <string id="menuLabelRecommended">Consigliato</string>
+
+    <string id="menuGlobalSettings_useSessionName">Nome sessione = nome attività</string>
+    <string id="menuGlobalSettings_learnRoutine">Impara routine</string>
+
+    <string id="menuNotificationOptions_title">Vibrazione &amp; suono</string>
+
+    <string id="menuIntervalAlertSettings_addNew">Aggiungi</string>
+    <string id="menuIntervalAlertSettings_deleteAll">Elimina tutti</string>
+
+    <string id="summaryRollupMenu_title">Riepilogo sessioni</string>
+    <string id="summaryRollupMenuOption_exit">Esci</string>
+
+    <!-- Multi-session post-session menu -->
+    <string id="multiSessionPostMenu_nextSession">Sessione succ.</string>
+    <string id="multiSessionPostMenu_summary">Riepilogo</string>
+    <string id="multiSessionPostMenu_endMultiSession">Fine multi-sessione</string>
+
+    <string id="confirmDeleteIntervalAlertHeader">Eliminare avviso?</string>
+
+    <string id="addEditIntervalAlertMenu_title">Avviso</string>
+    <string id="addEditIntervalAlertMenu_offset">Offset</string>
+
+
+    <string id="addEditSessionMenu_name">Nome</string>
+    <string id="menuLabelTime">Tempo</string>
+    <string id="menuLabelColor">Colore</string>
+    <string id="menuLabelVibeSound">Vibr. / Suono</string>
+    <string id="menuLabelIntervalAlerts">Avvisi intervallo</string>
+    <string id="addEditSessionMenu_activityType">Tipo attività</string>
+    <string id="menuLabelHrvTracking">Monitoraggio HRV</string>
+
+    <string id="intervalAlertTransparentColorText">Trasparente</string>
+
+    <string id="vibePatternMenu_longPulsating">Lungo pulsante</string>
+    <string id="vibePatternMenu_longSound">Suono lungo</string>
+    <string id="vibePatternMenu_longContinuous">Lungo continuo</string>
+    <string id="vibePatternMenu_longAscending">Lungo crescente</string>
+    <string id="vibePatternMenu_mediumPulsating">Medio pulsante</string>
+    <string id="vibePatternMenu_mediumContinuous">Medio continuo</string>
+    <string id="vibePatternMenu_mediumAscending">Medio crescente</string>
+    <string id="vibePatternMenu_shortPulsating">Breve pulsante</string>
+    <string id="vibePatternMenu_shortContinuous">Breve continuo</string>
+    <string id="vibePatternMenu_shortAscending">Breve crescente</string>
+    <string id="vibePatternMenu_shortDescending">Breve decresc.</string>
+    <string id="vibePatternMenu_mediumDescending">Medio decresc.</string>
+    <string id="vibePatternMenu_longDescending">Lungo decresc.</string>
+
+    <string id="intervalVibePatternMenu_shorterContinuous">Brevissimo continuo</string>
+    <string id="intervalVibePatternMenu_shorterAscending">Brevissimo cresc.</string>
+    <string id="intervalVibePatternMenu_blip">Bip</string>
+    <string id="intervalVibePatternMenu_shortSound">Suono breve</string>
+
+    <string id="intervalTypeMenu_title">Tipo avviso</string>
+    <string id="intervalTypeMenu_oneOff">Singolo H:MM</string>
+    <string id="intervalTypeMenu_repeat">Ogni MM:SS</string>
+
+    <string id="editIntervalAlertsMenu_title">Modifica avvisi</string>
+    <string id="activityDelayedFinishingText">Chiusura...</string>
+    <string id="meditateActivityPrepare">Rilassati\nla sessione\ninizia tra</string>
+    <string id="meditateActivityFinalize">Fine\nsessione\ntra</string>
+
+    <string id="activityNameMeditate">Meditazione</string>
+    <string id="activityNameYoga">Yoga</string>
+    <string id="activityNameBreathing">Respirazione</string>
+    <string id="activityNameGeneric">Generico</string>
+    <string id="sessionTitleMeditate">Meditazione 🧘</string>
+    <string id="sessionTitleYoga">Yoga 🧘</string>
+    <string id="sessionTitleBreathing">Respirazione 🌬️</string>
+
+    <string id="activityName">Nome attività (usa [time] per la durata della sessione, nome breve):</string>
+    <string id="restoreDeviceId">Ripristina da ID dispositivo (vuoto = questo dispositivo):</string>
+    <string id="pickMMSS">Scegli MM:SS</string>
+    <string id="pickHMM">Scegli H:MM</string>
+    <string id="HRVstarting">Avvio HRV</string>
+    <string id="HRVstartingAlt">Attendere</string>
+    <string id="HRVrestart">Riavvia l'app</string>
+    <string id="HRVready">HRV pronto</string>
+    <string id="HRVweak">HRV debole</string>
+    <string id="HRVoff">HRV off</string>
+
+    <string id="menuSessionSettings_start">Avvia</string>
+    <string id="pauseMenu_resume">Riprendi</string>
+    <string id="pauseMenu_stop">Ferma</string>
+    <string id="finishMenu_save">Salva</string>
+    <string id="finishMenu_discard">Scarta</string>
+
+    <string id="about_AppVersion">v11.1.2</string>
+    <string id="about_vtrifonov">vtrifonov</string>
+    <string id="about_dliedke">dliedke</string>
+    <string id="about_falsetru">falsetru</string>
+    <string id="about_floriangeigl">floriangeigl</string>
+
+
+    <string id="breathPhase_inhale">Inspira</string>
+    <string id="breathPhase_exhale">Espira</string>
+    <string id="breathPhase_hold">Trattieni</string>
+    <string id="breathStep_rest">Pausa</string>
+    <string id="breathPhase_rest">Respira libero</string>
+    <string id="addEditSessionMenu_breathProgram">Programma respiro</string>
+    <string id="breathProgramMenu_addStep">Aggiungi passo</string>
+    <string id="breathProgramMenu_deleteAll">Elimina tutti</string>
+    <string id="breathProgramMenu_inRoute">Inspira da</string>
+    <string id="breathProgramMenu_outRoute">Espira da</string>
+    <string id="breathProgramMenu_steps">passi</string>
+    <string id="breathProgramMenu_full">Max 10 passi</string>
+    <string id="breathRouteMenu_unset">Non impostato</string>
+    <string id="breathRouteMenu_nose">Naso</string>
+    <string id="breathRouteMenu_mouth">Bocca</string>
+    <string id="breathStepMenu_title">Passo</string>
+    <string id="breathStepMenu_holdEmpty">Trattieni a vuoto</string>
+    <string id="breathStepMenu_repeat">Ripeti</string>
+    <string id="breathStepMenu_moveUp">Sposta su</string>
+    <string id="breathStepMenu_moveDown">Sposta giù</string>
+    <string id="breathStepMenu_invalid">Imposta almeno una fase</string>
+    <string id="breathRepeatMenu_rounds">Cicli</string>
+    <string id="breathRepeatMenu_duration">Durata MM:SS</string>
+    <string id="breathTemplate_custom">Personalizzato</string>
+    <string id="breathBriefing_more">altri</string>
+    <string id="breathBriefing_belly">respira con la pancia</string>
+    <string id="breathBriefing_in">insp.</string>
+    <string id="breathBriefing_out">esp.</string>
+    <string id="menuGlobalSettings_breathCues">Segnali respiro</string>
+    <string id="menuBreathCuesOptions_vibration">Vibrazione</string>
+    <string id="menuBreathCuesOptions_vibrationTone">Vibrazione + suono</string>
+    <string id="whatsNew_title">Novità</string>
+    <string id="whatsNew_line1">Respirazione guidata</string>
+    <string id="whatsNew_line2">Segui i segnali</string>
+    <string id="whatsNew_line3">3 nuove sessioni</string>
+    <string id="whatsNew_line4">Facile da adattare</string>
+</strings>

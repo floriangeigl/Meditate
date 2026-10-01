@@ -9,6 +9,7 @@ made from. The text and images commands need OPENAI_API_KEY.
   translate.py text --scope S      translate the text files
   translate.py images --scope S    translate the hero banner
   translate.py mark-current        record every existing target as up to date, no API calls
+  translate.py lint                check the English sources for typographic dashes, apostrophes, bullets
 """
 import argparse
 import base64
@@ -37,6 +38,7 @@ LANGUAGES = OrderedDict(
         ("uk", "Ukrainian"),
         ("ja", "Japanese"),
         ("fr", "French"),
+        ("it", "Italian"),
     ]
 )
 
@@ -189,11 +191,32 @@ def check(path, source, text):
         want, got = paragraphs(source), paragraphs(text)
         if want != got:
             problems.append("%d paragraphs instead of %d" % (got, want))
-        # the store mangles these
-        found = sorted(set(re.findall("[–—―‘’]", text)))
-        if found:
-            problems.append("typographic dashes or apostrophes " + " ".join("U+%04X" % ord(c) for c in found))
+    return problems + style_problems(path, text)
+
+
+def style_problems(path, text):
+    problems = []
+    # the store mangles these, the other texts follow suit
+    found = sorted(set(re.findall("[–—―‘’]", text)))
+    if found:
+        problems.append("typographic dashes or apostrophes " + " ".join("U+%04X" % ord(c) for c in found))
+    if path.endswith(".txt"):
+        if re.search(r"^\s*[•*·] ", text, re.M):
+            problems.append("bullets other than '- '")
+        if re.search(r"^- .*\n\s*\n- ", text, re.M):
+            problems.append("blank line between bullets")
     return problems
+
+
+def lint():
+    problems = []
+    for source, _, _ in TEXT_SOURCES:
+        problems += [(source, p) for p in style_problems(source, read_text(source))]
+    for source, problem in problems:
+        fail(source, problem)
+    if not problems:
+        log("english sources ok")
+    return not problems
 
 
 def clean(text, source):
@@ -355,7 +378,7 @@ def translate_images(scope):
 def main():
     os.chdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("command", choices=["plan", "text", "images", "mark-current"])
+    parser.add_argument("command", choices=["plan", "text", "images", "mark-current", "lint"])
     parser.add_argument("--scope", default="changed only", choices=list(SCOPES))
     args = parser.parse_args()
     if args.command == "plan":
@@ -364,6 +387,8 @@ def main():
     if args.command == "mark-current":
         mark_current()
         return 0
+    if args.command == "lint":
+        return 0 if lint() else 1
     ok = translate_text(args.scope) if args.command == "text" else translate_images(args.scope)
     return 0 if ok else 1
 
