@@ -43,14 +43,23 @@ class UsageStats {
 	}
 
 	private static function flush() {
-		var queue = App.Storage.getValue(QueueKey);
-		if (sSending || queue == null || queue.size() == 0) {
+		var stored = App.Storage.getValue(QueueKey);
+		if (stored == null) {
+			return;
+		}
+		if (prune(stored, Time.now().value()).size() == 0) {
+			// nothing left that ga would still take
+			App.Storage.deleteValue(QueueKey);
+			return;
+		}
+		if (sSending) {
 			return;
 		}
 		// throws without secrets.xml, caught by the caller
 		var stats = new UsageStats();
-		sSending = true;
 		stats.lookUpIp();
+		// set once the request is out, so a throw cannot leave it stuck
+		sSending = true;
 	}
 
 	// drops what is not a [Number, Number] pair or too old to be backdated; anything else starts over

@@ -55,7 +55,7 @@ project.optimization = 3pz  # Maximum optimization
 tree on `fr255s` (2026-09-25): debug 366,380 B vs release 148,556 B. A debug PRG looks alarmingly
 close to a 512 KB device budget while the shipped artifact uses under a third of it. Release
 history on `fr255s`: 145 KB before breathwork, 172 KB with it, 167 KB after the data acquisition
-rework, 149 KB after the 2026-09 settings/menu cleanup, then 150,748 → 149,596 B with the 2026-10 storage cleanup, 148,476 B after the 2026-10 analytics rework. **Compare sizes in bytes** (`stat -c %s`,
+rework, 149 KB after the 2026-09 settings/menu cleanup, then 150,748 → 149,596 B with the 2026-10 storage cleanup, 148,620 B after the 2026-10 analytics rework. **Compare sizes in bytes** (`stat -c %s`,
 or `(Get-Item).Length`) against a baseline build of the same tree — 166 860 B reads as "163 KB" in
 KiB and "167 KB" in kB, which once turned a +48 B change into an imaginary 4 KB saving.
 
@@ -292,9 +292,10 @@ on `d2deltapx` (CIQ 3.0.3, the app's API floor), where a call newer than the flo
   15 minutes starts over and leaves the tip prompt pending, a second less leaves none, no session
   time changes nothing.
 - `com/tests/UsageStatsTests` — the analytics queue as pure functions (newest ten kept, old and
-  corrupt pairs dropped, failed events back before newer ones), each event's own `timestamp_micros`
+  corrupt pairs dropped, failed events back before newer ones, a queue too old to send dropped at
+  launch instead of looked up on every launch), each event's own `timestamp_micros`
   as a Long, the IP anonymised before it leaves (IPv4 last block 0, IPv6 /48, junk null) and sent as
-  `ip_override`. Nothing is sent or stored.
+  `ip_override`. Nothing is sent; the launch test restores the queue keys.
 - `screenPicker/tests/IconGlyphTests` — the icon font loads and every glyph the code uses is one
   private-use character (catches a blanked or retyped glyph).
 

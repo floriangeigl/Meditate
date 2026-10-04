@@ -1,7 +1,9 @@
+using Toybox.Application as App;
 using Toybox.Lang;
 using Toybox.Test;
+using Toybox.Time;
 
-// the analytics queue and payload as pure functions; nothing is sent or stored
+// the analytics queue and payload as pure functions; nothing is sent, storage is restored
 (:test)
 class UsageStatsTests {
 	(:test)
@@ -64,6 +66,29 @@ class UsageStatsTests {
 			!body.hasKey("user_location") &&
 			body["timestamp_micros"] == null
 		);
+	}
+
+	// a queue of events too old to send is dropped at launch instead of looked up on every launch
+	(:test)
+	static function launchDropsAQueueGaWouldNotTake(logger) {
+		var savedQueue = App.Storage.getValue(UsageStats.QueueKey);
+		var savedOld = App.Storage.getValue(UsageStats.OldQueueKey);
+		try {
+			var stale = Time.now().value() - UsageStats.MaxAgeSec - 60;
+			App.Storage.setValue(UsageStats.QueueKey, [stale, 600, stale + 1, 300]);
+			UsageStats.flushOnStartup();
+			var dropped = App.Storage.getValue(UsageStats.QueueKey) == null;
+			App.Storage.setValue(UsageStats.QueueKey, { "corrupt" => true });
+			UsageStats.flushOnStartup();
+			var corruptDropped = App.Storage.getValue(UsageStats.QueueKey) == null;
+			StorageSnapshot.put(UsageStats.QueueKey, savedQueue);
+			StorageSnapshot.put(UsageStats.OldQueueKey, savedOld);
+			return dropped && corruptDropped;
+		} catch (ex) {
+			StorageSnapshot.put(UsageStats.QueueKey, savedQueue);
+			StorageSnapshot.put(UsageStats.OldQueueKey, savedOld);
+			throw ex;
+		}
 	}
 
 	(:test)
