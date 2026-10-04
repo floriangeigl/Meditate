@@ -15,6 +15,11 @@ jobs:
   build:
     name: Host user guide
     runs-on: ubuntu-latest
+    env:
+      GUIDE: ./geigl.online/meditate_app/user_guide
+      AD: ./geigl.online/meditate_app/advertisement
+      PRIVACY: ./geigl.online/meditate_app/data_privacy
+      IMAGES: ./geigl.online/meditate_app/images
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v7
@@ -26,26 +31,32 @@ jobs:
           path: ./geigl.online/
           ref: master
           token: ${{ secrets.FLORIANGEIGL_GITHUB_IO_TOKEN }}
+      - name: prepare meditate_app folders
+        run: |
+          # pages lived flat in the site root before 2026-10
+          rm -f ./geigl.online/meditate_app*.md
+          rm -rf ./geigl.online/meditate_app_user_guide
+          mkdir -p "$GUIDE" "$AD" "$PRIVACY" "$IMAGES"
       - name: create user guide pages
         run: |
-          cat UserGuide.md > ./geigl.online/meditate_app_user_guide.md
+          cat UserGuide.md > $GUIDE/meditate_app_user_guide.md
           for f in generated/UserGuides/UserGuide-*.md; do
             [ -f "$f" ] || continue
             lang="$(basename "$f")"
             lang="${lang#UserGuide-}"
             lang="${lang%.md}"
-            cat "$f" > "./geigl.online/meditate_app_user_guide-${lang}.md"
+            cat "$f" > "$GUIDE/meditate_app_user_guide-${lang}.md"
           done
-          cp -r ./userGuideScreenshots ./geigl.online/meditate_app_user_guide/
+          cp -r ./userGuideScreenshots/. "$IMAGES/"
           # Copy translated hero images
           for f in generated/HeroImages/hero_meditate-*.png; do
             [ -f "$f" ] || continue
-            cp "$f" "./geigl.online/meditate_app_user_guide/userGuideScreenshots/"
+            cp "$f" "$IMAGES/"
           done
           # Fix image paths in user guide files only
-          for f in ./geigl.online/meditate_app_user_guide.md ./geigl.online/meditate_app_user_guide-*.md; do
+          for f in $GUIDE/meditate_app_user_guide.md $GUIDE/meditate_app_user_guide-*.md; do
             [ -f "$f" ] || continue
-            sed -i 's|/meditate_app_user_guide/userGuideScreenshots/|__KEEP__|g; s|meditate_app_user_guide/userGuideScreenshots/|__KEEP__|g; s|userGuideScreenshots/|/meditate_app_user_guide/userGuideScreenshots/|g; s|__KEEP__|/meditate_app_user_guide/userGuideScreenshots/|g' "$f"
+            sed -i 's|/\?meditate_app_user_guide/userGuideScreenshots/|__IMG__|g; s|/meditate_app/images/|__IMG__|g; s|userGuideScreenshots/|__IMG__|g; s|__IMG__|/meditate_app/images/|g' "$f"
           done
           # Update hero image references in translated user guide pages
           for f in generated/HeroImages/hero_meditate-*.png; do
@@ -53,7 +64,7 @@ jobs:
             lang="$(basename "$f")"
             lang="${lang#hero_meditate-}"
             lang="${lang%.png}"
-            md="./geigl.online/meditate_app_user_guide-${lang}.md"
+            md="$GUIDE/meditate_app_user_guide-${lang}.md"
             [ -f "$md" ] && sed -i "s|hero_meditate\.png|hero_meditate-${lang}.png|g" "$md"
           done
 
@@ -74,16 +85,16 @@ jobs:
           # Fix permalinks for translated guides
           for lang in "${LANGS[@]}"; do
             [ "$lang" = "en" ] && continue
-            target="./geigl.online/meditate_app_user_guide-${lang}.md"
+            target="$GUIDE/meditate_app_user_guide-${lang}.md"
             sed -i "s|permalink: /meditate_app_user_guide/|permalink: /meditate_app_user_guide-${lang}/|" "$target"
           done
 
           # Insert language nav into each guide
           for current in "${LANGS[@]}"; do
             if [ "$current" = "en" ]; then
-              target="./geigl.online/meditate_app_user_guide.md"
+              target="$GUIDE/meditate_app_user_guide.md"
             else
-              target="./geigl.online/meditate_app_user_guide-${current}.md"
+              target="$GUIDE/meditate_app_user_guide-${current}.md"
             fi
 
             nav="<div><small>🌐"
@@ -108,18 +119,18 @@ jobs:
 
       - name: create advertisement pages
         run: |
-          cat Advertisement.md > ./geigl.online/meditate_app.md
+          cat Advertisement.md > $AD/meditate_app.md
           for f in generated/Advertisements/Advertisement-*.md; do
             [ -f "$f" ] || continue
             lang="$(basename "$f")"
             lang="${lang#Advertisement-}"
             lang="${lang%.md}"
-            cat "$f" > "./geigl.online/meditate_app-${lang}.md"
+            cat "$f" > "$AD/meditate_app-${lang}.md"
           done
           # Fix image paths in advertisement files only
-          for f in ./geigl.online/meditate_app.md ./geigl.online/meditate_app-*.md; do
+          for f in $AD/meditate_app.md $AD/meditate_app-*.md; do
             [ -f "$f" ] || continue
-            sed -i 's|/meditate_app_user_guide/userGuideScreenshots/|__KEEP__|g; s|meditate_app_user_guide/userGuideScreenshots/|__KEEP__|g; s|userGuideScreenshots/|/meditate_app_user_guide/userGuideScreenshots/|g; s|__KEEP__|/meditate_app_user_guide/userGuideScreenshots/|g' "$f"
+            sed -i 's|/\?meditate_app_user_guide/userGuideScreenshots/|__IMG__|g; s|/meditate_app/images/|__IMG__|g; s|userGuideScreenshots/|__IMG__|g; s|__IMG__|/meditate_app/images/|g' "$f"
           done
           # Update hero image references in translated advertisement pages
           for f in generated/HeroImages/hero_meditate-*.png; do
@@ -127,7 +138,7 @@ jobs:
             lang="$(basename "$f")"
             lang="${lang#hero_meditate-}"
             lang="${lang%.png}"
-            md="./geigl.online/meditate_app-${lang}.md"
+            md="$AD/meditate_app-${lang}.md"
             [ -f "$md" ] && sed -i "s|hero_meditate\.png|hero_meditate-${lang}.png|g" "$md"
           done
 
@@ -148,16 +159,16 @@ jobs:
           # Fix permalinks for translated advertisements
           for lang in "${LANGS[@]}"; do
             [ "$lang" = "en" ] && continue
-            target="./geigl.online/meditate_app-${lang}.md"
+            target="$AD/meditate_app-${lang}.md"
             sed -i "s|permalink: /meditate_app/|permalink: /meditate_app-${lang}/|" "$target"
           done
 
           # Insert language nav into each advertisement
           for current in "${LANGS[@]}"; do
             if [ "$current" = "en" ]; then
-              target="./geigl.online/meditate_app.md"
+              target="$AD/meditate_app.md"
             else
-              target="./geigl.online/meditate_app-${current}.md"
+              target="$AD/meditate_app-${current}.md"
             fi
 
             nav="<div><small>🌐"
@@ -185,7 +196,7 @@ jobs:
         run: |
           declare -A LANG_NAMES=([en]="English" [de]="Deutsch" [es]="Español" [ko]="한국어" [pt]="Português" [fr]="Français" [it]="Italiano" [ja]="日本語" [zh]="中文" [nl]="Nederlands" [ru]="Русский" [uk]="Українська")
 
-          cat DataPrivacy.md > ./geigl.online/meditate_app_data_privacy.md
+          cat DataPrivacy.md > $PRIVACY/meditate_app_data_privacy.md
           LANGS=("en")
           for f in generated/DataPrivacy/DataPrivacy-*.md; do
             [ -f "$f" ] || continue
@@ -193,21 +204,22 @@ jobs:
             lang="${lang#DataPrivacy-}"
             lang="${lang%.md}"
             LANGS+=("$lang")
-            target="./geigl.online/meditate_app_data_privacy-${lang}.md"
+            target="$PRIVACY/meditate_app_data_privacy-${lang}.md"
             cat "$f" > "$target"
             sed -i "s|permalink: /meditate_app_data_privacy/|permalink: /meditate_app_data_privacy-${lang}/|" "$target"
             # point the guide and ad page of this language to their privacy policy
-            for page in "./geigl.online/meditate_app_user_guide-${lang}.md" "./geigl.online/meditate_app-${lang}.md"; do
+            for page in "$GUIDE/meditate_app_user_guide-${lang}.md" "$AD/meditate_app-${lang}.md"; do
               [ -f "$page" ] && sed -i "s|(/meditate_app_data_privacy/)|(/meditate_app_data_privacy-${lang}/)|g" "$page"
             done
           done
 
-          # Insert language nav into each privacy policy
+          # Insert language nav into each privacy policy, once there is more than English
+          [ "${#LANGS[@]}" -gt 1 ] || exit 0
           for current in "${LANGS[@]}"; do
             if [ "$current" = "en" ]; then
-              target="./geigl.online/meditate_app_data_privacy.md"
+              target="$PRIVACY/meditate_app_data_privacy.md"
             else
-              target="./geigl.online/meditate_app_data_privacy-${current}.md"
+              target="$PRIVACY/meditate_app_data_privacy-${current}.md"
             fi
 
             nav="<div><small>🌐"

@@ -689,6 +689,12 @@ not a local doc: `host-user-guide.yml` copies it to `floriangeigl.github.io` on 
 `main`, overwriting the copy there, so edit it here, never in the website repo. Translations come
 from the translation workflow like the user guide.
 
+On the website everything of this app lives under `meditate_app/`: `user_guide/`,
+`advertisement/`, `data_privacy/` and `images/` (the screenshots and hero banners, served at
+`/meditate_app/images/`). The page URLs come from each page's `permalink`, not its folder. The
+workflow deletes the flat `meditate_app*.md` files and the `meditate_app_user_guide/` folder that
+older runs left in the site root.
+
 **Any change to what the app sends, to whom, or when needs a matching edit in `DataPrivacy.md` in
 the same change**, plus a new `Effective Date` in its front matter. That covers at least:
 
