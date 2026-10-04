@@ -47,7 +47,7 @@ class UsageStatsTests {
 	static function payloadCarriesEachEventsOwnTime(logger) {
 		var ts1 = 1790000000;
 		var ts2 = 1790003600;
-		var body = UsageStats.payload([ts1, 600, ts2, 1200], { "country_id" => "AT" });
+		var body = UsageStats.payload([ts1, 600, ts2, 1200], "203.0.113.0");
 		var events = body["events"];
 		var first = events[0];
 		var second = events[1];
@@ -60,28 +60,34 @@ class UsageStatsTests {
 			first["params"]["engagement_time_msec"] == 600000 &&
 			second["params"]["engagement_time_msec"] == 1200000 &&
 			first["params"]["session_id"] == ts1 &&
-			body["user_location"]["country_id"].equals("AT") &&
+			body["ip_override"].equals("203.0.113.0") &&
+			!body.hasKey("user_location") &&
 			body["timestamp_micros"] == null
 		);
 	}
 
 	(:test)
-	static function payloadWithoutLocationHasNone(logger) {
-		return !UsageStats.payload([1790000000, 60], null).hasKey("user_location");
+	static function payloadWithoutIpHasNone(logger) {
+		return !UsageStats.payload([1790000000, 60], null).hasKey("ip_override");
 	}
 
 	(:test)
-	static function locationFromIpapi(logger) {
-		var full = UsageStats.locationFrom({ "ip" => "1.2.3.4", "country_code" => "AT", "region_code" => "9", "city" => "Vienna" });
-		var countryOnly = UsageStats.locationFrom({ "country_code" => "AT" });
+	static function ipIsAnonymisedBeforeItLeaves(logger) {
 		return (
-			full["country_id"].equals("AT") &&
-			full["region_id"].equals("AT-9") &&
-			full["city"].equals("Vienna") &&
-			countryOnly.size() == 1 &&
-			UsageStats.locationFrom({ "ip" => "1.2.3.4" }) == null &&
-			UsageStats.locationFrom("rate limited") == null &&
-			UsageStats.locationFrom(null) == null
+			UsageStats.anonymize("203.0.113.42").equals("203.0.113.0") &&
+			UsageStats.anonymize("2001:db8:1234:5678:9abc:def0:1:2").equals("2001:db8:1234::") &&
+			UsageStats.anonymize("2001:db8:1234::1").equals("2001:db8:1234::") &&
+			UsageStats.anonymize("2001:db8::1").equals("2001:db8::") &&
+			UsageStats.anonymize("fe80::").equals("fe80::") &&
+			UsageStats.anonymize("::1").equals("::") &&
+			UsageStats.anonymize("1.2.3") == null &&
+			UsageStats.anonymize("not an ip") == null &&
+			UsageStats.anonymize("") == null &&
+			UsageStats.ipFrom({ "ip" => "203.0.113.42" }).equals("203.0.113.0") &&
+			UsageStats.ipFrom({ "ip" => 42 }) == null &&
+			UsageStats.ipFrom({ "error" => true }) == null &&
+			UsageStats.ipFrom("<html>challenge</html>") == null &&
+			UsageStats.ipFrom(null) == null
 		);
 	}
 }

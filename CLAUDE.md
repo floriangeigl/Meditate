@@ -293,7 +293,8 @@ on `d2deltapx` (CIQ 3.0.3, the app's API floor), where a call newer than the flo
   time changes nothing.
 - `com/tests/UsageStatsTests` — the analytics queue as pure functions (newest ten kept, old and
   corrupt pairs dropped, failed events back before newer ones), each event's own `timestamp_micros`
-  as a Long, `user_location` from the ipapi.co answer. Nothing is sent or stored.
+  as a Long, the IP anonymised before it leaves (IPv4 last block 0, IPv6 /48, junk null) and sent as
+  `ip_override`. Nothing is sent or stored.
 - `screenPicker/tests/IconGlyphTests` — the icon font loads and every glyph the code uses is one
   private-use character (catches a blanked or retyped glyph).
 
@@ -659,16 +660,24 @@ declared set. Field ids are FIT compatibility — never renumber.
 
 `UsageStats.record()` writes the event to the queue **before** any request, because Auto save &
 exit calls `System.exit()` right after `finish()`; the old code held the event in memory until the
-ipapi.co answer and lost it on every auto exit. A flush looks up the location once, then sends the
+location answer and lost it on every auto exit. A flush looks up the location once, then sends the
 whole queue (≤ 10 events, GA allows 25) in one request, each event with its own
 `timestamp_micros` (GA drops events backdated past 72 h, hence `MaxAgeSec` 71 h). The queue is
 cleared before sending and put back on failure: an exit mid-request loses events rather than
 sending them twice. Both entry points catch everything and do nothing without `secrets.xml`
 (`Properties.getValue` throws on a missing key). Verified in the simulator against GA's
 `/debug/mp/collect` (2026-10-04): a Long `timestamp_micros` survives `makeWebRequest`'s JSON
-encoding and validates. The same day ipapi.co answered 403/429 from a desktop network (sim:
-`-400`), so events then go out without location; check GA for missing city data before trusting it.
+encoding and validates.
 
+**Location: an anonymised IP as `ip_override`, since 2026-10.** The watch asks geojs.io
+(`/v1/ip.json`) for the phone's public IP, cuts it to IPv4 /24 or IPv6 /48 and sends only that;
+GA derives country, region and city from it with its own database. Don't send `user_location`
+alongside: GA then ignores `ip_override`. Without either GA has no location for Measurement
+Protocol hits ("(not set)"). History: ipapi.co gave country/region/city as `user_location`, but its
+keyless tier is "not meant for production", answered `RateLimited` after a handful of requests and
+served a Cloudflare bot challenge to app user agents (`okhttp`; the simulator got `-400`, an HTML
+body); geojs.io's geo endpoint gives the region only as a name, no ISO code. If geojs.io ever fails
+the same way, events still go out, just without location.
 ### Key Source Directories
 
 All under `Meditate/source/`:

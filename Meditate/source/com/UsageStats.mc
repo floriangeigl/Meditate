@@ -50,7 +50,7 @@ class UsageStats {
 		// throws without secrets.xml, caught by the caller
 		var stats = new UsageStats();
 		sSending = true;
-		stats.lookUpLocation();
+		stats.lookUpIp();
 	}
 
 	// drops what is not a [Number, Number] pair or too old to be backdated; anything else starts over
@@ -89,23 +89,39 @@ class UsageStats {
 		return excess > 0 ? queue.slice(excess, null) : queue;
 	}
 
-	// ipapi.co answer -> ga user_location, null without a country
-	static function locationFrom(data) {
-		if (!(data instanceof Lang.Dictionary) || data["country_code"] == null) {
+	// geojs.io answer -> anonymised ip for ga's ip_override, null when there is none
+	static function ipFrom(data) {
+		if (!(data instanceof Lang.Dictionary) || !(data["ip"] instanceof Lang.String)) {
 			return null;
 		}
-		var country = data["country_code"];
-		var location = { "country_id" => country };
-		if (data["region_code"] != null) {
-			location["region_id"] = country + "-" + data["region_code"];
-		}
-		if (data["city"] != null) {
-			location["city"] = data["city"];
-		}
-		return location;
+		return anonymize(data["ip"]);
 	}
 
-	static function payload(queue, location) {
+	// ipv4 with the last block 0, ipv6 cut to /48; null for anything else
+	static function anonymize(ip) {
+		var chars = ip.toCharArray();
+		var colons = 0;
+		var dots = 0;
+		var lastDot = -1;
+		for (var i = 0; i < chars.size(); i++) {
+			if (chars[i] == ':') {
+				colons++;
+				// the third group ends here, or :: zeroes the rest
+				if (colons == 3 || (i + 1 < chars.size() && chars[i + 1] == ':')) {
+					return ip.substring(0, i) + "::";
+				}
+			} else if (chars[i] == '.') {
+				dots++;
+				lastDot = i;
+			}
+		}
+		if (colons == 0 && dots == 3) {
+			return ip.substring(0, lastDot + 1) + "0";
+		}
+		return null;
+	}
+
+	static function payload(queue, ip) {
 		var settings = System.getDeviceSettings();
 		var resolution = settings.screenWidth + "x" + settings.screenHeight;
 		var apiVersion = Lang.format("$1$.$2$.$3$", settings.monkeyVersion);
@@ -150,8 +166,8 @@ class UsageStats {
 				"firmwareVersion" => { "value" => firmware },
 			},
 		};
-		if (location != null) {
-			payload["user_location"] = location;
+		if (ip != null) {
+			payload["ip_override"] = ip;
 		}
 		return payload;
 	}
@@ -161,31 +177,31 @@ class UsageStats {
 		me.mApiSecret = App.Properties.getValue("gaApiSecret");
 	}
 
-	function lookUpLocation() {
+	function lookUpIp() {
 		Communications.makeWebRequest(
-			"https://ipapi.co/json/",
+			"https://get.geojs.io/v1/ip.json",
 			null,
 			{ :method => Communications.HTTP_REQUEST_METHOD_GET },
-			method(:onLocation)
+			method(:onIp)
 		);
 	}
 
-	// sends with or without a location; offline the send fails and the events go back
-	function onLocation(responseCode, data) {
+	// sends with or without an ip; offline the send fails and the events go back
+	function onIp(responseCode, data) {
 		try {
-			me.send(responseCode == 200 ? locationFrom(data) : null);
+			me.send(responseCode == 200 ? ipFrom(data) : null);
 		} catch (ex) {
 			me.done(false);
 		}
 	}
 
-	private function send(location) {
+	private function send(ip) {
 		var queue = prune(App.Storage.getValue(QueueKey), Time.now().value());
 		if (queue.size() == 0) {
 			me.done(true);
 			return;
 		}
-		var body = payload(queue, location);
+		var body = payload(queue, ip);
 		// removed before sending, so an exit mid-request cannot send them twice
 		me.mInFlight = queue;
 		App.Storage.deleteValue(QueueKey);
