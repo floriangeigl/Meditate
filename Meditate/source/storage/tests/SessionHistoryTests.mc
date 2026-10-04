@@ -138,7 +138,7 @@ class SessionHistoryTests {
 			storage.selectSession(3);
 			var moved = SessionHistory.pickAtLaunch(storage.getSelectedSessionKey()) == null;
 			// deleting 103 brings 102 into view, which the user did not choose
-			storage.deleteSelectedSession();
+			new SessionSettingsMenuDelegate(storage, new PickerSpy()).onConfirmedDeleteSession();
 			var afterDelete = storage.getSelectedSessionKey() == 102 && SessionHistory.pickAtLaunch(102) == 101;
 			if (!(untouched && moved && afterDelete)) {
 				logger.debug("untouched " + untouched + ", moved " + moved + ", after delete " + afterDelete);

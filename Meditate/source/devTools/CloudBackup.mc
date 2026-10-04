@@ -52,7 +52,7 @@ class CloudBackup extends Ui.BehaviorDelegate {
 			if (sessionKeys != null) {
 				for (var i = 0; i < sessionKeys.size(); i++) {
 					var k = sessionKeys[i];
-					var sessionData = App.Storage.getValue(SessionStorage.SessionPrefixKey + k.toString());
+					var sessionData = App.Storage.getValue(SessionStorage.storageKeyFor(k));
 					if (sessionData != null) {
 						sessionItems[k.toString()] = sessionData;
 					}

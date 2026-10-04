@@ -24,73 +24,22 @@ class SessionStorage {
 			me.restorePresets();
 			me.updateSessionStats();
 		}
-		me.migratePresets();
+		PresetMigration.run(me);
 	}
 
 	function isFreshInstall() {
 		return me.mFreshInstall;
 	}
 
-	// One-time upgrades, one step per version, each run once. Version 2 (guided breathwork): keys
-	// 7-9 shipped as alert-based breathwork sessions and are rewritten in place, 10-12 are added.
-	// Version 3 adds 13-14. A preset the user deleted stays deleted, and a renamed one is left alone.
-	private static const PresetsVersion = 3;
-	private static const LegacyBreathPresetKeys = [7, 8, 9];
-	private static const AddedInVersion2 = [10, 11, 12];
-	private static const AddedInVersion3 = [13, 14];
-
-	private function migratePresets() {
-		var version = GlobalSettings.load(GlobalSettings.PresetsVersionKey);
-		if (version >= SessionStorage.PresetsVersion) {
-			return;
-		}
-		if (version < 2) {
-			for (var i = 0; i < SessionStorage.LegacyBreathPresetKeys.size(); i++) {
-				me.upgradeLegacyBreathPreset(SessionStorage.LegacyBreathPresetKeys[i]);
-			}
-			me.addMissingBreathPresets(SessionStorage.AddedInVersion2);
-		}
-		me.addMissingBreathPresets(SessionStorage.AddedInVersion3);
-		GlobalSettings.save(GlobalSettings.PresetsVersionKey, SessionStorage.PresetsVersion);
-	}
-
-	// keeps the stored session and changes only what the program owns, so colour, vibration and
-	// every other choice the user made survives
-	private function upgradeLegacyBreathPreset(key) {
-		if (me.mSessionKeys.indexOf(key) == -1) {
-			return;
-		}
-		var stored = me.loadSessionByKey(key);
-		if (stored == null || stored.hasBreathProgram()) {
-			return;
-		}
-		var preset = SessionPresets.createBreathworkPreset(key);
-		// equals() on the shipped name, so a null or non-string stored name just fails the match
-		if (preset == null || !preset.name.equals(stored.name)) {
-			return;
-		}
-		// the program now carries the rhythm the alerts used to; keeping both would double the cues
-		stored.setBreathProgram(preset.getBreathProgram());
-		stored.time = preset.time;
-		stored.setIntervalAlerts(new IntervalAlerts());
-		me.saveSession(stored);
-	}
-
-	private function addMissingBreathPresets(keys) {
-		for (var i = 0; i < keys.size(); i++) {
-			if (me.mSessionKeys.indexOf(keys[i]) == -1) {
-				var preset = SessionPresets.createBreathworkPreset(keys[i]);
-				if (preset != null) {
-					me.addSession(preset);
-				}
-			}
-		}
+	// the stored entry of one session; CloudBackup and CloudRestore use it too
+	static function storageKeyFor(sessionKey) {
+		return SessionPrefixKey + sessionKey.toString();
 	}
 
 	// null for anything unreadable: a corrupt entry must skip the migration, never fail startup
 	function loadSessionByKey(key) {
 		try {
-			var loadedSessionDictionary = App.Storage.getValue(SessionPrefixKey + key.toString());
+			var loadedSessionDictionary = App.Storage.getValue(SessionStorage.storageKeyFor(key));
 			if (loadedSessionDictionary == null) {
 				return null;
 			}
@@ -134,17 +83,9 @@ class SessionStorage {
 		return key == null ? -1 : me.mSessionKeys.indexOf(key);
 	}
 
-	function getSessionStorageKey(session) {
-		return SessionPrefixKey + session.key.toString();
-	}
-
-	function getSelectedSessionStorageKey(){
-		return SessionPrefixKey + me.getSelectedSessionKey().toString();
-	}
-
 	function loadSelectedSession() {
 		try {
-			var loadedSessionDictionary = App.Storage.getValue(me.getSelectedSessionStorageKey());
+			var loadedSessionDictionary = App.Storage.getValue(SessionStorage.storageKeyFor(me.getSelectedSessionKey()));
 
 			var session = new SessionModel();
 			session.fromDictionary(loadedSessionDictionary);
@@ -161,7 +102,7 @@ class SessionStorage {
 	}
 
 	function saveSession(session) {
-		App.Storage.setValue(me.getSessionStorageKey(session), session.toDictionary());
+		App.Storage.setValue(SessionStorage.storageKeyFor(session.key), session.toDictionary());
 		me.updateSessionStats();
 	}
 
@@ -178,25 +119,13 @@ class SessionStorage {
 		App.Storage.setValue(SessionKeysKey, me.mSessionKeys);
 	}
 
+	// adds the presets that are not stored, in preset order; a stored one is left as it is
 	function restorePresets() {
-		var sessions = SessionPresets.getPresets();
-		var presetDict = {};
-		var session = null;
-		for (var i=0; i < sessions.size(); i++){
-			session = sessions[i];
-			presetDict[session.key] = session;
-		}
-		var key = null;
-		for (var i = 0; i < me.mSessionKeys.size(); i++) {
-			key = me.mSessionKeys[i];
-			if (presetDict.hasKey(key)) {
-				// preset exists in storage - consider not touching or reseting
-				presetDict.remove(key);
+		var presets = SessionPresets.getPresets();
+		for (var i = 0; i < presets.size(); i++) {
+			if (me.mSessionKeys.indexOf(presets[i].key) == -1) {
+				me.addSession(presets[i]);
 			}
-		}
-		for (var i = 0; i < presetDict.keys().size(); i++) {
-			session = presetDict[presetDict.keys()[i]];
-			me.addSession(session);
 		}
 	}
 
@@ -226,7 +155,7 @@ class SessionStorage {
 
 	function deleteSelectedSession() {
 		var deletedKey = me.getSelectedSessionKey();
-		App.Storage.deleteValue(me.getSelectedSessionStorageKey());
+		App.Storage.deleteValue(SessionStorage.storageKeyFor(deletedKey));
 		me.mSessionKeys.removeAll(deletedKey);
 		SessionHistory.forget(deletedKey);
 		if (me.mSessionKeys.size() == 0) {
@@ -236,8 +165,6 @@ class SessionStorage {
 		// the next session moves into view; clamp, since the setter would wrap past the last to the first
 		me.setSelectedSessionIndex(Utils.clampToRange(me.mSelectedSessionIndex, 0, me.mSessionKeys.size() - 1));
 		me.updateSessionStats();
-		// the session that moved in is not the user's choice, so the routine may move the picker again
-		SessionHistory.markAuto(me.getSelectedSessionKey());
 	}
 
 	function setSelectedSessionIndex(index) {

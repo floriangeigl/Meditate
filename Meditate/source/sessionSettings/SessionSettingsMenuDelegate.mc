@@ -109,6 +109,8 @@ class SessionSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 		me.mSessionStorage.deleteSelectedSession();
 		me.mSessionPickerDelegate.setPagesCount(me.mSessionStorage.getSessionsCount());
 		me.mSessionPickerDelegate.select(me.mSessionStorage.getSelectedSessionIndex());
+		// the session that moved in is not the user's choice, so the routine may move the picker again
+		SessionHistory.markAuto(me.mSessionStorage.getSelectedSessionKey());
 	}
 
 	// the editor hands over the whole session; it is saved under its own key

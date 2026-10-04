@@ -55,7 +55,7 @@ project.optimization = 3pz  # Maximum optimization
 tree on `fr255s` (2026-09-25): debug 366,380 B vs release 148,556 B. A debug PRG looks alarmingly
 close to a 512 KB device budget while the shipped artifact uses under a third of it. Release
 history on `fr255s`: 145 KB before breathwork, 172 KB with it, 167 KB after the data acquisition
-rework, 149 KB after the 2026-09 settings/menu cleanup. **Compare sizes in bytes** (`stat -c %s`,
+rework, 149 KB after the 2026-09 settings/menu cleanup, then 150,748 → 149,596 B with the 2026-10 storage cleanup. **Compare sizes in bytes** (`stat -c %s`,
 or `(Get-Item).Length`) against a baseline build of the same tree — 166 860 B reads as "163 KB" in
 KiB and "167 KB" in kB, which once turned a +48 B change into an imaginary 4 KB saving.
 
@@ -275,7 +275,7 @@ on `d2deltapx` (CIQ 3.0.3, the app's API floor), where a call newer than the flo
   followers by time, drop, append cap) and through real storage: launch moves only a picker the
   user left alone, a delete is not a user move, a deleted key is forgotten, Off forgets.
 - `storage/tests/SessionStorageTests` — the stored session format round-trips unchanged, the enum
-  numbers inside stored sessions, fresh-store presets, the preset migration per version step
+  numbers inside stored sessions, the meditation presets field by field, fresh-store presets in list order, the preset migration per version step
   (from version 2 only 13-14 arrive, deletions stay), the Sleep and Calm programs,
   index wrapping, delete-all restoring presets, new keys never reusing a used one, and the selection
   after a delete (through the real settings menu, with a `PickerSpy` for the picker).
@@ -703,7 +703,7 @@ a hold — there is no special case for it.
   metrics page; the guidance page draws step-boundary ticks on the same ring instead.
 - `restorePresets()` runs only on a fresh store, after the last session is deleted, and in the
   corrupt-entry path of `loadSelectedSession()`. Existing users got the guided presets through
-  `migratePresets()` (below), not through a restore.
+  `PresetMigration` (below), not through a restore.
 - **`BreathTemplates.createProgram` is the single definition of each shipped program**;
   `SessionPresets` only wraps it in a session. There is no separate template-picker UI —
   `Add New` deliberately creates a plain empty session, exactly as it did before breathwork
@@ -722,7 +722,7 @@ a hold — there is no special case for it.
   keys 7-14 (`SessionPresets.FirstBreathworkKey`); 7-9 shipped before guided programs existed,
   10-12 came with them, 13-14 (B. Sleep, B. Calm) with presets version 3. A stored session is
   matched back to its preset by key alone, so a new preset of any kind takes the next free key
-  at the end. `SessionStorage.migratePresets()` depends on this and runs **one step per
+  at the end. `PresetMigration.run()` (called from the `SessionStorage` constructor, after any restore) depends on this and runs **one step per
   version** of `globalSettings_presetsVersion`: below 2 it rewrites 7-9 in place when the stored
   name still matches the shipped one and there is no program yet, and adds 10-12 when absent;
   below 3 it adds 13-14. Deleted presets stay deleted - 7-9 are never re-added, 10-12 and later
@@ -862,13 +862,13 @@ in that list; there are no hand-typed row numbers to drift.
 public `XxxKey` constant on the class that owns it. The strings, their value formats and the enum
 numbers stored in them never change; the storage and settings tests pin them. As long as that
 holds an update needs no migration. The only one-time migration so far is
-`SessionStorage.migratePresets()`.
+`PresetMigration.run()`.
 
 - **`App.Storage`**:
   - `GlobalSettings.XxxKey` — `"globalSettings_<name>"`, one per setting (including the historical
     `prapareTime` typo)
   - `SessionStorage.SessionPrefixKey` — `"sesssion_<key>"` (historical triple-s typo — **do not
-    fix**); `SessionKeysKey` = `"sessionsKeys"`, `SelectedIndexKey` = `"selectedSessionIndex"`
+    fix**), built only by `SessionStorage.storageKeyFor()`; `SessionKeysKey` = `"sessionsKeys"`, `SelectedIndexKey` = `"selectedSessionIndex"`
   - `WakeupSessionStorage.ActivityTypeKey` — `"wakeupSession_activityType"`, a `FitSessionKind` (0–3)
   - `MonthlyStats.MonthlyKey` / `TipPendingKey` — `"usageStats_monthly"` / `"usageStats_tipPending"`;
     `UsageStats` keeps its GA4 queue in `"usageStats_queue_v2"`

@@ -200,8 +200,11 @@ class SessionStorageTests {
 			var storage = new SessionStorage();
 			var ok =
 				storage.isFreshInstall() &&
-				storage.getSessionsCount() == SessionPresets.getPresets().size() &&
+				StorageSnapshot.deepEquals(SessionStorageTests.storedKeys(), SessionStorageTests.presetKeys()) &&
 				App.Storage.getValue("globalSettings_presetsVersion") == 3;
+			if (!ok) {
+				logger.debug("keys " + SessionStorageTests.storedKeys());
+			}
 			snapshot.restore();
 			return ok;
 		} catch (ex) {
@@ -287,6 +290,58 @@ class SessionStorageTests {
 			snapshot.restore();
 			throw ex;
 		}
+	}
+
+	static function presetKeys() {
+		return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+	}
+
+	// the meditation presets as fresh installs have always stored them, in list order
+	(:test)
+	static function meditationPresetsNeverChange(logger) {
+		// [minutes, color, alert minutes, alert vibe]
+		var expected = [
+			[5, Gfx.COLOR_GREEN, 5, VibePattern.Blip],
+			[10, Gfx.COLOR_YELLOW, 5, VibePattern.Blip],
+			[15, Gfx.COLOR_BLUE, 5, VibePattern.Blip],
+			[20, Gfx.COLOR_GREEN, 5, VibePattern.Blip],
+			[30, Gfx.COLOR_GREEN, 15, VibePattern.Blip],
+			[45, Gfx.COLOR_GREEN, 15, VibePattern.ShortAscending],
+			[60, Gfx.COLOR_GREEN, 15, VibePattern.ShortAscending],
+		];
+		var presets = SessionPresets.getPresets();
+		var keys = [];
+		for (var i = 0; i < presets.size(); i++) {
+			keys.add(presets[i].key);
+		}
+		var ok = StorageSnapshot.deepEquals(keys, SessionStorageTests.presetKeys());
+		for (var i = 0; i < expected.size(); i++) {
+			var e = expected[i];
+			var want = {
+				"time" => e[0] * 60,
+				"color" => e[1],
+				"name" => null,
+				"key" => i,
+				"vibePattern" => VibePattern.LongContinuous,
+				"intervalAlerts" => [
+					{
+						"type" => IntervalAlertType.Repeat,
+						"time" => e[2] * 60,
+						"offset" => 0,
+						"color" => Gfx.COLOR_RED,
+						"vibePattern" => e[3],
+					},
+				],
+				"breathProgram" => null,
+				"activityType" => ActivityType.Meditating,
+				"hrvTracking" => null,
+			};
+			if (!StorageSnapshot.deepEquals(presets[i].toDictionary(), want)) {
+				logger.debug("preset " + i + ": " + presets[i].toDictionary());
+				ok = false;
+			}
+		}
+		return ok;
 	}
 
 	// sleep: 13:08 guided, then 10:00 free, ending on a blip; calm: 5:00 without a single hold

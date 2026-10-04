@@ -165,7 +165,7 @@ class CloudRestore extends Ui.BehaviorDelegate {
 							sessionData = i < items.size() ? items[i] : null;
 						}
 						if (sessionData != null) {
-							App.Storage.setValue(SessionStorage.SessionPrefixKey + k.toString(), sessionData);
+							App.Storage.setValue(SessionStorage.storageKeyFor(k), sessionData);
 						}
 					}
 				}
