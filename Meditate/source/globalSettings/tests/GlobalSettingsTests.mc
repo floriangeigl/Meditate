@@ -152,6 +152,8 @@ class GlobalSettingsTests {
 			WakeupSessionStorage.ActivityTypeKey.equals("wakeupSession_activityType") &&
 			MonthlyStats.MonthlyKey.equals("usageStats_monthly") &&
 			MonthlyStats.TipPendingKey.equals("usageStats_tipPending") &&
+			UsageStats.QueueKey.equals("usageStats_queue_v3") &&
+			UsageStats.OldQueueKey.equals("usageStats_queue_v2") &&
 			SessionHistory.StorageKey.equals("sessionHistory") &&
 			SessionHistory.AutoKey.equals("sessionAutoKey")
 		);

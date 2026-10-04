@@ -55,7 +55,7 @@ project.optimization = 3pz  # Maximum optimization
 tree on `fr255s` (2026-09-25): debug 366,380 B vs release 148,556 B. A debug PRG looks alarmingly
 close to a 512 KB device budget while the shipped artifact uses under a third of it. Release
 history on `fr255s`: 145 KB before breathwork, 172 KB with it, 167 KB after the data acquisition
-rework, 149 KB after the 2026-09 settings/menu cleanup, then 150,748 → 149,596 B with the 2026-10 storage cleanup. **Compare sizes in bytes** (`stat -c %s`,
+rework, 149 KB after the 2026-09 settings/menu cleanup, then 150,748 → 149,596 B with the 2026-10 storage cleanup, 148,476 B after the 2026-10 analytics rework. **Compare sizes in bytes** (`stat -c %s`,
 or `(Get-Item).Length`) against a baseline build of the same tree — 166 860 B reads as "163 KB" in
 KiB and "167 KB" in kB, which once turned a +48 B change into an imaginary 4 KB saving.
 
@@ -289,7 +289,11 @@ on `d2deltapx` (CIQ 3.0.3, the app's API floor), where a call newer than the flo
   patterns for sessions and alerts, activity type, HRV tracking with its Default hint), a null vibe
   pattern reads as no notification, `indexOf` matches by value.
 - `com/tests/MonthlyStatsTests` — the monthly minutes add up within a month, a new month after
-  30 minutes starts over and leaves the tip prompt pending, no session time changes nothing.
+  15 minutes starts over and leaves the tip prompt pending, a second less leaves none, no session
+  time changes nothing.
+- `com/tests/UsageStatsTests` — the analytics queue as pure functions (newest ten kept, old and
+  corrupt pairs dropped, failed events back before newer ones), each event's own `timestamp_micros`
+  as a Long, `user_location` from the ipapi.co answer. Nothing is sent or stored.
 - `screenPicker/tests/IconGlyphTests` — the icon font loads and every glyph the code uses is one
   private-use character (catches a blanked or retyped glyph).
 
@@ -651,6 +655,20 @@ ids 0, 6–13, 16. Ids 1, 15, 17 were declared for years with no code writing th
 dropped. Check `bin/Meditate-fit_contributions.json` after a build — it lists exactly the
 declared set. Field ids are FIT compatibility — never renumber.
 
+### Analytics: queue first, one request
+
+`UsageStats.record()` writes the event to the queue **before** any request, because Auto save &
+exit calls `System.exit()` right after `finish()`; the old code held the event in memory until the
+ipapi.co answer and lost it on every auto exit. A flush looks up the location once, then sends the
+whole queue (≤ 10 events, GA allows 25) in one request, each event with its own
+`timestamp_micros` (GA drops events backdated past 72 h, hence `MaxAgeSec` 71 h). The queue is
+cleared before sending and put back on failure: an exit mid-request loses events rather than
+sending them twice. Both entry points catch everything and do nothing without `secrets.xml`
+(`Properties.getValue` throws on a missing key). Verified in the simulator against GA's
+`/debug/mp/collect` (2026-10-04): a Long `timestamp_micros` survives `makeWebRequest`'s JSON
+encoding and validates. The same day ipapi.co answered 403/429 from a desktop network (sim:
+`-400`), so events then go out without location; check GA for missing city data before trusting it.
+
 ### Key Source Directories
 
 All under `Meditate/source/`:
@@ -871,7 +889,8 @@ holds an update needs no migration. The only one-time migration so far is
     fix**), built only by `SessionStorage.storageKeyFor()`; `SessionKeysKey` = `"sessionsKeys"`, `SelectedIndexKey` = `"selectedSessionIndex"`
   - `WakeupSessionStorage.ActivityTypeKey` — `"wakeupSession_activityType"`, a `FitSessionKind` (0–3)
   - `MonthlyStats.MonthlyKey` / `TipPendingKey` — `"usageStats_monthly"` / `"usageStats_tipPending"`;
-    `UsageStats` keeps its GA4 queue in `"usageStats_queue_v2"`
+    `UsageStats.QueueKey` — `"usageStats_queue_v3"`, the GA4 queue as a flat `[endTime, seconds, …]`;
+    the old `_v2` key (whole payloads) is deleted on the first launch
   - `selectedSessionIndex`: the picker reselects on every rebuild, so `selectSession()` writes only
     when the index actually changes. After a delete, storage keeps the position (the next session
     moves in, the last one falls back to the new last) and the picker takes that index as is. The
@@ -988,7 +1007,7 @@ growing `SessionModel` needs no cloud-backup change at all — only watch the 32
 - `wakeupSession_activityType`
 - `usageStats_monthly` and `usageStats_tipPending` (the `monthlyStats` section)
 
-**Not backed up:** `usageStats_queue_v2` (too large, auto-rebuilds); `sessionHistory` and
+**Not backed up:** `usageStats_queue_v3` (unsent analytics, not user data); `sessionHistory` and
 `sessionAutoKey` (relearned from the next starts; `CloudRestore` clears them, since restored keys
 may name other sessions).
 

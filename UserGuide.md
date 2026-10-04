@@ -1027,7 +1027,6 @@ If something does not work, or you have feedback or feature requests, you can [s
 
 # Data Privacy
 
-Your data stays yours.
+Your heart rate, HRV, stress and respiration data are saved only to your activities in Garmin Connect.
 
-The app does not store personal information.  
-For details, see the [Data Privacy Policy](/meditate_app_data_privacy/).
+To help improve the app, it sends basic usage statistics after each session, linked to your device. For what is collected and who receives it, see the [Data Privacy Policy](/meditate_app_data_privacy/).

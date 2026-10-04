@@ -144,7 +144,7 @@ class MeditateActivity {
 		me.mRecorder.finish();
 		me.persistWakeupSessionType();
 		MonthlyStats.add(me.mMeditateModel.elapsedTime);
-		new UsageStats(me.mMeditateModel.elapsedTime).sendCurrent();
+		UsageStats.record(me.mMeditateModel.elapsedTime);
 		MonthlyStats.tryOpenPendingTip();
 	}
 

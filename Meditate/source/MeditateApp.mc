@@ -58,16 +58,14 @@ class MeditateApp extends App.AppBase {
 
 	// Return the initial view of your application here
 	function getInitialView() {
-		// Try to send any queued usage stats early (e.g. after reconnect).
-		UsageStats.flushQueuedOnStartup();
-
-		// Retry monthly tip prompt if it was postponed due to missing phone connection.
-		MonthlyStats.tryOpenPendingTip();
-
 		if (me.beatIntervalFeed == null) {
 			me.beatIntervalFeed = new BeatIntervalFeed();
 			me.beatIntervalFeed.startup();
 		}
+		// after the sensor startup, which must not be delayed
+		UsageStats.flushOnStartup();
+		// a tip postponed for lack of a phone connection
+		MonthlyStats.tryOpenPendingTip();
 		var sessionStorage = new SessionStorage();
 		var sessionPickerDelegate = new SessionPickerDelegate(sessionStorage, me.beatIntervalFeed);
 
