@@ -334,7 +334,8 @@ MSYS_NO_PATHCONV=1 "$(cygpath -w "$SDK/bin/monkeydo.bat")" "$(cygpath -w /tmp/te
 ## GitHub Actions
 
 No CI pipeline builds or tests Monkey C code. GitHub Actions handle only image compression, content
-translation, user guide publishing, and a store text lint.
+translation, publishing the user guide, ad page and privacy policy on geigl.online, and a store
+text lint.
 
 **The store mangles typographic punctuation**, so the translated texts (store description, user
 guide, ad page), English and translated, use no em/en dashes (` - `, or `3-5` in ranges) and no
@@ -678,6 +679,27 @@ keyless tier is "not meant for production", answered `RateLimited` after a handf
 served a Cloudflare bot challenge to app user agents (`okhttp`; the simulator got `-400`, an HTML
 body); geojs.io's geo endpoint gives the region only as a name, no ISO code. If geojs.io ever fails
 the same way, events still go out, just without location.
+
+### Privacy policy: `DataPrivacy.md` must follow the code
+
+`DataPrivacy.md` is the app's public privacy policy, published at
+https://geigl.online/meditate_app_data_privacy/ (plus one translated page per language). It is
+not a local doc: `host-user-guide.yml` copies it to `floriangeigl.github.io` on every push to
+`main`, overwriting the copy there, so edit it here, never in the website repo. Translations come
+from the translation workflow like the user guide.
+
+**Any change to what the app sends, to whom, or when needs a matching edit in `DataPrivacy.md` in
+the same change**, plus a new `Effective Date` in its front matter. That covers at least:
+
+- `UsageStats`: the GA4 event fields, the IP lookup service and endpoint, the IP anonymisation,
+  `MaxQueued` / `MaxAgeSec` (the policy states 10 events and 71 hours)
+- `MonthlyStats`: the tip threshold (15 minutes), the tip URL and its query parameters
+- the Dev Tools cloud backup: what it uploads and where
+- any new `makeWebRequest`, `openWebPage` or other network call, and any new third-party service
+
+The policy states facts only. Legal bases, retention periods and compliance claims are the
+owner's decision: flag them, don't invent them.
+
 ### Key Source Directories
 
 All under `Meditate/source/`:

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Translate the store description, user guide, ad page and hero banner into generated/.
+"""Translate the store description, user guide, ad page, privacy policy and hero banner into generated/.
 
 A target is redone, always as a whole file, only when its source or prompt changed since
 it was last translated; generated/translation-state-*.json records what each target was
@@ -52,6 +52,7 @@ TEXT_SOURCES = [  # source, kind as named in the prompt, target
     ),
     ("UserGuide.md", "user guide", "generated/UserGuides/UserGuide-{lang}.md"),
     ("Advertisement.md", "advertisement", "generated/Advertisements/Advertisement-{lang}.md"),
+    ("DataPrivacy.md", "privacy policy", "generated/DataPrivacy/DataPrivacy-{lang}.md"),
 ]
 
 IMAGE_PROMPT = ".github/prompts/translate-hero.txt"

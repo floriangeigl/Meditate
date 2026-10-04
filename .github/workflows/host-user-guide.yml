@@ -179,6 +179,56 @@ jobs:
             sed -i 's/\r$//' "$target"
             awk -v nav="$nav" 'BEGIN{c=0} /^---$/{c++; print; if(c==2){print ""; print nav; print ""} next} {print}' "$target" > "${target}.tmp" && mv "${target}.tmp" "$target"
           done
+
+      - name: create privacy policy pages
+        shell: bash
+        run: |
+          declare -A LANG_NAMES=([en]="English" [de]="Deutsch" [es]="Español" [ko]="한국어" [pt]="Português" [fr]="Français" [it]="Italiano" [ja]="日本語" [zh]="中文" [nl]="Nederlands" [ru]="Русский" [uk]="Українська")
+
+          cat DataPrivacy.md > ./geigl.online/meditate_app_data_privacy.md
+          LANGS=("en")
+          for f in generated/DataPrivacy/DataPrivacy-*.md; do
+            [ -f "$f" ] || continue
+            lang="$(basename "$f")"
+            lang="${lang#DataPrivacy-}"
+            lang="${lang%.md}"
+            LANGS+=("$lang")
+            target="./geigl.online/meditate_app_data_privacy-${lang}.md"
+            cat "$f" > "$target"
+            sed -i "s|permalink: /meditate_app_data_privacy/|permalink: /meditate_app_data_privacy-${lang}/|" "$target"
+            # point the guide and ad page of this language to their privacy policy
+            for page in "./geigl.online/meditate_app_user_guide-${lang}.md" "./geigl.online/meditate_app-${lang}.md"; do
+              [ -f "$page" ] && sed -i "s|(/meditate_app_data_privacy/)|(/meditate_app_data_privacy-${lang}/)|g" "$page"
+            done
+          done
+
+          # Insert language nav into each privacy policy
+          for current in "${LANGS[@]}"; do
+            if [ "$current" = "en" ]; then
+              target="./geigl.online/meditate_app_data_privacy.md"
+            else
+              target="./geigl.online/meditate_app_data_privacy-${current}.md"
+            fi
+
+            nav="<div><small>🌐"
+            first=true
+            for other in "${LANGS[@]}"; do
+              name="${LANG_NAMES[$other]:-$other}"
+              $first || nav+=" |"
+              first=false
+              if [ "$current" = "$other" ]; then
+                nav+=" <b>${name}</b>"
+              elif [ "$other" = "en" ]; then
+                nav+=" <a href=\"/meditate_app_data_privacy/\">${name}</a>"
+              else
+                nav+=" <a href=\"/meditate_app_data_privacy-${other}/\">${name}</a>"
+              fi
+            done
+            nav+="</small></div>"
+
+            sed -i 's/\r$//' "$target"
+            awk -v nav="$nav" 'BEGIN{c=0} /^---$/{c++; print; if(c==2){print ""; print nav; print ""} next} {print}' "$target" > "${target}.tmp" && mv "${target}.tmp" "$target"
+          done
       - name: git add
         run: ls -lah && cd ./geigl.online/ && git add .
       - name: debug
