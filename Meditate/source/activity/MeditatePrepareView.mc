@@ -13,6 +13,7 @@ class MeditatePrepareView extends Ui.View {
 	private var mviewDrawnTimer;
 	private var mBreathProgram;
 	private var mBriefingLines;
+	private var mContinued;
 
 	private const MaxBriefingSteps = 4;
 
@@ -23,6 +24,7 @@ class MeditatePrepareView extends Ui.View {
 		me.mviewDrawnTimer = null;
 		me.mBriefingLines = null;
 		me.mBreathProgram = breathProgram;
+		me.mContinued = false;
 		mSeconds = 0;
 
 		if (prepare == 1) {
@@ -167,7 +169,12 @@ class MeditatePrepareView extends Ui.View {
 		me.mviewDrawnTimer = null;
 	}
 
+	// once only: a second tap or a tick before the view switch would open a second fit session
 	function continueToNextStep() {
+		if (me.mContinued) {
+			return;
+		}
+		me.mContinued = true;
 		// Starts the meditation session / saves the session
 		me.mOnShow.invoke();
 	}

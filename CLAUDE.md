@@ -254,6 +254,8 @@ on `d2deltapx` (CIQ 3.0.3, the app's API floor), where a call newer than the flo
   when the session has it, up/down wrapping, zen drawing once per percent plus the peek (102 draws
   in a 300 s session), and every page (the ball through each phase, a rest and past the program's
   end) drawn into an off-screen bitmap without error.
+- `activity/tests/PrepareViewTests` — the prepare/finalize countdown hands over exactly once, however
+  taps and its own timer interleave.
 - `activity/tests/BreathBallTests` — the ball's eased size per phase, its progress between ticks,
   and a finished program holding the ball still instead of pulsing every second.
 - `activity/tests/FitSessionTests` — `FitSessionKind` numbers (stored), the kind per activity type
@@ -545,6 +547,14 @@ Guarded by `mActivityStopped`, set once in `stopActivity()` (the single choke po
 **Do not add in-session input handling to `MeditateDelegate` without checking that flag**, and do not add a null guard in `ActivityRecorder.pauseResume()` instead — that hides the stray pause menu rather than preventing it. Two production crashes came from this (v10.7.10): back on the post-save spinner → pause menu → back (`resumeFromPauseMenu`), and the same menu → "Stop" (`stopFromPauseMenu`). The stray menu also froze the flow, since `pushView` triggers `DelayedFinishingView.onHide()` which stops its 1 s timer.
 
 Related: `MeditatePrepareView` (prepare/finalize countdowns) uses `MeditatePrepareDelegate`, which swallows keys and maps back to "skip countdown" — that path is unaffected.
+
+**`MeditatePrepareView.continueToNextStep()` runs once (`mContinued`).** Tap, back and the countdown
+timer all call it, and the view switch only lands after the handler returns, so a double tap or a
+tap on the last countdown second called `startMeditationSession()` twice. The second
+`createSession` ran while the first session was already recording: "System Error" at
+`ActivityRecorder.initialize` (v11.1.2, 7 reports, FR165/265s/965/970, vívoactive 5/6, backtraces
+ending in `onTap`, `onBack` or `onViewDrawn`). The finalize countdown shares the view, so the
+same guard stops a doubled finishing flow. `PrepareViewTests` pins it.
 
 **Auto save & exit relies on `System.exit()` letting the current function finish.** The first
 `DelayedFinishingView` already carries the exit flag, and its `onViewDrawn` calls `System.exit()`
