@@ -49,6 +49,7 @@ class MeditateView extends ScreenPickerDetailsCenterView {
 	private var mLines;
 	private var mBreathGuidanceRenderer;
 	private var mBreathStepPercentages;
+	private var mBreathStepSpans;
 	private var mBallRenderer;
 	private var mPages;
 	private var mPageIndex;
@@ -75,6 +76,7 @@ class MeditateView extends ScreenPickerDetailsCenterView {
 		me.mLines = null;
 		me.mBreathGuidanceRenderer = null;
 		me.mBreathStepPercentages = null;
+		me.mBreathStepSpans = null;
 		me.mBallRenderer = null;
 		me.mPages = MeditateView.pagesFor(meditateModel.hasBreathProgram());
 		me.mPageIndex = 0;
@@ -139,31 +141,10 @@ class MeditateView extends ScreenPickerDetailsCenterView {
 
 		if (me.mMeditateModel.hasBreathProgram()) {
 			me.mBreathGuidanceRenderer = new BreathGuidanceRenderer(dc, me.foregroundColor);
-			me.mBreathStepPercentages = me.buildStepPercentages();
+			var program = me.mMeditateModel.getBreathRunner().getProgram();
+			me.mBreathStepPercentages = program.stepBoundaries();
+			me.mBreathStepSpans = program.specialSpans();
 		}
-	}
-
-	// step boundaries as fractions of the session, for the tick ring on the guidance page
-	private function buildStepPercentages() {
-		var runner = me.mMeditateModel.getBreathRunner();
-		if (runner == null) {
-			return null;
-		}
-		var total = runner.getTotalTime();
-		if (total < 1) {
-			return null;
-		}
-		var offsets = runner.getStepOffsets();
-		// skip offset 0 (session start) and the final offset (session end)
-		var count = offsets.size() - 2;
-		if (count < 1) {
-			return null;
-		}
-		var percentages = new [count];
-		for (var i = 0; i < count; i++) {
-			percentages[i] = offsets[i + 1].toDouble() / total.toDouble();
-		}
-		return percentages;
 	}
 
 	function getPage() {
@@ -310,10 +291,7 @@ class MeditateView extends ScreenPickerDetailsCenterView {
 		}
 
 		ScreenPickerDetailsCenterView.onUpdate(dc);
-		me.mMainDurationRenderer.drawOverallElapsedTime(dc, elapsedTime, me.mMeditateModel.getSessionTime());
-		if (me.mIntervalAlertsRenderer != null) {
-			me.mIntervalAlertsRenderer.drawAllIntervalAlerts(dc);
-		}
+		me.drawSessionRing(dc, elapsedTime);
 	}
 
 	// Drawn without the DetailsCenterView chain: the metrics lines are not wanted here, and
@@ -356,16 +334,14 @@ class MeditateView extends ScreenPickerDetailsCenterView {
 		}
 	}
 
-	// session progress with step ticks for a program, else the interval alerts
+	// session progress over the hold/rest spans, then step ticks and interval alerts; same on every page
 	private function drawSessionRing(dc, elapsedTime) {
+		me.mMainDurationRenderer.drawSpans(dc, me.mBreathStepSpans);
 		me.mMainDurationRenderer.drawOverallElapsedTime(dc, elapsedTime, me.mMeditateModel.getSessionTime());
 		if (me.mIntervalAlertsRenderer == null) {
 			return;
 		}
-		if (me.mMeditateModel.hasBreathProgram()) {
-			me.mIntervalAlertsRenderer.drawTicksAt(dc, me.mBreathStepPercentages, me.mMeditateModel.getColor());
-		} else {
-			me.mIntervalAlertsRenderer.drawAllIntervalAlerts(dc);
-		}
+		me.mIntervalAlertsRenderer.drawTicksAt(dc, me.mBreathStepPercentages, me.mMeditateModel.getColor());
+		me.mIntervalAlertsRenderer.drawAllIntervalAlerts(dc);
 	}
 }

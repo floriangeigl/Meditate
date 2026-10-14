@@ -33,7 +33,7 @@ class ScreenPickerDetailsView extends ScreenPickerBaseView {
 		me.xTextOffset = Math.ceil(me.xIconOffset + me.width * 0.07);
 		me.progressBarWidth = Math.ceil(me.width * 0.6);
 		me.progressBarHeight = Math.ceil(me.lineHeight * 0.6); // line height
-		me.highlightWidth = Math.ceil(0.02 * me.progressBarWidth);
+		me.highlightWidth = Math.ceil(0.01 * me.progressBarWidth);
 	}
 
 	function onUpdate(dc) {
@@ -53,6 +53,7 @@ class ScreenPickerDetailsView extends ScreenPickerBaseView {
 				me.drawPercentageHighlightLine(
 					dc,
 					line.value.getHighlights(),
+					line.value.spans,
 					line.value.backgroundColor,
 					me.xTextOffset,
 					yPos
@@ -83,10 +84,20 @@ class ScreenPickerDetailsView extends ScreenPickerBaseView {
 		dc.drawText(xPos, yPos, value.font, value.text, justification);
 	}
 
-	private function drawPercentageHighlightLine(dc, highlights, backgroundColor, startPosX, posY) {
+	private function drawPercentageHighlightLine(dc, highlights, spans, backgroundColor, startPosX, posY) {
 		dc.setColor(backgroundColor, Gfx.COLOR_TRANSPARENT);
 		posY = posY - me.progressBarHeight / 2;
 		dc.fillRectangle(startPosX, posY, me.progressBarWidth, me.progressBarHeight);
+		if (spans != null) {
+			// a centred stripe at half the bar's height
+			var spanHeight = me.progressBarHeight / 2;
+			var spanY = posY + (me.progressBarHeight - spanHeight) / 2;
+			for (var i = 0; i + 2 < spans.size(); i += 3) {
+				var fromX = startPosX + spans[i] * me.progressBarWidth;
+				dc.setColor(spans[i + 2], Gfx.COLOR_TRANSPARENT);
+				dc.fillRectangle(fromX, spanY, startPosX + spans[i + 1] * me.progressBarWidth - fromX, spanHeight);
+			}
+		}
 		var highlight = null;
 		var valuePosX = null;
 		for (var i = 0; i < highlights.size(); i++) {

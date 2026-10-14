@@ -466,7 +466,9 @@ Beyond the phase word and countdown, the screen carries two rings:
 
 - the **inner ring** fills over the current phase and is coloured by phase (during a rest it
   fills over the whole rest)
-- the **outer ring** is overall session progress, with tick marks where the steps change
+- the **outer ring** is overall session progress, with tick marks where the steps change. The
+  same ticks show on every session screen and on the timeline bar of the session picker. Breath
+  holds are marked orange and **Breathe freely** steps grey, so you can see them coming
 
 The line under the countdown shows your round within the current step (`3/4`) and, when the
 step specifies one, the breathing route for the phase you are in.

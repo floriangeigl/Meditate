@@ -20,6 +20,8 @@ class PercentageHighlightLine {
 	private var latestAddedIndex;
 
 	var backgroundColor;
+	// flat [from, to, colour, ...] stretches drawn over the background, under the highlights
+	var spans;
 	var startPosX;
 	var yOffset;
 

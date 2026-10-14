@@ -55,6 +55,51 @@ class SessionPagesTests {
 		);
 	}
 
+	private static function step(durations, rounds) {
+		var step = new BreathStep();
+		step.durations = durations;
+		step.repeatType = BreathRepeat.Rounds;
+		step.repeatValue = rounds;
+		return step;
+	}
+
+	// the ring and the picker bar tick between steps only, never at start or end
+	(:test)
+	static function stepTicksSitBetweenSteps(logger) {
+		var program = new BreathProgram();
+		program.addNew(SessionPagesTests.step([4, 0, 4, 0], 3));
+		var single = program.stepBoundaries();
+		program.addNew(SessionPagesTests.step([4, 0, 4, 0], 6));
+		program.addNew(SessionPagesTests.step([4, 0, 4, 0], 3));
+		var ticks = program.stepBoundaries();
+		return single == null && ticks.size() == 2 && ticks[0] == 0.25 && ticks[1] == 0.75;
+	}
+
+	// hold-only and rest steps get a coloured stretch, breathing steps none
+	(:test)
+	static function holdsAndRestsAreColouredSpans(logger) {
+		var program = new BreathProgram();
+		program.addNew(SessionPagesTests.step([4, 0, 4, 0], 5));
+		var none = program.specialSpans();
+		program.addNew(SessionPagesTests.step([0, 0, 0, 20], 1));
+		var rest = new BreathStep();
+		rest.durations = [0, 0, 0, 0];
+		rest.repeatType = BreathRepeat.Duration;
+		rest.repeatValue = 20;
+		program.addNew(rest);
+		var spans = program.specialSpans();
+		return (
+			none == null &&
+			spans.size() == 6 &&
+			spans[0] == 0.5 &&
+			spans[1] == 0.75 &&
+			spans[2] == BreathProgram.HoldStepColor &&
+			spans[3] == 0.75 &&
+			spans[4] == 1.0 &&
+			spans[5] == BreathProgram.RestStepColor
+		);
+	}
+
 	// a stored page the session has is kept; anything else opens the first page
 	(:test)
 	static function opensOnTheStoredPageItHas(logger) {

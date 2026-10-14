@@ -250,7 +250,7 @@ on `d2deltapx` (CIQ 3.0.3, the app's API floor), where a call newer than the flo
 - `recording/hrv/tests/HrvSdrrTests` — the original SDRR expectations (`HrvAlgorithmsSampleOutput.xlsx`)
   ported to the ring of seconds: several beats in one second, empty seconds that push beats out.
 - `activity/tests/MetricLineTests` — the metrics page row states.
-- `activity/tests/SessionPagesTests` — the page cycles per session kind, the stored page kept only
+- `activity/tests/SessionPagesTests` — step ticks only between steps (none for one step), hold/rest spans and their colours, the page cycles per session kind, the stored page kept only
   when the session has it, up/down wrapping, zen drawing once per percent plus the peek (102 draws
   in a 300 s session), and every page (the ball through each phase, a rest and past the program's
   end) drawn into an off-screen bitmap without error.
@@ -765,8 +765,13 @@ a hold — there is no special case for it.
   entries for a long program.
 - **Cues are edge-triggered on `phaseStart`**, not on `phaseElapsed == 0`, so a dropped timer
   tick fires late instead of not at all. Same reasoning as `VibeAlertsExecutor.pointCrossed`.
-- **Interval alerts still work** and coexist with a program. Their tick ring is drawn on the
-  metrics page; the guidance page draws step-boundary ticks on the same ring instead.
+- **Interval alerts still work** and coexist with a program. Every session page draws one ring
+  (`MeditateView.drawSessionRing`): the step-boundary ticks (`BreathProgram.stepBoundaries()`) and
+  the interval alerts on top. The picker's timeline bar shows the same step ticks, white (black on
+  a white session colour) because the bar is drawn in the session colour. Hold-only steps (orange)
+  and rest steps (grey) colour their whole stretch (`BreathProgram.specialSpans()`, colours are
+  constants there): on the bar as a half-height stripe under the ticks, on the ring at half the
+  progress width on its centre line, so the progress arc covers them once passed.
 - `restorePresets()` runs only on a fresh store, after the last session is deleted, and in the
   corrupt-entry path of `loadSelectedSession()`. Existing users got the guided presets through
   `PresetMigration` (below), not through a restore.

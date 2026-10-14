@@ -312,10 +312,20 @@ class SessionPickerDelegate extends ScreenPickerDelegate {
 		private var mSession;
 
 		function getAlertsLine() {
-			var alertsLine = new PercentageHighlightLine(me.mSession.getIntervalAlerts().size());
+			var program = me.mSession.getActiveBreathProgram();
+			var steps = program == null ? null : program.stepBoundaries();
+			var alertsLine = new PercentageHighlightLine(me.mSession.getIntervalAlerts().size() + (steps == null ? 0 : steps.size()));
 
 			alertsLine.backgroundColor = me.mSession.color;
+			alertsLine.spans = program == null ? null : program.specialSpans();
 
+			if (steps != null) {
+				// the bar is the session colour, so the step ticks need a contrast
+				var tickColor = me.mSession.color == Gfx.COLOR_WHITE ? Gfx.COLOR_BLACK : Gfx.COLOR_WHITE;
+				for (var i = 0; i < steps.size(); i++) {
+					alertsLine.addHighlight(tickColor, steps[i]);
+				}
+			}
 			me.AddHighlights(alertsLine, IntervalAlertType.Repeat);
 			me.AddHighlights(alertsLine, IntervalAlertType.OneOff);
 
