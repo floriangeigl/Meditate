@@ -229,7 +229,8 @@ $excludeExact = @(
   'system8preview'                       # SDK System-8 preview pseudo-device, not a real watch
 )
 # Recent additions, skipped via $man: vivoactive4/4s and marqexpedition (back after the Apr-2025 purge),
-# fr70/fr170/fr170m (CIQ 6.0, 768 KB), the 7 fenix 9 variants (CIQ 6.0.3, 768 KB, fenix 8 resolutions).
+# fr70/fr170/fr170m (CIQ 6.0, 768 KB), the 7 fenix 9 variants (CIQ 6.0.3, 768 KB, fenix 8 resolutions),
+# enduro4 (280x280) and marq3 (454x454), both CIQ 6.0.3, 768 KB.
 $man = Select-String -Path .\Meditate\manifest.xml -Pattern 'iq:product id="([^"]+)"' -AllMatches |
   ForEach-Object { $_.Matches } | ForEach-Object { $_.Groups[1].Value }
 Get-ChildItem "$env:APPDATA\Garmin\ConnectIQ\Devices" -Directory | ForEach-Object {
