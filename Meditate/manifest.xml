@@ -20,6 +20,7 @@
             <iq:product id="descentmk343mm"/>
             <iq:product id="descentmk351mm"/>
             <iq:product id="enduro3"/>
+            <iq:product id="enduro4"/>
             <iq:product id="epix2"/>
             <iq:product id="epix2pro42mm"/>
             <iq:product id="epix2pro47mm"/>
@@ -82,6 +83,7 @@
             <iq:product id="legacysagarey"/>
             <iq:product id="marq2"/>
             <iq:product id="marq2aviator"/>
+            <iq:product id="marq3"/>
             <iq:product id="marqadventurer"/>
             <iq:product id="marqathlete"/>
             <iq:product id="marqaviator"/>
