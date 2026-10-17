@@ -1,11 +1,13 @@
 // One-time upgrades, one step per version, each run once. Version 2 (guided breathwork): keys
 // 7-9 shipped as alert-based breathwork sessions and are rewritten in place, 10-12 are added.
-// Version 3 adds 13-14. A preset the user deleted stays deleted, and a renamed one is left alone.
+// Version 3 adds 13-14, version 4 adds 15. A preset the user deleted stays deleted, and a renamed
+// one is left alone.
 class PresetMigration {
-	private static const PresetsVersion = 3;
+	private static const PresetsVersion = 4;
 	private static const LegacyBreathPresetKeys = [7, 8, 9];
 	private static const AddedInVersion2 = [10, 11, 12];
 	private static const AddedInVersion3 = [13, 14];
+	private static const AddedInVersion4 = [15];
 
 	static function run(storage) {
 		var version = GlobalSettings.load(GlobalSettings.PresetsVersionKey);
@@ -20,6 +22,9 @@ class PresetMigration {
 		}
 		if (version < 3) {
 			PresetMigration.addMissing(storage, PresetMigration.AddedInVersion3);
+		}
+		if (version < 4) {
+			PresetMigration.addMissing(storage, PresetMigration.AddedInVersion4);
 		}
 		GlobalSettings.save(GlobalSettings.PresetsVersionKey, PresetMigration.PresetsVersion);
 	}

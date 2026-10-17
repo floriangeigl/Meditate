@@ -31,6 +31,7 @@ class SessionPresets {
 			["B. Holds", :breathHolds, end],
 			["B. Sleep", :sleep, VibePattern.Blip],
 			["B. Calm", :calm, end],
+			["B. Free", :free15, end],
 		];
 	}
 

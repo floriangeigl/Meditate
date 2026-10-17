@@ -278,7 +278,8 @@ on `d2deltapx` (CIQ 3.0.3, the app's API floor), where a call newer than the flo
   user left alone, a delete is not a user move, a deleted key is forgotten, Off forgets.
 - `storage/tests/SessionStorageTests` — the stored session format round-trips unchanged, the enum
   numbers inside stored sessions, the meditation presets field by field, fresh-store presets in list order, the preset migration per version step
-  (from version 2 only 13-14 arrive, deletions stay), the Sleep and Calm programs,
+  (from version 2 only 13-15 arrive, from version 3 only 15, deletions stay), the Sleep and Calm
+  programs, the Free preset (one 15:00 rest step),
   index wrapping, delete-all restoring presets, new keys never reusing a used one, and the selection
   after a delete (through the real settings menu, with a `PickerSpy` for the picker).
 - `globalSettings/tests/GlobalSettingsTests` — every setting key and default typed out as the
@@ -791,12 +792,12 @@ a hold — there is no special case for it.
 - Avoid naming templates after living people; `:breathHolds` is deliberately generic.
 - **Preset session keys are persistent ids and must never be renumbered.** Breathwork owns
   keys 7-14 (`SessionPresets.FirstBreathworkKey`); 7-9 shipped before guided programs existed,
-  10-12 came with them, 13-14 (B. Sleep, B. Calm) with presets version 3. A stored session is
+  10-12 came with them, 13-14 (B. Sleep, B. Calm) with presets version 3, 15 (B. Free) with version 4. A stored session is
   matched back to its preset by key alone, so a new preset of any kind takes the next free key
   at the end. `PresetMigration.run()` (called from the `SessionStorage` constructor, after any restore) depends on this and runs **one step per
   version** of `globalSettings_presetsVersion`: below 2 it rewrites 7-9 in place when the stored
   name still matches the shipped one and there is no program yet, and adds 10-12 when absent;
-  below 3 it adds 13-14. Deleted presets stay deleted - 7-9 are never re-added, 10-12 and later
+  below 3 it adds 13-14; below 4 it adds 15. Deleted presets stay deleted - 7-9 are never re-added, 10-12 and later
   never overwritten, and an install already on version 2 never sees 10-12 again. **A new preset
   is a new version step, never appended to an old step's key list** — that would re-add what a
   user on the old version deleted (`migrationFromVersion2AddsOnlyTheNewPresets` pins this). The

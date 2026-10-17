@@ -98,7 +98,7 @@ class SessionStorageTests {
 		}
 		App.Storage.setValue("sessionsKeys", keys);
 		App.Storage.setValue("selectedSessionIndex", selectedIndex);
-		App.Storage.setValue("globalSettings_presetsVersion", 3);
+		App.Storage.setValue("globalSettings_presetsVersion", 4);
 	}
 
 	static function stored(key) {
@@ -201,7 +201,7 @@ class SessionStorageTests {
 			var ok =
 				storage.isFreshInstall() &&
 				StorageSnapshot.deepEquals(SessionStorageTests.storedKeys(), SessionStorageTests.presetKeys()) &&
-				App.Storage.getValue("globalSettings_presetsVersion") == 3;
+				App.Storage.getValue("globalSettings_presetsVersion") == 4;
 			if (!ok) {
 				logger.debug("keys " + SessionStorageTests.storedKeys());
 			}
@@ -243,7 +243,8 @@ class SessionStorageTests {
 				keys.indexOf(12) != -1 &&
 				keys.indexOf(13) != -1 &&
 				keys.indexOf(14) != -1 &&
-				App.Storage.getValue("globalSettings_presetsVersion") == 3;
+				keys.indexOf(15) != -1 &&
+				App.Storage.getValue("globalSettings_presetsVersion") == 4;
 
 			// the next start changes nothing
 			var added10 = SessionStorageTests.stored(10);
@@ -261,7 +262,7 @@ class SessionStorageTests {
 		}
 	}
 
-	// an install on version 2 that deleted Wind Down (11) and changed Coherence (8): only 13-14 arrive
+	// an install on version 2 that deleted Wind Down (11) and changed Coherence (8): only 13-15 arrive
 	(:test)
 	static function migrationFromVersion2AddsOnlyTheNewPresets(logger) {
 		var snapshot = new StorageSnapshot();
@@ -275,12 +276,41 @@ class SessionStorageTests {
 
 			var keys = SessionStorageTests.storedKeys();
 			var ok =
-				StorageSnapshot.deepEquals(keys, [0, 8, 12, 13, 14]) &&
+				StorageSnapshot.deepEquals(keys, [0, 8, 12, 13, 14, 15]) &&
 				StorageSnapshot.deepEquals(SessionStorageTests.stored(8), changed8) &&
 				SessionStorageTests.stored(11) == null &&
 				SessionStorageTests.stored(13)["name"].equals("B. Sleep") &&
 				SessionStorageTests.stored(14)["name"].equals("B. Calm") &&
-				App.Storage.getValue("globalSettings_presetsVersion") == 3;
+				SessionStorageTests.stored(15)["name"].equals("B. Free") &&
+				App.Storage.getValue("globalSettings_presetsVersion") == 4;
+			if (!ok) {
+				logger.debug("keys " + keys);
+			}
+			snapshot.restore();
+			return ok;
+		} catch (ex) {
+			snapshot.restore();
+			throw ex;
+		}
+	}
+
+	// an install on version 3 that deleted Calm (14): only 15 arrives, 14 stays deleted
+	(:test)
+	static function migrationFromVersion3AddsOnlyFree(logger) {
+		var snapshot = new StorageSnapshot();
+		try {
+			var own0 = SessionStorageTests.plainSession(0, "Quiet");
+			var kept13 = SessionPresets.createBreathworkPreset(13).toDictionary();
+			SessionStorageTests.writeStore([own0, kept13], 0);
+			App.Storage.setValue("globalSettings_presetsVersion", 3);
+			new SessionStorage();
+
+			var keys = SessionStorageTests.storedKeys();
+			var ok =
+				StorageSnapshot.deepEquals(keys, [0, 13, 15]) &&
+				StorageSnapshot.deepEquals(SessionStorageTests.stored(13), kept13) &&
+				SessionStorageTests.stored(14) == null &&
+				App.Storage.getValue("globalSettings_presetsVersion") == 4;
 			if (!ok) {
 				logger.debug("keys " + keys);
 			}
@@ -293,7 +323,7 @@ class SessionStorageTests {
 	}
 
 	static function presetKeys() {
-		return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+		return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
 	}
 
 	// the meditation presets as fresh installs have always stored them, in list order
@@ -344,6 +374,24 @@ class SessionStorageTests {
 		return ok;
 	}
 
+	// free: one 15:00 rest step, recorded as breathwork
+	(:test)
+	static function freeBreathingPreset(logger) {
+		var free = SessionPresets.createBreathworkPreset(15);
+		var steps = free.getBreathProgram();
+		var ok =
+			free.name.equals("B. Free") &&
+			free.time == 900 &&
+			free.getActivityType() == ActivityType.Breathing &&
+			free.getActiveBreathProgram() != null &&
+			steps.size() == 1 &&
+			steps.get(0).isRest();
+		if (!ok) {
+			logger.debug("free " + free.toDictionary());
+		}
+		return ok;
+	}
+
 	// sleep: 13:08 guided, then 10:00 free, ending on a blip; calm: 5:00 without a single hold
 	(:test)
 	static function sleepAndCalmPresets(logger) {
@@ -357,7 +405,7 @@ class SessionStorageTests {
 			sleepSteps.get(sleepSteps.size() - 1).isRest() &&
 			calm.time == 300 &&
 			calm.vibePattern == VibePattern.LongContinuous &&
-			SessionPresets.createBreathworkPreset(15) == null;
+			SessionPresets.createBreathworkPreset(16) == null;
 		for (var i = 0; i < calmSteps.size(); i++) {
 			var d = calmSteps.get(i).durations;
 			ok = ok && d[1] == 0 && d[3] == 0;

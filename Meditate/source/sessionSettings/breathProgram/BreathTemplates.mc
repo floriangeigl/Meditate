@@ -92,6 +92,8 @@ class BreathTemplates {
 			program.addNew(BreathTemplates.makeStep([6, 10, 15, 0], rounds, 8, nose, mouth)); // 4:08
 			program.addNew(BreathTemplates.makeStep([4, 0, 8, 0], rounds, 10, nose, mouth)); // 2:00
 			program.addNew(BreathTemplates.makeStep([0, 0, 0, 0], BreathRepeat.Duration, 600, unset, unset)); // 10:00
+		} else if (id == :free15) {
+			program.addNew(BreathTemplates.makeStep([0, 0, 0, 0], BreathRepeat.Duration, 900, unset, unset)); // 15:00
 		} else if (id == :calm) {
 			// no holds: CO2 build-up can feel like the start of panic
 			program.addNew(BreathTemplates.makeStep([4, 0, 6, 0], rounds, 6, nose, mouth)); // 1:00

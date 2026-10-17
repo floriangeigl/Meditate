@@ -273,6 +273,7 @@ A breathing cycle can include:
 | B. Holds     | deep breaths, then breath holds    | 7:16   |
 | B. Sleep     | slowing down, then 10 min resting  | 23:08  |
 | B. Calm      | ever longer exhales, no holds      | 5:00   |
+| B. Free      | breathe at your own pace           | 15:00  |
 
 **Box Breathing**  
 Equal inhale, hold, exhale, hold.  
@@ -295,6 +296,10 @@ finish and save on its own if you fall asleep, keep **Auto Stop** on and set **C
 **Calm**  
 Longer and longer exhales, with no breath holds at all.  
 For stress and anxious moments, any time of day.
+
+**Free**  
+No rhythm to follow: 15 minutes of breathing at your own pace while the watch records heart
+rate, HRV, stress and respiration.
 
 You can edit any of these, or build your own - see [Guided Breathwork](#custom-breathwork-patterns).
 
