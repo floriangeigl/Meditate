@@ -72,7 +72,7 @@ class SummaryPagesTests {
 			Rez.Strings.SummaryHR,
 			Rez.Strings.SummaryStress,
 			Rez.Strings.SummaryStress,
-			Rez.Strings.SummaryRespiration,
+			Rez.Strings.menuLabelRespiration,
 		]);
 	}
 
@@ -99,7 +99,7 @@ class SummaryPagesTests {
 			Rez.Strings.SummaryHRVRMSSD,
 			Rez.Strings.SummaryHRVpNNx,
 			Rez.Strings.SummaryHRVSDRR,
-			Rez.Strings.SummaryRespiration,
+			Rez.Strings.menuLabelRespiration,
 		]);
 	}
 }

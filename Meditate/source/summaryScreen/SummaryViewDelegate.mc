@@ -3,24 +3,25 @@ using Toybox.Graphics as Gfx;
 using Toybox.Application as App;
 using Toybox.Lang;
 
-class SummaryViewDelegate extends ScreenPicker.ScreenPickerDelegate {
+class SummaryViewDelegate extends ScreenPickerDelegate {
 	private var mSummary;
 	private var mIdleReminderTimer;
-	// rows of [metric id, kind, title, yMin, yMax] in page order; a page exists when its data does
+	// rows of [metric id, kind, title, lo, hi, minSpan] in page order; lo/hi cap the graph, minSpan is its
+	// flattest scale; a page exists when its data does
 	private var pages;
 
 	function initialize(summary, idleReminderTimer) {
 		me.mSummary = summary;
 		// resource ids are not safe in static initialisers
 		var table = [
-			[:hr, :graph, Rez.Strings.SummaryHR, 20, 150],
-			[:hrv, :hrvGraph, Rez.Strings.SummaryHRVRMSSD, 0, 250],
-			[:stress, :graph, Rez.Strings.SummaryStress, 0, 100],
+			[:hr, :graph, Rez.Strings.SummaryHR, 20, 150, 6],
+			[:hrv, :hrvGraph, Rez.Strings.SummaryHRVRMSSD, 0, 250, 10],
+			[:stress, :graph, Rez.Strings.SummaryStress, 0, 100, 6],
 			[:stress, :details, Rez.Strings.SummaryStress],
 			[:hrv, :hrvRmssd],
 			[:hrv, :hrvPnnx],
 			[:hrv, :hrvSdrr],
-			[:rr, :graph, Rez.Strings.SummaryRespiration, 1, 60],
+			[:rr, :graph, Rez.Strings.menuLabelRespiration, 1, 60, 4],
 		];
 		me.pages = [];
 		for (var i = 0; i < table.size(); i++) {
@@ -52,7 +53,7 @@ class SummaryViewDelegate extends ScreenPicker.ScreenPickerDelegate {
 		var metric = me.mSummary.metrics[row[0]];
 		var kind = row[1];
 		if (kind == :graph || kind == :hrvGraph) {
-			return new GraphView(metric, me.mSummary.elapsedTime, row[2], row[3], row[4]);
+			return new GraphView(metric, me.mSummary.elapsedTime, row[2], row[3], row[4], row[5]);
 		}
 		var detailsModel;
 		if (kind == :details) {
@@ -64,20 +65,20 @@ class SummaryViewDelegate extends ScreenPicker.ScreenPickerDelegate {
 		} else {
 			detailsModel = me.createDetailsPageHrvSdrr(metric);
 		}
-		return new ScreenPicker.ScreenPickerDetailsView(detailsModel, me.mPagesCount > 1);
+		return new ScreenPickerDetailsView(detailsModel, me.mPagesCount > 1);
 	}
 
 	private static function valueLine(detailsModel, lineNum, label, value) {
 		var line = detailsModel.getLine(lineNum);
 		line.value.text = Lang.format("$1$ $2$", [
 			Ui.loadResource(label),
-			ScreenPicker.ScreenPickerBaseView.formatValue(value),
+			ScreenPickerBaseView.formatValue(value),
 		]);
 	}
 
 	// avg, start, end, min, max of any metric; the icon takes the colour of the average
 	private function createDetailsPage(metric, title) {
-		var detailsModel = new ScreenPicker.DetailsModel();
+		var detailsModel = new DetailsModel();
 		detailsModel.title = Ui.loadResource(title);
 
 		var icon = MeditateView.createIcon(metric.id);
@@ -86,7 +87,7 @@ class SummaryViewDelegate extends ScreenPicker.ScreenPickerDelegate {
 		line.icon = icon;
 		line.value.text = Lang.format("$1$  $2$", [
 			Ui.loadResource(Rez.Strings.SummaryAvg),
-			ScreenPicker.ScreenPickerBaseView.formatValue(metric.getAvg()),
+			ScreenPickerBaseView.formatValue(metric.getAvg()),
 		]);
 		valueLine(detailsModel, 1, Rez.Strings.SummaryStart, metric.first);
 		valueLine(detailsModel, 2, Rez.Strings.SummaryEnd, metric.last);
@@ -96,53 +97,53 @@ class SummaryViewDelegate extends ScreenPicker.ScreenPickerDelegate {
 	}
 
 	private function createDetailsPageHrvRmssd(hrv) {
-		var detailsModel = new ScreenPicker.DetailsModel();
+		var detailsModel = new DetailsModel();
 		detailsModel.title = Ui.loadResource(Rez.Strings.SummaryHRVRMSSD);
 		var line = detailsModel.getLine(0);
-		line.icon = new ScreenPicker.HrvIcon({});
-		line.value.text = Lang.format("$1$ ms", [ScreenPicker.ScreenPickerBaseView.formatValue(hrv.rmssd)]);
+		line.icon = new HrvIcon({});
+		line.value.text = Lang.format("$1$ ms", [ScreenPickerBaseView.formatValue(hrv.rmssd)]);
 		return detailsModel;
 	}
 
 	private function createDetailsPageHrvPnnx(hrv) {
-		var detailsModel = new ScreenPicker.DetailsModel();
+		var detailsModel = new DetailsModel();
 		detailsModel.title = Ui.loadResource(Rez.Strings.SummaryHRVpNNx);
 
 		var line = detailsModel.getLine(0);
-		var hrvIcon = new ScreenPicker.HrvIcon({});
+		var hrvIcon = new HrvIcon({});
 		line.icon = hrvIcon;
 		line.value.text = "HRV > 20";
 
 		line = detailsModel.getLine(1);
-		line.value.text = Lang.format("$1$% of time", [ScreenPicker.ScreenPickerBaseView.formatValue(hrv.pnn20)]);
+		line.value.text = Lang.format("$1$% of time", [ScreenPickerBaseView.formatValue(hrv.pnn20)]);
 
 		line = detailsModel.getLine(2);
 		line.icon = hrvIcon;
 		line.value.text = "HRV > 50";
 
 		line = detailsModel.getLine(3);
-		line.value.text = Lang.format("$1$% of time", [ScreenPicker.ScreenPickerBaseView.formatValue(hrv.pnn50)]);
+		line.value.text = Lang.format("$1$% of time", [ScreenPickerBaseView.formatValue(hrv.pnn50)]);
 
 		return detailsModel;
 	}
 
 	private function createDetailsPageHrvSdrr(hrv) {
-		var detailsModel = new ScreenPicker.DetailsModel();
+		var detailsModel = new DetailsModel();
 		detailsModel.title = Ui.loadResource(Rez.Strings.SummaryHRVSDRR);
 
 		var line = detailsModel.getLine(0);
-		var hrvIcon = new ScreenPicker.HrvIcon({});
+		var hrvIcon = new HrvIcon({});
 		line.icon = hrvIcon;
-		line.value.text = Ui.loadResource(Rez.Strings.SummaryHRVRMSSDFirst5min);
+		line.value.text = Ui.loadResource(Rez.Strings.SummaryHRVSDRRFirst5min);
 
 		line = detailsModel.getLine(1);
-		line.value.text = Lang.format("$1$ ms", [ScreenPicker.ScreenPickerBaseView.formatValue(hrv.sdrrFirst)]);
+		line.value.text = Lang.format("$1$ ms", [ScreenPickerBaseView.formatValue(hrv.sdrrFirst)]);
 
 		line = detailsModel.getLine(2);
 		line.icon = hrvIcon;
-		line.value.text = Ui.loadResource(Rez.Strings.SummaryHRVRMSSDLast5min);
+		line.value.text = Ui.loadResource(Rez.Strings.SummaryHRVSDRRLast5min);
 		line = detailsModel.getLine(3);
-		line.value.text = Lang.format("$1$ ms", [ScreenPicker.ScreenPickerBaseView.formatValue(hrv.sdrrLast)]);
+		line.value.text = Lang.format("$1$ ms", [ScreenPickerBaseView.formatValue(hrv.sdrrLast)]);
 		return detailsModel;
 	}
 

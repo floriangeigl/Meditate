@@ -47,17 +47,7 @@ class BeatIntervalFeed {
 
 	function createWakeupSession() {
 		me.discardWakeupSession();
-		var activityType = WakeupSessionStorage.loadActivityType();
-		var fitSessionSpec = null;
-		if (activityType == WakeupSessionType.Yoga) {
-			fitSessionSpec = FitSessionSpec.createYoga("tmp");
-		} else if (activityType == WakeupSessionType.Breathing) {
-			fitSessionSpec = FitSessionSpec.createBreathing("tmp");
-		} else if (activityType == WakeupSessionType.Meditation) {
-			fitSessionSpec = FitSessionSpec.createMeditation("tmp");
-		} else {
-			fitSessionSpec = FitSessionSpec.createTraining("tmp");
-		}
+		var fitSessionSpec = FitSessionSpec.create(WakeupSessionStorage.loadActivityType(), "tmp");
 		me.sensorWakeupSession = ActivityRecording.createSession(fitSessionSpec);
 	}
 

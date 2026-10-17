@@ -4,25 +4,23 @@
     <string id="confirmDeleteSessionHeader">Delete Session?</string>
     <string id="confirmDeleteAllIntervalAlertsHeader">Delete All Alerts?</string>
 
-    <string id="SummaryTitle">Summary</string>
     <string id="SummaryHR">Heart Rate</string>
     <string id="SummaryStress">Stress</string>
     <string id="SummaryStart">Start: </string>
     <string id="SummaryEnd">End: </string>
-    <string id="SummaryRespiration">Respiration</string>
     <string id="SummaryMin">Min:</string>
     <string id="SummaryAvg">Avg:</string>
     <string id="SummaryMax">Max:</string>
     <string id="SummaryHRVRMSSD">HRV RMSSD</string>
     <string id="SummaryHRVpNNx">HRV &gt; x</string>
     <string id="SummaryHRVSDRR">HRV SDRR</string>
-    <string id="SummaryHRVRMSSDFirst5min">First 5 min</string>
-    <string id="SummaryHRVRMSSDLast5min">Last 5 min</string>
+    <string id="SummaryHRVSDRRFirst5min">First 5 min</string>
+    <string id="SummaryHRVSDRRLast5min">Last 5 min</string>
 
-    <string id="menuSessionSettings_Title">Session</string>
+    <string id="menuLabelSession">Session</string>
     <string id="menuSessionSettings_addNew">Add New</string>
-    <string id="menuSessionSettings_edit">Edit</string>
-    <string id="menuSessionSettings_delete">Delete</string>
+    <string id="menuLabelEdit">Edit</string>
+    <string id="menuLabelDelete">Delete</string>
     <string id="menuSessionSettings_globalSettings">Global Settings</string>
     <string id="menuSessionSettings_help">Help</string>
     <string id="menuSessionSettings_about">About</string>
@@ -30,19 +28,15 @@
     <string id="help_openingUserGuide">Opening User Guide on your phone</string>
 
     <string id="menuGlobalSettings_title">Settings</string>
-    <string id="menuGlobalSettings_newHrvTracking">HRV Tracking</string>
     <string id="menuGlobalSettings_newActivityType">New Activity Type</string>
     <string id="menuGlobalSettings_confirmSaveActivity">Confirm Save</string>
-    <string id="menuGlobalSettings_multiSession">Multi-Session</string>
-    <string id="menuGlobalSettings_singleSession">Single session</string>
+    <string id="menuLabelMultiSession">Multi-Session</string>
     <string id="menuGlobalSettings_respirationRate">Respiration Rate</string>
     <string id="menuGlobalSettings_autoStop">Auto Stop</string>
     <string id="menuGlobalSettings_colorTheme">Color Theme</string>
     <string id="menuGlobalSettings_prepareTime">Prepare Time</string>
     <string id="menuGlobalSettings_finalizeTime">Finalize Time</string>
     <string id="menuGlobalSettings_sensorRestart">Sensor restart</string>
-    <string id="menuGlobalSettings_respiration">Respiration: </string>
-    <string id="menuGlobalSettings_save">Save: </string>
 
     <string id="menuNewActivityTypeOptions_title">Activity</string>
     <string id="menuNewActivityTypeOptions_meditating">Meditating</string>
@@ -50,80 +44,45 @@
     <string id="menuNewActivityTypeOptions_breathing">Breathing</string>
     <string id="menuNewActivityTypeOptions_generic">Generic</string>
 
-    <string id="activityTypeMenu_title">Activity Type</string>
-    <string id="activityTypeMenu_yoga">Yoga</string>
-    <string id="activityTypeMenu_meditating">Meditating</string>
-    <string id="activityTypeMenu_breathing">Breathing</string>
-    <string id="activityTypeMenu_generic">Generic</string>
 
 
-    <string id="menuNewHrvTrackingOptions_title">Hrv Tracking</string>
-    <string id="menuNewHrvTrackingOptions_on">On</string>
-    <string id="menuNewHrvTrackingOptions_off">Off</string>
 
-    <string id="menuHrvTrackingOptions_title">Hrv Tracking</string>
     <string id="menuHrvTrackingOptions_onDetailed">On Detailed</string>
-    <string id="menuHrvTrackingOptions_on">On</string>
-    <string id="menuHrvTrackingOptions_off">Off</string>
 
-    <string id="menuConfirmSaveActivityOptions_title">Confirm Save</string>
     <string id="menuConfirmSaveActivityOptions_autoYes">Auto Yes</string>
     <string id="menuConfirmSaveActivityOptions_autoNo">Auto No</string>
     <string id="menuConfirmSaveActivityOptions_askSimple">Ask</string>
     <string id="menuConfirmSaveActivityOptions_autoYesExit">Auto Yes &amp; Exit</string>
 
-    <string id="menuMultiSessionOptions_title">Multi-Session</string>
-    <string id="menuMultiSessionOptions_yes">Yes</string>
-    <string id="menuMultiSessionOptions_no">No</string>
+    <string id="menuLabelYes">Yes</string>
+    <string id="menuLabelNo">No</string>
 
-    <string id="menuRespirationRateOptions_title">Respiration</string>
-    <string id="menuRespirationRateOptions_on">On</string>
-    <string id="menuRespirationRateOptions_off">Off</string>
+    <string id="menuLabelRespiration">Respiration</string>
 
-    <string id="menuAutoStopOptions_title">Auto Stop</string>
-    <string id="menuAutoStopOptions_on">On</string>
-    <string id="menuAutoStopOptions_off">Off</string>
+    <string id="menuLabelOn">On</string>
+    <string id="menuLabelOff">Off</string>
 
 
-    <string id="menuColorThemeOptions_title">Color Theme</string>
     <string id="menuColorThemeOptions_light">Light</string>
     <string id="menuColorThemeOptions_dark">Dark</string>
 
-    <string id="menuPrepareTimeOptions_title">Preparation</string>
-    <string id="menuFinalizeTimeOptions_title">Finalization</string>
-    <string id="menuPrepareTimeOptions_0s">0 secs</string>
-    <string id="menuPrepareTimeOptions_15s">15 secs</string>
-    <string id="menuPrepareTimeOptions_30s">30 secs</string>
-    <string id="menuPrepareTimeOptions_45s">45 secs</string>
-    <string id="menuPrepareTimeOptions_1m">1 min</string>
-    <string id="menuPrepareTimeOptions_2m">2 min</string>
-    <string id="menuPrepareTimeOptions_3m">3 min</string>
-    <string id="menuPrepareTimeOptions_4m">4 min</string>
-    <string id="menuPrepareTimeOptions_5m">5 min</string>
-    <string id="menuPrepareTimeOptions_10m">10 min</string>
 
     <string id="menuHrvWindowSizeOptions_title">HRV Window</string>
     <string id="menuLabelDefault">Default</string>
     <string id="menuLabelRecommended">Recommended</string>
 
     <string id="menuGlobalSettings_useSessionName">Session name = Activity name</string>
-    <string id="menuGlobalSettings_useSessionName_on">Yes</string>
-    <string id="menuGlobalSettings_useSessionName_off">No</string>
+    <string id="menuGlobalSettings_learnRoutine">Learn routine</string>
 
     <string id="menuNotificationOptions_title">Vibration &amp; Sound</string>
-    <string id="menuNotificationOptions_on">On</string>
-    <string id="menuNotificationOptions_off">Off</string>
 
-    <string id="menuIntervalAlertSettings_Title">Interval Alerts</string>
     <string id="menuIntervalAlertSettings_addNew">Add New</string>
-    <string id="menuIntervalAlertSettings_edit">Edit</string>
     <string id="menuIntervalAlertSettings_deleteAll">Delete All</string>
 
     <string id="summaryRollupMenu_title">Sessions Summary</string>
     <string id="summaryRollupMenuOption_exit">Exit</string>
 
     <!-- Multi-session post-session menu -->
-    <string id="multiSessionPostMenu_title">Multi-Session</string>
     <string id="multiSessionPostMenu_nextSession">Next Session</string>
     <string id="multiSessionPostMenu_summary">Summary</string>
     <string id="multiSessionPostMenu_endMultiSession">End Multi-Session</string>
@@ -131,26 +90,19 @@
     <string id="confirmDeleteIntervalAlertHeader">Delete Alert?</string>
 
     <string id="addEditIntervalAlertMenu_title">Alert</string>
-    <string id="addEditIntervalAlertMenu_time">Time</string>
     <string id="addEditIntervalAlertMenu_offset">Offset</string>
 
-    <string id="addEditIntervalAlertMenu_color">Color</string>
-    <string id="addEditIntervalAlertMenu_vibeSound">Vibe / Sound</string>
-    <string id="addEditIntervalAlertMenu_delete">Delete</string>
 
-    <string id="addEditSessionMenu_title">Session</string>
     <string id="addEditSessionMenu_name">Name</string>
-    <string id="addEditSessionMenu_time">Time</string>
-    <string id="addEditSessionMenu_color">Color</string>
-    <string id="addEditSessionMenu_vibeSound">Vibe / Sound</string>
-    <string id="addEditSessionMenu_intervalAlerts">Interval Alerts</string>
+    <string id="menuLabelTime">Time</string>
+    <string id="menuLabelColor">Color</string>
+    <string id="menuLabelVibeSound">Vibe / Sound</string>
+    <string id="menuLabelIntervalAlerts">Interval Alerts</string>
     <string id="addEditSessionMenu_activityType">Activity Type</string>
-    <string id="addEditSessionMenu_hrvTracking">HRV Tracking</string>
+    <string id="menuLabelHrvTracking">HRV Tracking</string>
 
     <string id="intervalAlertTransparentColorText">Transparent</string>
 
-    <string id="vibePatternMenu_title">Vibe / Sound</string>
-    <string id="vibePatternMenu_noNotification">Off</string>
     <string id="vibePatternMenu_longPulsating">Long pulsating</string>
     <string id="vibePatternMenu_longSound">Long Sound</string>
     <string id="vibePatternMenu_longContinuous">Long continuous</string>
@@ -165,8 +117,6 @@
     <string id="vibePatternMenu_mediumDescending">Medium descending</string>
     <string id="vibePatternMenu_longDescending">Long descending</string>
 
-    <string id="intervalVibePatternMenu_title">Vibe / Sound</string>
-    <string id="intervalVibePatternMenu_noNotification">No Notification</string>
     <string id="intervalVibePatternMenu_shorterContinuous">Shorter continuous</string>
     <string id="intervalVibePatternMenu_shorterAscending">Shorter ascending</string>
     <string id="intervalVibePatternMenu_blip">Blip</string>
@@ -178,7 +128,6 @@
 
     <string id="editIntervalAlertsMenu_title">Edit Interval Alerts</string>
     <string id="activityDelayedFinishingText">Finishing...</string>
-    <string id="meditateActivityPaused">[Paused]</string>
     <string id="meditateActivityPrepare">Relax to start\n session\nin</string>
     <string id="meditateActivityFinalize">Finishing\n session\nin</string>
 
@@ -206,9 +155,8 @@
     <string id="pauseMenu_stop">Stop</string>
     <string id="finishMenu_save">Save</string>
     <string id="finishMenu_discard">Discard</string>
-    <string id="optionsMenuHelp">Press start for options</string>
 
-    <string id="about_AppVersion">v11.1.2</string>
+    <string id="about_AppVersion">v11.2.0</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>
     <string id="about_falsetru">falsetru</string>
@@ -247,8 +195,8 @@
     <string id="menuBreathCuesOptions_vibration">Vibration</string>
     <string id="menuBreathCuesOptions_vibrationTone">Vibration + Tone</string>
     <string id="whatsNew_title">What's New</string>
-    <string id="whatsNew_line1">Guided breathwork</string>
-    <string id="whatsNew_line2">Follow the breath cues</string>
-    <string id="whatsNew_line3">3 new sessions added</string>
-    <string id="whatsNew_line4">Easy customization</string>
+    <string id="whatsNew_line1">Learns your routine</string>
+    <string id="whatsNew_line2">Breath ball, zen screen</string>
+    <string id="whatsNew_line3">3 new breath sessions</string>
+    <string id="whatsNew_line4">Now in Italian</string>
 </strings>

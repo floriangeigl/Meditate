@@ -1,487 +1,241 @@
 using Toybox.Application as App;
-using Toybox.System;
-using Toybox.WatchUi as Ui;
-using Toybox.Cryptography;
 using Toybox.Communications;
-using Toybox.StringUtil;
+using Toybox.Lang;
+using Toybox.System;
 using Toybox.Time;
-using Toybox.Time.Gregorian;
-using Toybox.Math;
+using Toybox.WatchUi as Ui;
 
+// optional GA4 analytics: one event per saved session, queued on the watch and sent in one request.
+// the monthly minutes and the tip prompt live in MonthlyStats
 class UsageStats {
-	private var gMeasurmentID;
-	private var gApiSecret;
-	// Queue of pending GA4 payloads: [{"id"=>Number, "ts"=>Number, "params"=>Dictionary}, ...]
-	private static const usageStatsQueueKey = "usageStats_queue_v2";
-	private static const usageStatsQueueMaxAgeSec = 259200; // 3 days in seconds
-	private static const usageStatsQueueMaxItems = 10;
-	private static var sFlushInProgress = false;
-	private static var sQueueIdCounter = 0;
-	private static const usageStatsMonthlyKey = "usageStats_monthly";
-	private static const usageStatsTipPendingKey = "usageStats_tipPending";
-	private var currentParams;
-	private var lastMonthStats;
-	private var mInFlightEntry;
-	private var mLastLocation;
+	// flat [endTime, seconds, endTime, seconds, ...], oldest first
+	static const QueueKey = "usageStats_queue_v3";
+	static const OldQueueKey = "usageStats_queue_v2";
+	static const MaxQueued = 10;
+	// 71 h: ga drops events backdated past 72 h
+	static const MaxAgeSec = 255600;
 
-	static function flushQueuedOnStartup() {
+	private static var sSending = false;
+
+	private var mMeasurementId;
+	private var mApiSecret;
+	// the events in the request, put back if it fails
+	private var mInFlight;
+
+	// queued before any request, so an exit right after the save keeps the event
+	static function record(sessionTime) {
 		try {
-			// Only fire a web request if there are actually queued entries;
-			// avoids holding a UsageStats instance + pending request in memory
-			// while the user navigates to start a session.
-			var queue = App.Storage.getValue(usageStatsQueueKey);
-			if (queue == null || queue.size() == 0) {
+			if (sessionTime == null) {
 				return;
 			}
-			var stats = new UsageStats(null);
-			stats.flushQueueWithLocationLookup();
-		} catch (ex) {
-			// Never break the app due to optional usage stats.
-		}
-	}
-
-	function flushQueueWithLocationLookup() {
-		// Trigger the same location lookup; callback decides whether to flush.
-		var options = {
-			:method => Communications.HTTP_REQUEST_METHOD_GET,
-		};
-		var url = "https://ipapi.co/json/";
-		Communications.makeWebRequest(url, null, options, method(:sendCurrentWithLocation));
-	}
-
-	static function tryOpenPendingTip() {
-		try {
-			var pending = App.Storage.getValue(usageStatsTipPendingKey);
-			if (pending == null) {
-				return;
-			}
-			// pending: [month_when_should_show, lastMonthStatsSeconds]
-			if (pending.size() < 2 || pending[0] == null || pending[1] == null) {
-				App.Storage.setValue(usageStatsTipPendingKey, null);
-				return;
-			}
-			var month_today = Gregorian.info(Time.now(), Time.FORMAT_SHORT).month;
-			var pendingMonth = pending[0];
-			if (month_today != pendingMonth) {
-				// Next month started; drop the request so we don't show stale stats.
-				App.Storage.setValue(usageStatsTipPendingKey, null);
-				return;
-			}
-			var devSettings = System.getDeviceSettings();
-			if (devSettings != null && devSettings has :phoneConnected && !devSettings.phoneConnected) {
-				// Phone not connected; keep pending and retry later.
-				return;
-			}
-			var mins = Math.ceil(pending[1] / 60.0);
-			TipMe.openTipMe(mins);
-			App.Storage.setValue(usageStatsTipPendingKey, null);
-		} catch (ex) {
-			// Never break the app due to optional tip prompt logic.
-		}
-	}
-
-	function initialize(sessionTime) {
-		me.gMeasurmentID = App.Properties.getValue("gMeasurmentID");
-		me.gApiSecret = App.Properties.getValue("gApiSecret");
-		me.lastMonthStats = 0;
-		me.mInFlightEntry = null;
-		me.mLastLocation = null;
-		me.currentParams = null;
-		if (sessionTime != null) {
-			me.currentParams = me.createParams(sessionTime);
-			me.addToMonthly(sessionTime);
-		}
-	}
-
-	function sendCurrentWithLocation(responseCode, data) {
-		try {
-			var hadLocation = false;
-			if (responseCode == 200 && data != null) {
-				var ip = data["ip"];
-				if (ip != null) {
-					var countryCode = data["country_code"];
-					if (countryCode != null) {
-						// Prefer structured location; GA ignores ip_override when
-						// user_location is present, so we don't set it here.
-						var loc = { "country_id" => countryCode };
-						var regionCode = data["region_code"];
-						if (regionCode != null) {
-							loc["region_id"] = countryCode + "-" + regionCode;
-						}
-						var city = data["city"];
-						if (city != null) {
-							loc["city"] = city;
-						}
-						me.mLastLocation = { "user_location" => loc };
-					} else {
-						// No geo data; fall back to anonymized IP for location.
-						me.mLastLocation = {
-							"ip_override" => isIPv4(ip) ? truncateIP(ip) : anonymizeIPv6(ip),
-						};
-					}
-					hadLocation = true;
-				}
-			}
-
-			// Always enqueue the just-finished session.
-			if (me.currentParams != null && hadLocation) {
-				me.applyLocationToParams(me.currentParams, me.mLastLocation);
-			}
-			me.enqueue(me.currentParams);
-
-			// Flush queued GA payloads when we have fresh location (preferred),
-			// or when lookup failed but we're likely online (non-0 response).
-			if (hadLocation) {
-				me.applyLocationToQueued(me.mLastLocation);
-				me.flushQueue();
-			} else if (responseCode != null && responseCode != 0) {
-				me.flushQueue();
-			}
-		} catch (ex) {
-			sFlushInProgress = false;
-		}
-	}
-
-	// Returns true only for plain IPv4 addresses (e.g. "1.2.3.4").
-	// IPv4-mapped IPv6 ("::ffff:1.2.3.4") contains ":" and is treated as IPv6.
-	function isIPv4(ip) {
-		return ip.find(".") != null && ip.find(":") == null;
-	}
-
-	// Anonymizes an IPv6 address to its /48 prefix by zeroing the last 80 bits
-	// (groups 4–8). Handles compressed "::" notation.
-	// Examples: "2001:db8:1234:5678::1" → "2001:db8:1234::"
-	//           "fe80::1"              → "fe80::"
-	function anonymizeIPv6(ip) {
-		var chars = ip.toCharArray();
-		var colonCount = 0;
-		var result = "";
-		for (var i = 0; i < chars.size(); i++) {
-			if (chars[i] == ':') {
-				colonCount++;
-				if (colonCount == 3) {
-					return result + "::";
-				}
-				// "::" shorthand: everything after is already zeroed.
-				if (i + 1 < chars.size() && chars[i + 1] == ':') {
-					return result + "::";
-				}
-			}
-			result += chars[i];
-		}
-		return result + "::";
-	}
-
-	function truncateIP(ip) {
-		ip = ip.toCharArray();
-		var truncatedIP = "";
-		var numSep = 0;
-		for (var i = 0; i < ip.size(); i++) {
-			if (ip[i] == '.') {
-				numSep++;
-				truncatedIP += ".";
-			} else {
-				if (numSep >= 3) {
-					truncatedIP += "0";
-					break;
-				} else {
-					truncatedIP += ip[i];
-				}
-			}
-		}
-		return truncatedIP;
-	}
-
-	function sendCurrent() {
-		if (me.currentParams == null) {
-			return;
-		}
-		var options = {
-			:method => Communications.HTTP_REQUEST_METHOD_GET,
-		};
-		var url = "https://ipapi.co/json/";
-		Communications.makeWebRequest(url, null, options, method(:sendCurrentWithLocation));
-	}
-
-	function createParams(sessionTime) {
-		var devSettings = System.getDeviceSettings();
-		var resolution = devSettings.screenWidth + "x" + devSettings.screenHeight;
-		var apiVersion = Lang.format("$1$.$2$.$3$", devSettings.monkeyVersion);
-		var systemLanguage = devSettings has :systemLanguage ? devSettings.systemLanguage : "unknown";
-		var deviceId = devSettings.uniqueIdentifier;
-		var firmwareVersion = Lang.format("$1$.$2$", devSettings.firmwareVersion);
-		var appVersion = Ui.loadResource(Rez.Strings.about_AppVersion);
-		var model = devSettings.partNumber;
-		var sessionId = System.getTimer(); // returns ms since boot; overflows every 50d
-		var events = [
-			{
-				"name" => "finished_meditation",
-				"params" => {
-					"engagement_time_msec" => sessionTime * 1000,
-					"app_version" => appVersion,
-					"resolution" => resolution,
-					"api_version" => apiVersion,
-					"session_id" => sessionId,
-					"timestamp_micros" => Time.now().value() * 1000000,
-					"model" => model,
-					"firmware_version" => firmwareVersion,
-					"system_language" => systemLanguage,
-				},
-			},
-		];
-		var device = {
-			"operating_system" => "MonkeyC",
-			"operating_system_version" => apiVersion,
-			"screen_resolution" => resolution,
-			"browser" => "Meditate",
-			"browser_version" => appVersion,
-			"brand" => "Garmin",
-			"category" => "watch",
-			"model" => model,
-		};
-		var userProperties = {
-			// add any custom properties here
-			"systemLanguage" => {
-				"value" => systemLanguage,
-			},
-			"firmwareVersion" => {
-				"value" => firmwareVersion,
-			},
-		};
-		var statsParams = {
-			"client_id" => deviceId,
-			"user_id" => deviceId,
-			"events" => events,
-			"device" => device,
-			"user_properties" => userProperties,
-		};
-		return statsParams;
-	}
-
-	private function send(params) {
-		var options = {
-			:method => Communications.HTTP_REQUEST_METHOD_POST,
-			:headers => {
-				"Content-Type" => Communications.REQUEST_CONTENT_TYPE_JSON,
-			},
-		};
-		var url = "https://www.google-analytics.com/mp/collect";
-		url += "?api_secret=" + me.gApiSecret;
-		url += "&measurement_id=" + me.gMeasurmentID;
-		Communications.makeWebRequest(url, params, options, method(:requestCallback));
-	}
-
-	function flushQueue() {
-		// Only one flusher at a time; callbacks will continue the drain.
-		if (sFlushInProgress) {
-			return;
-		}
-		sFlushInProgress = true;
-		me.flushNext();
-	}
-
-	private function enqueue(params) {
-		if (params == null) {
-			return;
-		}
-		var queue = me.loadQueue();
-		var now = Time.now().value();
-		queue = me.pruneQueue(queue, now);
-		queue.add({
-			"id" => me.newQueueId(now),
-			"ts" => now,
-			"params" => params,
-		});
-		queue = me.capQueue(queue);
-		me.saveQueue(queue);
-	}
-
-	private function flushNext() {
-		var queue = me.loadQueue();
-		var now = Time.now().value();
-		queue = me.pruneQueue(queue, now);
-		me.saveQueue(queue);
-
-		while (queue != null && queue.size() > 0) {
-			var entry = queue[0];
-			if (entry == null || me.isValidId(entry["id"]) == false || entry["params"] == null) {
-				// Drop corrupt/wrong-typed head entry and keep scanning.
-				queue.remove(queue[0]);
-				me.saveQueue(queue);
-				continue;
-			}
-
-			// Remove from persistent queue BEFORE sending so that if the app
-			// is killed mid-request the entry won't be resent on next startup.
-			// On confirmed failure the callback re-enqueues it for later retry.
-			me.mInFlightEntry = entry;
-			queue.remove(queue[0]);
-			me.saveQueue(queue);
-			var params = entry["params"];
-			if (me.mLastLocation != null) {
-				me.applyLocationToParams(params, me.mLastLocation);
-			}
-			me.send(params);
-			return;
-		}
-
-		// Nothing left to send.
-		sFlushInProgress = false;
-		me.mInFlightEntry = null;
-	}
-
-	private function loadQueue() {
-		var queue = App.Storage.getValue(usageStatsQueueKey);
-		if (queue == null) {
-			queue = [];
-		}
-		return queue;
-	}
-
-	private function saveQueue(queue) {
-		App.Storage.setValue(usageStatsQueueKey, queue);
-	}
-
-	private function pruneQueue(queue, now) {
-		if (queue == null) {
-			return [];
-		}
-		var keep = [];
-		for (var i = 0; i < queue.size(); i++) {
-			var entry = queue[i];
-			if (entry == null || entry["ts"] == null || entry["params"] == null) {
-				// Skip corrupt entries.
-				continue;
-			}
-			// Ensure an id exists and is the expected type (Number).
-			// Older/corrupt entries may carry a String id from a previous build;
-			// replace those to avoid mixed-type comparison crashes.
-			if (me.isValidId(entry["id"]) == false) {
-				entry["id"] = me.newQueueId(now);
-			}
-			var ts = entry["ts"];
-			if (ts != null && now - ts <= usageStatsQueueMaxAgeSec) {
-				keep.add(entry);
-			}
-		}
-		return keep;
-	}
-
-	private function applyLocationToQueued(location) {
-		if (location == null) {
-			return;
-		}
-		var queue = me.loadQueue();
-		for (var i = 0; i < queue.size(); i++) {
-			var entry = queue[i];
-			if (entry == null) {
-				continue;
-			}
-			var params = entry["params"];
-			if (params != null) {
-				me.applyLocationToParams(params, location);
-				entry["params"] = params;
-			}
-		}
-		me.saveQueue(queue);
-	}
-
-	private function applyLocationToParams(params, location) {
-		if (params == null || location == null) {
-			return;
-		}
-		// If we have fresh location, overwrite (queued items likely had none).
-		if (location["user_location"] != null) {
-			params["user_location"] = location["user_location"];
-		}
-		if (location["ip_override"] != null) {
-			params["ip_override"] = location["ip_override"];
-		}
-	}
-
-	private function capQueue(queue) {
-		if (queue == null) {
-			return [];
-		}
-		// Keep newest entries (drop oldest) if we exceed max.
-		while (queue.size() > usageStatsQueueMaxItems) {
-			queue.remove(queue[0]);
-		}
-		return queue;
-	}
-
-	// Returns true when id is a Number (the only type newQueueId produces).
-	// Older cached entries may carry a String id from a previous build;
-	// those must be dropped rather than compared, because a mixed-type ==
-	// can crash the release-optimised VM.
-	private function isValidId(id) {
-		return id != null && id instanceof Toybox.Lang.Number;
-	}
-
-	private function newQueueId(nowSec) {
-		// Both nowSec (UTC epoch) and the static counter increase
-		// monotonically, so their sum is strictly increasing and
-		// collision-free.  Counter stays tiny vs Int32 headroom.
-		sQueueIdCounter++;
-		return nowSec + sQueueIdCounter;
-	}
-
-	function requestCallback(responseCode, data) {
-		try {
-			var success = responseCode != null && responseCode >= 200 && responseCode < 300;
-			if (success) {
-				me.mInFlightEntry = null;
-				me.flushNext();
-			} else {
-				// Confirmed failure: re-enqueue so it's retried on next flush.
-				me.reEnqueueInFlight();
-				sFlushInProgress = false;
-			}
-		} catch (ex) {
-			me.reEnqueueInFlight();
-			sFlushInProgress = false;
-		}
-	}
-
-	private function reEnqueueInFlight() {
-		if (me.mInFlightEntry == null) {
-			return;
-		}
-		var entry = me.mInFlightEntry;
-		me.mInFlightEntry = null;
-		try {
-			var queue = me.loadQueue();
-			queue.add(entry);
-			queue = me.capQueue(queue);
-			me.saveQueue(queue);
+			App.Storage.setValue(QueueKey, add(App.Storage.getValue(QueueKey), Time.now().value(), sessionTime));
+			flush();
 		} catch (ex) {}
 	}
 
-	function addToMonthly(sessionTime) {
-		var monthlyStats = App.Storage.getValue(usageStatsMonthlyKey);
-		var current = 0;
-		var month_today = Gregorian.info(Time.now(), Time.FORMAT_SHORT).month;
-		if (monthlyStats == null) {
-			monthlyStats = [];
-		} else {
-			var month_last_entry = monthlyStats[0];
-			if (month_today != month_last_entry) {
-				// reset monthly stats if the month has changed
-				me.lastMonthStats = monthlyStats[1];
-				if (me.lastMonthStats / 60 >= 30) {
-					var existingPending = App.Storage.getValue(usageStatsTipPendingKey);
-					if (existingPending == null || existingPending.size() < 1 || existingPending[0] != month_today) {
-						App.Storage.setValue(usageStatsTipPendingKey, [month_today, me.lastMonthStats]);
-					}
+	static function flushOnStartup() {
+		try {
+			if (App.Storage.getValue(OldQueueKey) != null) {
+				App.Storage.deleteValue(OldQueueKey);
+			}
+			flush();
+		} catch (ex) {}
+	}
+
+	private static function flush() {
+		var stored = App.Storage.getValue(QueueKey);
+		if (stored == null) {
+			return;
+		}
+		if (prune(stored, Time.now().value()).size() == 0) {
+			// nothing left that ga would still take
+			App.Storage.deleteValue(QueueKey);
+			return;
+		}
+		if (sSending) {
+			return;
+		}
+		// throws without secrets.xml, caught by the caller
+		var stats = new UsageStats();
+		stats.lookUpIp();
+		// set once the request is out, so a throw cannot leave it stuck
+		sSending = true;
+	}
+
+	// drops what is not a [Number, Number] pair or too old to be backdated; anything else starts over
+	static function prune(queue, now) {
+		var kept = [];
+		if (queue instanceof Lang.Array) {
+			for (var i = 0; i + 1 < queue.size(); i += 2) {
+				var ts = queue[i];
+				var seconds = queue[i + 1];
+				if (ts instanceof Lang.Number && seconds instanceof Lang.Number && now - ts <= MaxAgeSec) {
+					kept.add(ts);
+					kept.add(seconds);
 				}
-				monthlyStats = [];
-			} else {
-				current = monthlyStats[1];
 			}
 		}
-		current += sessionTime;
-		monthlyStats = [month_today, current];
-		App.Storage.setValue(usageStatsMonthlyKey, monthlyStats);
-		// System.println("Set monthly stats: " + monthlyStats);
+		return kept;
+	}
+
+	static function add(queue, now, seconds) {
+		queue = prune(queue, now);
+		queue.add(now);
+		queue.add(seconds);
+		return cap(queue);
+	}
+
+	// failed events go back in front of those queued meanwhile
+	static function requeue(sent, queue, now) {
+		var merged = prune(sent, now);
+		merged.addAll(prune(queue, now));
+		return cap(merged);
+	}
+
+	// keeps the newest
+	private static function cap(queue) {
+		var excess = queue.size() - 2 * MaxQueued;
+		return excess > 0 ? queue.slice(excess, null) : queue;
+	}
+
+	// geojs.io answer -> anonymised ip for ga's ip_override, null when there is none
+	static function ipFrom(data) {
+		if (!(data instanceof Lang.Dictionary) || !(data["ip"] instanceof Lang.String)) {
+			return null;
+		}
+		return anonymize(data["ip"]);
+	}
+
+	// ipv4 with the last block 0, ipv6 cut to /48; null for anything else
+	static function anonymize(ip) {
+		var chars = ip.toCharArray();
+		var colons = 0;
+		var dots = 0;
+		var lastDot = -1;
+		for (var i = 0; i < chars.size(); i++) {
+			if (chars[i] == ':') {
+				colons++;
+				// the third group ends here, or :: zeroes the rest
+				if (colons == 3 || (i + 1 < chars.size() && chars[i + 1] == ':')) {
+					return ip.substring(0, i) + "::";
+				}
+			} else if (chars[i] == '.') {
+				dots++;
+				lastDot = i;
+			}
+		}
+		if (colons == 0 && dots == 3) {
+			return ip.substring(0, lastDot + 1) + "0";
+		}
+		return null;
+	}
+
+	static function payload(queue, ip) {
+		var settings = System.getDeviceSettings();
+		var resolution = settings.screenWidth + "x" + settings.screenHeight;
+		var apiVersion = Lang.format("$1$.$2$.$3$", settings.monkeyVersion);
+		var firmware = Lang.format("$1$.$2$", settings.firmwareVersion);
+		var language = settings has :systemLanguage ? settings.systemLanguage : "unknown";
+		var appVersion = Ui.loadResource(Rez.Strings.about_AppVersion);
+		var model = settings.partNumber;
+		var events = [];
+		for (var i = 0; i + 1 < queue.size(); i += 2) {
+			events.add({
+				"name" => "finished_meditation",
+				// micros overflow a Number
+				"timestamp_micros" => queue[i].toLong() * 1000000l,
+				"params" => {
+					"engagement_time_msec" => queue[i + 1] * 1000,
+					"session_id" => queue[i],
+					"app_version" => appVersion,
+					"resolution" => resolution,
+					"api_version" => apiVersion,
+					"model" => model,
+					"firmware_version" => firmware,
+					"system_language" => language,
+				},
+			});
+		}
+		var payload = {
+			"client_id" => settings.uniqueIdentifier,
+			"user_id" => settings.uniqueIdentifier,
+			"events" => events,
+			"device" => {
+				"operating_system" => "MonkeyC",
+				"operating_system_version" => apiVersion,
+				"screen_resolution" => resolution,
+				"browser" => "Meditate",
+				"browser_version" => appVersion,
+				"brand" => "Garmin",
+				"category" => "watch",
+				"model" => model,
+			},
+			"user_properties" => {
+				"systemLanguage" => { "value" => language },
+				"firmwareVersion" => { "value" => firmware },
+			},
+		};
+		if (ip != null) {
+			payload["ip_override"] = ip;
+		}
+		return payload;
+	}
+
+	function initialize() {
+		me.mMeasurementId = App.Properties.getValue("gaMeasurementId");
+		me.mApiSecret = App.Properties.getValue("gaApiSecret");
+	}
+
+	function lookUpIp() {
+		Communications.makeWebRequest(
+			"https://get.geojs.io/v1/ip.json",
+			null,
+			{ :method => Communications.HTTP_REQUEST_METHOD_GET },
+			method(:onIp)
+		);
+	}
+
+	// sends with or without an ip; offline the send fails and the events go back
+	function onIp(responseCode, data) {
+		try {
+			me.send(responseCode == 200 ? ipFrom(data) : null);
+		} catch (ex) {
+			me.done(false);
+		}
+	}
+
+	private function send(ip) {
+		var queue = prune(App.Storage.getValue(QueueKey), Time.now().value());
+		if (queue.size() == 0) {
+			me.done(true);
+			return;
+		}
+		var body = payload(queue, ip);
+		// removed before sending, so an exit mid-request cannot send them twice
+		me.mInFlight = queue;
+		App.Storage.deleteValue(QueueKey);
+		Communications.makeWebRequest(
+			"https://www.google-analytics.com/mp/collect?api_secret=" + me.mApiSecret + "&measurement_id=" + me.mMeasurementId,
+			body,
+			{
+				:method => Communications.HTTP_REQUEST_METHOD_POST,
+				:headers => { "Content-Type" => Communications.REQUEST_CONTENT_TYPE_JSON },
+			},
+			method(:onSent)
+		);
+	}
+
+	function onSent(responseCode, data) {
+		me.done(responseCode >= 200 && responseCode < 300);
+	}
+
+	private function done(sent) {
+		try {
+			if (!sent && me.mInFlight != null) {
+				App.Storage.setValue(QueueKey, requeue(me.mInFlight, App.Storage.getValue(QueueKey), Time.now().value()));
+			}
+		} catch (ex) {}
+		me.mInFlight = null;
+		sSending = false;
 	}
 }

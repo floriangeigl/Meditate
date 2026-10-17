@@ -31,7 +31,7 @@ class SessionPickerHrvStatusTests {
 		if (errors < 1 || !isText(line, alt ? Rez.Strings.HRVstartingAlt : Rez.Strings.HRVstarting)) {
 			return false;
 		}
-		if (!(line.icon instanceof ScreenPicker.LoadingIcon)) {
+		if (!(line.icon instanceof LoadingIcon)) {
 			return false;
 		}
 		// past 18 error seconds the hint is a restart, and it stays
@@ -50,7 +50,7 @@ class SessionPickerHrvStatusTests {
 		// beats arrive: weak, then good with the ready blip and a reset counter
 		feed.update(new FakeSensorData([1000]));
 		picker.updateHrvStatus([1000]);
-		if (!isText(line, Rez.Strings.HRVweak) || !(line.icon instanceof ScreenPicker.HrvIcon)) {
+		if (!isText(line, Rez.Strings.HRVweak) || !(line.icon instanceof HrvIcon)) {
 			return false;
 		}
 		feed.update(new FakeSensorData([1000]));

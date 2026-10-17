@@ -1,4 +1,3 @@
-using Toybox.Application as App;
 using Toybox.Graphics as Gfx;
 
 class SessionPresets {
@@ -6,15 +5,33 @@ class SessionPresets {
 	// so these must never be renumbered. A new preset takes the next free key at the end.
 	static const FirstBreathworkKey = 7;
 
-	// key = FirstBreathworkKey + index; the first three keep the names existing users know
-	private static function breathworkPresetDefs() {
+	// key = index, so the keys stop below FirstBreathworkKey; [minutes, color, alert minutes, alert vibe]
+	private static function meditationPresetDefs() {
 		return [
-			["Box Breath", :box5],
-			["B. Coherence", :coherence5],
-			["B. 4-7-8", :b4785],
-			["B. Energize", :energize],
-			["B. Wind Down", :windDown],
-			["B. Holds", :breathHolds],
+			[5, Gfx.COLOR_GREEN, 5, VibePattern.Blip],
+			[10, Gfx.COLOR_YELLOW, 5, VibePattern.Blip],
+			[15, Gfx.COLOR_BLUE, 5, VibePattern.Blip],
+			[20, Gfx.COLOR_GREEN, 5, VibePattern.Blip],
+			[30, Gfx.COLOR_GREEN, 15, VibePattern.Blip],
+			[45, Gfx.COLOR_GREEN, 15, VibePattern.ShortAscending],
+			[60, Gfx.COLOR_GREEN, 15, VibePattern.ShortAscending],
+		];
+	}
+
+	// key = FirstBreathworkKey + index; the first three keep the names existing users know
+	// [name, program, end vibe]; sleep ends with a blip so it doesn't wake anyone
+	private static function breathworkPresetDefs() {
+		var end = VibePattern.LongContinuous;
+		return [
+			["Box Breath", :box5, end],
+			["B. Coherence", :coherence5, end],
+			["B. 4-7-8", :b4785, end],
+			["B. Energize", :energize, end],
+			["B. Wind Down", :windDown, end],
+			["B. Holds", :breathHolds, end],
+			["B. Sleep", :sleep, VibePattern.Blip],
+			["B. Calm", :calm, end],
+			["B. Free", :free15, end],
 		];
 	}
 
@@ -25,18 +42,36 @@ class SessionPresets {
 		if (index < 0 || index >= defs.size()) {
 			return null;
 		}
-		return SessionPresets.makeBreathworkSession(defs[index][0], defs[index][1], key);
+		return SessionPresets.makeBreathworkSession(defs[index], key);
+	}
+
+	// one repeating alert, colour and type from the Alert defaults
+	private static function makeMeditationSession(def, sessionKey) {
+		var alerts = new IntervalAlerts();
+		alerts.addNew();
+		alerts.get(0).time = def[2] * 60;
+		alerts.get(0).vibePattern = def[3];
+		var session = new SessionModel();
+		session.fromDictionary({
+			"time" => def[0] * 60,
+			"color" => def[1],
+			"vibePattern" => VibePattern.LongContinuous,
+			"intervalAlerts" => alerts.toArray(),
+			"activityType" => ActivityType.Meditating,
+			"key" => sessionKey,
+		});
+		return session;
 	}
 
 	// BreathTemplates owns the program data; this only wraps it in a session
-	private static function makeBreathworkSession(name, templateId, sessionKey) {
-		var program = BreathTemplates.createProgram(templateId);
+	private static function makeBreathworkSession(def, sessionKey) {
+		var program = BreathTemplates.createProgram(def[1]);
 		var session = new SessionModel();
 		session.fromDictionary({
 			"time" => program.totalTime(),
 			"color" => Gfx.COLOR_GREEN,
-			"name" => name,
-			"vibePattern" => VibePattern.LongContinuous,
+			"name" => def[0],
+			"vibePattern" => def[2],
 			"breathProgram" => program.toDictionary(),
 			"activityType" => ActivityType.Breathing,
 			"key" => sessionKey,
@@ -44,147 +79,19 @@ class SessionPresets {
 		return session;
 	}
 
+	// every preset in list order, which is the order a fresh store shows them in
 	static function getPresets() {
-		var sessions = new SessionModel [0];
-		var session = null;
-		var iAlert = null;
-		var settings = null;
-		var sessionKey = 0;
-
-		// 5min Meditation
-		session = new SessionModel();
-		iAlert = new IntervalAlerts();
-		iAlert.addNew(); // default every 5min
-		settings = {
-			"time" => 5 * 60,
-			"color" => Gfx.COLOR_GREEN,
-			"vibePattern" => VibePattern.LongContinuous,
-			"intervalAlerts" => iAlert.toArray(), // default every 5min
-			"activityType" => ActivityType.Meditating,
-			"key" => sessionKey,
-		};
-		session.fromDictionary(settings);
-		sessions.add(session);
-		sessionKey++;
-
-		// 10min Meditation
-		session = new SessionModel();
-		iAlert = new IntervalAlerts();
-		iAlert.addNew(); // default every 5min
-		settings = {
-			"time" => 10 * 60,
-			"color" => Gfx.COLOR_YELLOW,
-			"vibePattern" => VibePattern.LongContinuous,
-			"intervalAlerts" => iAlert.toArray(), // default every 5min
-			"activityType" => ActivityType.Meditating,
-			"key" => sessionKey,
-		};
-		session.fromDictionary(settings);
-		sessions.add(session);
-		sessionKey++;
-
-		// 15min Meditation
-		session = new SessionModel();
-		iAlert = new IntervalAlerts();
-		iAlert.addNew(); // default every 5min
-		settings = {
-			"time" => 15 * 60,
-			"color" => Gfx.COLOR_BLUE,
-			"vibePattern" => VibePattern.LongContinuous,
-			"intervalAlerts" => iAlert.toArray(), // default every 5min
-			"activityType" => ActivityType.Meditating,
-			"key" => sessionKey,
-		};
-		session.fromDictionary(settings);
-		sessions.add(session);
-		sessionKey++;
-
-		// 20min Meditation
-		session = new SessionModel();
-		iAlert = new IntervalAlerts();
-		iAlert.addNew(); // default every 5min
-		settings = {
-			"time" => 20 * 60,
-			"color" => Gfx.COLOR_GREEN,
-			"vibePattern" => VibePattern.LongContinuous,
-			"intervalAlerts" => iAlert.toArray(),
-			"activityType" => ActivityType.Meditating,
-			"key" => sessionKey,
-		};
-		session.fromDictionary(settings);
-		sessions.add(session);
-		sessionKey++;
-
-		// 30min Meditation
-		session = new SessionModel();
-		iAlert = new IntervalAlerts();
-		// change interval alert to every 15min
-		iAlert.addNew();
-		iAlert.get(0).time = 15 * 60;
-		settings = {
-			"time" => 30 * 60,
-			"color" => Gfx.COLOR_GREEN,
-			"vibePattern" => VibePattern.LongContinuous,
-			"intervalAlerts" => iAlert.toArray(),
-			"activityType" => ActivityType.Meditating,
-			"key" => sessionKey,
-		};
-		session.fromDictionary(settings);
-		sessions.add(session);
-		sessionKey++;
-
-		// 45min Meditation
-		session = new SessionModel();
-		iAlert = new IntervalAlerts();
-		iAlert.addNew();
-		// change interval alert to every 15min
-		iAlert.get(0).time = 15 * 60;
-		iAlert.get(0).vibePattern = VibePattern.ShortAscending;
-		settings = {
-			"time" => 45 * 60,
-			"color" => Gfx.COLOR_GREEN,
-			"vibePattern" => VibePattern.LongContinuous,
-			"intervalAlerts" => iAlert.toArray(),
-			"activityType" => ActivityType.Meditating,
-			"key" => sessionKey,
-		};
-		session.fromDictionary(settings);
-		sessions.add(session);
-		sessionKey++;
-
-		// 60min Meditation
-		session = new SessionModel();
-		iAlert = new IntervalAlerts();
-		iAlert.addNew();
-		// change interval alert to every 15min
-		iAlert.get(0).time = 15 * 60;
-		iAlert.get(0).vibePattern = VibePattern.ShortAscending;
-		settings = {
-			"time" => 60 * 60,
-			"color" => Gfx.COLOR_GREEN,
-			"vibePattern" => VibePattern.LongContinuous,
-			"intervalAlerts" => iAlert.toArray(),
-			"activityType" => ActivityType.Meditating,
-			"key" => sessionKey,
-		};
-		session.fromDictionary(settings);
-		sessions.add(session);
-		sessionKey++;
-
-		// Breathwork presets are guided breath programs; the program defines the length.
-		// sessionKey is FirstBreathworkKey here - keys are addressed directly so the migration
-		// in SessionStorage can rebuild any single preset from its key.
+		var sessions = [];
+		var meditationDefs = SessionPresets.meditationPresetDefs();
+		for (var i = 0; i < meditationDefs.size(); i++) {
+			sessions.add(SessionPresets.makeMeditationSession(meditationDefs[i], i));
+		}
 		var breathworkDefs = SessionPresets.breathworkPresetDefs();
 		for (var i = 0; i < breathworkDefs.size(); i++) {
 			sessions.add(
-				SessionPresets.makeBreathworkSession(
-					breathworkDefs[i][0],
-					breathworkDefs[i][1],
-					SessionPresets.FirstBreathworkKey + i
-				)
+				SessionPresets.makeBreathworkSession(breathworkDefs[i], SessionPresets.FirstBreathworkKey + i)
 			);
 		}
-
 		return sessions;
 	}
 }

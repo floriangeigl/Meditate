@@ -4,25 +4,23 @@
     <string id="confirmDeleteSessionHeader">Sitzung löschen?</string>
     <string id="confirmDeleteAllIntervalAlertsHeader">Alle Alerts löschen?</string>
 
-    <string id="SummaryTitle">Zusf.</string>
     <string id="SummaryHR">Herzrate</string>
     <string id="SummaryStress">Stress</string>
     <string id="SummaryStart">Beginn: </string>
     <string id="SummaryEnd">Ende: </string>
-    <string id="SummaryRespiration">Atmung</string>
     <string id="SummaryMin">Min:</string>
     <string id="SummaryAvg">Durchschn.:</string>
     <string id="SummaryMax">Max:</string>
     <string id="SummaryHRVRMSSD">HRV RMSSD</string>
     <string id="SummaryHRVpNNx">HRV &gt; x</string>
     <string id="SummaryHRVSDRR">HRV SDRR</string>
-    <string id="SummaryHRVRMSSDFirst5min">Erste 5 Min</string>
-    <string id="SummaryHRVRMSSDLast5min">Letzte 5 Min</string>
+    <string id="SummaryHRVSDRRFirst5min">Erste 5 Min</string>
+    <string id="SummaryHRVSDRRLast5min">Letzte 5 Min</string>
 
-    <string id="menuSessionSettings_Title">Sitzung</string>
+    <string id="menuLabelSession">Sitzung</string>
     <string id="menuSessionSettings_addNew">Neu hinzufügen</string>
-    <string id="menuSessionSettings_edit">Bearbeiten</string>
-    <string id="menuSessionSettings_delete">Löschen</string>
+    <string id="menuLabelEdit">Bearbeiten</string>
+    <string id="menuLabelDelete">Löschen</string>
     <string id="menuSessionSettings_globalSettings">Glob. Einst.</string>
     <string id="menuSessionSettings_help">Hilfe</string>
     <string id="menuSessionSettings_about">Über</string>
@@ -30,18 +28,14 @@
     <string id="help_openingUserGuide">Anleitung wird auf dem Handy geöffnet</string>
 
     <string id="menuGlobalSettings_title">Einst.</string>
-    <string id="menuGlobalSettings_newHrvTracking">HRV-Überwachung</string>
     <string id="menuGlobalSettings_newActivityType">Neue Akt.-Typ</string>
     <string id="menuGlobalSettings_confirmSaveActivity">Speichern best.</string>
-    <string id="menuGlobalSettings_multiSession">Mehr. Sitz.</string>
-    <string id="menuGlobalSettings_singleSession">Einz. Sitz.</string>
+    <string id="menuLabelMultiSession">Mehr. Sitz.</string>
     <string id="menuGlobalSettings_respirationRate">Atmung</string>
     <string id="menuGlobalSettings_autoStop">Auto Stopp</string>
     <string id="menuGlobalSettings_colorTheme">Farbschema</string>
     <string id="menuGlobalSettings_prepareTime">Vorb.-Zeit</string>
     <string id="menuGlobalSettings_finalizeTime">Abschl.-Zeit</string>
-    <string id="menuGlobalSettings_respiration">Atmung: </string>
-    <string id="menuGlobalSettings_save">Speich.: </string>
     <string id="menuGlobalSettings_sensorRestart">Sensor-Neustart</string>
 
     <string id="menuNewActivityTypeOptions_title">Aktivität</string>
@@ -50,79 +44,44 @@
     <string id="menuNewActivityTypeOptions_breathing">Atmen</string>
     <string id="menuNewActivityTypeOptions_generic">Allgemein</string>
 
-    <string id="activityTypeMenu_title">Aktivitätstyp</string>
-    <string id="activityTypeMenu_yoga">Yoga</string>
-    <string id="activityTypeMenu_meditating">Meditieren</string>
-    <string id="activityTypeMenu_breathing">Atmen</string>
-    <string id="activityTypeMenu_generic">Allgemein</string>
 
-    <string id="menuNewHrvTrackingOptions_title">HRV-Überw.</string>
-    <string id="menuNewHrvTrackingOptions_on">Ein</string>
-    <string id="menuNewHrvTrackingOptions_off">Aus</string>
 
-    <string id="menuHrvTrackingOptions_title">HRV-Überw.</string>
     <string id="menuHrvTrackingOptions_onDetailed">Detailliert ein</string>
-    <string id="menuHrvTrackingOptions_on">Ein</string>
-    <string id="menuHrvTrackingOptions_off">Aus</string>
 
-    <string id="menuConfirmSaveActivityOptions_title">Speich. best.</string>
     <string id="menuConfirmSaveActivityOptions_autoYes">Auto Ja</string>
     <string id="menuConfirmSaveActivityOptions_autoNo">Auto Nein</string>
     <string id="menuConfirmSaveActivityOptions_askSimple">Fragen</string>
     <string id="menuConfirmSaveActivityOptions_autoYesExit">Auto Ja &amp; Beenden</string>
 
-    <string id="menuMultiSessionOptions_title">Mehr. Sitz.</string>
-    <string id="menuMultiSessionOptions_yes">Ja</string>
-    <string id="menuMultiSessionOptions_no">Nein</string>
+    <string id="menuLabelYes">Ja</string>
+    <string id="menuLabelNo">Nein</string>
 
-    <string id="menuRespirationRateOptions_title">Atm.-Freq.</string>
-    <string id="menuRespirationRateOptions_on">Ein</string>
-    <string id="menuRespirationRateOptions_off">Aus</string>
+    <string id="menuLabelRespiration">Atmung</string>
 
-    <string id="menuAutoStopOptions_title">Auto Stopp</string>
-    <string id="menuAutoStopOptions_on">Ein</string>
-    <string id="menuAutoStopOptions_off">Aus</string>
+    <string id="menuLabelOn">Ein</string>
+    <string id="menuLabelOff">Aus</string>
 
 
-    <string id="menuColorThemeOptions_title">Farbschema</string>
     <string id="menuColorThemeOptions_light">Hell</string>
     <string id="menuColorThemeOptions_dark">Dunkel</string>
 
-    <string id="menuPrepareTimeOptions_title">Vorbereitung</string>
-    <string id="menuFinalizeTimeOptions_title">Abschluss</string>
-    <string id="menuPrepareTimeOptions_0s">0 Sek</string>
-    <string id="menuPrepareTimeOptions_15s">15 Sek</string>
-    <string id="menuPrepareTimeOptions_30s">30 Sek</string>
-    <string id="menuPrepareTimeOptions_45s">45 Sek</string>
-    <string id="menuPrepareTimeOptions_1m">1 Min</string>
-    <string id="menuPrepareTimeOptions_2m">2 Min</string>
-    <string id="menuPrepareTimeOptions_3m">3 Min</string>
-    <string id="menuPrepareTimeOptions_4m">4 Min</string>
-    <string id="menuPrepareTimeOptions_5m">5 Min</string>
-    <string id="menuPrepareTimeOptions_10m">10 min</string>
 
     <string id="menuHrvWindowSizeOptions_title">HRV Fenster</string>
     <string id="menuLabelDefault">Standard</string>
     <string id="menuLabelRecommended">Empfohlen</string>
 
     <string id="menuGlobalSettings_useSessionName">Sitzungsname = Aktivitätsname</string>
-    <string id="menuGlobalSettings_useSessionName_on">Ja</string>
-    <string id="menuGlobalSettings_useSessionName_off">Nein</string>
+    <string id="menuGlobalSettings_learnRoutine">Routine lernen</string>
 
     <string id="menuNotificationOptions_title">Vibration &amp; Ton</string>
-    <string id="menuNotificationOptions_on">Ein</string>
-    <string id="menuNotificationOptions_off">Aus</string>
 
-    <string id="menuIntervalAlertSettings_Title">Intervall-Alerts</string>
     <string id="menuIntervalAlertSettings_addNew">Neu hinzufügen</string>
-    <string id="menuIntervalAlertSettings_edit">Bearbeiten</string>
     <string id="menuIntervalAlertSettings_deleteAll">Alle löschen</string>
 
     <string id="summaryRollupMenu_title">Sitz.-Zusf.</string>
     <string id="summaryRollupMenuOption_exit">Verlassen</string>
 
     <!-- Multi-session post-session menu -->
-    <string id="multiSessionPostMenu_title">Mehr. Sitz.</string>
     <string id="multiSessionPostMenu_nextSession">Nächste Sitzung</string>
     <string id="multiSessionPostMenu_summary">Zusf.</string>
     <string id="multiSessionPostMenu_endMultiSession">Mehr. Sitz. beenden</string>
@@ -130,25 +89,18 @@
     <string id="confirmDeleteIntervalAlertHeader">Alert löschen?</string>
 
     <string id="addEditIntervalAlertMenu_title">Alert</string>
-    <string id="addEditIntervalAlertMenu_time">Zeit</string>
     <string id="addEditIntervalAlertMenu_offset">Offset</string>
-    <string id="addEditIntervalAlertMenu_color">Farbe</string>
-    <string id="addEditIntervalAlertMenu_vibeSound">Vibration / Ton</string>
-    <string id="addEditIntervalAlertMenu_delete">Löschen</string>
 
-    <string id="addEditSessionMenu_title">Sitzung</string>
     <string id="addEditSessionMenu_name">Name</string>
-    <string id="addEditSessionMenu_time">Zeit</string>
-    <string id="addEditSessionMenu_color">Farbe</string>
-    <string id="addEditSessionMenu_vibeSound">Vibration / Ton</string>
-    <string id="addEditSessionMenu_intervalAlerts">Intervall-Infos</string>
+    <string id="menuLabelTime">Zeit</string>
+    <string id="menuLabelColor">Farbe</string>
+    <string id="menuLabelVibeSound">Vibration / Ton</string>
+    <string id="menuLabelIntervalAlerts">Intervall-Alerts</string>
     <string id="addEditSessionMenu_activityType">Aktivitätstyp</string>
-    <string id="addEditSessionMenu_hrvTracking">HRV-Track</string>
+    <string id="menuLabelHrvTracking">HRV-Überwachung</string>
 
     <string id="intervalAlertTransparentColorText">Transparent</string>
 
-    <string id="vibePatternMenu_title">Vibra/Ton</string>
-    <string id="vibePatternMenu_noNotification">Aus</string>
     <string id="vibePatternMenu_longPulsating">Lang pulsierend</string>
     <string id="vibePatternMenu_longSound">Langer Ton</string>
     <string id="vibePatternMenu_longContinuous">Lang anhaltend</string>
@@ -163,8 +115,6 @@
     <string id="vibePatternMenu_mediumDescending">Mittel absteigend</string>
     <string id="vibePatternMenu_longDescending">Lang absteigend</string>
 
-    <string id="intervalVibePatternMenu_title">Vibra/Ton</string>
-    <string id="intervalVibePatternMenu_noNotification">Keine Benach.</string>
     <string id="intervalVibePatternMenu_shorterContinuous">Kürzer anhaltend</string>
     <string id="intervalVibePatternMenu_shorterAscending">Kürzer aufsteigend</string>
     <string id="intervalVibePatternMenu_blip">Piepton</string>
@@ -176,7 +126,6 @@
 
     <string id="editIntervalAlertsMenu_title">Intervall-Alarme</string>
     <string id="activityDelayedFinishingText">Abschließen...</string>
-    <string id="meditateActivityPaused">[Pausiert]</string>
     <string id="meditateActivityPrepare">Entspannen zum Starten\nder Sitzung\nin</string>
     <string id="meditateActivityFinalize">Abschluss\nder Sitzung\nin</string>
 
@@ -203,11 +152,10 @@
     <string id="pauseMenu_stop">Stopp</string>
     <string id="finishMenu_save">Speichern</string>
     <string id="finishMenu_discard">Verwerfen</string>
-    <string id="optionsMenuHelp">Start drücken für Optionen</string>
 
     <string id="restoreDeviceId">Restore From Device ID (leave empty to use this device):</string>
 
-    <string id="about_AppVersion">v11.1.2</string>
+    <string id="about_AppVersion">v11.2.0</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>
     <string id="about_falsetru">falsetru</string>
@@ -246,8 +194,8 @@
     <string id="menuBreathCuesOptions_vibration">Vibration</string>
     <string id="menuBreathCuesOptions_vibrationTone">Vibration + Ton</string>
     <string id="whatsNew_title">Was ist neu</string>
-    <string id="whatsNew_line1">Geführte Atemübungen</string>
-    <string id="whatsNew_line2">Folge den Atem-Signalen</string>
-    <string id="whatsNew_line3">3 neue Sessions</string>
-    <string id="whatsNew_line4">Leicht anpassbar</string>
+    <string id="whatsNew_line1">Lernt deine Routine</string>
+    <string id="whatsNew_line2">Atemball, Zen-Ansicht</string>
+    <string id="whatsNew_line3">3 neue Atem-Sessions</string>
+    <string id="whatsNew_line4">Jetzt auf Italienisch</string>
 </strings>

@@ -39,7 +39,7 @@ class TwoColumnPickerView extends Ui.View {
         mSingleColumn = (options[:singleColumn] == true);
         mSelectedCol = mSingleColumn ? 1 : 0;
 
-        var colorTheme = GlobalSettings.loadColorTheme();
+        var colorTheme = GlobalSettings.load(GlobalSettings.ColorThemeKey);
         if (colorTheme == ColorTheme.Dark) {
             backgroundColor = Gfx.COLOR_BLACK;
             foregroundColor = Gfx.COLOR_WHITE;

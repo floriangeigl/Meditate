@@ -4,25 +4,23 @@
     <string id="confirmDeleteSessionHeader">删除？</string>
     <string id="confirmDeleteAllIntervalAlertsHeader">删除全部提醒？</string>
 
-    <string id="SummaryTitle">摘要</string>
     <string id="SummaryHR">心率</string>
     <string id="SummaryStress">压力</string>
     <string id="SummaryStart">开始: </string>
     <string id="SummaryEnd">结束: </string>
-    <string id="SummaryRespiration">呼吸</string>
     <string id="SummaryMin">最低:</string>
     <string id="SummaryAvg">均值:</string>
     <string id="SummaryMax">最高:</string>
     <string id="SummaryHRVRMSSD">HRV RMSSD</string>
     <string id="SummaryHRVpNNx">HRV &gt; x</string>
     <string id="SummaryHRVSDRR">HRV SDRR</string>
-    <string id="SummaryHRVRMSSDFirst5min">前5分钟</string>
-    <string id="SummaryHRVRMSSDLast5min">后5分钟</string>
+    <string id="SummaryHRVSDRRFirst5min">前5分钟</string>
+    <string id="SummaryHRVSDRRLast5min">后5分钟</string>
 
-    <string id="menuSessionSettings_Title">会话</string>
+    <string id="menuLabelSession">会话</string>
     <string id="menuSessionSettings_addNew">新建</string>
-    <string id="menuSessionSettings_edit">编辑</string>
-    <string id="menuSessionSettings_delete">删除</string>
+    <string id="menuLabelEdit">编辑</string>
+    <string id="menuLabelDelete">删除</string>
     <string id="menuSessionSettings_globalSettings">全局设置</string>
     <string id="menuSessionSettings_help">帮助</string>
     <string id="menuSessionSettings_about">关于</string>
@@ -30,19 +28,15 @@
     <string id="help_openingUserGuide">正在手机上打开使用指南</string>
 
     <string id="menuGlobalSettings_title">设置</string>
-    <string id="menuGlobalSettings_newHrvTracking">HRV追踪</string>
     <string id="menuGlobalSettings_newActivityType">活动类型</string>
     <string id="menuGlobalSettings_confirmSaveActivity">保存确认</string>
-    <string id="menuGlobalSettings_multiSession">多段会话</string>
-    <string id="menuGlobalSettings_singleSession">单次会话</string>
+    <string id="menuLabelMultiSession">多段会话</string>
     <string id="menuGlobalSettings_respirationRate">呼吸频率</string>
     <string id="menuGlobalSettings_autoStop">自动停止</string>
     <string id="menuGlobalSettings_colorTheme">主题颜色</string>
     <string id="menuGlobalSettings_prepareTime">准备时间</string>
     <string id="menuGlobalSettings_finalizeTime">收尾时间</string>
     <string id="menuGlobalSettings_sensorRestart">传感器重启</string>
-    <string id="menuGlobalSettings_respiration">呼吸: </string>
-    <string id="menuGlobalSettings_save">保存: </string>
 
     <string id="menuNewActivityTypeOptions_title">活动</string>
     <string id="menuNewActivityTypeOptions_meditating">冥想</string>
@@ -50,78 +44,43 @@
     <string id="menuNewActivityTypeOptions_breathing">呼吸</string>
     <string id="menuNewActivityTypeOptions_generic">通用</string>
 
-    <string id="activityTypeMenu_title">活动类型</string>
-    <string id="activityTypeMenu_yoga">瑜伽</string>
-    <string id="activityTypeMenu_meditating">冥想</string>
-    <string id="activityTypeMenu_breathing">呼吸</string>
-    <string id="activityTypeMenu_generic">通用</string>
 
-    <string id="menuNewHrvTrackingOptions_title">HRV追踪</string>
-    <string id="menuNewHrvTrackingOptions_on">开启</string>
-    <string id="menuNewHrvTrackingOptions_off">关闭</string>
 
-    <string id="menuHrvTrackingOptions_title">HRV追踪</string>
     <string id="menuHrvTrackingOptions_onDetailed">详细</string>
-    <string id="menuHrvTrackingOptions_on">开启</string>
-    <string id="menuHrvTrackingOptions_off">关闭</string>
 
-    <string id="menuConfirmSaveActivityOptions_title">保存确认</string>
     <string id="menuConfirmSaveActivityOptions_autoYes">自动保存</string>
     <string id="menuConfirmSaveActivityOptions_autoNo">自动放弃</string>
     <string id="menuConfirmSaveActivityOptions_askSimple">询问</string>
     <string id="menuConfirmSaveActivityOptions_autoYesExit">自动保存并退出</string>
 
-    <string id="menuMultiSessionOptions_title">多段会话</string>
-    <string id="menuMultiSessionOptions_yes">是</string>
-    <string id="menuMultiSessionOptions_no">否</string>
+    <string id="menuLabelYes">是</string>
+    <string id="menuLabelNo">否</string>
 
-    <string id="menuRespirationRateOptions_title">呼吸</string>
-    <string id="menuRespirationRateOptions_on">开启</string>
-    <string id="menuRespirationRateOptions_off">关闭</string>
+    <string id="menuLabelRespiration">呼吸</string>
 
-    <string id="menuAutoStopOptions_title">自动停止</string>
-    <string id="menuAutoStopOptions_on">开启</string>
-    <string id="menuAutoStopOptions_off">关闭</string>
+    <string id="menuLabelOn">开启</string>
+    <string id="menuLabelOff">关闭</string>
 
-    <string id="menuColorThemeOptions_title">主题颜色</string>
     <string id="menuColorThemeOptions_light">浅色</string>
     <string id="menuColorThemeOptions_dark">深色</string>
 
-    <string id="menuPrepareTimeOptions_title">准备</string>
-    <string id="menuFinalizeTimeOptions_title">收尾</string>
-    <string id="menuPrepareTimeOptions_0s">0秒</string>
-    <string id="menuPrepareTimeOptions_15s">15秒</string>
-    <string id="menuPrepareTimeOptions_30s">30秒</string>
-    <string id="menuPrepareTimeOptions_45s">45秒</string>
-    <string id="menuPrepareTimeOptions_1m">1分钟</string>
-    <string id="menuPrepareTimeOptions_2m">2分钟</string>
-    <string id="menuPrepareTimeOptions_3m">3分钟</string>
-    <string id="menuPrepareTimeOptions_4m">4分钟</string>
-    <string id="menuPrepareTimeOptions_5m">5分钟</string>
-    <string id="menuPrepareTimeOptions_10m">10分钟</string>
 
     <string id="menuHrvWindowSizeOptions_title">HRV窗口</string>
     <string id="menuLabelDefault">默认</string>
     <string id="menuLabelRecommended">推荐</string>
 
     <string id="menuGlobalSettings_useSessionName">会话名=活动名</string>
-    <string id="menuGlobalSettings_useSessionName_on">是</string>
-    <string id="menuGlobalSettings_useSessionName_off">否</string>
+    <string id="menuGlobalSettings_learnRoutine">学习习惯</string>
 
     <string id="menuNotificationOptions_title">振动与声音</string>
-    <string id="menuNotificationOptions_on">开启</string>
-    <string id="menuNotificationOptions_off">关闭</string>
 
-    <string id="menuIntervalAlertSettings_Title">间隔提醒</string>
     <string id="menuIntervalAlertSettings_addNew">新建</string>
-    <string id="menuIntervalAlertSettings_edit">编辑</string>
     <string id="menuIntervalAlertSettings_deleteAll">全部删除</string>
 
     <string id="summaryRollupMenu_title">会话摘要</string>
     <string id="summaryRollupMenuOption_exit">退出</string>
 
     <!-- Multi-session post-session menu -->
-    <string id="multiSessionPostMenu_title">多段会话</string>
     <string id="multiSessionPostMenu_nextSession">下一段</string>
     <string id="multiSessionPostMenu_summary">摘要</string>
     <string id="multiSessionPostMenu_endMultiSession">结束多段会话</string>
@@ -129,25 +88,18 @@
     <string id="confirmDeleteIntervalAlertHeader">删除提醒？</string>
 
     <string id="addEditIntervalAlertMenu_title">提醒</string>
-    <string id="addEditIntervalAlertMenu_time">时间</string>
     <string id="addEditIntervalAlertMenu_offset">偏移</string>
-    <string id="addEditIntervalAlertMenu_color">颜色</string>
-    <string id="addEditIntervalAlertMenu_vibeSound">振动 / 声音</string>
-    <string id="addEditIntervalAlertMenu_delete">删除</string>
 
-    <string id="addEditSessionMenu_title">会话</string>
     <string id="addEditSessionMenu_name">名称</string>
-    <string id="addEditSessionMenu_time">时间</string>
-    <string id="addEditSessionMenu_color">颜色</string>
-    <string id="addEditSessionMenu_vibeSound">振动 / 声音</string>
-    <string id="addEditSessionMenu_intervalAlerts">间隔提醒</string>
+    <string id="menuLabelTime">时间</string>
+    <string id="menuLabelColor">颜色</string>
+    <string id="menuLabelVibeSound">振动 / 声音</string>
+    <string id="menuLabelIntervalAlerts">间隔提醒</string>
     <string id="addEditSessionMenu_activityType">活动类型</string>
-    <string id="addEditSessionMenu_hrvTracking">HRV追踪</string>
+    <string id="menuLabelHrvTracking">HRV追踪</string>
 
     <string id="intervalAlertTransparentColorText">透明</string>
 
-    <string id="vibePatternMenu_title">振动 / 声音</string>
-    <string id="vibePatternMenu_noNotification">关闭</string>
     <string id="vibePatternMenu_longPulsating">长脉冲</string>
     <string id="vibePatternMenu_longSound">长声音</string>
     <string id="vibePatternMenu_longContinuous">长持续</string>
@@ -162,8 +114,6 @@
     <string id="vibePatternMenu_mediumDescending">中渐弱</string>
     <string id="vibePatternMenu_longDescending">长渐弱</string>
 
-    <string id="intervalVibePatternMenu_title">振动 / 声音</string>
-    <string id="intervalVibePatternMenu_noNotification">无通知</string>
     <string id="intervalVibePatternMenu_shorterContinuous">极短持续</string>
     <string id="intervalVibePatternMenu_shorterAscending">极短渐强</string>
     <string id="intervalVibePatternMenu_blip">提示音</string>
@@ -175,7 +125,6 @@
 
     <string id="editIntervalAlertsMenu_title">编辑提醒</string>
     <string id="activityDelayedFinishingText">结束中...</string>
-    <string id="meditateActivityPaused">[已暂停]</string>
     <string id="meditateActivityPrepare">放松准备\n开始会话\n倒计时</string>
     <string id="meditateActivityFinalize">会话\n即将结束\n倒计时</string>
 
@@ -203,9 +152,8 @@
     <string id="pauseMenu_stop">停止</string>
     <string id="finishMenu_save">保存</string>
     <string id="finishMenu_discard">放弃</string>
-    <string id="optionsMenuHelp">按开始键查看选项</string>
 
-    <string id="about_AppVersion">v11.1.2</string>
+    <string id="about_AppVersion">v11.2.0</string>
     <string id="about_vtrifonov">vtrifonov</string>
     <string id="about_dliedke">dliedke</string>
     <string id="about_falsetru">falsetru</string>
@@ -244,8 +192,8 @@
     <string id="menuBreathCuesOptions_vibration">振动</string>
     <string id="menuBreathCuesOptions_vibrationTone">振动 + 提示音</string>
     <string id="whatsNew_title">新功能</string>
-    <string id="whatsNew_line1">呼吸引导</string>
-    <string id="whatsNew_line2">跟随提示呼吸</string>
-    <string id="whatsNew_line3">新增3个课程</string>
-    <string id="whatsNew_line4">轻松自定义</string>
+    <string id="whatsNew_line1">学习你的习惯</string>
+    <string id="whatsNew_line2">呼吸球与禅模式</string>
+    <string id="whatsNew_line3">新增3个呼吸课程</string>
+    <string id="whatsNew_line4">新增意大利语</string>
 </strings>

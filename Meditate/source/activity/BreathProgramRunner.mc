@@ -38,10 +38,6 @@ class BreathProgramRunner {
 		return me.mTotal;
 	}
 
-	function getStepOffsets() {
-		return me.mOffsets;
-	}
-
 	function update(elapsedTime) {
 		if (elapsedTime == null || elapsedTime < 0) {
 			elapsedTime = 0;

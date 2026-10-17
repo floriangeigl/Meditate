@@ -71,6 +71,32 @@ class ElapsedDurationRenderer {
 		dc.drawArc(me.mX, me.mY, me.mArcRadius, Gfx.ARC_CLOCKWISE, me.StartDegree, endDegree);
 	}
 
+	// flat [from, to, colour, ...] fractions on this ring; drawn before the progress, which covers them
+	function drawSpans(dc, spans) {
+		if (spans == null) {
+			return;
+		}
+		if (me.mX == null || me.mY == null || me.mArcWidth == null) {
+			me.layoutDuration(dc);
+		}
+		// half the progress width on the same centre line, so the progress still covers it
+		var width = me.mArcWidth / 2;
+		dc.setPenWidth(width < 2 ? 2 : width);
+		for (var i = 0; i + 2 < spans.size(); i += 3) {
+			// a whole-ring span would have start == end and draw nothing
+			var to = spans[i + 1] - spans[i] > 0.999 ? spans[i] + 0.999 : spans[i + 1];
+			dc.setColor(spans[i + 2], Gfx.COLOR_TRANSPARENT);
+			dc.drawArc(
+				me.mX,
+				me.mY,
+				me.mArcRadius,
+				Gfx.ARC_CLOCKWISE,
+				me.StartDegree + percentageToArcDegree(spans[i] * 100),
+				me.StartDegree + percentageToArcDegree(to * 100)
+			);
+		}
+	}
+
 	private static function percentageToArcDegree(percentage) {
 		return -percentage * 3.6;
 	}

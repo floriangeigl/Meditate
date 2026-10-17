@@ -6,7 +6,7 @@ class Vibe {
 		if (
 			pattern == VibePattern.NoNotification ||
 			pattern == null ||
-			GlobalSettings.loadNotification() == Notification.Off
+			GlobalSettings.load(GlobalSettings.NotificationKey) == Notification.Off
 		) {
 			return;
 		}
@@ -88,7 +88,7 @@ class Vibe {
 
 	// distinct tone per breath phase; silent on devices without tone support
 	static function playBreathTone(phase) {
-		if (GlobalSettings.loadNotification() == Notification.Off) {
+		if (GlobalSettings.load(GlobalSettings.NotificationKey) == Notification.Off) {
 			return;
 		}
 		if (!(Attention has :ToneProfile) || !(Attention has :playTone)) {

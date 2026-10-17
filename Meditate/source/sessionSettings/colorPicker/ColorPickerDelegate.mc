@@ -1,6 +1,6 @@
 using Toybox.WatchUi as Ui;
 
-class ColorPickerDelegate extends ScreenPicker.ScreenPickerDelegate {
+class ColorPickerDelegate extends ScreenPickerDelegate {
 	protected var mColors;
 	private var mOnColorSelected;
 

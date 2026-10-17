@@ -1,5 +1,6 @@
 using Toybox.Lang;
 using Toybox.Math;
+using Toybox.Graphics as Gfx;
 
 module BreathPhase {
 	enum {
@@ -180,6 +181,9 @@ class BreathProgram {
 	private var mSteps;
 
 	static const MaxSteps = 10;
+	// hold-only and rest steps on the session ring and the picker bar
+	static const HoldStepColor = Gfx.COLOR_ORANGE;
+	static const RestStepColor = Gfx.COLOR_LT_GRAY;
 
 	function initialize() {
 		me.reset();
@@ -245,6 +249,42 @@ class BreathProgram {
 		}
 		offsets[me.mSteps.size()] = running;
 		return offsets;
+	}
+
+	// boundaries between steps as fractions of the program, for the tick marks; null without any
+	function stepBoundaries() {
+		var offsets = me.stepStartOffsets();
+		var total = offsets[offsets.size() - 1];
+		// skip offset 0 (start) and the last one (end)
+		var count = offsets.size() - 2;
+		if (total < 1 || count < 1) {
+			return null;
+		}
+		var fractions = new [count];
+		for (var i = 0; i < count; i++) {
+			fractions[i] = offsets[i + 1].toDouble() / total.toDouble();
+		}
+		return fractions;
+	}
+
+	// hold-only and rest steps as flat [from, to, colour, ...] fractions of the program; null without any
+	function specialSpans() {
+		var offsets = me.stepStartOffsets();
+		var total = offsets[offsets.size() - 1].toDouble();
+		if (total < 1) {
+			return null;
+		}
+		var spans = [];
+		for (var i = 0; i < me.mSteps.size(); i++) {
+			var step = me.mSteps[i];
+			var color = step.isRest() ? BreathProgram.RestStepColor : (step.isHoldOnly() ? BreathProgram.HoldStepColor : null);
+			if (color != null && offsets[i + 1] > offsets[i]) {
+				spans.add(offsets[i] / total);
+				spans.add(offsets[i + 1] / total);
+				spans.add(color);
+			}
+		}
+		return spans.size() == 0 ? null : spans;
 	}
 
 	function isEmpty() {

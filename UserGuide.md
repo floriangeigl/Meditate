@@ -9,8 +9,8 @@ share-description: Setup, features, FAQs, troubleshooting, and support for the M
 
 This guide is meant to support you - not overwhelm you :)
 
-You don’t need to understand everything to begin.  
-Start with the **Beginner Guide**, and come back to the **Advanced Guide** whenever you’re curious.
+You do not need to understand everything to begin.  
+Start with the **Beginner Guide**, and come back to the **Advanced Guide** whenever you are curious.
 
 ### Contents
 
@@ -53,7 +53,7 @@ It allows you to:
 
 The goal is **awareness, not performance**.
 
-If you’d like a short, motivating reflection on why slowing down matters (and why it’s so hard in a fast-paced culture), **[Cory Muscara's The Practicing Human podcast - “Why You Need to Slow Down”](https://practicinghuman.buzzsprout.com/597910/episodes/18537284-why-you-need-to-slow-down)** explores how speed can erode relationships, happiness, and clear decision-making.
+If you would like a short, motivating reflection on why slowing down matters (and why it is so hard in a fast-paced culture), **[Cory Muscara's The Practicing Human podcast - “Why You Need to Slow Down”](https://practicinghuman.buzzsprout.com/597910/episodes/18537284-why-you-need-to-slow-down)** explores how speed can erode relationships, happiness, and clear decision-making.
 
 ---
 
@@ -66,7 +66,7 @@ If you’d like a short, motivating reflection on why slowing down matters (and 
 3. Press **Start** (or tap the screen on touch devices).
 4. Try to keep your wrist still for the first moments - this helps sensors settle.
 
-During the session you’ll see:
+During the session you will see:
 
 - elapsed time
 - current heart rate
@@ -79,6 +79,11 @@ You can:
 - pause or resume with the **back button**
 - stop the session with the **start/stop button**
 - control screen brightness via your watch buttons or touch
+- press **up** or **down** (or swipe) for the **zen screen**: a dark screen with only the progress
+  ring. The time shows for a few seconds after you switch, then fades. The session records exactly
+  the same either way.
+
+Your next session opens on the screen you ended this one on.
 
 When you stop, you can save or discard the session.  
 Pressing back on that prompt saves the session.  
@@ -90,23 +95,23 @@ Saved sessions appear in Garmin Connect after syncing.
 
 ## A Simple Way to Meditate
 
-If you don’t know how to meditate, you’re not alone - and you’re not behind.  
-You’re already doing the most important thing: showing up.
+If you do not know how to meditate, you are not alone - and you are not behind.  
+You are already doing the most important thing: showing up.
 
-Meditation is not about stopping thoughts, emptying the mind, or doing anything “right”. Even very experienced meditators notice their thoughts drifting every few seconds. That’s normal.
+Meditation is not about stopping thoughts, emptying the mind, or doing anything “right”. Even very experienced meditators notice their thoughts drifting every few seconds. That is normal.
 
 The practice is not staying focused.  
-The practice is noticing when you’re not - and gently coming back.
+The practice is noticing when you are not - and gently coming back.
 
-If, for your first year of meditation, you did nothing more than what’s described below, that would already be enough. Truly.
+If, for your first year of meditation, you did nothing more than what is described below, that would already be enough. Truly.
 
-And one more thing: the more **humor, gentleness, and loving-kindness** you can bring to your sessions, the more enjoyable the whole experience becomes - and often, the more helpful it is. You’re not trying to “win” meditation. You’re learning how to be with yourself.
+And one more thing: the more **humor, gentleness, and loving-kindness** you can bring to your sessions, the more enjoyable the whole experience becomes - and often, the more helpful it is. You are not trying to “win” meditation. You are learning how to be with yourself.
 
 ---
 
 ### A Very Simple Practice
 
-You don’t need to visualize anything or breathe in a special way.
+You do not need to visualize anything or breathe in a special way.
 
 1. Sit or lie down in a way that feels okay.
 2. Let your breath happen naturally.
@@ -118,7 +123,7 @@ You might notice:
 - warmer air as you exhale
 - subtle movement or tingling
 
-That’s enough. Nothing else to achieve.
+That is enough. Nothing else to achieve.
 
 If it helps, you can quietly label it: _“in”_ … _“out”_.  
 Soft and simple.
@@ -136,9 +141,9 @@ You might start thinking about:
 - something that annoys you
 - absolutely nothing important at all
 
-This does not mean you’re bad at meditation. It simply means your mind is doing what minds do.
+This does not mean you are bad at meditation. It simply means your mind is doing what minds do.
 
-Sometimes the mind even tries to pull you back into activity, tension, or a bit of chaos - because that’s what feels familiar and safe. The nervous system can cling to a kind of familiar hell before it learns to trust an unfamiliar heaven. And these thoughts may not sound random at all - they can sound very convincing, like intuition, or even like this is simply who you are. It may offer you “very urgent” thoughts like:  
+Sometimes the mind even tries to pull you back into activity, tension, or a bit of chaos - because that is what feels familiar and safe. The nervous system can cling to a kind of familiar hell before it learns to trust an unfamiliar heaven. And these thoughts may not sound random at all - they can sound very convincing, like intuition, or even like this is simply who you are. It may offer you “very urgent” thoughts like:  
 _“We should definitely reorganize our life right now.”_
 
 You can meet that moment with a smile and hold it with love:
@@ -149,7 +154,7 @@ You can meet that moment with a smile and hold it with love:
 
 ### The Most Important Part
 
-The moment you notice that your attention has drifted is not a failure. It’s the moment the practice is actually happening.
+The moment you notice that your attention has drifted is not a failure. It is the moment the practice is actually happening.
 
 When you notice:
 
@@ -159,10 +164,10 @@ When you notice:
   _“Do I want to come back to the breath right now?”_
 
 If the answer is yes, return to the feeling of the breath at the nose.  
-If the answer is no, that’s okay too - you can ask again later.
+If the answer is no, that is okay too - you can ask again later.
 
 Every return is a small training moment.  
-And every time you notice, you can quietly celebrate it: _“Oh - I noticed.”_ That’s awareness waking up.
+And every time you notice, you can quietly celebrate it: _“Oh - I noticed.”_ That is awareness waking up.
 
 ---
 
@@ -177,7 +182,7 @@ Each time you notice and return:
 - you teach your nervous system that calm is safe
 
 So if you catch yourself being harsh, see if you can soften it just a little:  
-_“Of course my mind wandered. That’s what minds do. Back we go.”_
+_“Of course my mind wandered. That is what minds do. Back we go.”_
 
 Kindness works better than force. Curiosity works better than discipline.  
 And humor makes the whole thing more human.
@@ -192,22 +197,22 @@ If, at some point, you feel curious to learn more about meditation - especially 
 
 **Pema Chödrön - _How to Meditate: A Practical Guide to Making Friends with Your Mind_** (Sounds True, 2013).
 
-And if you're moving through change, letting go, or feeling that part of practice is learning how to say goodbye to an old way of being, this podcast episode - **[Brave Souls - “Kissing your old life goodbye”](https://open.spotify.com/episode/0lbaZMdJm7E90vmqYTTs0I)** - is a beautiful companion. If you don't have much time - or want to jump to a part that may really move something in you - start at around 27 minutes and stay with it until the end, ideally with earphones on.
+And if you are moving through change, letting go, or feeling that part of practice is learning how to say goodbye to an old way of being, this podcast episode - **[Brave Souls - “Kissing your old life goodbye”](https://open.spotify.com/episode/0lbaZMdJm7E90vmqYTTs0I)** - is a beautiful companion. If you do not have much time - or want to jump to a part that may really move something in you - start at around 27 minutes and stay with it until the end, ideally with earphones on.
 
 There is no rush. These are here whenever curiosity shows up.
 
 ---
 
-### That’s Really It
+### That is Really It
 
 There is nothing else you need to do.
 
 If your mind wanders 100 times, and you come back 100 times - that was a good session.  
 If you stayed with the breath for only a few seconds at a time - that was a good session.
 
-Meditation is not about staying calm. It’s about learning how to return.
+Meditation is not about staying calm. It is about learning how to return.
 
-And you’re allowed to do that gently - with warmth, humor, and a little self-respect.
+And you are allowed to do that gently - with warmth, humor, and a little self-respect.
 
 ---
 
@@ -221,6 +226,14 @@ From the session picker you can scroll through available sessions and see:
 - vibration pattern
 - interval alert timing
 - HRV indicator
+
+The app learns from the sessions you save which session you do at which time of day, on weekdays
+and at the weekend. It opens where you left it; if you did not touch it since your last session,
+it opens on the session you usually do around now. Being up to about three hours late or early
+still counts. A session you do once does not change the suggestion; doing a new one twice in a row
+does. If you reopen the app within an hour after a session, it opens
+on the session you usually do next. Discarded sessions are not learned. To turn this off, see
+[Learn Routine](#global-settings-defaults-for-all-sessions).
 
 ### HRV Indicator
 
@@ -244,7 +257,7 @@ A breathing cycle can include:
 
 (Some techniques skip certain parts.)
 
-> **New to breathwork?** Don't start here. A watch can keep your rhythm, but it cannot explain
+> **New to breathwork?** Do not start here. A watch can keep your rhythm, but it cannot explain
 > what you are doing or talk you through it. Follow along with a few guided videos first - see
 > [Going Further](#going-further) for where to find good ones. Come back to these presets once
 > you know how the rhythms are meant to feel; the watch is then the better tool for keeping
@@ -260,6 +273,9 @@ A breathing cycle can include:
 | B. Energize  | fast breathing, then box breathing | 5:20   |
 | B. Wind Down | long exhales, then 4-7-8           | 4:54   |
 | B. Holds     | deep breaths, then breath holds    | 7:16   |
+| B. Sleep     | slowing down, then 10 min resting  | 23:08  |
+| B. Calm      | ever longer exhales, no holds      | 5:00   |
+| B. Free      | breathe at your own pace           | 15:00  |
 
 **Box Breathing**  
 Equal inhale, hold, exhale, hold.  
@@ -272,6 +288,20 @@ Often associated with increased HRV.
 **4-7-8 Breathing**  
 Inhale 4, hold 7, exhale 8.  
 Commonly used before sleep.
+
+**Sleep**  
+Starts at an easy pace and slows your breath step by step to about two breaths a minute, eases
+back, then leaves you 10 minutes to breathe freely. It ends with a single soft blip. To let it
+finish and save on its own if you fall asleep, keep **Auto Stop** on and set **Confirm Save** to
+**Auto Yes & Exit**.
+
+**Calm**  
+Longer and longer exhales, with no breath holds at all.  
+For stress and anxious moments, any time of day.
+
+**Free**  
+No rhythm to follow: 15 minutes of breathing at your own pace while the watch records heart
+rate, HRV, stress and respiration.
 
 You can edit any of these, or build your own - see [Guided Breathwork](#custom-breathwork-patterns).
 
@@ -291,8 +321,16 @@ If you do look at the watch, it shows:
 - a ring that fills as the phase progresses
 - the breathing route, when the session specifies nose or mouth
 
-Press **up** or **down** (or swipe) to switch to your heart rate, HRV, stress and respiration - and back again.  
-The vibrations continue either way.
+Press **up** or **down** (or swipe) to move between four screens:
+
+- **Guidance** - the phase, countdown and route above
+- **Breath ball** - a ball that grows as you breathe in, shrinks as you breathe out and stays
+  still while you hold
+- **Zen** - a dark screen with only the session ring
+- **Metrics** - your heart rate, HRV, stress and respiration
+
+The vibrations continue on every screen. Your next breathwork session opens on the screen you
+ended this one on.
 
 Before the session starts, the preparation countdown shows what is coming.
 
@@ -318,7 +356,7 @@ HRV reflects how much the time between heartbeats varies.
 - Higher HRV → calmer, more regulated states
 - Lower HRV → activation or stress
 
-Variability is **healthy** - it’s not something to fix.
+Variability is **healthy** - it is not something to fix.
 
 ### Stress
 
@@ -435,10 +473,21 @@ Beyond the phase word and countdown, the screen carries two rings:
 
 - the **inner ring** fills over the current phase and is coloured by phase (during a rest it
   fills over the whole rest)
-- the **outer ring** is overall session progress, with tick marks where the steps change
+- the **outer ring** is overall session progress, with tick marks where the steps change. The
+  same ticks show on every session screen and on the timeline bar of the session picker. Breath
+  holds are marked orange and **Breathe freely** steps grey, so you can see them coming
 
 The line under the countdown shows your round within the current step (`3/4`) and, when the
 step specifies one, the breathing route for the phase you are in.
+
+### The Breath Ball
+
+One screen down from the guidance screen. The ball grows through each inhale and shrinks through
+each exhale - blue in, green out - slow at the start and end of every breath, like a real one.
+During a hold it stays still in the colour of the breath before it - blue on full lungs, green on
+empty - and its outline counts the hold down second by second. A rest shows a mid-size grey ball
+and **Breathe freely**. The phase word sits in the middle; the outer
+ring and its step ticks are the same as on the guidance screen.
 
 ### Cues
 
@@ -551,6 +600,10 @@ Access via:
 
 - Yes - app stays open for multiple sessions
 - No - app exits after each session
+- With Learn Routine on, once you have a regular sequence (e.g. breathwork, then silent sitting),
+  "Next session" shows the name of the session you usually do next and opens it, so the sequence
+  runs without scrolling. Sequences are also learned without Multi-Session Mode, when you reopen
+  the app within an hour after a session.
 
 ### Preparation Time
 
@@ -569,7 +622,7 @@ Access via:
 ### HRV Window
 
 - Short windows show fast changes
-- 3–5 minutes recommended for reliability  
+- 3-5 minutes recommended for reliability  
   (Default: 60 seconds)
 
 ### Vibration & Sound
@@ -581,6 +634,13 @@ Access via:
 - Uses custom session name in Garmin Connect
 - Supports `[time]` placeholder
 - Activity names limited to 21 characters
+
+### Learn Routine
+
+- On (default) - the session picker opens on the session you usually do at this time, or after a
+  session on the one that usually comes next, and Multi-Session Mode offers that one too
+- Off - the picker always opens on the last selected session; what was learned is forgotten the
+  next time you open the app
 
 ### Sensor Restart
 
@@ -594,17 +654,17 @@ Access via:
 
 # FAQs & Troubleshooting
 
-This section is here to help when something feels confusing or doesn’t work as expected.  
-Most issues are easy to resolve, and nothing here means you’re doing anything wrong.
+This section is here to help when something feels confusing or does not work as expected.  
+Most issues are easy to resolve, and nothing here means you are doing anything wrong.
 
 ---
 
 <details>
   <summary><strong>HRV does not start / keeps showing “Restart the app”</strong></summary>
 
-  <p>This is almost always your watch’s heart-rate sensor taking time to warm up, not a problem with the app. The screen shows <strong>HRV starting</strong> while it is coming online, and switches to <strong>Restart the app</strong> if it has not started within about 20 seconds - waiting longer on the same screen rarely helps at that point.</p>
+  <p>This is almost always your watch's heart-rate sensor taking time to warm up, not a problem with the app. The screen shows <strong>HRV starting</strong> while it is coming online, and switches to <strong>Restart the app</strong> if it has not started within about 20 seconds - waiting longer on the same screen rarely helps at that point.</p>
 
-  <p>It is most noticeable the first time you open the app in a while, such as first thing in the morning. The sensor that detects individual heartbeats (needed for HRV) is separate from the one that shows your regular heart rate, and after sitting unused it can take anywhere from a few seconds up to a few minutes to start reporting that detailed data. This is a limitation of the watch’s sensor, and the app cannot speed it up from the inside - closing and reopening the app is what actually gets it going faster.</p>
+  <p>It is most noticeable the first time you open the app in a while, such as first thing in the morning. The sensor that detects individual heartbeats (needed for HRV) is separate from the one that shows your regular heart rate, and after sitting unused it can take anywhere from a few seconds up to a few minutes to start reporting that detailed data. This is a limitation of the watch's sensor, and the app cannot speed it up from the inside - closing and reopening the app is what actually gets it going faster.</p>
 
   <p>Try the following steps in order:</p>
 
@@ -616,13 +676,13 @@ Most issues are easy to resolve, and nothing here means you’re doing anything 
       Reopen the app and start your session - see the tip below, you do not need to wait for HRV first.
     </li>
     <li>
-      If you are not using an external heart-rate sensor (like a chest strap), open your watch’s connectivity settings (not the app settings) and make sure all external sensors are disconnected.<br>
+      If you are not using an external heart-rate sensor (like a chest strap), open your watch's connectivity settings (not the app settings) and make sure all external sensors are disconnected.<br>
       Sometimes a nearby chest strap reconnects automatically and disrupts readings.
     </li>
     <li>Check sensor placement. If you adjust the watch position, hold still for ~30 seconds to allow readings to stabilize.</li>
     <li>Reinstall the app if the issue persists.</li>
     <li>
-      If you still don’t get reliable HRV, try:
+      If you still do not get reliable HRV, try:
       <ul>
         <li>wearing the watch on the inside of your wrist, or</li>
         <li>using an external heart-rate sensor that supports heartbeat intervals (supported automatically, no app setting required).</li>
@@ -630,7 +690,7 @@ Most issues are easy to resolve, and nothing here means you’re doing anything 
     </li>
   </ol>
 
-  <p><strong>Tip:</strong> you don’t need to wait for HRV to be ready before starting your session. HRV tracking joins in automatically the moment the sensor comes online, so feel free to just begin meditating rather than waiting on the picker screen.</p>
+  <p><strong>Tip:</strong> you do not need to wait for HRV to be ready before starting your session. HRV tracking joins in automatically the moment the sensor comes online, so feel free to just begin meditating rather than waiting on the picker screen.</p>
 
 </details>
 
@@ -639,12 +699,12 @@ Most issues are easy to resolve, and nothing here means you’re doing anything 
 
   <p>Yes.</p>
 
-  <p>You can edit a session’s name directly on the watch:</p>
+  <p>You can edit a session's name directly on the watch:</p>
 
   <ul>
     <li>Open <strong>Add New</strong> or <strong>Edit</strong> for a session</li>
     <li>Select <strong>Name</strong></li>
-    <li>Enter text using the watch’s text picker</li>
+    <li>Enter text using the watch's text picker</li>
   </ul>
 
   <p>
@@ -710,7 +770,7 @@ Most issues are easy to resolve, and nothing here means you’re doing anything 
 
   <p>The old version used a custom stress estimation algorithm.</p>
 
-  <p>The current version uses Garmin’s built-in stress tracking instead. This ensures consistency with Garmin Connect and avoids mismatches between different stress values, which caused confusion for many users.</p>
+  <p>The current version uses Garmin's built-in stress tracking instead. This ensures consistency with Garmin Connect and avoids mismatches between different stress values, which caused confusion for many users.</p>
 
 </details>
 
@@ -728,7 +788,7 @@ Most issues are easy to resolve, and nothing here means you’re doing anything 
 <details>
   <summary><strong>The screen is too bright and burns my eyes when starting the app</strong></summary>
 
-  <p>This is controlled by your watch’s <strong>Focus Mode</strong> settings for activities, not by the app.</p>
+  <p>This is controlled by your watch's <strong>Focus Mode</strong> settings for activities, not by the app.</p>
 
   <p>By default, Garmin activates a focus mode for activities that may set screen brightness to around 80%.</p>
 
@@ -755,7 +815,7 @@ Most issues are easy to resolve, and nothing here means you’re doing anything 
   <p><strong>1. The beeps when a session starts, stops, or is saved</strong></p>
 
   <p>
-    These are Garmin’s built-in activity tones. Every activity on your watch plays them, and the app
+    These are Garmin's built-in activity tones. Every activity on your watch plays them, and the app
     cannot control or silence them - which is why you still hear them with
     <strong>Global Settings → Vibration &amp; Sound</strong> set to <strong>Off</strong>.
     You turn them off in your watch settings.
@@ -779,7 +839,7 @@ Most issues are easy to resolve, and nothing here means you’re doing anything 
   <p>
     Important: the activity focus mode has its <em>own</em> sound settings that override your general
     ones while an activity is running. That is why silencing tones under
-    <strong>Watch Settings → Sound &amp; Vibe</strong> alone often doesn’t help. If you still hear beeps,
+    <strong>Watch Settings → Sound &amp; Vibe</strong> alone often does not help. If you still hear beeps,
     apply the same change in <em>both</em> places.
   </p>
 
@@ -833,7 +893,7 @@ Most issues are easy to resolve, and nothing here means you’re doing anything 
   <p>You have two options:</p>
 
   <ul>
-    <li>Create a very long session (for example 9 hours) and stop it manually when you’re finished.</li>
+    <li>Create a very long session (for example 9 hours) and stop it manually when you are finished.</li>
     <li>Disable the auto-stop option in Global Settings so sessions continue until you stop them manually.</li>
   </ul>
 
@@ -851,13 +911,13 @@ Most issues are easy to resolve, and nothing here means you’re doing anything 
 
   <ul>
     <li><strong>Hot key / shortcut:</strong> Many models let you assign <em>Music controls</em> to a shortcut or hot key in your watch settings (often under <strong>Settings</strong> → <strong>System</strong> → <strong>Hot Keys</strong> / <strong>Controls</strong>).</li>
-    <li><strong>Controls menu:</strong> Open the watch’s controls menu and select <em>Music</em> / <em>Music Controls</em>.</li>
+    <li><strong>Controls menu:</strong> Open the watch's controls menu and select <em>Music</em> / <em>Music Controls</em>.</li>
     <li><strong>Touchscreen shortcut control (some models):</strong> Garmin documents a “shortcut control” you can set to music controls (example: Venu manual: <a href="https://www8.garmin.com/manuals/webhelp/venu/EN-US/GUID-5E9D3D0F-D4C9-4A4A-97D6-4F178C27DAD8.html">Setting Up a Shortcut Control</a>).</li>
   </ul>
 
   <p>
     If you want the vibration cues to match your music, you can configure session interval alerts to your target timing.
-    But there is no “beat-sync” feature, so it won’t automatically stay perfectly aligned with a track.
+    But there is no “beat-sync” feature, so it will not automatically stay perfectly aligned with a track.
   </p>
 
 </details>
@@ -872,7 +932,7 @@ Most issues are easy to resolve, and nothing here means you’re doing anything 
   <p><strong>Option 1 (most common): power button / LIGHT button</strong></p>
 
   <ol>
-    <li>Press and hold the <strong>LIGHT</strong> / power button until the watch turns off (often ~10–15 seconds).</li>
+    <li>Press and hold the <strong>LIGHT</strong> / power button until the watch turns off (often ~10-15 seconds).</li>
     <li>Wait a few seconds.</li>
     <li>Press the same button again to turn it back on.</li>
   </ol>
@@ -891,23 +951,23 @@ Most issues are easy to resolve, and nothing here means you’re doing anything 
 </details>
 
 <details>
-  <summary><strong>I installed the app, but it doesn’t show up on my watch (or installation is stuck)</strong></summary>
+  <summary><strong>I installed the app, but it does not show up on my watch (or installation is stuck)</strong></summary>
 
-  <p>That’s frustrating - especially when you just want to start a calm session and the tech gets in the way.</p>
+  <p>That is frustrating - especially when you just want to start a calm session and the tech gets in the way.</p>
 
   <p>
-    <strong>First, make sure you’re looking in the right place:</strong><br>
-    This app shows up in your watch’s <strong>Activities</strong> / <strong>Apps</strong> list (the same place where you start things like a run, yoga, breathwork, etc.).
+    <strong>First, make sure you are looking in the right place:</strong><br>
+    This app shows up in your watch's <strong>Activities</strong> / <strong>Apps</strong> list (the same place where you start things like a run, yoga, breathwork, etc.).
     It may <em>not</em> show up in widget lists / glance lists / shortcut lists (depending on your model and how your watch organizes apps).
   </p>
 
   <p>
-    In this case, it’s important to know: installation and delivery of Connect IQ apps to your watch is handled entirely by Garmin (Garmin Connect / Connect IQ / Garmin Express and the sync process).
-    The app itself cannot influence whether it appears on your device, and as the developer there’s nothing I can change in the code to fix an installation or sync issue.
+    In this case, it is important to know: installation and delivery of Connect IQ apps to your watch is handled entirely by Garmin (Garmin Connect / Connect IQ / Garmin Express and the sync process).
+    The app itself cannot influence whether it appears on your device, and as the developer there is nothing I can change in the code to fix an installation or sync issue.
   </p>
 
   <p>
-    Some users also see the app stuck on “Installing…” or partially installed (for example, the app appears but some parts don’t load).
+    Some users also see the app stuck on “Installing…” or partially installed (for example, the app appears but some parts do not load).
     The steps below typically fix both cases.
   </p>
 
@@ -923,7 +983,7 @@ Most issues are easy to resolve, and nothing here means you’re doing anything 
     If the watch seems frozen during installation, <a href="#restart-watch">restart the watch</a> first, then try syncing/installing again.
   </p>
 
-  <p>If it still doesn’t appear, the best next step is to contact Garmin Support, because this is a Garmin-side installation/sync issue:</p>
+  <p>If it still does not appear, the best next step is to contact Garmin Support, because this is a Garmin-side installation/sync issue:</p>
 
   <ul>
     <li><a href="https://support.garmin.com/en-US/?faq=67C7Y58Nxb6rkxt2Enbrf5">Garmin Support (Connect IQ install troubleshooting)</a></li>
@@ -971,13 +1031,12 @@ Most issues are easy to resolve, and nothing here means you’re doing anything 
 
 # Get Support / Report Problem
 
-If something doesn’t work, or you have feedback or feature requests, you can [send me a mail](mailto:florian.geigl+garmin@gmail.com?subject=User%20Feedback%20for%20Meditation%20and%20Breathwork%20-%20Connect%20IQ%20Notification).
+If something does not work, or you have feedback or feature requests, you can [send me a mail](mailto:florian.geigl+garmin@gmail.com?subject=User%20Feedback%20for%20Meditation%20and%20Breathwork%20-%20Connect%20IQ%20Notification).
 
 <a id="privacy"></a>
 
 # Data Privacy
 
-Your data stays yours.
+Your heart rate, HRV, stress and respiration data are saved only to your activities in Garmin Connect.
 
-The app does not store personal information.  
-For details, see the [Data Privacy Policy](/meditate_app_data_privacy/).
+To help improve the app, it sends basic usage statistics after each session, linked to your device. For what is collected and who receives it, see the [Data Privacy Policy](/meditate_app_data_privacy/).

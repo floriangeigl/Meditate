@@ -55,8 +55,8 @@ class SessionModel {
 		me.breathProgram = null;
 		me.activityType = null;
 		me.hrvTracking = null;
-		me.defaultActivityType = GlobalSettings.loadActivityType();
-		me.defaultHrvTracking = GlobalSettings.loadHrvTracking();
+		me.defaultActivityType = GlobalSettings.load(GlobalSettings.ActivityTypeKey);
+		me.defaultHrvTracking = GlobalSettings.load(GlobalSettings.HrvTrackingKey);
 	}
 
 	function getName() {
@@ -140,35 +140,5 @@ class SessionModel {
 			"activityType" => me.activityType,
 			"hrvTracking" => me.hrvTracking,
 		};
-	}
-
-	function copyNonNullFieldsFromSession(otherSession) {
-		if (otherSession.time != null) {
-			me.time = otherSession.time;
-		}
-		if (otherSession.color != null) {
-			me.color = otherSession.color;
-		}
-		if (otherSession.name != null) {
-			me.name = otherSession.name;
-		}
-		if (otherSession.key != null) {
-			me.key = otherSession.key;
-		}
-		if (otherSession.vibePattern != null) {
-			me.vibePattern = otherSession.vibePattern;
-		}
-		if (otherSession.intervalAlerts != null) {
-			me.intervalAlerts = otherSession.intervalAlerts;
-		}
-		if (otherSession.breathProgram != null) {
-			me.breathProgram = otherSession.breathProgram;
-		}
-		if (otherSession.activityType != null) {
-			me.activityType = otherSession.activityType;
-		}
-		if (otherSession.hrvTracking != null) {
-			me.hrvTracking = otherSession.hrvTracking;
-		}
 	}
 }

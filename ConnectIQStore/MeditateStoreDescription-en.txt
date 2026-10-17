@@ -1,33 +1,29 @@
-A Mindful Companion for Meditation & Breathwork — Right on Your Garmin Watch
+A Mindful Companion for Meditation & Breathwork - Right on Your Garmin Watch
 
-If you’ve ever felt calm and uneasy at the same time, you’re not broken.
-You’re human.
+If you have ever felt calm and uneasy at the same time, you are not broken. You are human!
 
-When life has been demanding for a long time, the nervous system learns to stay alert. Stress becomes familiar. Calm becomes unfamiliar—and unfamiliar states can feel vulnerable or slightly unsettling at first. This isn’t a problem to fix. It’s simply how the nervous system adapts to what it knows.
+When life has been demanding for a long time, the nervous system learns to stay alert. Stress becomes familiar. Calm becomes unfamiliar - and unfamiliar states can feel vulnerable or slightly unsettling at first. This is not a problem to fix. It is simply how the nervous system adapts to what it knows.
 
 Meditation & Breathwork helps you reconnect with your body and observe, in real time, how your nervous system responds.
 
-Meditation & Breathwork is a Garmin watch app designed to support meditation and breathwork through presence, insight, and physiological awareness. By combining mindfulness with real-time biometric data, it helps you understand how your body works—without judgment or pressure.
+Meditation & Breathwork is a Garmin watch app designed to support meditation and breathwork through presence, insight, and physiological awareness. By combining mindfulness with real-time biometric data, it helps you understand how your body works - without judgment or pressure.
 
 There is no universal meditation technique. What matters is discovering what supports your nervous system.
 
-A practice shaped around you
+A PRACTICE SHAPED AROUND YOU
+- Create sessions that fit your rhythm and attention
+- Observe heart rate, HRV, stress, and breathing in real time
+- Save sessions to Garmin Connect to gently support consistency and awareness over time
 
-Create sessions that fit your rhythm and attention
+Seeing your sessions over time is not about pressure. It simply helps you notice patterns, build familiarity, and stay mindful of a practice you chose for yourself.
 
-Observe heart rate, HRV, stress, and breathing in real time
-
-Save sessions to Garmin Connect to gently support consistency and awareness over time
-
-Seeing your sessions over time isn’t about pressure. It simply helps you notice patterns, build familiarity, and stay mindful of a practice you chose for yourself.
-
-Regulation Is Not Always Calm
+REGULATION IS NOT ALWAYS CALM
 
 Meditation and breathwork are not about producing “good” metrics.
 
-A calm session is valuable because it allows your nervous system to spend more time in a regulated state. The longer you remain there, the more those neural pathways are strengthened—making calm and balance easier to access over time.
+A calm session is valuable because it allows your nervous system to spend more time in a regulated state. The longer you remain there, the more those neural pathways are strengthened - making calm and balance easier to access over time.
 
-At the same time, moving toward calm can bring up restlessness or sudden urges to get up and do something. This is often the mind trying to guide you back to what feels familiar—stress, activity, motion—because familiarity feels safe.
+At the same time, moving toward calm can bring up restlessness or sudden urges to get up and do something. This is often the mind trying to guide you back to what feels familiar - stress, activity, motion - because familiarity feels safe.
 
 You can meet these moments lightly:
 “Oh, I see you. You miss the chaos. Sneaky little mind.”
@@ -36,18 +32,18 @@ A stressful session is valuable too. When stress remains high, it often means yo
 
 Both kinds of sessions support regulation. They simply train different skills.
 
-This is why sessions shouldn’t be judged by metrics alone—but also why metrics help. They show which state you were in, helping you become more aware of how these states feel inside your body. Over time, this deepens reconnection and supports more conscious choices.
+This is why sessions should not be judged by metrics alone - but also why metrics help. They show which state you were in, helping you become more aware of how these states feel inside your body. Over time, this deepens reconnection and supports more conscious choices.
 
-Why Tracking Helps
+WHY TRACKING HELPS
 
-Tracking physiological signals like stress, heart rate, and heart rate variability offers insight into how your nervous system responds during meditation and breathwork. Higher HRV is generally associated with calmer, more regulated states and greater nervous system flexibility, while lower HRV reflects activation or stress. Rather than serving as a score, these metrics provide context—helping you recognize patterns, deepen body awareness, and understand what different practices bring up for you.
+Tracking physiological signals like stress, heart rate, and heart rate variability offers insight into how your nervous system responds during meditation and breathwork. Higher HRV is generally associated with calmer, more regulated states and greater nervous system flexibility, while lower HRV reflects activation or stress. Rather than serving as a score, these metrics provide context - helping you recognize patterns, deepen body awareness, and understand what different practices bring up for you.
 
-Tracking isn’t about control or optimization.
-It’s about learning how your nervous system finds balance.
+Tracking is not about control or optimization.
+It is about learning how your nervous system finds balance.
 
 Stay present. Observe honestly. Smile when the mind gets clever.
 
-Download Meditation & Breathwork and discover what truly supports your meditation and breathwork practice—one session at a time.
+Download Meditation & Breathwork and discover what truly supports your meditation and breathwork practice - one session at a time.
 
 For more details on features, frequently asked questions, and support, see the full user guide:
 https://geigl.online/meditate_app_user_guide/

@@ -1,0 +1,15 @@
+Edit this hero banner image for a Garmin watch meditation app. Translate ONLY the text outside the watch into {language}.
+
+DO NOT MODIFY THE WATCH AT ALL:
+- The Garmin watch, its screen, and all text on the watch screen ("Meditation 7", "01:00:00", "Long continuous", "HRV ready", icons, bar chart) must remain COMPLETELY UNCHANGED. Do not redraw, translate, or touch any pixel inside the watch face circle.
+
+TRANSLATE THESE TEXT AREAS:
+1. The italic tagline on the light blue background above/left of the watch. Translate both lines naturally.
+2. ALL text on the dark rounded-rectangle panel on the right side: the bold heading, the subtitle, the bullet points, the closing sentence, and the button label.
+- Translate the app name naturally (e.g. for German: "Meditation & Atemübungen"). Keep the & separator.
+
+PRESERVATION RULES:
+- Do NOT change any colors, backgrounds, gradients, clouds, watch body, decorative elements, layout, or positioning.
+- Do NOT add, remove, or move any visual elements.
+- Keep the exact same font style, size, weight, and positioning for all translated text.
+- The result must be pixel-identical to the original except for the translated text outside the watch.

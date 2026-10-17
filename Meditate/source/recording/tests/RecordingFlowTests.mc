@@ -11,6 +11,8 @@ class FlowListener {
 	}
 
 	function onSessionAutoComplete() {}
+
+	function onSessionTick() {}
 }
 
 // runs the recording core against a real simulator fit session, no timer and no ui
@@ -29,7 +31,7 @@ class RecordingFlowTests {
 	static function recorderSamplesOnTheTickAndSummarises(logger) {
 		closeAppWakeupSession();
 		var listener = new FlowListener();
-		var recorder = new ActivityRecorder(FitSessionSpec.createTraining("test"), listener);
+		var recorder = new ActivityRecorder(FitSessionSpec.create(FitSessionKind.Training, "test"), listener);
 		var hr = new ScriptedMetric([60, 70, 80, 90], 2).configure(null, null, false, true, true);
 		hr.id = :hr;
 		var metrics = [hr];
@@ -81,7 +83,7 @@ class RecordingFlowTests {
 		if (model.liveMetrics[0].id != :hr || model.liveMetrics[1].id != :hrv) {
 			return false;
 		}
-		if (model.getMetric(:hrv).getLoadTime() != GlobalSettings.loadHrvWindowTime()) {
+		if (model.getMetric(:hrv).getLoadTime() != GlobalSettings.load(GlobalSettings.HrvWindowTimeKey)) {
 			return false;
 		}
 		activity.start();
@@ -96,7 +98,16 @@ class RecordingFlowTests {
 		}
 		activity.stop();
 		var summary = activity.getSummary();
+		// a discarded session is not learned
+		var snapshot = new StorageSnapshot();
+		GlobalSettings.save(GlobalSettings.LearnRoutineKey, true);
+		var history = App.Storage.getValue(SessionHistory.StorageKey);
 		activity.discard();
+		var learned = !StorageSnapshot.deepEquals(App.Storage.getValue(SessionHistory.StorageKey), history);
+		snapshot.restore();
+		if (learned) {
+			return false;
+		}
 		var hrv = summary.metrics[:hrv];
 		// diffs 20 and -30: rmssd sqrt of 650
 		if (hrv == null || !hrv.detailed || !near(hrv.rmssd, 25.4951)) {
