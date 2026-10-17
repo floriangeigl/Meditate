@@ -157,6 +157,18 @@ Fixed with a `foreground` flag on `BeatIntervalFeed` (`setForeground()`, driven 
 
 Known related exposure, unverified and not fixed: `MeditatePrepareView`'s countdown `Timer.Timer` calls `startMeditationSession()` → `createSession`. If a view's timer survives backgrounding (i.e. `onHide()` does *not* fire when a multitasking app loses the screen), backgrounding during a prepare countdown hits the same illegal call with a different backtrace.
 
+### Device quirk: Venu 4 / vívoactive 6 / Venu X1 firmware reboots (2026-10, open)
+
+Firmware crash (RTL Trap 0x028, no `CIQ_LOG`, nothing in ERA) while a CIQ app holds an
+`ActivityRecording` session — Garmin acknowledged:
+[CIQQA-4722](https://forums.garmin.com/developer/connect-iq/i/bug-reports/vivoactive-6-device-reboots-rtl-trap-0x028-when-a-ciq-device-app-records-a-activity).
+Meditate is exposed through the wakeup session held on the picker and in menus: Venu 4 users
+report reboots on launch and in menus (v11.1.2). The
+[18.32 fix](https://forums.garmin.com/sports-fitness/healthandwellness/f/venu-4-series/445592/venu-4-software-version---18-32)
+for resets "when changing screens during an activity" did not help (a user on 18.32 still
+reboots). Not reproducible in the simulator. Keep the wakeup
+session (HRV cold-start fix) unless a device repro shows it is the trigger.
+
 ### HRV cold start: two-phase status text, restarting is the only real fix
 
 On a cold optical sensor `heartBeatIntervals` stays empty while `currentHeartRate` streams normally. The 1 Hz callback keeps firing with empty data, so the picker's hourglass animates forever. **Nothing done *within* a running app reliably unsticks it** — held session (180–320 s), `session.start()`, `setEnabledSensors`, `enableSensorType`, `enableSensorEvents`, and in-process `onStop`-style teardown+restart, all measured on a 10–12 h cold sensor, all nothing. It reproduces in ~100 lines that only register a listener, so it is not a Meditate bug, and the simulator cannot reproduce it at all.
@@ -870,6 +882,19 @@ Principle: rarely worse than today (last selected), never against the user's own
   the other kind of day (weekday vs weekend) ×0.25 with its own decay. 0.6 is what makes a one-off
   lose and two in a row win (needs 0.5 < Decay < 0.707). Ties go to the newest. Followers are
   matched by time too: one opener can lead to different sessions morning and evening.
+  `SessionHistoryTests` pins each of these scenarios.
+- **Parked: weekday-only habits** (Wednesday yoga). Built, tested, then removed as speculative
+  (2026-10): a second mechanism next to the vote that makes picks harder to explain, with no user
+  asking for it. Today such a session is simply outvoted on its day. If it is ever wanted, the
+  version that worked: in `vote()`, while walking the window newest first, take the newest key
+  done on today's weekday; if it was done on that weekday at least twice and never on any other
+  day in the window, return it before the vote (from the second Wednesday on; Thursday unaffected;
+  a daily habit that also ran last Wednesday never qualifies). **Don't do it as a day-name weight
+  in the vote** (same weekday louder than the same kind of day): worked through on paper, any
+  weight strong enough for weekly habits lets last Wednesday's daily habit outvote a switch made
+  on Monday.
+- **Launch** (`pickAt`): if the newest session finished within 60 min, its follower first, then
+  the usual opener.
 - **"You moved it, it stays":** `sessionAutoKey` is the key the app last put the picker on (a
   start, marked in `startMeditationSession()`; an applied suggestion; the neighbour after a delete). `pickAtLaunch` only moves the picker
   when the selection still equals it. Scrolling is the signal, not editing: tweaking the session you
@@ -884,19 +909,6 @@ Principle: rarely worse than today (last selected), never against the user's own
   moves there via `moveTo()`, so the label and where the tap lands cannot disagree however long the
   menu stays open. Nothing moves before the tap, so "End multi-session" leaves selection and auto
   key consistent.
-  `SessionHistoryTests` pins each of these scenarios.
-- **Parked: weekday-only habits** (Wednesday yoga). Built, tested, then removed as speculative
-  (2026-10): a second mechanism next to the vote that makes picks harder to explain, with no user
-  asking for it. Today such a session is simply outvoted on its day. If it is ever wanted, the
-  version that worked: in `vote()`, while walking the window newest first, take the newest key
-  done on today's weekday; if it was done on that weekday at least twice and never on any other
-  day in the window, return it before the vote (from the second Wednesday on; Thursday unaffected;
-  a daily habit that also ran last Wednesday never qualifies). **Don't do it as a day-name weight
-  in the vote** (same weekday louder than the same kind of day): worked through on paper, any
-  weight strong enough for weekly habits lets last Wednesday's daily habit outvote a switch made
-  on Monday.
-- **Launch** (`pickAt`): if the newest session finished within 60 min, its follower first, then
-  the usual opener.
 - **Storage writes:** `markAuto` writes only on a change (the picker marks on nearly every launch,
   same rule as `selectSession`); `append` trims to the cap and drops entries past the age limit.
 - **Deleted keys are forgotten** (`forget`, entries with that key or that prevKey), because
@@ -1086,6 +1098,8 @@ growing `SessionModel` needs no cloud-backup change at all — only watch the 32
 - `sessionsKeys`, `selectedSessionIndex`, and `sesssion_<key>` for each listed key
 - `wakeupSession_activityType`
 - `usageStats_monthly` and `usageStats_tipPending` (the `monthlyStats` section)
+- `sessionHistory` and `sessionAutoKey` (the `routine` section; its keys name the sessions backed
+  up with it). A backup without the section clears both on restore.
 
 **Not backed up:** `usageStats_queue_v3` (unsent analytics, not user data).
 
@@ -1096,8 +1110,6 @@ growing `SessionModel` needs no cloud-backup change at all — only watch the 32
 - `restoreDeviceId` property IS listed in `settings.xml` → configurable in GCM to restore another device's backups
 - All HTTP callbacks use an `mActive` boolean guard to prevent zombie callbacks from touching the view stack after navigation
 - Use `Ui.switchToView` (not `pushView`+`popView`) from HTTP callbacks — `popView` from a callback corrupts the view stack
-- `sessionHistory` and `sessionAutoKey` (the `routine` section; its keys name the sessions backed
-  up with it). A backup without the section clears both on restore.
 - Backup list is trimmed to the 10 most recent entries in code (after sort); old entries remain in Firebase but are never shown
 
 ### Key Learnings (App.Properties / secrets)
