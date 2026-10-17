@@ -195,8 +195,8 @@
     <string id="menuBreathCuesOptions_vibration">진동</string>
     <string id="menuBreathCuesOptions_vibrationTone">진동 + 소리</string>
     <string id="whatsNew_title">새로운 기능</string>
-    <string id="whatsNew_line1">호흡 가이드</string>
-    <string id="whatsNew_line2">신호에 맞춰 호흡</string>
-    <string id="whatsNew_line3">새 세션 3개</string>
-    <string id="whatsNew_line4">간편한 설정</string>
+    <string id="whatsNew_line1">루틴 학습</string>
+    <string id="whatsNew_line2">호흡 공과 젠 화면</string>
+    <string id="whatsNew_line3">새 호흡 세션 3개</string>
+    <string id="whatsNew_line4">이탈리아어 지원</string>
 </strings>

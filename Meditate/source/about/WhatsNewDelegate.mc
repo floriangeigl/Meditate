@@ -9,7 +9,8 @@ using Toybox.Graphics as Gfx;
 // font to fit, but a long line on a small round screen ends up hard to read.
 class WhatsNewDelegate extends Ui.BehaviorDelegate {
 	// 1: guided breathwork
-	static const NewsId = 1;
+	// 2: learned routine, breath ball and zen, new breath sessions, Italian
+	static const NewsId = 2;
 
 	private var mSessionPickerDelegate;
 
