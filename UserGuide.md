@@ -227,11 +227,13 @@ From the session picker you can scroll through available sessions and see:
 - interval alert timing
 - HRV indicator
 
-The app learns which session you start at which time of day. It opens where you left it; if you
-did not touch it since your last session, it opens on the session you usually start around now.
-Being up to about three hours late or early still counts, and a new routine takes over from its
-first use. To
-turn this off, see [Learn Routine](#global-settings-defaults-for-all-sessions).
+The app learns from the sessions you save which session you do at which time of day, on weekdays
+and at the weekend. It opens where you left it; if you did not touch it since your last session,
+it opens on the session you usually do around now. Being up to about three hours late or early
+still counts. A session you do once does not change the suggestion; doing a new one twice in a row
+does. If you reopen the app within an hour after a session, it opens
+on the session you usually do next. Discarded sessions are not learned. To turn this off, see
+[Learn Routine](#global-settings-defaults-for-all-sessions).
 
 ### HRV Indicator
 
@@ -600,7 +602,8 @@ Access via:
 - No - app exits after each session
 - With Learn Routine on, once you have a regular sequence (e.g. breathwork, then silent sitting),
   "Next session" shows the name of the session you usually do next and opens it, so the sequence
-  runs without scrolling. Sequences are only learned in Multi-Session Mode.
+  runs without scrolling. Sequences are also learned without Multi-Session Mode, when you reopen
+  the app within an hour after a session.
 
 ### Preparation Time
 
@@ -634,8 +637,8 @@ Access via:
 
 ### Learn Routine
 
-- On (default) - the session picker opens on the session you usually start at this time, and
-  Multi-Session Mode offers the session that usually comes next
+- On (default) - the session picker opens on the session you usually do at this time, or after a
+  session on the one that usually comes next, and Multi-Session Mode offers that one too
 - Off - the picker always opens on the last selected session; what was learned is forgotten the
   next time you open the app
 

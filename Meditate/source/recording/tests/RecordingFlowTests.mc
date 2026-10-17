@@ -98,7 +98,16 @@ class RecordingFlowTests {
 		}
 		activity.stop();
 		var summary = activity.getSummary();
+		// a discarded session is not learned
+		var snapshot = new StorageSnapshot();
+		GlobalSettings.save(GlobalSettings.LearnRoutineKey, true);
+		var history = App.Storage.getValue(SessionHistory.StorageKey);
 		activity.discard();
+		var learned = !StorageSnapshot.deepEquals(App.Storage.getValue(SessionHistory.StorageKey), history);
+		snapshot.restore();
+		if (learned) {
+			return false;
+		}
 		var hrv = summary.metrics[:hrv];
 		// diffs 20 and -30: rmssd sqrt of 650
 		if (hrv == null || !hrv.detailed || !near(hrv.rmssd, 25.4951)) {

@@ -36,6 +36,10 @@ class MeditateModel extends DetailsModel {
 		return me.mSession.getHrvTracking();
 	}
 
+	function getSessionKey() {
+		return me.mSession.key;
+	}
+
 	function getSessionTime() {
 		return me.mSession.time;
 	}

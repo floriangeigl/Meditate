@@ -169,8 +169,18 @@ class CloudRestore extends Ui.BehaviorDelegate {
 						}
 					}
 				}
-				// not backed up, and its keys may now name other sessions
-				SessionHistory.clear();
+			}
+
+			// --- Learned routine; a backup without it leaves none, its keys may name other sessions ---
+			SessionHistory.clear();
+			var routine = data["routine"];
+			if (routine != null) {
+				if (routine["history"] instanceof Toybox.Lang.Array) {
+					App.Storage.setValue(SessionHistory.StorageKey, routine["history"]);
+				}
+				if (routine["autoKey"] != null) {
+					App.Storage.setValue(SessionHistory.AutoKey, routine["autoKey"]);
+				}
 			}
 
 			// --- Wakeup ---

@@ -11,6 +11,7 @@ class MeditateActivity {
 	private var mAutoStopRoundsTriggered;
 	private var mFitKind;
 	private var mSummary;
+	private var mStartMinute;
 
 	function initialize(meditateModel, beatIntervalFeed, meditateDelegate) {
 		var selectedActivityType = Utils.getEffectiveActivityType(meditateModel.getActivityType());
@@ -76,6 +77,7 @@ class MeditateActivity {
 			me.mFeed.resume();
 			me.mFeed.resetSensorQuality();
 		}
+		me.mStartMinute = SessionHistory.minuteNow();
 		me.mRecorder.start();
 		me.mMeditateModel.isTimerRunning = true;
 		me.mVibeAlertsExecutor = new VibeAlertsExecutor(me.mMeditateModel);
@@ -144,6 +146,8 @@ class MeditateActivity {
 		me.mRecorder.finish();
 		me.persistWakeupSessionType();
 		MonthlyStats.add(me.mMeditateModel.elapsedTime);
+		// only saved sessions are learned
+		SessionHistory.record(me.mMeditateModel.getSessionKey(), me.mStartMinute, me.mMeditateModel.elapsedTime);
 		UsageStats.record(me.mMeditateModel.elapsedTime);
 		MonthlyStats.tryOpenPendingTip();
 	}

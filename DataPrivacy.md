@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Data Privacy Policy
-subtitle: Effective Date: 4th Oct 2026
+subtitle: Effective Date: 11th Oct 2026
 permalink: /meditate_app_data_privacy/
 share-title: App Data Privacy Policy | Meditation & Breathwork (Garmin)
 share-description: Privacy policy for the Meditation & Breathwork Garmin watch app (data collected, usage, retention, and your rights).
@@ -33,7 +33,7 @@ Before October 2026, the app used ipapi.co instead: ipapi.co saw your phone's fu
 
 At most once a month, after a month with at least 15 minutes of meditation, and only when your phone is connected, the app opens my [tip page](/tipme/) on your phone. The link contains last month's meditation minutes (rounded up to a whole number) as the parameter `meditate-minutes`, plus `utm_source=meditate_app`, `utm_medium=garmin_watch` and `utm_campaign=tip`. Because the tip page is part of my website, the website's Google Analytics (see below) records the page address including these parameters.
 
-The app also contains a hidden cloud backup tool that I use for development. It is not part of the regular app menus and can only be reached by long-pressing the About screen. Only when you trigger a backup there yourself, the app uploads its settings, your saved sessions and your monthly meditation minutes to a [Firebase](https://firebase.google.com/support/privacy) Realtime Database (operated by Google), stored under the same Garmin unique identifier as above. Nothing is sent to Firebase automatically. Apart from the tip page and this backup, your monthly meditation minutes stay on your watch.
+The app also contains a hidden cloud backup tool that I use for development. It is not part of the regular app menus and can only be reached by long-pressing the About screen. Only when you trigger a backup there yourself, the app uploads its settings, your saved sessions, your monthly meditation minutes and the learned routine (which session you saved at which date and time, for at most the last 100 sessions within 90 days) to a [Firebase](https://firebase.google.com/support/privacy) Realtime Database (operated by Google), stored under the same Garmin unique identifier as above. Nothing is sent to Firebase automatically. Apart from the tip page and this backup, your monthly meditation minutes stay on your watch; apart from this backup, the learned routine stays on your watch.
 
 My website, including the tip page, uses Google Analytics to understand how visitors use it. Google signals and ad personalization are turned off.
 

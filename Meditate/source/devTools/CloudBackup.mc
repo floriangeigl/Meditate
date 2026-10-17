@@ -75,6 +75,12 @@ class CloudBackup extends Ui.BehaviorDelegate {
 				"tipPending" => App.Storage.getValue(MonthlyStats.TipPendingKey),
 			};
 
+			// --- Learned routine: its keys name the sessions above ---
+			var routine = {
+				"history" => App.Storage.getValue(SessionHistory.StorageKey),
+				"autoKey" => App.Storage.getValue(SessionHistory.AutoKey),
+			};
+
 			// --- Full payload ---
 			var payload = {
 				"appVersion" => appVersion,
@@ -83,6 +89,7 @@ class CloudBackup extends Ui.BehaviorDelegate {
 				"sessions" => sessions,
 				"wakeup" => wakeup,
 				"monthlyStats" => monthlyStats,
+				"routine" => routine,
 			};
 
 			var url =

@@ -10,7 +10,7 @@ class SessionPickerDelegate extends ScreenPickerDelegate {
 	private var mFeed;
 	private var mHrvTracking;
 	private var hrvStatusLineNum;
-	// the session started last in this launch; the predecessor of the next one in a multi-session
+	// the session started last in this launch; the post-session menu offers its follower, saved or not yet
 	private var mLastStartedKey;
 
 	function initialize(sessionStorage, beatIntervalFeed) {
@@ -152,8 +152,8 @@ class SessionPickerDelegate extends ScreenPickerDelegate {
 
 	function startMeditationSession() {
 		var selectedSession = me.mSessionStorage.loadSelectedSession();
-		// before the activity opens its fit session
-		SessionHistory.record(selectedSession.key, me.mLastStartedKey);
+		// before the activity opens its fit session; learned only once saved
+		SessionHistory.markAuto(selectedSession.key);
 		me.mLastStartedKey = selectedSession.key;
 		var meditateModel = new MeditateModel(selectedSession);
 		var displayName = Utils.getSessionDisplayName(selectedSession, me.mSelectedPageIndex);

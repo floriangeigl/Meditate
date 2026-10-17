@@ -272,10 +272,12 @@ on `d2deltapx` (CIQ 3.0.3, the app's API floor), where a call newer than the flo
   an edit changes only that field, a null activity type / HRV stays null (never filled with the
   global default), picking one stores it, an emptied program is stored as null, and opening the
   editor writes nothing.
-- `storage/tests/SessionHistoryTests` — the session suggestion lookup as pure functions (newest
-  within the hour, nearest routine re-centred, 3 h reach, midnight, first starts vs followers,
-  followers by time, drop, append cap) and through real storage: launch moves only a picker the
-  user left alone, a delete is not a user move, a deleted key is forgotten, Off forgets.
+- `storage/tests/SessionHistoryTests` — the session suggestion lookup as pure functions on scripted
+  logs (one-off loses, two in a row win, weekend vs weekday, first weekend, the hour window, re-centring, 3 h reach, midnight, 90-day age, openers vs
+  followers, followers by time, the follower after reopening and the 60 min gap counted from the
+  end, drop, cap) and through real storage: launch moves only a picker the user left alone, a
+  delete is not a user move, a deleted key is forgotten, a wrong-shaped log reads as empty, Off
+  forgets. `RecordingFlowTests` checks that a discarded session is not learned.
 - `storage/tests/SessionStorageTests` — the stored session format round-trips unchanged, the enum
   numbers inside stored sessions, the meditation presets field by field, fresh-store presets in list order, the preset migration per version step
   (from version 2 only 13-15 arrive, from version 3 only 15, deletions stay), the Sleep and Calm
@@ -844,42 +846,66 @@ Files: `Meditate/source/sessionSettings/breathProgram/` (model, templates, menus
 
 ### Session suggestion: the picker opens on the routine
 
-`SessionHistory` (`storage/`) makes the picker open on the session usually started at this time
-of day, and "Next session" in a multi-session on what usually follows. Setting "Learn routine"
-(`GlobalSettings.LearnRoutineKey`, default on). User model: *opens where you left it; if you didn't
-touch it, on the session you usually start now.* Principle: rarely worse than today (last selected),
-never against the user's own choice.
+`SessionHistory` (`storage/`) makes the picker open on the session usually done at this time and
+kind of day, after a session on what usually follows it, and "Next session" in a multi-session on
+the same follower. Setting "Learn routine" (`GlobalSettings.LearnRoutineKey`, default on). User
+model: *opens where you left it; if you didn't touch it, on the session you usually do now.*
+Principle: rarely worse than today (last selected), never against the user's own choice.
 
-- **Data:** `sessionHistory`, a flat array of the last 50 starts, 3 ints each:
-  `[sessionKey, minuteOfDay, prevKey]`; `prevKey` is the session started before it in the same
-  launch, null for a first start. Recorded in `startMeditationSession()` **before** the
-  `MeditateDelegate` opens the FIT session (storage writes and FIT saves must not overlap).
-- **One lookup** (`pick(log, prevKey, minute)`) for launch (prevKey null) and followers: newest
-  start with that prevKey within ±60 min, else re-centre on the closest one within 180 min and take
-  the newest there, else null (don't move). Last used wins by design (the user chose immediate
-  adaptation); re-centring stops an abandoned session a minute closer from winning. Followers are
+- **Only saved sessions are learned:** `MeditateActivity.finish()` records, `discard()` does not.
+  Any saved session counts, however short (back on the save prompt and Auto save included); the
+  vote below outweighs a one-off. Next to the FIT save, like the other storage writes in `finish()`.
+- **Data:** `sessionHistory`, a flat array of up to 100 sessions, 4 ints each:
+  `[sessionKey, start, prevKey, minutes]`. `start` is **local wall-clock minutes since 1970**
+  (`minuteNow()`, UTC plus `timeZoneOffset`), so travel and daylight saving keep 07:00 at 07:00;
+  minute of day (`% 1440`), weekday and age all come from it. `prevKey` is the session that
+  finished at most `GapMinutes` (60) before this one started, in this launch or an earlier one, else
+  `None` (-1). **Never null: Firebase drops nulls from arrays** and the cloud restore would shift
+  every entry after one. Sessions older than 90 days are ignored and pruned on the next record. A
+  log whose size is not a multiple of 4 reads as empty.
+- **One lookup** (`pick(log, prevKey, now)`) for openers (`None`) and followers: the sessions with
+  that prevKey within ±60 min of now, or re-centred on the closest one within 180 min (so an
+  abandoned routine a minute closer cannot outvote the one around it), else null (don't move).
+  Within the window each session votes for its key: newest 1, each older one ×0.6 (`Decay`), on
+  the other kind of day (weekday vs weekend) ×0.25 with its own decay. 0.6 is what makes a one-off
+  lose and two in a row win (needs 0.5 < Decay < 0.707). Ties go to the newest. Followers are
   matched by time too: one opener can lead to different sessions morning and evening.
 - **"You moved it, it stays":** `sessionAutoKey` is the key the app last put the picker on (a
-  start, an applied suggestion, the neighbour after a delete). `pickAtLaunch` only moves the picker
+  start, marked in `startMeditationSession()`; an applied suggestion; the neighbour after a delete). `pickAtLaunch` only moves the picker
   when the selection still equals it. Scrolling is the signal, not editing: tweaking the session you
   just did must not pin it for the next morning. A delete re-marks the new selection as the app's.
 - **Off forgets lazily:** `pickAtLaunch` clears both keys when the setting is off, so the generic
   settings menu needs no special case.
 - **Multi-session:** `MeditateDelegate` looks up `nextSessionKey()` once, when it builds the
-  post-session menu, and keeps it in `mNextSessionKey`. The "Next session" sublabel names it only
+  post-session menu, and keeps it in `mNextSessionKey`. It asks for the follower of
+  `mLastStartedKey`, never of the newest log entry: with save confirmation on "Ask" the menu is
+  built **before** the save prompt is answered, so the session just done is not logged yet. The "Next session" sublabel names it only
   when a follower is learned (Off and "nothing learned" look exactly like before), and the tap
   moves there via `moveTo()`, so the label and where the tap lands cannot disagree however long the
   menu stays open. Nothing moves before the tap, so "End multi-session" leaves selection and auto
   key consistent.
+  `SessionHistoryTests` pins each of these scenarios.
+- **Parked: weekday-only habits** (Wednesday yoga). Built, tested, then removed as speculative
+  (2026-10): a second mechanism next to the vote that makes picks harder to explain, with no user
+  asking for it. Today such a session is simply outvoted on its day. If it is ever wanted, the
+  version that worked: in `vote()`, while walking the window newest first, take the newest key
+  done on today's weekday; if it was done on that weekday at least twice and never on any other
+  day in the window, return it before the vote (from the second Wednesday on; Thursday unaffected;
+  a daily habit that also ran last Wednesday never qualifies). **Don't do it as a day-name weight
+  in the vote** (same weekday louder than the same kind of day): worked through on paper, any
+  weight strong enough for weekly habits lets last Wednesday's daily habit outvote a switch made
+  on Monday.
+- **Launch** (`pickAt`): if the newest session finished within 60 min, its follower first, then
+  the usual opener.
 - **Storage writes:** `markAuto` writes only on a change (the picker marks on nearly every launch,
-  same rule as `selectSession`); `append` trims to the cap, not by one.
+  same rule as `selectSession`); `append` trims to the cap and drops entries past the age limit.
 - **Deleted keys are forgotten** (`forget`, entries with that key or that prevKey), because
   `generateSessionKey()` hands a freed key to the next new session.
-- **Known and accepted:** recency-driven users (no fixed times) who switch their go-to session see
-  the old one at some hours (the one regression vs today; Off restores today); weekday/weekend
-  routines within an hour of each other miss twice a week (same as today; a weekday flag would fix
-  it); two sessions in two separate launches are not learned as a sequence; a one-off at an unusual
-  hour becomes that hour's pick. Rejected: a toast on jump (fires at nearly every launch for
+- **Known and accepted:** a switched go-to session takes two sessions to win at a given hour;
+  the weekend is Saturday and Sunday, so a Friday/Saturday weekend is half matched;
+  a Sunday 23:50 session counts as weekend for a Monday 00:30 launch; any session done within an
+  hour after another is a follower, so two separate habits close together get linked; a one-off at
+  an unusual hour becomes that hour's pick until something else is done there. Rejected: a toast on jump (fires at nearly every launch for
   two-routine users), reordering the carousel (breaks spatial memory), a 15-min sticky timer (hid
   sessions prepared the evening before).
 
@@ -953,7 +979,7 @@ holds an update needs no migration. The only one-time migration so far is
     sorted, so a single pass over it isn't enough: that once gave a new session an existing key and
     overwrote that session. A deleted session's key is reused, so anything keyed by session key must
     forget it on delete (as `SessionHistory.forget` does).
-  - `SessionHistory.StorageKey` / `AutoKey` — `"sessionHistory"` (flat array, 3 ints per start) /
+  - `SessionHistory.StorageKey` / `AutoKey` — `"sessionHistory"` (flat array, 4 ints per saved session) /
     `"sessionAutoKey"`; see "Session suggestion" under Architecture
 - **`App.Properties`** — `activityName` and `restoreDeviceId` (Garmin Connect settings), plus the
   secrets from `secrets.xml`.
@@ -1048,7 +1074,7 @@ restore.
 `CloudRestore.onRestoreResponse()` needs **no change for new global settings** — it iterates
 whatever keys came back (`gs.keys()`) and writes them straight to storage. It only needs
 editing when a whole new *section* of the backup payload is added (alongside `globalSettings`,
-`sessions`, `wakeup`, `monthlyStats`). Session dictionaries are likewise backed up opaquely, so
+`sessions`, `wakeup`, `monthlyStats`, `routine`). Session dictionaries are likewise backed up opaquely, so
 growing `SessionModel` needs no cloud-backup change at all — only watch the 32 KB
 `maxLength` envelope on both sides.
 
@@ -1061,9 +1087,7 @@ growing `SessionModel` needs no cloud-backup change at all — only watch the 32
 - `wakeupSession_activityType`
 - `usageStats_monthly` and `usageStats_tipPending` (the `monthlyStats` section)
 
-**Not backed up:** `usageStats_queue_v3` (unsent analytics, not user data); `sessionHistory` and
-`sessionAutoKey` (relearned from the next starts; `CloudRestore` clears them, since restored keys
-may name other sessions).
+**Not backed up:** `usageStats_queue_v3` (unsent analytics, not user data).
 
 ### Architecture Notes
 
@@ -1072,6 +1096,8 @@ may name other sessions).
 - `restoreDeviceId` property IS listed in `settings.xml` → configurable in GCM to restore another device's backups
 - All HTTP callbacks use an `mActive` boolean guard to prevent zombie callbacks from touching the view stack after navigation
 - Use `Ui.switchToView` (not `pushView`+`popView`) from HTTP callbacks — `popView` from a callback corrupts the view stack
+- `sessionHistory` and `sessionAutoKey` (the `routine` section; its keys name the sessions backed
+  up with it). A backup without the section clears both on restore.
 - Backup list is trimmed to the 10 most recent entries in code (after sort); old entries remain in Firebase but are never shown
 
 ### Key Learnings (App.Properties / secrets)
