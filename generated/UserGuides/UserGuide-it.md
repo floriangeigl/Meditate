@@ -4,27 +4,27 @@ title: Meditazione & Esercizi di respirazione
 subtitle: Guida all'app Garmin
 permalink: /meditate_app_user_guide/
 share-title: Guida a Meditazione & Esercizi di respirazione (Garmin) | Florian Geigl
-share-description: Configurazione, funzioni, domande frequenti, risoluzione dei problemi e assistenza per l'app Meditazione & Esercizi di respirazione per orologi Garmin.
+share-description: Configurazione, funzioni, domande frequenti, risoluzione dei problemi e assistenza per l'app Garmin Meditazione & Esercizi di respirazione.
 ---
 
 Questa guida è qui per aiutarti, non per sommergerti di informazioni :)
 
-Non devi capire tutto prima di iniziare.  
-Comincia dalla **Guida per iniziare** e torna alla **Guida avanzata** quando ti viene curiosità.
+Non devi capire tutto prima di cominciare.  
+Parti dalla **Guida per iniziare** e torna alla **Guida avanzata** quando ti viene voglia di approfondire.
 
 ### Indice
 
 - [Guida per iniziare](#beginner-guide)
   - [A cosa serve questa app](#what-this-app-is-about)
-  - [Avviare la tua prima sessione](#starting-your-first-session)
+  - [La tua prima sessione](#starting-your-first-session)
   - [Un modo semplice per meditare](#a-simple-way-to-meditate)
   - [Scegliere una sessione](#choosing-a-session)
   - [Sessioni di esercizi di respirazione](#breathwork-sessions)
   - [Capire i dati della tua sessione](#understanding-your-session-data)
 - [Guida avanzata](#advanced-guide)
   - [Personalizzare le sessioni](#session-customization)
-  - [Respirazione guidata](#custom-breathwork-patterns)
-  - [Metriche HRV avanzate](#advanced-hrv-metrics)
+  - [Esercizi di respirazione guidati](#custom-breathwork-patterns)
+  - [Parametri HRV avanzati](#advanced-hrv-metrics)
   - [Impostazioni generali (predefinite per tutte le sessioni)](#global-settings-defaults-for-all-sessions)
 - [Domande frequenti e risoluzione dei problemi](#faqs-troubleshooting)
 - [Assistenza / Segnala un problema](#get-support--report-problem)
@@ -42,24 +42,24 @@ _(Tutto quello che ti serve per cominciare)_
 
 ## A cosa serve questa app
 
-Meditazione & Esercizi di respirazione ti aiuta a restare nel momento presente mentre osservi con delicatezza come risponde il tuo corpo durante la meditazione e gli esercizi di respirazione.
+Meditazione & Esercizi di respirazione ti aiuta a restare nel momento presente, osservando con delicatezza come reagisce il tuo corpo durante la meditazione e gli esercizi di respirazione.
 
-Con l'app puoi:
+Ti permette di:
 
-- svolgere sessioni semplici o strutturate
+- fare sessioni semplici o strutturate
 - ricevere segnali tramite vibrazione, senza distrazioni visive
 - osservare frequenza cardiaca, HRV, stress e respirazione
 - salvare le sessioni su Garmin Connect per notare eventuali schemi nel tempo
 
-L'obiettivo è **essere consapevoli, non ottenere risultati**.
+L'obiettivo è **diventare più consapevoli, non ottenere risultati**.
 
-Se ti va di ascoltare una breve riflessione sul perché rallentare sia importante (e sul perché sia così difficile in una cultura che corre sempre), il podcast di Cory Muscara **[The Practicing Human - «Why You Need to Slow Down»](https://practicinghuman.buzzsprout.com/597910/episodes/18537284-why-you-need-to-slow-down)** esplora come la fretta possa impoverire le relazioni, la felicità e la capacità di prendere decisioni lucide.
+Se ti va di ascoltare una breve riflessione sul perché rallentare sia importante (e sul perché sia così difficile in una cultura che corre sempre), **[il podcast The Practicing Human di Cory Muscara - "Why You Need to Slow Down"](https://practicinghuman.buzzsprout.com/597910/episodes/18537284-why-you-need-to-slow-down)** esplora come la fretta possa indebolire le relazioni, ridurre la felicità e rendere più difficile prendere decisioni lucide.
 
 ---
 
 <a id="starting-your-first-session"></a>
 
-## Avviare la tua prima sessione
+## La tua prima sessione
 
 1. Apri l'app.
 2. Scegli una sessione dall'elenco.
@@ -76,15 +76,15 @@ Durante la sessione vedrai:
 
 Puoi:
 
-- mettere in pausa o riprendere con il **tasto indietro**
-- interrompere la sessione con il **tasto avvio/arresto**
-- regolare la luminosità dello schermo con i tasti dell'orologio o tramite touch
-- premere **su** o **giù** (oppure scorrere) per passare alla **schermata zen**: uno schermo scuro che mostra solo l'anello di avanzamento. Quando cambi schermata, l'ora compare per qualche secondo e poi scompare. La sessione viene registrata allo stesso modo su entrambe le schermate.
+- mettere in pausa o riprendere con il **pulsante Indietro**
+- interrompere la sessione con il **pulsante Avvia/Interrompi**
+- regolare la luminosità dello schermo con i pulsanti dell'orologio o tramite touch
+- premere **su** o **giù** (oppure scorrere con il dito) per aprire la **schermata zen**: uno schermo scuro con il solo anello di avanzamento. Quando passi a questa schermata, l'ora compare per qualche secondo e poi scompare. La sessione viene registrata esattamente allo stesso modo su entrambe le schermate.
 
-La sessione successiva si aprirà sulla schermata che stavi usando quando hai terminato questa.
+La prossima sessione si aprirà sulla schermata in cui hai concluso questa.
 
 Quando interrompi una sessione, puoi salvarla o eliminarla.  
-Se premi indietro alla richiesta di conferma, la sessione viene salvata.  
+Se premi Indietro alla richiesta di conferma, la sessione viene salvata.  
 Le sessioni salvate compaiono in Garmin Connect dopo la sincronizzazione.
 
 ---
@@ -93,17 +93,17 @@ Le sessioni salvate compaiono in Garmin Connect dopo la sincronizzazione.
 
 ## Un modo semplice per meditare
 
-Se non sai come meditare, non sei l'unica persona. E non sei in ritardo.  
+Se non sai come si medita, non sei l'unica persona, e non sei in ritardo.  
 Stai già facendo la cosa più importante: esserci.
 
-Meditare non significa fermare i pensieri, svuotare la mente o fare qualcosa nel modo «giusto». Anche chi medita da anni si accorge che la mente vaga ogni pochi secondi. È normale.
+Meditare non significa fermare i pensieri, svuotare la mente o fare qualcosa nel modo "giusto". Anche chi medita da molto tempo si accorge che la mente vaga ogni pochi secondi. È normale.
 
-La pratica non consiste nel rimanere concentrati.  
-Consiste nell'accorgersi di quando perdi la concentrazione e tornare, con delicatezza.
+La pratica non consiste nel restare sempre concentrati.  
+Consiste nell'accorgersi di quando la mente si distrae e nel tornare con gentilezza.
 
-Se nel tuo primo anno di meditazione non facessi altro che ciò che trovi qui sotto, sarebbe già abbastanza. Davvero.
+Se per tutto il tuo primo anno di meditazione facessi soltanto quello che trovi qui sotto, sarebbe già abbastanza. Davvero.
 
-E un'altra cosa: più **umorismo, delicatezza e benevolenza** porti nelle tue sessioni, più l'esperienza diventa piacevole e, spesso, utile. Non stai cercando di «vincere» nella meditazione. Stai imparando a stare con te.
+E un'altra cosa: più **umorismo, delicatezza e amorevolezza** porti nelle tue sessioni, più piacevole diventa l'esperienza, e spesso anche più utile. Non stai cercando di "vincere" a meditazione. Stai imparando a stare con te stesso.
 
 ---
 
@@ -121,66 +121,66 @@ Potresti notare:
 - l'aria più calda quando espiri
 - un lieve movimento o formicolio
 
-Basta questo. Non c'è nient'altro da raggiungere.
+È sufficiente così. Non c'è altro da raggiungere.
 
-Se ti aiuta, puoi accompagnare il respiro in silenzio con le parole: _«dentro»_ … _«fuori»_.  
-Con semplicità, senza sforzo.
+Se ti aiuta, puoi dirti mentalmente: _"dentro"_ ... _"fuori"_.  
+Con semplicità e leggerezza.
 
 ---
 
-### Quando la mente vaga: e succederà!
+### Quando la mente vaga, perché succederà!
 
-A un certo punto, spesso dopo pochi secondi, la mente si allontanerà.
+A un certo punto, spesso dopo appena pochi secondi, la mente inizierà a vagare.
 
-Potresti iniziare a pensare:
+Potresti metterti a pensare:
 
 - a quello che dovresti fare
 - a qualcosa del passato
 - a qualcosa che ti infastidisce
-- a qualcosa che non ha la minima importanza
+- a qualcosa di assolutamente irrilevante
 
-Non significa che non sei capace di meditare. Significa soltanto che la tua mente fa quello che fanno le menti.
+Non significa che non sei capace di meditare. Significa solo che la mente fa quello che le menti fanno.
 
-A volte la mente cerca persino di riportarti all'attività, alla tensione o a un po' di caos, perché è ciò che conosce e che le sembra sicuro. Il sistema nervoso può aggrapparsi a un inferno familiare prima di imparare a fidarsi di un paradiso sconosciuto. E quei pensieri possono sembrare tutt'altro che casuali: possono suonare convincenti, come un'intuizione, o persino come una verità su chi sei. La mente potrebbe proporti pensieri «urgentissimi», come:  
-_«Dobbiamo assolutamente riorganizzare tutta la nostra vita. Adesso.»_
+A volte cerca perfino di riportarti all'attività, alla tensione o a un po' di caos, perché sono sensazioni familiari e quindi sembrano sicure. Il sistema nervoso può aggrapparsi a un inferno conosciuto prima di imparare a fidarsi di un paradiso sconosciuto. E questi pensieri potrebbero non sembrarti affatto casuali: possono suonare molto convincenti, come un'intuizione, o persino come una verità su chi sei. La mente potrebbe proporti pensieri "urgentissimi" come:  
+_"Dobbiamo assolutamente riorganizzare tutta la nostra vita proprio adesso."_
 
 Puoi accogliere quel momento con un sorriso e un po' di affetto:
 
-> «Ah, eccoti di nuovo. Ti manca il caos. Che furbacchiona, mente mia. Ti voglio bene.»
+> "Ah, eccoti di nuovo. Ti manca il caos. Furbetta, mente mia. Ti voglio bene."
 
 ---
 
 ### La parte più importante
 
-Il momento in cui ti accorgi che la tua attenzione si è allontanata non è un fallimento. È proprio il momento in cui stai praticando.
+Il momento in cui ti accorgi che l'attenzione si è allontanata non è un fallimento. È il momento in cui la pratica sta davvero accadendo.
 
 Quando te ne accorgi:
 
 - fermati un istante
 - magari sorridi
 - chiediti con gentilezza:
-  _«Voglio tornare al respiro, adesso?»_
+  _"Ho voglia di tornare al respiro, adesso?"_
 
-Se la risposta è sì, torna alla sensazione del respiro al naso.  
+Se la risposta è sì, torna alla sensazione del respiro nel naso.  
 Se la risposta è no, va bene lo stesso: potrai chiedertelo di nuovo più tardi.
 
-Ogni ritorno è una piccola occasione per allenarti.  
-E ogni volta che te ne accorgi, puoi festeggiare in silenzio: _«Oh, me ne sono accorto.»_ È la consapevolezza che si risveglia.
+Ogni ritorno è una piccola occasione per esercitarti.  
+E ogni volta che te ne accorgi, puoi festeggiare in silenzio: _"Oh, me ne sono accorto."_ È la consapevolezza che si risveglia.
 
 ---
 
-### Trattati con gentilezza
+### Sii gentile con te stesso
 
-Tornare al respiro più e più volte non è qualcosa di cui irritarsi. È questo l'allenamento.
+Tornare ancora e ancora non è un motivo per irritarsi. È proprio questo l'esercizio.
 
 Ogni volta che te ne accorgi e ritorni:
 
 - rafforzi la consapevolezza
 - coltivi la pazienza
-- insegni al tuo sistema nervoso che la calma è un luogo sicuro
+- insegni al tuo sistema nervoso che la calma è un posto sicuro
 
-Se ti accorgi di essere severo con te, prova ad addolcire appena il tono:  
-_«Certo che la mia mente ha vagato. È quello che fanno le menti. Torniamo al respiro.»_
+Quindi, se ti accorgi di essere duro con te stesso, prova ad ammorbidire appena quel giudizio:  
+_"Certo che la mia mente si è distratta. È quello che fa. Torniamo al respiro."_
 
 La gentilezza funziona meglio della forza. La curiosità funziona meglio della disciplina.  
 E un po' di umorismo rende tutto più umano.
@@ -189,28 +189,28 @@ E un po' di umorismo rende tutto più umano.
 
 ### Se vuoi approfondire
 
-Questa pratica semplice, da sola, può portarti molto lontano.
+Questa pratica semplice può portarti molto lontano anche da sola.
 
-Se a un certo punto vorrai saperne di più sulla meditazione, soprattutto su come stare con l'irrequietezza, la paura e la gentilezza verso te stesso, un bellissimo punto di partenza è:
+Se un giorno ti viene voglia di scoprire di più sulla meditazione, soprattutto su come stare con l'irrequietezza, la paura e la gentilezza verso te stesso, un ottimo punto di partenza è:
 
 **Pema Chödrön - _How to Meditate: A Practical Guide to Making Friends with Your Mind_** (Sounds True, 2013).
 
-E se stai attraversando un cambiamento, lasciando andare qualcosa o imparando a salutare un vecchio modo di essere, questo episodio del podcast **[Brave Souls - «Kissing your old life goodbye»](https://open.spotify.com/episode/0lbaZMdJm7E90vmqYTTs0I)** può farti compagnia. Se hai poco tempo, o vuoi partire da un punto che potrebbe toccarti nel profondo, comincia intorno al minuto 27 e ascolta fino alla fine, possibilmente con le cuffie.
+E se stai attraversando un cambiamento, lasciando andare qualcosa o sentendo che parte della pratica consiste nel salutare un vecchio modo di essere, questo episodio del podcast **[Brave Souls - "Kissing your old life goodbye"](https://open.spotify.com/episode/0lbaZMdJm7E90vmqYTTs0I)** può farti compagnia. Se hai poco tempo, o vuoi arrivare subito a una parte che potrebbe toccarti nel profondo, comincia intorno al minuto 27 e ascolta fino alla fine, possibilmente con gli auricolari.
 
 Non c'è fretta. Queste risorse saranno qui quando sentirai la curiosità di esplorarle.
 
 ---
 
-### Tutto qui, davvero
+### È davvero tutto qui
 
 Non devi fare nient'altro.
 
-Se la tua mente vaga 100 volte e tu ritorni 100 volte, è stata una buona sessione.  
-Se sei riuscito a seguire il respiro solo per pochi secondi alla volta, è stata una buona sessione.
+Se la mente vaga 100 volte e tu torni 100 volte, è stata una buona sessione.  
+Se riesci a seguire il respiro solo per pochi secondi alla volta, è stata una buona sessione.
 
 Meditare non significa restare calmi. Significa imparare a tornare.
 
-E puoi farlo con delicatezza, calore, umorismo e un po' di rispetto per te.
+E puoi farlo con delicatezza, calore, umorismo e un po' di rispetto per te stesso.
 
 ---
 
@@ -218,21 +218,21 @@ E puoi farlo con delicatezza, calore, umorismo e un po' di rispetto per te.
 
 ## Scegliere una sessione
 
-Nella schermata di scelta puoi scorrere le sessioni disponibili e vedere:
+Nella schermata di selezione puoi scorrere le sessioni disponibili e vedere:
 
-- la durata
-- lo schema delle vibrazioni
-- quando suonano gli avvisi a intervalli
+- la durata della sessione
+- lo schema di vibrazione
+- gli orari degli avvisi a intervalli
 - l'indicatore HRV
 
-Dalle sessioni che salvi, l'app impara quali scegli nelle diverse ore del giorno, distinguendo tra giorni feriali e fine settimana. Si apre dove l'avevi lasciata; se non l'hai usata dall'ultima sessione, si apre sulla sessione che fai di solito a quest'ora. Anche una differenza di circa tre ore, in anticipo o in ritardo, rientra nella stessa fascia. Fare una nuova sessione una sola volta non cambia il suggerimento; farla due volte di seguito sì. Se riapri l'app entro un'ora dalla fine di una sessione, si apre su quella che fai di solito dopo. Le sessioni eliminate non vengono considerate. Per disattivare questa funzione, consulta [Impara la routine](#global-settings-defaults-for-all-sessions).
+Dalle sessioni che salvi, l'app impara quali scegli nei diversi momenti della giornata, distinguendo tra giorni feriali e fine settimana. Si apre dove l'avevi lasciata; se non l'hai usata dopo l'ultima sessione, si apre sulla sessione che fai di solito a quest'ora. Conta anche se sei in anticipo o in ritardo di circa tre ore. Fare una nuova sessione una sola volta non cambia il suggerimento; farla due volte di seguito sì. Se riapri l'app entro un'ora da una sessione, si apre su quella che fai di solito subito dopo. Le sessioni eliminate non vengono considerate. Per disattivare questa funzione, vedi [Impara la routine](#global-settings-defaults-for-all-sessions).
 
 ### Indicatore HRV
 
 - **Disattivato** - rilevamento HRV disattivato
-- **Avvio HRV / Attendi** - il sensore si sta ancora avviando
-- **Riavvia l'app** - compare se l'HRV non si è avviata dopo circa 20 secondi; nelle domande frequenti trovi le cause e le possibili soluzioni
-- **Segnale HRV debole** - i dati dei battiti arrivano a intermittenza; tieni fermo il polso per un momento
+- **Avvio HRV / Attendi** - il sensore si sta ancora attivando
+- **Riavvia l'app** - compare se l'HRV non si avvia dopo circa 20 secondi; nelle domande frequenti qui sotto trovi le possibili cause e le soluzioni
+- **HRV debole** - i dati dei battiti arrivano a intermittenza; resta fermo per un momento
 - **Pronto** - rilevamento HRV attivo  
   Per ottenere dati HRV affidabili, muovi il polso il meno possibile.
 
@@ -242,88 +242,88 @@ Dalle sessioni che salvi, l'app impara quali scegli nelle diverse ore del giorno
 
 ## Sessioni di esercizi di respirazione
 
-L'app include sessioni preconfigurate che ti accompagnano respiro dopo respiro.  
-Un ciclo respiratorio può comprendere:
+L'app include sessioni già configurate che ti guidano respiro dopo respiro.  
+Un ciclo di respirazione può comprendere:
 
 **Inspira → Trattieni → Espira → Trattieni**
 
 (Alcune tecniche saltano determinate fasi.)
 
-> **Gli esercizi di respirazione sono una novità per te?** Non iniziare da qui. L'orologio può aiutarti a tenere il ritmo, ma non può spiegarti che cosa stai facendo né guidarti a voce. Segui prima qualche video guidato: nella sezione [Per andare oltre](#going-further) trovi dove cercarne di validi. Torna alle sessioni preimpostate quando avrai capito come dovrebbero farti sentire i vari ritmi. A quel punto, l'orologio sarà lo strumento più comodo per seguirli.
+> **Non hai mai fatto esercizi di respirazione?** Non cominciare da qui. L'orologio può aiutarti a tenere il ritmo, ma non può spiegarti cosa stai facendo né guidarti a voce. Segui prima qualche video guidato: in [Per andare oltre](#going-further) trovi dove cercarne di validi. Torna a queste sessioni preimpostate quando conoscerai le sensazioni associate ai diversi ritmi; a quel punto l'orologio sarà lo strumento più comodo per seguirli.
 
 ### Sessioni incluse
 
-| Sessione | Ritmo | Durata |
-| ------------ | ---------------------------------- | ------ |
-| Respiro quadrato | 4-4-4-4 | 5:04 |
-| Respirazione coerente | 6-6 | 5:00 |
-| Respirazione 4-7-8 | 4-7-8 | 5:04 |
-| Energia | respirazione veloce, poi respiro quadrato | 5:20 |
-| Rallenta | espirazioni lunghe, poi 4-7-8 | 4:54 |
-| Apnee | respiri profondi, poi apnee | 7:16 |
-| Sonno | rallentamento, poi 10 min di riposo | 23:08 |
-| Calma | espirazioni sempre più lunghe, senza apnee | 5:00 |
-| Libera | respira al tuo ritmo | 15:00 |
+| Sessione     | Ritmo                                          | Durata |
+| ------------ | ---------------------------------------------- | ------ |
+| Box Breath   | 4-4-4-4                                        | 5:04   |
+| B. Coherence | 6-6                                            | 5:00   |
+| B. 4-7-8     | 4-7-8                                          | 5:04   |
+| B. Energize  | respiri veloci, poi respirazione quadrata      | 5:20   |
+| B. Wind Down | espirazioni lunghe, poi 4-7-8                  | 4:54   |
+| B. Holds     | respiri profondi, poi pause a respiro sospeso  | 7:16   |
+| B. Sleep     | rallentamento, poi 10 min di riposo            | 23:08  |
+| B. Calm      | espirazioni sempre più lunghe, senza pause     | 5:00   |
+| B. Free      | respira al tuo ritmo                           | 15:00  |
 
-**Respiro quadrato**  
+**Respirazione quadrata**  
 Inspirazione, pausa, espirazione e pausa della stessa durata.  
-Si usa spesso per calmare il sistema nervoso.
+Spesso usata per calmare il sistema nervoso.
 
 **Respirazione coerente**  
 Inspirazione ed espirazione lente e della stessa durata.  
-È spesso associata a un aumento dell'HRV.
+Spesso associata a un aumento dell'HRV.
 
 **Respirazione 4-7-8**  
 Inspira per 4, trattieni per 7, espira per 8.  
-Si usa spesso prima di dormire.
+Comunemente usata prima di dormire.
 
 **Sonno**  
-Inizia a un ritmo facile e rallenta il respiro gradualmente fino a circa due respiri al minuto. Poi torna a un ritmo più naturale e ti lascia 10 minuti per respirare liberamente. Termina con una sola, lieve vibrazione. Se vuoi che si concluda e si salvi da sola nel caso ti addormenti, lascia attiva **Interruzione automatica** e imposta **Conferma salvataggio** su **Sì automatico ed esci**.
+Comincia con un ritmo facile e rallenta gradualmente il respiro fino a circa due respiri al minuto, poi torna piano a un ritmo più naturale e ti lascia 10 minuti per respirare liberamente. Termina con una singola vibrazione leggera. Se vuoi che finisca e si salvi da sola nel caso ti addormenti, lascia attiva **Interruzione automatica** e imposta **Conferma salvataggio** su **Sì automatico ed esci**.
 
 **Calma**  
-Espirazioni sempre più lunghe, senza trattenere mai il respiro.  
+Espirazioni sempre più lunghe, senza mai trattenere il respiro.  
 Per i momenti di stress o ansia, a qualsiasi ora del giorno.
 
 **Libera**  
 Nessun ritmo da seguire: 15 minuti di respirazione al tuo passo, mentre l'orologio registra frequenza cardiaca, HRV, stress e respirazione.
 
-Puoi modificare tutte queste sessioni o crearne una tua: consulta [Respirazione guidata](#custom-breathwork-patterns).
+Puoi modificare tutte queste sessioni o crearne una tua: vedi [Esercizi di respirazione guidati](#custom-breathwork-patterns).
 
-### Che cosa succede durante una sessione
+### Cosa succede durante una sessione
 
 Ogni cambio di fase ha una vibrazione diversa:
 
 - **crescente** - inspira
-- **un breve impulso** - trattieni
+- **un breve impulso** - trattieni il respiro
 - **decrescente** - espira
 
 Basta questo per seguire un'intera sessione a occhi chiusi.
 
 Se guardi l'orologio, vedrai:
 
-- la fase attuale (**Inspira**, **Trattieni**, **Espira**) e un conto alla rovescia fino al cambio successivo
-- un anello che si riempie man mano che la fase avanza
-- l'indicazione di respirare dal naso o dalla bocca, quando prevista dalla sessione
+- la fase in corso (**Inspira**, **Trattieni**, **Espira**) e un conto alla rovescia fino al cambio successivo
+- un anello che si riempie man mano che la fase procede
+- se la sessione lo specifica, l'indicazione di respirare dal naso o dalla bocca
 
-Premi **su** o **giù** (oppure scorri) per passare tra quattro schermate:
+Premi **su** o **giù** (oppure scorri con il dito) per passare tra quattro schermate:
 
-- **Guida** - fase, conto alla rovescia e indicazione del naso o della bocca
-- **Sfera del respiro** - una sfera che cresce mentre inspiri, si rimpicciolisce mentre espiri e rimane ferma quando trattieni il respiro
+- **Guida** - fase, conto alla rovescia e indicazione del percorso dell'aria
+- **Sfera del respiro** - una sfera che si ingrandisce mentre inspiri, si rimpicciolisce mentre espiri e resta ferma quando trattieni il respiro
 - **Zen** - una schermata scura con il solo anello di avanzamento della sessione
-- **Metriche** - frequenza cardiaca, HRV, stress e respirazione
+- **Parametri** - frequenza cardiaca, HRV, stress e respirazione
 
-Le vibrazioni continuano su ogni schermata. La prossima sessione di esercizi di respirazione si aprirà sulla schermata che stavi usando quando hai terminato questa.
+Le vibrazioni continuano su tutte le schermate. La prossima sessione di esercizi di respirazione si aprirà sulla schermata in cui hai concluso questa.
 
-Prima dell'inizio, il conto alla rovescia di preparazione ti mostra che cosa ti aspetta.
+Prima dell'inizio della sessione, il conto alla rovescia di preparazione ti mostra cosa ti aspetta.
 
-### Piccoli consigli
+### Qualche consiglio gentile
 
 - Se puoi, inspira dal naso
-- Espirare più a lungo di quanto inspiri spesso aiuta a ritrovare la calma
-- La sessione ti indica quando usare la bocca: nella 4-7-8, per esempio, si espira dalla bocca
-- Se respirare a tempo ti mette a disagio, scegli una sessione semplice e respira naturalmente
-- Non praticare mai apnee in acqua, mentre guidi o stando in piedi
-- Per sessioni guidate con voce e musica, consulta [Per andare oltre](#going-further)
+- Espirare più a lungo di quanto inspiri spesso aiuta a calmarti
+- La sessione ti indica quando usare la bocca: nel 4-7-8, per esempio, si espira dalla bocca
+- Se seguire tempi precisi ti mette a disagio, scegli una sessione semplice e respira naturalmente
+- Non praticare mai le pause a respiro sospeso in acqua, mentre guidi o in piedi
+- Per sessioni guidate con voce e musica, vedi [Per andare oltre](#going-further)
 
 ---
 
@@ -333,7 +333,7 @@ Prima dell'inizio, il conto alla rovescia di preparazione ti mostra che cosa ti 
 
 ### HRV (variabilità della frequenza cardiaca)
 
-L'HRV indica quanto varia l'intervallo di tempo tra un battito cardiaco e l'altro.
+L'HRV indica quanto varia il tempo tra un battito cardiaco e l'altro.
 
 - HRV più alta → stati di maggiore calma e regolazione
 - HRV più bassa → attivazione o stress
@@ -344,15 +344,15 @@ La variabilità è **sana**: non è qualcosa da correggere.
 
 Valori di stress più bassi possono essere piacevoli, ma valori più alti **non** significano che la sessione sia andata male.
 
-A volte una sessione serve a restare presenti anche quando si prova disagio.
+A volte una sessione serve proprio a restare presenti anche quando si prova disagio.
 
 ### Frequenza cardiaca
 
-La frequenza cardiaca spesso rallenta quando il corpo si distende e, di solito, segue l'andamento dell'HRV e dello stress.
+La frequenza cardiaca spesso rallenta quando il corpo si distende e di solito segue l'andamento di HRV e stress.
 
 ### Respirazione
 
-I dati sulla respirazione provengono dai sensori Garmin. Sono più utili per osservare le tendenze che per ottenere misure precise.
+I dati sulla respirazione provengono dai sensori Garmin e sono più utili per osservare le tendenze che come misure precise.
 
 ---
 
@@ -366,9 +366,9 @@ _(Per personalizzare le sessioni, approfondire i dati e sfruttare tutte le funzi
 
 ## Personalizzare le sessioni
 
-Dalla schermata di scelta delle sessioni:
+Dalla schermata di selezione delle sessioni:
 
-- Tieni premuto il **tasto menu** (oppure tieni premuto lo schermo)
+- Tieni premuto il **pulsante Menu** (oppure tieni premuto sullo schermo)
 - Apri **Aggiungi nuova** o **Modifica**
 
 Puoi configurare:
@@ -377,7 +377,7 @@ Puoi configurare:
 
 - Durata (H:MM)
 - Colore (usato negli indicatori visivi)
-- Schema delle vibrazioni
+- Schema di vibrazione
 - Tipo di attività (Meditazione / Yoga / Esercizi di respirazione)
 - Livello di rilevamento HRV
 - Nome personalizzato della sessione (supporta il segnaposto `[time]`)
@@ -385,121 +385,121 @@ Puoi configurare:
 ### Avvisi a intervalli
 
 - Avvisi singoli o ripetuti
-- Durate da pochi secondi a diverse ore
+- Intervalli da pochi secondi a diverse ore
 - Ritardo prima del primo avviso
-- Un colore per ciascun avviso (oppure trasparente per nasconderlo)
+- Un colore per ogni avviso (oppure trasparente per nasconderlo)
 - Schema di vibrazione o suono
 
-Viene attivato un solo avviso alla volta.  
+Può attivarsi un solo avviso alla volta.  
 Ordine di priorità: avviso finale → ultimo avviso singolo → ultimo avviso ripetuto.
 
 ---
 
 <a id="custom-breathwork-patterns"></a>
 
-## Respirazione guidata
+## Esercizi di respirazione guidati
 
-Ogni sessione di respirazione guidata si basa su un **Programma di respirazione**: un elenco ordinato di passaggi. Anche le [sessioni incluse](#breathwork-sessions) sono normali programmi, quindi puoi aprirne e modificarne uno qualsiasi. Per aggiungere una guida a un'altra sessione, usa la voce **Programma di respirazione**.
+Ogni sessione guidata si basa su un **Programma di respirazione**: una sequenza ordinata di passaggi. Le [sessioni incluse](#breathwork-sessions) sono programmi come gli altri, quindi puoi aprirle e modificarle. Per aggiungere una guida a un'altra sessione, usa la voce **Programma di respirazione**.
 
-Quando aggiungi un passaggio, parti sempre da uno schema già pronto (`4-4-4-4`, `4-7-8`, `6-6`, `4-4-4`, `4-8`, `2-2`, un'apnea, un riposo o uno schema personalizzato), quindi raramente dovrai inserire quattro numeri a mano.
+Quando aggiungi un passaggio, parti sempre da uno schema pronto (`4-4-4-4`, `4-7-8`, `6-6`, `4-4-4`, `4-8`, `2-2`, una pausa a respiro sospeso, un riposo o uno schema personalizzato), quindi raramente dovrai inserire quattro numeri a mano.
 
 ### Passaggi
 
-Ogni passaggio combina uno schema respiratorio con una regola di ripetizione:
+Ogni passaggio comprende uno schema di respirazione e una regola di ripetizione:
 
-| Campo | Significato |
-| --------------- | ---------------------------------------------- |
-| Inspira | secondi di inspirazione (`0:00` salta questa fase) |
-| Trattieni | secondi di pausa a polmoni pieni |
-| Espira | secondi di espirazione |
-| Trattieni a vuoto | secondi di pausa a polmoni vuoti |
-| Inspira da | naso, bocca o non impostato |
-| Espira da | naso, bocca o non impostato |
-| Ripeti | un numero di cicli oppure una durata |
+| Campo             | Significato                                                |
+| ----------------- | ---------------------------------------------------------- |
+| Inspira           | secondi di inspirazione (`0:00` salta questa fase)          |
+| Trattieni         | secondi a respiro sospeso con i polmoni pieni               |
+| Espira            | secondi di espirazione                                      |
+| Trattieni a vuoto | secondi a respiro sospeso con i polmoni vuoti               |
+| Inspira da        | naso, bocca o non specificato                               |
+| Espira da         | naso, bocca o non specificato                               |
+| Ripeti            | un numero di cicli oppure una durata                        |
 
-Un'apnea pura è semplicemente un passaggio in cui è impostata soltanto una pausa. I nomi dei passaggi vengono creati automaticamente dai numeri, quindi `4-7-8` significa inspira per 4, trattieni per 7, espira per 8.
+Una pausa a respiro sospeso pura è semplicemente un passaggio in cui è impostata solo la pausa. I nomi dei passaggi vengono generati automaticamente dai numeri: `4-7-8` significa quindi inspira per 4, trattieni per 7, espira per 8.
 
-Un passaggio **Riposo** non ha uno schema, ma solo una durata: l'app smette di scandire il ritmo, mostra _Respira liberamente_ con un conto alla rovescia e continua a registrare. Usalo per respirare normalmente dopo un'apnea o una fase di respirazione veloce, per prenderti un minuto prima del primo schema o per riposare in silenzio alla fine della sessione. Se metti `Rest 10:00` per ultimo, la sessione prosegue per altri dieci minuti prima di fermarsi.
+Un passaggio **Riposo** non ha uno schema, solo una durata: l'app smette di scandire il ritmo, mostra _Respira liberamente_ con un conto alla rovescia e continua a registrare. Puoi usarlo per respirare normalmente dopo una pausa a respiro sospeso o una fase di respirazione veloce, per prenderti un minuto prima del primo schema oppure per riposare in silenzio alla fine della sessione: metti `Riposo 10:00` come ultimo passaggio e la sessione continuerà per altri dieci minuti prima di terminare.
 
-Esempio: `4 cicli di 5-5-5, poi un'apnea di 2:00, un riposo di 1:00 e infine 6-6 per 3 minuti`:
+Esempio - `4 cicli di 5-5-5, poi 2:00 a respiro sospeso, 1:00 di riposo e infine 6-6 per 3 minuti`:
 
-| Passaggio | Schema | Ripetizione | Durata |
-| ---- | --------- | --------- | -------- |
-| 1 | 5-5-5 | 4 cicli | 1:00 |
-| 2 | Apnea 2:00 | una volta | 2:00 |
-| 3 | Riposo | per 1:00 | 1:00 |
-| 4 | 6-6 | per 3:00 | 3:00 |
-| | | **totale** | **7:00** |
+| Passaggio | Schema        | Ripetizione   | Durata   |
+| --------- | ------------- | ------------- | -------- |
+| 1         | 5-5-5         | 4 cicli       | 1:00     |
+| 2         | Trattieni 2:00| una volta     | 2:00     |
+| 3         | Riposo        | per 1:00      | 1:00     |
+| 4         | 6-6           | per 3:00      | 3:00     |
+|           |               | **totale**    | **7:00** |
 
-**Il programma determina la durata della sessione.** Quando è presente un programma, la voce Durata mostra il totale calcolato e apre l'editor del programma anziché la selezione della durata.
+**Il programma determina la durata della sessione.** Quando è presente un programma, la voce Tempo mostra il totale calcolato e apre l'editor del programma anziché la selezione della durata.
 
-All'interno di un passaggio, usa **Sposta su** / **Sposta giù** per cambiare l'ordine.
+Per cambiare l'ordine, usa **Sposta su** / **Sposta giù** all'interno di un passaggio.
 
-La scelta tra naso e bocca si imposta **per ogni passaggio**, quindi un programma può alternarli. Per esempio, puoi iniziare espirando rapidamente dalla bocca e poi passare a una respirazione lenta dal naso per ritrovare la calma.
+L'indicazione di respirare dal naso o dalla bocca si imposta **per ogni passaggio**: un programma può quindi alternare le due modalità. Per esempio, puoi iniziare espirando velocemente dalla bocca e poi passare a una respirazione nasale lenta per ritrovare la calma.
 
 Limiti: 10 passaggi per programma, 99 cicli per passaggio, 9:59 per fase, 59:59 per riposo.
 
-### Leggere la schermata Guida
+### Leggere la schermata della guida
 
 Oltre al nome della fase e al conto alla rovescia, la schermata mostra due anelli:
 
-- l'**anello interno** si riempie durante la fase attuale e ha un colore diverso per ogni fase (durante un riposo si riempie per tutta la durata del riposo)
-- l'**anello esterno** mostra l'avanzamento dell'intera sessione, con tacche nei punti in cui cambiano i passaggi. Le stesse tacche compaiono su ogni schermata della sessione e sulla barra temporale nella schermata di scelta. Le apnee sono segnate in arancione e i passaggi **Respira liberamente** in grigio, così puoi vedere quando stanno per arrivare
+- l'**anello interno** si riempie durante la fase in corso e ha un colore diverso per ogni fase (durante il riposo si riempie per tutta la sua durata)
+- l'**anello esterno** mostra l'avanzamento dell'intera sessione, con tacche nei punti in cui cambiano i passaggi. Le stesse tacche compaiono su tutte le schermate della sessione e sulla barra temporale della schermata di selezione. Le pause a respiro sospeso sono segnate in arancione e i passaggi **Respira liberamente** in grigio, così puoi vedere quando stanno per arrivare
 
-La riga sotto il conto alla rovescia mostra il ciclo in cui ti trovi nel passaggio attuale (`3/4`) e, se il passaggio lo prevede, se nella fase attuale devi respirare dal naso o dalla bocca.
+La riga sotto il conto alla rovescia indica a quale ciclo sei arrivato nel passaggio in corso (`3/4`) e, se è stata impostata, l'indicazione di respirare dal naso o dalla bocca per la fase attuale.
 
 ### La sfera del respiro
 
-Si trova una schermata sotto la schermata Guida. La sfera cresce durante ogni inspirazione e si restringe durante ogni espirazione: blu quando inspiri, verde quando espiri. Il movimento rallenta all'inizio e alla fine di ogni respiro, come in un respiro naturale. Durante una pausa resta ferma nel colore del respiro precedente, blu a polmoni pieni o verde a polmoni vuoti, mentre il contorno scandisce i secondi rimanenti. Durante un riposo compare una sfera grigia di medie dimensioni e la scritta **Respira liberamente**. Il nome della fase è al centro; l'anello esterno e le tacche dei passaggi sono gli stessi della schermata Guida.
+Si trova una schermata sotto quella della guida. La sfera cresce a ogni inspirazione e si rimpicciolisce a ogni espirazione: blu quando inspiri, verde quando espiri. Rallenta all'inizio e alla fine di ogni respiro, come farebbe un respiro naturale. Quando trattieni il respiro, resta ferma nel colore della fase precedente: blu con i polmoni pieni, verde con i polmoni vuoti. Il suo contorno scandisce la pausa secondo per secondo. Durante il riposo compare una sfera grigia di medie dimensioni con la scritta **Respira liberamente**. Il nome della fase è al centro; l'anello esterno e le tacche dei passaggi sono gli stessi della schermata della guida.
 
 ### Segnali
 
-Ogni cambio di fase attiva una vibrazione specifica, così puoi seguire la sessione a occhi chiusi e con lo schermo spento:
+Ogni cambio di fase attiva una vibrazione diversa, così puoi seguire la sessione a occhi chiusi e con lo schermo spento:
 
-| Fase | Vibrazione | Suono |
-| -------------------- | ---------- | ----------------- |
-| Inspira | crescente | due note ascendenti |
-| Trattieni (a polmoni pieni o vuoti) | breve impulso | una nota breve |
-| Espira | decrescente | due note discendenti |
-| Riposo | breve impulso | una nota breve |
+| Fase                                 | Vibrazione        | Suono                  |
+| ------------------------------------ | ----------------- | ---------------------- |
+| Inspira                              | crescente         | due note ascendenti    |
+| Trattieni (polmoni pieni o vuoti)    | breve impulso     | una nota breve         |
+| Espira                               | decrescente       | due note discendenti   |
+| Riposo                               | breve impulso     | una nota breve         |
 
-Le due pause condividono lo stesso segnale. Poiché una pausa segue sempre un'inspirazione o un'espirazione, sai già se i polmoni sono pieni o vuoti, senza dover imparare un quarto schema. Anche il riposo usa lo stesso segnale neutro: indica che il ritmo guidato si è fermato. Il passaggio successivo inizia con il proprio segnale di inspirazione.
+Entrambe le pause usano lo stesso segnale. La pausa segue sempre un'inspirazione o un'espirazione, quindi sai già se i polmoni sono pieni o vuoti senza dover imparare un quarto schema. Anche il riposo usa lo stesso segnale neutro: indica che il ritmo guidato si è fermato, mentre il passaggio successivo comincerà con il proprio segnale di inspirazione.
 
-In **Impostazioni → Segnali respirazione** puoi scegliere tra Disattivati, Vibrazione e Vibrazione + Suono. I suoni vengono riprodotti solo sugli orologi che li supportano. Rispettano inoltre l'impostazione generale Vibrazione e suono. I segnali continuano anche quando sei nella schermata Metriche, così puoi guardare la frequenza cardiaca senza perdere il ritmo.
+**Impostazioni → Segnali respirazione** permette di scegliere tra Disattivati, Vibrazione e Vibrazione + Suono. I suoni vengono riprodotti solo sugli orologi che li supportano. Rispettano inoltre l'impostazione generale Vibrazione e suono. I segnali continuano anche sulla schermata dei parametri, così puoi guardare la frequenza cardiaca senza perdere il ritmo.
 
-### Prima dell'inizio della sessione
+### Prima che la sessione inizi
 
-Il conto alla rovescia di preparazione mostra un riepilogo del programma, così sai che cosa ti aspetta prima della prima inspirazione. Se tutti i passaggi prevedono di respirare allo stesso modo, dal naso o dalla bocca, lo vedrai anche qui; se cambiano da un passaggio all'altro, guarda la schermata Guida.
+Il conto alla rovescia di preparazione mostra un riepilogo del programma, così sai cosa ti aspetta prima della prima inspirazione. Se tutti i passaggi prevedono la stessa indicazione per naso o bocca, viene mostrata anche qui; se le indicazioni cambiano, segui invece la schermata della guida.
 
-I programmi con più di quattro passaggi vengono riassunti con `+N more`.
+I programmi con più di quattro passaggi vengono riassunti come `+N altri`.
 
-> Gli avvisi a intervalli continuano a funzionare esattamente come prima e puoi abbinarli a un programma di respirazione. Sono più adatti a promemoria periodici che a scandire i ritmi respiratori.
+> Gli avvisi a intervalli continuano a funzionare come prima e possono essere combinati con un programma di respirazione: sono più adatti a promemoria periodici che a scandire gli schemi respiratori.
 
 <a id="going-further"></a>
 
 ### Per andare oltre
 
-L'app scandisce il ritmo del respiro, ma non ti guida a voce. Se desideri una voce che ti accompagni, musica composta per seguire il respiro e percorsi più lunghi di quelli che uno schermo d'orologio può offrire, **Breathe With Sandy** è davvero un ottimo punto di partenza. Te lo consiglio di cuore:
+L'app scandisce il ritmo del respiro, ma non ti guida a voce. Se cerchi una voce che ti accompagni, musica composta per seguire il respiro e percorsi più lunghi di quelli che può offrirti uno schermo dell'orologio, **Breathe With Sandy** è davvero un ottimo punto di partenza: te lo consiglio di cuore.
 
 - **App e sito web:** [breathewithsandy.com](https://www.breathewithsandy.com/) - la raccolta più completa, con musica originale composta per accompagnare il ritmo del respiro
 - **YouTube:** [youtube.com/breathewithsandy](https://www.youtube.com/breathewithsandy) - sessioni guidate gratuite, perfette per fare una prova
 - **Patreon:** [patreon.com/cw/breathewithsandy](https://www.patreon.com/cw/breathewithsandy) - i percorsi più lunghi
 
-Per queste due vale la pena ritagliarsi tutto il tempo necessario:
+Due percorsi a cui vale la pena dedicare del tempo:
 
 - _40 Min Release Trauma, Tension & Emotions Stuck in The Body \| 5 Rounds \| Guided Gratitude
   Meditation_
 - _Reconnect with Your Inner Child \| 1 Hour Deep Breathwork Journey & Healing Meditation_
 
-Le trovi nell'app di Sandy o su Patreon. Sono molto più lunghe e intense di qualsiasi sessione preimpostata qui. Falle da sdraiato, in un posto dove potrai restare anche dopo, e leggi prima l'avvertenza sulla sicurezza qui sotto. Puoi comunque registrarne una con l'orologio: avvia una sessione semplice di durata simile, con **Programma di respirazione** disattivato. L'app rileverà frequenza cardiaca e HRV, mentre la registrazione ti guiderà nel respiro.
+Li trovi nell'app di Sandy o su Patreon. Sono molto più lunghi e intensi delle sessioni preimpostate qui. Falli da sdraiato, in un posto dove potrai restare anche dopo, e leggi prima la nota sulla sicurezza qui sotto. Puoi comunque registrarli con l'orologio: avvia una sessione semplice di durata simile con **Programma di respirazione** disattivato. L'app rileverà frequenza cardiaca e HRV mentre segui la guida audio.
 
-> Gli esercizi di respirazione lunghi e continui possono provocare reazioni fisiche ed emotive intense. Non praticarli mai in acqua, mentre guidi o stando in piedi. Se sei in gravidanza oppure hai una patologia cardiovascolare o una condizione che causa crisi convulsive, evita del tutto questi esercizi a meno che tu non ne abbia prima parlato con un medico.
+> Gli esercizi di respirazione lunghi e continui possono provocare reazioni fisiche ed emotive intense. Non praticarli mai in acqua, mentre guidi o in piedi. Se sei in gravidanza o hai una patologia cardiovascolare o un disturbo convulsivo, evita del tutto queste pratiche a meno che tu non abbia prima ricevuto il via libera da un medico.
 
 ---
 
 <a id="advanced-hrv-metrics"></a>
 
-## Metriche HRV avanzate
+## Parametri HRV avanzati
 
 Quando il rilevamento HRV è impostato su **Attivo dettagliato**, l'app registra:
 
@@ -509,11 +509,11 @@ Quando il rilevamento HRV è impostato su **Attivo dettagliato**, l'app registra
 - pNN50
 - Intervalli grezzi tra i battiti
 - Frequenza cardiaca ricavata dagli intervalli tra i battiti
-- RMSSD su finestra mobile
+- Finestra mobile RMSSD
 - SDRR (primi 5 minuti)
 - SDRR (ultimi 5 minuti)
 
-Questi valori servono a **esplorare e imparare**, non a giudicare i risultati.
+Questi valori servono a **esplorare e imparare**, non a giudicare.
 
 ---
 
@@ -523,8 +523,8 @@ Questi valori servono a **esplorare e imparare**, non a giudicare i risultati.
 
 Per accedervi:
 
-- Schermata di scelta delle sessioni → tieni premuto menu → Impostazioni generali
-- Tieni di nuovo premuto menu per modificarle
+- Schermata di selezione delle sessioni → tieni premuto Menu → Impostazioni generali
+- Tieni di nuovo premuto Menu per modificarle
 
 ### Rilevamento HRV (predefinito)
 
@@ -542,7 +542,7 @@ Per accedervi:
 
 - Sì - l'app resta aperta per più sessioni
 - No - l'app si chiude dopo ogni sessione
-- Con Impara la routine attivo, una volta che hai una sequenza abituale (per esempio esercizi di respirazione e poi meditazione silenziosa), «Sessione successiva» mostra il nome della sessione che fai di solito dopo e la apre. Così puoi seguire la sequenza senza scorrere l'elenco. Le sequenze vengono imparate anche senza la modalità sessioni multiple, quando riapri l'app entro un'ora da una sessione.
+- Con Impara la routine attivo, una volta che hai una sequenza abituale (per esempio esercizi di respirazione seguiti da meditazione silenziosa), "Prossima sessione" mostra il nome della sessione che fai di solito dopo e la apre, senza dover scorrere l'elenco. L'app impara le sequenze anche senza la Modalità sessioni multiple, se la riapri entro un'ora dalla sessione precedente.
 
 ### Tempo di preparazione
 
@@ -550,7 +550,7 @@ Per accedervi:
 
 ### Frequenza respiratoria
 
-- Attiva / Disattiva (dipende dal dispositivo)
+- Attiva / Disattivata (dipende dal dispositivo)
 
 ### Tipo di attività predefinito
 
@@ -561,8 +561,8 @@ Per accedervi:
 ### Finestra HRV
 
 - Le finestre brevi mostrano i cambiamenti rapidi
-- Per dati affidabili, si consigliano 3-5 minuti  
-  (Valore predefinito: 60 secondi)
+- Per dati affidabili si consigliano 3-5 minuti  
+  (Predefinito: 60 secondi)
 
 ### Vibrazione e suono
 
@@ -572,18 +572,18 @@ Per accedervi:
 
 - Usa il nome personalizzato della sessione in Garmin Connect
 - Supporta il segnaposto `[time]`
-- I nomi delle attività possono contenere al massimo 21 caratteri
+- I nomi delle attività possono avere al massimo 21 caratteri
 
 ### Impara la routine
 
-- Attivo (predefinito) - la schermata di scelta si apre sulla sessione che fai di solito a quest'ora oppure, dopo una sessione, su quella che segue di solito; la modalità sessioni multiple propone a sua volta la sessione successiva
-- Disattivato - la schermata di scelta si apre sempre sull'ultima sessione selezionata; ciò che l'app ha imparato viene dimenticato alla successiva apertura
+- Attivo (predefinito) - la schermata di selezione si apre sulla sessione che fai di solito a quest'ora oppure, dopo una sessione, su quella che fai normalmente subito dopo. Anche la Modalità sessioni multiple propone quest'ultima
+- Disattivato - la schermata di selezione si apre sempre sull'ultima sessione scelta; ciò che l'app ha imparato viene dimenticato alla successiva apertura
 
 ### Riavvio sensori
 
-- Reimposta tutti i sensori della frequenza cardiaca
+- Reimposta tutti i sensori di frequenza cardiaca
 - Chiude l'app
-- Utile quando l'HRV rimane bloccata
+- Utile quando l'HRV resta bloccata
 
 ---
 
@@ -591,57 +591,57 @@ Per accedervi:
 
 # Domande frequenti e risoluzione dei problemi
 
-Questa sezione può aiutarti se qualcosa non è chiaro o non funziona come ti aspetti.  
-La maggior parte dei problemi si risolve facilmente. E nessuno significa che tu stia sbagliando qualcosa.
+Questa sezione è qui per aiutarti se qualcosa non è chiaro o non funziona come previsto.  
+La maggior parte dei problemi si risolve facilmente e nessuno di questi significa che tu stia sbagliando qualcosa.
 
 ---
 
 <details>
-  <summary><strong>L'HRV non si avvia / continua a comparire «Riavvia l'app»</strong></summary>
+  <summary><strong>L'HRV non si avvia / continua a comparire "Riavvia l'app"</strong></summary>
 
-  <p>Quasi sempre è il sensore della frequenza cardiaca dell'orologio che impiega un po' ad avviarsi, non un problema dell'app. Durante l'avvio, sullo schermo compare <strong>Avvio HRV</strong>. Se il sensore non parte entro circa 20 secondi, il messaggio cambia in <strong>Riavvia l'app</strong>: a quel punto, continuare ad aspettare sulla stessa schermata raramente aiuta.</p>
+  <p>Quasi sempre è il sensore della frequenza cardiaca dell'orologio che impiega un po' ad attivarsi, non un problema dell'app. Mentre si attiva, lo schermo mostra <strong>Avvio HRV</strong>; se non parte entro circa 20 secondi, compare <strong>Riavvia l'app</strong>. A quel punto, continuare ad aspettare sulla stessa schermata raramente aiuta.</p>
 
-  <p>Succede soprattutto quando apri l'app per la prima volta dopo un po' di tempo, per esempio al mattino. Il sensore che rileva i singoli battiti, necessario per l'HRV, è separato da quello che mostra la normale frequenza cardiaca. Se è rimasto inutilizzato, può impiegare da pochi secondi ad alcuni minuti prima di comunicare quei dati dettagliati. È un limite del sensore dell'orologio e l'app non può accelerarne l'avvio dall'interno: chiudere e riaprire l'app è ciò che, in pratica, lo fa partire prima.</p>
+  <p>Succede soprattutto quando apri l'app per la prima volta dopo un po' di tempo, per esempio al mattino. Il sensore che rileva i singoli battiti, necessario per l'HRV, è diverso da quello che mostra la normale frequenza cardiaca. Dopo un periodo di inattività, può impiegare da pochi secondi a qualche minuto prima di fornire questi dati dettagliati. È un limite del sensore dell'orologio e l'app non può accelerarlo dall'interno: chiudere e riaprire l'app è il modo che lo fa ripartire più in fretta.</p>
 
-  <p>Prova questi passaggi, nell'ordine:</p>
+  <p>Prova questi passaggi nell'ordine indicato:</p>
 
   <ol>
     <li>Chiudi e riapri l'app. È la soluzione più affidabile e di solito funziona in pochi secondi.</li>
     <li>
       Se non basta, apri <strong>Impostazioni generali</strong> e seleziona <strong>Riavvio sensori</strong>.<br>
-      L'app spegnerà tutti i sensori della frequenza cardiaca e si chiuderà, così il firmware dell'orologio potrà inizializzarli di nuovo.<br>
-      Riapri l'app e avvia la sessione. Come spiega il consiglio qui sotto, non devi aspettare che l'HRV sia pronta.
+      L'app disattiverà tutti i sensori di frequenza cardiaca e si chiuderà, così il firmware dell'orologio potrà inizializzarli di nuovo correttamente.<br>
+      Riapri l'app e comincia la sessione: come spiega il consiglio qui sotto, non devi aspettare che l'HRV sia pronta.
     </li>
     <li>
-      Se non usi un sensore esterno della frequenza cardiaca, come una fascia toracica, apri le impostazioni di connettività dell'orologio (non quelle dell'app) e verifica che tutti i sensori esterni siano scollegati.<br>
-      A volte una fascia toracica nelle vicinanze si ricollega automaticamente e disturba le letture.
+      Se non usi un sensore di frequenza cardiaca esterno (come una fascia toracica), apri le impostazioni di connettività dell'orologio (non quelle dell'app) e verifica che tutti i sensori esterni siano disconnessi.<br>
+      A volte una fascia toracica nelle vicinanze si riconnette automaticamente e interferisce con le letture.
     </li>
-    <li>Controlla la posizione del sensore. Se sposti l'orologio, tieni fermo il polso per circa 30 secondi, in modo che le letture si stabilizzino.</li>
+    <li>Controlla la posizione del sensore. Se sistemi l'orologio sul polso, resta fermo per circa 30 secondi per permettere alle letture di stabilizzarsi.</li>
     <li>Se il problema continua, reinstalla l'app.</li>
     <li>
-      Se non ottieni ancora dati HRV affidabili, prova:
+      Se ancora non ottieni dati HRV affidabili, prova a:
       <ul>
-        <li>a indossare l'orologio sul lato interno del polso, oppure</li>
-        <li>a usare un sensore esterno della frequenza cardiaca che supporti gli intervalli tra i battiti (viene riconosciuto automaticamente, senza impostazioni nell'app).</li>
+        <li>indossare l'orologio sulla parte interna del polso, oppure</li>
+        <li>usare un sensore di frequenza cardiaca esterno che supporti gli intervalli tra i battiti (viene riconosciuto automaticamente, senza modificare le impostazioni dell'app).</li>
       </ul>
     </li>
   </ol>
 
-  <p><strong>Consiglio:</strong> non devi aspettare che l'HRV sia pronta per iniziare la sessione. Il rilevamento HRV parte automaticamente non appena il sensore si avvia: puoi cominciare a meditare invece di attendere nella schermata di scelta.</p>
+  <p><strong>Consiglio:</strong> non devi aspettare che l'HRV sia pronta per iniziare la sessione. Il rilevamento HRV si attiva automaticamente non appena il sensore è disponibile, quindi puoi cominciare a meditare senza restare in attesa sulla schermata di selezione.</p>
 
 </details>
 
 <details>
-  <summary><strong>Posso cambiare il nome di una sessione dall'orologio?</strong></summary>
+  <summary><strong>Posso cambiare il nome della sessione sull'orologio?</strong></summary>
 
   <p>Sì.</p>
 
-  <p>Puoi modificare il nome direttamente sull'orologio:</p>
+  <p>Puoi modificare il nome di una sessione direttamente sull'orologio:</p>
 
   <ul>
     <li>Apri <strong>Aggiungi nuova</strong> o <strong>Modifica</strong> per una sessione</li>
     <li>Seleziona <strong>Nome</strong></li>
-    <li>Inserisci il testo con il sistema di immissione dell'orologio</li>
+    <li>Inserisci il testo usando il sistema di immissione dell'orologio</li>
   </ul>
 
   <p>
@@ -650,16 +650,16 @@ La maggior parte dei problemi si risolve facilmente. E nessuno significa che tu 
   </p>
 
   <p>
-    Nei nomi delle sessioni puoi usare il segnaposto <code>[time]</code>.<br>
-    Esempio: <code>Deep rest [time]</code> → <code>Deep rest 20min</code>
+    Puoi usare il segnaposto <code>[time]</code> nei nomi delle sessioni.<br>
+    Esempio: <code>Riposo profondo [time]</code> → <code>Riposo profondo 20min</code>
   </p>
 
 </details>
 
 <details>
-  <summary><strong>L'app si chiude inaspettatamente appena avvio una sessione: che cosa posso fare?</strong></summary>
+  <summary><strong>L'app si chiude non appena avvio una sessione: cosa posso fare?</strong></summary>
 
-  <p>Se l'app si apre ma si chiude inaspettatamente non appena avvii una sessione, è probabile che il tuo modello di orologio non supporti il tipo di attività selezionato.</p>
+  <p>Se l'app si apre ma si chiude subito quando avvii una sessione, probabilmente il tuo modello di orologio non supporta il tipo di attività selezionato.</p>
 
   <p>Modifica la sessione e scegli un altro tipo di attività:</p>
 
@@ -669,24 +669,24 @@ La maggior parte dei problemi si risolve facilmente. E nessuno significa che tu 
     <li>Esercizi di respirazione</li>
   </ul>
 
-  <p>Se è disponibile sul tuo dispositivo, un tipo di attività più generico di solito funziona su tutti i modelli.</p>
+  <p>Se disponibile sul tuo dispositivo, un tipo di attività più generico di solito funziona su tutti i modelli.</p>
 
 </details>
 
 <details>
   <summary><strong>Il GPS si attiva durante la sessione, la mia posizione viene aggiunta al nome dell'attività oppure la batteria si scarica dopo (Venu 2 / Venu 2S / Venu Sq 2)</strong></summary>
 
-  <p>È un problema del firmware di Venu 2, Venu 2S e Venu Sq 2. Non è stato segnalato su altri modelli di orologio.</p>
+  <p>È un bug del firmware di Venu 2, Venu 2S e Venu Sq 2. Non è stato segnalato su altri modelli di orologio.</p>
 
-  <p>Su questi orologi, il GPS viene attivato per tutti i tipi di attività offerti dall'app (Meditazione, Esercizi di respirazione, Yoga, Generica). La posizione viene quindi aggiunta al nome dell'attività (per esempio <code>&lt;My City&gt; Breathwork</code>) e in Garmin Connect compare una mappa. Il GPS può inoltre rimanere acceso dopo la chiusura dell'app, scaricando la batteria finché l'orologio non viene riavviato.</p>
+  <p>Su questi orologi, il GPS si attiva per ogni tipo di attività offerto dall'app (Meditazione, Esercizi di respirazione, Yoga, Generica). La posizione viene quindi aggiunta al nome dell'attività (per esempio <code>&lt;La mia città&gt; Esercizi di respirazione</code>) e in Garmin Connect compare una mappa. Il GPS può anche restare acceso dopo la chiusura dell'app, consumando la batteria finché non riavvii l'orologio.</p>
 
-  <p>L'app non può causare né risolvere questo problema: non ha alcuna autorizzazione per il GPS, quindi non può attivarlo e, se ci provasse, l'orologio glielo impedirebbe. Il comportamento dipende dal firmware dell'orologio, non dall'app. Il problema è stato segnalato a Garmin: <a href="https://forums.garmin.com/developer/connect-iq/i/bug-reports/app-activates-tracks-gps-despite-missing-permissions">segnalazione del problema a Connect IQ</a>.</p>
+  <p>L'app non può causare né risolvere questo problema: non ha alcuna autorizzazione per il GPS, quindi non può attivarlo, e l'orologio glielo impedirebbe anche se ci provasse. Questo comportamento dipende dal firmware dell'orologio, non dall'app. Il problema è stato segnalato a Garmin: <a href="https://forums.garmin.com/developer/connect-iq/i/bug-reports/app-activates-tracks-gps-despite-missing-permissions">segnalazione del bug di Connect IQ</a>.</p>
 
-  <p>In attesa che Garmin lo risolva, puoi:</p>
+  <p>Finché Garmin non lo risolve, puoi:</p>
 
   <ul>
-    <li>Riavviare l'orologio dopo la sessione se la batteria si scarica (vedi «Come faccio a riavviare il mio orologio Garmin?» qui sotto).</li>
-    <li>Aggiungere un commento alla segnalazione del problema a Garmin indicata sopra: più segnalazioni aiutano Garmin a dare priorità alla soluzione.</li>
+    <li>Riavviare l'orologio dopo la sessione se noti che la batteria si scarica (vedi "Come riavvio il mio orologio Garmin?" qui sotto).</li>
+    <li>Aggiungere un commento alla segnalazione del bug a Garmin qui sopra: più segnalazioni aiutano Garmin a dare priorità alla soluzione.</li>
   </ul>
 
 </details>
@@ -696,18 +696,18 @@ La maggior parte dei problemi si risolve facilmente. E nessuno significa che tu 
 
   <p>Non tutti i dispositivi Garmin supportano il rilevamento continuo dello stress.</p>
 
-  <p>Alcuni modelli meno recenti, per esempio Fenix 5X, supportano solo misurazioni dello stress in un dato istante, non il rilevamento in tempo reale durante le attività. In questi casi, i dati sullo stress potrebbero essere assenti o limitati.</p>
+  <p>Alcuni modelli meno recenti (per esempio il Fenix 5X) supportano solo misurazioni puntuali dello stress, non il rilevamento in tempo reale durante le attività. In questi casi, i dati sullo stress possono mancare o essere limitati.</p>
 
   <p>Dipende dall'hardware dell'orologio, non dall'app.</p>
 
 </details>
 
 <details>
-  <summary><strong>Ma la vecchia versione rilevava lo stress: perché questa no?</strong></summary>
+  <summary><strong>Ma la vecchia versione rilevava lo stress: perché questa non lo fa?</strong></summary>
 
   <p>La vecchia versione usava un algoritmo personalizzato per stimare lo stress.</p>
 
-  <p>La versione attuale usa invece il rilevamento dello stress integrato in Garmin. In questo modo i dati sono coerenti con Garmin Connect e si evitano discrepanze tra valori di stress diversi, che avevano creato confusione per molte persone.</p>
+  <p>La versione attuale usa invece il rilevamento dello stress integrato di Garmin. Questo garantisce coerenza con Garmin Connect ed evita differenze tra i valori di stress, che creavano confusione a molte persone.</p>
 
 </details>
 
@@ -716,84 +716,92 @@ La maggior parte dei problemi si risolve facilmente. E nessuno significa che tu 
 
   <p>Non è un problema specifico di questa app.</p>
 
-  <p>L'app usa il segnale respiratorio fornito da Garmin. Garmin lo ricava dal ritmo dei battiti cardiaci: l'intervallo tra i battiti si accorcia leggermente quando inspiri e si allunga quando espiri. Serve quindi un segnale cardiaco pulito: un orologio ben aderente e un polso fermo aiutano più di ogni altra cosa. La frequenza respiratoria può risultare meno affidabile durante pratiche molto calme e immobili.</p>
+  <p>L'app usa il segnale respiratorio fornito da Garmin. Garmin lo ricava dal ritmo dei battiti cardiaci: il tempo tra un battito e l'altro si accorcia leggermente quando inspiri e si allunga quando espiri. Per questo serve un segnale cardiaco pulito: un orologio ben aderente e un polso fermo sono le cose che aiutano di più. La frequenza respiratoria può essere meno affidabile durante pratiche molto calme e statiche.</p>
 
-  <p>Se per te è importante avere dati respiratori precisi, una fascia toracica che supporta la comunicazione di HRV e respirazione, per esempio HRM-600, potrebbe migliorare i risultati.</p>
+  <p>Se per te è importante avere dati respiratori precisi, una fascia toracica che supporta il rilevamento dell'HRV e della respirazione (per esempio HRM-600) potrebbe migliorare i risultati.</p>
 
 </details>
 
 <details>
-  <summary><strong>Quando avvio l'app, lo schermo è troppo luminoso e mi dà fastidio agli occhi</strong></summary>
+  <summary><strong>Lo schermo è troppo luminoso, soprattutto durante una sessione al buio</strong></summary>
 
-  <p>La luminosità dipende dalle impostazioni della <strong>Modalità Focus</strong> per le attività del tuo orologio, non dall'app.</p>
+  <p>La luminosità dipende dalle impostazioni della <strong>Modalità Focus</strong> per le attività sull'orologio, non dall'app.</p>
 
-  <p>Per impostazione predefinita, Garmin attiva una modalità Focus per le attività che può portare la luminosità dello schermo intorno all'80%.</p>
+  <p>Per impostazione predefinita, Garmin attiva per le attività una modalità Focus che può portare la luminosità dello schermo intorno all'80%.</p>
 
-  <p>Per cambiarla sull'orologio:</p>
+  <p>Per modificarla sull'orologio:</p>
 
   <ol>
-    <li>Apri <strong>Impostazioni orologio</strong></li>
+    <li>Apri <strong>Impostazioni orologio</strong> (sugli orologi touch come Venu o vívoactive: scorri verso sinistra dal quadrante e seleziona <strong>Impostazioni</strong>)</li>
     <li>Vai a <strong>Modalità Focus</strong></li>
     <li>Seleziona <strong>Attività</strong></li>
-    <li>Regola <strong>Luminosità</strong> in <strong>Schermo e luminosità</strong></li>
+    <li>In <strong>Schermo e luminosità</strong>, abbassa la <strong>Luminosità</strong></li>
+    <li>Disattiva <strong>Schermo sempre acceso</strong>: lo schermo si spegnerà dopo il <strong>Timeout</strong> impostato lì e si riaccenderà con un movimento del polso o premendo un pulsante</li>
   </ol>
 
-  <p>La modifica riguarda tutte le attività avviate sull'orologio.</p>
+  <p>Questa modifica riguarda tutte le attività avviate sull'orologio.</p>
 
-  <p><strong>Opzione avanzata:</strong> crea una modalità Focus personalizzata che si attivi solo per Meditazione, Yoga ed Esercizi di respirazione.</p>
+  <p><strong>Opzione avanzata:</strong> crea una Modalità Focus personalizzata che si attivi solo per le attività di meditazione, yoga ed esercizi di respirazione.</p>
+
+  <p><strong>Consiglio:</strong> per avere uno schermo ancora più scuro quando è acceso, premi <strong>su</strong> o <strong>giù</strong> (oppure scorri con il dito) durante una sessione per aprire la <strong>schermata zen</strong>. È nera, a parte un sottile anello di avanzamento, e l'ora scompare dopo pochi secondi. Sugli orologi AMOLED i pixel neri sono spenti, quindi lo schermo emette pochissima luce. Anche la sessione successiva si aprirà sulla schermata zen.</p>
 
 </details>
 
 <details>
-  <summary><strong>Come faccio a disattivare i suoni e lasciare solo la vibrazione?</strong></summary>
+  <summary><strong>Come faccio a disattivare i suoni e tenere solo la vibrazione?</strong></summary>
 
-  <p>Si può fare, ma ci sono due fonti di suono diverse e vanno disattivate in punti diversi.</p>
+  <p>Si può fare, ma i suoni provengono da due fonti diverse e vanno disattivati in punti diversi.</p>
 
-  <p><strong>1. I segnali acustici all'avvio, all'interruzione e al salvataggio di una sessione</strong></p>
+  <p><strong>1. I segnali acustici quando una sessione inizia, finisce o viene salvata</strong></p>
 
   <p>
-    Sono i suoni integrati di Garmin per le attività. Vengono riprodotti per tutte le attività sull'orologio e l'app non può controllarli né disattivarli. Ecco perché li senti ancora quando <strong>Impostazioni generali → Vibrazione e suono</strong> è su <strong>Disattivato</strong>.
+    Sono i suoni delle attività integrati da Garmin. Vengono riprodotti per tutte le attività sull'orologio e l'app non può controllarli né silenziarli. Per questo continui a sentirli anche se imposti
+    <strong>Impostazioni generali → Vibrazione e suono</strong> su <strong>Disattivato</strong>.
     Devi disattivarli nelle impostazioni dell'orologio.
   </p>
 
-  <p><em>Sugli orologi più recenti con modalità Focus</em> (fēnix 8, fēnix E, tactix 8, Enduro 3, Forerunner 570/970, Venu 3/4, vívoactive 5/6):</p>
+  <p><em>Sugli orologi più recenti con Modalità Focus</em> (fēnix 8, fēnix E, tactix 8, Enduro 3, Forerunner 570/970, Venu 3/4, vívoactive 5/6):</p>
 
   <ol>
-    <li>Dal quadrante, tieni premuto il tasto <strong>MENU</strong></li>
+    <li>Dal quadrante, tieni premuto il pulsante <strong>MENU</strong></li>
     <li>Seleziona <strong>Impostazioni orologio → Modalità Focus → Attività</strong></li>
-    <li>Seleziona <strong>Suono e vibrazione</strong></li>
+    <li>Seleziona <strong>Suoni e vibrazione</strong></li>
     <li>Attiva <strong>Modalità silenziosa</strong>: disattiva tutti i suoni</li>
     <li>Lascia attiva <strong>Vibrazione</strong>: è un'impostazione separata e non viene modificata</li>
   </ol>
 
   <p>
-    Se sul tuo orologio non trovi <strong>Modalità silenziosa</strong>, imposta invece <strong>Suoni degli avvisi</strong> su <strong>Disattivato</strong> (e, se vuoi, anche <strong>Suoni dei tasti</strong>).
+    Se sul tuo orologio non trovi <strong>Modalità silenziosa</strong>, imposta invece
+    <strong>Suoni avvisi</strong> su <strong>Disattivato</strong> (e, se vuoi, anche <strong>Suoni pulsanti</strong>).
   </p>
 
   <p>
-    Importante: la modalità Focus per le attività ha impostazioni audio <em>proprie</em>, che prevalgono su quelle generali mentre è in corso un'attività. Per questo spesso non basta disattivare i suoni in <strong>Impostazioni orologio → Suono e vibrazione</strong>. Se senti ancora dei segnali acustici, applica la modifica in <em>entrambi</em> i punti.
+    Importante: la modalità Focus per le attività ha impostazioni audio <em>proprie</em>, che durante un'attività prevalgono su quelle generali. Ecco perché spesso non basta disattivare i suoni in
+    <strong>Impostazioni orologio → Suoni e vibrazione</strong>. Se continui a sentire segnali acustici,
+    applica la stessa modifica in <em>entrambi</em> i punti.
   </p>
 
   <p>
-    <strong>Opzione avanzata:</strong> invece di silenziare tutte le attività, crea una modalità Focus solo per la meditazione: <strong>Impostazioni orologio → Modalità Focus → Aggiungi → Attività</strong>. Assegnale un nome, aggiungi <strong>Suono e vibrazione</strong> con la modalità silenziosa attiva, poi imposta l'<strong>Attivazione automatica</strong> per Meditazione, Yoga ed Esercizi di respirazione. Così soltanto le tue sessioni saranno silenziose.
+    <strong>Opzione avanzata:</strong> anziché silenziare tutte le attività, crea una modalità Focus solo per la meditazione: <strong>Impostazioni orologio → Modalità Focus → Aggiungi → Attività</strong>. Assegnale un nome, aggiungi <strong>Suoni e vibrazione</strong> con la Modalità silenziosa attiva, quindi imposta <strong>Attivazione automatica</strong> per Meditazione, Yoga ed Esercizi di respirazione. In questo modo saranno silenziose solo queste sessioni.
   </p>
 
-  <p><em>Sugli orologi meno recenti senza modalità Focus</em> (fēnix 6/7, epix Gen 2, Forerunner 245/255/265/955/965, Venu 2):</p>
+  <p><em>Sugli orologi meno recenti senza Modalità Focus</em> (fēnix 6/7, epix Gen 2, Forerunner 245/255/265/955/965, Venu 2):</p>
 
   <ol>
     <li>Dal quadrante, tieni premuto <strong>MENU</strong> (oppure <strong>SU</strong>)</li>
-    <li>Seleziona <strong>Impostazioni → Sistema → Suono e vibrazione</strong> (su alcuni modelli: <strong>Suoni</strong>)</li>
-    <li>Imposta <strong>Suoni degli avvisi</strong> su <strong>Disattivato</strong></li>
+    <li>Seleziona <strong>Impostazioni → Sistema → Suoni e vibrazione</strong> (su alcuni modelli: <strong>Suoni</strong>)</li>
+    <li>Imposta <strong>Suoni avvisi</strong> su <strong>Disattivato</strong></li>
     <li>Lascia attiva <strong>Vibrazione</strong></li>
   </ol>
 
   <p>
-    Alcuni modelli non hanno alcuna impostazione per i suoni (per esempio vívoactive 4, che alla voce Sistema mostra solo <strong>Vibrazione</strong>): questi orologi non emettono segnali acustici.
+    Alcuni modelli non hanno alcuna impostazione per i suoni (per esempio vívoactive 4, che sotto Sistema mostra solo
+    <strong>Vibrazione</strong>): questi orologi non emettono segnali acustici.
   </p>
 
-  <p><strong>2. Gli avvisi di questa app (fine della sessione e avvisi a intervalli)</strong></p>
+  <p><strong>2. Gli avvisi di questa app (fine sessione e avvisi a intervalli)</strong></p>
 
-  <p>Puoi controllarli interamente dall'app, per ogni sessione e per ogni avviso a intervalli:</p>
+  <p>Puoi controllarli completamente dall'app, per ogni sessione e ogni avviso a intervalli:</p>
 
   <ul>
     <li>Apri <strong>Aggiungi nuova</strong> o <strong>Modifica</strong> per una sessione e seleziona <strong>Vibrazione / Suono</strong></li>
@@ -801,23 +809,25 @@ La maggior parte dei problemi si risolve facilmente. E nessuno significa che tu 
   </ul>
 
   <p>
-    <strong>Suono lungo</strong> e <strong>Suono breve</strong> riproducono una nota e <em>non</em> fanno vibrare l'orologio. Tutti gli altri schemi producono una vibrazione senza alcun suono. Puoi fare la stessa scelta per ogni avviso a intervalli in <strong>Avvisi a intervalli → Modifica → Vibrazione / Suono</strong>.
+    <strong>Suono lungo</strong> e <strong>Suono breve</strong> riproducono un suono e <em>non</em> fanno vibrare l'orologio.
+    Tutti gli altri schemi fanno vibrare l'orologio senza emettere alcun suono. La stessa scelta è disponibile per ogni avviso in <strong>Avvisi a intervalli → Modifica → Vibrazione / Suono</strong>.
   </p>
 
   <p>
-    Nota: se silenzi l'orologio come descritto sopra, anche gli schemi <strong>Suono lungo</strong> / <strong>Suono breve</strong> potrebbero diventare silenziosi. Per gli avvisi della sessione, scegli quindi uno schema di vibrazione.
+    Nota: se silenzi l'orologio come descritto sopra, anche gli schemi <strong>Suono lungo</strong> /
+    <strong>Suono breve</strong> potrebbero diventare silenziosi. Per gli avvisi delle tue sessioni, scegli quindi uno schema di vibrazione.
   </p>
 
 </details>
 
 <details>
-  <summary><strong>Come faccio a svolgere una sessione senza una durata prestabilita?</strong></summary>
+  <summary><strong>Come faccio a creare una sessione senza una durata prestabilita?</strong></summary>
 
   <p>Hai due possibilità:</p>
 
   <ul>
     <li>Crea una sessione molto lunga (per esempio di 9 ore) e interrompila manualmente quando hai finito.</li>
-    <li>Disattiva l'interruzione automatica nelle Impostazioni generali, così le sessioni proseguono finché non le interrompi manualmente.</li>
+    <li>Disattiva l'interruzione automatica nelle Impostazioni generali, così le sessioni continueranno finché non le interrompi manualmente.</li>
   </ul>
 
 </details>
@@ -826,87 +836,87 @@ La maggior parte dei problemi si risolve facilmente. E nessuno significa che tu 
   <summary><strong>Posso ascoltare musica mentre uso l'app?</strong></summary>
 
   <p>
-    L'app <strong>non</strong> supporta la riproduzione né il controllo della musica.
-    Su molti orologi Garmin, però, puoi avviare la musica separatamente (per esempio con il lettore integrato, Spotify e così via) e poi avviare la sessione in Meditate.
+    L'app <strong>non</strong> supporta direttamente la riproduzione o il controllo della musica.
+    Tuttavia, su molti orologi Garmin puoi avviare la musica separatamente (per esempio con il lettore musicale integrato, Spotify e così via) e poi cominciare la tua sessione in Meditate.
   </p>
 
-  <p><strong>Come accedere ai comandi musicali (dipende dal modello)</strong></p>
+  <p><strong>Come accedere ai controlli musicali (varia in base al modello)</strong></p>
 
   <ul>
-    <li><strong>Tasto di scelta rapida / scorciatoia:</strong> su molti modelli puoi assegnare i <em>comandi musicali</em> a una scorciatoia o a un tasto di scelta rapida nelle impostazioni dell'orologio (spesso in <strong>Impostazioni</strong> → <strong>Sistema</strong> → <strong>Tasti di scelta rapida</strong> / <strong>Comandi</strong>).</li>
-    <li><strong>Menu dei comandi:</strong> apri il menu dei comandi dell'orologio e seleziona <em>Musica</em> / <em>Comandi musicali</em>.</li>
-    <li><strong>Comando rapido sul touchscreen (alcuni modelli):</strong> Garmin descrive un «comando rapido» che puoi impostare per i comandi musicali (esempio nel manuale Venu: <a href="https://www8.garmin.com/manuals/webhelp/venu/EN-US/GUID-5E9D3D0F-D4C9-4A4A-97D6-4F178C27DAD8.html">Configurare un comando rapido</a>).</li>
+    <li><strong>Tasto rapido / scorciatoia:</strong> molti modelli permettono di assegnare i <em>Controlli musicali</em> a una scorciatoia o a un tasto rapido nelle impostazioni dell'orologio (spesso in <strong>Impostazioni</strong> → <strong>Sistema</strong> → <strong>Tasti rapidi</strong> / <strong>Controlli</strong>).</li>
+    <li><strong>Menu dei controlli:</strong> apri il menu dei controlli dell'orologio e seleziona <em>Musica</em> / <em>Controlli musicali</em>.</li>
+    <li><strong>Controllo rapido sul touchscreen (alcuni modelli):</strong> Garmin descrive un "controllo rapido" che puoi assegnare ai controlli musicali (esempio nel manuale di Venu: <a href="https://www8.garmin.com/manuals/webhelp/venu/EN-US/GUID-5E9D3D0F-D4C9-4A4A-97D6-4F178C27DAD8.html">Configurare un controllo rapido</a>).</li>
   </ul>
 
   <p>
-    Se vuoi far coincidere le vibrazioni con la musica, puoi impostare gli avvisi a intervalli della sessione in base ai tempi desiderati.
-    Non esiste però una funzione di sincronizzazione con il ritmo del brano, quindi i segnali non rimarranno automaticamente allineati alla musica.
+    Se vuoi che le vibrazioni seguano la musica, puoi impostare gli avvisi a intervalli della sessione sui tempi desiderati.
+    Non esiste però una funzione di sincronizzazione con il ritmo musicale, quindi le vibrazioni non resteranno automaticamente allineate alla traccia.
   </p>
 
 </details>
 
 <details id="restart-watch">
-  <summary><strong>Come faccio a riavviare il mio orologio Garmin?</strong></summary>
+  <summary><strong>Come riavvio il mio orologio Garmin?</strong></summary>
 
   <p>
-    La procedura varia leggermente da un modello all'altro, ma queste opzioni funzionano per la maggior parte dei dispositivi.
+    La procedura cambia un po' da un modello Garmin all'altro, ma queste opzioni funzionano sulla maggior parte dei dispositivi.
   </p>
 
-  <p><strong>Opzione 1 (la più comune): tasto di accensione / tasto LIGHT</strong></p>
+  <p><strong>Opzione 1 (la più comune): pulsante di accensione / pulsante LIGHT</strong></p>
 
   <ol>
-    <li>Tieni premuto il tasto <strong>LIGHT</strong> / di accensione finché l'orologio non si spegne (spesso ci vogliono circa 10-15 secondi).</li>
+    <li>Tieni premuto il pulsante <strong>LIGHT</strong> / di accensione finché l'orologio non si spegne (spesso servono circa 10-15 secondi).</li>
     <li>Aspetta qualche secondo.</li>
-    <li>Premi di nuovo lo stesso tasto per riaccenderlo.</li>
+    <li>Premi di nuovo lo stesso pulsante per riaccenderlo.</li>
   </ol>
 
   <p><strong>Opzione 2: dalle impostazioni dell'orologio</strong></p>
 
   <ul>
-    <li>Apri <strong>Impostazioni</strong> → <strong>Sistema</strong> → <strong>Spegni</strong> oppure <strong>Riavvia</strong> (il testo può variare in base al modello).</li>
+    <li>Apri <strong>Impostazioni</strong> → <strong>Sistema</strong> → <strong>Spegni</strong> oppure <strong>Riavvia</strong> (le diciture possono variare in base al modello).</li>
   </ul>
 
   <p>
-    Il riavvio non cancella i tuoi dati: si limita a riavviare l'orologio.
-    Se l'orologio non risponde, tieni premuto più a lungo il tasto di accensione finché non si spegne.
+    Il riavvio non cancella i tuoi dati: riavvia soltanto l'orologio.
+    Se l'orologio è bloccato, continua a tenere premuto il pulsante di accensione finché non si spegne.
   </p>
 
 </details>
 
 <details>
-  <summary><strong>Ho installato l'app, ma non compare sull'orologio (oppure l'installazione è bloccata)</strong></summary>
+  <summary><strong>Ho installato l'app, ma non compare sull'orologio (oppure l'installazione si è bloccata)</strong></summary>
 
-  <p>È frustrante, soprattutto quando vuoi solo iniziare una sessione tranquilla e la tecnologia si mette in mezzo.</p>
+  <p>È frustrante, soprattutto quando vorresti solo iniziare una sessione tranquilla e la tecnologia si mette di mezzo.</p>
 
   <p>
-    <strong>Per prima cosa, verifica di cercarla nel posto giusto:</strong><br>
-    Questa app compare nell'elenco <strong>Attività</strong> / <strong>App</strong> dell'orologio (lo stesso da cui avvii una corsa, lo yoga, gli esercizi di respirazione e così via).
-    A seconda del modello e di come organizza le app, potrebbe <em>non</em> comparire negli elenchi dei widget, delle viste rapide o delle scorciatoie.
+    <strong>Prima di tutto, controlla di cercare nel posto giusto:</strong><br>
+    L'app compare nell'elenco <strong>Attività</strong> / <strong>App</strong> dell'orologio (lo stesso da cui avvii una corsa, una sessione di yoga, gli esercizi di respirazione e così via).
+    Potrebbe <em>non</em> comparire negli elenchi dei widget, delle viste rapide o delle scorciatoie, a seconda del modello e di come l'orologio organizza le app.
   </p>
 
   <p>
-    In questo caso è importante sapere che installazione e invio delle app Connect IQ all'orologio sono gestiti interamente da Garmin (Garmin Connect / Connect IQ / Garmin Express e il processo di sincronizzazione).
-    L'app non può influire sulla propria comparsa sul dispositivo e, come sviluppatore, non posso modificare il codice per risolvere un problema di installazione o sincronizzazione.
+    È importante sapere che l'installazione e la distribuzione delle app Connect IQ sull'orologio sono gestite interamente da Garmin (tramite Garmin Connect / Connect IQ / Garmin Express e la sincronizzazione).
+    L'app non può influire sulla sua comparsa sul dispositivo e, come sviluppatore, non posso modificare il codice per risolvere un problema di installazione o sincronizzazione.
   </p>
 
   <p>
-    Alcune persone vedono anche l'app bloccata su «Installazione in corso…» o installata solo in parte (per esempio, l'app compare ma alcune sezioni non si caricano).
-    I passaggi qui sotto di solito risolvono entrambi i casi.
+    Ad alcune persone l'app risulta bloccata su "Installazione..." oppure installata solo in parte (per esempio compare, ma alcune sezioni non si caricano).
+    Di solito i passaggi qui sotto risolvono entrambi i problemi.
   </p>
 
-  <p>Puoi provare rapidamente queste soluzioni (facoltative):</p>
+  <p>Puoi provare rapidamente questi passaggi (facoltativi):</p>
 
   <ul>
     <li>Sincronizza di nuovo l'orologio in Garmin Connect</li>
     <li><a href="#restart-watch">Riavvia l'orologio</a> e il telefono, poi ripeti la sincronizzazione</li>
-    <li>Disinstalla l'app, <a href="#restart-watch">riavvia l'orologio</a>, quindi reinstalla l'app e sincronizza di nuovo</li>
+    <li>Disinstalla l'app, <a href="#restart-watch">riavvia l'orologio</a>, poi reinstalla l'app e sincronizza di nuovo</li>
   </ul>
 
   <p>
-    Se l'orologio sembra bloccato durante l'installazione, prima <a href="#restart-watch">riavvialo</a>, poi riprova a sincronizzare e installare.
+    Se l'orologio sembra bloccato durante l'installazione, prima <a href="#restart-watch">riavvialo</a>, poi prova di nuovo a sincronizzare o installare l'app.
   </p>
 
-  <p>Se l'app continua a non comparire, la cosa migliore è contattare l'assistenza Garmin, perché si tratta di un problema di installazione o sincronizzazione gestito da Garmin:</p>
+  <p>Se ancora non compare, la cosa migliore è contattare l'assistenza Garmin, perché si tratta di un problema di installazione o sincronizzazione gestito da Garmin:</p>
 
   <ul>
     <li><a href="https://support.garmin.com/en-US/?faq=67C7Y58Nxb6rkxt2Enbrf5">Assistenza Garmin (problemi di installazione di Connect IQ)</a></li>
@@ -919,8 +929,8 @@ La maggior parte dei problemi si risolve facilmente. E nessuno significa che tu 
   <summary><strong>Alcune parti dell'app compaiono nella lingua sbagliata</strong></summary>
 
   <p>
-    A volte alcune scritte, per esempio quelle relative all'HRV, possono comparire in una lingua diversa anche se il resto dell'app è corretto.
-    Di solito è un problema occasionale di installazione o sincronizzazione.
+    A volte alcuni testi (per esempio le etichette relative all'HRV) possono comparire in un'altra lingua, anche se il resto dell'app è corretto.
+    Di solito è un inconveniente isolato durante l'installazione o la sincronizzazione.
   </p>
 
   <p>Prova così, nell'ordine:</p>
@@ -932,17 +942,17 @@ La maggior parte dei problemi si risolve facilmente. E nessuno significa che tu 
   </ol>
 
   <p>
-    Se succede ancora, usa il link <strong>Contatta lo sviluppatore</strong> nello store Connect IQ e indica il modello dell'orologio,
+    Se il problema continua, usa il link <strong>Contatta lo sviluppatore</strong> nel Connect IQ Store e indica il modello dell'orologio,
     la versione del firmware e la lingua errata che compare.
   </p>
 
 </details>
 
 <details>
-  <summary><strong>L'app ha smesso di funzionare / Ho bisogno di aiuto</strong></summary>
+  <summary><strong>L'app ha smesso di funzionare / Ho bisogno di assistenza</strong></summary>
 
   <p>
-    Consulta la sezione dedicata all'assistenza qui sotto: contiene i passaggi aggiornati, le informazioni da includere e il modo migliore per contattarmi.
+    Consulta la sezione dedicata all'assistenza: contiene i passaggi aggiornati, le informazioni da fornire e il modo migliore per contattarmi.
     <a href="#get-support--report-problem">Assistenza / Segnala un problema</a>
   </p>
 
@@ -954,7 +964,7 @@ La maggior parte dei problemi si risolve facilmente. E nessuno significa che tu 
 
 # Assistenza / Segnala un problema
 
-Se qualcosa non funziona, oppure hai commenti o proposte per nuove funzioni, puoi [scrivermi un'email](mailto:florian.geigl+garmin@gmail.com?subject=User%20Feedback%20for%20Meditation%20and%20Breathwork%20-%20Connect%20IQ%20Notification).
+Se qualcosa non funziona, oppure vuoi condividere un'opinione o proporre una nuova funzione, puoi [scrivermi un'email](mailto:florian.geigl+garmin@gmail.com?subject=User%20Feedback%20for%20Meditation%20and%20Breathwork%20-%20Connect%20IQ%20Notification).
 
 <a id="privacy"></a>
 
