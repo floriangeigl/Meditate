@@ -240,7 +240,15 @@ def clean(text, source):
     if len(lines) > 2 and lines[0].startswith("```") and lines[-1].strip() == "```":
         if not source.startswith("```"):
             text = "\n".join(lines[1:-1]).strip("\n")
-    return text + "\n"
+    return plain_punctuation(text) + "\n"
+
+
+def plain_punctuation(text):
+    # what the style check would reject, where the plain form is unambiguous
+    text = re.sub("[‘’]", "'", text)
+    text = re.sub(r"(\d)[ \t]*[–—―][ \t]*(\d)", r"\1-\2", text)
+    # mid-line only: a dash opening a line would turn into a bullet, so that one stays rejected
+    return re.sub(r"(?<=\S)[ \t]*[–—―]+[ \t]*(?=\S)", " - ", text)
 
 
 def translate_file(client, instructions, target):
