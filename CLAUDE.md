@@ -371,6 +371,10 @@ bullets are also `- ` lines with no blank line between them. `translate.py`'s `s
 is the one definition: the translation check rejects a reply that breaks it, and `Lint store text
 and guides` runs `translate.py lint` on every push and PR touching the English sources (locally:
 `wsl python3 -B .github/scripts/translate.py lint`). Headings in capitals are a prompt rule only.
+Replies are fixed before that check (`plain_punctuation()`): curly apostrophes become `'`, a dash
+between digits `-`, any other mid-line dash ` - `. Ukrainian spells words with an apostrophe
+(м'яко), which the model writes as U+2019, and that alone failed the uk guide. A dash opening a line
+stays rejected, since `- ` would make it a bullet. The English sources are linted, never fixed.
 
 ### Translations run on a published release, changed files only
 
