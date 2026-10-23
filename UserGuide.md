@@ -786,7 +786,7 @@ Most issues are easy to resolve, and nothing here means you are doing anything w
 </details>
 
 <details>
-  <summary><strong>The screen is too bright and burns my eyes when starting the app</strong></summary>
+  <summary><strong>The screen is too bright, especially in the dark during a session</strong></summary>
 
   <p>This is controlled by your watch's <strong>Focus Mode</strong> settings for activities, not by the app.</p>
 
@@ -795,15 +795,18 @@ Most issues are easy to resolve, and nothing here means you are doing anything w
   <p>To change this on your watch:</p>
 
   <ol>
-    <li>Open <strong>Watch Settings</strong></li>
+    <li>Open <strong>Watch Settings</strong> (on touch watches such as Venu or vívoactive: swipe left from the watch face and select <strong>Settings</strong>)</li>
     <li>Go to <strong>Focus Modes</strong></li>
     <li>Select <strong>Activity</strong></li>
-    <li>Adjust <strong>Brightness</strong> under <strong>Display &amp; Brightness</strong></li>
+    <li>Under <strong>Display &amp; Brightness</strong>, lower the <strong>Brightness</strong></li>
+    <li>Turn off <strong>Always On Display</strong> - the screen then switches off after the <strong>Timeout</strong> set there and comes back with a wrist gesture or a button press</li>
   </ol>
 
   <p>This affects all activities started on your watch.</p>
 
   <p><strong>Advanced option:</strong> Create a custom Focus Mode that triggers only for Meditation, Yoga, and Breathwork activities.</p>
+
+  <p><strong>Tip:</strong> for an even darker screen while it is on, press <strong>up</strong> or <strong>down</strong> (or swipe) during a session to open the <strong>zen screen</strong>. It is black except for a thin progress ring, and the time fades out after a few seconds. On AMOLED watches black pixels are switched off, so it gives off almost no light. Your next session opens on the zen screen again.</p>
 
 </details>
 
