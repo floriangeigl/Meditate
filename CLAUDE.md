@@ -410,6 +410,11 @@ commit, so a workflow change applies to releases tagged after it.
   count — every translation up to 2026-09 passes. A rejected target fails the job, the rest are
   still committed and recorded, so the next run redoes only the failures. The step summary lists
   the tokens per file.
+- **The store description has a 4000-character limit** (`STORE_MAX_CHARS`; the other texts have
+  none). German, Spanish, French, Italian, Portuguese and Ukrainian ran 4,000-4,700 from a 3,666-character
+  source, so the request asks for under 3,700, a reply over 4,000 gets one "shorten it" follow-up
+  with the count, and is rejected after that. `lint` checks the English source too. The limit is
+  part of the store targets' stamp, so changing it redoes only the store texts.
 - `translate.py` stays Python 3.8-compatible (the runner has 3.12) so `plan`/`mark-current` run on
   the WSL Ubuntu of this machine; the SDK is pinned in `.github/scripts/requirements.txt`.
 - `Compress Images` (manual) opens a PR from `compress-images-<branch>` into the branch it ran on;
