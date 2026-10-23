@@ -33,7 +33,7 @@ one private-use character.
 
 ### Prerequisites
 
-- **Connect IQ SDK**, currently 9.2.0. Type checking stays off (`project.typecheck = 0`, and `monkeyC.typeCheckLevel: Off` in VS Code): SDKs since 4.1.6 [report new errors on this code base](https://forums.garmin.com/developer/connect-iq/f/discussion/314861/sdk-4-1-6-generating-new-errors-and-warnings#pifragment-1298=1) otherwise.
+- **Connect IQ SDK**, currently 9.3.0. Type checking stays off (`project.typecheck = 0`, and `monkeyC.typeCheckLevel: Off` in VS Code): SDKs since 4.1.6 [report new errors on this code base](https://forums.garmin.com/developer/connect-iq/f/discussion/314861/sdk-4-1-6-generating-new-errors-and-warnings#pifragment-1298=1) otherwise.
 - **VS Code** with [Monkey C extension](https://marketplace.visualstudio.com/items?itemName=garmin.monkey-c) and [Prettier Monkey C](https://marketplace.visualstudio.com/items?itemName=markw65.prettier-extension-monkeyc)
 
 ### Open Workspace
@@ -126,7 +126,7 @@ else { "$id: $([int]($wa/1024)) KB — meets 512 KB minimum" }
 
 - **CIQ API below 3.0** — `epix` gen 1 is CIQ 1.2.1, below the app's floor. Gate new devices on `connectIQVersion` too (in `compiler.json`), not just memory.
 - **Broke on the device, fixed later** — `vivoactive4`/`vivoactive4s` (1024 KB) were removed in v8.5 (`30af8d0` *"app no longer working in these devices"*), then re-added after a sim check; they still need the `SPORT_MEDITATION` remap below. A device that crashes needs a code fix, not just a manifest line.
-- **Parked** — `vivoactive3m`/`vivoactive3mlte` crash on session finish (240x240 layout) and are in no manifest (see `$excludeExact` below). `marqexpedition`, parked in the same purge (`46c1938`), is back.
+- **Parked** — `vivoactive3m`/`vivoactive3mlte` crash on session finish (240x240 layout) and are in no manifest (see `$excludeExact` below). `marqexpedition`, `approachs50` and `descentg2`, parked in the same purge (`46c1938`, mostly 96-128 KB devices), are back.
 
 So a new device passing the memory check still warrants a judgment call (CIQ version, form factor, and a sim build) before adding.
 
@@ -142,9 +142,9 @@ Note: `ActivityRecording.createSession` does **not** throw a catchable exception
 
 On multitasking devices the app **keeps running when it leaves the screen** — no `onStop()`, just `AppBase.onInactive()`. While inactive the system suspends the app's sensors (`Toybox.Sensor` docs: *"Sensor states can not be changed while in inacitve mode and sensor enabled during active mode will be disabled when app becomes inactive"*), so the `heartBeatIntervals` callback keeps firing with **empty data** — indistinguishable from a dead HR sensor.
 
-The authoritative device list is the **`onActive`/`onInactive` supported-devices list in the SDK docs** (`doc/Toybox/Application/AppBase.html`), API 4.2.3+: Approach S50, D2 Mach 2/Pro, Enduro 3, fēnix 8 (43/47/51/Pro/Solar), tactix 8, quatix 8, fēnix E, Venu 3/3S, Venu 4 41/45mm, D2 Air X15, Venu X1, vívoactive 5/6. Use that list, not "AMOLED" or "released after 2023" — fēnix 8 Solar 51mm is MIP and *is* multitasking.
+The authoritative device list is the **`onActive`/`onInactive` supported-devices list in the SDK docs** (`doc/Toybox/Application/AppBase.html`), API 4.2.3+, as of SDK 9.3.0: Approach S50, Approach S72 43/47mm, D2 Mach 2/Pro, Enduro 3/4, fēnix 8 (43/47/51/Pro/Solar), tactix 8, quatix 8, all 7 fēnix 9, fēnix E, MARQ Gen 3, Venu 3/3S, Venu 4 41/45mm, D2 Air X15, Venu X1, vívoactive 5/6. Not Descent G2. Use that list, not "AMOLED" or "released after 2023" — fēnix 8 Solar 51mm is MIP and *is* multitasking.
 
-Caveat: the doc list lags the device definitions. SDK 9.2.0 ships fēnix 9 device defs but its docs never mention fēnix 9 (0 hits, vs 321 for fēnix 8 Pro), so the list neither confirms nor rules out fēnix 9 multitasking. Assume it is, and re-check the list after an SDK doc refresh. Either way the code is safe: `foreground` defaults `true`, and `onActive`/`onInactive` are simply never called on a non-multitasking device.
+Caveat: the doc list lags the device definitions. SDK 9.2.0 shipped fēnix 9 device defs without a word on them in the docs; 9.3.0 then listed them. Assume a new watch from a multitasking family is one, and re-check the list after an SDK doc refresh. Either way the code is safe: `foreground` defaults `true`, and `onActive`/`onInactive` are simply never called on a non-multitasking device.
 
 This caused a production crash (24 reports, v10.7.10, backtrace `HeartbeatIntervalsSensor.createWakeupSession` ← `getStatus` ← `SessionPickerDelegate.updateHrvStatus` ← `update` — the class is `BeatIntervalFeed` and the method `pollStatus()` today): after ~40 s backgrounded on the session picker, the status poll's >20-error recovery path fired and called `ActivityRecording.createSession`, which is not permitted in that state. **Every crashing device was on the multitasking list; none of the other 81 supported devices appeared** — that 100% correlation is what identified the root cause, so check the device list against it before assuming a sport/spec problem.
 
@@ -221,8 +221,9 @@ Trigger whenever Garmin releases new watches (or after an SDK update):
 The memory gate auto-drops sub-512 KB devices (e.g. `instinct3solar45mm`), so the name baseline only needs non-wrist prefixes plus capable-but-unwanted old watches.
 
 ```powershell
-# Non-wrist hardware — never a target for a meditation app (note: d2* are wrist aviation watches, NOT excluded)
-$excludePrefixes = 'approach','edge','gpsmap','oregon','montana','rino','etrex','descent'
+# Non-wrist hardware — never a target for a meditation app (d2*, approach* and descent* are wrist watches, NOT excluded;
+# approachs60 drops by memory)
+$excludePrefixes = 'edge','gpsmap','oregon','montana','rino','etrex'
 # Capable (>=512 KB, CIQ >= 3.0) but intentionally excluded — see "Minimum memory requirement" above
 $excludeExact = @(
   'vivoactive3m','vivoactive3mlte',      # array-out-of-bounds crash on session finish (240x240 layout); in no manifest
@@ -230,7 +231,9 @@ $excludeExact = @(
 )
 # Recent additions, skipped via $man: vivoactive4/4s and marqexpedition (back after the Apr-2025 purge),
 # fr70/fr170/fr170m (CIQ 6.0, 768 KB), the 7 fenix 9 variants (CIQ 6.0.3, 768 KB, fenix 8 resolutions),
-# enduro4 (280x280) and marq3 (454x454), both CIQ 6.0.3, 768 KB.
+# enduro4 (280x280) and marq3 (454x454), both CIQ 6.0.3, 768 KB, approachs7243mm/47mm (CIQ 6.0.3, 768 KB,
+# enter and back only: settings open by enter or tap, pages by swipe), approachs50 and descentg2 (CIQ 5.1, 768 KB,
+# shipped 10.1.1-10.1.3, dropped in the Apr-2025 purge with no reported problem).
 $man = Select-String -Path .\Meditate\manifest.xml -Pattern 'iq:product id="([^"]+)"' -AllMatches |
   ForEach-Object { $_.Matches } | ForEach-Object { $_.Groups[1].Value }
 Get-ChildItem "$env:APPDATA\Garmin\ConnectIQ\Devices" -Directory | ForEach-Object {
