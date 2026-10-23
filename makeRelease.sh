@@ -3,6 +3,7 @@
 set -e
 # VERSION=$1
 cd $(dirname "$0")
+bash ./checkDevices.sh
 cd Meditate
 grep -r ./manifest.xml -e '<iq:application.*version=".*"'
 read -p "Make release for version: " VERSION

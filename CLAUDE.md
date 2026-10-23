@@ -74,6 +74,10 @@ Copies `bin/Meditate.prg` to `<Device>\GARMIN\Apps\` via MTP.
 
 The script (run from repo root) does the full flow in order:
 
+0. Runs `checkDevices.sh` and stops if any manifest device lacks `compiler.json`, `simulator.json`
+   or `<id>.bin` in the SDK `Devices/` folder. An SDK Manager update once left `marq3` with only
+   `simulator.json`; the compiler then only warns `Invalid device id 'marq3'` and builds, and
+   exports, without it. Fix: download that device again in the SDK Manager.
 1. Prints the current `manifest.xml` version, then **prompts** `Make release for version:` (read from stdin).
 2. Seds the entered version into every `about_AppVersion">vX.X.X<` string (all locale `strings.xml`) and into `Meditate/manifest.xml`'s `<iq:application version="...">`.
 3. `git add .` → `git commit -am "bump version to vX.X.X"` → `git tag vX.X.X` → `git push origin tag vX.X.X` → `git push`.
@@ -216,7 +220,8 @@ Trigger whenever Garmin releases new watches (or after an SDK update):
 2. Diff against `<iq:product id=...>` ids in `Meditate/manifest.xml`.
 3. Filter out non-wrist hardware, the dropped-watch baseline, and anything below the **512 KB** floor (see above). Whatever remains is **new and viable** — report it with its memory.
 4. For each candidate, propose adding `<iq:product id="<deviceId>"/>` to `Meditate/manifest.xml`. If a candidate is non-wrist or otherwise unwanted, add its id to `$excludeExact`.
-5. Rebuild in the simulator against one new device to confirm it compiles.
+5. Run `checkDevices.sh` (every manifest device has a complete folder), then a release build and
+   the unit tests on each new device; a build warning `Invalid device id` means a broken folder.
 
 The memory gate auto-drops sub-512 KB devices (e.g. `instinct3solar45mm`), so the name baseline only needs non-wrist prefixes plus capable-but-unwanted old watches.
 
