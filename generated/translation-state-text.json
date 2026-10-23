@@ -1,98 +1,146 @@
 {
   "generated/Advertisements/Advertisement-de.md": {
     "prompt": "d9a2e77fea57f6d0",
-    "source": "0c108c10f1280965"
+    "source": "b089f3a85c9bcc62"
   },
   "generated/Advertisements/Advertisement-es.md": {
     "prompt": "d9a2e77fea57f6d0",
-    "source": "0c108c10f1280965"
+    "source": "b089f3a85c9bcc62"
   },
   "generated/Advertisements/Advertisement-fr.md": {
     "prompt": "d9a2e77fea57f6d0",
-    "source": "0c108c10f1280965"
+    "source": "b089f3a85c9bcc62"
+  },
+  "generated/Advertisements/Advertisement-it.md": {
+    "prompt": "d9a2e77fea57f6d0",
+    "source": "b089f3a85c9bcc62"
   },
   "generated/Advertisements/Advertisement-ja.md": {
     "prompt": "d9a2e77fea57f6d0",
-    "source": "0c108c10f1280965"
+    "source": "b089f3a85c9bcc62"
   },
   "generated/Advertisements/Advertisement-ko.md": {
     "prompt": "d9a2e77fea57f6d0",
-    "source": "0c108c10f1280965"
+    "source": "b089f3a85c9bcc62"
   },
   "generated/Advertisements/Advertisement-pt.md": {
     "prompt": "d9a2e77fea57f6d0",
-    "source": "0c108c10f1280965"
+    "source": "b089f3a85c9bcc62"
   },
   "generated/Advertisements/Advertisement-uk.md": {
     "prompt": "d9a2e77fea57f6d0",
-    "source": "0c108c10f1280965"
+    "source": "b089f3a85c9bcc62"
   },
   "generated/Advertisements/Advertisement-zh.md": {
     "prompt": "d9a2e77fea57f6d0",
-    "source": "0c108c10f1280965"
+    "source": "b089f3a85c9bcc62"
   },
   "generated/ConnectIQStore/MeditateStoreDescription-de.txt": {
     "prompt": "d9a2e77fea57f6d0",
-    "source": "c5d933a08394c87a"
+    "source": "bfa7351b7e890851"
   },
   "generated/ConnectIQStore/MeditateStoreDescription-es.txt": {
     "prompt": "d9a2e77fea57f6d0",
-    "source": "c5d933a08394c87a"
+    "source": "bfa7351b7e890851"
   },
   "generated/ConnectIQStore/MeditateStoreDescription-fr.txt": {
     "prompt": "d9a2e77fea57f6d0",
-    "source": "c5d933a08394c87a"
+    "source": "bfa7351b7e890851"
+  },
+  "generated/ConnectIQStore/MeditateStoreDescription-it.txt": {
+    "prompt": "d9a2e77fea57f6d0",
+    "source": "bfa7351b7e890851"
   },
   "generated/ConnectIQStore/MeditateStoreDescription-ja.txt": {
     "prompt": "d9a2e77fea57f6d0",
-    "source": "c5d933a08394c87a"
+    "source": "bfa7351b7e890851"
   },
   "generated/ConnectIQStore/MeditateStoreDescription-ko.txt": {
     "prompt": "d9a2e77fea57f6d0",
-    "source": "c5d933a08394c87a"
+    "source": "bfa7351b7e890851"
   },
   "generated/ConnectIQStore/MeditateStoreDescription-pt.txt": {
     "prompt": "d9a2e77fea57f6d0",
-    "source": "c5d933a08394c87a"
+    "source": "bfa7351b7e890851"
   },
   "generated/ConnectIQStore/MeditateStoreDescription-uk.txt": {
     "prompt": "d9a2e77fea57f6d0",
-    "source": "c5d933a08394c87a"
+    "source": "bfa7351b7e890851"
   },
   "generated/ConnectIQStore/MeditateStoreDescription-zh.txt": {
     "prompt": "d9a2e77fea57f6d0",
-    "source": "c5d933a08394c87a"
+    "source": "bfa7351b7e890851"
+  },
+  "generated/DataPrivacy/DataPrivacy-de.md": {
+    "prompt": "d9a2e77fea57f6d0",
+    "source": "ad0b18c374c4907b"
+  },
+  "generated/DataPrivacy/DataPrivacy-es.md": {
+    "prompt": "d9a2e77fea57f6d0",
+    "source": "ad0b18c374c4907b"
+  },
+  "generated/DataPrivacy/DataPrivacy-fr.md": {
+    "prompt": "d9a2e77fea57f6d0",
+    "source": "ad0b18c374c4907b"
+  },
+  "generated/DataPrivacy/DataPrivacy-it.md": {
+    "prompt": "d9a2e77fea57f6d0",
+    "source": "ad0b18c374c4907b"
+  },
+  "generated/DataPrivacy/DataPrivacy-ja.md": {
+    "prompt": "d9a2e77fea57f6d0",
+    "source": "ad0b18c374c4907b"
+  },
+  "generated/DataPrivacy/DataPrivacy-ko.md": {
+    "prompt": "d9a2e77fea57f6d0",
+    "source": "ad0b18c374c4907b"
+  },
+  "generated/DataPrivacy/DataPrivacy-pt.md": {
+    "prompt": "d9a2e77fea57f6d0",
+    "source": "ad0b18c374c4907b"
+  },
+  "generated/DataPrivacy/DataPrivacy-uk.md": {
+    "prompt": "d9a2e77fea57f6d0",
+    "source": "ad0b18c374c4907b"
+  },
+  "generated/DataPrivacy/DataPrivacy-zh.md": {
+    "prompt": "d9a2e77fea57f6d0",
+    "source": "ad0b18c374c4907b"
   },
   "generated/UserGuides/UserGuide-de.md": {
     "prompt": "d9a2e77fea57f6d0",
-    "source": "dd3de51d65dc785e"
+    "source": "9fadcedc030518da"
   },
   "generated/UserGuides/UserGuide-es.md": {
     "prompt": "d9a2e77fea57f6d0",
-    "source": "dd3de51d65dc785e"
+    "source": "9fadcedc030518da"
   },
   "generated/UserGuides/UserGuide-fr.md": {
     "prompt": "d9a2e77fea57f6d0",
-    "source": "dd3de51d65dc785e"
+    "source": "9fadcedc030518da"
+  },
+  "generated/UserGuides/UserGuide-it.md": {
+    "prompt": "d9a2e77fea57f6d0",
+    "source": "9fadcedc030518da"
   },
   "generated/UserGuides/UserGuide-ja.md": {
     "prompt": "d9a2e77fea57f6d0",
-    "source": "dd3de51d65dc785e"
+    "source": "9fadcedc030518da"
   },
   "generated/UserGuides/UserGuide-ko.md": {
     "prompt": "d9a2e77fea57f6d0",
-    "source": "dd3de51d65dc785e"
+    "source": "9fadcedc030518da"
   },
   "generated/UserGuides/UserGuide-pt.md": {
     "prompt": "d9a2e77fea57f6d0",
-    "source": "dd3de51d65dc785e"
+    "source": "9fadcedc030518da"
   },
   "generated/UserGuides/UserGuide-uk.md": {
     "prompt": "d9a2e77fea57f6d0",
-    "source": "dd3de51d65dc785e"
+    "source": "9fadcedc030518da"
   },
   "generated/UserGuides/UserGuide-zh.md": {
     "prompt": "d9a2e77fea57f6d0",
-    "source": "dd3de51d65dc785e"
+    "source": "9fadcedc030518da"
   }
 }

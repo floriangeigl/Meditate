@@ -1,53 +1,49 @@
-Um companheiro consciente para Meditação & Respiração — direto no seu relógio Garmin
+Um apoio para meditar e fazer exercícios de respiração, direto no seu relógio Garmin
 
-Se você já se sentiu calmo e inquieto ao mesmo tempo, você não está quebrado.
-Você é humano.
+Se você já sentiu calma e inquietação ao mesmo tempo, não há nada de errado com você. Isso é humano!
 
-Quando a vida fica exigente por muito tempo, o sistema nervoso aprende a ficar em alerta. O estresse vira algo familiar. A calma vira algo menos familiar — e estados menos familiares podem parecer vulneráveis ou um pouco desconfortáveis no começo. Isso não é um problema para consertar. É só a forma como o sistema nervoso se adapta ao que conhece.
+Quando a vida exige muito de você por um longo tempo, o sistema nervoso aprende a ficar em alerta. O estresse se torna familiar. A calma, nem tanto. E, no começo, o que é pouco familiar pode trazer uma sensação de vulnerabilidade ou um leve desconforto. Não é um problema que você precisa resolver. É apenas a forma como o sistema nervoso se adapta ao que conhece.
 
-Meditação & Respiração ajuda você a se reconectar com o corpo e observar, em tempo real, como seu sistema nervoso responde.
+Meditação & Exercícios de Respiração ajuda você a se reconectar com o corpo e observar, em tempo real, como seu sistema nervoso reage.
 
-Meditação & Respiração é um app para relógios Garmin criado para apoiar meditação e exercícios respiratórios com presença, percepção e consciência fisiológica. Ao combinar atenção plena com dados biométricos em tempo real, ele ajuda você a entender seu corpo — sem julgamento e sem pressão.
+Meditação & Exercícios de Respiração é um aplicativo para relógios Garmin criado para apoiar sua prática de meditação e exercícios de respiração com presença, percepção e atenção aos sinais do corpo. Ao combinar atenção plena com dados biométricos em tempo real, ele ajuda você a entender melhor seu corpo, sem julgamentos nem cobranças.
 
-Não existe uma técnica universal de meditação. O importante é descobrir o que apoia o seu sistema nervoso.
+Não existe uma técnica de meditação que funcione para todo mundo. O importante é descobrir o que faz bem ao seu sistema nervoso.
 
-Uma prática feita para você
+UMA PRÁTICA DO SEU JEITO
+- Crie sessões que acompanhem seu ritmo e sua capacidade de atenção
+- Observe a frequência cardíaca, a variabilidade da frequência cardíaca (HRV), o estresse e a respiração em tempo real
+- Salve suas sessões no Garmin Connect para acompanhar sua prática e perceber mudanças com o tempo, sem cobranças
 
-Crie sessões que combinam com seu ritmo e sua atenção
+Acompanhar suas sessões ao longo do tempo não é uma forma de se cobrar. É uma oportunidade de perceber padrões, se familiarizar com a prática e continuar atento a algo que você escolheu para si.
 
-Observe frequência cardíaca, HRV, estresse e respiração em tempo real
+EQUILÍBRIO NEM SEMPRE PARECE CALMA
 
-Salve sessões no Garmin Connect para apoiar, com leveza, consistência e consciência ao longo do tempo
+Meditar e fazer exercícios de respiração não é uma busca por indicadores "bons".
 
-Ver suas sessões ao longo do tempo não é sobre pressão. É só uma forma de notar padrões, criar familiaridade e manter atenção na prática que você escolheu para si.
+Uma sessão tranquila tem valor porque permite que seu sistema nervoso passe mais tempo em um estado de equilíbrio. Quanto mais tempo você permanece nesse estado, mais essas conexões neurais se fortalecem. Com o tempo, fica mais fácil encontrar calma e equilíbrio.
 
-Regulação nem sempre é calma
+Ao mesmo tempo, quando você começa a se acalmar, pode sentir inquietação ou uma vontade repentina de se levantar e fazer alguma coisa. Muitas vezes, é a mente tentando levar você de volta ao que conhece: estresse, atividade, movimento. Afinal, o familiar parece seguro.
 
-Meditação e respiração não são para gerar métricas “boas”.
+Você pode acolher esses momentos com leveza:
+"Ah, já entendi. Você está com saudade da agitação. Essa mente é esperta."
 
-Uma sessão calma é valiosa porque permite que seu sistema nervoso passe mais tempo em um estado regulado. Quanto mais tempo você permanece lá, mais esses caminhos neurais se fortalecem — e fica mais fácil acessar calma e equilíbrio com o tempo.
+Uma sessão estressante também tem valor. Quando o estresse continua alto, muitas vezes isso significa que você permaneceu presente diante do desconforto, em vez de reagir a ele. Você observou o que estava acontecendo e deixou o corpo se acalmar no próprio tempo. Isso fortalece sua capacidade de manter os pés no chão quando a vida fica difícil.
 
-Ao mesmo tempo, caminhar em direção à calma pode trazer inquietação ou impulsos repentinos de levantar e fazer algo. Muitas vezes, a mente tenta levar você de volta ao que parece familiar — estresse, atividade, movimento — porque o familiar parece seguro.
+Os dois tipos de sessão ajudam seu sistema nervoso a encontrar equilíbrio. Cada um desenvolve uma habilidade diferente.
 
-Você pode lidar com esses momentos com leveza:
-“Ah, já te vi. Você sente falta do caos. Mente esperta.”
+Por isso, uma sessão não deve ser avaliada apenas pelos números. Mas os números também ajudam: eles mostram em que estado você estava e ajudam a perceber como cada estado se manifesta no seu corpo. Com o tempo, essa percepção aprofunda sua conexão consigo mesmo e ajuda você a fazer escolhas mais conscientes.
 
-Uma sessão estressante também é valiosa. Quando o estresse continua alto, muitas vezes significa que você ficou presente com o desconforto em vez de reagir. Você observou o que estava acontecendo e deixou o corpo se ajustar no próprio tempo. Isso fortalece sua capacidade de se manter centrado quando a vida fica difícil.
+POR QUE ACOMPANHAR OS SINAIS DO CORPO AJUDA
 
-Os dois tipos de sessão ajudam na regulação. Só treinam habilidades diferentes.
+Acompanhar sinais fisiológicos como estresse, frequência cardíaca e variabilidade da frequência cardíaca ajuda você a entender como seu sistema nervoso reage durante a meditação e os exercícios de respiração. Em geral, uma HRV mais alta está associada a estados mais calmos e equilibrados e a uma maior capacidade de adaptação do sistema nervoso. Já uma HRV mais baixa pode refletir um estado de alerta ou estresse. Esses indicadores não são uma nota. Eles oferecem contexto para você reconhecer padrões, perceber melhor seu corpo e entender o que cada prática desperta em você.
 
-Por isso, as sessões não devem ser julgadas só por números — mas os números também ajudam. Eles mostram em que estado você estava e ajudam você a perceber melhor como esses estados se sentem no corpo. Com o tempo, isso aprofunda a reconexão e apoia escolhas mais conscientes.
+Acompanhar esses sinais não é uma questão de controle nem de buscar o melhor desempenho.
+É uma forma de conhecer como seu sistema nervoso encontra equilíbrio.
 
-Por que acompanhar ajuda
+Esteja presente. Observe com sinceridade. Sorria quando a mente tentar dar um jeitinho.
 
-Acompanhar sinais fisiológicos como estresse, frequência cardíaca e variabilidade da frequência cardíaca traz contexto sobre como seu sistema nervoso responde durante meditação e respiração. Em geral, HRV mais alta está associada a estados mais calmos, mais regulados e maior flexibilidade do sistema nervoso, enquanto HRV mais baixa reflete ativação ou estresse. Em vez de servir como nota, essas métricas oferecem contexto — ajudando você a reconhecer padrões, aprofundar a consciência corporal e entender o que cada prática desperta em você.
+Baixe Meditação & Exercícios de Respiração e descubra o que realmente ajuda você a meditar e fazer exercícios de respiração, uma sessão de cada vez.
 
-Acompanhar não é sobre controle ou otimização.
-É sobre aprender como seu sistema nervoso encontra equilíbrio.
-
-Fique presente. Observe com honestidade. Sorria quando a mente tentar ser esperta.
-
-Baixe Meditação & Respiração e descubra o que realmente apoia sua prática — uma sessão de cada vez.
-
-Para mais detalhes sobre recursos, perguntas frequentes e suporte, veja o guia completo:
+Para saber mais sobre os recursos, consultar as perguntas frequentes e encontrar ajuda, leia o guia completo:
 https://geigl.online/meditate_app_user_guide/
