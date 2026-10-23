@@ -42,12 +42,16 @@ LANGUAGES = OrderedDict(
     ]
 )
 
+STORE_KIND = "store description"
+STORE_MAX_CHARS = 4000  # the Connect IQ store rejects longer descriptions
+STORE_ASK_CHARS = 3700  # what the model is asked for, it does not count exactly
+
 TEXT_PROMPT = ".github/prompts/translate-content.md"
 TEXT_STATE = "generated/translation-state-text.json"
 TEXT_SOURCES = [  # source, kind as named in the prompt, target
     (
         "ConnectIQStore/MeditateStoreDescription-en.txt",
-        "store description",
+        STORE_KIND,
         "generated/ConnectIQStore/MeditateStoreDescription-{lang}.txt",
     ),
     ("UserGuide.md", "user guide", "generated/UserGuides/UserGuide-{lang}.md"),
@@ -112,6 +116,8 @@ def text_targets():
     targets = []
     for source, kind, pattern in TEXT_SOURCES:
         stamp = {"prompt": prompt, "source": digest(source, True)}
+        if kind == STORE_KIND:
+            stamp["maxChars"] = STORE_MAX_CHARS  # a changed limit redoes the store texts only
         for lang in LANGUAGES:
             targets.append(Target(pattern.format(lang=lang), source, kind, lang, stamp))
     return targets
@@ -192,7 +198,13 @@ def check(path, source, text):
         want, got = paragraphs(source), paragraphs(text)
         if want != got:
             problems.append("%d paragraphs instead of %d" % (got, want))
-    return problems + style_problems(path, text)
+    return problems + length_problems(path, text) + style_problems(path, text)
+
+
+def length_problems(path, text):
+    if path.endswith(".txt") and len(text.strip()) > STORE_MAX_CHARS:
+        return ["%d characters, the store allows %d" % (len(text.strip()), STORE_MAX_CHARS)]
+    return []
 
 
 def style_problems(path, text):
@@ -212,7 +224,8 @@ def style_problems(path, text):
 def lint():
     problems = []
     for source, _, _ in TEXT_SOURCES:
-        problems += [(source, p) for p in style_problems(source, read_text(source))]
+        text = read_text(source)
+        problems += [(source, p) for p in length_problems(source, text) + style_problems(source, text)]
     for source, problem in problems:
         fail(source, problem)
     if not problems:
@@ -241,32 +254,56 @@ def translate_file(client, instructions, target):
         LANGUAGES[target.lang],
         target.lang,
     )
-    args = dict(
-        model=TEXT_MODEL,
-        instructions=instructions,
-        input=request,
-        reasoning={"effort": TEXT_EFFORT},
-        max_output_tokens=8000 + len(source),
-    )
-    try:
-        response = client.responses.create(service_tier="flex", **args)
-    except openai.RateLimitError:  # flex has no capacity right now
-        log(target.path + ": flex unavailable, using the standard tier")
-        response = client.responses.create(service_tier="default", **args)
-    if response.status != "completed":
-        raise RuntimeError("response %s: %s" % (response.status, response.incomplete_details))
-    text = clean(response.output_text, source)
-    problems = check(target.path, source, text)
-    if problems:
-        raise RuntimeError("rejected, " + "; ".join(problems))
-    return text, response
+    shorten = ""
+    if target.kind == STORE_KIND:
+        shorten = (
+            " The store allows at most %d characters, so keep it under %d characters including spaces and"
+            " line breaks: tighten the wording, keep every paragraph." % (STORE_MAX_CHARS, STORE_ASK_CHARS)
+        )
+    messages = [{"role": "user", "content": request + shorten}]
+    responses = []
+    while True:
+        args = dict(
+            model=TEXT_MODEL,
+            instructions=instructions,
+            input=messages,
+            reasoning={"effort": TEXT_EFFORT},
+            max_output_tokens=8000 + len(source),
+        )
+        try:
+            response = client.responses.create(service_tier="flex", **args)
+        except openai.RateLimitError:  # flex has no capacity right now
+            log(target.path + ": flex unavailable, using the standard tier")
+            response = client.responses.create(service_tier="default", **args)
+        responses.append(response)
+        if response.status != "completed":
+            raise RuntimeError("response %s: %s" % (response.status, response.incomplete_details))
+        text = clean(response.output_text, source)
+        problems = check(target.path, source, text)
+        too_long = length_problems(target.path, text)
+        # one second try for a store text that is only too long, the model cannot count its own reply
+        if too_long and problems == too_long and len(responses) == 1:
+            log("%s: %s, asking for a shorter one" % (target.path, too_long[0]))
+            messages += [
+                {"role": "assistant", "content": response.output_text},
+                {"role": "user", "content": "That is %s. Shorten it to under %d characters and reply with the"
+                 " complete shortened file only." % (too_long[0], STORE_ASK_CHARS)},
+            ]
+            continue
+        if problems:
+            raise RuntimeError("rejected, " + "; ".join(problems))
+        return text, responses
 
 
-def usage_row(target, response):
-    u = response.usage
-    cached = getattr(u.input_tokens_details, "cached_tokens", 0) or 0
-    reasoning = getattr(u.output_tokens_details, "reasoning_tokens", 0) or 0
-    return [target.path, response.service_tier, u.input_tokens, cached, u.output_tokens, reasoning]
+def usage_row(target, responses):
+    row = [target.path, "/".join(r.service_tier for r in responses), 0, 0, 0, 0]
+    for r in responses:
+        u = r.usage
+        row[2] += u.input_tokens
+        row[3] += getattr(u.input_tokens_details, "cached_tokens", 0) or 0
+        row[4] += u.output_tokens
+        row[5] += getattr(u.output_tokens_details, "reasoning_tokens", 0) or 0
+    return row
 
 
 def report(rows):
@@ -297,7 +334,7 @@ def translate_text(scope):
 
     def run(target):
         try:
-            text, response = translate_file(client, instructions, target)
+            text, responses = translate_file(client, instructions, target)
         except Exception as e:
             fail(target.path, e)
             with lock:
@@ -306,7 +343,7 @@ def translate_text(scope):
         write_text(target.path, text)
         with lock:
             state[target.path] = target.stamp
-            rows.append(usage_row(target, response))
+            rows.append(usage_row(target, responses))
         log("translated " + target.path)
 
     groups = OrderedDict()
