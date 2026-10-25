@@ -36,6 +36,13 @@ jobs:
         id: plan
         run: python3 .github/scripts/translate.py plan --scope "$SCOPE" >> "$GITHUB_OUTPUT"
 
+  publish:
+    name: Publish website, nothing to translate
+    needs: plan
+    if: needs.plan.outputs.text != 'true' && needs.plan.outputs.images != 'true'
+    uses: ./.github/workflows/host-user-guide.yml
+    secrets: inherit
+
   prepare-branch:
     name: Prepare translation branch
     needs: plan

@@ -98,7 +98,7 @@ Notes:
   next launch, dismissed with back/select/tap; new installs are marked caught-up so they never
   see it. The rows are drawn unwrapped, so keep each line About-screen short.
 - **Before every release, check whether any of the changes since the last release require an update to `UserGuide.md`** (e.g. renamed/added/removed settings, menus, or features the guide documents). Update it and stage the edit *before* running `makeRelease.sh` so it lands in the bump commit.
-- **Publish the GitHub release only after the release PR is merged to `main`** — publishing it starts the translation workflow, which translates what is on `main` then (see "GitHub Actions" below). Merge the "Update translations" PR it opens to update the store texts and the user guide site.
+- **Publish the GitHub release only after the release PR is merged to `main`** — publishing it starts the translation workflow, which translates what is on `main` then (see "GitHub Actions" below). Merge the "Update translations" PR it opens to update the store texts; the merge publishes the user guide site (with nothing to translate, the translation workflow publishes it itself).
 - Stage any other intended changes (e.g. doc edits) **before** running; step 3's `git add .` sweeps the whole tree into the bump commit, untracked files included — check `git status` first.
 - The final `git push` uses SSH (`git@github.com:...`). If the agent has no loaded key / a passphrase-protected key, push fails *after* the local commit+tag succeed — finish with a manual `git push origin HEAD && git push origin tag vX.X.X`.
 
@@ -383,6 +383,14 @@ not a tag push (`makeRelease.sh` tags on the branch before the merge) — and on
 It always translates what is on `main` and hands the result over as an "Update translations" PR
 from `release-translation`. For a release event GitHub runs the workflow file at the **tag's**
 commit, so a workflow change applies to releases tagged after it.
+
+**The website (geigl.online) is published once per release, after the translations.**
+`host-user-guide.yml` runs when the "Update translations" PR (head `release-translation`) is
+merged, or, when `plan` found nothing to translate, as the translation workflow's `publish` job
+(`workflow_call`). No other push or merge to `main` publishes, so a guide edit for an unreleased
+feature waits for its release. A manual translation run publishes the same way, from `main`; a
+manual run of *Host user guide* publishes `main` as it is (e.g. an urgent privacy policy fix). If
+both translation jobs fail, nothing is published.
 
 - **No agent, one script.** `.github/scripts/translate.py` calls the OpenAI API directly: one
   Responses request per file and language (`gpt-6-sol`, effort `low`, `service_tier: flex` at
@@ -728,8 +736,8 @@ the same way, events still go out, just without location.
 
 `DataPrivacy.md` is the app's public privacy policy, published at
 https://geigl.online/meditate_app_data_privacy/ (plus one translated page per language). It is
-not a local doc: `host-user-guide.yml` copies it to `floriangeigl.github.io` on every push to
-`main`, overwriting the copy there, so edit it here, never in the website repo. Translations come
+not a local doc: `host-user-guide.yml` copies it to `floriangeigl.github.io` once per release
+(see "Translations run on a published release"), overwriting the copy there, so edit it here, never in the website repo. Translations come
 from the translation workflow like the user guide.
 
 On the website everything of this app lives under `meditate_app/`: `user_guide/`,
