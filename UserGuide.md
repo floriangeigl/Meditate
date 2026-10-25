@@ -7,10 +7,12 @@ share-title: Meditation & Breathwork User Guide (Garmin) | Florian Geigl
 share-description: Setup, features, FAQs, troubleshooting, and support for the Meditation & Breathwork Garmin watch app.
 ---
 
-This guide is meant to support you - not overwhelm you :)
+**Something not working?** Jump to [FAQs & Troubleshooting](#faqs-troubleshooting). The most common questions:
 
-You do not need to understand everything to begin.  
-Start with the **Beginner Guide**, and come back to the **Advanced Guide** whenever you are curious.
+- [HRV does not start](#faq-hrv)
+- [Turning the sounds off](#faq-sounds)
+- [The screen is too bright](#faq-screen-bright)
+- [The app does not show up on my watch](#faq-install)
 
 ### Contents
 
@@ -27,16 +29,23 @@ Start with the **Beginner Guide**, and come back to the **Advanced Guide** whene
   - [Advanced HRV Metrics](#advanced-hrv-metrics)
   - [Global Settings (Defaults for All Sessions)](#global-settings-defaults-for-all-sessions)
 - [FAQs & Troubleshooting](#faqs-troubleshooting)
+  - [HRV & Sensor Data](#faq-hrv-sensor-data)
+  - [During a Session](#faq-during-a-session)
+  - [Sessions](#faq-sessions)
+  - [Watch & Installation](#faq-watch-install)
 - [Get Support / Report Problem](#get-support--report-problem)
 - [Data Privacy](#privacy)
 
 ---
 
+This guide is meant to support you - not overwhelm you :)
+
+You do not need to understand everything to begin.  
+Start with the **Beginner Guide**, and come back to the **Advanced Guide** whenever you are curious.
+
 <a id="beginner-guide"></a>
 
 # Beginner Guide
-
-_(Everything you need to get started)_
 
 <a id="what-this-app-is-about"></a>
 
@@ -171,6 +180,16 @@ And every time you notice, you can quietly celebrate it: _“Oh - I noticed.”_
 
 ---
 
+### When Something Feels Uncomfortable
+
+Sometimes it is not a thought that pulls you away, but a feeling: restlessness, boredom, an itch, sadness, a tight chest.
+
+You do not have to fix it or get rid of it. See if you can stay with it for a few breaths, just noticing what it feels like, then come back to the breath. Each time you stay a little, without reacting, you are learning that you can feel something unpleasant and still be okay.
+
+If it becomes too much, you can always open your eyes, move, or end the session. That is part of practicing kindly, not a failure.
+
+---
+
 ### Be Kind With Yourself
 
 Coming back again and again is not something to be annoyed about. It is the training.
@@ -239,7 +258,7 @@ on the session you usually do next. Discarded sessions are not learned. To turn 
 
 - **Off** - HRV tracking disabled
 - **HRV starting / Please wait** - the sensor is still coming online
-- **Restart the app** - shown if HRV has not started after about 20 seconds; see the FAQ below for why this happens and how to fix it
+- **Restart the app** - shown if HRV has not started after about 20 seconds; see [HRV does not start](#faq-hrv) for why this happens and how to fix it
 - **HRV weak** - heartbeat data is arriving intermittently; hold still for a moment
 - **Ready** - HRV tracking active  
   For reliable HRV data, minimize wrist movement.
@@ -377,8 +396,6 @@ Respiration data comes from Garmin sensors and is best used for trends, not prec
 <a id="advanced-guide"></a>
 
 # Advanced Guide
-
-_(For customization, deeper insight, and power users)_
 
 <a id="session-customization"></a>
 
@@ -644,9 +661,8 @@ Access via:
 
 ### Sensor Restart
 
-- Resets all HR sensors
-- Exits app
-- Useful when HRV gets stuck
+- Turns off all HR sensors and exits the app, the same as closing it
+- If HRV gets stuck, see [HRV does not start](#faqs-troubleshooting) in the FAQ
 
 ---
 
@@ -654,377 +670,228 @@ Access via:
 
 # FAQs & Troubleshooting
 
-This section is here to help when something feels confusing or does not work as expected.  
-Most issues are easy to resolve, and nothing here means you are doing anything wrong.
+<a id="faq-hrv-sensor-data"></a>
 
----
+## HRV & Sensor Data
+
+<a id="faq-hrv"></a>
 
 <details>
   <summary><strong>HRV does not start / keeps showing “Restart the app”</strong></summary>
 
-  <p>This is almost always your watch's heart-rate sensor taking time to warm up, not a problem with the app. The screen shows <strong>HRV starting</strong> while it is coming online, and switches to <strong>Restart the app</strong> if it has not started within about 20 seconds - waiting longer on the same screen rarely helps at that point.</p>
-
-  <p>It is most noticeable the first time you open the app in a while, such as first thing in the morning. The sensor that detects individual heartbeats (needed for HRV) is separate from the one that shows your regular heart rate, and after sitting unused it can take anywhere from a few seconds up to a few minutes to start reporting that detailed data. This is a limitation of the watch's sensor, and the app cannot speed it up from the inside - closing and reopening the app is what actually gets it going faster.</p>
-
   <p>Try the following steps in order:</p>
 
   <ol>
-    <li>Close and reopen the app. This is the most reliable fix and usually works within seconds.</li>
-    <li>
-      If that does not help, open <strong>Global Settings</strong> and select <strong>Sensor restart</strong>.<br>
-      The app will shut down all heart-rate sensors and exit so the watch firmware can reinitialize them cleanly.<br>
-      Reopen the app and start your session - see the tip below, you do not need to wait for HRV first.
-    </li>
-    <li>
-      If you are not using an external heart-rate sensor (like a chest strap), open your watch's connectivity settings (not the app settings) and make sure all external sensors are disconnected.<br>
-      Sometimes a nearby chest strap reconnects automatically and disrupts readings.
-    </li>
-    <li>Check sensor placement. If you adjust the watch position, hold still for ~30 seconds to allow readings to stabilize.</li>
-    <li>Reinstall the app if the issue persists.</li>
-    <li>
-      If you still do not get reliable HRV, try:
-      <ul>
-        <li>wearing the watch on the inside of your wrist, or</li>
-        <li>using an external heart-rate sensor that supports heartbeat intervals (supported automatically, no app setting required).</li>
-      </ul>
-    </li>
+    <li><strong>Close and reopen the app.</strong> This usually works within seconds; if not, repeat it once or twice.</li>
+    <li><strong>Wear the watch a little tighter</strong>, about a finger's width above the wrist bone, then reopen the app and hold still for a moment.</li>
+    <li><strong>Disconnect external sensors you are not using.</strong> In your watch's connectivity settings (not the app settings), make sure no chest strap or other heart-rate sensor is connected. A nearby chest strap sometimes reconnects automatically and disrupts readings.</li>
+    <li><strong>Reinstall the app</strong> if the issue persists, especially if it got worse after an app or watch update.</li>
+    <li><strong>Use a chest strap</strong> or another external heart-rate sensor that supports heartbeat intervals if you still do not get reliable HRV. It is supported automatically, no app setting required.</li>
   </ol>
 
-  <p><strong>Tip:</strong> you do not need to wait for HRV to be ready before starting your session. HRV tracking joins in automatically the moment the sensor comes online, so feel free to just begin meditating rather than waiting on the picker screen.</p>
+  <p><strong>Tip:</strong> if you do not need HRV for this session, just start it. Your heart rate is recorded either way.</p>
 
-</details>
+  <p><strong>Why this happens:</strong> it is almost always your watch's heart-rate sensor, not the app. Your watch reports individual heartbeats (needed for HRV) separately from your regular heart rate, so heart rate showing up does not mean HRV is ready. After sitting unused, for example first thing in the morning, the sensor sometimes does not deliver heartbeats at all until the app is reopened, and waiting longer does not help. The app cannot fix this from the inside.</p>
 
-<details>
-  <summary><strong>Can I change the name of the session on the watch?</strong></summary>
-
-  <p>Yes.</p>
-
-  <p>You can edit a session's name directly on the watch:</p>
-
-  <ul>
-    <li>Open <strong>Add New</strong> or <strong>Edit</strong> for a session</li>
-    <li>Select <strong>Name</strong></li>
-    <li>Enter text using the watch's text picker</li>
-  </ul>
-
-  <p>
-    If you want the session name to also appear as the activity name in Garmin Connect, enable:<br>
-    <strong>Global Settings → Session name = Activity name</strong>
-  </p>
-
-  <p>
-    You can use the placeholder <code>[time]</code> in session names.<br>
-    Example: <code>Deep rest [time]</code> → <code>Deep rest 20min</code>
-  </p>
-
-</details>
-
-<details>
-  <summary><strong>The app crashes the moment I start a session - what can I do?</strong></summary>
-
-  <p>If the app opens but crashes immediately when starting a session, your watch model likely does not support the selected activity type.</p>
-
-  <p>Edit the session and choose a different activity type:</p>
-
-  <ul>
-    <li>Meditation</li>
-    <li>Yoga</li>
-    <li>Breathwork</li>
-  </ul>
-
-  <p>If available on your device, a more generic activity type usually works on all models.</p>
-
-</details>
-
-<details>
-  <summary><strong>GPS turns on during my session, my location is added to the activity name, or the battery drains afterwards (Venu 2 / Venu 2S / Venu Sq 2)</strong></summary>
-
-  <p>This is a firmware bug on the Venu 2, Venu 2S and Venu Sq 2. It has not been reported on any other watch model.</p>
-
-  <p>On these watches, the watch switches GPS on for every activity type the app offers (Meditation, Breathwork, Yoga, Generic). The activity then gets your location added to its name (for example <code>&lt;My City&gt; Breathwork</code>) and shows a map in Garmin Connect. GPS may also stay on after you close the app, which drains the battery until the watch is restarted.</p>
-
-  <p>The app cannot cause or fix this: it does not have GPS permission at all, so it is not able to switch GPS on, and the watch would block it if it tried. This behavior depends on the watch firmware, not the app. The issue has been reported to Garmin: <a href="https://forums.garmin.com/developer/connect-iq/i/bug-reports/app-activates-tracks-gps-despite-missing-permissions">Connect IQ bug report</a>.</p>
-
-  <p>Until Garmin fixes it, this is what you can do:</p>
-
-  <ul>
-    <li>Restart your watch after your session if the battery drains (see “How do I restart (reboot) my Garmin watch?” below).</li>
-    <li>Add a comment to the Garmin bug report above - more reports help Garmin prioritize the fix.</li>
-  </ul>
-
-</details>
-
-<details>
-  <summary><strong>The app does not track stress</strong></summary>
-
-  <p>Not all Garmin devices support continuous stress tracking.</p>
-
-  <p>Some older models (for example the Fenix 5X) only support stress snapshots, not real-time stress during activities. In these cases, stress data may be missing or limited.</p>
-
-  <p>This behavior depends on the watch hardware, not the app.</p>
-
-</details>
-
-<details>
-  <summary><strong>But the old version supported stress tracking - why not this one?</strong></summary>
-
-  <p>The old version used a custom stress estimation algorithm.</p>
-
-  <p>The current version uses Garmin's built-in stress tracking instead. This ensures consistency with Garmin Connect and avoids mismatches between different stress values, which caused confusion for many users.</p>
+  <p>On some watches it regularly takes a restart or two. This is normal and does not harm anything. How quickly HRV starts can also change after a watch firmware update or a reinstall, for better or worse, even when the app itself has not changed.</p>
 
 </details>
 
 <details>
   <summary><strong>The respiration rate (breaths per minute) is off</strong></summary>
 
-  <p>This is not specific to this app.</p>
+  <p>What helps most:</p>
 
-  <p>The app uses whatever respiration signal Garmin provides. Garmin derives it from the rhythm of your heartbeats - the time between beats shortens a little as you inhale and lengthens as you exhale - so it needs a clean heartbeat signal: a snug fit and a still wrist help more than anything else. Respiration rate can be less reliable during very calm, still practices.</p>
+  <ul>
+    <li><strong>Wear the watch snugly</strong> and keep your wrist still.</li>
+    <li><strong>Use a chest strap</strong> that supports HRV and respiration reporting (for example HRM-600) if accurate respiration data is important to you.</li>
+  </ul>
 
-  <p>If accurate respiration data is important to you, a chest strap that supports HRV and respiration reporting (for example HRM-600) may improve results.</p>
+  <p><strong>Why this happens:</strong> the app uses the respiration rate Garmin provides. Garmin derives it from the rhythm of your heartbeats - the time between beats shortens a little as you inhale and lengthens as you exhale - so it needs a clean heartbeat signal, and it can be less reliable during very calm, still practices.</p>
 
 </details>
+
+<details>
+  <summary><strong>The app does not track stress (but the old version did)</strong></summary>
+
+  <p><strong>Your watch model may only support stress snapshots.</strong> Some older models (for example the Fenix 5X) only take stress snapshots, not real-time stress during activities, so stress data may be missing or limited. This depends on the watch, not the app.</p>
+
+  <p><strong>Why the old version showed stress:</strong> it calculated its own stress estimate. The app now uses Garmin's built-in stress tracking instead, so its values match Garmin Connect - two different stress values for the same session confused many users.</p>
+
+</details>
+
+<a id="faq-during-a-session"></a>
+
+## During a Session
+
+<a id="faq-screen-bright"></a>
 
 <details>
   <summary><strong>The screen is too bright, especially in the dark during a session</strong></summary>
 
-  <p>This is controlled by your watch's <strong>Focus Mode</strong> settings for activities, not by the app.</p>
-
-  <p>By default, Garmin activates a focus mode for activities that may set screen brightness to around 80%.</p>
-
-  <p>To change this on your watch:</p>
+  <p><strong>Lower the brightness in your watch's Focus Mode for activities.</strong> The app does not control it: by default, Garmin activates a focus mode for activities that may set screen brightness to around 80%.</p>
 
   <ol>
-    <li>Open <strong>Watch Settings</strong> (on touch watches such as Venu or vívoactive: swipe left from the watch face and select <strong>Settings</strong>)</li>
-    <li>Go to <strong>Focus Modes</strong></li>
-    <li>Select <strong>Activity</strong></li>
-    <li>Under <strong>Display &amp; Brightness</strong>, lower the <strong>Brightness</strong></li>
-    <li>Turn off <strong>Always On Display</strong> - the screen then switches off after the <strong>Timeout</strong> set there and comes back with a wrist gesture or a button press</li>
+    <li>Open Watch Settings (on touch watches such as Venu or vívoactive: swipe left from the watch face and select Settings)</li>
+    <li>Go to Focus Modes → Activity</li>
+    <li>Under Display &amp; Brightness, <strong>lower the Brightness</strong></li>
+    <li><strong>Turn off Always On Display</strong> - the screen then switches off after the Timeout set there and comes back with a wrist gesture or a button press</li>
   </ol>
 
-  <p>This affects all activities started on your watch.</p>
+  <p>This affects all activities. <strong>Advanced option:</strong> create a custom Focus Mode that triggers only for Meditation, Yoga, and Breathwork activities.</p>
 
-  <p><strong>Advanced option:</strong> Create a custom Focus Mode that triggers only for Meditation, Yoga, and Breathwork activities.</p>
-
-  <p><strong>Tip:</strong> for an even darker screen while it is on, press <strong>up</strong> or <strong>down</strong> (or swipe) during a session to open the <strong>zen screen</strong>. It is black except for a thin progress ring, and the time fades out after a few seconds. On AMOLED watches black pixels are switched off, so it gives off almost no light. Your next session opens on the zen screen again.</p>
+  <p><strong>Tip:</strong> for an even darker screen, press <strong>UP</strong> or <strong>DOWN</strong> (or swipe) during a session to open the zen screen. It is black except for a thin progress ring, and the time fades out after a few seconds. On AMOLED watches black pixels are switched off, so it gives off almost no light. Your next session opens on the zen screen again.</p>
 
 </details>
+
+<a id="faq-sounds"></a>
 
 <details>
   <summary><strong>How do I turn the sounds off and keep only the vibration?</strong></summary>
 
-  <p>Yes - but there are two different sound sources, and they are turned off in different places.</p>
+  <p><strong>There are two sound sources, turned off in different places:</strong> the watch's activity beeps (in your watch settings) and this app's alerts (in the session settings).</p>
 
-  <p><strong>1. The beeps when a session starts, stops, or is saved</strong></p>
-
-  <p>
-    These are Garmin's built-in activity tones. Every activity on your watch plays them, and the app
-    cannot control or silence them - which is why you still hear them with
-    <strong>Global Settings → Vibration &amp; Sound</strong> set to <strong>Off</strong>.
-    You turn them off in your watch settings.
-  </p>
+  <p><strong>1. The beeps when a session starts, stops, or is saved</strong> are Garmin's built-in activity tones. The app cannot silence them, which is why you still hear them with Global Settings → Vibration &amp; Sound set to Off.</p>
 
   <p><em>On newer watches with Focus Modes</em> (fēnix 8, fēnix E, tactix 8, Enduro 3, Forerunner 570/970, Venu 3/4, vívoactive 5/6):</p>
 
   <ol>
     <li>From the watch face, hold the <strong>MENU</strong> button</li>
-    <li>Select <strong>Watch Settings → Focus Modes → Activity</strong></li>
-    <li>Select <strong>Sound &amp; Vibe</strong></li>
-    <li>Turn on <strong>Silent Mode</strong> - this disables all sounds</li>
-    <li>Leave <strong>Vibration</strong> on - it is a separate setting and is not affected</li>
+    <li>Select Watch Settings → Focus Modes → Activity → Sound &amp; Vibe</li>
+    <li><strong>Turn on Silent Mode</strong> (if there is none, set Alert Tones and Button Tones to Off)</li>
+    <li><strong>Leave Vibration on</strong> - it is a separate setting</li>
   </ol>
 
-  <p>
-    If your watch has no <strong>Silent Mode</strong> entry, set <strong>Alert Tones</strong> to
-    <strong>Off</strong> instead (and <strong>Button Tones</strong> if you like).
-  </p>
+  <p>The activity focus mode overrides your general sound settings during an activity, so silencing tones only under Watch Settings → Sound &amp; Vibe often does not help. If you still hear beeps, change both.</p>
 
-  <p>
-    Important: the activity focus mode has its <em>own</em> sound settings that override your general
-    ones while an activity is running. That is why silencing tones under
-    <strong>Watch Settings → Sound &amp; Vibe</strong> alone often does not help. If you still hear beeps,
-    apply the same change in <em>both</em> places.
-  </p>
-
-  <p>
-    <strong>Advanced option:</strong> instead of silencing every activity, create a focus mode just for
-    meditation: <strong>Watch Settings → Focus Modes → Add → Activity</strong>, give it a name, add
-    <strong>Sound &amp; Vibe</strong> with Silent Mode on, then set <strong>Auto-Triggered</strong> to
-    Meditation, Yoga and Breathwork. Now only your sessions are silent.
-  </p>
+  <p><strong>Advanced option:</strong> to silence only your sessions, add a focus mode (Watch Settings → Focus Modes → Add → Activity) with Silent Mode on and set Auto-Triggered to Meditation, Yoga and Breathwork.</p>
 
   <p><em>On older watches without Focus Modes</em> (fēnix 6/7, epix Gen 2, Forerunner 245/255/265/955/965, Venu 2):</p>
 
   <ol>
     <li>From the watch face, hold <strong>MENU</strong> (or <strong>UP</strong>)</li>
-    <li>Select <strong>Settings → System → Sound and Vibration</strong> (on some models: <strong>Sounds</strong>)</li>
-    <li>Set <strong>Alert Tones</strong> to <strong>Off</strong></li>
-    <li>Leave <strong>Vibration</strong> on</li>
+    <li>Select Settings → System → Sound and Vibration (on some models: Sounds)</li>
+    <li><strong>Set Alert Tones to Off</strong> and leave Vibration on</li>
   </ol>
 
-  <p>
-    Some models have no tone settings at all (for example the vívoactive 4, which lists only
-    <strong>Vibration</strong> under System) - those watches never beep in the first place.
-  </p>
-
-  <p><strong>2. The alerts from this app (session end and interval alerts)</strong></p>
-
-  <p>These you control fully inside the app, per session and per interval alert:</p>
-
-  <ul>
-    <li>Open <strong>Add New</strong> or <strong>Edit</strong> for a session, select <strong>Vibe / Sound</strong></li>
-    <li>Choose any pattern <em>except</em> <strong>Long Sound</strong> and <strong>Short Sound</strong></li>
-  </ul>
-
-  <p>
-    <strong>Long Sound</strong> and <strong>Short Sound</strong> play a tone and do <em>not</em> vibrate.
-    Every other pattern vibrates and makes no sound at all. The same choice is available for each
-    interval alert under <strong>Interval Alerts → Edit → Vibe / Sound</strong>.
-  </p>
-
-  <p>
-    Note: if you silence your watch as described above, the <strong>Long Sound</strong> /
-    <strong>Short Sound</strong> patterns may go silent too - so pick a vibration pattern for your
-    session alerts.
-  </p>
+  <p><strong>2. The alerts from this app</strong> (session end and interval alerts): open Add New or Edit for a session, select Vibe / Sound and <strong>choose any pattern except Long Sound and Short Sound</strong>. Those two play a tone and do not vibrate; every other pattern only vibrates. Interval alerts have the same choice under Interval Alerts → Edit → Vibe / Sound.</p>
 
 </details>
 
 <details>
   <summary><strong>How do I run an open-ended session?</strong></summary>
 
-  <p>You have two options:</p>
-
-  <ul>
-    <li>Create a very long session (for example 9 hours) and stop it manually when you are finished.</li>
-    <li>Disable the auto-stop option in Global Settings so sessions continue until you stop them manually.</li>
-  </ul>
+  <p><strong>Turn off Auto Stop in Global Settings</strong>, so sessions continue until you stop them. Or create a very long session (for example 9 hours) and stop it when you are finished.</p>
 
 </details>
 
 <details>
   <summary><strong>Can I listen to music while using the app?</strong></summary>
 
-  <p>
-    The app itself does <strong>not</strong> support playing or controlling music.
-    However, on many Garmin watches you can start music separately (for example the built-in music player, Spotify, etc.) and then run your session in Meditate.
-  </p>
-
-  <p><strong>How to access music controls (varies by model)</strong></p>
+  <p><strong>Not from the app, but you can play music alongside it.</strong> Start music separately (for example the built-in music player or Spotify), then run your session. To reach the music controls (varies by model):</p>
 
   <ul>
-    <li><strong>Hot key / shortcut:</strong> Many models let you assign <em>Music controls</em> to a shortcut or hot key in your watch settings (often under <strong>Settings</strong> → <strong>System</strong> → <strong>Hot Keys</strong> / <strong>Controls</strong>).</li>
-    <li><strong>Controls menu:</strong> Open the watch's controls menu and select <em>Music</em> / <em>Music Controls</em>.</li>
-    <li><strong>Touchscreen shortcut control (some models):</strong> Garmin documents a “shortcut control” you can set to music controls (example: Venu manual: <a href="https://www8.garmin.com/manuals/webhelp/venu/EN-US/GUID-5E9D3D0F-D4C9-4A4A-97D6-4F178C27DAD8.html">Setting Up a Shortcut Control</a>).</li>
+    <li><strong>Hot key:</strong> assign Music controls to a hot key (often under Settings → System → Hot Keys / Controls).</li>
+    <li><strong>Controls menu:</strong> open the watch's controls menu and select Music.</li>
+    <li><strong>Touchscreen shortcut</strong> (some models): set the shortcut control to music controls (<a href="https://www8.garmin.com/manuals/webhelp/venu/EN-US/GUID-5E9D3D0F-D4C9-4A4A-97D6-4F178C27DAD8.html">example in the Venu manual</a>).</li>
   </ul>
 
-  <p>
-    If you want the vibration cues to match your music, you can configure session interval alerts to your target timing.
-    But there is no “beat-sync” feature, so it will not automatically stay perfectly aligned with a track.
-  </p>
+  <p>Interval alerts can be timed to your music, but there is no beat-sync, so they will not stay aligned with a track.</p>
 
 </details>
 
-<details id="restart-watch">
-  <summary><strong>How do I restart (reboot) my Garmin watch?</strong></summary>
+<a id="faq-sessions"></a>
 
-  <p>
-    Garmin watches differ a bit by model, but these options work for most devices.
-  </p>
+## Sessions
 
-  <p><strong>Option 1 (most common): power button / LIGHT button</strong></p>
+<details>
+  <summary><strong>The app crashes the moment I start a session - what can I do?</strong></summary>
 
-  <ol>
-    <li>Press and hold the <strong>LIGHT</strong> / power button until the watch turns off (often ~10-15 seconds).</li>
-    <li>Wait a few seconds.</li>
-    <li>Press the same button again to turn it back on.</li>
-  </ol>
+  <p><strong>Choose a different activity type:</strong> edit the session and set its activity type to Meditation, Yoga or Breathwork. If your device offers a more generic activity type, that usually works on all models.</p>
 
-  <p><strong>Option 2: from the watch settings</strong></p>
-
-  <ul>
-    <li>Open <strong>Settings</strong> → <strong>System</strong> → <strong>Power Off</strong> or <strong>Restart</strong> (wording may vary by model).</li>
-  </ul>
-
-  <p>
-    A restart does not erase your data; it just reboots the watch.
-    If your watch is frozen, keep holding the power button longer until it powers off.
-  </p>
+  <p><strong>Why this happens:</strong> your watch model likely does not support the selected activity type.</p>
 
 </details>
 
 <details>
+  <summary><strong>Can I change the name of the session on the watch?</strong></summary>
+
+  <p><strong>Yes, on the watch:</strong> open Add New or Edit for a session, select Name and enter the text with the watch's text picker.</p>
+
+  <p>To also use it as the activity name in Garmin Connect, turn on Global Settings → Session name = Activity name. The placeholder <code>[time]</code> adds the session length: <code>Deep rest [time]</code> → <code>Deep rest 20min</code>.</p>
+
+</details>
+
+<a id="faq-watch-install"></a>
+
+## Watch & Installation
+
+<a id="faq-install"></a>
+
+<details>
   <summary><strong>I installed the app, but it does not show up on my watch (or installation is stuck)</strong></summary>
 
-  <p>That is frustrating - especially when you just want to start a calm session and the tech gets in the way.</p>
+  <p>What you can try (these also help if the app is stuck on “Installing…” or only partially installed):</p>
 
-  <p>
-    <strong>First, make sure you are looking in the right place:</strong><br>
-    This app shows up in your watch's <strong>Activities</strong> / <strong>Apps</strong> list (the same place where you start things like a run, yoga, breathwork, etc.).
-    It may <em>not</em> show up in widget lists / glance lists / shortcut lists (depending on your model and how your watch organizes apps).
-  </p>
+  <ol>
+    <li><strong>Look in your watch's Activities / Apps list</strong>, where you start a run, yoga or breathwork. The app may not show up in widget, glance or shortcut lists.</li>
+    <li><strong>Sync your watch again</strong> in Garmin Connect.</li>
+    <li><strong><a href="#restart-watch">Restart the watch</a> and your phone</strong>, then sync again. If the watch seems frozen during installation, restart it first.</li>
+    <li><strong>Uninstall the app, restart the watch, then reinstall</strong> the app and sync again.</li>
+    <li>
+      <strong>Contact Garmin Support</strong> if it still does not appear:
+      <a href="https://support.garmin.com/en-US/?faq=67C7Y58Nxb6rkxt2Enbrf5">Connect IQ install troubleshooting</a> or the <a href="https://support.garmin.com/">main support portal</a>.
+    </li>
+  </ol>
 
-  <p>
-    In this case, it is important to know: installation and delivery of Connect IQ apps to your watch is handled entirely by Garmin (Garmin Connect / Connect IQ / Garmin Express and the sync process).
-    The app itself cannot influence whether it appears on your device, and as the developer there is nothing I can change in the code to fix an installation or sync issue.
-  </p>
-
-  <p>
-    Some users also see the app stuck on “Installing…” or partially installed (for example, the app appears but some parts do not load).
-    The steps below typically fix both cases.
-  </p>
-
-  <p>What you can try quickly (optional):</p>
-
-  <ul>
-    <li>Sync your watch again in Garmin Connect</li>
-    <li><a href="#restart-watch">Restart the watch</a> and your phone, then sync again</li>
-    <li>Uninstall the app, <a href="#restart-watch">restart the watch</a>, then reinstall the app and sync again</li>
-  </ul>
-
-  <p>
-    If the watch seems frozen during installation, <a href="#restart-watch">restart the watch</a> first, then try syncing/installing again.
-  </p>
-
-  <p>If it still does not appear, the best next step is to contact Garmin Support, because this is a Garmin-side installation/sync issue:</p>
-
-  <ul>
-    <li><a href="https://support.garmin.com/en-US/?faq=67C7Y58Nxb6rkxt2Enbrf5">Garmin Support (Connect IQ install troubleshooting)</a></li>
-    <li><a href="https://support.garmin.com/">Garmin Support (main support portal)</a></li>
-  </ul>
+  <p><strong>Why this happens:</strong> installing and syncing Connect IQ apps is handled entirely by Garmin (Garmin Connect / Connect IQ / Garmin Express). The app cannot influence whether it appears on your watch, and there is nothing I can change in the code to fix an installation or sync issue.</p>
 
 </details>
 
 <details>
   <summary><strong>Parts of the app are shown in the wrong language</strong></summary>
 
-  <p>
-    Sometimes a few texts (for example HRV-related labels) may show up in a different language even though the rest of the app is correct.
-    This is usually a one-off installation/sync hiccup.
-  </p>
-
-  <p>What to try (in this order):</p>
+  <p>If a few texts (for example HRV labels) show up in a different language while the rest of the app is correct, try these in order:</p>
 
   <ol>
-    <li>Uninstall the app from your watch</li>
-    <li><a href="#restart-watch">Restart (reboot) your watch</a></li>
-    <li>Reinstall the app and sync again</li>
+    <li><strong>Uninstall the app</strong> from your watch</li>
+    <li><strong><a href="#restart-watch">Restart (reboot) your watch</a></strong></li>
+    <li><strong>Reinstall the app</strong> and sync again</li>
   </ol>
 
-  <p>
-    If it still happens, please open the <strong>Contact Developer</strong> link in the Connect IQ Store and include your watch model,
-    watch firmware version, and which language you see incorrectly.
-  </p>
+  <p>If it still happens, please open the Contact Developer link in the Connect IQ Store and include your watch model, watch firmware version, and which language you see incorrectly.</p>
+
+  <p><strong>Why this happens:</strong> it is usually a one-off installation or sync hiccup.</p>
+
+</details>
+
+<details>
+  <summary><strong>GPS turns on during my session, my location is added to the activity name, or the battery drains afterwards (Venu 2 / Venu 2S / Venu Sq 2)</strong></summary>
+
+  <p>Until Garmin fixes it:</p>
+
+  <ul>
+    <li><strong>Restart your watch after your session</strong> if the battery drains (see <a href="#restart-watch">How do I restart (reboot) my Garmin watch?</a>).</li>
+    <li><strong>Comment on the Garmin bug report</strong> linked below - more reports help Garmin prioritize the fix.</li>
+  </ul>
+
+  <p><strong>Why this happens:</strong> a firmware bug on these three watches (not reported on any other model) switches GPS on for every activity type the app offers (Meditation, Breathwork, Yoga, Generic). The activity then gets your location in its name (for example <code>&lt;My City&gt; Breathwork</code>) and a map in Garmin Connect, and GPS may stay on after you close the app, which drains the battery until the watch is restarted. The app has no GPS permission at all, so it can neither cause nor fix this. The issue has been reported to Garmin: <a href="https://forums.garmin.com/developer/connect-iq/i/bug-reports/app-activates-tracks-gps-despite-missing-permissions">Connect IQ bug report</a>.</p>
+
+</details>
+
+<details id="restart-watch">
+  <summary><strong>How do I restart (reboot) my Garmin watch?</strong></summary>
+
+  <p><strong>Hold the LIGHT / power button until the watch turns off</strong> (often ~10-15 seconds, longer if it is frozen), wait a few seconds, then press it again. Or open Settings → System → Power Off or Restart (wording varies by model).</p>
+
+  <p>A restart does not erase your data.</p>
 
 </details>
 
 <details>
   <summary><strong>The app stopped working / I need support</strong></summary>
 
-  <p>
-    Please use the dedicated support section here (it contains the up-to-date steps, what information to include, and the best way to contact me):
-    <a href="#get-support--report-problem">Get Support / Report Problem</a>
-  </p>
+  <p><strong>See <a href="#get-support--report-problem">Get Support / Report Problem</a></strong>: it has the up-to-date steps, what information to include, and the best way to contact me.</p>
 
 </details>
 
