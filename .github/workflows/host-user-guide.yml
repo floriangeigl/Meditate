@@ -1,19 +1,17 @@
 name: Host user guide
 run-name: Host user guide on geigl.online by @${{ github.actor }}
 on:
-  push:
+  # published once per release: when the translation PR merges, or by the translation workflow when it had nothing to translate
+  pull_request:
+    types: [closed]
     branches:
       - "main"
-    paths:
-      - "**.md"
-      - "**.jpg"
-      - "**.jpeg"
-      - "**.png"
-      - ".github/workflows/host-user-guide.yml"
+  workflow_call:
   workflow_dispatch:
 jobs:
   build:
     name: Host user guide
+    if: github.event_name != 'pull_request' || (github.event.pull_request.merged && github.event.pull_request.head.ref == 'release-translation')
     runs-on: ubuntu-latest
     env:
       GUIDE: ./geigl.online/meditate_app/user_guide
