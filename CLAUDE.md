@@ -272,8 +272,9 @@ on `d2deltapx` (CIQ 3.0.3, the app's API floor), where a call newer than the flo
   ported to the ring of seconds: several beats in one second, empty seconds that push beats out.
 - `activity/tests/MetricLineTests` — the metrics page row states.
 - `activity/tests/SessionPagesTests` — step ticks only between steps (none for one step), hold/rest spans and their colours, the page cycles per session kind, the stored page kept only
-  when the session has it, up/down wrapping, zen drawing once per percent plus the peek (102 draws
-  in a 300 s session), and every page (the ball through each phase, a rest and past the program's
+  when the session has it, up/down wrapping, zen drawing once per percent plus the peek (107 draws
+  in a 300 s session, 10 s peek on opening), a tap peeking on zen only, the pages zen names, the arrows inside the
+  ring's tick band while the menus' stay at the edge, and every page (the ball through each phase, a rest and past the program's
   end) drawn into an off-screen bitmap without error.
 - `activity/tests/PrepareViewTests` — the prepare/finalize countdown hands over exactly once, however
   taps and its own timer interleave.
@@ -632,9 +633,20 @@ in the page list, never switched on. Ball and zen are black whatever the theme.
 - **Redraws are decided where they are requested, not in `onUpdate`.** The recorder tick reaches
   the view through `MeditateDelegate.onSessionTick()` → `MeditateView.onSessionTick()`, which asks
   for a redraw on every tick except on zen, which asks only when the ring crosses a whole percent
-  of the session (100 redraws per session, whatever its length) or while the peek (time and
-  chevrons for 3 s after arriving) shows. `onUpdate` draws ball and zen in full whenever it runs:
+  of the session (100 redraws per session, whatever its length) or while the peek (time, arrows and,
+  on touch screens "Tap for time" — 3 s after arriving or a tap, 10 s when `onShow` lands on zen)
+  shows. Below the time zen names where up/down lead (`zenNeighbours`: "▲▼ Stats", or "▲ Ball ▼
+  Stats" in breathwork). A dot at the ring tip was tried and rejected. `onUpdate` draws ball and zen in full whenever it runs:
   skipping a draw there would leave stale pixels after a system overlay or a display wake.
+- **The session arrows sit inside the ring, the menus' at the screen edge.** The caret glyphs come
+  from a fixed 23 px font, so at the edge they covered the ring and its alert ticks on every round
+  screen (on 454 px entirely). `MeditateView.layoutArrows` moves them below
+  `IntervalAlertsRenderer.bandDepth`; `ScreenPickerBaseView.layoutArrows` stays as the menus want
+  it. Subclasses move the arrows only via `placeArrows`: `ScreenPickerDetailsView` declares its
+  own private `mUpArrow`/`mDownArrow`, which shadow the base's.
+- **Monkey C pitfalls met here:** a `(:test)` function in an app class is run as a test (use
+  `(:debug)` for test-only getters, also dropped from release builds); a static function needs
+  `using Toybox.Math;` in its file, or `Math` is "Symbol Not Found" at run time.
 - **The ball** (`BreathBallRenderer`) is a pure renderer, made on the first visit to the page and
   laid out on its first draw. The view schedules it: `mFrameTimer` runs only while the view is shown
   and the ball page is current (`onShow`/`onHide`/`switchPage` start and stop it, `onFrame` never

@@ -157,8 +157,60 @@ class SessionPagesTests {
 			}
 		}
 		view.setPage(SessionPage.Metrics);
-		// the peek draws seconds 0-3 (reaching step 1), then one draw per step 2..99 every 3 s
-		return draws == 4 + 98 && view.needsTickRedraw(300);
+		// opening on zen peeks seconds 0-10 (reaching step 3), then one draw per step 4..99 every 3 s
+		return draws == 11 + 96 && view.needsTickRedraw(300);
+	}
+
+	// zen's hint line names where up and down lead: both to the metrics in a meditation, ball and metrics in breathwork
+	(:test)
+	static function zenNamesItsNeighbours(logger) {
+		return (
+			SessionPagesTests.same(MeditateView.zenNeighbours(MeditateView.pagesFor(false)), [SessionPage.Metrics, SessionPage.Metrics]) &&
+			SessionPagesTests.same(MeditateView.zenNeighbours(MeditateView.pagesFor(true)), [SessionPage.Ball, SessionPage.Metrics])
+		);
+	}
+
+	// a tap on zen brings the time back for a few seconds; on the metrics page it is not handled
+	(:test)
+	static function tapPeeksOnZen(logger) {
+		var dc = SessionPagesTests.screen().getDc();
+		// 30 s per percent, so seconds 100-104 stay in one ring step
+		var model = SessionPagesTests.model(3000, null);
+		var view = new MeditateView(model);
+		view.onLayout(dc);
+		view.setPage(SessionPage.Zen);
+		view.onShow();
+		model.elapsedTime = 100;
+		view.onUpdate(dc);
+		var quietBefore = !view.needsTickRedraw(100);
+		var handled = view.onTap();
+		var peeking = view.needsTickRedraw(101) && view.needsTickRedraw(103);
+		var quietAfter = !view.needsTickRedraw(104);
+		view.setPage(SessionPage.Metrics);
+		return quietBefore && handled && peeking && quietAfter && !view.onTap();
+	}
+
+	// the session arrows sit inside the ring's tick band; the menus keep theirs at the screen edge
+	(:test)
+	static function arrowsClearTheRing(logger) {
+		var dc = SessionPagesTests.screen().getDc();
+		var fontHeight = dc.getFontHeight(StatusIconFonts.fontAwesomeFreeSolid);
+		var height = dc.getHeight();
+		var minDim = dc.getWidth() < height ? dc.getWidth() : height;
+		var band = (height - minDim) / 2 + IntervalAlertsRenderer.bandDepth(minDim);
+		var view = new MeditateView(SessionPagesTests.model(300, null));
+		view.onLayout(dc);
+		var session = view.getArrowsY();
+		var menu = new ScreenPickerBaseView(true);
+		menu.onLayout(dc);
+		var edge = menu.getArrowsY();
+		logger.debug("session arrows " + session + ", menu arrows " + edge + ", band " + band);
+		return (
+			edge[0] == fontHeight / 2 &&
+			edge[1] == height - fontHeight / 2 &&
+			session[0] - fontHeight * 0.2 >= band &&
+			session[1] + fontHeight * 0.3 <= height - band
+		);
 	}
 
 	// every page, and the ball through each phase, a rest and past the program's end, draws without error

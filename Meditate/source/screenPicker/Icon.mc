@@ -40,6 +40,11 @@ class Icon {
 		me.mIconDrawable.locY = yPos;
 	}
 
+	(:debug)
+	function getYPos() {
+		return me.mIconDrawable.locY;
+	}
+
 	function setColor(color) {
 		me.mIconDrawable.setColor(color);
 	}

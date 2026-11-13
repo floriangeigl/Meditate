@@ -163,6 +163,9 @@
     <string id="breathPhase_inhale">吸う</string>
     <string id="breathPhase_exhale">吐く</string>
     <string id="breathPhase_hold">止める</string>
+    <string id="zen_tapForTime">タップで時間表示</string>
+    <string id="zen_pageStats">データ</string>
+    <string id="zen_pageBall">呼吸ボール</string>
     <string id="breathStep_rest">休憩</string>
     <string id="breathPhase_rest">自然に呼吸</string>
     <string id="addEditSessionMenu_breathProgram">呼吸プログラム</string>

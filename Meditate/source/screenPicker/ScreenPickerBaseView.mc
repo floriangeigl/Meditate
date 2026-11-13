@@ -66,9 +66,19 @@ class ScreenPickerBaseView extends Ui.View {
 	function layoutArrows(dc) {
 		var fontHeightHalf = dc.getFontHeight(StatusIconFonts.fontAwesomeFreeSolid) / 2;
 		me.mUpArrow.setXPos(centerXPos);
-		me.mUpArrow.setYPos(fontHeightHalf);
 		me.mDownArrow.setXPos(centerXPos);
-		me.mDownArrow.setYPos(me.height - fontHeightHalf);
+		me.placeArrows(fontHeightHalf, me.height - fontHeightHalf);
+	}
+
+	// centres of the up and down arrow; subclasses reach the arrows only through here
+	protected function placeArrows(upY, downY) {
+		me.mUpArrow.setYPos(upY);
+		me.mDownArrow.setYPos(downY);
+	}
+
+	(:debug)
+	function getArrowsY() {
+		return [me.mUpArrow.getYPos(), me.mDownArrow.getYPos()];
 	}
 
 	function drawArrows(dc) {

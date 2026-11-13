@@ -165,6 +165,9 @@
     <string id="breathPhase_inhale">Einatmen</string>
     <string id="breathPhase_exhale">Ausatmen</string>
     <string id="breathPhase_hold">Halten</string>
+    <string id="zen_tapForTime">Tippen für Zeit</string>
+    <string id="zen_pageStats">Werte</string>
+    <string id="zen_pageBall">Atemball</string>
     <string id="breathStep_rest">Pause</string>
     <string id="breathPhase_rest">Frei atmen</string>
     <string id="addEditSessionMenu_breathProgram">Atemprogramm</string>

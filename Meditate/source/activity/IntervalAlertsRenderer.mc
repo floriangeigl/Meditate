@@ -1,5 +1,6 @@
 using Toybox.Graphics as Gfx;
 using Toybox.Lang;
+using Toybox.Math;
 
 class IntervalAlertsRenderer {
 	function initialize(dc, sessionTime, intervalAlerts) {
@@ -10,12 +11,24 @@ class IntervalAlertsRenderer {
 		me.xCenter = mDcWidth / 2;
 		me.yCenter = mDcHeight / 2;
 		var minDim = mDcWidth < mDcHeight ? mDcWidth : mDcHeight;
-		me.mWidth = Math.floor(minDim / 20.0).toNumber();
-		me.mWidth -= 1; // Make sure the arc fits within the bounds
-		me.mRadius = minDim / 2;
-		me.mRadius -= (Math.ceil(me.mWidth / 2) + 1);
-		me.mRadius = me.mRadius.toNumber();
+		me.mWidth = IntervalAlertsRenderer.penWidth(minDim);
+		me.mRadius = (minDim / 2 - IntervalAlertsRenderer.inset(me.mWidth)).toNumber();
 		me.mPercentageTimes = me.createPercentageTimes(mIntervalAlerts);
+	}
+
+	// one less than minDim/20 so the arc fits within the bounds
+	private static function penWidth(minDim) {
+		return Math.floor(minDim / 20.0).toNumber() - 1;
+	}
+
+	private static function inset(width) {
+		return Math.ceil(width / 2) + 1;
+	}
+
+	// how far in from the ring's outer bound the ticks reach; the widest band of the session ring
+	static function bandDepth(minDim) {
+		var width = IntervalAlertsRenderer.penWidth(minDim);
+		return (IntervalAlertsRenderer.inset(width) + Math.ceil(width / 2.0)).toNumber();
 	}
 
 	private var mSessionTime;

@@ -165,6 +165,9 @@
     <string id="breathPhase_inhale">Inhala</string>
     <string id="breathPhase_exhale">Exhala</string>
     <string id="breathPhase_hold">Retén</string>
+    <string id="zen_tapForTime">Toca para ver el tiempo</string>
+    <string id="zen_pageStats">Datos</string>
+    <string id="zen_pageBall">Bola</string>
     <string id="breathStep_rest">Descanso</string>
     <string id="breathPhase_rest">Respira libre</string>
     <string id="addEditSessionMenu_breathProgram">Programa de respiración</string>

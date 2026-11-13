@@ -61,7 +61,17 @@ class MeditateView extends ScreenPickerDetailsCenterView {
 	private var mFrameTimer;
 	private var mFramesRunning;
 
+	private var mTapHint;
+	private var mZenNav;
+
 	private const PeekSeconds = 3;
+	// opening on zen shows the time longer, so a session left on zen does not look stopped
+	private const OpenPeekSeconds = 10;
+	// how far the visible caret reaches from the icon's centre, as a fraction of the icon font height
+	// (fontAwesomeFreeSolid.fnt: up caret rows 7-15, down caret rows 10-18 of 23, centre 11.5)
+	private const UpCaretTop = 0.2;
+	private const DownCaretBottom = 0.3;
+	private const ArrowGap = 2;
 	// zen redraws once per percent of the session
 	private const ZenSteps = 100;
 	// the ball redraws only once it moved a whole pixel, so this caps the frame rate
@@ -87,7 +97,48 @@ class MeditateView extends ScreenPickerDetailsCenterView {
 		me.mZenDrawnStep = -1;
 		me.mFrameTimer = null;
 		me.mFramesRunning = false;
+		me.mTapHint = System.getDeviceSettings().isTouchScreen ? Ui.loadResource(Rez.Strings.zen_tapForTime) : null;
+		me.mZenNav = MeditateView.zenNavParts(MeditateView.zenNeighbours(me.mPages));
 		me.applyPage();
+	}
+
+	// the pages up and down lead to from zen
+	static function zenNeighbours(pages) {
+		var count = pages.size();
+		for (var i = 0; i < count; i++) {
+			if (pages[i] == SessionPage.Zen) {
+				return [pages[(i - 1 + count) % count], pages[(i + 1) % count]];
+			}
+		}
+		return null;
+	}
+
+	// glyph and word pieces of zen's "where up/down go" line: "▲▼ Stats", or "▲ Ball  ▼ Stats"
+	private static function zenNavParts(neighbours) {
+		var up = Ui.loadResource(Rez.Strings.IconUp);
+		var down = Ui.loadResource(Rez.Strings.IconDown);
+		if (neighbours[0] == neighbours[1]) {
+			return [up, "", down, " " + MeditateView.pageName(neighbours[1])];
+		}
+		return [up, " " + MeditateView.pageName(neighbours[0]) + "   ", down, " " + MeditateView.pageName(neighbours[1])];
+	}
+
+	// only the ball and metrics pages sit next to zen
+	private static function pageName(page) {
+		return Ui.loadResource(page == SessionPage.Ball ? Rez.Strings.zen_pageBall : Rez.Strings.zen_pageStats);
+	}
+
+	// The menus' edge position puts the carets on the session ring and its alert ticks, so here they
+	// sit just inside the ring's tick band. The menus keep the edge position (base layoutArrows).
+	function layoutArrows(dc) {
+		ScreenPickerBaseView.layoutArrows(dc);
+		var fontHeight = dc.getFontHeight(StatusIconFonts.fontAwesomeFreeSolid);
+		var minDim = me.width < me.height ? me.width : me.height;
+		var bandBottom = (me.height - minDim) / 2 + IntervalAlertsRenderer.bandDepth(minDim);
+		me.placeArrows(
+			bandBottom + ArrowGap + fontHeight * UpCaretTop,
+			me.height - bandBottom - ArrowGap - fontHeight * DownCaretBottom
+		);
 	}
 
 	// the page cycle: down steps forward, up back, both wrap
@@ -189,8 +240,22 @@ class MeditateView extends ScreenPickerDetailsCenterView {
 		me.mPeekUntil = me.mMeditateModel.elapsedTime + PeekSeconds;
 	}
 
+	// a tap on the dark pages brings the time and arrows back; the other pages show them anyway
+	function onTap() {
+		var page = me.getPage();
+		if (page != SessionPage.Zen && page != SessionPage.Ball) {
+			return false;
+		}
+		me.startPeek();
+		Ui.requestUpdate();
+		return true;
+	}
+
 	function onShow() {
 		me.startPeek();
+		if (me.getPage() == SessionPage.Zen) {
+			me.mPeekUntil = me.mMeditateModel.elapsedTime + OpenPeekSeconds;
+		}
 		if (me.getPage() == SessionPage.Ball) {
 			me.startFrames();
 		}
@@ -312,15 +377,39 @@ class MeditateView extends ScreenPickerDetailsCenterView {
 	private function drawZenPage(dc, elapsedTime) {
 		me.drawDarkPage(dc, elapsedTime);
 		me.mZenDrawnStep = me.zenStep(elapsedTime);
-		if (elapsedTime < me.mPeekUntil) {
-			dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_TRANSPARENT);
-			dc.drawText(
-				me.centerXPos,
-				me.centerYPos,
-				Gfx.FONT_MEDIUM,
-				TimeFormatter.format(elapsedTime),
-				Gfx.TEXT_JUSTIFY_CENTER | Gfx.TEXT_JUSTIFY_VCENTER
-			);
+		if (elapsedTime >= me.mPeekUntil) {
+			return;
+		}
+		dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_TRANSPARENT);
+		dc.drawText(
+			me.centerXPos,
+			me.centerYPos,
+			Gfx.FONT_MEDIUM,
+			TimeFormatter.format(elapsedTime),
+			Gfx.TEXT_JUSTIFY_CENTER | Gfx.TEXT_JUSTIFY_VCENTER
+		);
+		// below the time: "Tap for time" on touch screens, then where up and down lead
+		dc.setColor(Gfx.COLOR_DK_GRAY, Gfx.COLOR_TRANSPARENT);
+		var lineHeight = dc.getFontHeight(Gfx.FONT_XTINY);
+		var y = me.centerYPos + dc.getFontHeight(Gfx.FONT_MEDIUM) / 2 + lineHeight / 2;
+		var justify = Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER;
+		if (me.mTapHint != null) {
+			dc.drawText(me.centerXPos, y, Gfx.FONT_XTINY, me.mTapHint, Gfx.TEXT_JUSTIFY_CENTER | Gfx.TEXT_JUSTIFY_VCENTER);
+			y += lineHeight;
+		}
+		// [up, word, down, word]: carets in the icon font, words in the text font, centred as one line.
+		// The up caret sits high in its cell and the down caret low, so each moves toward the text.
+		var fonts = [StatusIconFonts.fontAwesomeFreeSolid, Gfx.FONT_XTINY];
+		var shift = dc.getFontHeight(fonts[0]) / 10;
+		var shifts = [shift, 0, -shift, 0];
+		var width = 0;
+		for (var i = 0; i < 4; i++) {
+			width += dc.getTextWidthInPixels(me.mZenNav[i], fonts[i % 2]);
+		}
+		var x = me.centerXPos - width / 2;
+		for (var i = 0; i < 4; i++) {
+			dc.drawText(x, y + shifts[i], fonts[i % 2], me.mZenNav[i], justify);
+			x += dc.getTextWidthInPixels(me.mZenNav[i], fonts[i % 2]);
 		}
 	}
 

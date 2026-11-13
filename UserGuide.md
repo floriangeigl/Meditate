@@ -89,7 +89,8 @@ You can:
 - stop the session with the **start/stop button**
 - control screen brightness via your watch buttons or touch
 - press **up** or **down** (or swipe) for the **zen screen**: a dark screen with only the progress
-  ring. The time shows for a few seconds after you switch, then fades. The session records exactly
+  ring. The time shows for a few seconds after you switch, together with where UP and DOWN lead,
+  then fades; on touch watches tap the screen to see it again. The session records exactly
   the same either way.
 
 Your next session opens on the screen you ended this one on.
@@ -345,7 +346,7 @@ Press **up** or **down** (or swipe) to move between four screens:
 - **Guidance** - the phase, countdown and route above
 - **Breath ball** - a ball that grows as you breathe in, shrinks as you breathe out and stays
   still while you hold
-- **Zen** - a dark screen with only the session ring
+- **Zen** - a dark screen with only the session ring (tap to see the time)
 - **Metrics** - your heart rate, HRV, stress and respiration
 
 The vibrations continue on every screen. Your next breathwork session opens on the screen you
@@ -740,7 +741,7 @@ Access via:
 
   <p>This affects all activities. <strong>Advanced option:</strong> create a custom Focus Mode that triggers only for Meditation, Yoga, and Breathwork activities.</p>
 
-  <p><strong>Tip:</strong> for an even darker screen, press <strong>UP</strong> or <strong>DOWN</strong> (or swipe) during a session to open the zen screen. It is black except for a thin progress ring, and the time fades out after a few seconds. On AMOLED watches black pixels are switched off, so it gives off almost no light. Your next session opens on the zen screen again.</p>
+  <p><strong>Tip:</strong> for an even darker screen, press <strong>UP</strong> or <strong>DOWN</strong> (or swipe) during a session to open the zen screen. It is black except for a thin progress ring, and the time fades out after a few seconds (on touch watches, tap to see it again). On AMOLED watches black pixels are switched off, so it gives off almost no light. Your next session opens on the zen screen again.</p>
 
 </details>
 

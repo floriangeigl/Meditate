@@ -70,6 +70,14 @@ class MeditateDelegate extends Ui.BehaviorDelegate {
 		return me.switchPage(-1);
 	}
 
+	// a tap on zen or the ball shows the time and arrows again; elsewhere it stays unhandled
+	function onTap(clickEvent) {
+		if (me.mActivityStopped || me.mMeditateView == null) {
+			return false;
+		}
+		return me.mMeditateView.onTap();
+	}
+
 	public function stopActivity() {
 		// one-way; finishing views reuse this delegate, so in-session gestures must go inert
 		me.mActivityStopped = true;
