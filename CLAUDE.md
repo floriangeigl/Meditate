@@ -171,7 +171,9 @@ report reboots on launch and in menus (v11.1.2). The
 [18.32 fix](https://forums.garmin.com/sports-fitness/healthandwellness/f/venu-4-series/445592/venu-4-software-version---18-32)
 for resets "when changing screens during an activity" did not help (a user on 18.32 still
 reboots). Not reproducible in the simulator. Keep the wakeup
-session (HRV cold-start fix) unless a device repro shows it is the trigger.
+session (HRV cold-start fix) unless a device repro shows it is the trigger. Its benefit is unproven,
+though: it is never started, so it does not meet Garmin's "recording an activity" condition (below),
+and the probe measured no effect from it (`HrvProbe/FINDINGS.md`, second pass).
 
 ### HRV cold start: two-phase status text, restarting is the only real fix
 
@@ -193,6 +195,15 @@ On a cold optical sensor `heartBeatIntervals` stays empty while `currentHeartRat
 
 
 **Do not re-propose `setEnabledSensors`/`enableSensorType`/ordering changes, and do not add more in-app retry logic** — all tested and rejected, several repeatedly across four years of git history.
+
+**Garmin documents the failure** (2026-10-25): on multitasking devices an app that is not recording
+an activity gets sensor access that "may fail in a non-fatal way" (Core Topics → Application and
+System Modules → Active, Inactive, and Suspended) — the callback fires, the intervals stay empty.
+Recording from launch is the one documented lever and is untested. Details:
+[`HrvProbe/FINDINGS.md`](HrvProbe/FINDINGS.md), second pass.
+
+**Never decompile or disassemble Garmin binaries** (the simulator, SDK tools, firmware) for this or
+any other investigation; work only from Garmin's docs, the public API and on-device measurements.
 
 Useful facts: HR availability is **not** a proxy for RR availability; warm latency is ~2 s; spin-down is >45 s.
 

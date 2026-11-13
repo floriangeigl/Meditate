@@ -15,6 +15,10 @@ fix either way — but avoid claiming the *mechanism* is the software restart sp
 Investigation ran 2026-08-13 → 2026-08-19 on fēnix 8 47mm (`006-B4532-00`), firmware 22.41 → 22.43,
 using `HrvProbe`.
 
+**Garmin documents the failure** (second pass, 2026-10-25, desk research only): for an app that is
+not recording an activity, sensor access "may fail in a non-fatal way". See
+[Second pass](#second-pass-2026-10-25--docs-and-firmware).
+
 ---
 
 ## Symptom
@@ -26,10 +30,11 @@ Closing and reopening the app makes it ready in 2–5 s. Worst on the first open
 Complaints go back to 2024 (`d91a642` "New attempt to fix HRV detection in app startup"), and the git
 log shows roughly four years of attempted fixes.
 
-## What the SDK says: nothing
+## What the SDK says (first pass)
 
-Checked exhaustively: `doc/docs/Core_Topics/Sensors.html`, `bin/api.debug.xml`, `bin/api.mir`, and all
-43 samples.
+Checked: `doc/docs/Core_Topics/Sensors.html`, `bin/api.debug.xml`, `bin/api.mir`, and all 43
+samples. This missed the app lifecycle table in `Application_and_System_Modules.html`, which does
+describe the failure; see [Second pass](#second-pass-2026-10-25--docs-and-firmware).
 
 - Exactly **one** sample uses `registerSensorDataListener` (PitchCounter, accelerometer). **None**
   uses `heartBeatIntervals`.
@@ -39,12 +44,9 @@ Checked exhaustively: `doc/docs/Core_Topics/Sensors.html`, `bin/api.debug.xml`, 
 - It says *"Calling `Sensor.registerSensorDataListener()` will enable your application to receive
   data"* — implying registration alone enables the sensor. There is **no documented ordering
   contract** with `ActivityRecording`, no mention of power modes and no mention of warm-up.
-- `simulator.exe` models sensors as acquirable resources (`OhrSensorResource`, `AccelSensorResource`,
-  `GyroSensorResource`, `PulseOxSensorResource`) with **no optical power-state machine** — which is
-  independently why **the simulator cannot reproduce this bug**.
+- **The simulator cannot reproduce this bug.**
 
-The real gating lives in watch firmware, which is not shipped in the SDK. Decompiling further does
-not help: `monkeybrains.jar` is the compiler and `simulator.exe` is a host emulator.
+The real gating lives in watch firmware, which is not shipped in the SDK.
 
 ## The measurements
 
@@ -222,3 +224,74 @@ Rules that follow, for any future variant of this experiment:
 - Do not claim the mechanism is "the software restart" specifically in any wording — the
   physical-motion confound above is still open — but recommending a restart is sound regardless of
   why it works.
+
+---
+
+## Second pass (2026-10-25) — docs and firmware
+
+Desk research only: Garmin docs, manuals and forums. Nothing here was measured on a watch.
+
+### The SDK documents the failure, in the app lifecycle table
+
+`doc/docs/Core_Topics/Application_and_System_Modules.html` → *Active, Inactive, and Suspended*
+(API 4.2.0+, devices with a task switcher, i.e. the multitasking list in `CLAUDE.md`). Identical in
+every installed SDK, 8.4.0 → 9.3.0:
+
+| row | Active | Inactive |
+| --- | --- | --- |
+| Sensors | "If the app is recording an activity, access is permitted. If the app is not recording an activity, access may fail in a non-fatal way." | "If the app is recording an activity, access will be permitted. Otherwise, sensor access will be limited." |
+| High Frequency Sensors (Accelerometer, Magnetometer, Gyro) | same wording | "If the app is recording an activity, access will be permitted. Otherwise, measurements can be retrieved at a maximum of 10 hz." |
+
+"Fails in a non-fatal way" is exactly the symptom: the callback fires, the intervals are empty.
+Garmin's only guaranteed condition is **recording**, and no probe run tested it cleanly. Every run
+registered the listener before any session was started; recording was only tried late in a stuck
+run (06:07 run: `session.start()` at 260 s, a started Generic session at 290 s), and RR then arrived
+at ~330 s, 70 s / 40 s after those starts, which was read at the time as the ~5 min floor. The
+wakeup session is created but never started, so it does not meet the condition. Whether recording
+brings beats sooner on a cold sensor is open.
+
+### Firmware
+
+The side that produces beat intervals lives in watch firmware, which Garmin does not publish. Users
+of fēnix 8 firmware 23.39 report wrist HR dead (LEDs off) through reboots, fixed by a factory reset:
+sensor state can persist in ways only a firmware-level reset clears (anecdotal).
+
+### What Garmin says about beat intervals
+
+- *Garmin Enhanced BBI* (Garmin Health, 2023): the legacy chain was designed "to emphasize
+  availability even during periods of marginal signal quality" with extra filtering; above a motion
+  threshold "the device will decline to provide a beat measurement at all"; fit, low perfusion and
+  pressure on the watch can extinguish the signal; Enhanced BBI "is measured during the user's sleep
+  interval".
+- Garmin Health SDK partners can have a watch log beat intervals continuously, so the hardware can
+  produce them around the clock; whether a CIQ app gets them is firmware policy.
+- *Log HRV* (Data Recording settings, fēnix E/8 manuals): "Enables the watch to record your heart
+  rate variability during an activity". Whether this setting decides beat production for a
+  recording CIQ session is unknown; one epix user points to it for Health Snapshot HRV.
+
+### Web: nothing on this exact symptom
+
+- No report of "callback fires, intervals empty, relaunch fixes it", and no Garmin statement on it,
+  in the CIQ forum, the bug reports or on GitHub.
+- Nearest: a Venu SQ2 thread (listener not called at all after a power cycle, recovered after
+  several power cycles, no fix); native Health Snapshot recording HR, respiration and stress but no
+  HRV on fēnix 7, epix and Venu after some firmware updates (a firmware-level analogue); store HRV
+  apps telling users to wait up to 90 s and sit still; the original Meditate's author blaming fit
+  and movement (vtrifonov-esfiddle/Meditate#3, 2020).
+- Other open-source CIQ apps that read beat intervals (TestHrv, ryobg/heartbeats,
+  GarminSensorCapture) use the same register-only pattern. There is no workaround to copy.
+- CIQQA-4722 (the Venu 4 / vívoactive 6 reboots) is still only "Acknowledged".
+
+### What this changes
+
+- **Shipped behaviour: nothing.** The restart hint remains the only remedy with evidence behind it.
+- **The rule against more in-app levers now has Garmin's wording behind it**: without recording, sensor
+  access may fail, and none of the rejected levers records from the start.
+- **One documented lever is untested: recording from launch.** A fair test needs a cold launch,
+  `session.start()` right away, a control arm without it, and the watch's *Log HRV* setting noted.
+  Costs if it worked: a started session beeps and runs an activity timer on the picker, and it is
+  the kind of session CIQQA-4722 reboots on.
+- **The wakeup session's case is weaker.** It is created but never started, so it does not meet
+  Garmin's recording condition, and the probe measured no effect from it; meanwhile it is the
+  suspected CIQQA-4722 trigger. The rule in `CLAUDE.md` (keep it unless a device repro shows it is
+  the trigger) stands, since removing it needs a device test too.
