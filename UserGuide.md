@@ -903,6 +903,10 @@ Access via:
 
 If something does not work, or you have feedback or feature requests, you can [send me a mail](mailto:florian.geigl+garmin@gmail.com?subject=User%20Feedback%20for%20Meditation%20and%20Breathwork%20-%20Connect%20IQ%20Notification).
 
+Meditation & Breathwork is one of the Top 100 Garmin apps on Best Garmin Apps:
+
+[![Featured on Best Garmin Apps](https://bestgarminapps.com/badge/apps-meditation-and-breathwork.svg)](https://bestgarminapps.com/apps/meditation-and-breathwork/)
+
 <a id="privacy"></a>
 
 # Data Privacy

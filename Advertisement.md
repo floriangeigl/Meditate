@@ -19,6 +19,8 @@ When life has been demanding for a long time, the nervous system learns to stay 
 
 **Get started:** [Read the user guide](https://geigl.online/meditate_app_user_guide/)
 
+[![Featured on Best Garmin Apps](https://bestgarminapps.com/badge/apps-meditation-and-breathwork.svg)](https://bestgarminapps.com/apps/meditation-and-breathwork/)
+
 ---
 
 ## Understand Your Nervous System Through Practice
